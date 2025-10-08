@@ -8,8 +8,16 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Input, Select, Textarea } from '@/components/ui/input';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 import { SectionHeader } from '@/components/ui/section-header';
+import { Textarea } from '@/components/ui/textarea';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { OverlaysDemo } from '@/components/styleguide/overlays-demo';
 
@@ -29,7 +37,7 @@ const brandPalette = [
 ];
 
 const buttonVariants = [
-  { label: 'Primary', variant: 'primary' as const },
+  { label: 'Primary', variant: 'default' as const },
   { label: 'Secondary', variant: 'secondary' as const },
   { label: 'Ghost', variant: 'ghost' as const }
 ];
@@ -40,7 +48,7 @@ export default function StyleguidePage() {
       <section className="border-b border-[var(--pv-border)] bg-[var(--pv-surface)]/60">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-[1.6fr_1fr] md:px-8 md:py-24">
           <div className="space-y-6">
-            <Badge variant="neutral">Design System</Badge>
+            <Badge>Design System</Badge>
             <h1 className="font-heading text-[3rem] leading-[3.5rem] md:text-[3.5rem] md:leading-[3.75rem]">
               PixelVerse Visual Language
             </h1>
@@ -208,21 +216,19 @@ export default function StyleguidePage() {
                 <Input id="email" type="email" placeholder="artemis@pixelverse.studio" />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-[var(--pv-text)]" htmlFor="world">
+                <label className="text-sm font-medium text-[var(--pv-text)]" htmlFor="world-trigger">
                   Active world
                 </label>
-                <div className="relative">
-                  <Select id="world" defaultValue="aurora">
-                    <option value="aurora">Aurora Syndicate</option>
-                    <option value="lumen">Lumen Drift</option>
-                    <option value="solace">Solace Outpost</option>
-                  </Select>
-                  <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[var(--pv-text-muted)]">
-                    <svg aria-hidden="true" className="h-4 w-4" viewBox="0 0 16 16" fill="none">
-                      <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                </div>
+                <Select defaultValue="aurora">
+                  <SelectTrigger id="world-trigger" aria-label="Active world">
+                    <SelectValue placeholder="Select a world" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="aurora">Aurora Syndicate</SelectItem>
+                    <SelectItem value="lumen">Lumen Drift</SelectItem>
+                    <SelectItem value="solace">Solace Outpost</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-[var(--pv-text)]" htmlFor="notes">

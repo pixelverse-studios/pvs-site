@@ -19,11 +19,11 @@ export function ThemeToggle() {
   return (
     <Button
       variant="ghost"
-      size="sm"
+      size="icon"
       type="button"
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} theme`}
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="h-10 w-10 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] p-0"
+      className="border border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)]"
     >
       {mounted ? (
         isDark ? (
