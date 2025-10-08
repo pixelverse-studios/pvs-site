@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --pv-primary: #3f00e9;
+  --pv-primary-2: #c947ff;
+  --pv-gradient: linear-gradient(90deg, var(--pv-primary), var(--pv-primary-2));
+  --pv-bg: #ffffff;
+  --pv-surface: #f7f7fb;
+  --pv-text: #111111;
+  --pv-text-muted: #666666;
+  --pv-border: #e6e6ef;
+  --pv-success: #10b981;
+  --pv-warning: #f59e0b;
+  --pv-danger: #ef4444;
+  --pv-ring: var(--pv-primary);
+  --pv-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --pv-radius: 1rem;
+  --pv-radius-sm: 0.5rem;
+  --pv-radius-lg: 1.5rem;
+}
+
+.dark {
+  --pv-bg: #0a0a0f;
+  --pv-surface: #12121a;
+  --pv-text: #ffffff;
+  --pv-text-muted: #b3b3c2;
+  --pv-border: #1f1f2a;
+  --pv-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  * {
+    border-color: var(--pv-border);
+  }
+
+  body {
+    @apply bg-[var(--pv-bg)] font-body text-[var(--pv-text)] text-base leading-[1.625rem];
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading font-semibold text-[var(--pv-text)];
+  }
+
+  h1 {
+    @apply text-[3rem] leading-[3.5rem];
+  }
+
+  h2 {
+    @apply text-[2.25rem] leading-[2.75rem];
+  }
+
+  h3 {
+    @apply text-[1.75rem] leading-[2.25rem];
+  }
+
+  small {
+    @apply text-sm leading-[1.375rem] text-[var(--pv-text-muted)];
+  }
+
+  a {
+    @apply text-[var(--pv-primary)] transition-colors hover:text-[var(--pv-primary-2)];
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply outline-none ring-2 ring-[var(--pv-ring)] ring-offset-2 ring-offset-[var(--pv-bg)];
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
