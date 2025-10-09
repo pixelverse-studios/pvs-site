@@ -10,36 +10,37 @@ import { ThemeProvider } from '@/components/theme-provider';
 const headingFont = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  variable: '--font-heading'
+  variable: '--font-heading',
 });
 
 const bodyFont = Inter({
   subsets: ['latin'],
-  variable: '--font-body'
+  variable: '--font-body',
 });
 
 export const metadata: Metadata = {
   title: 'PixelVerse Studios Design System',
-  description: 'PixelVerse Studios design system with light and dark theming.'
+  description: 'PixelVerse Studios design system with light and dark theming.',
 };
 
 const navItems = [
+  { label: 'About', href: '/about' },
   { label: 'Services', href: '/services' },
   { label: 'Packages', href: '/packages' },
-  { label: 'About', href: '/about' }
+  { label: 'Portfolio', href: '/portfolio' },
 ];
 
 const footerLinks = [
   { label: 'Design tokens', href: '/styleguide#foundations' },
   { label: 'Components', href: '/styleguide#components' },
-  { label: 'Accessibility', href: '/styleguide#accessibility' }
+  { label: 'Accessibility', href: '/styleguide#accessibility' },
 ];
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${headingFont.variable} ${bodyFont.variable} min-h-screen bg-[var(--pv-bg)] text-[var(--pv-text)] font-body antialiased transition-colors duration-300`}
+        className={`${headingFont.variable} ${bodyFont.variable} min-h-screen bg-[var(--pv-bg)] font-body text-[var(--pv-text)] antialiased transition-colors duration-300`}
       >
         <ThemeProvider
           attribute="class"
