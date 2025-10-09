@@ -1,10 +1,11 @@
 import * as React from 'react';
+
 import { cn } from '@/lib/utils';
 
 export interface SectionHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   eyebrow?: string;
   title: string;
-  description?: string;
+  description?: React.ReactNode;
   align?: 'left' | 'center';
 }
 
@@ -34,7 +35,14 @@ export function SectionHeader({
         <h2 className="font-heading text-[2.25rem] leading-[2.75rem] tracking-tight md:text-[2.5rem] md:leading-[3rem]">
           {title}
         </h2>
-        {description && <p className="text-lg text-[var(--pv-text-muted)]">{description}</p>}
+        {description &&
+          (typeof description === 'string' ? (
+            <p className="text-lg text-[var(--pv-text-muted)]">{description}</p>
+          ) : (
+            <div className="space-y-4 text-lg text-[var(--pv-text-muted)] [&>p]:text-[var(--pv-text-muted)]">
+              {description}
+            </div>
+          ))}
       </div>
     </div>
   );

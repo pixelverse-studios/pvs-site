@@ -23,6 +23,8 @@ export const metadata: Metadata = {
   description: 'PixelVerse Studios design system with light and dark theming.'
 };
 
+const navItems = [{ label: 'About', href: '/about' }];
+
 const footerLinks = [
   { label: 'Design tokens', href: '/styleguide#foundations' },
   { label: 'Components', href: '/styleguide#components' },
@@ -42,7 +44,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           disableTransitionOnChange
         >
           <div className="flex min-h-screen flex-col">
-            <Navbar cta={{ label: 'Launch console', href: '#' }} />
+            <Navbar items={navItems} cta={{ label: 'Launch console', href: '#' }} />
             <div className="flex-1">{children}</div>
             <Footer links={footerLinks} cta={{ label: 'Join the beta', href: '#' }} />
           </div>
