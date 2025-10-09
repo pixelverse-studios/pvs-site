@@ -51,7 +51,7 @@ export function Footer({ className, links = [], cta, ...props }: FooterProps) {
             ))}
           </nav>
           {cta && (
-            <Button asChild className="shadow-pv">
+            <Button asChild variant="cta">
               <Link href={cta.href}>{cta.label}</Link>
             </Button>
           )}

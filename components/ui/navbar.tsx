@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
@@ -23,33 +24,21 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
   return (
     <header
       className={cn(
-        'sticky inset-x-0 top-0 z-40 border-b border-[var(--pv-border)] bg-[var(--pv-bg)]/90 backdrop-blur-md transition-colors-opacity-transform',
+        'pointer-events-none sticky top-4 z-50 flex justify-center px-4 transition-all duration-300 sm:top-6 md:top-8',
         className
       )}
       {...props}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-8">
-        <Link href="/" className="flex items-center gap-2 text-lg font-semibold tracking-tight">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-pv-sm bg-[var(--pv-gradient)] text-white shadow-pv">
-            PV
+      <div className="pointer-events-auto flex w-full max-w-5xl items-center justify-between rounded-pv-lg border border-[var(--pv-border)] bg-[var(--pv-surface)]/75 px-4 py-3 shadow-[0_28px_60px_-30px_rgba(32,32,72,0.55)] backdrop-blur-xl transition-colors duration-300 dark:bg-[var(--pv-bg)]/70 md:px-6">
+        <Link href="/" className="flex items-center">
+          <span className="relative inline-flex h-16 w-16 items-center justify-center rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] shadow-[0_18px_34px_-22px_rgba(63,0,233,0.55)] transition-transform duration-200 hover:-translate-y-0.5">
+            <Image src="/logo.svg" alt="PixelVerse Studios logo" width={64} height={64} className="object-contain" />
           </span>
-          PixelVerse
         </Link>
-        <nav className="hidden items-center gap-10 text-sm font-medium text-[var(--pv-text-muted)] md:flex">
-          {items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="transition-colors hover:text-[var(--pv-primary)] focus-visible:text-[var(--pv-primary)]"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
         <div className="flex items-center gap-3">
           <ThemeToggle />
           {cta && (
-            <Button asChild>
+            <Button asChild variant="cta">
               <Link href={cta.href} className="whitespace-nowrap">
                 {cta.label}
               </Link>

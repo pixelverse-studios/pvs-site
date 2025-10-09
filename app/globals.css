@@ -79,6 +79,9 @@ html {
   select:focus-visible {
     @apply outline-none ring-2 ring-[var(--pv-ring)] ring-offset-2 ring-offset-[var(--pv-bg)];
   }
+  .text-shadow-md {
+    text-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

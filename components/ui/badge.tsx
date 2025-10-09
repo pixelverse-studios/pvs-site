@@ -11,7 +11,7 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default: 'border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)] shadow-sm',
-        primary: 'border-transparent bg-[var(--pv-gradient)] text-white shadow-pv',
+        primary: 'border-transparent bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-pv',
         success: 'border-transparent bg-[var(--pv-success)] text-white shadow-sm',
         warning: 'border-transparent bg-[var(--pv-warning)] text-white shadow-sm',
         danger: 'border-transparent bg-[var(--pv-danger)] text-white shadow-sm',

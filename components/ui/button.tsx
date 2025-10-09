@@ -11,14 +11,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-[var(--pv-gradient)] text-white shadow-pv hover:opacity-95',
+        default: 'bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-pv hover:opacity-95',
         secondary:
           'border border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)] hover:border-[var(--pv-primary)] hover:text-[var(--pv-primary)]',
         outline:
           'border border-[var(--pv-border)] bg-transparent text-[var(--pv-text)] hover:border-[var(--pv-primary)] hover:text-[var(--pv-primary)]',
         ghost:
           'border border-transparent bg-transparent text-[var(--pv-text)] hover:border-[var(--pv-border)] hover:bg-[var(--pv-surface)]',
-        link: 'rounded-none text-[var(--pv-primary)] underline-offset-4 hover:underline focus-visible:rounded-sm'
+        link: 'rounded-none text-[var(--pv-primary)] underline-offset-4 hover:underline focus-visible:rounded-sm',
+        cta:
+          'relative isolate overflow-hidden rounded-pv border border-transparent bg-[var(--pv-primary)] px-6 py-3 text-base font-semibold text-[var(--pv-text)] shadow-[0_20px_38px_-18px_rgba(63,0,233,0.6)] transition-all duration-300 hover:-translate-y-0.5 focus-visible:ring-offset-[var(--pv-bg)] dark:text-white before:absolute before:inset-[-20%] before:-z-10 before:scale-95 before:rounded-[inherit] before:bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] before:opacity-0 before:transition before:duration-500 before:content-[\'\'] hover:before:scale-100 hover:before:opacity-100 after:absolute after:inset-[-120%] after:-z-20 after:bg-[radial-gradient(circle,var(--pv-primary-2)_0%,transparent_60%)] after:opacity-0 after:transition-opacity after:duration-500 after:content-[\'\'] hover:after:opacity-60'
       },
       size: {
         default: 'h-11 rounded-pv px-5 text-base',
