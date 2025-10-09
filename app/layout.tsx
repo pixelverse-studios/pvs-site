@@ -29,13 +29,6 @@ const navItems = [
   { label: 'Packages', href: '/packages' },
   { label: 'Portfolio', href: '/portfolio' },
   { label: 'FAQ', href: '/faq' },
-  { label: 'Contact', href: '/contact' }
-];
-
-const footerLinks = [
-  { label: 'Design tokens', href: '/styleguide#foundations' },
-  { label: 'Components', href: '/styleguide#components' },
-  { label: 'Accessibility', href: '/styleguide#accessibility' },
 ];
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -51,9 +44,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           disableTransitionOnChange
         >
           <div className="flex min-h-screen flex-col">
-            <Navbar items={navItems} cta={{ label: 'Launch console', href: '#' }} />
+            <Navbar items={navItems} cta={{ label: 'Get Started', href: '/contact' }} />
             <div className="flex-1">{children}</div>
-            <Footer links={footerLinks} cta={{ label: 'Join the beta', href: '#' }} />
+            <Footer cta={{ label: 'Get in touch with us', href: '/contact' }} />
           </div>
         </ThemeProvider>
       </body>
