@@ -4,11 +4,12 @@ const placeholderLogos = ['Nova Labs', 'Latitude Co.', 'Parse Studio', 'Brightwa
 
 export function TrustSection() {
   return (
-    <section className="border-b border-[var(--pv-border)] bg-[var(--pv-surface)]/70 dark:bg-[var(--pv-surface)]/40">
+    <section className="bg-[var(--pv-surface)]/70 dark:bg-[var(--pv-surface)]/40 border-b border-[var(--pv-border)]">
       <Container className="py-16 md:py-24">
-        <div className="mx-auto max-w-3xl text-center space-y-6">
+        <div className="mx-auto max-w-4xl space-y-6 text-center">
           <h2 className="font-heading text-[2.25rem] leading-[2.75rem] text-[var(--pv-text)]">
-            From startups to established businesses, we’ve helped brands create websites that actually work.
+            From startups to established businesses, we’ve helped brands create websites that
+            actually work.
           </h2>
           <p className="text-lg text-[var(--pv-text-muted)]">
             Our process is clear, collaborative, and built around delivering results you can trust.
