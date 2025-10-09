@@ -28,6 +28,7 @@ const navItems = [
   { label: 'Services', href: '/services' },
   { label: 'Packages', href: '/packages' },
   { label: 'Portfolio', href: '/portfolio' },
+  { label: 'Contact', href: '/contact' }
 ];
 
 const footerLinks = [
