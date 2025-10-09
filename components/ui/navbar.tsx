@@ -29,7 +29,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
   return (
     <header
       className={cn(
-        'pointer-events-none sticky top-4 z-50 flex justify-center px-4 transition-all duration-300 sm:top-6 md:top-8',
+        'pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4 transition-all duration-300 sm:top-6 md:top-8',
         className
       )}
       {...props}

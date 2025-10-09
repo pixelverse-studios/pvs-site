@@ -23,7 +23,10 @@ export const metadata: Metadata = {
   description: 'PixelVerse Studios design system with light and dark theming.'
 };
 
-const navItems = [{ label: 'About', href: '/about' }];
+const navItems = [
+  { label: 'Services', href: '/services' },
+  { label: 'About', href: '/about' }
+];
 
 const footerLinks = [
   { label: 'Design tokens', href: '/styleguide#foundations' },

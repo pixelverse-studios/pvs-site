@@ -1,0 +1,20 @@
+import { Container } from '@/components/ui/container';
+
+export function ServicesIntroSection() {
+  return (
+    <section className="bg-[var(--pv-surface)] pt-hero pb-16 md:pt-hero md:pb-24">
+      <Container className="max-w-3xl text-center">
+        <div className="space-y-6 animate-in fade-in duration-500">
+          <h1 className="font-heading text-4xl font-semibold leading-[3rem] md:text-5xl md:leading-[3.5rem]">
+            Services tailored to strategy, performance, and real outcomes
+          </h1>
+          <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
+            Your website is only as strong as the strategy behind it. That’s why our services focus
+            on design, usability, and performance — making sure your online presence isn’t just
+            seen, but remembered.
+          </p>
+        </div>
+      </Container>
+    </section>
+  );
+}

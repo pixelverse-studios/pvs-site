@@ -30,6 +30,9 @@ module.exports = {
         heading: ['Poppins', 'ui-sans-serif', 'system-ui'],
         body: ['Inter', 'ui-sans-serif', 'system-ui']
       },
+      spacing: {
+        hero: '12rem'
+      },
       transitionProperty: {
         'colors-opacity-transform': 'color, background-color, border-color, opacity, transform'
       },

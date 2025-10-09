@@ -2,7 +2,7 @@ import { Container } from '@/components/ui/container';
 
 export function IntroSection() {
   return (
-    <section className="bg-[var(--pv-surface)] py-16 md:py-24">
+    <section className="bg-[var(--pv-surface)] pt-hero pb-16 md:pt-hero md:pb-24">
       <Container className="grid items-center gap-12 md:grid-cols-2">
         <div className="space-y-6">
           <div className="space-y-4">

@@ -6,7 +6,7 @@ import { Container } from './container';
 
 export function HeroSection() {
   return (
-    <section className="relative -mt-16 overflow-hidden border-b border-[var(--pv-border)] sm:-mt-20 md:-mt-24">
+    <section className="relative overflow-hidden border-b border-[var(--pv-border)]">
       <div
         className="absolute inset-0 -z-30 bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))]"
         aria-hidden
