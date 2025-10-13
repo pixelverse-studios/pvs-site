@@ -22,29 +22,33 @@ import { cn } from '@/lib/utils';
 const SUBMIT_THROTTLE_MS = 5000;
 const LEADS_ENDPOINT = process.env.NEXT_PUBLIC_LEADS_ENDPOINT ?? '/api/leads';
 
+const budgetValues = ['<1k', '1-3k', '3-6k', '6-10k', '10k+'] as const;
+type BudgetValue = (typeof budgetValues)[number];
 const budgetOptions = [
-  { label: 'Under $1k', value: '<1k' },
-  { label: '$1k – $3k', value: '1-3k' },
-  { label: '$3k – $6k', value: '3-6k' },
-  { label: '$6k – $10k', value: '6-10k' },
-  { label: '$10k+', value: '10k+' }
+  { label: 'Under $1k', value: budgetValues[0] },
+  { label: '$1k – $3k', value: budgetValues[1] },
+  { label: '$3k – $6k', value: budgetValues[2] },
+  { label: '$6k – $10k', value: budgetValues[3] },
+  { label: '$10k+', value: budgetValues[4] }
 ] as const;
 
+const timelineValues = ['ASAP', '1-2mo', '3-6mo', '6+mo', 'unsure'] as const;
+type TimelineValue = (typeof timelineValues)[number];
 const timelineOptions = [
-  { label: 'ASAP', value: 'ASAP' },
-  { label: '1–2 months', value: '1-2mo' },
-  { label: '3–6 months', value: '3-6mo' },
-  { label: '6+ months', value: '6+mo' },
-  { label: 'Not sure yet', value: 'unsure' }
+  { label: 'ASAP', value: timelineValues[0] },
+  { label: '1–2 months', value: timelineValues[1] },
+  { label: '3–6 months', value: timelineValues[2] },
+  { label: '6+ months', value: timelineValues[3] },
+  { label: 'Not sure yet', value: timelineValues[4] }
 ] as const;
 
 const formSchema = z.object({
   name: z.string().min(2, 'Please enter your name.'),
   email: z.string().email('Enter a valid email address.'),
-  budget: z.enum(budgetOptions.map((option) => option.value) as [string, ...string[]], {
+  budget: z.enum(budgetValues, {
     required_error: 'Select a project budget range.'
   }),
-  timeline: z.enum(timelineOptions.map((option) => option.value) as [string, ...string[]], {
+  timeline: z.enum(timelineValues, {
     required_error: 'Select your project timeline.'
   }),
   briefSummary: z
@@ -130,8 +134,8 @@ export function ContactForm() {
   type LeadApiPayload = {
     name: ContactFormValues['name'];
     email: ContactFormValues['email'];
-    budget: (typeof budgetOptions)[number]['value'];
-    timeline: (typeof timelineOptions)[number]['value'];
+    budget: BudgetValue;
+    timeline: TimelineValue;
     briefSummary: ContactFormValues['briefSummary'];
     hasSeenPackages: boolean;
     honeypot: string;
@@ -154,7 +158,7 @@ export function ContactForm() {
   const onSubmit = useCallback(
     async (values: ContactFormValues) => {
       clearToast();
-      const { honeypot, ...rest } = values;
+      const { honeypot, hasSeenPackages, name, email, budget, timeline, briefSummary } = values;
 
       if (honeypot && honeypot.length > 0) {
         reset();
@@ -167,9 +171,12 @@ export function ContactForm() {
       }
 
       try {
-        const { hasSeenPackages, ...restWithoutPackages } = rest;
         const payload: LeadApiPayload = {
-          ...restWithoutPackages,
+          name,
+          email,
+          budget,
+          timeline,
+          briefSummary,
           hasSeenPackages: hasSeenPackages === 'yes',
           honeypot: honeypot ?? ''
         };
