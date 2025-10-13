@@ -66,8 +66,8 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                   className={cn(
                     'group relative inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-200 ease-out',
                     'text-[var(--pv-text-muted)] hover:text-[var(--pv-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
-                    'hover:bg-[var(--pv-bg)]/75 dark:hover:bg-white/10',
-                    'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-[border,transform] after:duration-200 group-hover:after:border-[var(--pv-primary)] group-hover:after:scale-105',
+                    'hover:bg-white/85 hover:shadow-[0_18px_40px_-28px_rgba(63,0,233,0.25)] dark:hover:bg-white/10',
+                    'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-[border,transform] after:duration-200 group-hover:after:border-[rgba(63,0,233,0.35)] group-hover:after:scale-105 dark:group-hover:after:border-[rgba(255,255,255,0.18)]',
                     isActive &&
                       'bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)] hover:text-white after:border-transparent after:scale-100',
                   )}
