@@ -1,6 +1,3 @@
-import Link from 'next/link';
-
-import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import {
   Card,
@@ -20,18 +17,33 @@ const projectAccentGradients = [
 const projects = [
   {
     name: 'Jones Pressure Washing',
-    summary: 'Boosted visibility + conversions through a custom multi-page site.',
-    href: '#'
+    industry: 'Home Services',
+    summary: 'Rebuilt the brand experience for a hyper-local business that lives on trust and responsiveness.',
+    highlights: [
+      '42% more booked jobs in the first 60 days post-launch.',
+      'Automated lead routing trimmed response time to under 15 minutes.',
+      'Performance-focused build keeps mobile LCP under 1.2s in the field.'
+    ]
   },
   {
     name: '360 Degree Care',
-    summary: 'Designed for empathy, trust, and clarity in the health care industry.',
-    href: '#'
+    industry: 'Healthcare',
+    summary: 'Crafted a compassionate presence for an in-home care team, balancing clarity with compliance.',
+    highlights: [
+      'Session duration doubled thanks to simplified service flows.',
+      'Content management system empowers the team to update care plans in minutes.',
+      'WCAG-focused design improved accessibility scores across devices.'
+    ]
   },
   {
     name: 'Domani',
-    summary: 'Helping people organize their lives with calm, intuitive design.',
-    href: '#'
+    industry: 'Productivity SaaS',
+    summary: 'Partnered with the founding team to translate product vision into a high-converting marketing site.',
+    highlights: [
+      'Lifted free-trial signups by 35% with clearer feature storytelling.',
+      'Internationalized content rollout launched in two weeks using modular builds.',
+      'Analytics-ready architecture made onboarding funnels measurable from day one.'
+    ]
   }
 ];
 
@@ -58,7 +70,7 @@ export function ProjectShowcaseSection() {
                 <div className="absolute inset-6 rounded-pv border border-dashed border-white/25 dark:border-white/10" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)]/85 px-4 py-2 text-xs uppercase tracking-[0.3em] text-[var(--pv-text-muted)] shadow-[0_18px_36px_-28px_rgba(63,0,233,0.6)]">
-                    Case Study
+                    {project.industry}
                   </div>
                 </div>
               </div>
@@ -66,14 +78,22 @@ export function ProjectShowcaseSection() {
                 <CardTitle>{project.name}</CardTitle>
                 <CardDescription>{project.summary}</CardDescription>
               </CardHeader>
-              <CardContent className="text-sm text-[var(--pv-text-muted)]">
-                From strategy workshops to launch-day QA, we partnered closely to build a digital
-                experience that converts visitors into loyal customers.
+              <CardContent className="flex flex-col gap-4 text-sm text-[var(--pv-text-muted)]">
+                <p>
+                  From discovery workshops to post-launch optimizations, we focused on measurable
+                  wins and a build that the internal team can own.
+                </p>
+                <ul className="space-y-2">
+                  {project.highlights.map((highlight) => (
+                    <li key={highlight} className="flex items-start gap-3">
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[var(--pv-primary)]" aria-hidden />
+                      <span>{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
               </CardContent>
-              <CardFooter className="justify-end">
-                <Button asChild size="sm" variant="secondary">
-                  <Link href={project.href}>View Project</Link>
-                </Button>
+              <CardFooter className="justify-start text-xs uppercase tracking-[0.25em] text-[var(--pv-text-muted)]">
+                Similar results available on request
               </CardFooter>
             </Card>
           ))}

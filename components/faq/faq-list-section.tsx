@@ -31,6 +31,21 @@ const faqs = [
     question: 'How do I know if I’m ready for a custom site?',
     answer:
       'If your business needs to grow, convert leads, or stand out from competitors, you’re ready.'
+  },
+  {
+    question: 'How long does a typical PixelVerse project take?',
+    answer:
+      'Most engagements move from kickoff to launch in 6–10 weeks, depending on scope and feedback cycles. We map every milestone at the start so timelines stay transparent.'
+  },
+  {
+    question: 'Do you offer support once the site is live?',
+    answer:
+      'Yes. We hand off with clear documentation and training, and offer ongoing enhancement retainers for teams that want a dedicated partner watching performance after launch.'
+  },
+  {
+    question: 'Can you work with our existing brand assets?',
+    answer:
+      'Absolutely. We can plug into your current brand system or collaborate with your designer to expand it. If you need a refresh, we can scope that in at the strategy stage.'
   }
 ];
 

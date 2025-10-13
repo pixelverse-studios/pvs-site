@@ -4,15 +4,18 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 const addons = [
   {
     title: 'Extra Pages',
-    description: 'Starting at $150'
+    price: 'Starting at $150',
+    description: 'Add focused landing pages or campaign hubs that plug into your component system without derailing timelines.'
   },
   {
     title: 'Local SEO Boosts',
-    description: '$200–$250'
+    price: '$200–$250',
+    description: 'Strengthen map pack visibility with localized schema, review prompts, and service area tuning.'
   },
   {
     title: 'Content Refresh & Audits',
-    description: 'From $400'
+    price: 'From $400',
+    description: 'Refresh high-value pages with updated copy, UX tweaks, and the latest keyword insights.'
   }
 ];
 
@@ -30,13 +33,21 @@ export function AddonsSection() {
           {addons.map((addon) => (
             <Card
               key={addon.title}
-              className="border border-[var(--pv-border)] bg-[var(--pv-surface)]/80 shadow-pv transition-all duration-300 hover:-translate-y-1 hover:border-[var(--pv-primary)] dark:bg-[var(--pv-bg)]/80"
+              className="group flex flex-col border border-[var(--pv-border)] bg-[var(--pv-surface)]/80 shadow-pv transition-all duration-300 hover:-translate-y-1 hover:border-[var(--pv-primary)] dark:bg-[var(--pv-bg)]/80"
             >
-              <CardHeader>
-                <CardTitle>{addon.title}</CardTitle>
+              <CardHeader className="space-y-3 border-b border-[var(--pv-border)] pb-5">
+                <CardTitle className="text-xl font-semibold text-[var(--pv-text)]">
+                  {addon.title}
+                </CardTitle>
+                <p className="text-sm font-medium uppercase tracking-[0.18em] text-[var(--pv-text-muted)]">
+                  {addon.price}
+                </p>
               </CardHeader>
-              <CardContent className="text-sm text-[var(--pv-text-muted)]">
-                {addon.description}
+              <CardContent className="flex-1 space-y-3 pt-5 text-sm leading-6 text-[var(--pv-text-muted)]">
+                <p>{addon.description}</p>
+                <p className="text-xs uppercase tracking-[0.22em] text-[var(--pv-text-muted)]">
+                  Turnaround: 1–2 weeks
+                </p>
               </CardContent>
             </Card>
           ))}

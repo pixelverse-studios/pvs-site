@@ -36,9 +36,9 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
       )}
       {...props}
     >
-      <div className="pointer-events-auto flex w-full max-w-5xl items-center gap-4 rounded-pv-lg border border-[var(--pv-border)] px-4 py-3 shadow-[0_28px_60px_-30px_rgba(32,32,72,0.55)] backdrop-blur-xl transition-colors duration-300 md:gap-6 md:px-6 bg-[var(--pv-surface)]/75 dark:bg-[rgba(12,12,24,0.9)] dark:shadow-[0_38px_80px_-40px_rgba(63,0,233,0.65)]">
+      <div className="pointer-events-auto flex w-full max-w-5xl items-center gap-4 rounded-pv-lg border border-[var(--pv-border)] bg-[var(--pv-surface)]/85 px-4 py-3 shadow-[0_28px_60px_-30px_rgba(32,32,72,0.55)] backdrop-blur-xl transition-colors duration-300 md:gap-6 md:px-6 dark:bg-[rgba(18,18,32,0.92)] dark:shadow-[0_38px_80px_-40px_rgba(63,0,233,0.65)]">
         <Link href="/" className="flex items-center">
-          <span className="relative inline-flex h-16 w-16 items-center justify-center rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] shadow-[0_18px_34px_-22px_rgba(63,0,233,0.55)] transition-transform duration-200 hover:-translate-y-0.5">
+          <span className="relative inline-flex h-16 w-16 items-center justify-center rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] shadow-[0_18px_34px_-22px_rgba(63,0,233,0.55)] transition-transform duration-200 hover:-translate-y-0.5 dark:bg-[var(--pv-surface)]">
             <Image
               src="/logo.svg"
               alt="PixelVerse Studios logo"
@@ -64,12 +64,12 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                   href={item.href}
                   aria-current={isActive ? 'page' : undefined}
                   className={cn(
-                    'group relative inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-300',
+                    'group relative inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-200 ease-out',
                     'text-[var(--pv-text-muted)] hover:text-[var(--pv-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
-                    'hover:bg-[var(--pv-surface)]/90 hover:shadow-[0_18px_40px_-28px_rgba(63,0,233,0.55)] dark:hover:bg-white/10',
-                    'before:absolute before:inset-[-2px] before:-z-10 before:rounded-full before:bg-[radial-gradient(circle_at_top,var(--pv-primary)/0.12,transparent_75%)] before:opacity-0 before:transition-opacity before:duration-300 group-hover:before:opacity-100',
+                    'hover:bg-[var(--pv-bg)]/75 dark:hover:bg-white/10',
+                    'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-[border,transform] after:duration-200 group-hover:after:border-[var(--pv-primary)] group-hover:after:scale-105',
                     isActive &&
-                      'bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)] hover:text-white',
+                      'bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)] hover:text-white after:border-transparent after:scale-100',
                   )}
                 >
                   {item.label}

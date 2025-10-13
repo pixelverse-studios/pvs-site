@@ -13,16 +13,39 @@ export function ValueSection() {
             business grow.
           </p>
         </div>
-        <div className="relative rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] p-8 shadow-pv">
-          <div className="absolute inset-0 rounded-pv bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] opacity-[0.08] mix-blend-overlay" aria-hidden />
-          <div className="relative space-y-4 text-[var(--pv-text)]">
-            <h3 className="font-heading text-2xl">Built for momentum</h3>
-            <p className="text-[var(--pv-text-muted)]">
-              Every experience is engineered for performance and guided by UX principles that keep people moving toward conversion.
-            </p>
-            <div className="rounded-pv-sm border border-dashed border-[var(--pv-border)] bg-[var(--pv-surface)] p-4 text-sm text-[var(--pv-text-muted)]">
-              {/* TODO: Replace placeholder with motion-based visual or product showcase */}
-              Placeholder visual space for interactive prototype or stat graphic.
+        <div className="relative overflow-hidden rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] p-8 shadow-pv">
+          <div
+            className="pointer-events-none absolute inset-0 rounded-pv bg-[radial-gradient(circle_at_top,var(--pv-primary)/0.18,transparent_70%)] opacity-80"
+            aria-hidden
+          />
+          <div className="relative space-y-6 text-[var(--pv-text)]">
+            <div className="space-y-3">
+              <h3 className="font-heading text-2xl">Built for impact</h3>
+              <p className="text-[var(--pv-text-muted)]">
+                Headlines get roughly three seconds to land. We combine UX, copy, and engineering so
+                your hero hooks fast, keeps people scrolling, and leads them straight to the next
+                step.
+              </p>
+            </div>
+            <div className="grid gap-4 text-sm text-[var(--pv-text-muted)] sm:grid-cols-2">
+              <div className="rounded-pv-sm border border-[var(--pv-border)] bg-[var(--pv-surface)]/90 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--pv-text-muted)]">
+                  Bounce Risk
+                </p>
+                <p className="mt-2 text-2xl font-semibold text-[var(--pv-text)]">50%</p>
+                <p className="mt-1 leading-6">
+                  Visitors decide in seconds. Strong hero clarity drops bounce rates by half.
+                </p>
+              </div>
+              <div className="rounded-pv-sm border border-[var(--pv-border)] bg-[var(--pv-surface)]/90 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--pv-text-muted)]">
+                  Retention Lift
+                </p>
+                <p className="mt-2 text-2xl font-semibold text-[var(--pv-text)]">+32%</p>
+                <p className="mt-1 leading-6">
+                  Clear value props and fast load times keep users exploring—and converting.
+                </p>
+              </div>
             </div>
           </div>
         </div>

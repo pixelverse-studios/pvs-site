@@ -12,7 +12,7 @@ const team = [
     name: 'Phil',
     title: 'Development',
     description:
-      'Phil crafts the technical backbone of each build, engineering performant, scalable systems that keep the web fast and reliable.'
+      'Phil crafts the technical backbone of each build, engineering fast, scalable systems that keep the web reliable and easy to maintain.'
   }
 ];
 
@@ -21,7 +21,7 @@ export function TeamSection() {
     <section className="py-16 md:py-24">
       <Container className="space-y-10">
         <div className="space-y-4 text-center">
-          <h2 className="font-heading text-3xl md:text-4xl">Meet the people behind the craft</h2>
+          <h2 className="font-heading text-3xl md:text-4xl">Meet the people behind the operation</h2>
           <p className="text-lg text-[var(--pv-text-muted)]">
             Two specialists, one aligned mission — design smarter, build faster, and ship experiences
             you can scale.

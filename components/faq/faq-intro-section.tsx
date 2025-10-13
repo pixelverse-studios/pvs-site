@@ -9,7 +9,7 @@ export function FaqIntroSection() {
             FAQ
           </span>
           <h1 className="text-4xl font-semibold leading-[3rem] md:text-5xl md:leading-[3.5rem]">
-            Questions, answered
+            Our most common questions
           </h1>
           <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
             Choosing the right partner for your website is a big decision. These FAQs explain why

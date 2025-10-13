@@ -55,18 +55,30 @@ export function ServicesCoreSection() {
               key={title}
               className="group flex h-full flex-col overflow-hidden border border-[var(--pv-border)]/80 bg-[var(--pv-bg)]/90 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--pv-primary)] hover:shadow-[0_24px_50px_-36px_rgba(63,0,233,0.75)] dark:bg-[var(--pv-surface)]/90"
             >
-              <CardHeader className="flex flex-row items-start gap-4">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_18px_38px_-28px_rgba(63,0,233,0.9)] transition-transform duration-300 group-hover:-translate-y-1">
+              <CardHeader className="flex flex-row items-start gap-4 border-b border-[var(--pv-border)] pb-6">
+                <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_18px_38px_-28px_rgba(63,0,233,0.9)] transition-transform duration-300 group-hover:-translate-y-1">
                   <Icon className="h-6 w-6" aria-hidden="true" />
                 </span>
-                <div>
-                  <CardTitle>{title}</CardTitle>
-                  <CardDescription>{description}</CardDescription>
+                <div className="flex-1 space-y-3">
+                  <CardTitle className="text-xl font-semibold text-[var(--pv-text)]">{title}</CardTitle>
+                  <CardDescription className="text-sm leading-6 text-[var(--pv-text-muted)]">
+                    {description}
+                  </CardDescription>
                 </div>
               </CardHeader>
-              <CardContent className="pt-0 text-sm text-[var(--pv-text-muted)]">
-                Bring together thoughtful strategy and custom build quality so every release ships
-                faster, performs better, and adapts as you grow.
+              <CardContent className="flex flex-col gap-4 pt-6 text-sm leading-6 text-[var(--pv-text-muted)]">
+                <p>
+                  Bring together thoughtful strategy and custom build quality so every release ships
+                  faster, performs better, and adapts as you grow.
+                </p>
+                <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-[var(--pv-text-muted)]">
+                  <span className="rounded-full border border-[var(--pv-border)] px-3 py-1 opacity-90">
+                    Strategy + Build
+                  </span>
+                  <span className="rounded-full border border-[var(--pv-border)] px-3 py-1 opacity-90">
+                    Conversion Focused
+                  </span>
+                </div>
               </CardContent>
             </Card>
           ))}

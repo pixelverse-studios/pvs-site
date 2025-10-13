@@ -2,7 +2,6 @@ import { ClosingCtaSection } from '@/components/home/closing-cta-section';
 import { HeroSection } from '@/components/home/hero-section';
 import { PackagesSection } from '@/components/home/packages-section';
 import { ServicesSection } from '@/components/home/services-section';
-import { TrustSection } from '@/components/home/trust-section';
 import { ValueSection } from '@/components/home/value-section';
 
 export default function Home() {
@@ -12,7 +11,6 @@ export default function Home() {
       <ValueSection />
       <ServicesSection />
       <PackagesSection />
-      <TrustSection />
       <ClosingCtaSection />
     </main>
   );
