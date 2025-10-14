@@ -12,9 +12,12 @@ const fadeInVariants = {
   visible: { opacity: 1, y: 0 }
 };
 
-interface MotionSectionProps extends React.HTMLAttributes<HTMLDivElement> {
+type MotionSectionElement = 'div' | 'section' | 'ul';
+type BaseMotionProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'onDrag'>;
+
+interface MotionSectionProps extends BaseMotionProps {
   delay?: number;
-  as?: 'div' | 'section';
+  as?: MotionSectionElement;
   motionProps?: MotionProps;
 }
 
@@ -25,7 +28,13 @@ export function MotionSection({
   as = 'section',
   motionProps
 }: MotionSectionProps) {
-  const Component = as === 'section' ? motion.section : motion.div;
+  const componentMap: Record<MotionSectionElement, any> = {
+    div: motion.div,
+    section: motion.section,
+    ul: motion.ul
+  };
+
+  const Component = componentMap[as] ?? motion.section;
 
   return (
     <Component
@@ -46,7 +55,7 @@ export function MotionSection({
   );
 }
 
-interface MotionItemProps extends React.HTMLAttributes<HTMLDivElement> {
+interface MotionItemProps extends BaseMotionProps {
   delay?: number;
   motionProps?: MotionProps;
   triggerOnViewport?: boolean;
@@ -75,7 +84,7 @@ export function MotionItem({
       {...baseProps}
       className={cn(className)}
       {...motionProps}
-      {...props}
+      {...(props as React.ComponentPropsWithoutRef<typeof motion.div>)}
     >
       {children}
     </motion.div>
