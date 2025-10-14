@@ -14,7 +14,8 @@ import { cn } from "@/lib/utils";
 
 export interface ModalProps extends React.ComponentProps<typeof Dialog> {}
 
-export interface ModalContentProps extends React.ComponentProps<typeof DialogContent> {
+export interface ModalContentProps
+  extends Omit<React.ComponentProps<typeof DialogContent>, "title"> {
   title?: React.ReactNode;
   description?: React.ReactNode;
   footer?: React.ReactNode;
