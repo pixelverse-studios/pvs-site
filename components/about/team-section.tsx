@@ -1,5 +1,6 @@
 import { Container } from '@/components/ui/container';
 import { Card, CardContent } from '@/components/ui/card';
+import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
 const team = [
   {
@@ -20,17 +21,22 @@ export function TeamSection() {
   return (
     <section className="py-16 md:py-24">
       <Container className="space-y-10">
-        <div className="space-y-4 text-center">
-          <h2 className="font-heading text-3xl md:text-4xl">Meet the people behind the operation</h2>
-          <p className="text-lg text-[var(--pv-text-muted)]">
-            Two specialists, one aligned mission — design smarter, build faster, and ship experiences
-            you can scale.
-          </p>
-        </div>
-        <div className="grid gap-6 md:grid-cols-2">
-          {team.map((member) => (
-            <div
+        <MotionSection as="div" className="space-y-4 text-center">
+          <MotionItem>
+            <h2 className="font-heading text-3xl md:text-4xl">Meet the people behind the operation</h2>
+          </MotionItem>
+          <MotionItem delay={0.1}>
+            <p className="text-lg text-[var(--pv-text-muted)]">
+              Two specialists, one aligned mission — design smarter, build faster, and ship experiences
+              you can scale.
+            </p>
+          </MotionItem>
+        </MotionSection>
+        <MotionSection as="div" className="grid gap-6 md:grid-cols-2" delay={0.12}>
+          {team.map((member, index) => (
+            <MotionItem
               key={member.name}
+              delay={index * 0.1}
               className="relative rounded-[1.5rem] bg-[var(--pv-gradient)] p-[1px] shadow-[0_30px_60px_-40px_rgba(63,0,233,0.7)]"
             >
               <Card className="h-full rounded-[1.45rem] bg-[var(--pv-bg)]/95 p-6 dark:bg-[var(--pv-surface)]/95">
@@ -50,9 +56,9 @@ export function TeamSection() {
                   <p className="text-sm leading-6 text-[var(--pv-text-muted)]">{member.description}</p>
                 </CardContent>
               </Card>
-            </div>
+            </MotionItem>
           ))}
-        </div>
+        </MotionSection>
       </Container>
     </section>
   );

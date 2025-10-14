@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
+import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
 import { Container } from './container';
 
@@ -21,8 +22,11 @@ export function HeroSection() {
         {/* TODO: Replace with branded animated gradient or hero illustration */}
       </div>
       <Container className="relative pt-52 pb-24 text-center sm:pt-56 md:pt-60 md:pb-32">
-        <div className="mx-auto flex max-w-3xl flex-col items-center gap-8 rounded-pv-lg bg-white/55 p-6 shadow-[0_40px_90px_-45px_rgba(63,0,233,0.65)] backdrop-blur-md dark:bg-[#080811]/80">
-          <div className="space-y-5">
+        <MotionSection
+          as="div"
+          className="mx-auto flex max-w-3xl flex-col items-center gap-8 rounded-pv-lg bg-white/55 p-6 shadow-[0_40px_90px_-45px_rgba(63,0,233,0.65)] backdrop-blur-md dark:bg-[#080811]/80"
+        >
+          <MotionItem className="space-y-5">
             <span className="inline-flex items-center rounded-full border border-[var(--pv-border)] bg-white/80 px-4 py-1 text-xs font-medium uppercase tracking-[0.2em] text-[var(--pv-text)] shadow-sm dark:bg-white/10 dark:text-white">
               PixelVerse Studios
             </span>
@@ -33,13 +37,15 @@ export function HeroSection() {
               </span>
             </h1>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
-              We create digital presences built to last.
+              We create digital presences built to scale.
             </p>
-          </div>
-          <Button asChild size="lg" variant="cta">
-            <Link href="#contact">Contact Us</Link>
-          </Button>
-        </div>
+          </MotionItem>
+          <MotionItem delay={0.15}>
+            <Button asChild size="lg" variant="cta">
+              <Link href="#contact">Let&apos;s Discuss Your Project</Link>
+            </Button>
+          </MotionItem>
+        </MotionSection>
       </Container>
     </section>
   );

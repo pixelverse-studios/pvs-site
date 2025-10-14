@@ -4,7 +4,6 @@ import { ServicesClosingCtaSection } from '@/components/services/services-closin
 import { ServicesCoreSection } from '@/components/services/services-core-section';
 import { ServicesIntroSection } from '@/components/services/services-intro-section';
 import { ServicesProcessSection } from '@/components/services/services-process-section';
-import { ServicesWhySection } from '@/components/services/services-why-section';
 
 export const metadata: Metadata = {
   title: 'PixelVerse Studios Services',
@@ -18,7 +17,6 @@ export default function ServicesPage() {
       <ServicesIntroSection />
       <ServicesCoreSection />
       <ServicesProcessSection />
-      <ServicesWhySection />
       <ServicesClosingCtaSection />
     </main>
   );

@@ -1,5 +1,6 @@
 import { Container } from '@/components/ui/container';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
 const faqs = [
   {
@@ -53,14 +54,25 @@ export function FaqListSection() {
   return (
     <section className="py-16 md:py-24">
       <Container className="max-w-4xl">
-        <Accordion type="single" collapsible className="divide-y divide-[var(--pv-border)] rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)]/90 shadow-pv dark:bg-[var(--pv-surface)]/85">
-          {faqs.map((faq, index) => (
-            <AccordionItem value={`faq-${index + 1}`} key={faq.question}>
-              <AccordionTrigger>{faq.question}</AccordionTrigger>
-              <AccordionContent>{faq.answer}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        <MotionSection
+          as="div"
+          className="rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)]/90 shadow-pv dark:bg-[var(--pv-surface)]/85"
+        >
+          <Accordion type="single" collapsible className="divide-y divide-[var(--pv-border)]">
+            {faqs.map((faq, index) => (
+              <MotionItem
+                key={faq.question}
+                delay={index * 0.04}
+                triggerOnViewport={false}
+              >
+                <AccordionItem value={`faq-${index + 1}`}>
+                  <AccordionTrigger>{faq.question}</AccordionTrigger>
+                  <AccordionContent>{faq.answer}</AccordionContent>
+                </AccordionItem>
+              </MotionItem>
+            ))}
+          </Accordion>
+        </MotionSection>
       </Container>
     </section>
   );

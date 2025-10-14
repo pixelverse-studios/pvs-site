@@ -1,6 +1,7 @@
 import { Code2, GaugeCircle, LineChart, Radar, Repeat } from 'lucide-react';
 
 import { Container } from '@/components/ui/container';
+import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import {
   Card,
   CardContent,
@@ -41,38 +42,44 @@ export function ServicesGlanceSection() {
   return (
     <section className="py-16 md:py-24">
       <Container className="space-y-10">
-        <div className="text-center">
-          <h2 className="text-3xl font-semibold md:text-4xl">Services at a Glance</h2>
-          <p className="mt-3 text-lg text-[var(--pv-text-muted)]">
-            Every engagement includes the strategy, execution, and follow-through needed to sustain
-            growth.
-          </p>
-        </div>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {glanceServices.map(({ icon: Icon, title, description }) => (
-            <Card
-              key={title}
-              className="group flex h-full flex-col justify-between overflow-hidden border border-[var(--pv-border)] bg-[var(--pv-surface)]/80 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--pv-primary)] hover:shadow-[0_28px_55px_-40px_rgba(63,0,233,0.8)] dark:bg-[var(--pv-bg)]/70"
-            >
-              <CardHeader className="flex flex-col gap-4">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-[linear-gradient(135deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_42px_-32px_rgba(63,0,233,0.85)]">
-                  <Icon className="h-6 w-6" aria-hidden="true" />
-                </span>
-                <div>
-                  <CardTitle>{title}</CardTitle>
-                  <CardDescription>{description}</CardDescription>
-                </div>
-              </CardHeader>
-              <CardContent className="mt-auto flex flex-col gap-4 text-sm text-[var(--pv-text-muted)]">
-                <div className="h-px w-full bg-gradient-to-r from-transparent via-[var(--pv-primary)]/40 to-transparent" />
-                <p>
-                  Backed by our UX-first approach, we align every deliverable to measurable business
-                  outcomes so you know what works and why.
-                </p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        <MotionSection className="space-y-10 text-center" as="div">
+          <MotionItem className="space-y-3">
+            <h2 className="text-3xl font-semibold md:text-4xl">Services at a Glance</h2>
+            <p className="text-lg text-[var(--pv-text-muted)]">
+              Every engagement includes the strategy, execution, and follow-through needed to sustain
+              growth.
+            </p>
+          </MotionItem>
+          <MotionSection as="div" className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" delay={0.12}>
+            {glanceServices.map(({ icon: Icon, title, description }, index) => (
+              <MotionItem
+                key={title}
+                delay={index * 0.08}
+                triggerOnViewport={false}
+                className="h-full"
+              >
+                <Card className="group flex h-full flex-col justify-between overflow-hidden border border-[var(--pv-border)] bg-[var(--pv-surface)]/80 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--pv-primary)] hover:shadow-[0_28px_55px_-40px_rgba(63,0,233,0.8)] dark:bg-[var(--pv-bg)]/70">
+                  <CardHeader className="flex flex-col gap-4">
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-[linear-gradient(135deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_42px_-32px_rgba(63,0,233,0.85)]">
+                      <Icon className="h-6 w-6" aria-hidden="true" />
+                    </span>
+                    <div>
+                      <CardTitle>{title}</CardTitle>
+                      <CardDescription>{description}</CardDescription>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="mt-auto flex flex-col gap-4 text-sm text-[var(--pv-text-muted)]">
+                    <div className="h-px w-full bg-gradient-to-r from-transparent via-[var(--pv-primary)]/40 to-transparent" />
+                    <p>
+                      Backed by our UX-first approach, we align every deliverable to measurable business
+                      outcomes so you know what works and why.
+                    </p>
+                  </CardContent>
+                </Card>
+              </MotionItem>
+            ))}
+          </MotionSection>
+        </MotionSection>
       </Container>
     </section>
   );

@@ -27,7 +27,12 @@ export function SectionHeader({
       {...props}
     >
       {eyebrow && (
-        <span className="inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-1 text-xs uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
+        <span
+          className={cn(
+            'inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-1 text-xs uppercase tracking-[0.2em] text-[var(--pv-text-muted)]',
+            align === 'center' && 'justify-center'
+          )}
+        >
           {eyebrow}
         </span>
       )}

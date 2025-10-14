@@ -38,8 +38,8 @@ export function Footer({ className, links = [], cta, ...props }: FooterProps) {
           </p>
           <small>&copy; {new Date().getFullYear()} PixelVerse Studios. All rights reserved.</small>
         </div>
-        <div className="flex flex-col items-start gap-4 md:items-end">
-          <nav className="flex flex-wrap gap-4 text-sm text-[var(--pv-text-muted)]">
+        <div className="flex w-full flex-col items-start gap-4 md:w-auto md:items-end">
+          <nav className="flex w-full flex-wrap gap-4 text-sm text-[var(--pv-text-muted)] md:w-auto">
             {links.map((link) => (
               <Link
                 key={link.href}
@@ -51,7 +51,7 @@ export function Footer({ className, links = [], cta, ...props }: FooterProps) {
             ))}
           </nav>
           {cta && (
-            <Button asChild variant="cta">
+            <Button asChild variant="cta" className="w-full md:w-auto">
               <Link href={cta.href}>{cta.label}</Link>
             </Button>
           )}
