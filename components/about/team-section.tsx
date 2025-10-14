@@ -7,14 +7,14 @@ const team = [
     name: 'Sami',
     title: 'UX Design',
     description:
-      'Sami shapes every experience around real user journeys, turning research and narrative into intuitive flows that drive conversions.'
+      'Sami shapes every experience around real user journeys, turning research and narrative into intuitive flows that drive conversions.',
   },
   {
     name: 'Phil',
     title: 'Development',
     description:
-      'Phil crafts the technical backbone of each build, engineering fast, scalable systems that keep the web reliable and easy to maintain.'
-  }
+      'With 7 years of experience in full-stack development, Phil builds scalable applications and solves complex technical challenges. He specializes in JavaScript, modern frameworks, databases, and web performance. Outside of work, he enjoys riding motorcycles and bikes—long rides that clear his mind and spark new ideas.',
+  },
 ];
 
 export function TeamSection() {
@@ -23,12 +23,14 @@ export function TeamSection() {
       <Container className="space-y-10">
         <MotionSection as="div" className="space-y-4 text-center">
           <MotionItem>
-            <h2 className="font-heading text-3xl md:text-4xl">Meet the people behind the operation</h2>
+            <h2 className="font-heading text-3xl md:text-4xl">
+              Meet the people behind the operation
+            </h2>
           </MotionItem>
           <MotionItem delay={0.1}>
             <p className="text-lg text-[var(--pv-text-muted)]">
-              Two specialists, one aligned mission — design smarter, build faster, and ship experiences
-              you can scale.
+              Two specialists, one aligned mission — design smarter, build faster, and ship
+              experiences you can scale.
             </p>
           </MotionItem>
         </MotionSection>
@@ -39,7 +41,7 @@ export function TeamSection() {
               delay={index * 0.1}
               className="relative rounded-[1.5rem] bg-[var(--pv-gradient)] p-[1px] shadow-[0_30px_60px_-40px_rgba(63,0,233,0.7)]"
             >
-              <Card className="h-full rounded-[1.45rem] bg-[var(--pv-bg)]/95 p-6 dark:bg-[var(--pv-surface)]/95">
+              <Card className="bg-[var(--pv-bg)]/95 dark:bg-[var(--pv-surface)]/95 h-full rounded-[1.45rem] p-6">
                 <CardContent className="flex h-full flex-col gap-5 p-0">
                   <div className="flex items-center gap-4">
                     <div
@@ -53,7 +55,9 @@ export function TeamSection() {
                       <p className="text-sm text-[var(--pv-text-muted)]">{member.title}</p>
                     </div>
                   </div>
-                  <p className="text-sm leading-6 text-[var(--pv-text-muted)]">{member.description}</p>
+                  <p className="text-sm leading-6 text-[var(--pv-text-muted)]">
+                    {member.description}
+                  </p>
                 </CardContent>
               </Card>
             </MotionItem>

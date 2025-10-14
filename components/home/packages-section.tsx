@@ -16,7 +16,8 @@ import { Container } from './container';
 
 const packages = websitePackageData.map((pkg) => ({
   id: pkg.id,
-  title: pkg.name,
+  level: pkg.level,
+  name: pkg.name,
   summary: pkg.summary,
   price: pkg.price,
   ideal: pkg.ideal,
@@ -44,60 +45,54 @@ export function PackagesSection() {
               className="flex gap-6 px-6 md:grid md:grid-cols-2 md:px-0 xl:grid-cols-4"
               delay={0.1}
             >
-              {packages.map((pkg, index) => {
-                const [primaryTitle, secondaryTitle] = pkg.title.split(' – ');
-
-                return (
-                  <MotionItem key={pkg.id} delay={index * 0.08}>
-                    <Card className="bg-[var(--pv-bg)]/95 flex h-full min-w-[280px] flex-col border border-[var(--pv-border)] transition-all duration-200 hover:-translate-y-1 hover:border-[var(--pv-primary)] hover:shadow-pv md:min-w-0">
-                      <CardHeader className="grid gap-4 border-b border-[var(--pv-border)] pb-6">
-                        <div className="min-h-[92px] space-y-2">
-                          <CardTitle className="text-xl leading-7 text-[var(--pv-text)]">
-                            <span className="block">{primaryTitle}</span>
-                            {secondaryTitle && (
-                              <span className="block text-base font-medium text-[var(--pv-text-muted)]">
-                                {secondaryTitle}
-                              </span>
-                            )}
-                          </CardTitle>
-                          <p className="text-sm font-medium uppercase tracking-[0.18em] text-[var(--pv-text-muted)]">
-                            {pkg.price}
-                          </p>
-                        </div>
-                        <CardDescription className="min-h-[88px] text-sm leading-6">
-                          {pkg.summary}
-                        </CardDescription>
-                        <p className="flex min-h-[64px] items-end text-xs uppercase tracking-[0.18em] text-[var(--pv-text-muted)]">
-                          <span>Best for: {pkg.ideal}</span>
+              {packages.map((pkg, index) => (
+                <MotionItem key={pkg.id} delay={index * 0.08}>
+                  <Card className="bg-[var(--pv-bg)]/95 flex h-full min-w-[280px] flex-col border border-[var(--pv-border)] transition-all duration-200 hover:-translate-y-1 hover:border-[var(--pv-primary)] hover:shadow-pv md:min-w-0">
+                    <CardHeader className="grid gap-4 border-b border-[var(--pv-border)] pb-6">
+                      <div className="min-h-[92px] space-y-3">
+                        <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[var(--pv-primary)]">
+                          {pkg.level}
                         </p>
-                      </CardHeader>
-                      <CardContent className="grid flex-1 grid-rows-[1fr_auto] gap-4 py-6 text-sm leading-6 text-[var(--pv-text-muted)]">
-                        <ul className="space-y-3">
-                          {pkg.highlights.map((highlight) => (
-                            <li key={highlight} className="flex gap-3">
-                              <span
-                                className="inline-flex h-1.5 w-1.5 shrink-0 self-center rounded-full bg-[var(--pv-primary)]"
-                                aria-hidden
-                              />
-                              <span>{highlight}</span>
-                            </li>
-                          ))}
-                        </ul>
-                        <div className="self-end">
-                          <p className="border-[var(--pv-border)]/80 bg-[var(--pv-surface)]/80 rounded-pv-sm border px-3 py-2 text-xs uppercase tracking-[0.18em] text-[var(--pv-text-muted)]">
-                            Support cadence: {pkg.support.cadence}
-                          </p>
-                        </div>
-                      </CardContent>
-                      <CardFooter className="border-t border-[var(--pv-border)] pt-4">
-                        <Button asChild variant="link" className="px-0 text-sm font-semibold">
-                          <Link href={`/packages#${pkg.id}`}>Learn more</Link>
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  </MotionItem>
-                );
-              })}
+                        <CardTitle className="text-lg font-medium leading-7 text-[var(--pv-text)]">
+                          {pkg.name}
+                        </CardTitle>
+                        <p className="text-sm font-medium uppercase tracking-[0.18em] text-[var(--pv-text-muted)]">
+                          {pkg.price}
+                        </p>
+                      </div>
+                      <CardDescription className="min-h-[88px] text-sm leading-6">
+                        {pkg.summary}
+                      </CardDescription>
+                      <p className="flex min-h-[64px] items-end text-xs uppercase tracking-[0.18em] text-[var(--pv-text-muted)]">
+                        <span>Best for: {pkg.ideal}</span>
+                      </p>
+                    </CardHeader>
+                    <CardContent className="grid flex-1 grid-rows-[1fr_auto] gap-4 py-6 text-sm leading-6 text-[var(--pv-text-muted)]">
+                      <ul className="space-y-3">
+                        {pkg.highlights.map((highlight) => (
+                          <li key={highlight} className="flex gap-3">
+                            <span
+                              className="inline-flex h-1.5 w-1.5 shrink-0 self-center rounded-full bg-[var(--pv-primary)]"
+                              aria-hidden
+                            />
+                            <span>{highlight}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="self-end">
+                        <p className="border-[var(--pv-border)]/80 bg-[var(--pv-surface)]/80 rounded-pv-sm border px-3 py-2 text-xs uppercase tracking-[0.18em] text-[var(--pv-text-muted)]">
+                          Support cadence: {pkg.support.cadence}
+                        </p>
+                      </div>
+                    </CardContent>
+                    <CardFooter className="border-t border-[var(--pv-border)] pt-4">
+                      <Button asChild variant="link" className="px-0 text-sm font-semibold">
+                        <Link href={`/packages#${pkg.id}`}>Learn more</Link>
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </MotionItem>
+              ))}
             </MotionSection>
           </MotionItem>
         </MotionSection>

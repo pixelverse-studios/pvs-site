@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import { ChevronDown } from "lucide-react";
+import * as React from 'react';
+import * as AccordionPrimitive from '@radix-ui/react-accordion';
+import { ChevronDown } from 'lucide-react';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 const Accordion = AccordionPrimitive.Root;
 
@@ -15,8 +15,8 @@ const AccordionItem = React.forwardRef<
   <AccordionPrimitive.Item
     ref={ref}
     className={cn(
-      "border-b border-[var(--pv-border)] first:border-t transition-colors duration-300 data-[state=open]:bg-[var(--pv-surface)]/85 dark:data-[state=open]:bg-[var(--pv-bg)]/70",
-      className
+      'data-[state=open]:bg-[var(--pv-surface)]/85 dark:data-[state=open]:bg-[var(--pv-bg)]/70 border-b border-[var(--pv-border)] transition-colors duration-300 first:border-t-0 last:border-b-0',
+      className,
     )}
     {...props}
   />
@@ -31,9 +31,9 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between gap-4 px-6 py-6 text-left text-lg font-semibold transition-all duration-300 md:px-8",
-        "text-[var(--pv-text)] hover:text-[var(--pv-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]",
-        className
+        'flex flex-1 items-center justify-between gap-4 px-6 py-6 text-left text-lg font-semibold transition-all duration-300 md:px-8',
+        'text-[var(--pv-text)] hover:text-[var(--pv-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
+        className,
       )}
       {...props}
     >
@@ -50,10 +50,10 @@ const AccordionContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <AccordionPrimitive.Content
     ref={ref}
-    className="data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up overflow-hidden text-[var(--pv-text-muted)] transition-all duration-300"
+    className="overflow-hidden text-[var(--pv-text-muted)] transition-all duration-300 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
     {...props}
   >
-    <div className={cn("px-6 pb-6 text-base leading-relaxed md:px-8 md:text-lg", className)}>
+    <div className={cn('px-6 pb-6 text-base leading-relaxed md:px-8 md:text-lg', className)}>
       {children}
     </div>
   </AccordionPrimitive.Content>

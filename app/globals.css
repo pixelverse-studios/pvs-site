@@ -16,18 +16,24 @@
   --pv-danger: #ef4444;
   --pv-ring: var(--pv-primary);
   --pv-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --pv-overlay-strong: rgba(255, 255, 255, 0.82);
+  --pv-overlay-soft: rgba(255, 255, 255, 0.65);
+  --pv-overlay-glow: rgba(169, 173, 255, 0.45);
   --pv-radius: 1rem;
   --pv-radius-sm: 0.5rem;
   --pv-radius-lg: 1.5rem;
 }
 
 .dark {
-  --pv-bg: #0a0a0f;
-  --pv-surface: #12121a;
-  --pv-text: #ffffff;
-  --pv-text-muted: #b3b3c2;
-  --pv-border: #1f1f2a;
-  --pv-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --pv-bg: #04031a;
+  --pv-surface: #111539;
+  --pv-text: #f4f6ff;
+  --pv-text-muted: #9fa6dd;
+  --pv-border: #262d62;
+  --pv-shadow: 0 38px 92px -46px rgba(12, 14, 52, 0.8);
+  --pv-overlay-strong: rgba(6, 7, 30, 0.88);
+  --pv-overlay-soft: rgba(24, 26, 72, 0.68);
+  --pv-overlay-glow: rgba(34, 36, 108, 0.5);
 }
 
 html {

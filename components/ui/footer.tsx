@@ -22,8 +22,8 @@ export function Footer({ className, links = [], cta, ...props }: FooterProps) {
   return (
     <footer
       className={cn(
-        'border-t border-[var(--pv-border)] bg-[var(--pv-surface)]/70 backdrop-blur',
-        className
+        'bg-[var(--pv-surface)]/70 border-t border-[var(--pv-border)] backdrop-blur',
+        className,
       )}
       {...props}
     >
@@ -33,8 +33,7 @@ export function Footer({ className, links = [], cta, ...props }: FooterProps) {
             PixelVerse Studios
           </Link>
           <p className="max-w-md text-sm text-[var(--pv-text-muted)]">
-            Building immersive experiences across worlds. Crafted with a scalable design system and accessible
-            foundations.
+            Building websites that work. Designed for people, built to grow.
           </p>
           <small>&copy; {new Date().getFullYear()} PixelVerse Studios. All rights reserved.</small>
         </div>

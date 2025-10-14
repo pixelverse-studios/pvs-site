@@ -22,18 +22,17 @@ export function PortfolioTrustSection() {
       <Container className="space-y-12">
         <MotionSection as="div" className="space-y-5 text-center">
           <MotionItem>
-            <h2 className="text-3xl font-semibold md:text-4xl">Trust Through Collaboration</h2>
+            <h2 className="text-3xl font-semibold md:text-4xl"></h2>
           </MotionItem>
           <MotionItem delay={0.08}>
-            <p className="mx-auto max-w-3xl text-lg text-[var(--pv-text-muted)] md:text-xl">
-              Our portfolio shows the variety of industries we serve — but what stays the same is our
-              focus on clarity, usability, and results. Each project is a collaboration. We listen,
-              adapt, and deliver a website that reflects your vision while adding UX strategy and
-              technical expertise.
-            </p>
+            <p className="mx-auto max-w-3xl text-lg text-[var(--pv-text-muted)] md:text-xl"></p>
           </MotionItem>
         </MotionSection>
-        <MotionSection as="div" className="mx-auto grid gap-6 sm:grid-cols-2 md:grid-cols-3" delay={0.12}>
+        <MotionSection
+          as="div"
+          className="mx-auto grid gap-6 sm:grid-cols-2 md:grid-cols-3"
+          delay={0.12}
+        >
           {clientHighlights.map((client, index) => (
             <MotionItem
               key={client.name}

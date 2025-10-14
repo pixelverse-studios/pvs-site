@@ -15,11 +15,12 @@ import { cn } from "@/lib/utils";
 export interface ModalProps extends React.ComponentProps<typeof Dialog> {}
 
 export interface ModalContentProps extends React.ComponentProps<typeof DialogContent> {
-  title?: string;
+  title?: React.ReactNode;
   description?: React.ReactNode;
   footer?: React.ReactNode;
   headerClassName?: string;
   contentClassName?: string;
+  headerContent?: React.ReactNode;
 }
 
 export function Modal({ children, ...props }: ModalProps) {
@@ -33,6 +34,7 @@ export function ModalContent({
   title,
   description,
   footer,
+  headerContent,
   children,
   ...props
 }: ModalContentProps) {
@@ -44,16 +46,26 @@ export function ModalContent({
       )}
       {...props}
     >
-      {(title || description) && (
+      {(headerContent || title || description) && (
         <DialogHeader
           className={cn(
             "relative space-y-3 rounded-t-pv-lg bg-[linear-gradient(135deg,var(--pv-primary),var(--pv-primary-2))] px-6 py-7 text-left text-white shadow-[0_20px_50px_-35px_rgba(63,0,233,0.75)]",
             headerClassName
           )}
         >
-          {title && <DialogTitle className="text-2xl font-semibold text-white">{title}</DialogTitle>}
-          {description && (
-            <DialogDescription className="text-sm text-white/85">{description}</DialogDescription>
+          {headerContent ? (
+            headerContent
+          ) : (
+            <>
+              {title && (
+                <DialogTitle className="text-xl font-medium text-white">{title}</DialogTitle>
+              )}
+              {description && (
+                <DialogDescription className="text-sm text-white/85">
+                  {description}
+                </DialogDescription>
+              )}
+            </>
           )}
           <div className="absolute inset-x-0 bottom-0 h-px bg-white/25" aria-hidden />
         </DialogHeader>

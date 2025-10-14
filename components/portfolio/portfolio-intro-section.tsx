@@ -3,7 +3,7 @@ import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
 export function PortfolioIntroSection() {
   return (
-    <section className="bg-[var(--pv-surface)] pt-hero pb-16 md:pb-24">
+    <section className="pt-hero bg-[var(--pv-surface)] pb-16 md:pb-24">
       <Container className="max-w-3xl text-center">
         <MotionSection as="div" className="space-y-6">
           <MotionItem>
@@ -18,7 +18,7 @@ export function PortfolioIntroSection() {
           </MotionItem>
           <MotionItem delay={0.16}>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
-              Every project tells a story — about growth, trust, and digital transformation. Explore
+              Every project tells a story - about growth, trust, and digital transformation. Explore
               the work we’ve done and see how we help businesses like yours succeed online.
             </p>
           </MotionItem>

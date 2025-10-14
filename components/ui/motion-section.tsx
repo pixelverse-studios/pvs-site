@@ -19,6 +19,7 @@ interface MotionSectionProps extends BaseMotionProps {
   delay?: number;
   as?: MotionSectionElement;
   motionProps?: MotionProps;
+  triggerOnViewport?: boolean;
 }
 
 export function MotionSection({
@@ -26,7 +27,8 @@ export function MotionSection({
   className,
   delay = 0,
   as = 'section',
-  motionProps
+  motionProps,
+  triggerOnViewport = true
 }: MotionSectionProps) {
   const componentMap: Record<MotionSectionElement, any> = {
     div: motion.div,
@@ -35,12 +37,13 @@ export function MotionSection({
   };
 
   const Component = componentMap[as] ?? motion.section;
+  const viewportProps = triggerOnViewport
+    ? { initial: 'hidden' as const, whileInView: 'visible' as const, viewport }
+    : {};
 
   return (
     <Component
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewport}
+      {...viewportProps}
       variants={{
         hidden: {},
         visible: {

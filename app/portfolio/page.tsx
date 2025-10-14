@@ -8,7 +8,7 @@ import { ProjectShowcaseSection } from '@/components/portfolio/project-showcase-
 export const metadata: Metadata = {
   title: 'Portfolio | PixelVerse Studios',
   description:
-    'Explore PixelVerse Studios client work across industries, highlighting growth-focused web design, UX strategy, and custom development results.'
+    'Explore PixelVerse Studios client work across industries, highlighting growth-focused web design, UX strategy, and custom development results.',
 };
 
 export default function PortfolioPage() {
@@ -16,7 +16,6 @@ export default function PortfolioPage() {
     <main>
       <PortfolioIntroSection />
       <ProjectShowcaseSection />
-      <PortfolioTrustSection />
       <PortfolioClosingCtaSection />
     </main>
   );

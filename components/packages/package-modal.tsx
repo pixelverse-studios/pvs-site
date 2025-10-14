@@ -3,6 +3,7 @@ import Link from 'next/link';
 import type { PackageDetail } from '@/data/packages';
 import { Button } from '@/components/ui/button';
 import { Modal, ModalContent } from '@/components/ui/modal';
+import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
 
 export interface PackageModalProps {
   pkg: PackageDetail | null;
@@ -15,8 +16,21 @@ export function PackageModal({ pkg, open, onOpenChange }: PackageModalProps) {
     <Modal open={open} onOpenChange={onOpenChange}>
       {pkg && (
         <ModalContent
-          title={pkg.name}
-          description={`${pkg.price} · Ideal for ${pkg.ideal}`}
+          headerContent={
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-[0.26em] text-white/75">
+                  {pkg.level}
+                </p>
+                <DialogTitle className="text-xl font-medium leading-tight text-white">
+                  {pkg.name}
+                </DialogTitle>
+              </div>
+              <DialogDescription className="text-sm text-white/85">
+                {pkg.price} · Ideal for {pkg.ideal}
+              </DialogDescription>
+            </div>
+          }
           contentClassName="space-y-6"
           footer={
             <div className="flex w-full flex-col justify-between gap-3 text-sm text-[var(--pv-text-muted)] md:flex-row md:text-base">
@@ -70,7 +84,7 @@ export function PackageModal({ pkg, open, onOpenChange }: PackageModalProps) {
               <p>
                 Ready to explore{' '}
                 <span className="font-semibold text-[var(--pv-text)] dark:text-white">
-                  {pkg.name}
+                  {pkg.level} {pkg.name}
                 </span>{' '}
                 for your team? Let&apos;s schedule a discovery call and walk through timelines,
                 deliverables, and onboarding.
