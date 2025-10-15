@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import { Container } from '@/components/ui/container';
 import {
   Card,
@@ -30,6 +32,7 @@ const projects = [
       'New design makes booking easier, leading to more online inquiries.',
     ],
     url: 'https://www.jonespressurewashingnj.com',
+    img: '/projects/JPW.png',
   },
   {
     name: '360 Degree Care',
@@ -39,24 +42,27 @@ const projects = [
       'Delivered a scalable, SEO-optimized build focused on accessibility, engagement, and measurable growth in site performance.',
     ],
     highlights: [
-      'Session duration doubled thanks to simplified service flows.',
-      'Content management system empowers the team to update care plans in minutes.',
-      'WCAG-focused design improved accessibility scores across devices.',
+      'Designed a calm, trustworthy visual identity to connect with families.',
+      'Structured content for clarity, readability, and improved user navigation.',
+      'Boosted search visibility and engagement through on-page SEO strategy.',
     ],
     url: 'https://www.360degreecare.net',
+    img: '/projects/360.png',
   },
   {
     name: 'Domani',
     industry: 'Productivity SaaS',
     summary: [
-      'Partnered with the founding team to translate product vision into a high-converting marketing site.',
+      'Created an easy-to-use productivity app that helps users plan tomorrow, tonight.',
+      'Focused on intuitive flow, minimal design, and a distraction-free experience that encourages daily consistency.',
     ],
     highlights: [
-      'Lifted free-trial signups by 35% with clearer feature storytelling.',
-      'Internationalized content rollout launched in two weeks using modular builds.',
-      'Analytics-ready architecture made onboarding funnels measurable from day one.',
+      'Applied behavioral science and UX research to encourage consistent nightly planning habits.',
+      'Simplified the planning process to help users focus on priorities, not overwhelm.',
+      'Designed a visually calm interface that supports focus and reduces decision fatigue.',
     ],
     url: 'https://www.domani-app.com',
+    img: '/projects/Domani1.png',
   },
 ];
 
@@ -89,9 +95,15 @@ export function ProjectShowcaseSection() {
                 <div
                   className={`relative h-48 w-full overflow-hidden ${projectAccentGradients[index % projectAccentGradients.length]} transition-transform duration-300 group-hover:scale-[1.02]`}
                 >
-                  <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(5,5,19,0.25),rgba(8,8,17,0.55))]" />
-                  <div className="absolute inset-6 rounded-pv border border-dashed border-white/25 dark:border-white/10" />
-                  <div className="absolute inset-0 flex items-center justify-center"></div>
+                  <Image
+                    src={project.img}
+                    alt={`${project.name} project screenshot`}
+                    fill
+                    priority={index === 0}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.05]"
+                  />
                 </div>
                 <CardHeader className="mb-5 flex-1 space-y-3">
                   <CardTitle>{project.name}</CardTitle>

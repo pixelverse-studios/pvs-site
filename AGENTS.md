@@ -236,3 +236,9 @@ Page Section: [hero/features/pricing/etc]
 11. **Documentation in /docs**: ALL documentation must be in the docs/ directory
 
 Don't change any immediately provided context in work scope. You can add extra where you see fit, but any direct copy given to you needs to remain untouched.
+
+## 🧠 Bergen County SEO Workflow
+
+- Maintain the master SEO checklist at `docs/features/bergen-seo-checklist.md`; mark items complete as work progresses.
+- Record detailed research and planning outputs under `docs/planning/` (e.g., audience research, competitive scans, keyword matrix).
+- After each SEO task or checklist update, log progress in `docs/planning/bergen-seo-todo.md` and create an audit entry in `docs/audits/landing/`.

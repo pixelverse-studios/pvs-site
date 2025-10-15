@@ -7,7 +7,7 @@ const team = [
     name: 'Sami',
     title: 'UX Design',
     description:
-      'Sami shapes every experience around real user journeys, turning research and narrative into intuitive flows that drive conversions.',
+      'Sami is a designer with a creative background in music, where the goal is always to make something people connect with. That same mindset guides his approach to design, understanding audiences, shaping experiences that resonate, and creating with purpose. When he’s not designing, he’s on the water fishing, recharging, and finding the balance that keeps his creativity flowing.',
   },
   {
     name: 'Phil',
