@@ -22,6 +22,8 @@ Last updated: 2025-10-14
 
 ## Immediate (Week 1–2, once domain transfer completes)
 
+- [x] **Ship baseline SEO metadata**
+  - Add canonical URLs, social previews, and keyword-focused titles/descriptions for all live routes.
 - [ ] **Confirm analytics setup**
   - Create the SiteBehaviour project for production and staging; add the tracking snippet to the Next.js root layout with a production-only guard.
   - Configure conversion goals for contact form submissions, package inquiry clicks, and phone/email interactions; test events in an incognito session.

@@ -39,18 +39,18 @@ export function PackagesSection() {
               strategy, performance, and impact.
             </p>
           </MotionItem>
-          <MotionItem className="-mx-6 overflow-x-auto pb-4 md:mx-0 md:overflow-visible md:pb-0">
+          <MotionItem className="md:mx-0">
             <MotionSection
               as="div"
-              className="flex gap-6 px-6 md:grid md:grid-cols-2 md:px-0 xl:grid-cols-4"
+              className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
               delay={0.1}
             >
               {packages.map((pkg, index) => (
                 <MotionItem key={pkg.id} delay={index * 0.08}>
-                  <Card className="bg-[var(--pv-bg)]/95 flex h-full min-w-[280px] flex-col border border-[var(--pv-border)] transition-all duration-200 hover:-translate-y-1 hover:border-[var(--pv-primary)] hover:shadow-pv md:min-w-0">
+                  <Card className="bg-[var(--pv-bg)]/95 flex h-full flex-col border border-[var(--pv-border)] transition-all duration-200 hover:-translate-y-1 hover:border-[var(--pv-primary)] hover:shadow-pv">
                     <CardHeader className="grid gap-4 border-b border-[var(--pv-border)] pb-6">
                       <div className="min-h-[92px] space-y-3">
-                        <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[var(--pv-primary)]">
+                        <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[var(--pv-primary)] dark:text-[var(--pv-primary-2)]">
                           {pkg.level}
                         </p>
                         <CardTitle className="text-lg font-medium leading-7 text-[var(--pv-text)]">

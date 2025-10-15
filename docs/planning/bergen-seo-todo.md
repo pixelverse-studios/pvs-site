@@ -19,3 +19,4 @@ Use this planning file to track progress:
 - 2025-10-14: Launched `/bergen-county` hub route with hero, services, town grid, proof, and CTA sections (see `app/bergen-county/page.tsx`).
 - 2025-10-14: Refined Bergen hub copy to spotlight PixelVerse services while keeping Bergen targeting (see `components/bergen/*`).
 - 2025-10-14: Redesigned town coverage grid with segmented cards and highlights (see `components/bergen/bergen-towns-section.tsx`).
+- 2025-10-15: Implemented canonical URLs and social sharing metadata across live routes (see `lib/metadata.ts` and `app/*/page.tsx`).

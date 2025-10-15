@@ -6,6 +6,7 @@ import './globals.css';
 import { Footer } from '@/components/ui/footer';
 import { Navbar } from '@/components/ui/navbar';
 import { ThemeProvider } from '@/components/theme-provider';
+import { sharedMetadata } from '@/lib/metadata';
 
 const headingFont = Poppins({
   subsets: ['latin'],
@@ -18,9 +19,69 @@ const bodyFont = Inter({
   variable: '--font-body',
 });
 
+const { siteUrl, siteName, defaultOgImage } = sharedMetadata;
+
 export const metadata: Metadata = {
-  title: 'PixelVerse Studios Design System',
-  description: 'PixelVerse Studios design system with light and dark theming.',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: `${siteName} | Custom Web Design & SEO`,
+    template: `%s | ${siteName}`,
+  },
+  description:
+    'PixelVerse Studios crafts custom-coded marketing websites with UX-first design, blazing performance, and SEO foundations that drive conversions.',
+  keywords: [
+    'PixelVerse Studios',
+    'custom web design',
+    'Next.js development agency',
+    'Bergen County SEO',
+    'UX-first websites',
+  ],
+  authors: [{ name: 'PixelVerse Studios' }],
+  creator: 'PixelVerse Studios',
+  publisher: 'PixelVerse Studios',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: `${siteName} | Custom Web Design & SEO`,
+    description:
+      'PixelVerse Studios crafts custom-coded marketing websites with UX-first design, blazing performance, and SEO foundations that drive conversions.',
+    url: siteUrl,
+    siteName,
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: defaultOgImage,
+        width: 1200,
+        height: 630,
+        alt: 'PixelVerse Studios brand mark',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${siteName} | Custom Web Design & SEO`,
+    description:
+      'PixelVerse Studios crafts custom-coded marketing websites with UX-first design, blazing performance, and SEO foundations that drive conversions.',
+    images: [defaultOgImage],
+  },
+  icons: {
+    icon: '/logo-light.png',
+    shortcut: '/logo-light.png',
+    apple: '/logo-light.png',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 const navItems = [

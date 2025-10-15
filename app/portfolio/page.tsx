@@ -4,12 +4,21 @@ import { PortfolioClosingCtaSection } from '@/components/portfolio/portfolio-clo
 import { PortfolioIntroSection } from '@/components/portfolio/portfolio-intro-section';
 import { PortfolioTrustSection } from '@/components/portfolio/trust-section';
 import { ProjectShowcaseSection } from '@/components/portfolio/project-showcase-section';
+import { createPageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Portfolio | PixelVerse Studios',
   description:
     'Explore PixelVerse Studios client work across industries, highlighting growth-focused web design, UX strategy, and custom development results.',
-};
+  path: '/portfolio',
+  keywords: [
+    'PixelVerse portfolio',
+    'web design case studies',
+    'custom development results',
+    'UX strategy work',
+    'Bergen County portfolio',
+  ],
+});
 
 export default function PortfolioPage() {
   return (

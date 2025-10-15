@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+
 import {
   Card,
   CardContent,
@@ -20,6 +22,21 @@ import { SectionHeader } from '@/components/ui/section-header';
 import { Textarea } from '@/components/ui/textarea';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { OverlaysDemo } from '@/components/styleguide/overlays-demo';
+import { createPageMetadata } from '@/lib/metadata';
+
+export const metadata: Metadata = createPageMetadata({
+  title: 'Styleguide | PixelVerse Studios',
+  description:
+    'Explore PixelVerse Studios design system tokens, UI primitives, and theming guidelines for consistent product experiences.',
+  path: '/styleguide',
+  keywords: [
+    'PixelVerse design system',
+    'Tailwind component library',
+    'Next.js UI kit',
+    'PixelVerse style guide',
+    'design tokens',
+  ],
+});
 
 const brandPalette = [
   { label: 'Primary', token: '--pv-primary', value: '#3f00e9' },
