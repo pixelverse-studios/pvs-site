@@ -81,7 +81,38 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isMobileNavOpen]);
-  const logoSrc = mounted && resolvedTheme === 'dark' ? '/logo-light.png' : '/logo.svg';
+  const theme = (mounted ? resolvedTheme : undefined) ?? 'light';
+  const isDarkMode = theme === 'dark';
+  const logoSrc = isDarkMode ? '/logo-light.png' : '/logo.svg';
+
+  const overlayBgClass = isDarkMode ? 'bg-black/65' : 'bg-[rgba(20,16,48,0.18)]';
+  const primaryGradientClass = isDarkMode
+    ? 'bg-[radial-gradient(140%_140%_at_30%_0%,rgba(118,70,255,0.95),rgba(10,8,32,0.98))]'
+    : 'bg-[radial-gradient(140%_140%_at_30%_0%,rgba(118,70,255,0.38),rgba(255,255,255,0.98))]';
+  const secondaryGradientClass = isDarkMode
+    ? 'bg-[linear-gradient(170deg,rgba(12,10,38,0.82)_0%,rgba(6,5,24,0.92)_45%,rgba(4,3,20,0.98)_100%)]'
+    : 'bg-[linear-gradient(176deg,rgba(255,255,255,0.85)_0%,rgba(247,243,255,0.92)_45%,rgba(240,236,255,0.97)_100%)]';
+  const drawerTextClass = isDarkMode ? 'text-white' : 'text-[var(--pv-text)]';
+  const closeButtonThemeClass = isDarkMode
+    ? 'border-white/10 bg-white/5 text-white hover:border-white/30 hover:bg-white/10'
+    : 'border-[rgba(63,0,233,0.2)] bg-white text-[var(--pv-primary)] shadow-[0_20px_44px_-32px_rgba(63,0,233,0.35)] hover:border-[rgba(63,0,233,0.35)] hover:bg-[rgba(255,255,255,0.92)]';
+  const navItemBaseClass =
+    'group flex items-center gap-4 rounded-2xl px-4 py-3 text-base transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]';
+  const navItemThemeClass = isDarkMode
+    ? 'text-white/80 hover:text-white'
+    : 'text-[var(--pv-text-muted)] hover:text-[var(--pv-text)]';
+  const navItemHoverBgClass = isDarkMode ? 'hover:bg-white/10' : 'hover:bg-[rgba(63,0,233,0.08)]';
+  const navItemActiveClass = isDarkMode
+    ? 'bg-white/12 text-white shadow-[0_24px_48px_-32px_rgba(120,65,255,0.75)]'
+    : 'bg-[rgba(63,0,233,0.12)] text-[var(--pv-primary)] shadow-[0_24px_48px_-34px_rgba(63,0,233,0.35)]';
+  const iconBaseClass =
+    'flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-200 group-focus-visible:border-[var(--pv-primary)]';
+  const iconThemeClass = isDarkMode
+    ? 'border-white/12 bg-white/10 text-white/80 group-hover:border-white/40 group-hover:bg-white/20 group-hover:text-white'
+    : 'border-[rgba(63,0,233,0.2)] bg-white text-[rgba(63,0,233,0.75)] shadow-[0_18px_36px_-32px_rgba(63,0,233,0.4)] group-hover:border-[rgba(63,0,233,0.45)] group-hover:bg-[rgba(63,0,233,0.08)] group-hover:text-[var(--pv-primary)]';
+  const iconActiveClass = isDarkMode
+    ? 'border-white/40 bg-white/20 text-white'
+    : 'border-[rgba(63,0,233,0.55)] bg-[rgba(63,0,233,0.12)] text-[var(--pv-primary)]';
 
   const mobileNavPortal =
     isMobileNavOpen && portalElement
@@ -89,7 +120,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
           <div className="fixed inset-0 z-[70] md:hidden">
             <button
               type="button"
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              className={cn('absolute inset-0 backdrop-blur-sm transition-opacity duration-300', overlayBgClass)}
               aria-hidden="true"
               tabIndex={-1}
               onClick={() => setIsMobileNavOpen(false)}
@@ -100,25 +131,38 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
               aria-labelledby="mobile-nav-title"
               className="relative flex h-full w-full flex-col overflow-hidden shadow-[0_32px_70px_-28px_rgba(18,0,64,0.65)]"
             >
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(140%_140%_at_30%_0%,rgba(118,70,255,0.95),rgba(10,8,32,0.98))]" />
-              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(170deg,rgba(12,10,38,0.82)_0%,rgba(6,5,24,0.92)_45%,rgba(4,3,20,0.98)_100%)]" />
-              <div className="relative z-10 flex min-h-[100svh] flex-col px-7 py-9 text-white">
+              <div className={cn('pointer-events-none absolute inset-0', primaryGradientClass)} />
+              <div className={cn('pointer-events-none absolute inset-0', secondaryGradientClass)} />
+              <div className={cn('relative z-10 flex min-h-[100svh] flex-col px-7 py-9', drawerTextClass)}>
                 <div className="flex items-center justify-between">
                   <Link
                     href="/"
-                    className="flex items-center gap-3 text-base font-medium text-white"
+                    className="flex items-center gap-3 text-base font-medium"
                     id="mobile-nav-title"
                     aria-label="PixelVerse Studios"
                     onClick={() => setIsMobileNavOpen(false)}
                   >
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-[18px] bg-[linear-gradient(140deg,var(--pv-primary),var(--pv-primary-2))] text-base font-semibold text-white shadow-[0_24px_48px_-24px_rgba(120,65,255,0.9)]">
-                      PV
+                    <span className="relative inline-flex h-12 w-12 items-center justify-center rounded-[18px] border border-[var(--pv-border)] bg-[var(--pv-bg)] shadow-[0_16px_34px_-20px_rgba(63,0,233,0.48)] transition-transform duration-200 hover:-translate-y-0.5 dark:border-white/10 dark:bg-[var(--pv-surface)] dark:shadow-[0_22px_46px_-28px_rgba(12,14,52,0.78)]">
+                      <Image
+                        key={`mobile-${logoSrc}`}
+                        src={logoSrc}
+                        alt="PixelVerse Studios logo"
+                        width={40}
+                        height={40}
+                        className="object-contain"
+                        priority={false}
+                      />
                     </span>
-                    <span className="text-lg font-semibold tracking-wide">PixelVerse Studios</span>
+                    <span className={cn('text-lg font-semibold tracking-wide', isDarkMode ? 'text-white' : 'text-[var(--pv-text)]')}>
+                      PixelVerse Studios
+                    </span>
                   </Link>
                   <button
                     type="button"
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                    className={cn(
+                      'inline-flex h-9 w-9 items-center justify-center rounded-full transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
+                      closeButtonThemeClass
+                    )}
                     aria-label="Close navigation"
                     ref={mobileCloseButtonRef}
                     onClick={() => setIsMobileNavOpen(false)}
@@ -140,13 +184,19 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                         aria-current={isActive ? 'page' : undefined}
                         onClick={() => setIsMobileNavOpen(false)}
                         className={cn(
-                          'group flex items-center gap-4 rounded-2xl px-4 py-3 text-base transition-all duration-200',
-                          'text-white/80 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
-                          'hover:bg-white/10',
-                          isActive && 'bg-white/10 text-white shadow-[0_24px_48px_-32px_rgba(120,65,255,0.75)] hover:bg-white/10',
+                          navItemBaseClass,
+                          navItemThemeClass,
+                          navItemHoverBgClass,
+                          isActive && navItemActiveClass
                         )}
                       >
-                        <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/10 text-white/80 transition-all duration-200 group-hover:border-white/40 group-hover:bg-white/20 group-hover:text-white group-focus-visible:border-white/50">
+                        <span
+                          className={cn(
+                            iconBaseClass,
+                            iconThemeClass,
+                            isActive && iconActiveClass
+                          )}
+                        >
                           <Icon className="h-4 w-4" aria-hidden="true" />
                         </span>
                         <span className="flex-1">{item.label}</span>
