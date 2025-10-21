@@ -6,7 +6,9 @@ import './globals.css';
 import { Footer } from '@/components/ui/footer';
 import { Navbar } from '@/components/ui/navbar';
 import { ThemeProvider } from '@/components/theme-provider';
+import { StructuredData } from '@/components/ui/structured-data';
 import { sharedMetadata } from '@/lib/metadata';
+import { localBusinessSchema } from '@/lib/structured-data';
 
 const headingFont = Poppins({
   subsets: ['latin'],
@@ -98,6 +100,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body
         className={`${headingFont.variable} ${bodyFont.variable} min-h-screen bg-[var(--pv-bg)] font-body text-[var(--pv-text)] antialiased transition-colors duration-300`}
       >
+        <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

@@ -7,9 +7,9 @@ import { ServicesProcessSection } from '@/components/services/services-process-s
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'PixelVerse Studios Services',
+  title: 'PixelVerse Services | Web Design, SEO, CRO',
   description:
-    'Explore PixelVerse Studios services spanning custom development, UX/UI design, performance, analytics, and ongoing support tailored for growth.',
+    'Explore PixelVerse service pillars—strategy, UX/UI design, development, SEO, analytics, and ongoing optimization—for revenue-focused teams.',
   path: '/services',
   keywords: [
     'web design services',

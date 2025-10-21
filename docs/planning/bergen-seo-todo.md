@@ -34,3 +34,6 @@ Use this planning file to track progress:
 - 2025-10-21: Rebuilt `/bergen-county` route using the new data-driven localization pattern (hero, highlights, proof, FAQ, CTA) plus updated metadata.
 - 2025-10-21: Relocated Bergen County hub to `/services/bergen-county` and updated internal references.
 - 2025-10-21: Updated Bergen towns grid to link directly to new `/services/[city]` routes with refreshed summaries and highlights.
+- 2025-10-21: Optimized titles and meta descriptions for Bergen County hub and town service pages to align with current SEO best practices.
+- 2025-10-21: Refresh sitewide core page metadata (home, about, services, packages, contact, portfolio, FAQ) with SEO-optimized titles and descriptions.
+- 2025-10-21: Added global LocalBusiness schema and ensured canonical handling via shared metadata helper.

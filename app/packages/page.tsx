@@ -10,9 +10,9 @@ import { WebsitePackagesSection } from '@/components/packages/website-packages-s
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Packages & Pricing | PixelVerse Studios',
+  title: 'PixelVerse Pricing | Web Design & SEO Packages',
   description:
-    'Discover PixelVerse Studios website and SEO packages, add-ons, and retention incentives designed to scale with your business.',
+    'Review PixelVerse website and SEO packages, automation add-ons, and retention incentives built to scale with growing service brands.',
   path: '/packages',
   keywords: [
     'web design pricing',

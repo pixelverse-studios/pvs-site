@@ -10,7 +10,7 @@ import { createPageMetadata } from '@/lib/metadata';
 export const metadata: Metadata = createPageMetadata({
   title: 'About PixelVerse Studios',
   description:
-    'Discover the philosophy behind PixelVerse Studios: custom-coded builds, UX-first collaboration, and a team committed to measurable results.',
+    'Learn how PixelVerse blends UX, development, and analytics to ship custom websites with measurable outcomes for Bergen County and national brands.',
   path: '/about',
   keywords: [
     'PixelVerse Studios team',

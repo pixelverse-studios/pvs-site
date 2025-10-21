@@ -6,9 +6,9 @@ import { FaqListSection } from '@/components/faq/faq-list-section';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'FAQ | PixelVerse Studios',
+  title: 'PixelVerse FAQ | Web Design & SEO Questions',
   description:
-    'Find answers to common questions about PixelVerse Studios, from custom-coded websites to UX-first design and process expectations.',
+    'Get answers about PixelVerse processes—custom development, UX-first design, SEO retainers, timelines, and collaboration workflows.',
   path: '/faq',
   keywords: [
     'PixelVerse Studios FAQ',

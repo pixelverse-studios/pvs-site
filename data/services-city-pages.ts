@@ -61,9 +61,9 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'Fort Lee',
     state: 'NJ',
     metadata: {
-      title: 'Fort Lee NJ Web Design & Local SEO Services | PixelVerse Studios',
+      title: 'Fort Lee NJ Web Design & Local SEO Agency | PixelVerse',
       description:
-        'Win Fort Lee searches with custom-coded websites, professional services positioning, and conversion tracking built for ambitious Hudson River small businesses.',
+        'PixelVerse builds custom-coded websites, conversion funnels, and local SEO for Fort Lee law firms, medical specialists, and high-end hospitality brands.',
       keywords: [
         'Fort Lee web design',
         'Fort Lee NJ SEO',
@@ -176,9 +176,9 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'Cliffside Park',
     state: 'NJ',
     metadata: {
-      title: 'Cliffside Park NJ Local SEO & Web Design | PixelVerse Studios',
+      title: 'Cliffside Park NJ Web Design & Local SEO | PixelVerse',
       description:
-        'Launch high-converting websites for Cliffside Park salons, wellness studios, home service providers, and boutique retailers with PixelVerse’s custom development, SEO, and analytics sprints.',
+        'PixelVerse delivers booking-ready sites and local SEO programs for Cliffside Park salons, wellness studios, contractors, and neighborhood restaurants.',
       keywords: [
         'Cliffside Park web design',
         'Cliffside Park SEO agency',
@@ -285,9 +285,9 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'River Vale',
     state: 'NJ',
     metadata: {
-      title: 'River Vale NJ SEO-Friendly Web Design | PixelVerse Studios',
+      title: 'River Vale NJ Web Design & Local SEO Agency | PixelVerse',
       description:
-        'Earn River Vale trust with custom-coded websites, homeowner-focused SEO, and analytics that track every lead back to your local campaigns.',
+        'PixelVerse builds trust-driven websites, content hubs, and local SEO campaigns for River Vale home services, financial advisors, and professional firms.',
       keywords: [
         'River Vale web design',
         'River Vale local SEO',
@@ -400,9 +400,9 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'Hackensack',
     state: 'NJ',
     metadata: {
-      title: 'Hackensack NJ Local SEO & Web Design | PixelVerse Studios',
+      title: 'Hackensack NJ Web Design & Enterprise SEO | PixelVerse',
       description:
-        'Stand out in Hackensack with enterprise-grade web design, compliance-focused SEO, and analytics that prove revenue impact.',
+        'PixelVerse engineers ADA-compliant websites, regulated-industry SEO, and analytics for Hackensack medical groups, law firms, and multi-location service brands.',
       keywords: [
         'Hackensack web design',
         'Hackensack SEO agency',
@@ -515,9 +515,9 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'Paramus',
     state: 'NJ',
     metadata: {
-      title: 'Paramus NJ Retail & Service SEO Websites | PixelVerse Studios',
+      title: 'Paramus NJ Retail Web Design & Local SEO | PixelVerse',
       description:
-        'Capture Paramus shoppers with fast, conversion-first websites, retail SEO, and analytics that track demand across Route 17 and Garden State Plaza.',
+        'PixelVerse powers fast, promo-ready websites, ecommerce integrations, and local SEO campaigns for Paramus retailers, showrooms, and service studios.',
       keywords: [
         'Paramus web design',
         'Paramus SEO agency',
