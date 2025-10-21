@@ -20,3 +20,14 @@ Use this planning file to track progress:
 - 2025-10-14: Refined Bergen hub copy to spotlight PixelVerse services while keeping Bergen targeting (see `components/bergen/*`).
 - 2025-10-14: Redesigned town coverage grid with segmented cards and highlights (see `components/bergen/bergen-towns-section.tsx`).
 - 2025-10-15: Implemented canonical URLs and social sharing metadata across live routes (see `lib/metadata.ts` and `app/*/page.tsx`).
+- 2025-10-21: Drafted outline for Bergen County local SEO city pages (Fort Lee, Cliffside Park, River Vale, Hackensack, Paramus) with layered local content while preserving core services copy.
+- 2025-10-21: Evaluated localized services page strategy for duplicate-content risk and outlined enhancements to strengthen town-level SEO signals.
+- 2025-10-21: Shipped localized `/services/[city]` routes for Fort Lee, Cliffside Park, River Vale, Hackensack, and Paramus with unique metadata, proof, FAQs, and CTAs layered atop shared services modules.
+- 2025-10-21: Added `/public/logo.png` fallback asset to resolve Next image optimizer error during dev builds.
+- 2025-10-21: Evaluated URL structure options for localized services pages (`/services/[city]` vs `/services/[county]/[city]`) and confirmed current approach aligns with internal linking and SEO requirements.
+- 2025-10-21: Repositioned Fort Lee and Cliffside Park services copy around local small-business sectors instead of language targeting, including refreshed hero stats and FAQs.
+- 2025-10-21: Replaced speculative Cliffside Park proof/testimonial with roadmap-focused messaging to avoid implying existing client results.
+- 2025-10-21: Adjusted Cliffside Park proof layout to balance stat card and copy when no testimonial is available.
+- 2025-10-21: Tweaked Cliffside Park hero alignment (bullet positioning, stat card spacing) for cleaner visual rhythm.
+- 2025-10-21: Stacked Cliffside Park hero stat card content vertically to resolve remaining Step 1 spacing issues.
+- 2025-10-21: Finalized hero stat stack (heading/value/label) with dedicated flex column for consistent line order.

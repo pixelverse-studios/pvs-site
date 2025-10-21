@@ -1,15 +1,23 @@
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
-export function ServicesIntroSection() {
+type HeadingLevel = 'h1' | 'h2' | 'h3';
+
+interface ServicesIntroSectionProps {
+  headingLevel?: HeadingLevel;
+}
+
+export function ServicesIntroSection({ headingLevel = 'h1' }: ServicesIntroSectionProps) {
+  const HeadingTag = headingLevel;
+
   return (
     <section className="bg-[var(--pv-surface)] pt-hero pb-16 md:pt-hero md:pb-24">
       <Container className="max-w-3xl text-center">
         <MotionSection as="div" className="space-y-6">
           <MotionItem>
-            <h1 className="font-heading text-4xl font-semibold leading-[3rem] md:text-5xl md:leading-[3.5rem]">
+            <HeadingTag className="font-heading text-4xl font-semibold leading-[3rem] md:text-5xl md:leading-[3.5rem]">
               Services tailored to strategy, performance, and real outcomes
-            </h1>
+            </HeadingTag>
           </MotionItem>
           <MotionItem delay={0.08}>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">

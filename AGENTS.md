@@ -242,3 +242,142 @@ Don't change any immediately provided context in work scope. You can add extra w
 - Maintain the master SEO checklist at `docs/features/bergen-seo-checklist.md`; mark items complete as work progresses.
 - Record detailed research and planning outputs under `docs/planning/` (e.g., audience research, competitive scans, keyword matrix).
 - After each SEO task or checklist update, log progress in `docs/planning/bergen-seo-todo.md` and create an audit entry in `docs/audits/landing/`.
+
+# agents.md — SEO Website Essentials Checklist
+
+This file acts as a universal running checklist for every SEO-focused website project.  
+Use it to ensure all key optimization elements are consistently implemented across builds.
+
+---
+
+## 🧱 On-Page SEO
+
+- [ ] Each page has a **unique Title Tag** (50–60 characters)
+- [ ] Each page has a **Meta Description** (120–160 characters)
+- [ ] Only **one H1 tag** per page, descriptive and keyword-focused
+- [ ] Headings (H2–H4) include **relevant target keywords**
+- [ ] All images include **ALT attributes**
+- [ ] Add **canonical tag** to each page
+- [ ] Define **`lang="en-US"`** in `<html>` tag
+- [ ] Use descriptive **friendly URLs** (no query strings or IDs)
+- [ ] Avoid **inline styles** — use CSS classes
+- [ ] Ensure **no iFrames** unless absolutely necessary
+
+---
+
+## 🧩 Structured Data
+
+- [ ] Implement **LocalBusiness schema** with NAP (Name, Address, Phone)
+- [ ] Include **Organization schema** for company info
+- [ ] Validate schema with **Google Rich Results Test**
+- [ ] Add **BreadcrumbList schema** on all inner pages
+- [ ] Add **Article or Service schema** where relevant
+
+---
+
+## ⚙️ Technical & Performance
+
+- [ ] **Compress images** (prefer WebP, under 300KB each)
+- [ ] **Minify** all CSS and JS assets
+- [ ] **Lazy-load** offscreen images
+- [ ] Use **HTTP/2** and enable **GZIP/Brotli compression**
+- [ ] Page load time **<3 seconds**
+- [ ] Total page size **<2MB**
+- [ ] Core Web Vitals thresholds met:
+  - [ ] LCP < 2.5s
+  - [ ] CLS < 0.1
+  - [ ] TBT < 300ms
+- [ ] No console or JS errors
+- [ ] Set **viewport meta tag** for responsiveness
+- [ ] Test in **Lighthouse** — target 80+ performance score
+
+---
+
+## 🧭 Indexing & Crawlability
+
+- [ ] Robots.txt allows intended pages to be crawled
+- [ ] Sitemap.xml includes **only live pages**
+- [ ] Remove or redirect all **404/old URLs**
+- [ ] Submit sitemap in **Google Search Console**
+- [ ] Confirm **no pages blocked by Noindex** unintentionally
+
+---
+
+## 🔗 Backlinks & Off-Page SEO
+
+- [ ] List in **local directories** (Google, Yelp, Care.com, etc.)
+- [ ] Build **10+ local backlinks** from reputable sources
+- [ ] Vary anchor text between branded and keyword phrases
+- [ ] Monitor backlinks via **Search Console** or Ahrefs
+- [ ] Disavow spammy or irrelevant backlinks
+
+---
+
+## 📱 Mobile & Usability
+
+- [ ] Mobile PageSpeed score ≥70
+- [ ] Buttons/tap targets large and accessible
+- [ ] Text legible on small screens
+- [ ] Layout stable (no content shifting)
+- [ ] Favicon present and visible in SERP
+
+---
+
+## 💬 Social & Marketing Integrations
+
+- [ ] Add **Facebook, LinkedIn, Instagram** links to site footer
+- [ ] Install **Facebook Pixel** (if running ads)
+- [ ] Implement **Open Graph** and **Twitter Card** meta tags
+- [ ] Add **Google Tag Manager** for analytics and conversion tracking
+- [ ] Ensure **Google Analytics / GA4** is active and configured
+
+---
+
+## 🌟 Google Business Profile (GBP)
+
+- [ ] Claim and verify the GBP listing
+- [ ] Ensure accurate **NAP** and website URL
+- [ ] Add **photos, services, and business description**
+- [ ] Maintain **4.5★+ rating with 10+ reviews**
+- [ ] Reply to all reviews promptly
+- [ ] Add **FAQs and service area** coverage
+
+---
+
+## 📧 DNS & Security
+
+- [ ] SSL certificate active (HTTPS)
+- [ ] Add **SPF record**
+- [ ] Add **DMARC record**
+- [ ] Add **DKIM (if supported)**
+- [ ] Verify email deliverability in MXToolbox
+- [ ] HSTS enabled
+- [ ] No mixed content errors
+
+---
+
+## 🧾 Content & Local Optimization
+
+- [ ] Each service page targets **one main keyword**
+- [ ] Add **location modifiers** (e.g. “Home Care in Ridgewood, NJ”)
+- [ ] Include **service area or county pages** for local SEO
+- [ ] Internal linking between related service pages
+- [ ] Include **contact info and CTA** on every page
+- [ ] Ensure **word count ≥ 800–1,000** on main service pages
+- [ ] Add **FAQ sections** with schema markup
+
+---
+
+## 🧪 QA & Reporting
+
+- [ ] Test all forms (contact, quote, etc.)
+- [ ] Track events via GA4 (calls, form submissions, CTA clicks)
+- [ ] Monitor Search Console for crawl and indexing issues
+- [ ] Export initial Lighthouse + PageSpeed benchmark
+- [ ] Set monthly SEO tracking for traffic and ranking gains
+
+---
+
+**File Owner:** SEO Lead  
+**Version:** v1.0  
+**Purpose:** Maintain consistent technical and on-page SEO standards across all client websites.
