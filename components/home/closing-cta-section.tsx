@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { Button } from '@/components/ui/button';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
@@ -17,8 +19,8 @@ export function ClosingCtaSection() {
             </h2>
           </MotionItem>
           <MotionItem delay={0.1}>
-            <Button size="lg" variant="cta" className="w-full md:w-auto">
-              Contact Us to Start Your Project
+            <Button asChild size="lg" variant="cta" className="w-full md:w-auto">
+              <Link href="/contact">Contact Us to Start Your Project</Link>
             </Button>
           </MotionItem>
         </MotionSection>
