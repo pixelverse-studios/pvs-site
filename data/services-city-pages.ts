@@ -167,7 +167,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
       },
       secondary: {
         label: 'View Bergen County hub',
-        href: '/bergen-county'
+        href: '/services/bergen-county'
       }
     }
   },
@@ -276,7 +276,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
       },
       secondary: {
         label: 'Explore Bergen County strategy',
-        href: '/bergen-county'
+        href: '/services/bergen-county'
       }
     }
   },
@@ -391,7 +391,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
       },
       secondary: {
         label: 'See Bergen County insights',
-        href: '/bergen-county'
+        href: '/services/bergen-county'
       }
     }
   },
@@ -506,7 +506,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
       },
       secondary: {
         label: 'Review Bergen County coverage',
-        href: '/bergen-county'
+        href: '/services/bergen-county'
       }
     }
   },
@@ -621,7 +621,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
       },
       secondary: {
         label: 'See Bergen County roadmap',
-        href: '/bergen-county'
+        href: '/services/bergen-county'
       }
     }
   }

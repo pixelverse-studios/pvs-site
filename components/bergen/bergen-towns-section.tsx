@@ -10,49 +10,41 @@ const towns = [
     name: 'Hackensack',
     segment: 'Healthcare & Professional Services',
     summary:
-      'Hospitals, medical groups, and law firms needing compliant experiences, appointment funnels, and legal keyword dominance.',
-    highlights: ['HIPAA-ready forms & intake flows', 'Service-area schema & location landing pages'],
-    href: '/bergen-county/hackensack-web-design'
+      'County seat organizations—health systems, legal teams, and professional firms—needing compliant UX, intake flows, and authority-driven content.',
+    highlights: ['ADA & HIPAA-ready form workflows', 'Multi-location service schema + intake tracking'],
+    href: '/services/hackensack'
   },
   {
     name: 'Fort Lee',
-    segment: 'Hospitality & Luxury Services',
+    segment: 'Professional & Hospitality Brands',
     summary:
-      'Upscale hospitality, dining, and cross-border services looking for premium visual storytelling and bilingual UX.',
-    highlights: ['High-impact visuals & animation polish', 'Multilingual content workflows + SEO'],
-    href: '/bergen-county/fort-lee-web-design'
+      'Law, medical, hospitality, and high-touch service firms competing with Manhattan agencies while serving Hudson River clientele.',
+    highlights: ['Premium brand system & Manhattan-grade visuals', 'Cross-Hudson SEO with conversion analytics'],
+    href: '/services/fort-lee'
+  },
+  {
+    name: 'Cliffside Park',
+    segment: 'Storefront & Service Operators',
+    summary:
+      'Salons, wellness studios, contractors, and restaurants lining Anderson Avenue that need booking-ready landing clusters and review velocity.',
+    highlights: ['Service landing clusters + booking flows', 'Review prompts & GBP optimization at scale'],
+    href: '/services/cliffside-park'
   },
   {
     name: 'Paramus',
-    segment: 'Retail & Ecommerce',
+    segment: 'Retail & Performance Marketing',
     summary:
-      'Retail flagships, malls, and dealerships that need conversion-ready promo pages and inventory updates at speed.',
-    highlights: ['Promo page system with rapid publishing', 'POS/inventory integrations & CRO testing'],
-    href: '/bergen-county/paramus-web-design'
+      'Route 4/17 retailers, showrooms, and performance studios requiring promo agility, ecommerce readiness, and attribution clarity.',
+    highlights: ['Promo + product landing templates', 'Dashboards tying in-store and digital conversions'],
+    href: '/services/paramus'
   },
   {
-    name: 'Ridgewood',
-    segment: 'Boutique Retail & Dining',
+    name: 'River Vale',
+    segment: 'Home & Professional Services',
     summary:
-      'Boutique retailers and restaurants seeking immersive storytelling, community event coverage, and reservations.',
-    highlights: ['CMS storytelling modules + event calendar', 'Accessibility & brand consistency audits'],
-    href: '/bergen-county/ridgewood-web-design'
-  },
-  {
-    name: 'Englewood',
-    segment: 'Healthcare, Arts & SMB',
-    summary:
-      'Clinics, arts venues, and local businesses that require secure forms, ticketing, and CRM alignment.',
-    highlights: ['Secure booking & ticketing integrations', 'Analytics dashboards for campaign ROI'],
-    href: '/bergen-county/englewood-web-design'
-  },
-  {
-    name: 'Teaneck',
-    segment: 'Nonprofit & Education',
-    summary:
-      'Nonprofits, schools, and community orgs focused on accessibility, donation funnels, and staff-friendly CMS.',
-    highlights: ['Donation funnels & CRM automation', 'Onboarding, documentation, and support retainers'],
-    href: '/bergen-county/teaneck-web-design'
+      'Home improvement, financial, and professional partners serving Pascack Valley homeowners who demand trust-building content and fast follow-up.',
+    highlights: ['Service area pages with persona storytelling', 'GA4 segmentation by neighborhood + campaign'],
+    href: '/services/river-vale'
   }
 ];
 

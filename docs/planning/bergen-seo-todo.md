@@ -31,3 +31,6 @@ Use this planning file to track progress:
 - 2025-10-21: Tweaked Cliffside Park hero alignment (bullet positioning, stat card spacing) for cleaner visual rhythm.
 - 2025-10-21: Stacked Cliffside Park hero stat card content vertically to resolve remaining Step 1 spacing issues.
 - 2025-10-21: Finalized hero stat stack (heading/value/label) with dedicated flex column for consistent line order.
+- 2025-10-21: Rebuilt `/bergen-county` route using the new data-driven localization pattern (hero, highlights, proof, FAQ, CTA) plus updated metadata.
+- 2025-10-21: Relocated Bergen County hub to `/services/bergen-county` and updated internal references.
+- 2025-10-21: Updated Bergen towns grid to link directly to new `/services/[city]` routes with refreshed summaries and highlights.
