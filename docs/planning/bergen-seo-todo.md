@@ -1,6 +1,6 @@
 # Bergen County SEO Execution TODO
 
-Last updated: 2025-10-14
+Last updated: 2025-10-22
 
 All actionable tasks now live in the master checklist: `docs/features/bergen-seo-checklist.md`.
 
@@ -37,3 +37,4 @@ Use this planning file to track progress:
 - 2025-10-21: Optimized titles and meta descriptions for Bergen County hub and town service pages to align with current SEO best practices.
 - 2025-10-21: Refresh sitewide core page metadata (home, about, services, packages, contact, portfolio, FAQ) with SEO-optimized titles and descriptions.
 - 2025-10-21: Added global LocalBusiness schema and ensured canonical handling via shared metadata helper.
+- 2025-10-22: Added Instagram, Facebook, YouTube, and Twitter social links to the global footer and homepage closing CTA (see `components/ui/social-links.tsx`, `components/ui/footer.tsx`, `components/home/closing-cta-section.tsx`).

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 import { Button } from './button';
+import { SocialLinks } from './social-links';
 
 export interface FooterLink {
   label: string;
@@ -37,8 +38,8 @@ export function Footer({ className, links = [], cta, ...props }: FooterProps) {
           </p>
           <small>&copy; {new Date().getFullYear()} PixelVerse Studios. All rights reserved.</small>
         </div>
-        <div className="flex w-full flex-col items-start gap-4 md:w-auto md:items-end">
-          <nav className="flex w-full flex-wrap gap-4 text-sm text-[var(--pv-text-muted)] md:w-auto">
+        <div className="flex w-full flex-col items-start gap-6 md:w-auto md:items-end">
+          <nav className="flex w-full flex-wrap gap-4 text-sm text-[var(--pv-text-muted)] md:w-auto md:justify-end">
             {links.map((link) => (
               <Link
                 key={link.href}
@@ -49,6 +50,10 @@ export function Footer({ className, links = [], cta, ...props }: FooterProps) {
               </Link>
             ))}
           </nav>
+          <div className="flex w-full flex-col gap-2 md:items-end">
+            <span className="text-sm font-semibold text-[var(--pv-text-muted)]">Follow PixelVerse</span>
+            <SocialLinks className="flex-wrap justify-start md:justify-end" iconClassName="bg-[var(--pv-bg)]" />
+          </div>
           {cta && (
             <Button asChild variant="cta" className="w-full md:w-auto">
               <Link href={cta.href}>{cta.label}</Link>

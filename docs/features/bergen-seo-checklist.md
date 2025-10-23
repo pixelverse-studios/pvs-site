@@ -37,6 +37,8 @@ Last updated: 2025-10-14
 - [ ] **Outline reusable templates**
   - Define requirements for location and service page templates (hero variants, testimonial blocks, FAQs, CTA placements).
   - List existing UI components to reuse and identify gaps that require new primitives.
+- [x] **Enable social profile pathways**
+  - Surface Instagram, Facebook, YouTube, and Twitter links in the footer and closing CTA once profiles are live.
 
 ## Short Term (Weeks 3–6)
 

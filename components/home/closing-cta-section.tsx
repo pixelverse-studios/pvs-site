@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
+import { SocialLinks } from '@/components/ui/social-links';
 
 import { Container } from './container';
 
@@ -22,6 +23,15 @@ export function ClosingCtaSection() {
             <Button asChild size="lg" variant="cta" className="w-full md:w-auto">
               <Link href="/contact">Contact Us to Start Your Project</Link>
             </Button>
+          </MotionItem>
+          <MotionItem delay={0.15}>
+            <div className="space-y-3">
+              <p className="text-sm text-[var(--pv-text-muted)]">
+                Prefer social? Follow along for weekly UX-first drops, project breakdowns, and behind-the-scenes
+                builds.
+              </p>
+              <SocialLinks className="flex-wrap justify-center" iconClassName="bg-[var(--pv-bg)]" />
+            </div>
           </MotionItem>
         </MotionSection>
       </Container>
