@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: light;
   --pv-primary: #3f00e9;
   --pv-primary-2: #c947ff;
   --pv-gradient: linear-gradient(90deg, var(--pv-primary), var(--pv-primary-2));
@@ -25,6 +26,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --pv-bg: #04031a;
   --pv-surface: #111539;
   --pv-text: #f4f6ff;

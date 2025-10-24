@@ -101,12 +101,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         className={`${headingFont.variable} ${bodyFont.variable} min-h-screen bg-[var(--pv-bg)] font-body text-[var(--pv-text)] antialiased transition-colors duration-300`}
       >
         <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider disableTransitionOnChange>
           <div className="flex min-h-screen flex-col">
             <Navbar items={navItems} cta={{ label: 'Get Started', href: '/contact' }} />
             <div className="flex-1">{children}</div>

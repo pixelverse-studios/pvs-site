@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
@@ -13,14 +14,103 @@ import {
   SelectGroup,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
 const SUBMIT_THROTTLE_MS = 5000;
-const LEADS_ENDPOINT = process.env.NEXT_PUBLIC_LEADS_ENDPOINT ?? '/api/leads';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
+const LEADS_ENDPOINT = API_BASE_URL
+  ? `${API_BASE_URL.replace(/\/$/, '')}/api/leads`
+  : '/api/leads';
+
+const createDefaultFormValues = (): Partial<ContactFormValues> => ({
+  name: '',
+  email: '',
+  budget: undefined,
+  timeline: undefined,
+  briefSummary: '',
+  hasSeenPackages: undefined,
+  honeypot: '',
+});
+
+const EMAIL_FALLBACK_REGEX = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
+
+function escapeForRegex(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function formatMessageWithEmailLink(message: string, supportEmail?: string, subjectLine?: string): ReactNode {
+  const trimmedEmail = supportEmail?.trim();
+
+  const buildMailtoHref = (email: string) => {
+    const base = `mailto:${email}`;
+    if (subjectLine && subjectLine.trim().length > 0) {
+      return `${base}?subject=${encodeURIComponent(subjectLine.trim())}`;
+    }
+    return base;
+  };
+
+  const transformMessage = (regex: RegExp, emailForHref?: string) => {
+    const nodes: ReactNode[] = [];
+    let lastIndex = 0;
+
+    let match = regex.exec(message);
+    let index = 0;
+
+    while (match) {
+      const matchedEmail = match[0];
+      const startIndex = match.index ?? 0;
+
+      if (startIndex > lastIndex) {
+        nodes.push(message.slice(lastIndex, startIndex));
+      }
+
+      const hrefEmail = emailForHref ?? matchedEmail;
+
+      nodes.push(
+        <a
+          key={`email-${startIndex}-${index}`}
+          href={buildMailtoHref(hrefEmail)}
+          className="underline decoration-[var(--pv-primary)] decoration-2 underline-offset-4 transition hover:text-[var(--pv-primary)] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)]/40"
+        >
+          {matchedEmail}
+        </a>,
+      );
+
+      lastIndex = startIndex + matchedEmail.length;
+      index += 1;
+      match = regex.exec(message);
+    }
+
+    if (index === 0) {
+      return null;
+    }
+
+    if (lastIndex < message.length) {
+      nodes.push(message.slice(lastIndex));
+    }
+
+    return nodes;
+  };
+
+  if (trimmedEmail) {
+    const targetedRegex = new RegExp(escapeForRegex(trimmedEmail), 'gi');
+    const result = transformMessage(targetedRegex, trimmedEmail);
+    if (result) {
+      return result;
+    }
+  }
+
+  const fallbackResult = transformMessage(EMAIL_FALLBACK_REGEX);
+  if (fallbackResult) {
+    return fallbackResult;
+  }
+
+  return message;
+}
 
 const budgetValues = ['<1k', '1-3k', '3-6k', '6-10k', '10k+'] as const;
 type BudgetValue = (typeof budgetValues)[number];
@@ -29,7 +119,7 @@ const budgetOptions = [
   { label: '$1k – $3k', value: budgetValues[1] },
   { label: '$3k – $6k', value: budgetValues[2] },
   { label: '$6k – $10k', value: budgetValues[3] },
-  { label: '$10k+', value: budgetValues[4] }
+  { label: '$10k+', value: budgetValues[4] },
 ] as const;
 
 const timelineValues = ['ASAP', '1-2mo', '3-6mo', '6+mo', 'unsure'] as const;
@@ -39,40 +129,39 @@ const timelineOptions = [
   { label: '1–2 months', value: timelineValues[1] },
   { label: '3–6 months', value: timelineValues[2] },
   { label: '6+ months', value: timelineValues[3] },
-  { label: 'Not sure yet', value: timelineValues[4] }
+  { label: 'Not sure yet', value: timelineValues[4] },
 ] as const;
 
 const formSchema = z.object({
   name: z.string().min(2, 'Please enter your name.'),
   email: z.string().email('Enter a valid email address.'),
   budget: z.enum(budgetValues, {
-    required_error: 'Select a project budget range.'
+    required_error: 'Select a project budget range.',
   }),
   timeline: z.enum(timelineValues, {
-    required_error: 'Select your project timeline.'
+    required_error: 'Select your project timeline.',
   }),
   briefSummary: z
     .string()
     .min(10, 'Share a short overview of your project (at least 10 characters).'),
   hasSeenPackages: z.enum(['yes', 'no'], {
-    required_error: 'Let us know if you have reviewed the Packages page.'
+    required_error: 'Let us know if you have reviewed the Packages page.',
   }),
-  honeypot: z
-    .string()
-    .max(0)
-    .optional()
+  honeypot: z.string().max(0).optional(),
 });
 
 type ContactFormValues = z.infer<typeof formSchema>;
 
+type ToastMessage = string | ReactNode;
+
 type ToastState =
   | {
       type: 'success';
-      message: string;
+      message: ToastMessage;
     }
   | {
       type: 'error';
-      message: string;
+      message: ToastMessage;
     };
 
 export function ContactForm() {
@@ -81,25 +170,18 @@ export function ContactForm() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting, isValid }
+    formState: { errors, isSubmitting, isValid },
   } = useForm<ContactFormValues>({
     resolver: zodResolver(formSchema),
     mode: 'onChange',
     reValidateMode: 'onChange',
-    defaultValues: {
-      name: '',
-      email: '',
-      budget: undefined,
-      timeline: undefined,
-      briefSummary: '',
-      hasSeenPackages: undefined,
-      honeypot: ''
-    }
+    defaultValues: createDefaultFormValues(),
   });
 
   const [toast, setToast] = useState<ToastState | null>(null);
   const [cooldownUntil, setCooldownUntil] = useState<number | null>(null);
   const [cooldownMs, setCooldownMs] = useState(0);
+  const [formResetKey, setFormResetKey] = useState(0);
 
   const isCoolingDown = cooldownUntil !== null;
 
@@ -129,7 +211,19 @@ export function ContactForm() {
     setCooldownUntil(Date.now() + SUBMIT_THROTTLE_MS);
   }, []);
 
-  const clearToast = useCallback(() => setToast(null), []);
+  const resetForm = useCallback(() => {
+    reset(createDefaultFormValues());
+    setFormResetKey((prev) => prev + 1);
+  }, [reset]);
+
+  const clearToast = useCallback(() => {
+    setToast(null);
+  }, []);
+
+  const dismissToast = useCallback(() => {
+    setToast(null);
+    resetForm();
+  }, [resetForm]);
 
   type LeadApiPayload = {
     name: ContactFormValues['name'];
@@ -141,17 +235,57 @@ export function ContactForm() {
     honeypot: string;
   };
 
+type LeadSubmissionError = Error & {
+  status?: number;
+  supportEmail?: string;
+  subjectLine?: string;
+};
+
   const submitLead = useCallback(async (payload: LeadApiPayload) => {
     const response = await fetch(LEADS_ENDPOINT, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to submit lead');
+      let errorMessage = 'Failed to submit lead.';
+      let supportEmail: string | undefined;
+      let subjectLine: string | undefined;
+
+      try {
+        const rawBody = await response.text();
+        if (rawBody) {
+          try {
+            const parsed = JSON.parse(rawBody);
+            if (typeof parsed?.message === 'string' && parsed.message.trim().length > 0) {
+              errorMessage = parsed.message.trim();
+            } else if (rawBody.trim().length > 0) {
+              errorMessage = rawBody.trim();
+            }
+            if (typeof parsed?.supportEmail === 'string' && parsed.supportEmail.trim().length > 0) {
+              supportEmail = parsed.supportEmail.trim();
+            }
+            if (typeof parsed?.subjectLine === 'string' && parsed.subjectLine.trim().length > 0) {
+              subjectLine = parsed.subjectLine.trim();
+            }
+          } catch {
+            if (rawBody.trim().length > 0) {
+              errorMessage = rawBody.trim();
+            }
+          }
+        }
+      } catch (bodyReadError) {
+        console.error('Unable to read lead submission error response', bodyReadError);
+      }
+
+      const error = new Error(errorMessage) as LeadSubmissionError;
+      error.status = response.status;
+      error.supportEmail = supportEmail;
+      error.subjectLine = subjectLine;
+      throw error;
     }
   }, []);
 
@@ -161,10 +295,10 @@ export function ContactForm() {
       const { honeypot, hasSeenPackages, name, email, budget, timeline, briefSummary } = values;
 
       if (honeypot && honeypot.length > 0) {
-        reset();
+        resetForm();
         setToast({
           type: 'success',
-          message: "Thanks! We'll reach out soon."
+          message: "Thanks! We'll reach out soon.",
         });
         throttleSubmission();
         return;
@@ -178,33 +312,36 @@ export function ContactForm() {
           timeline,
           briefSummary,
           hasSeenPackages: hasSeenPackages === 'yes',
-          honeypot: honeypot ?? ''
+          honeypot: honeypot ?? '',
         };
 
         await submitLead(payload);
-        reset();
+        resetForm();
         setToast({
           type: 'success',
-          message: "Thanks for reaching out! We'll contact you within 24–48 hours."
+          message: "Thanks for reaching out! We'll contact you within 24–48 hours.",
         });
       } catch (error) {
         console.error(error);
+        let message = 'Something went wrong while submitting. Please try again.';
+
+        if (error instanceof Error && typeof error.message === 'string' && error.message.trim().length > 0) {
+          message = error.message.trim();
+        }
+
+        const supportEmail = typeof error === 'object' && error !== null ? (error as LeadSubmissionError).supportEmail : undefined;
+        const subjectLine = typeof error === 'object' && error !== null ? (error as LeadSubmissionError).subjectLine : undefined;
+
         setToast({
           type: 'error',
-          message: 'Something went wrong while submitting. Please try again.'
+          message: formatMessageWithEmailLink(message, supportEmail, subjectLine),
         });
       } finally {
         throttleSubmission();
       }
     },
-    [clearToast, reset, submitLead, throttleSubmission]
+    [clearToast, resetForm, submitLead, throttleSubmission],
   );
-
-  const retrySubmit = useCallback(() => {
-    setCooldownUntil(null);
-    setToast(null);
-    void handleSubmit(onSubmit)();
-  }, [handleSubmit, onSubmit]);
 
   const cooldownLabel = useMemo(() => {
     if (!isCoolingDown) return null;
@@ -220,7 +357,7 @@ export function ContactForm() {
             'flex items-center justify-between gap-4 rounded-pv-sm border px-4 py-3 text-sm shadow-sm',
             toast.type === 'success'
               ? 'border-[var(--pv-success)]/50 bg-[var(--pv-success)]/10 text-[var(--pv-success)]'
-              : 'border-[var(--pv-danger)]/50 bg-[var(--pv-danger)]/10 text-[var(--pv-danger)]'
+              : 'border-[var(--pv-danger)]/50 bg-[var(--pv-danger)]/10 text-[var(--pv-danger)]',
           )}
         >
           <div className="flex items-center gap-2">
@@ -233,10 +370,7 @@ export function ContactForm() {
           </div>
           {toast.type === 'error' ? (
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" onClick={retrySubmit}>
-                Retry
-              </Button>
-              <Button variant="ghost" size="sm" onClick={clearToast}>
+              <Button variant="ghost" size="sm" onClick={dismissToast}>
                 Dismiss
               </Button>
             </div>
@@ -317,6 +451,7 @@ export function ContactForm() {
               control={control}
               render={({ field }) => (
                 <Select
+                  key={`budget-${formResetKey}`}
                   onValueChange={field.onChange}
                   value={field.value ?? undefined}
                   disabled={isSubmitting || isCoolingDown}
@@ -355,6 +490,7 @@ export function ContactForm() {
               control={control}
               render={({ field }) => (
                 <Select
+                  key={`timeline-${formResetKey}`}
                   onValueChange={field.onChange}
                   value={field.value ?? undefined}
                   disabled={isSubmitting || isCoolingDown}

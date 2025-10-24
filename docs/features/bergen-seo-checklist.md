@@ -1,6 +1,6 @@
 # Bergen County SEO Master TODO
 
-Last updated: 2025-10-14
+Last updated: 2025-10-23
 
 ## Foundation (Pre-Transfer & Research)
 
@@ -39,6 +39,8 @@ Last updated: 2025-10-14
   - List existing UI components to reuse and identify gaps that require new primitives.
 - [x] **Enable social profile pathways**
   - Surface Instagram, Facebook, YouTube, and Twitter links in the footer and closing CTA once profiles are live.
+- [x] **Configure XML sitemap**
+  - Generate App Router sitemap covering core routes and localized service pages (`app/sitemap.ts`).
 
 ## Short Term (Weeks 3–6)
 
