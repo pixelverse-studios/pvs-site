@@ -41,3 +41,4 @@ Use this planning file to track progress:
 - 2025-10-23: Implemented Next.js sitemap route aggregating core pages and localized services slugs (see `app/sitemap.ts`).
 - 2025-10-25: Integrated SiteBehaviour tracking script globally via the root layout to activate analytics capture (see `app/layout.tsx`).
 - 2025-10-25: Corrected the global site URL to `pixelversestudios.io` so sitemap and canonical metadata reference the live domain (see `lib/metadata.ts`).
+- 2025-10-25: Replaced the custom sitemap route with `next-sitemap`, adding automated generation, robots.txt, and city service paths at build time (see `next-sitemap.config.js`, `package.json`).
