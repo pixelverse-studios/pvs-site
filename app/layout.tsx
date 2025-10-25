@@ -1,3 +1,4 @@
+import Script from 'next/script';
 import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
 import type { ReactNode } from 'react';
@@ -22,6 +23,11 @@ const bodyFont = Inter({
 });
 
 const { siteUrl, siteName, defaultOgImage } = sharedMetadata;
+
+const siteBehaviourSecret = '6120790c-39c8-4c54-8e1c-558bddff11d3';
+
+// Bootstraps SiteBehaviour analytics loader after hydration.
+const siteBehaviourBootstrap = `(function(){try{if(window.location&&window.location.search&&window.location.search.indexOf('capture-sitebehaviour-heatmap')!==-1){sessionStorage.setItem('capture-sitebehaviour-heatmap','_');}var sbSiteSecret='${siteBehaviourSecret}';window.sitebehaviourTrackingSecret=sbSiteSecret;var scriptElement=document.createElement('script');scriptElement.defer=true;scriptElement.id='site-behaviour-script-v2';scriptElement.src='https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret='+sbSiteSecret;document.head.appendChild(scriptElement);}catch(e){console.error(e);}})();`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -100,6 +106,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body
         className={`${headingFont.variable} ${bodyFont.variable} min-h-screen bg-[var(--pv-bg)] font-body text-[var(--pv-text)] antialiased transition-colors duration-300`}
       >
+        <Script id="sitebehaviour-tracking" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: siteBehaviourBootstrap }} />
         <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
         <ThemeProvider disableTransitionOnChange>
           <div className="flex min-h-screen flex-col">

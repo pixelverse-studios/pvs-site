@@ -39,3 +39,5 @@ Use this planning file to track progress:
 - 2025-10-21: Added global LocalBusiness schema and ensured canonical handling via shared metadata helper.
 - 2025-10-22: Added Instagram, Facebook, YouTube, and Twitter social links to the global footer and homepage closing CTA (see `components/ui/social-links.tsx`, `components/ui/footer.tsx`, `components/home/closing-cta-section.tsx`).
 - 2025-10-23: Implemented Next.js sitemap route aggregating core pages and localized services slugs (see `app/sitemap.ts`).
+- 2025-10-25: Integrated SiteBehaviour tracking script globally via the root layout to activate analytics capture (see `app/layout.tsx`).
+- 2025-10-25: Corrected the global site URL to `pixelversestudios.io` so sitemap and canonical metadata reference the live domain (see `lib/metadata.ts`).

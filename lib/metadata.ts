@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-const siteUrl = 'https://pixelversestudios.com';
+const siteUrl = 'https://pixelversestudios.io';
 const siteName = 'PixelVerse Studios';
 const defaultOgImage = `${siteUrl}/logo-light.png`;
 
