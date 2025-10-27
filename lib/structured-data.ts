@@ -1,6 +1,9 @@
 import { sharedMetadata } from '@/lib/metadata';
 
-const { siteUrl } = sharedMetadata;
+const {
+  siteUrl,
+  logo: { light: lightModeLogo }
+} = sharedMetadata;
 
 export const localBusinessSchema = {
   '@context': 'https://schema.org',
@@ -8,8 +11,8 @@ export const localBusinessSchema = {
   '@id': `${siteUrl}/#organization`,
   name: 'PixelVerse Studios',
   url: siteUrl,
-  logo: `${siteUrl}/logo-light.png`,
-  image: `${siteUrl}/logo-light.png`,
+  logo: lightModeLogo,
+  image: lightModeLogo,
   description:
     'PixelVerse Studios crafts custom-coded marketing websites with UX-first design, performance, and local SEO for Bergen County service brands.',
   email: 'info@pixelversestudios.io',

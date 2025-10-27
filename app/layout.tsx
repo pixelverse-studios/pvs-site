@@ -75,9 +75,9 @@ export const metadata: Metadata = {
     images: [defaultOgImage],
   },
   icons: {
-    icon: '/logo-light.png',
-    shortcut: '/logo-light.png',
-    apple: '/logo-light.png',
+    icon: sharedMetadata.logo.light,
+    shortcut: sharedMetadata.logo.light,
+    apple: sharedMetadata.logo.light,
   },
   robots: {
     index: true,
@@ -97,6 +97,7 @@ const navItems = [
   { label: 'Services', href: '/services' },
   { label: 'Packages', href: '/packages' },
   { label: 'Portfolio', href: '/portfolio' },
+  { label: 'Blog', href: '/blog' },
   { label: 'FAQ', href: '/faq' },
 ];
 

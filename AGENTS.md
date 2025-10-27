@@ -99,6 +99,7 @@ Each major page has its own component directory under `/components/` and a Next.
 - Gradients: `bg-[var(--pv-gradient)]`
 - Dark mode: toggle via `class="dark"`
 - Lighthouse ≥ 90, WCAG AA contrast
+- Blog landing hero and article headers must include `pt-hero` so fixed navigation never overlaps content
 
 ## ✅ Deliverables
 
@@ -375,6 +376,17 @@ Use it to ensure all key optimization elements are consistently implemented acro
 - [ ] Monitor Search Console for crawl and indexing issues
 - [ ] Export initial Lighthouse + PageSpeed benchmark
 - [ ] Set monthly SEO tracking for traffic and ranking gains
+
+---
+
+## 📝 Blog Content Guidelines
+
+- Anchor every post to one primary keyword cluster; write a unique title tag (55-60 characters), meta description (<=160 characters), and H1 that mirrors the intent.
+- Structure for scanners: lead with an intent-matching intro, use descriptive H2/H3s, short paragraphs, bullets, and jump links for long reads.
+- Deliver depth and authority with original insights, trustworthy data, supporting media, and citations that outclass competing results.
+- Drive engagement signals: hook readers in the first 100 words, weave internal links every ~250 words, surface in-article CTAs, and close with a concrete next step.
+- Keep technical hygiene tight: compress and lazy-load media, use descriptive alt text, ensure mobile responsiveness, and add appropriate schema (FAQ, Article) when relevant.
+- Measure and iterate quarterly by reviewing Search Console queries, scroll depth, and CTA performance; update copy, links, and metadata based on what the data shows.
 
 ---
 

@@ -4,11 +4,12 @@ import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { LucideIcon } from 'lucide-react';
-import { Box, Folder, HelpCircle, Info, Menu, Sparkles, X } from 'lucide-react';
+import { Box, Folder, HelpCircle, Info, Menu, PenSquare, Sparkles, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { createPortal } from 'react-dom';
 
+import { sharedMetadata } from '@/lib/metadata';
 import { cn } from '@/lib/utils';
 
 import { Button } from './button';
@@ -27,11 +28,15 @@ export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
   };
 }
 
+const LIGHT_LOGO_URL = sharedMetadata.logo.light;
+const DARK_LOGO_URL = sharedMetadata.logo.dark;
+
 const mobileNavIcons: Record<string, LucideIcon> = {
   About: Info,
   Services: Sparkles,
   Packages: Box,
   Portfolio: Folder,
+  Blog: PenSquare,
   FAQ: HelpCircle,
 };
 
@@ -83,7 +88,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
   }, [isMobileNavOpen]);
   const theme = (mounted ? resolvedTheme : undefined) ?? 'light';
   const isDarkMode = theme === 'dark';
-  const logoSrc = isDarkMode ? '/logo-light.png' : '/logo.svg';
+  const logoSrc = isDarkMode ? DARK_LOGO_URL : LIGHT_LOGO_URL;
 
   const overlayBgClass = isDarkMode ? 'bg-black/65' : 'bg-[rgba(20,16,48,0.18)]';
   const primaryGradientClass = isDarkMode

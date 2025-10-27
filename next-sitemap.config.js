@@ -16,13 +16,17 @@ module.exports = {
   sitemapSize: 7000,
   changefreq: 'weekly',
   priority: 0.7,
-  transform: async (config, path) => ({
-    loc: `${siteUrl}${path === '/' ? '' : path}`,
-    changefreq: path === '/' ? 'daily' : config.changefreq ?? 'weekly',
-    priority: path === '/' ? 1.0 : config.priority ?? 0.7,
-    lastmod: new Date().toISOString(),
-    ...config,
-  }),
+  transform: async (config, path) => {
+    const isHome = path === '/';
+    const loc = `${siteUrl}${isHome ? '' : path}`;
+
+    return {
+      loc,
+      changefreq: isHome ? 'daily' : config.changefreq ?? 'weekly',
+      priority: isHome ? 1.0 : config.priority ?? 0.7,
+      lastmod: new Date().toISOString(),
+    };
+  },
   additionalPaths: async () => {
     return cityServicePageSlugs.map((slug) => ({
       loc: `${siteUrl}/services/${slug}`,

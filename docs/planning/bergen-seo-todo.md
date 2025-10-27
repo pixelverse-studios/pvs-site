@@ -42,3 +42,11 @@ Use this planning file to track progress:
 - 2025-10-25: Integrated SiteBehaviour tracking script globally via the root layout to activate analytics capture (see `app/layout.tsx`).
 - 2025-10-25: Corrected the global site URL to `pixelversestudios.io` so sitemap and canonical metadata reference the live domain (see `lib/metadata.ts`).
 - 2025-10-25: Replaced the custom sitemap route with `next-sitemap`, adding automated generation, robots.txt, and city service paths at build time (see `next-sitemap.config.js`, `package.json`).
+- 2025-10-25: Refined `next-sitemap` transform to output clean URL entries in generated XML (see `next-sitemap.config.js`).
+- 2025-10-25: Swapped locally hosted logos for Cloudinary-hosted assets, updating metadata, structured data, and navbar image handling (see `lib/metadata.ts`, `app/layout.tsx`, `components/ui/navbar.tsx`, `next.config.js`).
+- 2025-10-25: Replaced the footer Twitter icon with an X.com mark to reflect current branding (see `components/ui/social-links.tsx`).
+- 2025-10-25: Added Google Business Profile link to footer social links using the shared GBP URL (see `components/ui/social-links.tsx`).
+- 2025-10-26: Launched the `/blog` hub with featured article, category pillars, and dynamic post route templates to support ongoing SEO content (see `app/blog/*`, `components/blog/*`, `data/blog-posts.ts`).
+- 2025-10-26: Refined the blog featured story layout to spotlight takeaways instead of duplicate copy, improving scanability for new readers (see `components/blog/blog-featured-post-section.tsx`, `data/blog-posts.ts`).
+- 2025-10-27: Replaced placeholder blog posts with a small business delegation article focused on why owners should outsource digital execution (see `data/blog-posts.ts`).
+- 2025-10-27: Added AI and security-focused blog post highlighting PixelVerse governance standards for intelligent automation (see `data/blog-posts.ts`).
