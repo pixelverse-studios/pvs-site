@@ -7,6 +7,15 @@ const cityServicePageSlugs = [
   'paramus',
 ];
 
+const contactContextSlugs = [
+  'bergen-county',
+  'fort-lee',
+  'cliffside-park',
+  'river-vale',
+  'hackensack',
+  'paramus',
+];
+
 const siteUrl = 'https://pixelversestudios.io';
 
 /** @type {import('next-sitemap').IConfig} */
@@ -28,11 +37,19 @@ module.exports = {
     };
   },
   additionalPaths: async () => {
-    return cityServicePageSlugs.map((slug) => ({
+    const servicePaths = cityServicePageSlugs.map((slug) => ({
       loc: `${siteUrl}/services/${slug}`,
       changefreq: 'weekly',
       priority: 0.7,
     }));
+
+    const contactPaths = contactContextSlugs.map((slug) => ({
+      loc: `${siteUrl}/contact/${slug}`,
+      changefreq: 'weekly',
+      priority: 0.7,
+    }));
+
+    return [...servicePaths, ...contactPaths];
   },
   robotsTxtOptions: {
     policies: [

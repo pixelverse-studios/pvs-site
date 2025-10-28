@@ -101,7 +101,7 @@ export const bergenCountyPage: CityServicePageDefinition = {
     body: 'Let’s audit where you stand, align on the towns that matter most, and ship a launch plan that combines design, SEO, and analytics.',
     primary: {
       label: 'Book a Bergen roadmap call',
-      href: '/contact?context=bergen-county'
+      href: '/contact/bergen-county'
     },
     secondary: {
       label: 'See our Bergen playbook',

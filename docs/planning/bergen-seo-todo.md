@@ -50,3 +50,7 @@ Use this planning file to track progress:
 - 2025-10-26: Refined the blog featured story layout to spotlight takeaways instead of duplicate copy, improving scanability for new readers (see `components/blog/blog-featured-post-section.tsx`, `data/blog-posts.ts`).
 - 2025-10-27: Replaced placeholder blog posts with a small business delegation article focused on why owners should outsource digital execution (see `data/blog-posts.ts`).
 - 2025-10-27: Added AI and security-focused blog post highlighting PixelVerse governance standards for intelligent automation (see `data/blog-posts.ts`).
+- 2025-10-27: Converted contact context parameters into dedicated routes with unique metadata to resolve canonical duplicates and support local SEO (see `app/contact/[context]/page.tsx`, `data/contact-contexts.ts`, `data/services-city-pages.ts`).
+- 2025-10-27: Added Netlify `_redirects` rules ensuring all HTTP/WWW requests 301 to the HTTPS apex domain (see `public/_redirects`).
+- 2025-10-27: Added redirect from legacy `/works` URL to `/portfolio` to resolve 404 in Search Console (see `public/_redirects`).
+- 2025-10-27: Marked `/styleguide` as noindex to keep internal tooling out of the index (see `app/styleguide/page.tsx`).

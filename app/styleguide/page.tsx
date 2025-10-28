@@ -37,6 +37,10 @@ export const metadata: Metadata = createPageMetadata({
     'design tokens',
   ],
 });
+metadata.robots = {
+  index: false,
+  follow: false,
+};
 
 const brandPalette = [
   { label: 'Primary', token: '--pv-primary', value: '#3f00e9' },

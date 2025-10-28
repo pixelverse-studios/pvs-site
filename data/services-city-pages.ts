@@ -163,7 +163,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
       body: 'We’ll audit your current presence, map the competitive set across the Hudson, and build a launch plan that keeps you visible from River Road to Main Street.',
       primary: {
         label: 'Schedule Fort Lee game plan',
-        href: '/contact?context=fort-lee'
+        href: '/contact/fort-lee'
       },
       secondary: {
         label: 'View Bergen County hub',
@@ -272,7 +272,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
       body: 'Let’s review your current site, spotlight your flagship services, and prioritize quick wins that capture Cliffside Park demand before it leaks to NYC or Edgewater.',
       primary: {
         label: 'Start Cliffside Park project',
-        href: '/contact?context=cliffside-park'
+        href: '/contact/cliffside-park'
       },
       secondary: {
         label: 'Explore Bergen County strategy',
@@ -387,7 +387,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
       body: 'We’ll review your digital footprint, uncover the local keywords worth owning, and build a roadmap that earns trust from River Vale households.',
       primary: {
         label: 'Kick off River Vale strategy',
-        href: '/contact?context=river-vale'
+        href: '/contact/river-vale'
       },
       secondary: {
         label: 'See Bergen County insights',
@@ -502,7 +502,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
       body: 'Let’s align stakeholders, map compliance requirements, and prioritize fast wins that deliver measurable growth across Bergen County.',
       primary: {
         label: 'Discuss Hackensack build',
-        href: '/contact?context=hackensack'
+        href: '/contact/hackensack'
       },
       secondary: {
         label: 'Review Bergen County coverage',
@@ -617,7 +617,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
       body: 'Share your goals, promotions, and product mix. We’ll map the local demand, tighten site performance, and build campaigns that convert shoppers before they hit Route 17.',
       primary: {
         label: 'Talk Paramus strategy',
-        href: '/contact?context=paramus'
+        href: '/contact/paramus'
       },
       secondary: {
         label: 'See Bergen County roadmap',
