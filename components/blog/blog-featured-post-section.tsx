@@ -33,7 +33,11 @@ export function BlogFeaturedPostSection({ post }: BlogFeaturedPostSectionProps) 
                 background: post.coverGradient,
               }}
             />
-            <div className="relative z-10 flex flex-col gap-12 p-10 text-white md:p-16">
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-[linear-gradient(160deg,rgba(8,6,32,0.82)_0%,rgba(8,6,32,0.68)_45%,rgba(8,6,32,0.55)_100%)]"
+            />
+            <div className="relative z-10 flex flex-col gap-10 p-8 text-white sm:gap-12 sm:p-10 md:p-16">
               <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.26em] text-white/80">
                 <span className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-3 py-1">
                   Featured Story
@@ -41,37 +45,37 @@ export function BlogFeaturedPostSection({ post }: BlogFeaturedPostSectionProps) 
                 <span>{post.category}</span>
               </div>
               <div className="grid gap-10 md:grid-cols-[minmax(0,0.62fr)_minmax(0,0.38fr)] md:items-start">
-                <div className="space-y-6">
-                  <h2 className="font-heading text-[2.5rem] font-semibold leading-[3rem] md:text-[3rem] md:leading-[3.25rem]">
+                <div className="space-y-6 text-shadow-md sm:[text-shadow:none]">
+                  <h2 className="font-heading text-[2.25rem] font-semibold leading-[2.75rem] text-white sm:text-[2.5rem] sm:leading-[3rem] md:text-[3rem] md:leading-[3.25rem]">
                     {post.title}
                   </h2>
-                  <p className="text-lg text-white/85 md:text-xl">{post.excerpt}</p>
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-white/75">
+                  <p className="text-base text-white/90 sm:text-lg md:text-xl">{post.excerpt}</p>
+                  <div className="flex flex-wrap items-center gap-3 text-sm text-white/80">
                     <span>
                       {formatBlogDate(post.publishedAt)} | {post.readingMinutes} min read
                     </span>
                     <span>{post.author.name}</span>
                   </div>
                 </div>
-                <div className="flex flex-col gap-6 rounded-[28px] border border-white/25 bg-white/85 p-8 text-left text-[var(--pv-text)] shadow-[0_28px_72px_-40px_rgba(63,0,233,0.55)] backdrop-blur-md dark:border-white/15 dark:bg-[color:var(--pv-surface)]/92 dark:text-white">
+                <div className="flex flex-col gap-6 rounded-[28px] border border-white/45 bg-white p-6 text-left text-[var(--pv-text)] shadow-[0_28px_72px_-40px_rgba(63,0,233,0.55)] dark:border-white/15 dark:bg-[color:var(--pv-surface)] dark:text-white sm:p-7 md:p-8">
                   <div className="space-y-3">
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--pv-text-muted)] dark:text-white/70">
+                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:rgba(17,17,17,0.72)] dark:text-white/70">
                       Key takeaways
                     </p>
                     {post.highlights && post.highlights.length > 0 ? (
-                      <ul className="space-y-3 text-base text-[var(--pv-text-muted)] dark:text-white/80">
+                      <ul className="space-y-3 text-base text-[var(--pv-text)] dark:text-white/85">
                         {post.highlights.map((highlight, index) => (
                           <li key={index} className="relative pl-5">
                             <span
                               aria-hidden
-                              className="absolute left-0 top-2 h-2 w-2 rounded-full bg-[rgba(63,0,233,0.75)]"
+                              className="absolute left-0 top-2 h-2 w-2 rounded-full bg-[var(--pv-primary)]"
                             />
                             {highlight}
                           </li>
                         ))}
                       </ul>
                     ) : (
-                      <p className="text-base text-[var(--pv-text-muted)] dark:text-white/80">
+                      <p className="text-base text-[var(--pv-text)] dark:text-white/85">
                         A quick read on the systems PixelVerse uses to ship campaigns that convert.
                       </p>
                     )}

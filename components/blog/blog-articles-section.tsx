@@ -27,7 +27,10 @@ export function BlogArticlesSection({
   }
 
   return (
-    <section id={id} className="border-b border-[var(--pv-border)] bg-[var(--pv-bg)]">
+    <section
+      id={id}
+      className="border-b border-[var(--pv-border)] bg-[var(--pv-bg)] scroll-mt-32 md:scroll-mt-40"
+    >
       <Container className="py-16 md:py-24">
         <div className="space-y-12">
           <SectionHeader eyebrow={eyebrow} title={title} description={description} align="left" />
@@ -45,12 +48,7 @@ export function BlogArticlesSection({
                   className="group h-full list-none"
                 >
                   <Link href={postUrl} className="block h-full">
-                    <article className="relative flex h-full flex-col gap-6 overflow-hidden rounded-3xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-7 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[rgba(63,0,233,0.35)] hover:shadow-[0_32px_64px_-40px_rgba(63,0,233,0.45)]">
-                      <div
-                        aria-hidden
-                        className="h-40 w-full rounded-2xl border border-[rgba(63,0,233,0.18)]"
-                        style={{ background: post.coverGradient }}
-                      />
+                    <article className="relative flex h-full flex-col gap-5 overflow-hidden rounded-3xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-7 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[rgba(63,0,233,0.35)] hover:shadow-[0_32px_64px_-40px_rgba(63,0,233,0.45)]">
                       <div className="space-y-4">
                         <span className="inline-flex items-center rounded-full border border-[var(--pv-border)] bg-white/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-[var(--pv-text-muted)] dark:bg-white/5 dark:text-white/70">
                           {post.category}

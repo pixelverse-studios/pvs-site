@@ -54,3 +54,10 @@ Use this planning file to track progress:
 - 2025-10-27: Added Netlify `_redirects` rules ensuring all HTTP/WWW requests 301 to the HTTPS apex domain (see `public/_redirects`).
 - 2025-10-27: Added redirect from legacy `/works` URL to `/portfolio` to resolve 404 in Search Console (see `public/_redirects`).
 - 2025-10-27: Marked `/styleguide` as noindex to keep internal tooling out of the index (see `app/styleguide/page.tsx`).
+- 2025-10-30: Tuned the blog mobile experience by offsetting the Latest section anchor for the fixed nav and tightening featured-story spacing for readability (see `components/blog/blog-articles-section.tsx`, `components/blog/blog-featured-post-section.tsx`, `app/blog/[slug]/page.tsx`).
+- 2025-10-30: Calibrated the featured story gradient overlay and white text styling for dark-mode readability (see `components/blog/blog-featured-post-section.tsx`).
+- 2025-10-30: Increased contrast for the featured story takeaway card by using a solid surface and darker copy (see `components/blog/blog-featured-post-section.tsx`).
+- 2025-10-30: Outlined two next blog topics (Bergen County local SEO playbook, analytics-driven retainer reporting) to target engagement and organic traffic.
+- 2025-10-30: Published the analytics retainer reporting article covering dashboards, cadence, and growth planning (see `data/blog-posts.ts`).
+- 2025-10-30: Removed blog card image placeholders to tighten layout while visuals are pending (see `components/blog/blog-articles-section.tsx`).
+- 2025-10-30: Corrected blog section header alignment so eyebrows don’t stretch full width (see `components/ui/section-header.tsx`).

@@ -20,7 +20,7 @@ export function SectionHeader({
   return (
     <div
       className={cn(
-        'flex flex-col gap-4',
+        'flex flex-col items-start gap-4',
         align === 'center' && 'text-center items-center',
         className
       )}

@@ -135,8 +135,8 @@ export default function BlogPostPage({ params }: { params: Params }) {
               >
                 {'<'} Back to all posts
               </Link>
-              <div className="inline-flex items-center gap-3">
-                <Badge variant="outline" className="uppercase tracking-[0.32em] text-xs">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                <Badge variant="outline" className="uppercase tracking-[0.24em] text-xs">
                   {post.category}
                 </Badge>
                 <span className="text-sm text-[var(--pv-text-muted)]">
