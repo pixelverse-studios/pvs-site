@@ -1,4 +1,11 @@
 /works   /portfolio   301!
+/pricing   /packages   301!
+/contact?context=bergen-county   /contact/bergen-county   301!
+/contact?context=fort-lee   /contact/fort-lee   301!
+/contact?context=cliffside-park   /contact/cliffside-park   301!
+/contact?context=river-vale   /contact/river-vale   301!
+/contact?context=hackensack   /contact/hackensack   301!
+/contact?context=paramus   /contact/paramus   301!
 https://www.pixelversestudios.io/*   https://pixelversestudios.io/:splat   301!
 http://pixelversestudios.io/*        https://pixelversestudios.io/:splat   301!
 http://www.pixelversestudios.io/*    https://pixelversestudios.io/:splat   301!

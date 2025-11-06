@@ -17,9 +17,9 @@ export function ContactClosingCtaSection() {
             <h2 className="text-3xl font-semibold md:text-4xl">
               Your business deserves a website that works. Let&apos;s make it happen.
             </h2>
-            <p className="max-w-2xl text-lg text-[var(--pv-text-muted)] md:text-xl">
-              We’ll craft a roadmap tailored to your goals and bring the team that can design, build,
-              and iterate alongside you.
+            <p className="m-auto max-w-2xl pt-10 text-lg text-[var(--pv-text-muted)] md:text-xl">
+              We’ll craft a roadmap tailored to your goals and bring the team that can design,
+              build, and iterate alongside you.
             </p>
           </MotionItem>
           <MotionItem delay={0.08}>

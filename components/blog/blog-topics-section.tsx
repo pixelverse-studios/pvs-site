@@ -63,11 +63,6 @@ export function BlogTopicsSection({ posts }: BlogTopicsSectionProps) {
                 key={category.name}
                 className="flex flex-col gap-6 rounded-3xl border border-[var(--pv-border)] bg-[var(--pv-bg)] p-8 text-left shadow-[0_28px_60px_-40px_rgba(63,0,233,0.25)] transition duration-300 hover:-translate-y-1 hover:border-[rgba(63,0,233,0.35)]"
               >
-                <div
-                  aria-hidden
-                  className="h-32 w-full rounded-2xl border border-[rgba(63,0,233,0.18)] shadow-inner"
-                  style={{ background: category.coverGradient }}
-                />
                 <div className="space-y-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--pv-text-muted)]">
                     {category.count} {category.count === 1 ? 'article' : 'articles'}

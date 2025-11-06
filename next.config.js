@@ -20,7 +20,7 @@ const nextConfig = {
       'paramus'
     ];
 
-    return contactContextSlugs.map((slug) => ({
+    const contactContextRedirects = contactContextSlugs.map((slug) => ({
       source: '/contact',
       has: [
         {
@@ -32,6 +32,20 @@ const nextConfig = {
       destination: `/contact/${slug}`,
       permanent: true
     }));
+
+    return [
+      {
+        source: '/works',
+        destination: '/portfolio',
+        permanent: true
+      },
+      {
+        source: '/pricing',
+        destination: '/packages',
+        permanent: true
+      },
+      ...contactContextRedirects
+    ];
   }
 };
 

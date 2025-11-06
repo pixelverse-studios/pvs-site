@@ -44,8 +44,8 @@ export function BlogFeaturedPostSection({ post }: BlogFeaturedPostSectionProps) 
                 </span>
                 <span>{post.category}</span>
               </div>
-              <div className="grid gap-10 md:grid-cols-[minmax(0,0.62fr)_minmax(0,0.38fr)] md:items-start">
-                <div className="space-y-6 text-shadow-md sm:[text-shadow:none]">
+              <div className="grid grid-cols-1 gap-10 md:items-start lg:grid-cols-2">
+                <div className="text-shadow-md space-y-6 sm:[text-shadow:none]">
                   <h2 className="font-heading text-[2.25rem] font-semibold leading-[2.75rem] text-white sm:text-[2.5rem] sm:leading-[3rem] md:text-[3rem] md:leading-[3.25rem]">
                     {post.title}
                   </h2>

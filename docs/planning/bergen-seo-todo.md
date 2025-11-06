@@ -61,3 +61,10 @@ Use this planning file to track progress:
 - 2025-10-30: Published the analytics retainer reporting article covering dashboards, cadence, and growth planning (see `data/blog-posts.ts`).
 - 2025-10-30: Removed blog card image placeholders to tighten layout while visuals are pending (see `components/blog/blog-articles-section.tsx`).
 - 2025-10-30: Corrected blog section header alignment so eyebrows don’t stretch full width (see `components/ui/section-header.tsx`).
+- 2025-10-30: Updated blog data helpers so the newest post automatically becomes featured and lists stay reverse-chronological (see `data/blog-posts.ts`).
+- 2025-10-30: Removed topic card placeholders in the blog pillars section until custom artwork ships (see `components/blog/blog-topics-section.tsx`).
+- 2025-11-05: Added a framework-level redirect so legacy `/works` hits route to `/portfolio`, preventing non-existent URLs from blocking Search Console validation.
+- 2025-11-05: Added Netlify redirect rules mapping `/contact?context=` queries to the canonical `/contact/[slug]` routes to clear “alternate page with proper canonical” warnings.
+- 2025-11-05: Created `/pricing -> /packages` redirects (Next.js + Netlify) so legacy pricing URLs no longer surface as “crawled, not indexed.”
+- 2025-11-05: Updated robots policy to disallow `/_next/` and API paths to keep static assets (fonts) out of the index.
+- 2025-11-05: Added reusable footer-based local contact links (sourced from `contact-contexts`) so `/contact/[slug]` routes gain permanent internal links sitewide without bloating the primary contact page.

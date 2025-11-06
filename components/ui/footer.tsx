@@ -13,13 +13,20 @@ export interface FooterLink {
 
 export interface FooterProps extends React.HTMLAttributes<HTMLElement> {
   links?: FooterLink[];
+  localContactLinks?: FooterLink[];
   cta?: {
     label: string;
     href: string;
   };
 }
 
-export function Footer({ className, links = [], cta, ...props }: FooterProps) {
+export function Footer({
+  className,
+  links = [],
+  localContactLinks = [],
+  cta,
+  ...props
+}: FooterProps) {
   return (
     <footer
       className={cn(
@@ -38,8 +45,8 @@ export function Footer({ className, links = [], cta, ...props }: FooterProps) {
           </p>
           <small>&copy; {new Date().getFullYear()} PixelVerse Studios. All rights reserved.</small>
         </div>
-        <div className="flex w-full flex-col items-start gap-6 md:w-auto md:items-end">
-          <nav className="flex w-full flex-wrap gap-4 text-sm text-[var(--pv-text-muted)] md:w-auto md:justify-end">
+        <div className="flex w-full flex-col gap-6 md:w-auto">
+          <nav className="flex flex-wrap gap-4 text-sm text-[var(--pv-text-muted)] md:justify-end">
             {links.map((link) => (
               <Link
                 key={link.href}
@@ -50,6 +57,27 @@ export function Footer({ className, links = [], cta, ...props }: FooterProps) {
               </Link>
             ))}
           </nav>
+          {localContactLinks.length > 0 && (
+            <div className="rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-bg)]/70 p-4 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
+                Local contact
+              </p>
+              <div className="mt-3 grid gap-2 text-sm text-[var(--pv-text-muted)] md:grid-cols-2">
+                {localContactLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="flex items-center justify-between rounded-lg border border-transparent px-3 py-2 transition hover:border-[var(--pv-border)] hover:text-[var(--pv-primary)]"
+                  >
+                    <span>{link.label}</span>
+                    <span aria-hidden="true" className="text-[var(--pv-primary)]">
+                      →
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
           <div className="flex w-full flex-col gap-2 md:items-end">
             <span className="text-sm font-semibold text-[var(--pv-text-muted)]">Follow PixelVerse</span>
             <SocialLinks className="flex-wrap justify-start md:justify-end" iconClassName="bg-[var(--pv-bg)]" />

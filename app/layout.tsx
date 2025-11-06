@@ -9,6 +9,7 @@ import { Navbar } from '@/components/ui/navbar';
 import { ThemeProvider } from '@/components/theme-provider';
 import { StructuredData } from '@/components/ui/structured-data';
 import { sharedMetadata } from '@/lib/metadata';
+import { getContactContexts } from '@/data/contact-contexts';
 import { localBusinessSchema } from '@/lib/structured-data';
 
 const headingFont = Poppins({
@@ -101,6 +102,11 @@ const navItems = [
   { label: 'FAQ', href: '/faq' },
 ];
 
+const localContactLinks = getContactContexts().map((context) => ({
+  label: context.locationLabel,
+  href: `/contact/${context.slug}`,
+}));
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -113,7 +119,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div className="flex min-h-screen flex-col">
             <Navbar items={navItems} cta={{ label: 'Get Started', href: '/contact' }} />
             <div className="flex-1">{children}</div>
-            <Footer cta={{ label: 'Get in touch with us', href: '/contact' }} />
+            <Footer
+              links={navItems}
+              localContactLinks={localContactLinks}
+              cta={{ label: 'Get in touch with us', href: '/contact' }}
+            />
           </div>
         </ThemeProvider>
       </body>
