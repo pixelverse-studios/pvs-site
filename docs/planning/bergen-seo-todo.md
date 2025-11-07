@@ -68,3 +68,19 @@ Use this planning file to track progress:
 - 2025-11-05: Created `/pricing -> /packages` redirects (Next.js + Netlify) so legacy pricing URLs no longer surface as “crawled, not indexed.”
 - 2025-11-05: Updated robots policy to disallow `/_next/` and API paths to keep static assets (fonts) out of the index.
 - 2025-11-05: Added reusable footer-based local contact links (sourced from `contact-contexts`) so `/contact/[slug]` routes gain permanent internal links sitewide without bloating the primary contact page.
+- 2025-11-06: Rewrote the UX vs UI blog entry to match the latest messaging, CTA, and highlight structure while keeping the existing slug live.
+- 2025-11-06: Published a new blog on why custom website development outperforms builders, highlighting performance, scalability, and partnership benefits (see `data/blog-posts.ts`).
+- 2025-11-06: Added a local SEO-focused blog explaining why search visibility matters for small businesses and how PixelVerse packages meet that demand (see `data/blog-posts.ts`).
+- 2025-11-07: Added Teaneck, Fair Lawn, Englewood, Bergenfield, and Ridgewood city service data plus aligned contact contexts to extend Bergen County SEO coverage.
+- 2025-11-07: Updated the Bergen hub town coverage grid so the new city routes surface alongside the original five priority locations.
+- 2025-11-07: Simplified the footer local contact block to spotlight the Bergen County contact route plus a “View all Bergen locations” link for a scalable pattern.
+- 2025-11-07: Updated city + county services closing CTAs to route visitors to their respective localized contact pages instead of the generic contact form.
+- 2025-11-07: Removed the secondary CTA button from the blog hero to keep focus on reading flow and reduce redundant contact promos on editorial pages.
+- 2025-11-07: Improved dark-mode readability of the “Read article” link on blog cards by using a lighter text color.
+- 2025-11-07: Temporarily commented out the “What we write about for service brands” topics section on `/blog` per request.
+- 2025-11-07: Adjusted the blog CTA secondary button styling so “See recent launches” remains visible in light mode while retaining dark-mode contrast.
+- 2025-11-07: Integrated the campaign tracker (client component + analytics utilities) to capture `src` ad sources, SiteBehaviour events, and per-session tracking.
+- 2025-11-07: Removed UTM tracking/middleware so attribution now relies solely on `src=` parameters with light cookie storage for the selected source.
+- 2025-11-07: Added a `src=test` option so we can validate SiteBehaviour wiring after deploy without skewing real campaign data.
+- 2025-11-07: Refreshed `/blog` copy (hero, featured label, latest posts intro, closing CTA) and explicitly featured the SEO article to replace the analytics story.
+- 2025-11-07: Adjusted the blog closing secondary CTA styling so it stays visible on light backgrounds while retaining dark-mode contrast.

@@ -67,12 +67,13 @@ export default function BlogPage() {
       <BlogFeaturedPostSection post={featuredPost} />
       <BlogArticlesSection
         id="latest"
-        eyebrow="Latest research"
-        title="Fresh perspectives for your next marketing sprint"
-        description="These posts break down how we ship SEO-ready marketing sites, safeguard performance, and prove ROI with analytics from day one."
+        eyebrow="Latest Posts"
+        title="Fresh perspectives on design, code, and the web itself"
+        description="Explore the latest from the PixelVerse team—insights, discussions, and lessons that make sense of how modern websites are built, optimized, and scaled."
         posts={remainingPosts}
       />
-      <BlogTopicsSection posts={posts} />
+      {/* Temporarily hidden at user request */}
+      {/* <BlogTopicsSection posts={posts} /> */}
       <BlogCtaSection />
       <StructuredData id="pixelverse-blog-schema" data={blogSchema} />
     </main>

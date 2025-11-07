@@ -34,7 +34,7 @@ export default function BergenCountyPage() {
       <CityServicesProofSection proof={page.proof} city={page.city} />
       <CityServicesFaqSection city={page.city} faq={page.faq} />
       <CityServicesCtaSection cta={page.cta} />
-      <ServicesClosingCtaSection />
+      <ServicesClosingCtaSection contactHref="/contact/bergen-county" />
     </main>
   );
 }

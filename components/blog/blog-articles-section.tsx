@@ -63,7 +63,7 @@ export function BlogArticlesSection({
                         <span>{post.readingMinutes} min read</span>
                       </div>
                       <div className="pt-4">
-                        <span className="group/button inline-flex items-center gap-2 text-sm font-semibold text-[var(--pv-primary)] transition-colors duration-200">
+                        <span className="group/button inline-flex items-center gap-2 text-sm font-semibold text-[var(--pv-primary)] transition-colors duration-200 dark:text-white">
                           Read article
                           <span
                             aria-hidden

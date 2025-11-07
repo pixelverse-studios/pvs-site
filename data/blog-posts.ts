@@ -46,100 +46,420 @@ const defaultAuthor: BlogPostAuthor = {
 };
 
 const blogPosts: BlogPost[] = [
-  // {
-  //   slug: 'ux-vs-ui-precision-for-service-brands',
-  //   title: 'UX vs UI: Precision Your Service Brand Can Feel',
-  //   excerpt:
-  //     'UX explains how someone moves through your experience; UI determines whether those decisions feel effortless. Here is how we break down both disciplines for clients who want clarity before they invest.',
-  //   category: 'Experience Design',
-  //   tags: ['UX Strategy', 'UI Systems', 'Conversion Design'],
-  //   publishedAt: '2025-11-02T10:00:00.000Z',
-  //   readingMinutes: 9,
-  //   coverGradient: 'linear-gradient(135deg, rgba(201,71,255,0.36) 0%, rgba(63,0,233,0.65) 100%)',
-  //   accentColor: 'rgba(201,71,255,0.5)',
-  //   author: defaultAuthor,
-  //   content: [
-  //     {
-  //       type: 'paragraph',
-  //       content:
-  //         'Most founders know they need “better UX and UI” but struggle to explain what that actually means in a project scope. When teams blur the two disciplines, budgets get chewed up on surface-level polish while the experience gaps blocking conversions stay untouched.',
-  //     },
-  //     {
-  //       type: 'heading',
-  //       content: 'UX defines the journey, UI choreographs the touchpoints',
-  //     },
-  //     {
-  //       type: 'paragraph',
-  //       content:
-  //         'User experience (UX) is the blueprint that maps intent, friction, and decision points across every screen. User interface (UI) translates that strategy into the buttons, typography, spacing, and micro-interactions people actually see. You need both because strategic clarity without visual execution is invisible, and pixel-perfect layouts without research feel random.',
-  //     },
-  //     {
-  //       type: 'list',
-  //       items: [
-  //         'UX asks, “What is the user trying to do and what gets in the way?”',
-  //         'UI asks, “How do we present the decision so it feels confident and branded?”',
-  //         'Together they ensure every scroll, click, and form field reinforces trust.',
-  //       ],
-  //     },
-  //     {
-  //       type: 'heading',
-  //       content: 'Why clients feel the difference in revenue, not opinions',
-  //     },
-  //     {
-  //       type: 'paragraph',
-  //       content:
-  //         'When UX is dialed in, support tickets drop because information hierarchy is clear. When UI is deliberate, credibility spikes because your visuals match the premium positioning you sell. The lift shows up in metrics executives care about: lower bounce rates, stronger lead quality, and faster sales calls because prospects already “get it.”',
-  //     },
-  //     {
-  //       type: 'quote',
-  //       content:
-  //         'UX anchors the promise, UI makes it tangible. If either is missing, prospects assume the rest of the engagement will be just as disjointed.',
-  //       attribution: 'Sami, UX/UI Lead',
-  //     },
-  //     {
-  //       type: 'heading',
-  //       content: 'The PixelVerse workflow keeps UX and UI accountable',
-  //     },
-  //     {
-  //       type: 'paragraph',
-  //       content:
-  //         'We treat UX and UI as interlocking tracks with shared milestones so stakeholders always know what is being validated. Research is not a mystery document and design is not a surprise reveal.',
-  //     },
-  //     {
-  //       type: 'list',
-  //       ordered: true,
-  //       items: [
-  //         'Research sprints capture qualitative interviews, heatmap reviews, and analytics pulls to prioritize jobs-to-be-done.',
-  //         'UX architecture translates findings into journey maps, content priority, and wireframes vetted against conversion goals.',
-  //         'UI systems finalize typography, motion, and component states so engineering can ship quickly without rebuilding decisions.',
-  //       ],
-  //     },
-  //     {
-  //       type: 'heading',
-  //       content: 'How to explain the value to your leadership team',
-  //     },
-  //     {
-  //       type: 'paragraph',
-  //       content:
-  //         'Skip abstract terms and frame UX and UI as risk reduction. UX reduces the chance that leads drop because they cannot find what they need. UI reduces the chance that prospects question credibility because the interface feels dated or inconsistent.',
-  //     },
-  //     {
-  //       type: 'paragraph',
-  //       content:
-  //         'Bring both conversations back to precision: every dollar you invest in research and interface systems protects downstream spend on ads, sales enablement, and support. That is why we bundle UX and UI deliverables into a single roadmap with measurable checkpoints instead of treating them like optional add-ons.',
-  //     },
-  //     {
-  //       type: 'paragraph',
-  //       content:
-  //         'Need help translating UX and UI priorities into a scoped engagement? Book a workshop and we will align your audience insights, interface inventory, and launch plan in one working session.',
-  //     },
-  //   ],
-  //   highlights: [
-  //     'UX sets the strategy for every journey while UI delivers the tactile confidence people feel on screen.',
-  //     'Treating UX and UI as a single workflow keeps research, wireframes, and component systems aligned to conversion goals.',
-  //     'Frame both disciplines as risk reduction so leadership sees direct impact on revenue, support, and trust.',
-  //   ],
-  // },
+  {
+    slug: 'why-seo-matters-for-small-businesses',
+    title: 'Why SEO Matters for Small Businesses (and How Local SEO Levels the Playing Field)',
+    excerpt:
+      'Word of mouth now starts on Google. Here is why search visibility is the most important long-term investment a small business can make—and how local SEO gets you in front of ready-to-buy neighbors.',
+    category: 'SEO Strategy',
+    tags: ['Local SEO', 'Small Business Marketing', 'Organic Growth'],
+    publishedAt: '2025-11-06T18:30:00.000Z',
+    readingMinutes: 8,
+    featured: true,
+    coverGradient: 'linear-gradient(135deg, rgba(18,40,120,0.35) 0%, rgba(201,71,255,0.5) 100%)',
+    accentColor: 'rgba(18,40,120,0.5)',
+    author: defaultAuthor,
+    content: [
+      {
+        type: 'paragraph',
+        content:
+          'Most small businesses rely on word of mouth, but today people do not ask friends first—they ask Google. SEO is the difference between being discovered at the exact moment someone needs you and sending that lead to a competitor.',
+      },
+      {
+        type: 'heading',
+        content: 'What SEO really means',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Search engine optimization is about making sure your business shows up precisely when people are looking for help—“roof repair near me,” “massage therapy in Bergen County,” or “best local bakery.”',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'When your website and Google profile are optimized, your business becomes more visible, more credible, and more likely to capture local clicks without outspending anyone.',
+      },
+      {
+        type: 'list',
+        items: [
+          'Appear higher in local search results',
+          'Earn more clicks from nearby customers',
+          'Build trust through consistent, accurate information',
+        ],
+      },
+      {
+        type: 'heading',
+        content: 'Why SEO is essential for small businesses',
+      },
+      {
+        type: 'heading',
+        content: '1. Visibility = credibility',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'If you do not appear on the first page, most people will never find you. Strong SEO makes sure you are visible at the exact moment someone is searching for your service.',
+      },
+      {
+        type: 'heading',
+        content: '2. It works while you sleep',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'SEO is a 24/7 marketing engine. Ads disappear when budgets pause, but well-structured SEO keeps sending qualified leads long after the initial work is done.',
+      },
+      {
+        type: 'heading',
+        content: '3. It builds trust over time',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Showing up consistently with great reviews, accurate info, and helpful content signals that you are the local expert. That is brand trust no ad can buy.',
+      },
+      {
+        type: 'heading',
+        content: 'What makes local SEO different',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Local SEO focuses on your community—your city, county, or neighborhood—so you show up in Google Maps, “near me” searches, and targeted directories.',
+      },
+      {
+        type: 'list',
+        items: ['Google Maps results', '“Near me” search intent', 'Local service listings and citations'],
+      },
+      {
+        type: 'paragraph',
+        content:
+          'PixelVerse SEO packages lean into that reality with city and county landing pages, Google Business Profile optimization, and local backlinks that build regional authority.',
+      },
+      {
+        type: 'heading',
+        content: 'Why builders and templates often fail at SEO',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'DIY website builders prioritize aesthetics over performance. Generic structures and bloated code make it hard for search engines to parse your content, so rankings stall.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Our custom-coded sites ship with clean markup, optimized metadata, and fast load times so the technical foundation never gets in the way of organic growth.',
+      },
+      {
+        type: 'heading',
+        content: 'How SEO turns visitors into customers',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Great SEO is more than traffic. It guides people toward action with clear paths to call, fill out a form, or visit your location.',
+      },
+      {
+        type: 'list',
+        items: ['Click “Call Now”', 'Fill out a contact form', 'Visit your storefront or office'],
+      },
+      {
+        type: 'heading',
+        content: 'The long-term value',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'SEO is an investment that compounds. Every optimized page, keyword win, and helpful blog post builds momentum that translates into steady lead flow and higher-quality inquiries.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'PixelVerse SEO Starter, Growth, and Premium packages meet you where you are—whether you are laying a foundation or ready to dominate your region.',
+      },
+      {
+        type: 'heading',
+        content: 'The bottom line',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Your next customer is already searching. SEO gives you the visibility, trust, and credibility to compete with bigger brands without a huge media budget, especially when local intent is involved.',
+      },
+      {
+        type: 'heading',
+        content: 'Ready to be found?',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'If you are not showing up where your customers are searching, we can help. PixelVerse Studios builds custom websites with SEO baked in so you rise in local search, earn trust, and convert visitors into clients. PixelVerse Studios — Clarity. Craft. Performance. Growth.',
+      },
+    ],
+    highlights: [
+      'SEO puts your business in front of ready-to-buy locals without outspending competitors.',
+      'Local SEO tactics—GBP, city pages, citations—make you discoverable in your exact service area.',
+      'Custom-coded sites keep technical SEO tight so every piece of content can rank and convert.',
+    ],
+  },
+  {
+    slug: 'custom-development-vs-website-builders',
+    title: 'Why Custom Website Development Beats Website Builders Every Time',
+    excerpt:
+      'Website builders promise simplicity, but for growing businesses, simplicity often means limits. Here is why custom-coded websites unlock performance, flexibility, and ROI that templates cannot touch.',
+    category: 'Web Development',
+    tags: ['Custom Development', 'Website Builders', 'Performance'],
+    publishedAt: '2025-11-06T15:00:00.000Z',
+    readingMinutes: 8,
+    coverGradient: 'linear-gradient(135deg, rgba(63,0,233,0.35) 0%, rgba(18,40,120,0.65) 100%)',
+    accentColor: 'rgba(63,0,233,0.45)',
+    author: defaultAuthor,
+    content: [
+      {
+        type: 'paragraph',
+        content:
+          'Every business starts somewhere. For many, that looks like a fast launch on Wix, Squarespace, or a prebuilt WordPress theme. Those tools are convenient and affordable—until growth demands more than templates can offer. What once felt easy becomes restrictive, slow, and difficult to scale. That is when custom website development changes everything.',
+      },
+      {
+        type: 'heading',
+        content: 'What “custom” really means',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'A custom website is designed, coded, and structured from scratch around your goals, audience, and brand systems. At PixelVerse Studios that means shipping builds on Next.js 14, TypeScript, Tailwind, and Supabase so speed, scalability, and control are baked in from day one. Instead of piling on plugins, a custom stack stays lean, optimized, and purpose-driven.',
+      },
+      {
+        type: 'heading',
+        content: '1. Performance that converts',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Website builders tend to load unnecessary code, third-party scripts, and generic assets. A custom site loads only what it needs—no bloat, no wasted requests.',
+      },
+      {
+        type: 'list',
+        items: ['Faster load times', 'Better Core Web Vitals', 'Higher SEO rankings', 'Lower bounce rates'],
+      },
+      {
+        type: 'paragraph',
+        content:
+          'PixelVerse targets Lighthouse scores of 90+ so accessibility and performance stay in lockstep with every launch.',
+      },
+      {
+        type: 'heading',
+        content: '2. Full design freedom',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Builders lock teams into pre-made layouts. Custom sites start with UX wireframes and UI mockups that translate your brand into an experience that feels trustworthy, intuitive, and distinct.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Need interactive storytelling, bespoke dashboards, or motion that reinforces your point of view? Custom code makes that table stakes instead of a wishlist item.',
+      },
+      {
+        type: 'heading',
+        content: '3. SEO-ready foundations',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Template sites often struggle with messy markup and bloated bundles. Custom builds include semantic HTML, optimized metadata, clean URL structures, auto-generated sitemaps, caching, and lightweight media delivery so search engines see a trustworthy, fast experience from the first crawl.',
+      },
+      {
+        type: 'heading',
+        content: '4. Scalability without rebuilding',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Businesses evolve. Builders rarely keep up. Custom architectures scale naturally when it is time to add services, integrate CRMs, or launch client portals. Our Core Growth and Core Premium engagements are designed for exactly that—deep integrations and compounding enhancements without starting over.',
+      },
+      {
+        type: 'heading',
+        content: '5. Long-term cost efficiency',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Website builders appear inexpensive but pile on plugin fees, app subscriptions, and redesign costs the moment you outgrow the template. A custom site carries a higher upfront investment yet lowers total ownership: you control the code, design system, and data without subscription walls.',
+      },
+      {
+        type: 'heading',
+        content: '6. Better support, real partnership',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Using a builder makes you one of millions of accounts. Working with a custom studio makes you a partner. PixelVerse pairs every launch with post-release support, maintenance, and optimization plans so your site evolves with your business instead of falling behind.',
+      },
+      {
+        type: 'heading',
+        content: 'The bottom line',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Template builders are fine for starting out. But once your website is responsible for attracting clients, capturing leads, and proving credibility, you need a platform built specifically for you.',
+      },
+      {
+        type: 'list',
+        items: [
+          'Control over every line of code',
+          'Speed and technical hygiene search engines reward',
+          'Flexibility to scale without compromise',
+          'A professional impression that builds trust instantly',
+        ],
+      },
+      {
+        type: 'quote',
+        content: 'Custom-built Websites: Your business deserves more than a template.',
+        attribution: 'PixelVerse Studios',
+      },
+      {
+        type: 'heading',
+        content: 'Ready to move beyond the template?',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'If you are running a growing business on a builder and need something faster, smarter, and built to grow, let’s talk. We will review your current site, outline your goals, and show how a custom build delivers measurable results.',
+      },
+      {
+        type: 'paragraph',
+        content: 'PixelVerse Studios — Clarity. Craft. Performance. Growth.',
+      },
+    ],
+    highlights: [
+      'Custom development removes template bloat so performance, SEO, and UX stay aligned.',
+      'Design freedom plus scalable architecture means your site evolves with the business.',
+      'Owning your stack delivers lower long-term costs and a true post-launch partnership.',
+    ],
+  },
+  {
+    slug: 'ux-vs-ui-precision-for-service-brands',
+    title: 'UX vs UI: The Difference and How They Impact a Business',
+    excerpt:
+      'UX and UI shape how people experience a business online. This post breaks down both so you can understand their role, and how they work together to turn website visitors into customers.',
+    category: 'Experience Design',
+    tags: ['UX Strategy', 'UI Systems', 'Conversion Design'],
+    publishedAt: '2025-11-02T10:00:00.000Z',
+    readingMinutes: 9,
+    coverGradient: 'linear-gradient(135deg, rgba(201,71,255,0.36) 0%, rgba(63,0,233,0.65) 100%)',
+    accentColor: 'rgba(201,71,255,0.5)',
+    author: defaultAuthor,
+    content: [
+      {
+        type: 'paragraph',
+        content:
+          'Every website you use leaves an impression. Some feel effortless, while others leave you confused or frustrated. The difference usually comes down to two disciplines working behind the scenes: UX and UI. Together they shape how people experience your business online.',
+      },
+      {
+        type: 'heading',
+        content: 'UX happens before every click',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'User experience (UX) is everything that happens before someone clicks a button. It is the structure of a site and how easily people can do what they came to do.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Think about the last time you tried to contact a business online. If the form was buried, the phone number was missing, or the steps felt unclear, you probably bounced. That friction is poor UX.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'When UX is done right, it quietly guides people to act. The page flows naturally, key information shows up on cue, and reaching out feels obvious. That is great UX working exactly as intended.',
+      },
+      {
+        type: 'heading',
+        content: 'UI is the part people feel on screen',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'User interface (UI) is everything visitors see and touch—the buttons, spacing, typography, and layout that influence how comfortable they feel using the site.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Even if the information is perfect, messy design, tiny text, or clashing colors can make a brand feel unreliable. That hesitation is often enough to stop someone from reaching out.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'With thoughtful UI, the visuals feel clear, inviting, and professional. They reinforce the trust that UX already built and make the entire experience feel intentional.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'UX makes sure people can move through a site naturally. UI makes sure it feels smooth and trustworthy while they do it. When both work together, visitors do more than scroll—they connect, trust, and take action.',
+      },
+      {
+        type: 'heading',
+        content: 'Why this matters for small business owners',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'When the UX is right, customers find what they need quickly without frustration. When the UI is right, they trust what they see and feel confident reaching out. That is the difference between someone browsing and someone booking.',
+      },
+      {
+        type: 'quote',
+        content:
+          'UX sets the promise, UI delivers it. If either is missing, people assume the rest of your business runs the same way.',
+        attribution: 'Sami, UX/UI Designer',
+      },
+      {
+        type: 'heading',
+        content: 'How we approach UX and UI at PixelVerse',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Every project starts with clarity. We learn your goals, the actions you want people to take, and how they currently find you. Then we make sure every design decision supports those outcomes.',
+      },
+      {
+        type: 'list',
+        ordered: true,
+        items: [
+          'Discovery and planning: learn how customers find you, what they expect to see, and what content or structure is missing.',
+          'UX architecture: outline page flow and content priorities so visitors always know where they are and what to do next.',
+          'UI design system: bring everything to life with clear visuals, typography, and consistent elements that feel trustworthy.',
+        ],
+      },
+      {
+        type: 'heading',
+        content: 'The business case, in plain terms',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Investing in UX and UI is about making sure your website actually works for the business behind it. Good UX means fewer confused visitors who leave without taking action and fewer support calls about basics.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Good UI means people instantly feel the business is legitimate and reliable. Together they turn a website into a 24/7 reflection of the service quality you deliver, guiding visitors, answering questions, and nudging the next step.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'If you are a small business owner—or you simply want your website to do more—reach out. We will review where UX or UI is breaking down and show how precision in both helps people connect with what you offer.',
+      },
+    ],
+    highlights: [
+      'UX structures the journey so customers always know what to do next.',
+      'UI makes the experience feel credible, which turns trust into action.',
+      'PixelVerse connects UX and UI decisions directly to small-business results.',
+    ],
+  },
   {
     slug: 'focus-on-growth-not-diy-digital',
     title: 'Focus on Growth, Not DIY Digital: Why Small Businesses Need a Dedicated Partner',
@@ -363,7 +683,7 @@ export function getBlogPosts(): BlogPost[] {
 
 export function getFeaturedBlogPost(): BlogPost | undefined {
   const posts = getBlogPosts();
-  return posts[0];
+  return posts.find((post) => post.featured) ?? posts[0];
 }
 
 export function getBlogPostBySlug(slug: string): BlogPost | undefined {

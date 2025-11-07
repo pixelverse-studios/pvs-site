@@ -112,6 +112,91 @@ const contactContextData: ContactContextData[] = [
       'PixelVerse Studios Paramus',
     ],
   },
+  {
+    slug: 'teaneck',
+    locationLabel: 'Teaneck',
+    heroHeading: "Let's Start Your Teaneck Project",
+    heroSubtitle:
+      'Teaneck teams balance healthcare, university, and civic initiatives. We keep your website, SEO, and analytics foundations steady so you can focus on community impact.',
+    introMessage:
+      'Share the Teaneck launches ahead—hospital service lines, campus microsites, or township campaigns. We will ship the technical plan and governance so your staff can stay on mission.',
+    metaTitle: 'Contact PixelVerse Studios | Teaneck Web & SEO Partner',
+    metaDescription:
+      'Connect with PixelVerse Studios to plan Teaneck web design, multilingual UX, and local SEO programs built for patients, students, and residents.',
+    keywords: [
+      'Teaneck web design contact',
+      'Teaneck SEO agency',
+      'PixelVerse Studios Teaneck',
+    ],
+  },
+  {
+    slug: 'fair-lawn',
+    locationLabel: 'Fair Lawn',
+    heroHeading: "Let's Start Your Fair Lawn Project",
+    heroSubtitle:
+      'Fair Lawn operators need digital infrastructure that keeps pace with industrial timelines and residential demand. We run the web, SEO, and analytics stack so you can keep crews moving.',
+    introMessage:
+      'Outline your Fair Lawn priorities—product launches, service dispatch upgrades, or hiring campaigns. We will convert them into a high-performing experience with clean reporting.',
+    metaTitle: 'Contact PixelVerse Studios | Fair Lawn Web & SEO Partner',
+    metaDescription:
+      'Talk with PixelVerse Studios about Fair Lawn web design, industrial SEO, and conversion tracking for Route 208 businesses.',
+    keywords: [
+      'Fair Lawn web design contact',
+      'Fair Lawn SEO partner',
+      'PixelVerse Studios Fair Lawn',
+    ],
+  },
+  {
+    slug: 'englewood',
+    locationLabel: 'Englewood',
+    heroHeading: "Let's Start Your Englewood Project",
+    heroSubtitle:
+      'Englewood clinics, retailers, and corporate teams expect premium UX with Manhattan-level polish. We protect speed, SEO, and analytics so you can focus on launches.',
+    introMessage:
+      'Tell us about upcoming Englewood Health campaigns, Palisade Avenue activations, or Englewood Cliffs announcements. We will craft the digital plan and shoulder the build.',
+    metaTitle: 'Contact PixelVerse Studios | Englewood Web & SEO Partner',
+    metaDescription:
+      'Partner with PixelVerse Studios for Englewood web design, luxury-focused SEO, and analytics tuned to high-ticket audiences.',
+    keywords: [
+      'Englewood web design contact',
+      'Englewood SEO partner',
+      'PixelVerse Studios Englewood',
+    ],
+  },
+  {
+    slug: 'bergenfield',
+    locationLabel: 'Bergenfield',
+    heroHeading: "Let's Start Your Bergenfield Project",
+    heroSubtitle:
+      'Bergenfield families and business owners rely on local proof before they call. We maintain your site, SEO, and review engine so trust is always front and center.',
+    introMessage:
+      'Share the Bergenfield programs or services you want to spotlight—clinics, contractors, after-school offerings. We will deliver the localized build and reporting.',
+    metaTitle: 'Contact PixelVerse Studios | Bergenfield Web & SEO Partner',
+    metaDescription:
+      'Work with PixelVerse Studios on Bergenfield web design, SEO, and analytics so every neighborhood sees a tailored experience.',
+    keywords: [
+      'Bergenfield web design contact',
+      'Bergenfield SEO partner',
+      'PixelVerse Studios Bergenfield',
+    ],
+  },
+  {
+    slug: 'ridgewood',
+    locationLabel: 'Ridgewood',
+    heroHeading: "Let's Start Your Ridgewood Project",
+    heroSubtitle:
+      'Ridgewood brands demand boutique execution. We manage your site, SEO, and measurement so clients experience white-glove service from the first click.',
+    introMessage:
+      'Tell us about Ridgewood launches—private medical offers, boutique drops, or hospitality events. We will orchestrate the digital rollout and track every conversion.',
+    metaTitle: 'Contact PixelVerse Studios | Ridgewood Web & SEO Partner',
+    metaDescription:
+      'Schedule a Ridgewood strategy call with PixelVerse Studios to elevate web design, SEO, and analytics for high-expectation audiences.',
+    keywords: [
+      'Ridgewood web design contact',
+      'Ridgewood SEO agency',
+      'PixelVerse Studios Ridgewood',
+    ],
+  },
 ];
 
 export function getContactContext(slug: string) {

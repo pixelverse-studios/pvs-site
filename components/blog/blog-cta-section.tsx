@@ -22,18 +22,22 @@ export function BlogCtaSection() {
           </MotionItem>
           <MotionItem className="space-y-4">
             <h2 className="font-heading text-[2.5rem] leading-[3rem]">
-              Let&apos;s plug these playbooks into your next launch
+              Ready to put these ideas into action?
             </h2>
             <p className="text-lg text-white/85">
-              Whether you need a SEO-ready redesign or a fresh analytics cadence, our team ships
-              custom, conversion-focused experiences on time.
+              We help businesses design, develop, and optimize websites that turn insight into
+              measurable results.
             </p>
           </MotionItem>
           <MotionItem className="flex flex-col items-center gap-4 sm:flex-row">
-            <Button asChild size="lg" variant="cta" className="bg-white text-[var(--pv-primary)] hover:text-[var(--pv-primary)]">
+            <Button asChild size="lg" variant="cta">
               <Link href="/contact">Book a strategy call</Link>
             </Button>
-            <Button asChild variant="ghost" className="border-white/30 text-white hover:bg-white/10">
+            <Button
+              asChild
+              variant="outline"
+              className="border-[var(--pv-border)] bg-white text-[var(--pv-primary)] hover:border-[var(--pv-primary)] hover:text-[var(--pv-primary)] dark:border-white/40 dark:bg-transparent dark:text-white dark:hover:bg-white/10"
+            >
               <Link href="/portfolio">See recent launches</Link>
             </Button>
           </MotionItem>

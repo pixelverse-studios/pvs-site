@@ -1,6 +1,6 @@
 # Bergen County SEO Master TODO
 
-Last updated: 2025-10-23
+Last updated: 2025-11-07
 
 ## Foundation (Pre-Transfer & Research)
 
@@ -81,6 +81,7 @@ Last updated: 2025-10-23
 - [ ] **Expand location coverage**
   - Roll out additional town pages (Fair Lawn, Mahwah, Bergenfield, Norwood, Saddle Brook, Wyckoff) using the established template and briefs.
   - Keep keyword research and content refresh cycles active for emerging opportunities.
+  - _2025-11-07: Added Teaneck, Fair Lawn, Englewood, Bergenfield, and Ridgewood local service + contact routes; Mahwah, Norwood, Saddle Brook, and Wyckoff still pending._
 - [ ] **Monitor, iterate, and document**
   - Review SiteBehaviour dashboards, Search Console reports, and Bing metrics weekly; log insights and actions in project docs.
   - Adjust copy, CTAs, internal links, and structured data based on performance; schedule quarterly retros to update this TODO and the SEO playbook.

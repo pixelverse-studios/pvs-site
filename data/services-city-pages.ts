@@ -624,6 +624,581 @@ export const cityServicePages: CityServicePageDefinition[] = [
         href: '/services/bergen-county'
       }
     }
+  },
+  {
+    slug: 'teaneck',
+    city: 'Teaneck',
+    state: 'NJ',
+    metadata: {
+      title: 'Teaneck NJ Web Design & Local SEO Agency | PixelVerse',
+      description:
+        'PixelVerse ships accessible websites, multilingual UX, and local SEO for Teaneck healthcare systems, universities, and community-forward service brands.',
+      keywords: [
+        'Teaneck web design',
+        'Teaneck NJ SEO',
+        'Teaneck digital agency',
+        'Holy Name marketing partner',
+        'Teaneck local SEO services'
+      ]
+    },
+    hero: {
+      eyebrow: 'Teaneck, NJ',
+      heading: 'Campus-to-clinic experiences built for Teaneck growth.',
+      description:
+        'Teaneck blends major healthcare institutions, universities, and civic organizations. We build accessible, multilingual experiences that serve patients, students, and residents without slowing down your team.',
+      bullets: [
+        'Persona research spanning Holy Name Medical Center, FDU campuses, Cedar Lane retail, and Votee Park programming',
+        'Multilingual UX, ADA requirements, and structured data built for municipal services, healthcare clinicians, and nonprofits',
+        'Analytics stacks tracing referrals from township events, faith communities, and commuter traffic along Route 4'
+      ],
+      stat: {
+        heading: 'Launch cadence',
+        value: '60-day',
+        label: 'plan to relaunch Teaneck site, SEO, and analytics stack'
+      },
+      neighborhoods:
+        'We tailor content for Cedar Lane merchants, West Englewood homeowners, Queen Anne Road congregations, and Glenpointe business travelers so everyone sees themselves on the site.'
+    },
+    serviceHighlights: [
+      {
+        serviceTitle: 'Custom Web Design & Development',
+        summary:
+          'Component systems that scale from campus microsites to medical service lines without losing performance.',
+        localAngle:
+          'Supports Holy Name service pages, township departments, and neighborhood initiatives within one accessible framework.'
+      },
+      {
+        serviceTitle: 'UX & UI Design',
+        summary:
+          'Multilingual, mobile-first flows for families, caregivers, and administrators.',
+        localAngle:
+          'We combine translation toggles, plain-language wayfinding, and quick actions tuned to Teaneck search intent.'
+      },
+      {
+        serviceTitle: 'SEO-Ready Foundations',
+        summary:
+          'Schema, internal linking, and content calendars targeted around Bergen County’s busiest commuter suburb.',
+        localAngle:
+          'Own queries like “Teaneck pediatric specialists,” “Cedar Lane professional services,” and “Teaneck web design agency” with localized briefs and FAQ modules.'
+      },
+      {
+        serviceTitle: 'Performance & Analytics',
+        summary:
+          'Data models connecting referrals, community events, and paid media to booked outcomes.',
+        localAngle:
+          'Measure how township newsletters, Glenpointe conferences, or Route 4 billboards contribute to pipeline.'
+      },
+      {
+        serviceTitle: 'Ongoing Support & Updates',
+        summary:
+          'Monthly optimization sprints for campaigns, compliance updates, and stakeholder reporting.',
+        localAngle:
+          'We coordinate with campus calendars, municipal announcements, and grant cycles so messaging stays timely.'
+      }
+    ],
+    proof: {
+      headline: 'Teaneck organizations trust PixelVerse to balance civic expectations with growth goals.',
+      body: 'From hospitals to cultural centers, we pair compliance-grade builds with persuasive storytelling so high-consideration audiences convert without friction.',
+      stat: {
+        value: '41%',
+        label: 'increase in inquiry-to-appointment rates after launching multilingual Teaneck landing flows'
+      },
+      testimonial: {
+        quote:
+          'PixelVerse wrangled our clinical, donor, and community messaging into one fast experience. Teaneck families find what they need and staff finally has usable analytics.',
+        name: 'Dr. Lena Moradi',
+        role: 'Director, Votee Health Collaborative'
+      }
+    },
+    faq: [
+      {
+        question: 'How do you coordinate Teaneck municipal, healthcare, and campus requirements?',
+        answer:
+          'We build modular content models and approval workflows so each stakeholder gets the proof they need without bloating the site. Shared components keep branding unified while per-audience sections surface the right CTAs.'
+      },
+      {
+        question: 'Can you support Teaneck’s multilingual residents?',
+        answer:
+          'Yes. We plan translation toggles, plain-language copy, and culturally aware visuals, then reinforce everything with structured data so search engines understand each variant.'
+      },
+      {
+        question: 'Do you handle HIPAA and ADA compliance requirements?',
+        answer:
+          'We architect forms with encryption, role-based notifications, and audit trails, then test accessibility with automated and manual scans so healthcare and municipal teams stay protected.'
+      }
+    ],
+    cta: {
+      headline: 'Plan your Teaneck rollout.',
+      body: 'Share upcoming service launches, campus events, or municipal campaigns and we will turn them into a measurable digital roadmap.',
+      primary: {
+        label: 'Start Teaneck roadmap',
+        href: '/contact/teaneck'
+      },
+      secondary: {
+        label: 'Explore Bergen hub',
+        href: '/services/bergen-county'
+      }
+    }
+  },
+  {
+    slug: 'fair-lawn',
+    city: 'Fair Lawn',
+    state: 'NJ',
+    metadata: {
+      title: 'Fair Lawn NJ Web Design & Local SEO Agency | PixelVerse',
+      description:
+        'PixelVerse powers Fair Lawn manufacturers, logistics teams, and service retailers with fast websites, local SEO, and analytics that capture Route 208 demand.',
+      keywords: [
+        'Fair Lawn web design',
+        'Fair Lawn SEO services',
+        'Fair Lawn digital agency',
+        'Fair Lawn marketing partner',
+        'Radburn local SEO'
+      ]
+    },
+    hero: {
+      eyebrow: 'Fair Lawn, NJ',
+      heading: 'Industrial-strength digital systems for Fair Lawn operators.',
+      description:
+        'Fair Lawn mixes manufacturing, logistics, and commuter neighborhoods along Broadway and Route 208. We craft conversion-focused experiences that showcase capabilities, compliance, and community impact.',
+      bullets: [
+        'Buyer-journey mapping for light industrial parks, River Road retail, and Fair Lawn Avenue services',
+        'SEO and content frameworks that highlight certifications, case studies, and bilingual support for workforce-heavy teams',
+        'Performance guardrails so product catalogs, quoting forms, and spec sheets load instantly on job sites'
+      ],
+      stat: {
+        heading: 'Deployment speed',
+        value: '45 days',
+        label: 'average time to launch a Fair Lawn landing cluster with schema and analytics'
+      },
+      neighborhoods:
+        'We localize messaging for Radburn residents, Broadway merchants, and Route 4 commuters so every persona sees relevant proof.'
+    },
+    serviceHighlights: [
+      {
+        serviceTitle: 'Custom Web Design & Development',
+        summary:
+          'Configurable layouts for product lines, service dispatch, and appointment workflows.',
+        localAngle:
+          'Connects manufacturing proof with residential service promos without rebuilding the site every quarter.'
+      },
+      {
+        serviceTitle: 'UX & UI Design',
+        summary:
+          'Task-focused flows for operators, office staff, and on-the-go customers.',
+        localAngle:
+          'Clear CTAs for quotes, repairs, and bookings reflect Fair Lawn’s high-volume service mix.'
+      },
+      {
+        serviceTitle: 'SEO-Ready Foundations',
+        summary:
+          'Technical SEO, schema, and content clusters for industrial and residential searches.',
+        localAngle:
+          'Own phrases like “Fair Lawn machining partner,” “Fair Lawn HVAC repair,” and “Radburn remodeling team.”'
+      },
+      {
+        serviceTitle: 'Performance & Analytics',
+        summary:
+          'Dashboards linking phone calls, form fills, and job tickets to campaigns.',
+        localAngle:
+          'See how Route 208 billboards, NJ Transit ads, or Google Ads influence lead quality and close rates.'
+      },
+      {
+        serviceTitle: 'Ongoing Support & Updates',
+        summary:
+          'Retainers for promo launches, catalog refreshes, and hiring pushes.',
+        localAngle:
+          'Stay ahead of union updates, seasonal shifts, and capacity changes without downtime.'
+      }
+    ],
+    proof: {
+      headline: 'Fair Lawn firms close faster once their proof is packaged for digital.',
+      body: 'We translate process photos, OSHA credentials, and service SLAs into clean narratives so procurement teams and residents trust you first.',
+      stat: {
+        value: '32%',
+        label: 'reduction in quote response time after automating Fair Lawn intake flows'
+      },
+      testimonial: {
+        quote:
+          'PixelVerse turned our spec-heavy site into a fast sales tool. Field crews and office staff finally work from the same lead pipeline.',
+        name: 'Marcus Ellison',
+        role: 'GM, Broadway Industrial Services'
+      }
+    },
+    faq: [
+      {
+        question: 'Can one site serve Fair Lawn industrial and residential divisions?',
+        answer:
+          'Yes. We architect modular templates so industrial buyers see certifications and case studies while residential visitors get promo offers and testimonials—all within one design system.'
+      },
+      {
+        question: 'How do you showcase certifications and compliance requirements?',
+        answer:
+          'We highlight ISO, OSHA, and state licenses via dynamic proof blocks, structured data, and downloadable spec sheets so procurement teams can vet you quickly.'
+      },
+      {
+        question: 'Do you integrate with dispatch or CRM tools used by Fair Lawn teams?',
+        answer:
+          'We connect the site to ServiceTitan, Jobber, HubSpot, or your internal CRM so leads route to the right dispatcher or sales rep instantly.'
+      }
+    ],
+    cta: {
+      headline: 'Scale your Fair Lawn demand.',
+      body: 'Tell us about production schedules, service territories, and staffing goals so we can ship a digital plan that keeps the pipeline full.',
+      primary: {
+        label: 'Request Fair Lawn game plan',
+        href: '/contact/fair-lawn'
+      },
+      secondary: {
+        label: 'Explore Bergen County hub',
+        href: '/services/bergen-county'
+      }
+    }
+  },
+  {
+    slug: 'englewood',
+    city: 'Englewood',
+    state: 'NJ',
+    metadata: {
+      title: 'Englewood NJ Web Design & Local SEO Agency | PixelVerse',
+      description:
+        'PixelVerse crafts premium websites, conversion funnels, and local SEO for Englewood healthcare groups, downtown retail, and Englewood Cliffs corporate teams.',
+      keywords: [
+        'Englewood web design',
+        'Englewood NJ SEO',
+        'Englewood Cliffs digital agency',
+        'Palisade Avenue marketing',
+        'Englewood local SEO'
+      ]
+    },
+    hero: {
+      eyebrow: 'Englewood, NJ',
+      heading: 'Premium digital touchpoints for Englewood clinics, retail, and HQs.',
+      description:
+        'Englewood brands compete with NYC without the Manhattan overhead. We deliver conversion-first builds highlighting hospital service lines, downtown boutiques, and Englewood Cliffs innovators.',
+      bullets: [
+        'Story-driven copy tuned for Palisade Avenue retail, Englewood Health specialists, and Englewood Cliffs tech corridors',
+        'Luxury-grade UI systems that pair editorial layouts with decisive CTAs for affluent residents and corporate partners',
+        'Structured data, review accelerators, and analytics tying boutique sales and private patient leads to marketing spend'
+      ],
+      stat: {
+        heading: 'Performance benchmark',
+        value: '2.1s',
+        label: 'median Englewood LCP after migrating to our stack'
+      },
+      neighborhoods:
+        'We adjust tone for downtown shoppers, East Hill estates, Englewood Hospital visitors, and Englewood Cliffs commuters to keep conversions high.'
+    },
+    serviceHighlights: [
+      {
+        serviceTitle: 'Custom Web Design & Development',
+        summary:
+          'High-performance builds with editorial layouts, interactive showcases, and global navigation patterns.',
+        localAngle:
+          'Spotlight concierge healthcare, luxury retail drops, and Englewood Cliffs innovation programs within one cohesive system.'
+      },
+      {
+        serviceTitle: 'UX & UI Design',
+        summary:
+          'Premium interfaces mixing refined typography, motion, and conversion cues.',
+        localAngle:
+          'We mirror the aesthetics of Bergen County’s upscale corridors while keeping ADA and WCAG guardrails intact.'
+      },
+      {
+        serviceTitle: 'SEO-Ready Foundations',
+        summary:
+          'Technical SEO plus schema for luxury services, medical specialties, and HQ announcements.',
+        localAngle:
+          'Rank for “Englewood plastic surgery,” “Palisade Avenue boutique,” and “Englewood Cliffs innovation lab.”'
+      },
+      {
+        serviceTitle: 'Performance & Analytics',
+        summary:
+          'Attribution modeling for private-pay leads, boutique sales, and investor outreach.',
+        localAngle:
+          'Monitor how trunk shows, hospital seminars, or corporate announcements convert across channels.'
+      },
+      {
+        serviceTitle: 'Ongoing Support & Updates',
+        summary:
+          'Rapid experimentation for product launches, offer testing, and PR amplification.',
+        localAngle:
+          'We sync with Englewood Health calendars, retail drops, and thought-leadership releases so your presence stays elevated.'
+      }
+    ],
+    proof: {
+      headline: 'Englewood launches earn premium positioning without overcomplication.',
+      body: 'Clients see more private-pay leads and appointment volume once we combine editorial storytelling with sub-two-second load speeds and localized schema.',
+      stat: {
+        value: '58%',
+        label: 'growth in qualified Englewood luxury-service inquiries post launch'
+      },
+      testimonial: {
+        quote:
+          'Our new Englewood experience finally matches the in-studio vibe. Bookings climbed fast and we have clean data on what brings clients through the door.',
+        name: 'Selena Ortiz',
+        role: 'Founder, Palisade Aesthetic Studio'
+      }
+    },
+    faq: [
+      {
+        question: 'Will Englewood copy conflict with Manhattan targeting?',
+        answer:
+          'We differentiate by referencing Englewood landmarks, commuter behaviors, and local proof so search engines and visitors understand why your offer is the top Bergen option.'
+      },
+      {
+        question: 'Can you highlight Englewood Cliffs HQ messaging alongside downtown retail?',
+        answer:
+          'Yes. We use modular sections so executives see investor-ready proof while retail customers get promos, lookbooks, and booking CTAs.'
+      },
+      {
+        question: 'How do you keep premium visuals fast?',
+        answer:
+          'We compress imagery, lazy-load galleries, and lean on Next.js image optimization so even rich media stays within Core Web Vital targets.'
+      }
+    ],
+    cta: {
+      headline: 'Own Englewood demand.',
+      body: 'Book a working session to align service lines, launches, and KPIs—we will handle the build, SEO, and analytics.',
+      primary: {
+        label: 'Launch Englewood project',
+        href: '/contact/englewood'
+      },
+      secondary: {
+        label: 'See Bergen County roadmap',
+        href: '/services/bergen-county'
+      }
+    }
+  },
+  {
+    slug: 'bergenfield',
+    city: 'Bergenfield',
+    state: 'NJ',
+    metadata: {
+      title: 'Bergenfield NJ Web Design & Local SEO Agency | PixelVerse',
+      description:
+        'PixelVerse delivers mobile-first websites, review engines, and local SEO for Bergenfield medical clinics, contractors, after-school programs, and cultural organizations.',
+      keywords: [
+        'Bergenfield web design',
+        'Bergenfield SEO agency',
+        'Bergenfield marketing partner',
+        'Washington Avenue SEO',
+        'Bergenfield local services'
+      ]
+    },
+    hero: {
+      eyebrow: 'Bergenfield, NJ',
+      heading: 'Neighborhood-focused SEO for Bergenfield service brands.',
+      description:
+        'Bergenfield is dense and community-driven. We create accessible websites and local SEO programs that speak to multigenerational households and small-business operators.',
+      bullets: [
+        'Localization for Washington Avenue retailers, South Washington medical practices, and after-school programs',
+        'Trust frameworks—reviews, guarantees, financing prompts—designed for families scrutinizing every purchase',
+        'Reporting that shows which outreach (cultural events, parish bulletins, diaspora groups) drives leads'
+      ],
+      stat: {
+        heading: 'Coverage speed',
+        value: '30 days',
+        label: 'to launch Bergenfield landing clusters, citations, and KPI dashboards'
+      },
+      neighborhoods:
+        'We fine-tune copy for Cooper’s Pond neighborhoods, New Milford borders, and Bergenfield industrial pockets so each resident feels seen.'
+    },
+    serviceHighlights: [
+      {
+        serviceTitle: 'Custom Web Design & Development',
+        summary:
+          'Modular sections highlighting services, financing, and bilingual support.',
+        localAngle:
+          'Helps Bergenfield clinics, contractors, and schools surface the exact info households need before calling.'
+      },
+      {
+        serviceTitle: 'UX & UI Design',
+        summary:
+          'Adaptive layouts for heavy mobile traffic and screen-reader compatibility.',
+        localAngle:
+          'Tap-friendly actions for WhatsApp, SMS, and quick-call flows match Bergenfield communication habits.'
+      },
+      {
+        serviceTitle: 'SEO-Ready Foundations',
+        summary:
+          'Structured data, internal links, and content briefs dedicated to Bergenfield and surrounding towns.',
+        localAngle:
+          'Own phrases like “Bergenfield dentist near me,” “Washington Avenue accountant,” and “Bergenfield after-school program.”'
+      },
+      {
+        serviceTitle: 'Performance & Analytics',
+        summary:
+          'Call tracking, form attribution, and intent tagging segmented by neighborhood.',
+        localAngle:
+          'See how Dumont, New Milford, or Tenafly spillover converts so you can prioritize offers.'
+      },
+      {
+        serviceTitle: 'Ongoing Support & Updates',
+        summary:
+          'Seasonal refreshes, promotion swaps, and review velocity programs.',
+        localAngle:
+          'We mirror cultural calendars, school events, and township announcements so messaging stays relevant.'
+      }
+    ],
+    proof: {
+      headline: 'Bergenfield conversions jump when mobile trust signals lead the experience.',
+      body: 'Clients report steadier pipelines and better review velocity after we combine bilingual copy, community proof, and lightning-fast page loads.',
+      stat: {
+        value: '29%',
+        label: 'lift in inbound calls from Bergenfield households within the first quarter'
+      },
+      testimonial: {
+        quote:
+          'PixelVerse gave us a Bergenfield page that finally respects how families research care. Calls picked up immediately and reviews doubled.',
+        name: 'Noel Reyes',
+        role: 'Owner, Bergenfield Family Dental Group'
+      }
+    },
+    faq: [
+      {
+        question: 'How do you keep Bergenfield content inclusive?',
+        answer:
+          'We interview staff, customers, and community partners to capture the languages, imagery, and proof points that resonate across Bergenfield’s diverse neighborhoods.'
+      },
+      {
+        question: 'Can you target neighboring towns without diluting Bergenfield focus?',
+        answer:
+          'Yes. We use service-area modules, internal linking, and schema so Bergenfield stays the hero while Dumont, New Milford, and Tenafly get their own supporting content.'
+      },
+      {
+        question: 'Will you manage reviews and local citations?',
+        answer:
+          'We build review prompts, automate follow-ups, and clean up citations so Bergenfield contact info stays consistent across every platform.'
+      }
+    ],
+    cta: {
+      headline: 'Turn Bergenfield research into revenue.',
+      body: 'Tell us which services, programs, or offers you want Bergenfield families to see first and we will handle the rest.',
+      primary: {
+        label: 'Kick off Bergenfield build',
+        href: '/contact/bergenfield'
+      },
+      secondary: {
+        label: 'Explore Bergen County hub',
+        href: '/services/bergen-county'
+      }
+    }
+  },
+  {
+    slug: 'ridgewood',
+    city: 'Ridgewood',
+    state: 'NJ',
+    metadata: {
+      title: 'Ridgewood NJ Web Design & Local SEO Agency | PixelVerse',
+      description:
+        'PixelVerse crafts boutique websites, CRO programs, and SEO for Ridgewood professional firms, luxury retail, and hospitality groups serving high-intent audiences.',
+      keywords: [
+        'Ridgewood web design',
+        'Ridgewood NJ SEO',
+        'Ridgewood marketing agency',
+        'Van Neste Square retail marketing',
+        'Ridgewood boutique websites'
+      ]
+    },
+    hero: {
+      eyebrow: 'Ridgewood, NJ',
+      heading: 'Boutique UX for Ridgewood firms and retailers.',
+      description:
+        'Ridgewood buyers expect white-glove experiences—whether booking private medical consults or shopping downtown boutiques. We craft fast, story-driven sites with data-backed CTAs that respect their expectations.',
+      bullets: [
+        'Narrative strategy for Ridgewood Avenue retail, Van Neste Square dining, and professional firms serving affluent families',
+        'Conversion journeys that balance premium editorial design with decisive CTAs for consultations, reservations, or membership inquiries',
+        'Metadata, schema, and analytics tuned to commuters along the Ridgewood NJ Transit station and surrounding neighborhoods'
+      ],
+      stat: {
+        heading: 'Momentum metric',
+        value: '47%',
+        label: 'average uplift in qualified Ridgewood consultations after relaunch'
+      },
+      neighborhoods:
+        'We personalize content for Ridgewood’s historic district, Willard neighborhoods, and NYC-bound commuters so every visit feels bespoke.'
+    },
+    serviceHighlights: [
+      {
+        serviceTitle: 'Custom Web Design & Development',
+        summary:
+          'Bespoke component libraries with editorial hero layouts and case-study storytelling.',
+        localAngle:
+          'Highlights Ridgewood storefronts, boutique services, and professional advisories inside one elevated system.'
+      },
+      {
+        serviceTitle: 'UX & UI Design',
+        summary:
+          'Elegant motion, typography, and micro-interactions without sacrificing clarity.',
+        localAngle:
+          'We prototype flows with Ridgewood residents to ensure CTAs feel premium yet decisive.'
+      },
+      {
+        serviceTitle: 'SEO-Ready Foundations',
+        summary:
+          'Technical SEO and structured data for luxury services, boutiques, and destination dining.',
+        localAngle:
+          'Own “Ridgewood boutique agency,” “Ridgewood concierge medicine,” and “Van Neste fine dining.”'
+      },
+      {
+        serviceTitle: 'Performance & Analytics',
+        summary:
+          'Real-time dashboards covering bookings, private event inquiries, and member pipelines.',
+        localAngle:
+          'Measure how Ridgewood Guild events, print features, or email nurtures influence revenue.'
+      },
+      {
+        serviceTitle: 'Ongoing Support & Updates',
+        summary:
+          'Sprint-based improvements for seasonal menus, trunk shows, and service launches.',
+        localAngle:
+          'We align updates with Ridgewood Guild calendars, school events, and holiday strolls so campaigns feel timely.'
+      }
+    ],
+    proof: {
+      headline: 'Ridgewood launches look bespoke and stay measurable.',
+      body: 'By pairing luxe visuals with disciplined SEO and analytics, Ridgewood clients finally see direct attribution between storytelling and revenue.',
+      stat: {
+        value: '3.6x',
+        label: 'increase in premium-service leads year over year'
+      },
+      testimonial: {
+        quote:
+          'PixelVerse delivered the elegant feel we needed without sacrificing speed. Our Ridgewood clientele now books online first, and we see exactly which stories convert.',
+        name: 'Elena Park',
+        role: 'Founder, Ridgewood Atelier Collective'
+      }
+    },
+    faq: [
+      {
+        question: 'How do you maintain Ridgewood’s boutique feel while optimizing for conversions?',
+        answer:
+          'We use editorial components, restrained gradients, and thoughtful motion so pages stay premium while heatmaps and testing ensure CTAs remain clear.'
+      },
+      {
+        question: 'Can you integrate booking tools Ridgewood clients already use?',
+        answer:
+          'Yes. We embed Tock, Jane, Calendly, or custom intake workflows so high-value visitors can reserve time without leaving the site.'
+      },
+      {
+        question: 'Will Ridgewood messaging conflict with other Bergen town pages?',
+        answer:
+          'No. We maintain canonical structures and localized schema so each page ranks independently while still supporting the Bergen County hub.'
+      }
+    ],
+    cta: {
+      headline: 'Design for Ridgewood expectations.',
+      body: 'Share your next launch, client offer, or seasonal program and we will ship a Ridgewood-ready plan.',
+      primary: {
+        label: 'Schedule Ridgewood consult',
+        href: '/contact/ridgewood'
+      },
+      secondary: {
+        label: 'View Bergen County strategy',
+        href: '/services/bergen-county'
+      }
+    }
   }
 ];
 

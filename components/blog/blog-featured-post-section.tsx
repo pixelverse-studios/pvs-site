@@ -40,7 +40,7 @@ export function BlogFeaturedPostSection({ post }: BlogFeaturedPostSectionProps) 
             <div className="relative z-10 flex flex-col gap-10 p-8 text-white sm:gap-12 sm:p-10 md:p-16">
               <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.26em] text-white/80">
                 <span className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-3 py-1">
-                  Featured Story
+                  Featured Post
                 </span>
                 <span>{post.category}</span>
               </div>

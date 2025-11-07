@@ -45,6 +45,46 @@ const towns = [
       'Home improvement, financial, and professional partners serving Pascack Valley homeowners who demand trust-building content and fast follow-up.',
     highlights: ['Service area pages with persona storytelling', 'GA4 segmentation by neighborhood + campaign'],
     href: '/services/river-vale'
+  },
+  {
+    name: 'Teaneck',
+    segment: 'Healthcare, Campus & Civic',
+    summary:
+      'Holy Name, FDU, and township initiatives that require multilingual UX, ADA compliance, and analytics that keep stakeholders aligned.',
+    highlights: ['Multilingual-ready UX + ADA compliance baked in', 'Analytics tying community + campus referrals to leads'],
+    href: '/services/teaneck'
+  },
+  {
+    name: 'Fair Lawn',
+    segment: 'Industrial & Service Operators',
+    summary:
+      'Manufacturers, logistics teams, and Route 208 service brands balancing industrial proof with residential demand.',
+    highlights: ['Industrial + residential landing variants', 'CRM + dispatch-integrated intake automation'],
+    href: '/services/fair-lawn'
+  },
+  {
+    name: 'Englewood',
+    segment: 'Premium Healthcare & Retail',
+    summary:
+      'Englewood Health service lines, Palisade Avenue boutiques, and Englewood Cliffs innovators needing luxury-grade UX with measurable conversion paths.',
+    highlights: ['Editorial-grade UI with decisive CTAs', 'Local SEO + schema for hospital, retail, and HQ launches'],
+    href: '/services/englewood'
+  },
+  {
+    name: 'Bergenfield',
+    segment: 'Neighborhood Clinics & Programs',
+    summary:
+      'Medical offices, contractors, and after-school programs serving multigenerational households that research on mobile first.',
+    highlights: ['Bilingual trust frameworks + review loops', 'Hyperlocal analytics by neighborhood and channel'],
+    href: '/services/bergenfield'
+  },
+  {
+    name: 'Ridgewood',
+    segment: 'Boutique Services & Hospitality',
+    summary:
+      'Professional firms, private healthcare, and downtown boutiques needing white-glove presentation with CRO discipline.',
+    highlights: ['Boutique UX components + premium storytelling', 'Attribution tying Ridgewood Guild events to bookings'],
+    href: '/services/ridgewood'
   }
 ];
 

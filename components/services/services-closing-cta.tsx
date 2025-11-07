@@ -4,7 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
-export function ServicesClosingCtaSection() {
+interface ServicesClosingCtaSectionProps {
+  contactHref?: string;
+}
+
+export function ServicesClosingCtaSection({ contactHref = '/contact' }: ServicesClosingCtaSectionProps = {}) {
   return (
     <section className="py-16 md:py-24">
       <Container className="max-w-3xl space-y-8 text-center">
@@ -20,7 +24,7 @@ export function ServicesClosingCtaSection() {
           </MotionItem>
           <MotionItem delay={0.08} className="flex w-full justify-center">
             <Button asChild size="lg" variant="cta" className="w-full md:w-auto">
-              <Link href="/contact">Contact Us to Start Your Project</Link>
+              <Link href={contactHref}>Contact Us to Start Your Project</Link>
             </Button>
           </MotionItem>
         </MotionSection>

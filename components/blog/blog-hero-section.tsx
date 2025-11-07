@@ -29,22 +29,16 @@ export function BlogHeroSection() {
           </MotionItem>
           <MotionItem className="space-y-6">
             <h1 className="font-heading text-4xl font-semibold tracking-tight text-[var(--pv-text)] sm:text-5xl md:text-[3.5rem] md:leading-[3.75rem]">
-              Insights, playbooks, and launch notes for{' '}
-              <span className="bg-[var(--pv-gradient)] bg-clip-text text-transparent">
-                conversion-first brands
-              </span>
+              Insights, explanations, and concepts that shape the modern web
             </h1>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
-              The PixelVerse team documents what we test inside service brand builds - from SEO
-              content engines to analytics cadences - so your next release ships smarter.
+              Written by the PixelVerse team, the Insights Hub explores the ideas, methods, and
+              evolving practices that define how great websites are built and scale.
             </p>
           </MotionItem>
-          <MotionItem className="flex flex-col items-center gap-4 sm:flex-row">
+          <MotionItem className="flex flex-col items-center">
             <Button asChild size="lg" variant="cta">
               <Link href="#latest">Read the latest posts</Link>
-            </Button>
-            <Button asChild variant="ghost">
-              <Link href="/contact">Plan your next launch</Link>
             </Button>
           </MotionItem>
         </MotionSection>

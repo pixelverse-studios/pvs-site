@@ -1,6 +1,8 @@
 import Script from 'next/script';
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { Inter, Poppins } from 'next/font/google';
+import { Suspense } from 'react';
 import type { ReactNode } from 'react';
 
 import './globals.css';
@@ -102,10 +104,34 @@ const navItems = [
   { label: 'FAQ', href: '/faq' },
 ];
 
-const localContactLinks = getContactContexts().map((context) => ({
-  label: context.locationLabel,
-  href: `/contact/${context.slug}`,
-}));
+const contactContexts = getContactContexts();
+const bergenCountyContact = contactContexts.find((context) => context.slug === 'bergen-county');
+
+const localContactLinks = [
+  ...(bergenCountyContact
+    ? [
+        {
+          label: `${bergenCountyContact.locationLabel} contact`,
+          href: `/contact/${bergenCountyContact.slug}`,
+        },
+      ]
+    : []),
+  {
+    label: 'View all Bergen locations',
+    href: '/services/bergen-county',
+  },
+];
+
+const CampaignTracker = dynamic(
+  () =>
+    import('@/components/campaign-tracker').then((module) => ({
+      default: module.CampaignTracker,
+    })),
+  {
+    ssr: false,
+    loading: () => null,
+  },
+);
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -116,6 +142,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Script id="sitebehaviour-tracking" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: siteBehaviourBootstrap }} />
         <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
         <ThemeProvider disableTransitionOnChange>
+          <Suspense fallback={null}>
+            <CampaignTracker />
+          </Suspense>
           <div className="flex min-h-screen flex-col">
             <Navbar items={navItems} cta={{ label: 'Get Started', href: '/contact' }} />
             <div className="flex-1">{children}</div>

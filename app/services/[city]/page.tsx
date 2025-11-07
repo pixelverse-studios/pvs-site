@@ -58,7 +58,7 @@ export default function CityServicesPage({ params }: { params: CityPageParams })
       <CityServicesProofSection proof={page.proof} city={page.city} />
       <CityServicesFaqSection city={page.city} faq={page.faq} />
       <CityServicesCtaSection cta={page.cta} />
-      <ServicesClosingCtaSection />
+      <ServicesClosingCtaSection contactHref={`/contact/${page.slug}`} />
     </main>
   );
 }

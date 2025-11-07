@@ -58,19 +58,19 @@ export function Footer({
             ))}
           </nav>
           {localContactLinks.length > 0 && (
-            <div className="rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-bg)]/70 p-4 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
+            <div className="rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-bg)]/70 p-4 shadow-sm dark:border-white/15 dark:bg-white/5">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-text-muted)] dark:text-white/70">
                 Local contact
               </p>
-              <div className="mt-3 grid gap-2 text-sm text-[var(--pv-text-muted)] md:grid-cols-2">
+              <div className="mt-3 grid gap-2 text-sm text-[var(--pv-text-muted)] dark:text-white/90 md:grid-cols-2">
                 {localContactLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="flex items-center justify-between rounded-lg border border-transparent px-3 py-2 transition hover:border-[var(--pv-border)] hover:text-[var(--pv-primary)]"
+                    className="flex items-center justify-between rounded-lg border border-transparent px-3 py-2 transition hover:border-[var(--pv-border)] hover:text-[var(--pv-primary)] dark:text-white/80 dark:hover:border-white/40 dark:hover:text-white"
                   >
                     <span>{link.label}</span>
-                    <span aria-hidden="true" className="text-[var(--pv-primary)]">
+                    <span aria-hidden="true" className="text-[var(--pv-primary)] dark:text-white">
                       →
                     </span>
                   </Link>
