@@ -46,19 +46,19 @@ export function Footer({
           <small>&copy; {new Date().getFullYear()} PixelVerse Studios. All rights reserved.</small>
         </div>
         <div className="flex w-full flex-col gap-6 md:w-auto">
-          <nav className="flex flex-wrap gap-4 text-sm text-[var(--pv-text-muted)] md:justify-end">
+          <nav className="flex flex-wrap gap-4 text-sm text-[var(--pv-text-muted)] dark:text-white/80 md:justify-end">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="transition-colors hover:text-[var(--pv-primary)] focus-visible:text-[var(--pv-primary)]"
+                className="transition-colors hover:text-[var(--pv-primary)] focus-visible:text-[var(--pv-primary)] dark:text-white/80"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
           {localContactLinks.length > 0 && (
-            <div className="rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-bg)]/70 p-4 shadow-sm dark:border-white/15 dark:bg-white/5">
+            <div className="bg-[var(--pv-bg)]/70 rounded-2xl border border-[var(--pv-border)] p-4 shadow-sm dark:border-white/15 dark:bg-white/5">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-text-muted)] dark:text-white/70">
                 Local contact
               </p>
@@ -79,8 +79,13 @@ export function Footer({
             </div>
           )}
           <div className="flex w-full flex-col gap-2 md:items-end">
-            <span className="text-sm font-semibold text-[var(--pv-text-muted)]">Follow PixelVerse</span>
-            <SocialLinks className="flex-wrap justify-start md:justify-end" iconClassName="bg-[var(--pv-bg)]" />
+            <span className="text-sm font-semibold text-[var(--pv-text-muted)]">
+              Follow PixelVerse
+            </span>
+            <SocialLinks
+              className="flex-wrap justify-start md:justify-end"
+              iconClassName="bg-[var(--pv-bg)]"
+            />
           </div>
           {cta && (
             <Button asChild variant="cta" className="w-full md:w-auto">
