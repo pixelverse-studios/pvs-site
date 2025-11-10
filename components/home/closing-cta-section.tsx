@@ -27,8 +27,8 @@ export function ClosingCtaSection() {
           <MotionItem delay={0.15}>
             <div className="space-y-3">
               <p className="text-sm text-[var(--pv-text-muted)]">
-                Prefer social? Follow along for weekly UX-first drops, project breakdowns, and behind-the-scenes
-                builds.
+                Prefer social? Follow along for weekly UX-first drops, project breakdowns, and
+                behind-the-scenes builds.
               </p>
               <SocialLinks className="flex-wrap justify-center" iconClassName="bg-[var(--pv-bg)]" />
             </div>
