@@ -113,7 +113,7 @@ export function SeoPackagesSection() {
                       <Button
                         variant="secondary"
                         size="sm"
-                        className="mt-3 w-full"
+                        className="mt-3 w-full dark:text-white"
                         onClick={() => handleOpen(pkg)}
                       >
                         Learn More

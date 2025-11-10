@@ -87,7 +87,9 @@ export function PackagesSection() {
                     </CardContent>
                     <CardFooter className="border-t border-[var(--pv-border)] pt-4">
                       <Button asChild variant="link" className="px-0 text-sm font-semibold">
-                        <Link href={`/packages#${pkg.id}`}>Learn more</Link>
+                        <Link href={`/packages#${pkg.id}`} className="dark:text-white">
+                          Learn more
+                        </Link>
                       </Button>
                     </CardFooter>
                   </Card>
