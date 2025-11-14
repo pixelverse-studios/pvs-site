@@ -31,19 +31,24 @@ export function HeroSection() {
               PixelVerse Studios
             </span>
             <h1 className="text-shadow-md font-heading text-4xl font-semibold text-[var(--pv-text)] sm:text-5xl md:text-6xl">
-              Custom-built Websites:{' '}
-              <span className="bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] bg-clip-text text-transparent">
-                Your business deserves more than a template
-              </span>
+              <span className="bg-[linear-gradient(90deg,var(--pv-primary-2),var(--pv-primary))] bg-clip-text text-transparent">
+                Custom-built Websites:
+              </span>{' '}
+              <span className="text-[var(--pv-text)]">Your business deserves more than a template.</span>
             </h1>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
               We create digital presences built to scale.
             </p>
           </MotionItem>
-          <MotionItem delay={0.15}>
-            <Button asChild size="lg" variant="cta">
-              <Link href="/contact">Let&apos;s Discuss Your Project</Link>
-            </Button>
+          <MotionItem delay={0.15} className="w-full">
+            <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
+              <Button asChild size="lg" variant="cta" className="flex-1 sm:flex-none">
+                <Link href="/contact">Start Your Project</Link>
+              </Button>
+              <Button asChild size="lg" variant="ctaGhost" className="flex-1 sm:flex-none">
+                <Link href="/audit">Free Website Audit</Link>
+              </Button>
+            </div>
           </MotionItem>
         </MotionSection>
       </Container>

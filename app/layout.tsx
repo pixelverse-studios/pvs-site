@@ -27,10 +27,13 @@ const bodyFont = Inter({
 
 const { siteUrl, siteName, defaultOgImage } = sharedMetadata;
 
-const siteBehaviourSecret = '6120790c-39c8-4c54-8e1c-558bddff11d3';
+const siteBehaviourSecret = process.env.NEXT_PUBLIC_SITEBEHAVIOUR_SECRET?.trim();
+const enableSiteBehaviourTracking = Boolean(siteBehaviourSecret && process.env.NODE_ENV === 'production');
 
 // Bootstraps SiteBehaviour analytics loader after hydration.
-const siteBehaviourBootstrap = `(function(){try{if(window.location&&window.location.search&&window.location.search.indexOf('capture-sitebehaviour-heatmap')!==-1){sessionStorage.setItem('capture-sitebehaviour-heatmap','_');}var sbSiteSecret='${siteBehaviourSecret}';window.sitebehaviourTrackingSecret=sbSiteSecret;var scriptElement=document.createElement('script');scriptElement.defer=true;scriptElement.id='site-behaviour-script-v2';scriptElement.src='https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret='+sbSiteSecret;document.head.appendChild(scriptElement);}catch(e){console.error(e);}})();`;
+const siteBehaviourBootstrap = enableSiteBehaviourTracking
+  ? `(function(){try{if(window.location&&window.location.search&&window.location.search.indexOf('capture-sitebehaviour-heatmap')!==-1){sessionStorage.setItem('capture-sitebehaviour-heatmap','_');}var sbSiteSecret='${siteBehaviourSecret}';window.sitebehaviourTrackingSecret=sbSiteSecret;var scriptElement=document.createElement('script');scriptElement.defer=true;scriptElement.id='site-behaviour-script-v2';scriptElement.src='https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret='+sbSiteSecret;document.head.appendChild(scriptElement);}catch(e){console.error(e);}})();`
+  : null;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -139,7 +142,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body
         className={`${headingFont.variable} ${bodyFont.variable} min-h-screen bg-[var(--pv-bg)] font-body text-[var(--pv-text)] antialiased transition-colors duration-300`}
       >
-        <Script id="sitebehaviour-tracking" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: siteBehaviourBootstrap }} />
+        {enableSiteBehaviourTracking && siteBehaviourBootstrap ? (
+          <Script id="sitebehaviour-tracking" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: siteBehaviourBootstrap }} />
+        ) : null}
         <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
         <ThemeProvider disableTransitionOnChange>
           <Suspense fallback={null}>

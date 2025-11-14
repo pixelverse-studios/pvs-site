@@ -1,10 +1,13 @@
 'use client';
 
-import { Mail, Send } from 'lucide-react';
+import Link from 'next/link';
+import { Mail, Send, Sparkles } from 'lucide-react';
 
 import { ContactForm } from '@/components/contact/ContactForm';
+import { ContactInfoCard } from '@/components/contact/contact-info-card';
 import { Container } from '@/components/ui/container';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
 export function ContactMethodsSection() {
@@ -34,26 +37,30 @@ export function ContactMethodsSection() {
         </MotionSection>
         <MotionSection as="div" className="space-y-6" delay={0.12}>
           <MotionItem triggerOnViewport={false}>
-            <Card className="bg-[var(--pv-surface)]/90 dark:bg-[var(--pv-bg)]/85 border border-[var(--pv-border)] p-6 shadow-pv transition hover:-translate-y-1 hover:border-[var(--pv-primary)]">
-              <CardHeader className="space-y-2 p-0">
-                <CardTitle className="flex items-center gap-3">
-                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_20px_40px_-30px_rgba(63,0,233,0.75)]">
-                    <Mail className="h-5 w-5" aria-hidden />
-                  </span>
-                  Email
-                </CardTitle>
-                <CardDescription>Prefer email? Reach us directly.</CardDescription>
-              </CardHeader>
-              <CardContent className="mt-4 p-0">
-                <a
-                  href="mailto:info@pixelversestudios.io"
-                  className="inline-flex items-center gap-2 text-base font-medium text-[var(--pv-primary)] hover:text-[var(--pv-primary-2)] dark:text-white"
-                >
-                  <Mail className="h-4 w-4" aria-hidden />
-                  info@pixelversestudios.io
-                </a>
-              </CardContent>
-            </Card>
+            <ContactInfoCard
+              icon={<Mail className="h-5 w-5" aria-hidden />}
+              title="Email"
+              description="Prefer email? Reach us directly."
+            >
+              <a
+                href="mailto:info@pixelversestudios.io"
+                className="inline-flex items-center gap-2 text-base font-medium text-[var(--pv-primary)] hover:text-[var(--pv-primary-2)] dark:text-white"
+              >
+                <Mail className="h-4 w-4" aria-hidden />
+                info@pixelversestudios.io
+              </a>
+            </ContactInfoCard>
+          </MotionItem>
+          <MotionItem triggerOnViewport={false}>
+            <ContactInfoCard
+              icon={<Sparkles className="h-5 w-5" aria-hidden />}
+              title="Website Audit"
+              description="Have a website but not sure how it's performing or what could be improved? We'll provide a personalized review of your site's design, usability, and growth opportunities."
+            >
+              <Button asChild variant="ctaGhost" className="w-full">
+                <Link href="/audit">Request Free Audit</Link>
+              </Button>
+            </ContactInfoCard>
           </MotionItem>
         </MotionSection>
       </Container>

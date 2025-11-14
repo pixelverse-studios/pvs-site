@@ -84,3 +84,7 @@ Use this planning file to track progress:
 - 2025-11-07: Added a `src=test` option so we can validate SiteBehaviour wiring after deploy without skewing real campaign data.
 - 2025-11-07: Refreshed `/blog` copy (hero, featured label, latest posts intro, closing CTA) and explicitly featured the SEO article to replace the analytics story.
 - 2025-11-07: Adjusted the blog closing secondary CTA styling so it stays visible on light backgrounds while retaining dark-mode contrast.
+- 2025-11-13: Added a production-only guard for the SiteBehaviour analytics loader so local/staging sessions stop logging unauthorized tracker errors (see `app/layout.tsx`).
+- 2025-11-13: Relaxed the audit form website validation to allow bare `www.` domains (plus top-level extension) while still sanitizing what reaches Supabase and notification emails (see `components/audit/audit-form.tsx`, `app/api/audit/route.ts`, `lib/validation/url.ts`).
+- 2025-11-13: Re-aligned the audit form payload + validation with the backend Express validators (http(s) URLs, 200-character name cap, phone/specifics limits, and new `websiteUrl`/`phoneNumber` field names) to prevent submission rejections (see `components/audit/audit-form.tsx`, `app/api/audit/route.ts`, `lib/validation/url.ts`).
+- 2025-11-13: Relaxed audit website validation again so only `www.` + TLD are required while API normalization still adds https when storing/logging (see `components/audit/audit-form.tsx`, `app/api/audit/route.ts`, `lib/validation/url.ts`).

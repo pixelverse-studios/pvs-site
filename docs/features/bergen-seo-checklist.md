@@ -26,6 +26,7 @@ Last updated: 2025-11-07
   - Add canonical URLs, social previews, and keyword-focused titles/descriptions for all live routes.
 - [ ] **Confirm analytics setup**
   - Create the SiteBehaviour project for production and staging; add the tracking snippet to the Next.js root layout with a production-only guard.
+  - _2025-11-13: Added guard so the SiteBehaviour loader only runs when `NEXT_PUBLIC_SITEBEHAVIOUR_SECRET` is present in production builds, preventing local form errors._
   - Configure conversion goals for contact form submissions, package inquiry clicks, and phone/email interactions; test events in an incognito session.
   - Verify Google Search Console and Bing Webmaster domain properties, resubmit the XML sitemap, and save filters for Bergen-focused queries.
 - [ ] **Capture technical baselines**

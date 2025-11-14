@@ -13,7 +13,7 @@ export function ContactHeroSection({
   const effectiveHeading = heading ?? "Let's Start Your Project";
   const effectiveSubtitle =
     subtitle ??
-    'Tell us where you want to take the brand next and we will follow up within one business day.';
+    "Every great website starts with understanding your goals and where your business is headed. Whether you're building something new or improving what you have, tell us a bit about your goals, timeline, and what you'd like to achieve. Share a few details below, and we'll reach out to discuss your project further.";
 
   return (
     <section className="pt-hero pb-12 md:pb-16">
