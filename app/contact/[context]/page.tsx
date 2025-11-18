@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { ContactClosingCtaSection } from '@/components/contact/contact-closing-cta';
 import { ContactHeroSection } from '@/components/contact/contact-hero-section';
-import { ContactIntroSection } from '@/components/contact/contact-intro-section';
+// import { ContactIntroSection } from '@/components/contact/contact-intro-section';
 import { ContactMethodsSection } from '@/components/contact/contact-methods-section';
 import { ContactTrustSection } from '@/components/contact/contact-trust-section';
 import { getContactContext, getContactContexts } from '@/data/contact-contexts';
@@ -44,7 +44,7 @@ export default function ContactContextPage({ params }: { params: Params }) {
   return (
     <main>
       <ContactHeroSection heading={context.heroHeading} subtitle={context.heroSubtitle} />
-      <ContactIntroSection message={context.introMessage} />
+      {/* <ContactIntroSection message={context.introMessage} /> */}
       <ContactMethodsSection />
       <ContactTrustSection />
       <ContactClosingCtaSection />

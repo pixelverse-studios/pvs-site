@@ -1,6 +1,6 @@
-import Link from 'next/link';
+// import Link from 'next/link';
 
-import { Button } from '@/components/ui/button';
+// import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
@@ -22,11 +22,11 @@ export function ContactClosingCtaSection() {
               build, and iterate alongside you.
             </p>
           </MotionItem>
-          <MotionItem delay={0.08}>
+          {/* <MotionItem delay={0.08}>
             <Button asChild size="lg" variant="cta" className="w-full md:w-auto">
               <Link href="/contact">Contact Us</Link>
             </Button>
-          </MotionItem>
+          </MotionItem> */}
         </MotionSection>
       </Container>
     </section>

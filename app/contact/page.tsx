@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import { ContactClosingCtaSection } from '@/components/contact/contact-closing-cta';
 import { ContactHeroSection } from '@/components/contact/contact-hero-section';
-import { ContactIntroSection } from '@/components/contact/contact-intro-section';
+// import { ContactIntroSection } from '@/components/contact/contact-intro-section';
 import { ContactMethodsSection } from '@/components/contact/contact-methods-section';
 import { ContactTrustSection } from '@/components/contact/contact-trust-section';
 import { createPageMetadata } from '@/lib/metadata';
@@ -25,7 +25,6 @@ export default function ContactPage() {
   return (
     <main>
       <ContactHeroSection />
-      <ContactIntroSection />
       <ContactMethodsSection />
       <ContactTrustSection />
       <ContactClosingCtaSection />

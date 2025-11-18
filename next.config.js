@@ -44,7 +44,18 @@ const nextConfig = {
         destination: '/packages',
         permanent: true
       },
-      ...contactContextRedirects
+      ...contactContextRedirects,
+      {
+        source: '/contact/:slug',
+        has: [
+          {
+            type: 'query',
+            key: 'context'
+          }
+        ],
+        destination: '/contact/:slug',
+        permanent: true
+      }
     ];
   }
 };

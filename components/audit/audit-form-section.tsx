@@ -4,7 +4,7 @@ import { SectionHeader } from '@/components/ui/section-header';
 import { AuditForm } from './audit-form';
 
 const reminders = [
-  'We only need the details listed below to get started.',
+  'Just a moment of your time to get started',
   'Audits are manual—expect thoughtful notes, not AI summaries.',
   'If we spot urgent issues, we’ll flag them immediately.',
 ] as const;
@@ -17,9 +17,9 @@ export function AuditFormSection() {
           <SectionHeader
             eyebrow="Request Your Free Website Audit"
             title="Tell us where to look and we’ll take it from there."
-            description="Fill out the form below and our team will review your website within a few business days. You’ll receive a personalized summary highlighting what’s working and where improvements can make a difference."
+            description="Fill out the audit form and our team will review your website within 2-3 business days. You’ll receive a personalized summary highlighting what’s working and where improvements can make a difference."
           />
-          <div className="rounded-2xl border border-dashed border-[var(--pv-border)] bg-[var(--pv-surface)]/60 p-6 text-sm text-[var(--pv-text-muted)] shadow-sm">
+          <div className="bg-[var(--pv-surface)]/60 rounded-2xl border border-dashed border-[var(--pv-border)] p-6 text-sm text-[var(--pv-text-muted)] shadow-sm">
             <p className="mb-4 font-medium text-[var(--pv-text)]">What to expect</p>
             <ul className="space-y-3">
               {reminders.map((reminder) => (

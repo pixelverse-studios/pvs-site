@@ -59,9 +59,7 @@ const createDefaultFormValues = (): AuditFormValues => ({
   honeypot: '',
 });
 
-type ToastState =
-  | { type: 'success'; message: string }
-  | { type: 'error'; message: ReactNode };
+type ToastState = { type: 'success'; message: string } | { type: 'error'; message: ReactNode };
 
 type AuditSubmissionError = Error & {
   status?: number;
@@ -205,20 +203,28 @@ export function AuditForm() {
         reset(createDefaultFormValues());
         setToast({
           type: 'success',
-          message: "Thanks! We'll send your audit findings within two business days.",
+          message: "Thanks! We'll send your audit findings within 2-3 business days.",
         });
       } catch (error) {
         console.error(error);
         let message = 'Something went wrong while submitting. Please try again.';
 
-        if (error instanceof Error && typeof error.message === 'string' && error.message.trim().length > 0) {
+        if (
+          error instanceof Error &&
+          typeof error.message === 'string' &&
+          error.message.trim().length > 0
+        ) {
           message = error.message.trim();
         }
 
         const supportEmail =
-          typeof error === 'object' && error !== null ? (error as AuditSubmissionError).supportEmail : undefined;
+          typeof error === 'object' && error !== null
+            ? (error as AuditSubmissionError).supportEmail
+            : undefined;
         const subjectLine =
-          typeof error === 'object' && error !== null ? (error as AuditSubmissionError).subjectLine : undefined;
+          typeof error === 'object' && error !== null
+            ? (error as AuditSubmissionError).subjectLine
+            : undefined;
 
         setToast({
           type: 'error',
@@ -242,7 +248,7 @@ export function AuditForm() {
       {toast && (
         <div
           role="status"
-          className="flex items-start gap-3 rounded-xl border border-[var(--pv-border)] bg-[var(--pv-surface)]/80 p-4 text-sm text-[var(--pv-text)] shadow-sm"
+          className="bg-[var(--pv-surface)]/80 flex items-start gap-3 rounded-xl border border-[var(--pv-border)] p-4 text-sm text-[var(--pv-text)] shadow-sm"
         >
           {toast.type === 'success' ? (
             <CheckCircle2 className="h-5 w-5 text-[var(--pv-success)]" aria-hidden />
@@ -264,7 +270,10 @@ export function AuditForm() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-2">
-          <label htmlFor="audit-name" className="text-sm font-medium text-[var(--pv-text)] dark:text-white">
+          <label
+            htmlFor="audit-name"
+            className="text-sm font-medium text-[var(--pv-text)] dark:text-white"
+          >
             Name *
           </label>
           <Input
@@ -284,7 +293,10 @@ export function AuditForm() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor="audit-email" className="text-sm font-medium text-[var(--pv-text)] dark:text-white">
+          <label
+            htmlFor="audit-email"
+            className="text-sm font-medium text-[var(--pv-text)] dark:text-white"
+          >
             Email *
           </label>
           <Input
@@ -307,7 +319,10 @@ export function AuditForm() {
 
       <div className="grid gap-4 sm:grid-cols-[1.2fr_0.8fr]">
         <div className="flex flex-col gap-2">
-          <label htmlFor="audit-website" className="text-sm font-medium text-[var(--pv-text)] dark:text-white">
+          <label
+            htmlFor="audit-website"
+            className="text-sm font-medium text-[var(--pv-text)] dark:text-white"
+          >
             Website URL *
           </label>
           <Input
@@ -328,7 +343,10 @@ export function AuditForm() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor="audit-phone" className="text-sm font-medium text-[var(--pv-text)] dark:text-white">
+          <label
+            htmlFor="audit-phone"
+            className="text-sm font-medium text-[var(--pv-text)] dark:text-white"
+          >
             Phone (optional)
           </label>
           <Input
@@ -350,7 +368,10 @@ export function AuditForm() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <label htmlFor="audit-specifics" className="text-sm font-medium text-[var(--pv-text)] dark:text-white">
+        <label
+          htmlFor="audit-specifics"
+          className="text-sm font-medium text-[var(--pv-text)] dark:text-white"
+        >
           Specifics to Review (optional)
         </label>
         <Textarea
@@ -393,9 +414,11 @@ export function AuditForm() {
           )}
         </Button>
         <p className="text-center text-sm text-[var(--pv-text-muted)]">
-          No commitment. Please allow up to 2 business days.
+          No commitment. Please allow up to 3 business days.
         </p>
-        {cooldownLabel && <p className="text-center text-xs text-[var(--pv-text-muted)]">{cooldownLabel}</p>}
+        {cooldownLabel && (
+          <p className="text-center text-xs text-[var(--pv-text-muted)]">{cooldownLabel}</p>
+        )}
       </div>
     </form>
   );

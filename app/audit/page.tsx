@@ -10,7 +10,7 @@ import { createPageMetadata } from '@/lib/metadata';
 export const metadata: Metadata = createPageMetadata({
   title: 'Free Website Audit | PixelVerse Studios',
   description:
-    'Request a no-cost, 360° website audit from PixelVerse Studios. Get a prioritized plan for UX, SEO, speed, and conversion improvements in 3-5 business days.',
+    'Request a no-cost, 360° website audit from PixelVerse Studios. Get a prioritized plan for UX, SEO, speed, and conversion improvements in 2-3 business days.',
   path: '/audit',
   keywords: [
     'free website audit',

@@ -23,9 +23,7 @@ import { cn } from '@/lib/utils';
 
 const SUBMIT_THROTTLE_MS = 5000;
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
-const LEADS_ENDPOINT = API_BASE_URL
-  ? `${API_BASE_URL.replace(/\/$/, '')}/api/leads`
-  : '/api/leads';
+const LEADS_ENDPOINT = API_BASE_URL ? `${API_BASE_URL.replace(/\/$/, '')}/api/leads` : '/api/leads';
 
 const createDefaultFormValues = (): Partial<ContactFormValues> => ({
   name: '',
@@ -160,11 +158,11 @@ export function ContactForm() {
     honeypot: string;
   };
 
-type LeadSubmissionError = Error & {
-  status?: number;
-  supportEmail?: string;
-  subjectLine?: string;
-};
+  type LeadSubmissionError = Error & {
+    status?: number;
+    supportEmail?: string;
+    subjectLine?: string;
+  };
 
   const submitLead = useCallback(async (payload: LeadApiPayload) => {
     const response = await fetch(LEADS_ENDPOINT, {
@@ -244,18 +242,28 @@ type LeadSubmissionError = Error & {
         resetForm();
         setToast({
           type: 'success',
-          message: "Thanks for reaching out! We'll contact you within 24–48 hours.",
+          message: "Thanks for reaching out! We'll contact you within 2-3 business days.",
         });
       } catch (error) {
         console.error(error);
         let message = 'Something went wrong while submitting. Please try again.';
 
-        if (error instanceof Error && typeof error.message === 'string' && error.message.trim().length > 0) {
+        if (
+          error instanceof Error &&
+          typeof error.message === 'string' &&
+          error.message.trim().length > 0
+        ) {
           message = error.message.trim();
         }
 
-        const supportEmail = typeof error === 'object' && error !== null ? (error as LeadSubmissionError).supportEmail : undefined;
-        const subjectLine = typeof error === 'object' && error !== null ? (error as LeadSubmissionError).subjectLine : undefined;
+        const supportEmail =
+          typeof error === 'object' && error !== null
+            ? (error as LeadSubmissionError).supportEmail
+            : undefined;
+        const subjectLine =
+          typeof error === 'object' && error !== null
+            ? (error as LeadSubmissionError).subjectLine
+            : undefined;
 
         setToast({
           type: 'error',

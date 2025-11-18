@@ -8,12 +8,12 @@ import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 const heroHighlights = [
   { label: 'Turnaround', value: '2–3 business days' },
   { label: 'Scope', value: 'UX • SEO • Performance • CRO' },
-  { label: 'Format', value: 'Action plan + Loom walkthrough' },
+  { label: 'Format', value: 'Personalized Insights and Reports' },
 ];
 
 export function AuditHeroSection() {
   return (
-    <section className="relative overflow-hidden border-b border-[var(--pv-border)] bg-[var(--pv-bg)] pt-hero pb-16 md:pb-20">
+    <section className="relative overflow-hidden border-b border-[var(--pv-border)] bg-[var(--pv-bg)] pb-16 pt-hero md:pb-20">
       <div
         className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,var(--pv-primary)/0.18,transparent_55%)] dark:bg-[radial-gradient(circle_at_top,var(--pv-primary)/0.35,transparent_60%)]"
         aria-hidden
@@ -30,8 +30,8 @@ export function AuditHeroSection() {
               See How Your Website&apos;s Really Performing
             </h1>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
-              Our free website audit takes a close look at how well your site is designed, built, and
-              helping your business, covering usability, SEO, design, and performance.
+              Our free website audit takes a close look at how well your site is designed, built,
+              and helping your business, covering usability, SEO, design, and performance.
             </p>
           </MotionItem>
           <MotionItem delay={0.15}>
@@ -48,10 +48,12 @@ export function AuditHeroSection() {
             </p>
           </MotionItem>
           <MotionItem delay={0.2}>
-            <div className="grid gap-6 rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-surface)]/80 p-6 text-center shadow-pv backdrop-blur-sm dark:bg-[var(--pv-surface)]/40 sm:grid-cols-3 sm:text-left">
+            <div className="bg-[var(--pv-surface)]/80 dark:bg-[var(--pv-surface)]/40 grid gap-6 rounded-2xl border border-[var(--pv-border)] p-6 text-center shadow-pv backdrop-blur-sm sm:grid-cols-3 sm:text-left">
               {heroHighlights.map((highlight) => (
                 <div key={highlight.label} className="space-y-2 text-sm">
-                  <p className="uppercase tracking-[0.3em] text-[var(--pv-text-muted)]">{highlight.label}</p>
+                  <p className="uppercase tracking-[0.3em] text-[var(--pv-text-muted)]">
+                    {highlight.label}
+                  </p>
                   <p className="text-xl font-semibold text-[var(--pv-text)]">{highlight.value}</p>
                 </div>
               ))}

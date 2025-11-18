@@ -26,7 +26,7 @@ export function ContactMethodsSection() {
                 </span>
                 <div>
                   <CardTitle>Fill out the form</CardTitle>
-                  <CardDescription>We&apos;ll respond within 24–48 hours.</CardDescription>
+                  <CardDescription>We&apos;ll respond within 2-3 business days.</CardDescription>
                 </div>
               </CardHeader>
               <CardContent className="p-0 pt-6">
