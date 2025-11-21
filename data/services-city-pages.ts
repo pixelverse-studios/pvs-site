@@ -67,6 +67,8 @@ export const cityServicePages: CityServicePageDefinition[] = [
       keywords: [
         'Fort Lee web design',
         'Fort Lee NJ SEO',
+        'seo fort lee',
+        'Fort Lee SEO agency',
         'Fort Lee digital agency',
         'Fort Lee local SEO services',
         'Fort Lee custom websites'
@@ -523,7 +525,9 @@ export const cityServicePages: CityServicePageDefinition[] = [
         'Paramus SEO agency',
         'Paramus retail marketing',
         'Paramus NJ ecommerce websites',
-        'Paramus digital strategy'
+        'Paramus digital strategy',
+        'website design Paramus NJ',
+        'Paramus SEO company'
       ]
     },
     hero: {
@@ -610,6 +614,11 @@ export const cityServicePages: CityServicePageDefinition[] = [
         question: 'What analytics do you provide for Paramus campaigns?',
         answer:
           'We track ecommerce revenue, appointment requests, phone calls, and foot traffic indicators through GA4, call tracking, and in-store attribution tools so you always know what’s driving results.'
+      },
+      {
+        question: 'Do you handle website design and local SEO for Paramus, NJ retailers and service brands?',
+        answer:
+          'Yes. We build fast, promo-ready websites and local SEO programs for Paramus—metadata, schema, and location content aligned to “website design Paramus NJ” and related queries—plus reporting that ties campaigns to store visits and bookings.'
       }
     ],
     cta: {
@@ -868,7 +877,8 @@ export const cityServicePages: CityServicePageDefinition[] = [
         'Englewood NJ SEO',
         'Englewood Cliffs digital agency',
         'Palisade Avenue marketing',
-        'Englewood local SEO'
+        'Englewood local SEO',
+        'local SEO agency Englewood NJ'
       ]
     },
     hero: {
@@ -955,6 +965,11 @@ export const cityServicePages: CityServicePageDefinition[] = [
         question: 'How do you keep premium visuals fast?',
         answer:
           'We compress imagery, lazy-load galleries, and lean on Next.js image optimization so even rich media stays within Core Web Vital targets.'
+      },
+      {
+        question: 'Do you operate as a local SEO agency for Englewood, NJ?',
+        answer:
+          'Yes. We pair site builds with local SEO—metadata, schema, review acceleration, and Palisade Avenue/Englewood Cliffs landing content—plus analytics that show how Englewood searches convert to bookings and inquiries.'
       }
     ],
     cta: {

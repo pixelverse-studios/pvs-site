@@ -14,7 +14,7 @@ export function StructuredData({ data, id }: StructuredDataProps) {
     <Script
       id={scriptId}
       type="application/ld+json"
-      strategy="beforeInteractive"
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
   );

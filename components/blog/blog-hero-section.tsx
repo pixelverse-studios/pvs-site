@@ -37,9 +37,14 @@ export function BlogHeroSection() {
             </p>
           </MotionItem>
           <MotionItem className="flex flex-col items-center">
-            <Button asChild size="lg" variant="cta">
-              <Link href="#latest">Read the latest posts</Link>
-            </Button>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button asChild size="lg" variant="cta">
+                <Link href="#latest">Read the latest posts</Link>
+              </Button>
+              <Button asChild size="lg" variant="ctaGhost">
+                <Link href="/services/bergen-county">See our Bergen County SEO plan</Link>
+              </Button>
+            </div>
           </MotionItem>
         </MotionSection>
       </Container>

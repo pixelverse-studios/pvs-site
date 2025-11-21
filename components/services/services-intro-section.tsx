@@ -1,4 +1,7 @@
+import Link from 'next/link';
+
 import { Container } from '@/components/ui/container';
+import { Button } from '@/components/ui/button';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
 type HeadingLevel = 'h1' | 'h2' | 'h3';
@@ -25,6 +28,11 @@ export function ServicesIntroSection({ headingLevel = 'h1' }: ServicesIntroSecti
               on design, usability, and performance — making sure your online presence isn’t just
               seen, but remembered.
             </p>
+          </MotionItem>
+          <MotionItem delay={0.12} className="flex justify-center">
+            <Button asChild variant="ctaGhost">
+              <Link href="/services/bergen-county">See our Bergen County SEO & web design approach</Link>
+            </Button>
           </MotionItem>
         </MotionSection>
       </Container>

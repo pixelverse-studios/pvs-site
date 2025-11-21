@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { LifeBuoy, Palette, Search, Sparkles } from 'lucide-react';
 
 import {
@@ -7,6 +8,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
 import { Container } from './container';
@@ -62,6 +64,11 @@ export function ServicesSection() {
             <p className="mt-4 text-lg text-[var(--pv-text-muted)]">
               End-to-end support to design, launch, and scale a digital presence that mirrors the strength of your brand.
             </p>
+            <div className="mt-6 flex justify-center">
+              <Button asChild variant="ctaGhost">
+                <Link href="/services/bergen-county">View Bergen County SEO & web design</Link>
+              </Button>
+            </div>
           </MotionItem>
           <MotionSection as="div" className="grid gap-6 md:grid-cols-2" delay={0.1}>
             {services.map((service, index) => (

@@ -92,3 +92,5 @@ Use this planning file to track progress:
 - 2025-11-18: Verified that a user `curl` command missing the `=` (e.g., `?contextfort-lee`) bypasses the 301; shared the correct syntax so redirects can be validated before resubmitting the GSC fix.
 - 2025-11-18: Added query-stripping redirects in both Next.js and Netlify so `/contact/<city>?context=<city>` variants 301 to the canonical path, then logged verification instructions for the GSC “Alternate page” report.
 - 2025-11-18: Re-reviewed the “Crawled – currently not indexed” items (font asset, `/pricing`, `/services`) and confirmed existing robots/redirect controls cover them; documented the validation steps and reminder to request `/services` re-indexing.
+- 2025-11-20: Added a focused GSC CTR/Ranking lift TODO list for Bergen hub/city pages in `docs/planning/gsc-ctr-lift-todo.md` (metadata + FAQ refresh, internal links/CTAs, canonical cleanup, reindex).
+- 2025-11-20: Compiled a current keyword inventory from live metadata and Bergen city pages (no new terms added) and documented it in `docs/planning/site-keyword-baseline.md` for partner review.

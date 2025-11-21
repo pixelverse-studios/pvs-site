@@ -26,6 +26,7 @@ export default function BergenCountyPage() {
   return (
     <main>
       <CityServicesHero hero={page.hero} />
+      <CityServicesCtaSection cta={page.cta} />
       <ServicesIntroSection headingLevel="h2" />
       <ServicesCoreSection />
       <CityServicesHighlights city={page.city} highlights={page.serviceHighlights} />
@@ -33,7 +34,6 @@ export default function BergenCountyPage() {
       <BergenTownsSection />
       <CityServicesProofSection proof={page.proof} city={page.city} />
       <CityServicesFaqSection city={page.city} faq={page.faq} />
-      <CityServicesCtaSection cta={page.cta} />
       <ServicesClosingCtaSection contactHref="/contact/bergen-county" />
     </main>
   );

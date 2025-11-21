@@ -243,6 +243,7 @@ Don't change any immediately provided context in work scope. You can add extra w
 - Maintain the master SEO checklist at `docs/features/bergen-seo-checklist.md`; mark items complete as work progresses.
 - Record detailed research and planning outputs under `docs/planning/` (e.g., audience research, competitive scans, keyword matrix).
 - After each SEO task or checklist update, log progress in `docs/planning/bergen-seo-todo.md` and create an audit entry in `docs/audits/landing/`.
+- After each SEO change ships (metadata, content, links, redirects, blogs), update the SEO log page at `/docs/seo` so indexing targets and change notes stay current.
 
 # agents.md — SEO Website Essentials Checklist
 

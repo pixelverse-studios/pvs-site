@@ -5,22 +5,22 @@ export const bergenCountyPage: CityServicePageDefinition = {
   city: 'Bergen County',
   state: 'NJ',
   metadata: {
-    title: 'Bergen County NJ Web Design & Local SEO Agency | PixelVerse',
+    title: 'Bergen County SEO & Web Design Agency | PixelVerse',
     description:
-      'PixelVerse delivers custom-coded websites, SEO roadmaps, and growth retainers for Bergen County service brands, retailers, and professional firms.',
+      'PixelVerse delivers custom-coded sites, local SEO, and analytics reporting for Bergen County service brands, retailers, and professional firms.',
     keywords: [
       'Bergen County web design',
       'Bergen County SEO agency',
-      'Bergen County digital marketing',
-      'North Jersey web design',
-      'Bergen County local SEO'
+      'Bergen County analytics agency',
+      'Bergen County local SEO',
+      'Bergen County web analytics'
     ]
   },
   hero: {
     eyebrow: 'Bergen County, NJ',
-    heading: 'County-wide web design and local SEO engineered for measurable growth.',
+    heading: 'Bergen County SEO, web design, and analytics reporting engineered for measurable growth.',
     description:
-      'From Ridgewood boutiques to Hackensack medical groups, we design, build, and optimize experiences that reflect Bergen County’s fast-moving mix of service brands, retailers, and professional firms.',
+      'From Ridgewood boutiques to Hackensack medical groups, we design, build, and optimize sites that rank locally and prove impact with analytics dashboards built for Bergen owners and operators.',
     bullets: [
       'Persona research for key corridors—Route 4 retail, Hudson waterfront services, Pascack Valley homeowners',
       'Service storytelling that scales across town pages while preserving your core brand system',
@@ -94,6 +94,16 @@ export const bergenCountyPage: CityServicePageDefinition = {
       question: 'What happens after launch?',
       answer:
         'We move straight into a growth cadence: monthly CRO/UX experiments, content releases, analytics reviews, and roadmap planning. You’ll know what shipped, what converted, and what’s next for Bergen expansion.'
+    },
+    {
+      question: 'How does PixelVerse handle analytics reporting for Bergen County businesses?',
+      answer:
+        'We ship dashboards that track calls, form fills, source/medium, and town-level performance. You’ll get monthly recaps connecting local SEO, GBP updates, and campaigns to revenue so you know where to reinvest.'
+    },
+    {
+      question: 'Are you a local SEO agency or a web design team?',
+      answer:
+        'Both. We build fast, structured sites and the local SEO program to rank them—metadata, schema, location pages, and GBP management—plus analytics reporting so you see the impact across Bergen County.'
     }
   ],
   cta: {
