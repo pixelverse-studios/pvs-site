@@ -1,7 +1,47 @@
+import fs from 'fs';
 import type { Metadata } from 'next';
+import path from 'path';
 
 import { Container } from '@/components/ui/container';
+import { DownloadSitemapButton } from '@/components/ui/download-sitemap-button';
 import { createPageMetadata } from '@/lib/metadata';
+
+function getSitemapUrls() {
+  try {
+    const sitemapIndexPath = path.join(process.cwd(), 'public', 'sitemap.xml');
+    const sitemapIndex = fs.readFileSync(sitemapIndexPath, 'utf8');
+    const sitemapEntries = Array.from(sitemapIndex.matchAll(/<loc>(.*?)<\/loc>/g)).map((match) => match[1]);
+
+    const urls = new Set<string>();
+
+    sitemapEntries.forEach((entry) => {
+      try {
+        const fileName = path.basename(new URL(entry).pathname);
+        const sitemapPath = path.join(process.cwd(), 'public', fileName);
+
+        if (!fs.existsSync(sitemapPath)) return;
+
+        const sitemap = fs.readFileSync(sitemapPath, 'utf8');
+        Array.from(sitemap.matchAll(/<loc>(.*?)<\/loc>/g)).forEach((match) => urls.add(match[1]));
+      } catch {
+        // Ignore malformed sitemap entries
+      }
+    });
+
+    return Array.from(urls);
+  } catch {
+    return null;
+  }
+}
+
+function formatDateIsoToMdY(dateString: string) {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return dateString;
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${month}/${day}/${year}`;
+}
 
 export const metadata: Metadata = createPageMetadata({
   title: 'SEO Updates Log | PixelVerse Studios',
@@ -30,21 +70,20 @@ const updates = [
       'Added Bergen hub CTAs/links from Home services block, Services intro, and Blog hero to channel visitors to local pages.',
       'Published blog: Local SEO Title & Meta Playbook (CTR-first snippet guide).',
     ],
-    urlsToReindex: [
-      '/services/bergen-county',
-      '/services/fort-lee',
-      '/services/paramus',
-      '/services/englewood',
-      '/',
-      '/services',
-      '/blog',
-      '/blog/local-seo-title-meta-playbook',
+    notes:
+      'Deployed Bergen County SEO updates across hub and city pages plus a CTR-focused blog post; keep indexing tight and monitor performance closely post-publish.',
+    notesDetail: [
+      'Submit manual index requests for the Bergen hub and each city page immediately after deploy to speed pickup.',
+      'Watch CTR and position for Bergen/local queries over 7–14 days; refine titles/meta if CTR stays soft.',
+      'Keep internal links to Bergen hub from home/services/blog sections so crawl frequency and authority stay high.',
     ],
-    notes: 'Request indexing post-deploy; monitor CTR and positions for Bergen County/local queries over 7–14 days.',
   },
 ];
 
 export default function SeoUpdatesPage() {
+  const sitemapUrls = getSitemapUrls();
+  const sitemapUrlCount = sitemapUrls?.length ?? null;
+
   return (
     <main className="bg-[var(--pv-bg)] pb-16">
       <Container className="pt-hero space-y-12">
@@ -56,52 +95,80 @@ export default function SeoUpdatesPage() {
             Recent SEO changes and indexing checklist
           </h1>
           <p className="max-w-2xl text-lg text-[var(--pv-text-muted)]">
-            Quick reference for what changed, which URLs to request indexing for, and what to monitor in Search Console.
+            Quick reference for what changed, sitemap coverage, and what to monitor in Search Console.
           </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="inline-flex flex-wrap items-center gap-3 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-2 text-sm text-[var(--pv-text-muted)]">
+              <span className="font-semibold text-[var(--pv-text)]">
+                {sitemapUrlCount ?? '—'}
+              </span>
+              <span>unique URLs currently listed in the sitemap</span>
+            </div>
+            <DownloadSitemapButton urls={sitemapUrls ?? []} />
+          </div>
         </header>
 
-        <section className="space-y-10 rounded-pv border border-[var(--pv-border)] bg-[var(--pv-surface)]/70 p-6 shadow-[0_24px_60px_-40px_rgba(63,0,233,0.35)] dark:bg-[var(--pv-surface)]/80">
+        <section className="space-y-10">
           {updates.map((update) => (
-            <div key={update.date} className="space-y-6">
-              <div className="space-y-2">
-                <p className="text-sm uppercase tracking-[0.3em] text-[var(--pv-text-muted)]">Update</p>
-                <h2 className="font-heading text-2xl font-semibold text-[var(--pv-text)]">{update.date}</h2>
-              </div>
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--pv-text-muted)]">
-                  What changed
-                </h3>
-                <ul className="space-y-2 text-base leading-7 text-[var(--pv-text-muted)]">
-                  {update.items.map((item) => (
-                    <li key={item} className="flex gap-3">
-                      <span className="mt-[0.4rem] inline-flex h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--pv-primary)]" aria-hidden />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--pv-text-muted)]">
-                  URLs to request indexing
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {update.urlsToReindex.map((url) => (
-                    <code
-                      key={url}
-                      className="rounded-full bg-[var(--pv-bg)] px-3 py-1 text-sm text-[var(--pv-text)] shadow-sm border border-[var(--pv-border)]"
-                    >
-                      {url}
-                    </code>
-                  ))}
+            <article
+              key={update.date}
+              className="space-y-6 rounded-3xl border border-[var(--pv-border)] bg-[var(--pv-surface)]/70 p-6 shadow-[0_32px_80px_-48px_rgba(63,0,233,0.35)] dark:bg-[var(--pv-surface)]/85"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[var(--pv-border)] bg-gradient-to-r from-[var(--pv-primary)]/12 via-[var(--pv-primary)]/6 to-[var(--pv-surface)] p-4">
+                <div className="space-y-1">
+                  <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[var(--pv-text-muted)]">Update</p>
+                  <h2 className="font-heading text-2xl font-semibold text-[var(--pv-text)]">
+                    {formatDateIsoToMdY(update.date)}
+                  </h2>
+                </div>
+                <div className="rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
+                  SEO log
                 </div>
               </div>
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--pv-text-muted)]">
-                  Notes
-                </h3>
-                <p className="text-base leading-7 text-[var(--pv-text-muted)]">{update.notes}</p>
+
+              <div className="space-y-6 rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-bg)]/92 p-6 shadow-[0_18px_50px_-42px_rgba(63,0,233,0.3)]">
+                <div className="space-y-2">
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--pv-text-muted)]">
+                    Overview
+                  </h3>
+                  <p className="text-base leading-7 text-[var(--pv-text-muted)]">{update.notes}</p>
+                </div>
+
+                <div className="space-y-3 border-t border-[var(--pv-border)] pt-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--pv-text-muted)]">
+                    What changed
+                  </h3>
+                  <ul className="space-y-2 text-base leading-7 text-[var(--pv-text-muted)]">
+                    {update.items.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span
+                          className="mt-[0.5rem] inline-flex h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--pv-primary)]"
+                          aria-hidden
+                        />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="space-y-3 border-t border-[var(--pv-border)] pt-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--pv-text-muted)]">
+                    Action checklist
+                  </h3>
+                  <ul className="space-y-2 text-base leading-7 text-[var(--pv-text-muted)]">
+                    {update.notesDetail.map((note) => (
+                      <li key={note} className="flex gap-3">
+                        <span
+                          className="mt-[0.5rem] inline-flex h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--pv-primary)]"
+                          aria-hidden
+                        />
+                        <span>{note}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
+            </article>
           ))}
         </section>
       </Container>

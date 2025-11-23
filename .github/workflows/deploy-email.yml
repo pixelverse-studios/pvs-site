@@ -1,0 +1,88 @@
+name: Deploy change email
+
+on:
+  repository_dispatch:
+    types: [netlify_deploy_success]
+  workflow_dispatch:
+
+jobs:
+  email-deploy-summary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build change summary
+        id: summary
+        run: |
+          SUMMARY_FILE="docs/deploy-summary.md"
+          if [ -f "$SUMMARY_FILE" ]; then
+            SUMMARY=$(awk '
+              BEGIN { capture=0 }
+              /^## Latest deploy summary/ { capture=1; next }
+              /^## / { if (capture) exit }
+              capture { print }
+            ' "$SUMMARY_FILE" | sed '/^[[:space:]]*$/d')
+          fi
+
+          if [ -z "$SUMMARY" ]; then
+            SUMMARY=$(git log -n 15 --format='- %s (by %an)')
+          fi
+
+          if [ -z "$SUMMARY" ]; then
+            SUMMARY="- No summary found for this run."
+          fi
+
+          {
+            echo "summary<<EOF"
+            echo "$SUMMARY"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Send email via Nylas
+        env:
+          NYLAS_API_KEY: ${{ secrets.NYLAS_API_KEY }}
+          NYLAS_GRANT_ID: ${{ secrets.NYLAS_GRANT_ID }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.event.client_payload.branch || github.ref_name || 'unknown' }}
+          RUN_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          SHORT_SHA: ${{ github.event.client_payload.commit || github.sha }}
+          SUMMARY_BODY: ${{ steps.summary.outputs.summary }}
+        run: |
+          if [ -z "$NYLAS_API_KEY" ] || [ -z "$NYLAS_GRANT_ID" ] || [ -z "$MAIL_FROM" ] || [ -z "$MAIL_TO" ]; then
+            echo "Missing NYLAS_API_KEY, NYLAS_GRANT_ID, MAIL_FROM, or MAIL_TO secrets." >&2
+            exit 1
+          fi
+
+          SUBJECT_DATE=$(date +"%m/%d/%Y")
+          SUBJECT="New website change log - $SUBJECT_DATE"
+
+          # Convert markdown bullets to HTML list items
+          SUMMARY_HTML=$(echo "$SUMMARY_BODY" | sed 's/^- /<li>/; s/$/<\/li>/')
+          if [ -n "$SUMMARY_HTML" ]; then
+            SUMMARY_HTML="<ul>${SUMMARY_HTML}</ul>"
+          fi
+
+          # Build HTML body inline
+          HTML_BODY="<p>Hi,</p><p>We just pushed a new set of changes live to the website. See below for an itemized list:</p>${SUMMARY_HTML}<p>Thanks!</p><p><strong>Phil Arfuso</strong><br>Co-Founder &amp; Software Engineer | PixelVerse Studios<br><a href=\"mailto:phil@pixelversestudios.io\">phil@pixelversestudios.io</a><br><a href=\"https://www.pixelversestudios.io\">www.pixelversestudios.io</a><br>(201) 638-1769</p>"
+
+          PAYLOAD=$(jq -n \
+            --arg to "$MAIL_TO" \
+            --arg from "$MAIL_FROM" \
+            --arg subject "$SUBJECT" \
+            --arg body "$HTML_BODY" \
+            '{
+              to: [{ email: $to }],
+              cc: [{ email: "phil@pixelversestudios.io" }],
+              from: [{ email: $from }],
+              subject: $subject,
+              body: $body
+            }')
+
+          curl -f -X POST \
+            -H "Authorization: Bearer $NYLAS_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD" \
+            "https://api.us.nylas.com/v3/grants/$NYLAS_GRANT_ID/messages/send"

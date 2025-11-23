@@ -1,9 +1,22 @@
 # PixelVerse Studios – 2025
 
+## ⚠️ CRITICAL: Git Workflow Rules
+
+**NEVER commit or push changes without explicit user approval.**
+
+- Always ask before running `git commit`
+- Always ask before running `git push`
+- User must explicitly say "commit these changes" or "push to remote"
+- After making code changes, STOP and wait for user review
+- Only create commits when user explicitly requests it
+- Do not batch commits - wait for approval after each set of changes
+
+---
+
 ## Project Overview
 
-A custom-coded marketing website for PixelVerse Studios, built with **Next.js 14**, **Tailwind CSS**, and a **CSS variable design system** supporting light and dark themes.  
-The site emphasizes speed, usability, and scalability, aligning with PixelVerse’s philosophy of custom, UX-first builds.
+A custom-coded marketing website for PixelVerse Studios, built with **Next.js 14**, **Tailwind CSS**, and a **CSS variable design system** supporting light and dark themes.
+The site emphasizes speed, usability, and scalability, aligning with PixelVerse's philosophy of custom, UX-first builds.
 
 ## 🧱 Tech Stack
 
@@ -248,7 +261,7 @@ Don't change any immediately provided context in work scope. You can add extra w
 
 # agents.md — SEO Website Essentials Checklist
 
-This file acts as a universal running checklist for every SEO-focused website project.  
+This file acts as a universal running checklist for every SEO-focused website project.
 Use it to ensure all key optimization elements are consistently implemented across builds.
 
 ---
@@ -362,7 +375,7 @@ Use it to ensure all key optimization elements are consistently implemented acro
 ## 🧾 Content & Local Optimization
 
 - [ ] Each service page targets **one main keyword**
-- [ ] Add **location modifiers** (e.g. “Home Care in Ridgewood, NJ”)
+- [ ] Add **location modifiers** (e.g. "Home Care in Ridgewood, NJ")
 - [ ] Include **service area or county pages** for local SEO
 - [ ] Internal linking between related service pages
 - [ ] Include **contact info and CTA** on every page
@@ -392,6 +405,6 @@ Use it to ensure all key optimization elements are consistently implemented acro
 
 ---
 
-**File Owner:** SEO Lead  
-**Version:** v1.0  
+**File Owner:** SEO Lead
+**Version:** v1.0
 **Purpose:** Maintain consistent technical and on-page SEO standards across all client websites.
