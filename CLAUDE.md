@@ -173,6 +173,55 @@ docs/
 └── planning/           # Planning and strategy documents
 ```
 
+### Deploy Summary Workflow
+
+**CRITICAL: After completing each task or feature, update `docs/deploy-summary.md` with a high-level summary**
+
+This file is automatically sent via email to Phil and Sami when code is deployed. Keep it concise and non-technical.
+
+#### When to Update:
+- After completing any feature, fix, or enhancement
+- Before waiting for user to commit/push changes
+- Each time you finish a discrete unit of work
+
+#### Format:
+- Use bullet points under "Latest deploy summary"
+- Write in plain language (non-technical summaries)
+- Focus on WHAT changed, not HOW it was implemented
+- Each bullet should be one clear, concise sentence
+- Add optional technical notes under "Notes for internal team" if needed
+
+#### Example Good Entries:
+- ✅ "Added Google sign-in for team dashboard access"
+- ✅ "Fixed contact form validation on mobile devices"
+- ✅ "Updated homepage hero section with new messaging"
+
+#### Example Bad Entries:
+- ❌ "Implemented Supabase auth with @supabase/ssr package using middleware.ts for JWT validation"
+- ❌ "Refactored Button component to use class-variance-authority"
+
+#### Process:
+1. Complete your work on a feature/task
+2. Update `docs/deploy-summary.md` with a user-friendly bullet point
+3. Create the detailed audit log in `docs/audits/landing/`
+4. Wait for user to review and request commit
+5. **After successful deployment**, reset `docs/deploy-summary.md` to clear template for next deployment cycle
+
+#### Reset Template (use after each deployment):
+```markdown
+# Deploy Summary
+
+## Latest deploy summary
+-
+
+## Notes for internal team
+-
+```
+
+**IMPORTANT:** The deploy summary is a staging area for the CURRENT deployment only. After the build succeeds and email is sent, clear the file so it's ready for the next batch of changes.
+
+---
+
 After completing any task or answering any prompt, create an audit file with the following:
 
 ### File Naming Convention:
