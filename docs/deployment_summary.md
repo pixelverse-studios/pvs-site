@@ -3,22 +3,24 @@
 <!-- This file is automatically sent via email on successful deployment, then reset for the next cycle -->
 
 ## Latest deploy summary
-- Added automated deployment tracking system with Git pre-push hooks
-- Deployment notifications now automatically send to team via email when code is pushed
-- Email includes deployment summary and list of URLs that need Google Search Console re-indexing
-- Fixed production build errors (ESLint issues and React hooks warnings)
+- **Fixed contact page redirect loop issue** that was preventing users from accessing location-specific contact pages in production
+- Removed problematic redirect rules that were causing infinite loops for contact pages with query parameters
 
 ## Notes for internal team
-- Created new deployment tracking workflow with Git hooks
-- Added `scripts/pre-push.js` - Node.js script that runs on git push
-- Added `scripts/install-hooks.js` - One-time installer for Git hooks
-- Updated CLAUDE.md with complete deployment_summary.md workflow documentation
-- Added environment variables: PVS_WEBSITE_ID, PVS_API_URL, PVS_BASE_URL
-- Git hook automatically reads deployment_summary.md, sends to API, and resets file
-- Removed console.log statements causing build errors (kept console.error for debugging)
-- Fixed React useCallback dependency warning in deployments-section.tsx
-- Fixed unescaped apostrophe in websites-list.tsx
+- Removed self-referencing redirect rule from next.config.js (lines 49-58) that was redirecting `/contact/:slug` to itself
+- Removed corresponding catch-all redirect rule from public/_redirects (line 9)
+- The issue was caused by a redirect rule that attempted to redirect `/contact/:slug?context=*` to `/contact/:slug` but created an infinite loop
+- This only occurred in production because Netlify and Next.js handle the `_rsc` query parameter differently than localhost
 
 ## Changed URLs
-- https://www.pixelversestudios.io/dashboard/clients
-- https://www.pixelversestudios.io/dashboard/clients/[id]/websites/[websiteId]
+- https://pixelversestudios.io/contact/bergen-county
+- https://pixelversestudios.io/contact/fort-lee
+- https://pixelversestudios.io/contact/cliffside-park
+- https://pixelversestudios.io/contact/river-vale
+- https://pixelversestudios.io/contact/hackensack
+- https://pixelversestudios.io/contact/paramus
+- https://pixelversestudios.io/contact/teaneck
+- https://pixelversestudios.io/contact/fair-lawn
+- https://pixelversestudios.io/contact/englewood
+- https://pixelversestudios.io/contact/bergenfield
+- https://pixelversestudios.io/contact/ridgewood

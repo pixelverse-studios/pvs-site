@@ -6,7 +6,6 @@
 /contact?context=river-vale   /contact/river-vale   301!
 /contact?context=hackensack   /contact/hackensack   301!
 /contact?context=paramus   /contact/paramus   301!
-/contact/:slug?context=:context   /contact/:slug   301!
 https://www.pixelversestudios.io/*   https://pixelversestudios.io/:splat   301!
 http://pixelversestudios.io/*        https://pixelversestudios.io/:splat   301!
 http://www.pixelversestudios.io/*    https://pixelversestudios.io/:splat   301!
