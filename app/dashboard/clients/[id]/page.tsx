@@ -6,13 +6,14 @@ import { ArrowLeft, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ClientInfoSidebar } from './components/client-info-sidebar';
 import { WebsitesList } from './components/websites-list';
+import { getApiBaseUrl } from '@/lib/api-config';
 
 export const metadata = {
   title: 'Client Details | Dashboard | PixelVerse Studios',
   description: 'View and manage client websites',
 };
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001';
+const API_BASE_URL = getApiBaseUrl();
 
 interface Website {
   id: string;

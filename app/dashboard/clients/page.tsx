@@ -2,13 +2,14 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Container } from '@/components/ui/container'
 import { ClientsTable } from './components/clients-table'
+import { getApiBaseUrl } from '@/lib/api-config'
 
 export const metadata = {
   title: 'Clients | Dashboard | PixelVerse Studios',
   description: 'Manage your clients',
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'
+const API_BASE_URL = getApiBaseUrl()
 
 export default async function ClientsPage() {
   const supabase = await createClient()

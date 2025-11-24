@@ -3,24 +3,21 @@
 <!-- This file is automatically sent via email on successful deployment, then reset for the next cycle -->
 
 ## Latest deploy summary
-- **Fixed contact page redirect loop issue** that was preventing users from accessing location-specific contact pages in production
-- Removed problematic redirect rules that were causing infinite loops for contact pages with query parameters
+- **Fixed dashboard data visibility issue** where client data wasn't showing in production but worked locally
+- Implemented automatic API URL detection that uses the correct server URL based on environment (development vs production)
+- Dashboard pages now automatically connect to the correct API server without manual configuration
 
 ## Notes for internal team
-- Removed self-referencing redirect rule from next.config.js (lines 49-58) that was redirecting `/contact/:slug` to itself
-- Removed corresponding catch-all redirect rule from public/_redirects (line 9)
-- The issue was caused by a redirect rule that attempted to redirect `/contact/:slug?context=*` to `/contact/:slug` but created an infinite loop
-- This only occurred in production because Netlify and Next.js handle the `_rsc` query parameter differently than localhost
+- Created new `lib/api-config.ts` that automatically detects environment and uses correct API URL
+- Updated all API calls in dashboard pages and components to use dynamic configuration
+- API URL configuration now automatically uses `http://localhost:5001` in development and `https://pvs-server-62hx7.ondigitalocean.app` in production
+- No environment variable changes needed in production - the configuration is automatic
+- The issue was caused by hardcoded `NEXT_PUBLIC_API_BASE_URL=http://localhost:5001` which only worked locally
+- All 7 files using API calls have been updated to use the new dynamic configuration
 
 ## Changed URLs
-- https://pixelversestudios.io/contact/bergen-county
-- https://pixelversestudios.io/contact/fort-lee
-- https://pixelversestudios.io/contact/cliffside-park
-- https://pixelversestudios.io/contact/river-vale
-- https://pixelversestudios.io/contact/hackensack
-- https://pixelversestudios.io/contact/paramus
-- https://pixelversestudios.io/contact/teaneck
-- https://pixelversestudios.io/contact/fair-lawn
-- https://pixelversestudios.io/contact/englewood
-- https://pixelversestudios.io/contact/bergenfield
-- https://pixelversestudios.io/contact/ridgewood
+- https://pixelversestudios.io/dashboard/clients
+- https://pixelversestudios.io/dashboard/clients/[id]
+- https://pixelversestudios.io/dashboard/clients/[id]/websites/[websiteId]
+- https://pixelversestudios.io/contact
+- https://pixelversestudios.io/audit

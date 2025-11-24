@@ -1,13 +1,14 @@
 import { redirect, notFound } from 'next/navigation';
 import { createClient as createSupabaseClient } from '@/lib/supabase/server';
 import { WebsiteDetailView } from './components/website-detail-view';
+import { getApiBaseUrl } from '@/lib/api-config';
 
 export const metadata = {
   title: 'Website Details | Dashboard | PixelVerse Studios',
   description: 'View website analytics and information',
 };
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001';
+const API_BASE_URL = getApiBaseUrl();
 
 interface Website {
   id: string;

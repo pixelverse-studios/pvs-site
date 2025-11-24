@@ -6,14 +6,13 @@ import { DeploymentStatusBadge } from './deployment-status-badge'
 import { CopyButton } from '../../../components/copy-button'
 import { ExternalLink, FileText, CheckCircle, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { getApiBaseUrl } from '@/lib/api-config'
 
 interface DeploymentCardProps {
   deployment: Deployment
   index: number
   onUrlMarked?: () => void
 }
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'
 
 export function DeploymentCard({ deployment, index, onUrlMarked }: DeploymentCardProps) {
   const [markingUrl, setMarkingUrl] = useState<string | null>(null)
@@ -36,7 +35,7 @@ export function DeploymentCard({ deployment, index, onUrlMarked }: DeploymentCar
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/deployments/${deployment.id}/urls/indexed`,
+        `${getApiBaseUrl()}/api/deployments/${deployment.id}/urls/indexed`,
         {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -70,7 +69,7 @@ export function DeploymentCard({ deployment, index, onUrlMarked }: DeploymentCar
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/deployments/${deployment.id}/indexed`,
+        `${getApiBaseUrl()}/api/deployments/${deployment.id}/indexed`,
         {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },

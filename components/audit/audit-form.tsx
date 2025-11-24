@@ -12,16 +12,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { formatMessageWithEmailLink } from '@/lib/support-email';
 import { websiteUrlSchema } from '@/lib/validation/url';
+import { getApiBaseUrl } from '@/lib/api-config';
 
 const SUBMIT_THROTTLE_MS = 5000;
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
-const auditEndpointOverride = process.env.NEXT_PUBLIC_AUDIT_ENDPOINT?.trim();
-const AUDIT_ENDPOINT =
-  auditEndpointOverride && auditEndpointOverride.length > 0
-    ? auditEndpointOverride
-    : API_BASE_URL
-      ? `${API_BASE_URL.replace(/\/$/, '')}/api/audit`
-      : '/api/audit';
 
 const auditFormSchema = z.object({
   name: z.string().min(1, 'Name is required').max(200, 'Name must be 200 characters or fewer'),
@@ -126,7 +119,14 @@ export function AuditForm() {
   }, []);
 
   const submitAudit = useCallback(async (payload: AuditApiPayload) => {
-    const response = await fetch(AUDIT_ENDPOINT, {
+    const apiBaseUrl = getApiBaseUrl();
+    const auditEndpointOverride = process.env.NEXT_PUBLIC_AUDIT_ENDPOINT?.trim();
+    const auditEndpoint = auditEndpointOverride && auditEndpointOverride.length > 0
+      ? auditEndpointOverride
+      : apiBaseUrl
+        ? `${apiBaseUrl.replace(/\/$/, '')}/api/audit`
+        : '/api/audit';
+    const response = await fetch(auditEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

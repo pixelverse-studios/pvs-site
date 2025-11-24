@@ -5,13 +5,12 @@ import { DeploymentsResponse } from '../types'
 import { DeploymentTimeline } from './deployment-timeline'
 import { Rocket, AlertCircle, Loader2, PackageX } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { getApiBaseUrl } from '@/lib/api-config'
 
 interface DeploymentsSectionProps {
   websiteId: string
   websiteTitle: string
 }
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'
 
 type DeploymentFilter = 'all' | 'pending' | 'completed'
 
@@ -53,7 +52,7 @@ export function DeploymentsSection({ websiteId, websiteTitle }: DeploymentsSecti
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/websites/${websiteId}/deployments`,
+        `${getApiBaseUrl()}/api/websites/${websiteId}/deployments`,
         {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },

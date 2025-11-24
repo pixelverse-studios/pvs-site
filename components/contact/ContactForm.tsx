@@ -20,10 +20,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { formatMessageWithEmailLink } from '@/lib/support-email';
 import { cn } from '@/lib/utils';
+import { getApiBaseUrl } from '@/lib/api-config';
 
 const SUBMIT_THROTTLE_MS = 5000;
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
-const LEADS_ENDPOINT = API_BASE_URL ? `${API_BASE_URL.replace(/\/$/, '')}/api/leads` : '/api/leads';
 
 const createDefaultFormValues = (): Partial<ContactFormValues> => ({
   name: '',
@@ -165,7 +164,9 @@ export function ContactForm() {
   };
 
   const submitLead = useCallback(async (payload: LeadApiPayload) => {
-    const response = await fetch(LEADS_ENDPOINT, {
+    const apiBaseUrl = getApiBaseUrl();
+    const leadsEndpoint = apiBaseUrl ? `${apiBaseUrl.replace(/\/$/, '')}/api/leads` : '/api/leads';
+    const response = await fetch(leadsEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
