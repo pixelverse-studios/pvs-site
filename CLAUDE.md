@@ -13,6 +13,28 @@
 
 ---
 
+## ⚠️ CRITICAL: Development Server Management
+
+**The user has a local server running at all times. NEVER leave dev servers running in the background.**
+
+- **DO NOT** start `npm run dev` unless absolutely necessary for validation
+- **ALWAYS** kill any dev servers you start immediately after validation
+- Use `run_in_background: true` when starting servers for testing
+- Store the shell ID and kill it with `KillShell` when done
+- If you need to verify compilation, use a quick check and immediately close
+- Prefer static analysis over running servers when possible
+
+**Example Pattern:**
+```bash
+# Start server for validation
+npm run dev (run_in_background: true, store shell_id)
+# Wait for compilation (sleep 5-10s)
+# Check BashOutput for success/errors
+# IMMEDIATELY kill the shell: KillShell(shell_id)
+```
+
+---
+
 ## Project Overview
 
 A custom-coded marketing website for PixelVerse Studios, built with **Next.js 14**, **Tailwind CSS**, and a **CSS variable design system** supporting light and dark themes.
@@ -173,23 +195,36 @@ docs/
 └── planning/           # Planning and strategy documents
 ```
 
-### Deploy Summary Workflow
+### Deployment Summary Workflow
 
-**CRITICAL: After completing each task or feature, update `docs/deploy-summary.md` with a high-level summary**
+**CRITICAL: After completing each task or feature, update `docs/deployment_summary.md` with a high-level summary**
 
-This file is automatically sent via email to Phil and Sami when code is deployed. Keep it concise and non-technical.
+This file is automatically processed by a Git pre-push hook that sends deployment data to the PVS API and triggers an email notification to Phil and Sami. Keep summaries concise and non-technical.
 
 #### When to Update:
 - After completing any feature, fix, or enhancement
 - Before waiting for user to commit/push changes
 - Each time you finish a discrete unit of work
+- **MUST include all affected URLs** in the "Changed URLs" section
 
 #### Format:
-- Use bullet points under "Latest deploy summary"
-- Write in plain language (non-technical summaries)
-- Focus on WHAT changed, not HOW it was implemented
-- Each bullet should be one clear, concise sentence
-- Add optional technical notes under "Notes for internal team" if needed
+The file has **three required sections**:
+
+1. **Latest deploy summary** - Client-facing changes (sent in email)
+   - Use markdown formatting (bullet points, **bold**, *italic*)
+   - Write in plain language (non-technical summaries)
+   - Focus on WHAT changed, not HOW it was implemented
+   - Each bullet should be one clear, concise sentence
+
+2. **Notes for internal team** - Technical details (NOT sent in email)
+   - Use markdown formatting
+   - Include environment variables, technical notes, internal tasks
+   - This section is stored but NOT sent to clients
+
+3. **Changed URLs** - List all affected page URLs
+   - Use bullet points (- https://www.pixelversestudios.io/page)
+   - Include full URLs with protocol
+   - These URLs are tracked for Google Search Console re-indexing
 
 #### Example Good Entries:
 - ✅ "Added Google sign-in for team dashboard access"
@@ -202,23 +237,46 @@ This file is automatically sent via email to Phil and Sami when code is deployed
 
 #### Process:
 1. Complete your work on a feature/task
-2. Update `docs/deploy-summary.md` with a user-friendly bullet point
+2. Update `docs/deployment_summary.md`:
+   - Add user-friendly bullet points to "Latest deploy summary"
+   - Add technical details to "Notes for internal team" (optional)
+   - Add all affected URLs to "Changed URLs"
 3. Create the detailed audit log in `docs/audits/landing/`
 4. Wait for user to review and request commit
-5. **After successful deployment**, reset `docs/deploy-summary.md` to clear template for next deployment cycle
+5. When user runs `git push`, the pre-push hook will:
+   - Read deployment_summary.md
+   - Send data to PVS API
+   - Trigger email notification
+   - Automatically reset the file to template
 
-#### Reset Template (use after each deployment):
+#### Reset Template (automatically applied after git push):
 ```markdown
-# Deploy Summary
+# Deployment Summary
 
 ## Latest deploy summary
 -
 
 ## Notes for internal team
 -
+
+## Changed URLs
+-
 ```
 
-**IMPORTANT:** The deploy summary is a staging area for the CURRENT deployment only. After the build succeeds and email is sent, clear the file so it's ready for the next batch of changes.
+**IMPORTANT:**
+- The deployment summary is a staging area for the CURRENT deployment only
+- The pre-push Git hook automatically processes and resets this file
+- All three sections (deploy summary, internal notes, changed URLs) are required
+- Use markdown formatting for the summary and notes sections
+- If summary or URLs are empty, the hook will skip deployment tracking
+
+#### Pre-Push Hook Setup:
+Run this once after cloning the repository:
+```bash
+node scripts/install-hooks.js
+```
+
+This installs a Git hook that automatically tracks deployments on `git push`.
 
 ---
 

@@ -12,11 +12,13 @@ export async function GET(request: Request) {
 
     if (!error) {
       // Successfully authenticated - redirect to dashboard or intended page
-      return NextResponse.redirect(`${origin}${next}`)
+      // Use URL constructor to ensure clean redirect without code parameter
+      const redirectUrl = new URL(next, origin)
+      return NextResponse.redirect(redirectUrl)
     }
 
     // If there was an error exchanging the code
-    console.error('Error exchanging code for session:', error.message)
+    console.error('Error exchanging code for session:', error)
   }
 
   // If no code or error occurred, redirect to login with error

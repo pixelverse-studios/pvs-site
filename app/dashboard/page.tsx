@@ -1,8 +1,11 @@
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { Container } from '@/components/ui/container'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { LogoutButton } from '@/components/auth/logout-button'
+import { Users, FolderKanban, Mail, FileText } from 'lucide-react'
 
 export const metadata = {
   title: 'Dashboard | PixelVerse Studios',
@@ -73,9 +76,29 @@ export default async function DashboardPage() {
                 <CardDescription>Common tasks and shortcuts</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-[var(--pv-text-muted)]">
-                  Dashboard features coming soon...
-                </p>
+                <div className="grid gap-3">
+                  <Button variant="outline" className="justify-start" asChild>
+                    <Link href="/dashboard/clients">
+                      <Users className="mr-2 h-4 w-4" />
+                      Manage Clients
+                    </Link>
+                  </Button>
+                  <Button variant="outline" className="justify-start" disabled>
+                    <FolderKanban className="mr-2 h-4 w-4" />
+                    Manage Projects
+                    <span className="ml-auto text-xs text-[var(--pv-text-muted)]">Coming soon</span>
+                  </Button>
+                  <Button variant="outline" className="justify-start" disabled>
+                    <Mail className="mr-2 h-4 w-4" />
+                    View Leads
+                    <span className="ml-auto text-xs text-[var(--pv-text-muted)]">Coming soon</span>
+                  </Button>
+                  <Button variant="outline" className="justify-start" disabled>
+                    <FileText className="mr-2 h-4 w-4" />
+                    Audit Requests
+                    <span className="ml-auto text-xs text-[var(--pv-text-muted)]">Coming soon</span>
+                  </Button>
+                </div>
               </CardContent>
             </Card>
 

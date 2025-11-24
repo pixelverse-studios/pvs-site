@@ -45,6 +45,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl)
   }
 
+  // Add pathname to headers so layout can conditionally render navbar/footer
+  supabaseResponse.headers.set('x-pathname', request.nextUrl.pathname)
+
   return supabaseResponse
 }
 

@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { Inter, Poppins } from 'next/font/google';
 import { Suspense } from 'react';
 import type { ReactNode } from 'react';
+import { headers } from 'next/headers';
 
 import './globals.css';
 import { Footer } from '@/components/ui/footer';
@@ -136,7 +137,13 @@ const CampaignTracker = dynamic(
   },
 );
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const headersList = await headers();
+  const pathname = headersList.get('x-pathname') || '';
+
+  // Pages that should not have navbar/footer
+  const isAuthPage = pathname === '/login' || pathname.startsWith('/login/');
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -150,15 +157,21 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Suspense fallback={null}>
             <CampaignTracker />
           </Suspense>
-          <div className="flex min-h-screen flex-col">
-            <Navbar items={navItems} cta={{ label: 'Get Started', href: '/contact' }} />
-            <div className="flex-1">{children}</div>
-            <Footer
-              links={navItems}
-              localContactLinks={localContactLinks}
-              cta={{ label: 'Get in touch with us', href: '/contact' }}
-            />
-          </div>
+          {isAuthPage ? (
+            // Auth pages: full-screen, no navbar/footer
+            children
+          ) : (
+            // Regular pages: with navbar and footer
+            <div className="flex min-h-screen flex-col">
+              <Navbar items={navItems} cta={{ label: 'Get Started', href: '/contact' }} />
+              <div className="flex-1">{children}</div>
+              <Footer
+                links={navItems}
+                localContactLinks={localContactLinks}
+                cta={{ label: 'Get in touch with us', href: '/contact' }}
+              />
+            </div>
+          )}
         </ThemeProvider>
       </body>
     </html>
