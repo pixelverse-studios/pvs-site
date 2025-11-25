@@ -18,5 +18,5 @@
 - Bonus: Many pages now statically generate instead of being server-rendered (performance improvement)
 
 ## Changed URLs
-- https://www.pixelversestudios.io/ (all pages with public navbar)
-- https://www.pixelversestudios.io/dashboard (and all dashboard sub-pages)
+- https://www.pixelversestudios.io/
+- https://www.pixelversestudios.io/dashboard

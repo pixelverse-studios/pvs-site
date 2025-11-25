@@ -224,7 +224,23 @@ The file has **three required sections**:
 3. **Changed URLs** - List all affected page URLs
    - Use bullet points (- https://www.pixelversestudios.io/page)
    - Include full URLs with protocol
+   - **URLs must be plain and valid** - no extra text, parentheses, or comments after the URL
    - These URLs are tracked for Google Search Console re-indexing
+
+#### URL Formatting Examples:
+```markdown
+## Changed URLs
+- https://www.pixelversestudios.io/
+- https://www.pixelversestudios.io/dashboard
+- https://www.pixelversestudios.io/blog/my-post
+```
+
+**Do NOT add notes after URLs:**
+```markdown
+## Changed URLs
+- https://www.pixelversestudios.io/ (all pages)     ❌ WRONG
+- https://www.pixelversestudios.io/dashboard        ✅ CORRECT
+```
 
 #### Example Good Entries:
 - ✅ "Added Google sign-in for team dashboard access"
