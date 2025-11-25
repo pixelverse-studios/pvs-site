@@ -4,7 +4,7 @@ import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { LucideIcon } from 'lucide-react';
-import { Box, Folder, HelpCircle, Info, Menu, PenSquare, Sparkles, X } from 'lucide-react';
+import { Box, Folder, HelpCircle, Info, LayoutDashboard, Menu, PenSquare, Sparkles, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { createPortal } from 'react-dom';
@@ -12,6 +12,7 @@ import { createPortal } from 'react-dom';
 import { sharedMetadata } from '@/lib/metadata';
 import { cn } from '@/lib/utils';
 
+import { AuthDashboardLink } from './auth-dashboard-link';
 import { Button } from './button';
 import { ThemeToggle } from './theme-toggle';
 
@@ -38,6 +39,7 @@ const mobileNavIcons: Record<string, LucideIcon> = {
   Portfolio: Folder,
   Blog: PenSquare,
   FAQ: HelpCircle,
+  Dashboard: LayoutDashboard,
 };
 
 export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
@@ -208,6 +210,12 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                       </Link>
                     );
                   })}
+                  {/* Dashboard link - only visible to authenticated users */}
+                  <AuthDashboardLink
+                    variant="mobile"
+                    isDarkMode={isDarkMode}
+                    onNavigate={() => setIsMobileNavOpen(false)}
+                  />
                 </nav>
                 {cta && (
                   <div className="mt-10 pt-6">
@@ -282,6 +290,10 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
             </nav>
           )}
           <div className="ml-auto flex items-center gap-2 md:gap-3">
+            {/* Dashboard link - only visible to authenticated users */}
+            <div className="hidden md:flex">
+              <AuthDashboardLink variant="desktop" />
+            </div>
             {cta && (
               <Button asChild variant="cta" className="hidden md:inline-flex">
                 <Link href={cta.href} className="whitespace-nowrap">

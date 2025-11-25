@@ -89,7 +89,7 @@ export default async function ClientDetailPage({ params }: { params: { id: strin
   const formattedUpdatedAt = client.updated_at ? formatDate(client.updated_at) : 'Never';
 
   return (
-    <main className="pb-16 pt-hero md:pb-24">
+    <main className="pb-16 pt-8 md:pb-24">
       <Container className="max-w-7xl">
         {/* Header */}
         <div className="mb-6 flex items-center justify-between">

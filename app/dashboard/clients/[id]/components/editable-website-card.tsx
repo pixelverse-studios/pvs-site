@@ -1,10 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { ExternalLink, Copy, Check, Eye, Save, X, Trash2 } from 'lucide-react'
+import { ExternalLink, Copy, Check, Eye, Save, X, Trash2, ArrowUpRight } from 'lucide-react'
 import { WebsiteTypeBadge } from '../../components/website-type-badge'
 import { Input } from '@/components/ui/input'
 import { useRouter } from 'next/navigation'
+import { cn } from '@/lib/utils'
 
 interface Website {
   id: string
@@ -198,80 +199,94 @@ export function EditableWebsiteCard({ website, clientId, onSave, onDelete }: Edi
         )}
 
         {/* Actions */}
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           {isEditing ? (
             <>
               <button
                 onClick={handleSave}
-                className="flex-1 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200"
+                className="group/btn flex-1 rounded-lg px-4 py-2.5 text-sm font-semibold transition-all duration-200 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98]"
                 style={{
                   background: 'var(--pv-gradient)',
                   color: '#fff',
                 }}
               >
                 <span className="flex items-center justify-center gap-2">
-                  <Save className="h-4 w-4" />
+                  <Save className="h-4 w-4 transition-transform duration-200 group-hover/btn:rotate-[-8deg]" />
                   Save Changes
                 </span>
               </button>
               <button
                 onClick={handleCancel}
-                className="rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200"
+                className="rounded-lg p-2.5 text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
                 style={{
                   background: 'var(--pv-border)',
                   color: 'var(--pv-text)',
                 }}
+                aria-label="Cancel editing"
               >
                 <X className="h-4 w-4" />
               </button>
             </>
           ) : (
             <>
+              {/* Primary Action - Visit */}
               <button
                 onClick={handleVisit}
-                className="flex-1 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 hover:shadow-md"
+                className="group/visit relative flex-[1.2] overflow-hidden rounded-lg px-4 py-2.5 text-sm font-semibold shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-md active:scale-[0.98]"
                 style={{
                   background: 'var(--pv-gradient)',
                   color: '#fff',
                 }}
               >
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover/visit:-translate-y-0.5 group-hover/visit:translate-x-0.5" />
+                  <span>Visit</span>
+                </span>
+                {/* Shine effect on hover */}
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-500 group-hover/visit:translate-x-full" />
+              </button>
+
+              {/* Secondary Action - Copy */}
+              <button
+                onClick={handleCopy}
+                className={cn(
+                  "group/copy relative flex-1 overflow-hidden rounded-lg border px-3 py-2.5 text-sm font-medium transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]",
+                  copied
+                    ? "border-[var(--pv-success)] bg-[var(--pv-success)] text-white"
+                    : "border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)] hover:border-[var(--pv-primary)] hover:text-[var(--pv-primary)]"
+                )}
+              >
                 <span className="flex items-center justify-center gap-2">
-                  <ExternalLink className="h-4 w-4" />
-                  Visit
+                  {copied ? (
+                    <Check className="h-4 w-4 animate-[bounce_0.4s_ease-out]" />
+                  ) : (
+                    <Copy className="h-4 w-4 transition-transform duration-200 group-hover/copy:scale-110" />
+                  )}
+                  <span>{copied ? 'Copied!' : 'Copy'}</span>
                 </span>
               </button>
 
-              <button
-                onClick={handleCopy}
-                className="rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200"
-                style={{
-                  background: copied ? 'var(--pv-success)' : 'var(--pv-border)',
-                  color: copied ? '#fff' : 'var(--pv-text)',
-                }}
-              >
-                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              </button>
-
+              {/* Secondary Action - View */}
               <button
                 onClick={handleView}
-                className="rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200"
-                style={{
-                  background: 'var(--pv-border)',
-                  color: 'var(--pv-text)',
-                }}
+                className="group/view flex-1 rounded-lg border border-transparent bg-[var(--pv-surface)] px-3 py-2.5 text-sm font-medium text-[var(--pv-text)] transition-all duration-300 hover:scale-[1.02] hover:border-[var(--pv-border)] hover:bg-[var(--pv-bg)] active:scale-[0.98]"
               >
-                <Eye className="h-4 w-4" />
+                <span className="flex items-center justify-center gap-2">
+                  <Eye className="h-4 w-4 transition-transform duration-200 group-hover/view:scale-110" />
+                  <span>View</span>
+                </span>
               </button>
 
+              {/* Divider */}
+              <div className="h-6 w-px bg-[var(--pv-border)]" />
+
+              {/* Destructive Action - Delete */}
               <button
                 onClick={handleDelete}
-                className="rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 hover:bg-red-50"
-                style={{
-                  background: 'var(--pv-border)',
-                  color: 'var(--pv-danger)',
-                }}
+                className="group/delete rounded-lg border border-transparent bg-[var(--pv-surface)] p-2.5 text-[var(--pv-danger)] transition-all duration-300 hover:scale-105 hover:border-[var(--pv-danger)]/30 hover:bg-[var(--pv-danger)]/10 active:scale-95"
+                aria-label="Delete website"
               >
-                <Trash2 className="h-4 w-4" />
+                <Trash2 className="h-4 w-4 transition-transform duration-200 group-hover/delete:scale-110" />
               </button>
             </>
           )}

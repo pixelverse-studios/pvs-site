@@ -93,7 +93,7 @@ export function DashboardSidebar() {
       {/* Mobile menu toggle button */}
       <button
         onClick={() => setIsMobileOpen(!isMobileOpen)}
-        className="fixed left-4 top-32 z-[60] rounded-xl p-3 shadow-lg transition-all duration-300 lg:hidden"
+        className="fixed left-4 top-6 z-[60] rounded-xl p-3 shadow-lg transition-all duration-300 lg:hidden"
         style={{
           background: 'var(--pv-surface)',
           border: '1px solid var(--pv-border)',
@@ -114,7 +114,7 @@ export function DashboardSidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 z-50 h-fit pb-8 pt-48 transition-all duration-500 ease-in-out
+        className={`fixed left-0 top-0 z-50 h-fit pb-8 pt-6 transition-all duration-500 ease-in-out
           ${
             // Mobile: full width when open, desktop: collapsible width
             isMobileOpen
@@ -150,10 +150,13 @@ export function DashboardSidebar() {
 
             {/* Navigation items */}
             <nav className="flex h-full flex-col gap-1 p-4">
-              {/* Logo/Brand area */}
-              <div className="mb-6 overflow-hidden px-3">
+              {/* Logo/Brand area - Clickable link to homepage */}
+              <Link
+                href="/"
+                className="group/logo mb-6 block overflow-hidden rounded-lg px-3 py-2 transition-all duration-300 hover:bg-[var(--pv-border)]/50"
+              >
                 <div
-                  className={`font-heading font-bold transition-all duration-500 ${
+                  className={`font-heading font-bold transition-all duration-500 group-hover/logo:scale-105 ${
                     isCollapsed && !isMobileOpen ? 'text-xl' : 'text-2xl'
                   }`}
                   style={{
@@ -165,7 +168,12 @@ export function DashboardSidebar() {
                 >
                   {isCollapsed && !isMobileOpen ? 'PV' : 'PVS'}
                 </div>
-              </div>
+                {(!isCollapsed || isMobileOpen) && (
+                  <span className="mt-0.5 block text-[10px] font-medium uppercase tracking-wider text-[var(--pv-text-muted)] transition-colors group-hover/logo:text-[var(--pv-primary)]">
+                    Go to site →
+                  </span>
+                )}
+              </Link>
 
               {/* Nav items */}
               <div className="flex-1 space-y-1">
@@ -277,6 +285,7 @@ export function DashboardSidebar() {
                   background: 'var(--pv-border)',
                   color: 'var(--pv-text-muted)',
                 }}
+                aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               >
                 {/* Hover gradient */}
                 <div

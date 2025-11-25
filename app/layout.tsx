@@ -4,11 +4,9 @@ import dynamic from 'next/dynamic';
 import { Inter, Poppins } from 'next/font/google';
 import { Suspense } from 'react';
 import type { ReactNode } from 'react';
-import { headers } from 'next/headers';
 
 import './globals.css';
-import { Footer } from '@/components/ui/footer';
-import { Navbar } from '@/components/ui/navbar';
+import { LayoutWrapper } from '@/components/layout-wrapper';
 import { ThemeProvider } from '@/components/theme-provider';
 import { StructuredData } from '@/components/ui/structured-data';
 import { sharedMetadata } from '@/lib/metadata';
@@ -137,13 +135,7 @@ const CampaignTracker = dynamic(
   },
 );
 
-export default async function RootLayout({ children }: { children: ReactNode }) {
-  const headersList = await headers();
-  const pathname = headersList.get('x-pathname') || '';
-
-  // Pages that should not have navbar/footer
-  const isAuthPage = pathname === '/login' || pathname.startsWith('/login/');
-
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -157,21 +149,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <Suspense fallback={null}>
             <CampaignTracker />
           </Suspense>
-          {isAuthPage ? (
-            // Auth pages: full-screen, no navbar/footer
-            children
-          ) : (
-            // Regular pages: with navbar and footer
-            <div className="flex min-h-screen flex-col">
-              <Navbar items={navItems} cta={{ label: 'Get Started', href: '/contact' }} />
-              <div className="flex-1">{children}</div>
-              <Footer
-                links={navItems}
-                localContactLinks={localContactLinks}
-                cta={{ label: 'Get in touch with us', href: '/contact' }}
-              />
-            </div>
-          )}
+          <LayoutWrapper navItems={navItems} localContactLinks={localContactLinks}>
+            {children}
+          </LayoutWrapper>
         </ThemeProvider>
       </body>
     </html>

@@ -42,7 +42,7 @@ export default async function ClientsPage() {
   }
 
   return (
-    <main className="pt-hero pb-16 md:pb-24">
+    <main className="pt-8 pb-16 md:pb-24">
       <Container className="max-w-7xl">
         <div className="space-y-8">
           {/* Header */}

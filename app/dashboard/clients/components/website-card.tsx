@@ -130,6 +130,7 @@ export function WebsiteCard({ website }: WebsiteCardProps) {
               background: copied ? 'var(--pv-success)' : 'var(--pv-border)',
               color: copied ? '#fff' : 'var(--pv-text)',
             }}
+            aria-label={copied ? 'URL copied' : 'Copy website URL'}
           >
             {copied ? (
               <Check className="h-4 w-4" />

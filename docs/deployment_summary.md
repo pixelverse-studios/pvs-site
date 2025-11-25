@@ -3,21 +3,20 @@
 <!-- This file is automatically sent via email on successful deployment, then reset for the next cycle -->
 
 ## Latest deploy summary
-- **Fixed dashboard data visibility issue** where client data wasn't showing in production but worked locally
-- Implemented automatic API URL detection that uses the correct server URL based on environment (development vs production)
-- Dashboard pages now automatically connect to the correct API server without manual configuration
+- **Added authenticated dashboard link to navbar** - Team members signed in via Google can now access the dashboard directly from the main navigation
+- **Dashboard icon appears only when logged in** - The icon automatically shows/hides based on authentication status with a smooth fade animation
+- **Works on both desktop and mobile** - Desktop shows an icon with tooltip; mobile shows full "Dashboard" link in the hamburger menu
+- **Fixed navbar visibility during navigation** - Navbar now correctly shows/hides when navigating between dashboard and public pages without requiring a page refresh
 
 ## Notes for internal team
-- Created new `lib/api-config.ts` that automatically detects environment and uses correct API URL
-- Updated all API calls in dashboard pages and components to use dynamic configuration
-- API URL configuration now automatically uses `http://localhost:5001` in development and `https://pvs-server-62hx7.ondigitalocean.app` in production
-- No environment variable changes needed in production - the configuration is automatic
-- The issue was caused by hardcoded `NEXT_PUBLIC_API_BASE_URL=http://localhost:5001` which only worked locally
-- All 7 files using API calls have been updated to use the new dynamic configuration
+- Created new `components/ui/auth-dashboard-link.tsx` component with real-time Supabase auth state subscription
+- Updated `components/ui/navbar.tsx` to include AuthDashboardLink in both desktop and mobile views
+- Uses LayoutDashboard icon from Lucide (consistent with dashboard sidebar)
+- Includes tooltip on hover, gradient active state when on dashboard pages
+- Uses `animate-in fade-in` for smooth appearance transitions
+- **Bug fix**: Moved navbar visibility logic from server component to client component (`components/layout-wrapper.tsx`) to handle client-side navigation properly
+- Bonus: Many pages now statically generate instead of being server-rendered (performance improvement)
 
 ## Changed URLs
-- https://pixelversestudios.io/dashboard/clients
-- https://pixelversestudios.io/dashboard/clients/[id]
-- https://pixelversestudios.io/dashboard/clients/[id]/websites/[websiteId]
-- https://pixelversestudios.io/contact
-- https://pixelversestudios.io/audit
+- https://www.pixelversestudios.io/ (all pages with public navbar)
+- https://www.pixelversestudios.io/dashboard (and all dashboard sub-pages)

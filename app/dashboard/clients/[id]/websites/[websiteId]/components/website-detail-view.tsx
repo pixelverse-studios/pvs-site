@@ -38,7 +38,7 @@ export function WebsiteDetailView({ website, client }: WebsiteDetailViewProps) {
       : client.firstname || client.lastname || 'Client';
 
   return (
-    <main className="relative min-h-screen overflow-hidden pb-16 pt-hero">
+    <main className="relative min-h-screen overflow-hidden pb-16 pt-8">
       {/* Grain texture overlay */}
       <div
         className="pointer-events-none fixed inset-0 opacity-[0.015]"

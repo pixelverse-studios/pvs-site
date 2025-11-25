@@ -28,6 +28,7 @@ export function CopyButton({ text }: CopyButtonProps) {
       onClick={handleCopy}
       className="h-8 w-8 p-0"
       title={copied ? 'Copied!' : 'Copy to clipboard'}
+      aria-label={copied ? 'Copied to clipboard' : 'Copy to clipboard'}
     >
       {copied ? (
         <Check className="h-4 w-4 text-[var(--pv-success)]" />
