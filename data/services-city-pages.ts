@@ -869,21 +869,21 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'Englewood',
     state: 'NJ',
     metadata: {
-      title: 'Englewood NJ Web Design & Local SEO Agency | PixelVerse',
+      title: 'Local SEO Agency Englewood NJ | Web Design & SEO | PixelVerse',
       description:
-        'PixelVerse crafts premium websites, conversion funnels, and local SEO for Englewood healthcare groups, downtown retail, and Englewood Cliffs corporate teams.',
+        'Looking for an SEO agency in Englewood NJ? PixelVerse is a local SEO agency serving Englewood with premium websites, conversion funnels, and SEO for healthcare, retail, and corporate teams.',
       keywords: [
+        'local SEO agency Englewood NJ',
+        'SEO agency Englewood NJ',
         'Englewood web design',
         'Englewood NJ SEO',
         'Englewood Cliffs digital agency',
-        'Palisade Avenue marketing',
-        'Englewood local SEO',
-        'local SEO agency Englewood NJ'
+        'Englewood local SEO'
       ]
     },
     hero: {
       eyebrow: 'Englewood, NJ',
-      heading: 'Premium digital touchpoints for Englewood clinics, retail, and HQs.',
+      heading: 'Local SEO agency and web design for Englewood businesses.',
       description:
         'Englewood brands compete with NYC without the Manhattan overhead. We deliver conversion-first builds highlighting hospital service lines, downtown boutiques, and Englewood Cliffs innovators.',
       bullets: [

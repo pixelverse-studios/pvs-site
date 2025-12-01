@@ -5,20 +5,21 @@ export const bergenCountyPage: CityServicePageDefinition = {
   city: 'Bergen County',
   state: 'NJ',
   metadata: {
-    title: 'Bergen County SEO & Web Design Agency | PixelVerse',
+    title: 'Website Analytics & SEO Agency Bergen County NJ | PixelVerse',
     description:
-      'PixelVerse delivers custom-coded sites, local SEO, and analytics reporting for Bergen County service brands, retailers, and professional firms.',
+      'PixelVerse is a website analytics agency in Bergen County NJ offering custom web design, local SEO, and analytics reporting for service brands and professional firms.',
     keywords: [
+      'website analytics agency Bergen County NJ',
       'Bergen County web design',
       'Bergen County SEO agency',
       'Bergen County analytics agency',
       'Bergen County local SEO',
-      'Bergen County web analytics'
+      'website analytics Bergen County'
     ]
   },
   hero: {
     eyebrow: 'Bergen County, NJ',
-    heading: 'Bergen County SEO, web design, and analytics reporting engineered for measurable growth.',
+    heading: 'Website analytics, SEO, and custom web design for Bergen County businesses.',
     description:
       'From Ridgewood boutiques to Hackensack medical groups, we design, build, and optimize sites that rank locally and prove impact with analytics dashboards built for Bergen owners and operators.',
     bullets: [

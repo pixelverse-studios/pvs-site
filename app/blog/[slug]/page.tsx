@@ -14,6 +14,7 @@ import { Badge } from '@/components/ui/badge';
 import { Container } from '@/components/ui/container';
 import { StructuredData } from '@/components/ui/structured-data';
 import { createPageMetadata, sharedMetadata } from '@/lib/metadata';
+import { createBreadcrumbSchema } from '@/lib/structured-data';
 
 type Params = {
   slug: string;
@@ -98,6 +99,14 @@ export default function BlogPostPage({ params }: { params: Params }) {
   }
 
   const relatedPosts = getBlogPostsExcluding(post.slug).slice(0, 3);
+
+  // Breadcrumb: Home > Blog > [Post Title]
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' },
+    { name: post.title, path: `/blog/${post.slug}` },
+  ]);
+
   const blogPostSchema = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -176,6 +185,7 @@ export default function BlogPostPage({ params }: { params: Params }) {
         posts={relatedPosts}
       />
       <StructuredData id={`pixelverse-blog-post-${post.slug}`} data={blogPostSchema} />
+      <StructuredData id={`breadcrumb-blog-${post.slug}`} data={breadcrumbSchema} />
     </main>
   );
 }

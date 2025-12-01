@@ -2,7 +2,7 @@ import { Container } from '@/components/ui/container';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
-const faqs = [
+export const faqs = [
   {
     question: 'Why should I choose a custom-coded website over a builder like Wix or Squarespace?',
     answer:

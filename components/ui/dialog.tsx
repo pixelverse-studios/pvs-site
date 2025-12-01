@@ -48,7 +48,7 @@ const DialogContent = React.forwardRef<
           'absolute right-4 top-4 text-[var(--pv-text-muted)] hover:text-[var(--pv-text)]',
         )}
       >
-        <X className="h-4 w-4" />
+        <X className="h-4 w-4" aria-hidden="true" />
         <span className="sr-only">Close</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>

@@ -79,7 +79,7 @@ export function ServicesSection() {
                   <CardHeader className="flex flex-col gap-4 border-b border-[var(--pv-border)] pb-6">
                     <div className="flex items-center gap-3">
                       <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-primary)] shadow-sm transition-transform duration-200 group-hover:-translate-y-0.5">
-                        <service.icon className="h-5 w-5" />
+                        <service.icon className="h-5 w-5" aria-hidden="true" />
                       </span>
                       <CardTitle className="text-xl text-[var(--pv-text)]">{service.title}</CardTitle>
                     </div>

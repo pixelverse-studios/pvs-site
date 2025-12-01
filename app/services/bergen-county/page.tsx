@@ -10,8 +10,10 @@ import { ServicesCoreSection } from '@/components/services/services-core-section
 import { ServicesIntroSection } from '@/components/services/services-intro-section';
 import { ServicesProcessSection } from '@/components/services/services-process-section';
 import { BergenTownsSection } from '@/components/bergen/bergen-towns-section';
+import { StructuredData } from '@/components/ui/structured-data';
 import { bergenCountyPage } from '@/data/bergen-county-page';
 import { createPageMetadata } from '@/lib/metadata';
+import { createBreadcrumbSchema } from '@/lib/structured-data';
 
 export const metadata: Metadata = createPageMetadata({
   title: bergenCountyPage.metadata.title,
@@ -20,11 +22,19 @@ export const metadata: Metadata = createPageMetadata({
   keywords: bergenCountyPage.metadata.keywords,
 });
 
+// Breadcrumb: Home > Services > Bergen County
+const breadcrumbSchema = createBreadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: 'Services', path: '/services' },
+  { name: 'Bergen County, NJ', path: '/services/bergen-county' },
+]);
+
 export default function BergenCountyPage() {
   const page = bergenCountyPage;
 
   return (
     <main>
+      <StructuredData id="breadcrumb-bergen-county" data={breadcrumbSchema} />
       <CityServicesHero hero={page.hero} />
       <CityServicesCtaSection cta={page.cta} />
       <ServicesIntroSection headingLevel="h2" />

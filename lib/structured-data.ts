@@ -5,6 +5,22 @@ const {
   logo: { light: lightModeLogo }
 } = sharedMetadata;
 
+// BreadcrumbList schema generator for improved SERP display
+export function createBreadcrumbSchema(
+  items: Array<{ name: string; path: string }>
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: `${siteUrl}${item.path}`,
+    })),
+  };
+}
+
 export const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',

@@ -10,11 +10,13 @@ import { ServicesClosingCtaSection } from '@/components/services/services-closin
 import { ServicesCoreSection } from '@/components/services/services-core-section';
 import { ServicesIntroSection } from '@/components/services/services-intro-section';
 import { ServicesProcessSection } from '@/components/services/services-process-section';
+import { StructuredData } from '@/components/ui/structured-data';
 import {
   cityServicePageSlugs,
   getCityServicePage
 } from '@/data/services-city-pages';
 import { createPageMetadata } from '@/lib/metadata';
+import { createBreadcrumbSchema } from '@/lib/structured-data';
 
 interface CityPageParams {
   city: string;
@@ -48,8 +50,16 @@ export default function CityServicesPage({ params }: { params: CityPageParams })
     notFound();
   }
 
+  // Breadcrumb: Home > Services > [City Name]
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Services', path: '/services' },
+    { name: `${page.city}, ${page.state}`, path: `/services/${page.slug}` },
+  ]);
+
   return (
     <main>
+      <StructuredData id={`breadcrumb-${page.slug}`} data={breadcrumbSchema} />
       <CityServicesHero hero={page.hero} />
       <ServicesIntroSection headingLevel="h2" />
       <ServicesCoreSection />
