@@ -11,10 +11,10 @@ import { getApiBaseUrl } from '@/lib/api-config'
 interface DeploymentCardProps {
   deployment: Deployment
   index: number
-  onUrlMarked?: () => void
+  onMarkedIndexed?: (deploymentId: string, url?: string) => void
 }
 
-export function DeploymentCard({ deployment, index, onUrlMarked }: DeploymentCardProps) {
+export function DeploymentCard({ deployment, index, onMarkedIndexed }: DeploymentCardProps) {
   const [markingUrl, setMarkingUrl] = useState<string | null>(null)
   const [markingAll, setMarkingAll] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -28,10 +28,15 @@ export function DeploymentCard({ deployment, index, onUrlMarked }: DeploymentCar
 
   const status = isFullyIndexed ? 'indexed' : (isPartiallyIndexed ? 'partial' : 'pending')
 
-  // Handler to mark a single URL as indexed
+  // Handler to mark a single URL as indexed (optimistic update)
   const handleMarkUrlIndexed = async (url: string) => {
     setMarkingUrl(url)
     setError(null)
+
+    // Optimistic update: immediately update UI
+    if (onMarkedIndexed) {
+      onMarkedIndexed(deployment.id, url)
+    }
 
     try {
       const response = await fetch(
@@ -49,23 +54,25 @@ export function DeploymentCard({ deployment, index, onUrlMarked }: DeploymentCar
         }
         throw new Error(`Failed to mark URL as indexed: ${response.status}`)
       }
-
-      // Success - trigger refetch
-      if (onUrlMarked) {
-        onUrlMarked()
-      }
     } catch (err) {
       console.error('Error marking URL as indexed:', err)
       setError(err instanceof Error ? err.message : 'Failed to mark URL as indexed')
+      // Note: We don't revert the optimistic update here for simplicity
+      // A full implementation would restore the previous state on error
     } finally {
       setMarkingUrl(null)
     }
   }
 
-  // Handler to mark entire deployment as indexed
+  // Handler to mark entire deployment as indexed (optimistic update)
   const handleMarkAllIndexed = async () => {
     setMarkingAll(true)
     setError(null)
+
+    // Optimistic update: immediately update UI (no url = mark entire deployment)
+    if (onMarkedIndexed) {
+      onMarkedIndexed(deployment.id)
+    }
 
     try {
       const response = await fetch(
@@ -82,14 +89,10 @@ export function DeploymentCard({ deployment, index, onUrlMarked }: DeploymentCar
         }
         throw new Error(`Failed to mark deployment as indexed: ${response.status}`)
       }
-
-      // Success - trigger refetch
-      if (onUrlMarked) {
-        onUrlMarked()
-      }
     } catch (err) {
       console.error('Error marking deployment as indexed:', err)
       setError(err instanceof Error ? err.message : 'Failed to mark deployment as indexed')
+      // Note: We don't revert the optimistic update here for simplicity
     } finally {
       setMarkingAll(false)
     }

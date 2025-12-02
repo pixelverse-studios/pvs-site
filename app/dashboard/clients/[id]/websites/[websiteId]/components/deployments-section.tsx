@@ -77,6 +77,46 @@ export function DeploymentsSection({ websiteId, websiteTitle }: DeploymentsSecti
     }
   }, [websiteId])
 
+  // Optimistic update: immediately update UI when a URL or deployment is marked as indexed
+  const handleMarkedIndexed = useCallback((deploymentId: string, url?: string) => {
+    setData(prev => {
+      if (!prev) return prev
+
+      const now = new Date().toISOString()
+
+      return {
+        ...prev,
+        deployments: prev.deployments.map(deployment => {
+          if (deployment.id !== deploymentId) return deployment
+
+          if (url) {
+            // Mark a single URL as indexed
+            const updatedUrls = deployment.changed_urls.map(u =>
+              u.url === url ? { ...u, indexed_at: now } : u
+            )
+            // Check if all URLs are now indexed
+            const allIndexed = updatedUrls.every(u => u.indexed_at !== null)
+            return {
+              ...deployment,
+              changed_urls: updatedUrls,
+              indexed_at: allIndexed ? now : deployment.indexed_at,
+            }
+          } else {
+            // Mark entire deployment as indexed (all URLs)
+            return {
+              ...deployment,
+              changed_urls: deployment.changed_urls.map(u => ({
+                ...u,
+                indexed_at: u.indexed_at || now,
+              })),
+              indexed_at: now,
+            }
+          }
+        }),
+      }
+    })
+  }, [])
+
   useEffect(() => {
     fetchDeployments()
   }, [fetchDeployments])
@@ -274,7 +314,7 @@ export function DeploymentsSection({ websiteId, websiteTitle }: DeploymentsSecti
       {filteredDeployments.length > 0 && (
         <DeploymentTimeline
           deployments={filteredDeployments}
-          onUrlMarked={fetchDeployments}
+          onMarkedIndexed={handleMarkedIndexed}
         />
       )}
 

@@ -3,10 +3,10 @@ import { DeploymentCard } from './deployment-card'
 
 interface DeploymentTimelineProps {
   deployments: Deployment[]
-  onUrlMarked?: () => void
+  onMarkedIndexed?: (deploymentId: string, url?: string) => void
 }
 
-export function DeploymentTimeline({ deployments, onUrlMarked }: DeploymentTimelineProps) {
+export function DeploymentTimeline({ deployments, onMarkedIndexed }: DeploymentTimelineProps) {
   if (deployments.length === 0) {
     return null
   }
@@ -61,7 +61,7 @@ export function DeploymentTimeline({ deployments, onUrlMarked }: DeploymentTimel
             <DeploymentCard
               deployment={deployment}
               index={index}
-              onUrlMarked={onUrlMarked}
+              onMarkedIndexed={onMarkedIndexed}
             />
           </div>
         ))}
