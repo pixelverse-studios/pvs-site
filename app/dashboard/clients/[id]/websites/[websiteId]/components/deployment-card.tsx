@@ -1,50 +1,88 @@
 'use client'
 
 import { useState } from 'react'
-import { Deployment } from '../types'
-import { DeploymentStatusBadge } from './deployment-status-badge'
+import ReactMarkdown from 'react-markdown'
+import { Deployment, IndexingStatus } from '../types'
+import { DeploymentStatusBadge, UrlStatusIndicator } from './deployment-status-badge'
 import { CopyButton } from '../../../components/copy-button'
-import { ExternalLink, FileText, CheckCircle, Loader2 } from 'lucide-react'
+import {
+  ExternalLink,
+  FileText,
+  Loader2,
+  Send,
+  CheckCircle,
+  Clock,
+  Copy,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { getApiBaseUrl } from '@/lib/api-config'
 
 interface DeploymentCardProps {
   deployment: Deployment
   index: number
-  onMarkedIndexed?: (deploymentId: string, url?: string) => void
+  onStatusUpdated?: (
+    deploymentId: string,
+    newStatus: IndexingStatus,
+    url?: string
+  ) => void
 }
 
-export function DeploymentCard({ deployment, index, onMarkedIndexed }: DeploymentCardProps) {
-  const [markingUrl, setMarkingUrl] = useState<string | null>(null)
-  const [markingAll, setMarkingAll] = useState(false)
+export function DeploymentCard({
+  deployment,
+  index,
+  onStatusUpdated,
+}: DeploymentCardProps) {
+  const [updatingUrl, setUpdatingUrl] = useState<string | null>(null)
+  const [updatingAll, setUpdatingAll] = useState<IndexingStatus | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [copiedAll, setCopiedAll] = useState(false)
 
-  // Calculate status based on URL indexing
-  const indexedUrlCount = deployment.changed_urls.filter(u => u.indexed_at).length
-  const totalUrlCount = deployment.changed_urls.length
-  const isFullyIndexed = deployment.indexed_at !== null
-  const isPartiallyIndexed = indexedUrlCount > 0 && !isFullyIndexed
-  const hasPendingUrls = deployment.changed_urls.some(u => !u.indexed_at)
+  // Calculate counts per status
+  const pendingCount = deployment.changed_urls.filter(
+    (u) => u.indexing_status === 'pending'
+  ).length
+  const requestedCount = deployment.changed_urls.filter(
+    (u) => u.indexing_status === 'requested'
+  ).length
+  const indexedCount = deployment.changed_urls.filter(
+    (u) => u.indexing_status === 'indexed'
+  ).length
+  const totalCount = deployment.changed_urls.length
 
-  const status = isFullyIndexed ? 'indexed' : (isPartiallyIndexed ? 'partial' : 'pending')
+  // Determine overall status for badge
+  const getOverallStatus = () => {
+    if (deployment.indexing_status === 'indexed') return 'indexed'
+    if (deployment.indexing_status === 'requested') return 'requested'
+    if (deployment.indexing_status === 'pending') return 'pending'
+    // Fallback logic for partial states
+    if (indexedCount === totalCount) return 'indexed'
+    if (pendingCount === 0 && requestedCount > 0) return 'requested'
+    if (indexedCount > 0 || requestedCount > 0) return 'partial'
+    return 'pending'
+  }
 
-  // Handler to mark a single URL as indexed (optimistic update)
-  const handleMarkUrlIndexed = async (url: string) => {
-    setMarkingUrl(url)
+  const status = getOverallStatus()
+  const hasPendingUrls = pendingCount > 0
+  const hasRequestedUrls = requestedCount > 0
+  const hasNonIndexedUrls = hasPendingUrls || hasRequestedUrls
+
+  // Update single URL status
+  const handleUpdateUrlStatus = async (url: string, newStatus: IndexingStatus) => {
+    setUpdatingUrl(url)
     setError(null)
 
-    // Optimistic update: immediately update UI
-    if (onMarkedIndexed) {
-      onMarkedIndexed(deployment.id, url)
+    // Optimistic update
+    if (onStatusUpdated) {
+      onStatusUpdated(deployment.id, newStatus, url)
     }
 
     try {
       const response = await fetch(
-        `${getApiBaseUrl()}/api/deployments/${deployment.id}/urls/indexed`,
+        `${getApiBaseUrl()}/api/deployments/${deployment.id}/urls/status`,
         {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url }),
+          body: JSON.stringify({ url, status: newStatus }),
         }
       )
 
@@ -52,34 +90,33 @@ export function DeploymentCard({ deployment, index, onMarkedIndexed }: Deploymen
         if (response.status === 404) {
           throw new Error('Deployment not found')
         }
-        throw new Error(`Failed to mark URL as indexed: ${response.status}`)
+        throw new Error(`Failed to update URL status: ${response.status}`)
       }
     } catch (err) {
-      console.error('Error marking URL as indexed:', err)
-      setError(err instanceof Error ? err.message : 'Failed to mark URL as indexed')
-      // Note: We don't revert the optimistic update here for simplicity
-      // A full implementation would restore the previous state on error
+      console.error('Error updating URL status:', err)
+      setError(err instanceof Error ? err.message : 'Failed to update URL status')
     } finally {
-      setMarkingUrl(null)
+      setUpdatingUrl(null)
     }
   }
 
-  // Handler to mark entire deployment as indexed (optimistic update)
-  const handleMarkAllIndexed = async () => {
-    setMarkingAll(true)
+  // Update all URLs to a specific status
+  const handleUpdateAllStatus = async (newStatus: IndexingStatus) => {
+    setUpdatingAll(newStatus)
     setError(null)
 
-    // Optimistic update: immediately update UI (no url = mark entire deployment)
-    if (onMarkedIndexed) {
-      onMarkedIndexed(deployment.id)
+    // Optimistic update
+    if (onStatusUpdated) {
+      onStatusUpdated(deployment.id, newStatus)
     }
 
     try {
       const response = await fetch(
-        `${getApiBaseUrl()}/api/deployments/${deployment.id}/indexed`,
+        `${getApiBaseUrl()}/api/deployments/${deployment.id}/status`,
         {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: newStatus }),
         }
       )
 
@@ -87,15 +124,28 @@ export function DeploymentCard({ deployment, index, onMarkedIndexed }: Deploymen
         if (response.status === 404) {
           throw new Error('Deployment not found')
         }
-        throw new Error(`Failed to mark deployment as indexed: ${response.status}`)
+        throw new Error(`Failed to update deployment status: ${response.status}`)
       }
     } catch (err) {
-      console.error('Error marking deployment as indexed:', err)
-      setError(err instanceof Error ? err.message : 'Failed to mark deployment as indexed')
-      // Note: We don't revert the optimistic update here for simplicity
+      console.error('Error updating deployment status:', err)
+      setError(
+        err instanceof Error ? err.message : 'Failed to update deployment status'
+      )
     } finally {
-      setMarkingAll(false)
+      setUpdatingAll(null)
     }
+  }
+
+  // Copy all pending/requested URLs to clipboard
+  const handleCopyAllUrls = async () => {
+    const urlsToCopy = deployment.changed_urls
+      .filter((u) => u.indexing_status !== 'indexed')
+      .map((u) => u.url)
+      .join('\n')
+
+    await navigator.clipboard.writeText(urlsToCopy)
+    setCopiedAll(true)
+    setTimeout(() => setCopiedAll(false), 2000)
   }
 
   // Format timestamp as mission control style: YYYY-MM-DD HH:MM:SS UTC
@@ -126,6 +176,18 @@ export function DeploymentCard({ deployment, index, onMarkedIndexed }: Deploymen
     return 'just now'
   }
 
+  // Get border color based on URL status
+  const getUrlBorderClass = (urlStatus: IndexingStatus) => {
+    switch (urlStatus) {
+      case 'pending':
+        return 'border-amber-500/20 bg-amber-500/5 hover:bg-amber-500/10'
+      case 'requested':
+        return 'border-blue-500/20 bg-blue-500/5 hover:bg-blue-500/10'
+      case 'indexed':
+        return 'border-[var(--pv-border)] bg-transparent hover:bg-emerald-500/5'
+    }
+  }
+
   return (
     <div
       className="
@@ -142,12 +204,13 @@ export function DeploymentCard({ deployment, index, onMarkedIndexed }: Deploymen
         animationFillMode: 'backwards',
       }}
     >
-      {/* Compact Header: Status + Timestamps inline */}
+      {/* Header: Status + Timestamps */}
       <div className="flex items-center justify-between gap-4 px-5 py-3 bg-[var(--pv-bg)] border-b border-[var(--pv-border)]">
         <DeploymentStatusBadge
           status={status}
-          indexedCount={indexedUrlCount}
-          totalCount={totalUrlCount}
+          indexedCount={indexedCount}
+          requestedCount={requestedCount}
+          totalCount={totalCount}
         />
 
         <div className="flex items-center gap-3 text-xs text-[var(--pv-text-muted)]">
@@ -164,49 +227,104 @@ export function DeploymentCard({ deployment, index, onMarkedIndexed }: Deploymen
         </div>
       </div>
 
-      {/* Changed URLs Section (AT TOP) */}
+      {/* Changed URLs Section */}
       <div className="px-5 py-4 border-b border-[var(--pv-border)]">
         <div className="flex items-center justify-between gap-4 mb-3">
           <div className="flex items-center gap-2">
             <ExternalLink className="h-4 w-4 text-[var(--pv-text-muted)]" />
             <h4 className="text-sm font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
-              Changed URLs ({deployment.changed_urls.length})
+              Changed URLs ({totalCount})
             </h4>
-            {deployment.changed_urls.length > 0 && (
+            {totalCount > 0 && (
               <span className="text-xs text-[var(--pv-text-muted)]">
-                {deployment.changed_urls.filter(u => u.indexed_at).length}/{deployment.changed_urls.length} indexed
+                {indexedCount}/{totalCount} indexed
+                {requestedCount > 0 && ` • ${requestedCount} requested`}
               </span>
             )}
           </div>
 
-          {/* Mark All as Indexed button (only show if there are pending URLs) */}
-          {hasPendingUrls && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleMarkAllIndexed}
-              disabled={markingAll}
-              className="h-8 px-3 text-xs"
-              title="Mark all URLs in this deployment as indexed"
-            >
-              {markingAll ? (
-                <>
-                  <Loader2 className="h-3.5 w-3.5 animate-spin mr-1.5" />
-                  <span>Marking All...</span>
-                </>
-              ) : (
-                <>
-                  <CheckCircle className="h-3.5 w-3.5 mr-1.5" />
-                  <span>Mark All as Indexed</span>
-                </>
-              )}
-            </Button>
-          )}
+          {/* Bulk Action Buttons */}
+          <div className="flex items-center gap-2">
+            {/* Copy all non-indexed URLs */}
+            {hasNonIndexedUrls && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleCopyAllUrls}
+                className="h-8 px-2 text-xs"
+                title="Copy all pending/requested URLs for GSC"
+              >
+                {copiedAll ? (
+                  <>
+                    <CheckCircle className="h-3.5 w-3.5 mr-1.5 text-emerald-500" />
+                    <span className="text-emerald-500">Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-3.5 w-3.5 mr-1.5" />
+                    <span>Copy URLs</span>
+                  </>
+                )}
+              </Button>
+            )}
+
+            {/* Mark All as Requested (only if pending URLs exist) */}
+            {hasPendingUrls && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleUpdateAllStatus('requested')}
+                disabled={updatingAll !== null}
+                className="h-8 px-3 text-xs border-blue-500/30 text-blue-500 hover:bg-blue-500/10"
+                title="Mark all URLs as submitted to GSC"
+              >
+                {updatingAll === 'requested' ? (
+                  <>
+                    <Loader2 className="h-3.5 w-3.5 animate-spin mr-1.5" />
+                    <span>Marking...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="h-3.5 w-3.5 mr-1.5" />
+                    <span>Request All</span>
+                  </>
+                )}
+              </Button>
+            )}
+
+            {/* Mark All as Indexed (only if non-indexed URLs exist) */}
+            {hasNonIndexedUrls && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleUpdateAllStatus('indexed')}
+                disabled={updatingAll !== null}
+                className="h-8 px-3 text-xs border-emerald-500/30 text-emerald-500 hover:bg-emerald-500/10"
+                title="Mark all URLs as indexed in Google"
+              >
+                {updatingAll === 'indexed' ? (
+                  <>
+                    <Loader2 className="h-3.5 w-3.5 animate-spin mr-1.5" />
+                    <span>Marking...</span>
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle className="h-3.5 w-3.5 mr-1.5" />
+                    <span>Index All</span>
+                  </>
+                )}
+              </Button>
+            )}
+          </div>
         </div>
 
         <div className="space-y-1.5">
           {deployment.changed_urls.map((urlObj) => {
-            const isIndexed = urlObj.indexed_at !== null
+            const isUpdating = updatingUrl === urlObj.url
+            const canRequest = urlObj.indexing_status === 'pending'
+            const canIndex =
+              urlObj.indexing_status === 'pending' ||
+              urlObj.indexing_status === 'requested'
 
             return (
               <div
@@ -218,20 +336,14 @@ export function DeploymentCard({ deployment, index, onMarkedIndexed }: Deploymen
                   rounded
                   transition-all duration-150
                   group/url
-                  ${isIndexed
-                    ? 'border-[var(--pv-border)] bg-transparent hover:bg-emerald-500/5'
-                    : 'border-amber-500/20 bg-amber-500/5 hover:bg-amber-500/10'
-                  }
+                  ${getUrlBorderClass(urlObj.indexing_status)}
                 `}
               >
-                {/* Status indicator dot + URL */}
+                {/* Status indicator + URL */}
                 <div className="flex items-center gap-2.5 flex-1 min-w-0">
-                  <div
-                    className={`
-                      flex-shrink-0 w-1.5 h-1.5 rounded-full
-                      ${isIndexed ? 'bg-emerald-500' : 'bg-amber-500'}
-                    `}
-                    title={isIndexed ? 'Indexed' : 'Pending indexing'}
+                  <UrlStatusIndicator
+                    status={urlObj.indexing_status}
+                    showLabel={false}
                   />
 
                   <a
@@ -254,39 +366,57 @@ export function DeploymentCard({ deployment, index, onMarkedIndexed }: Deploymen
 
                 {/* Action buttons */}
                 <div className="flex items-center gap-1 flex-shrink-0">
-                  {/* Mark as Indexed button (only for pending URLs) */}
-                  {!isIndexed && (
+                  {/* Request Indexing button (pending → requested) */}
+                  {canRequest && (
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => handleMarkUrlIndexed(urlObj.url)}
-                      disabled={markingUrl === urlObj.url}
-                      className="h-8 px-2 text-xs"
-                      title="Mark as indexed in Google Search Console"
+                      onClick={() => handleUpdateUrlStatus(urlObj.url, 'requested')}
+                      disabled={isUpdating}
+                      className="h-8 px-2 text-xs text-blue-500 hover:bg-blue-500/10"
+                      title="Mark as submitted to Google Search Console"
                     >
-                      {markingUrl === urlObj.url ? (
-                        <>
-                          <Loader2 className="h-3.5 w-3.5 animate-spin mr-1" />
-                          <span>Marking...</span>
-                        </>
+                      {isUpdating ? (
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
                       ) : (
                         <>
-                          <CheckCircle className="h-3.5 w-3.5 mr-1" />
-                          <span>Mark Indexed</span>
+                          <Send className="h-3.5 w-3.5 mr-1" />
+                          <span>Request</span>
                         </>
                       )}
                     </Button>
                   )}
 
-                  {/* Show indexed checkmark for indexed URLs */}
-                  {isIndexed && (
+                  {/* Mark Indexed button (pending/requested → indexed) */}
+                  {canIndex && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleUpdateUrlStatus(urlObj.url, 'indexed')}
+                      disabled={isUpdating}
+                      className="h-8 px-2 text-xs text-emerald-500 hover:bg-emerald-500/10"
+                      title="Mark as indexed in Google"
+                    >
+                      {isUpdating ? (
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      ) : (
+                        <>
+                          <CheckCircle className="h-3.5 w-3.5 mr-1" />
+                          <span>Indexed</span>
+                        </>
+                      )}
+                    </Button>
+                  )}
+
+                  {/* Show indexed status for completed URLs */}
+                  {urlObj.indexing_status === 'indexed' && (
                     <div className="flex items-center gap-1 px-2 text-xs text-emerald-500">
                       <CheckCircle className="h-3.5 w-3.5" />
                       <span className="font-medium">Indexed</span>
                     </div>
                   )}
 
-                  {/* Copy and external link buttons - always visible on hover */}
+                  {/* Copy and external link buttons */}
                   <div className="flex items-center gap-1 opacity-0 group-hover/url:opacity-100 transition-opacity">
                     <CopyButton text={urlObj.url} />
                     <a
@@ -312,8 +442,8 @@ export function DeploymentCard({ deployment, index, onMarkedIndexed }: Deploymen
         </div>
       </div>
 
-      {/* Changes/Summary Section (BELOW URLs) */}
-      {deployment.summary && (
+      {/* Changes/Summary Section */}
+      {deployment.deploy_summary && (
         <div className="px-5 py-4 border-b border-[var(--pv-border)]">
           <div className="flex items-center gap-2 mb-2">
             <FileText className="h-4 w-4 text-[var(--pv-text-muted)]" />
@@ -321,17 +451,32 @@ export function DeploymentCard({ deployment, index, onMarkedIndexed }: Deploymen
               Changes
             </h4>
           </div>
-          <p className="text-sm text-[var(--pv-text)] leading-relaxed">
-            {deployment.summary}
-          </p>
+          <div className="text-sm text-[var(--pv-text)] leading-relaxed prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-ul:my-1 prose-li:my-0.5">
+            <ReactMarkdown>{deployment.deploy_summary}</ReactMarkdown>
+          </div>
         </div>
       )}
 
-      {/* Indexed timestamp (if applicable) */}
-      {deployment.indexed_at && (
-        <div className="px-5 py-3 bg-[var(--pv-bg)]">
-          <div className="text-xs text-[var(--pv-text-muted)]">
-            <span className="font-semibold">Indexed:</span>{' '}
+      {/* Timestamps Footer */}
+      <div className="px-5 py-3 bg-[var(--pv-bg)] flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-[var(--pv-text-muted)]">
+        {deployment.indexing_requested_at && (
+          <div className="flex items-center gap-1.5">
+            <Send className="h-3 w-3 text-blue-500" />
+            <span className="font-semibold">Requested:</span>
+            <time
+              className="font-mono"
+              dateTime={deployment.indexing_requested_at}
+              title={formatTimestamp(deployment.indexing_requested_at)}
+            >
+              {formatTimestamp(deployment.indexing_requested_at)}
+            </time>
+          </div>
+        )}
+
+        {deployment.indexed_at && (
+          <div className="flex items-center gap-1.5">
+            <CheckCircle className="h-3 w-3 text-emerald-500" />
+            <span className="font-semibold">Indexed:</span>
             <time
               className="font-mono"
               dateTime={deployment.indexed_at}
@@ -340,15 +485,20 @@ export function DeploymentCard({ deployment, index, onMarkedIndexed }: Deploymen
               {formatTimestamp(deployment.indexed_at)}
             </time>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Error message if marking failed */}
+        {!deployment.indexing_requested_at && !deployment.indexed_at && (
+          <div className="flex items-center gap-1.5">
+            <Clock className="h-3 w-3 text-amber-500" />
+            <span>Awaiting GSC submission</span>
+          </div>
+        )}
+      </div>
+
+      {/* Error message if update failed */}
       {error && (
         <div className="px-5 py-3 bg-red-500/5 border-t border-red-500/20">
-          <p className="text-sm text-red-500">
-            {error}
-          </p>
+          <p className="text-sm text-red-500">{error}</p>
         </div>
       )}
     </div>

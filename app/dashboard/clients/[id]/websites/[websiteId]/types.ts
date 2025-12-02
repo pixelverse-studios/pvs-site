@@ -1,9 +1,14 @@
 /**
  * Type definitions for website deployments
+ * Three-state indexing system: pending → requested → indexed
  */
+
+export type IndexingStatus = 'pending' | 'requested' | 'indexed'
 
 export interface ChangedUrl {
   url: string
+  indexing_status: IndexingStatus
+  indexing_requested_at: string | null
   indexed_at: string | null
 }
 
@@ -11,9 +16,12 @@ export interface Deployment {
   id: string
   website_id: string
   changed_urls: ChangedUrl[]
-  summary: string
+  deploy_summary: string
+  internal_notes?: string
   created_at: string
-  indexed_at: string | null // null if ANY url is pending, timestamp if ALL indexed
+  indexing_status: IndexingStatus
+  indexing_requested_at: string | null
+  indexed_at: string | null
 }
 
 export interface DeploymentsResponse {
@@ -25,4 +33,4 @@ export interface DeploymentsResponse {
   deployments: Deployment[]
 }
 
-export type DeploymentStatus = 'indexed' | 'pending' | 'partial'
+export type DeploymentStatus = IndexingStatus | 'partial'
