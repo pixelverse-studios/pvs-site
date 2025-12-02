@@ -21,6 +21,7 @@ interface Website {
   title: string;
   domain: string;
   website_slug: string;
+  seo_focus?: object | null;
 }
 
 interface Client {

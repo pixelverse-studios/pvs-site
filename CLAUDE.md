@@ -374,13 +374,66 @@ Page Section: [hero/features/pricing/etc]
 
 Don't change any immediately provided context in work scope. You can add extra where you see fit, but any direct copy given to you needs to remain untouched.
 
-## 🧠 Bergen County SEO Workflow
+## 🧠 Hyper-Local SEO Strategy (Active Plan)
 
-- Maintain the master SEO checklist at `docs/features/bergen-seo-checklist.md`; mark items complete as work progresses.
-- Record detailed research and planning outputs under `docs/planning/` (e.g., audience research, competitive scans, keyword matrix).
-- After each SEO task or checklist update, log progress in `docs/planning/bergen-seo-todo.md` and create an audit entry in `docs/audits/landing/`.
-- After each SEO change ships (metadata, content, links, redirects, blogs), update the SEO log page at `/docs/seo` so indexing targets and change notes stay current.
-- Every SEO change must include patch notes in `docs/audits/landing` (timestamped) and a refresh of the `/docs/seo` download-to-CSV flow so it includes any newly affected URLs/pages introduced by the change.
+**IMPORTANT: Reference `docs/planning/hyper-local-seo-strategy.md` for the full implementation plan.**
+
+### Strategy Overview
+
+We are executing a **hyper-local, city-focused SEO strategy** instead of broad county-level targeting. The goal is to dominate 5 priority cities first, then expand.
+
+### Priority Cities (Phase 1 - Active Focus)
+
+| Priority | City | Target Keywords |
+|----------|------|-----------------|
+| 1 | **Fort Lee** | "web design Fort Lee NJ", "Fort Lee SEO agency" |
+| 2 | **Englewood** | "local SEO agency Englewood NJ", "Englewood web design" |
+| 3 | **Hackensack** | "web design Hackensack NJ", "Hackensack digital agency" |
+| 4 | **Paramus** | "web design Paramus NJ", "Paramus SEO services" |
+| 5 | **Ridgewood** | "web design Ridgewood NJ", "Ridgewood digital agency" |
+
+### Deprioritized Cities (Phase 2 - Later)
+
+- Teaneck, Fair Lawn, Bergenfield, Cliffside Park, River Vale
+
+### Key Implementation Requirements
+
+When working on SEO tasks:
+
+1. **Focus resources on priority 5 cities** - Do not spread effort across all 10 city pages
+2. **Per-city LocalBusiness schema required** - Each priority city needs its own schema in `lib/structured-data.ts`
+3. **GBP is 32% of local ranking** - Always consider Google Business Profile optimization
+4. **Content depth over breadth** - Priority cities need 1,500+ words, local landmarks, city-specific case studies
+5. **NAP consistency** - Name, Address, Phone must be identical across all pages and listings
+
+### Technical SEO Status
+
+**Implemented:**
+- [x] BreadcrumbList schema on all city pages
+- [x] FAQPage schema on /faq
+- [x] Unique metadata per city page
+- [x] Blog schema (BlogPosting)
+
+**Pending:**
+- [ ] Per-city LocalBusiness schema (priority 5 cities)
+- [ ] Service schema per city
+- [ ] GBP optimization (manual task)
+- [ ] Expanded content for Hackensack, Paramus, Ridgewood
+
+### SEO Workflow
+
+- Reference full strategy at `docs/planning/hyper-local-seo-strategy.md`
+- Maintain the master SEO checklist at `docs/features/bergen-seo-checklist.md`
+- Record detailed research and planning outputs under `docs/planning/`
+- After each SEO task, log progress and create an audit entry in `docs/audits/landing/`
+- After each SEO change ships, update the SEO log page at `/docs/seo`
+- Every SEO change must include patch notes in `docs/audits/landing` (timestamped)
+
+### Expected Timeline
+
+- **Month 1-2:** Fort Lee & Englewood on page 1
+- **Month 3-4:** Hackensack & Paramus ranking top 10
+- **Month 5-6:** All 5 priority cities ranking, begin Phase 2 expansion
 
 # agents.md — SEO Website Essentials Checklist
 
