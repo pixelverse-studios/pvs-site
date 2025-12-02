@@ -1,6 +1,6 @@
 # Bergen County SEO Master TODO
 
-Last updated: 2025-11-07
+Last updated: 2025-12-02
 
 ## Foundation (Pre-Transfer & Research)
 
@@ -48,9 +48,10 @@ Last updated: 2025-11-07
 - [ ] **Produce keyword-driven content briefs**
   - Write briefs for the initial six town landing pages (Hackensack, Fort Lee, Paramus, Ridgewood, Englewood, Teaneck) including target keywords, H1/H2 structure, CTA, testimonials, and FAQ entries.
   - Include internal link targets (e.g., from town page to relevant service and portfolio entries) and note needed media assets.
-- [ ] **Plan structured data coverage**
+- [x] **Plan structured data coverage**
   - Outline JSON-LD payloads for LocalBusiness, Service, Product (packages), and FAQ; assign ownership per route and note dynamic fields.
-  - Schedule validation steps with Google’s Rich Results test once markup ships.
+  - Schedule validation steps with Google's Rich Results test once markup ships.
+  - _2025-12-02: Implemented per-city LocalBusiness schema and Service schema for all 10 city pages. Priority 5 cities (Fort Lee, Englewood, Hackensack, Paramus, Ridgewood) have full schema coverage including geo coordinates._
 - [ ] **Define internal linking strategy**
   - Document how homepage, services, packages, and town pages reference each other; include footer/mega-menu “Serving Bergen County” clusters.
   - Plan breadcrumbs or sidebar navigation for deeper town/service sections.

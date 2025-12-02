@@ -118,7 +118,7 @@ export function DashboardSidebar() {
           ${
             // Mobile: full width when open, desktop: collapsible width
             isMobileOpen
-              ? 'w-[280px]'
+              ? 'w-[280px] translate-x-0'
               : isCollapsed
                 ? 'w-20 -translate-x-full lg:translate-x-0'
                 : 'w-64 -translate-x-full lg:translate-x-0'

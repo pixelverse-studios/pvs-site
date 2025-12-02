@@ -78,11 +78,11 @@ export const cityServicePages: CityServicePageDefinition[] = [
       eyebrow: 'Fort Lee, NJ',
       heading: 'Web design and local SEO that outpace Manhattan competition.',
       description:
-        'Fort Lee audiences expect Manhattan polish with New Jersey responsiveness. We build performance-first websites, service positioning, and analytics stacks that help law firms, medical specialists, boutique hospitality, and other local operators stand out from Palisade Avenue to Hudson Lights.',
+        'Fort Lee audiences expect Manhattan polish with New Jersey responsiveness. Sitting at the foot of the George Washington Bridge, Fort Lee is a gateway borough where professionals, medical specialists, and hospitality operators compete directly with NYC for attention. We build performance-first websites, service positioning, and analytics stacks that help law firms, medical practices, boutique hotels, and local operators stand out from Palisade Avenue to Hudson Lights—and rank ahead of Manhattan competitors in local search.',
       bullets: [
-        'Hyper-local keyword research for Hudson Waterfront real estate, Main Street professional services, and River Road hospitality',
-        'Service messaging and proof frameworks built for boutique law practices, medical groups, and premium amenity brands',
-        'Conversion tracking that links website leads to booked consultations, reservations, and retainers'
+        'Hyper-local keyword research for Hudson Waterfront real estate, Main Street professional services, River Road hospitality, and GWB-adjacent commuter traffic',
+        'Service messaging and proof frameworks built for boutique law practices, medical groups, wellness studios, and premium amenity brands',
+        'Conversion tracking that links website leads to booked consultations, reservations, and retainers across Fort Lee and neighboring Edgewater, Cliffside Park, and Palisades Park'
       ],
       stat: {
         heading: 'Key result',
@@ -90,7 +90,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
         label: 'lift in qualified service leads after launching Fort Lee landing funnels'
       },
       neighborhoods:
-        'We map user journeys for The Modern, Hudson Lights, and the Palisades Park corridor so every section speaks to the people already searching for you.'
+        'We map user journeys for The Modern, Hudson Lights, One Park, and the Palisades Park corridor. Whether your clients arrive via the GWB, live in the historic district near Fort Lee Historic Park, or work in the business towers along the Hudson, every section speaks to the people already searching for you.'
     },
     serviceHighlights: [
       {
@@ -131,17 +131,11 @@ export const cityServicePages: CityServicePageDefinition[] = [
     ],
     proof: {
       headline: 'Fort Lee firms trust PixelVerse to stay visible on both sides of the Hudson.',
-      body: 'Professional services and hospitality clients saw faster time-to-lead and improved Maps visibility once we rolled out localized schema, review prompts, and conversion-ready landing flows.',
+      body: 'Professional services and hospitality clients saw faster time-to-lead and improved Maps visibility once we rolled out localized schema, review prompts, and conversion-ready landing flows. Fort Lee businesses face unique competition—Manhattan agencies with bigger budgets and neighboring Bergen towns vying for the same local keywords. Our approach focuses on what makes Fort Lee distinct: the bridge commuter traffic, the luxury residential towers, and the mix of established Main Street professionals alongside newer Hudson Lights retailers. We build sites that load fast on mobile, rank for hyperlocal terms, and convert visitors who are ready to book.',
       stat: {
         value: '2.4s',
         label: 'average mobile load time after migrating to our custom Fort Lee stack'
       },
-      testimonial: {
-        quote:
-          'PixelVerse helped us outrank Manhattan competitors for “Fort Lee corporate law” inside three months—and the new site finally matches our client experience.',
-        name: 'Alexis Park',
-        role: 'Managing Partner, Hudson Edge Counsel'
-      }
     },
     faq: [
       {
@@ -157,7 +151,22 @@ export const cityServicePages: CityServicePageDefinition[] = [
       {
         question: 'Do you offer analytics showing which Fort Lee neighborhoods convert best?',
         answer:
-          'Our GA4 dashboards and call-tracking integrations segment leads by source and neighborhood. You’ll know whether Hudson Lights events, local sponsorships, or Palisade Avenue walk-ins convert fastest.'
+          "Our GA4 dashboards and call-tracking integrations segment leads by source and neighborhood. You'll know whether Hudson Lights events, local sponsorships, or Palisade Avenue walk-ins convert fastest."
+      },
+      {
+        question: 'What industries do you serve in Fort Lee?',
+        answer:
+          'We work with Fort Lee law firms, medical and dental practices, wellness studios, hospitality brands, real estate professionals, and local retailers. Our approach adapts to regulated industries with compliance-ready builds while maintaining the speed and conversion focus that drives leads for service businesses near the George Washington Bridge corridor.'
+      },
+      {
+        question: 'How long does a Fort Lee website project take?',
+        answer:
+          'Most Fort Lee projects launch in 8-10 weeks, from strategy through go-live. We prioritize key landing pages early so you can start ranking for Fort Lee searches while the full build completes. Rush timelines are available for businesses with urgent competitive needs.'
+      },
+      {
+        question: 'Do you serve businesses outside Fort Lee in Bergen County?',
+        answer:
+          'Yes. While this page focuses on Fort Lee, we serve the entire Bergen County market including Englewood, Hackensack, Paramus, Ridgewood, and neighboring towns. Our localized approach means each town gets dedicated content and schema rather than generic county-wide pages.'
       }
     ],
     cta: {
@@ -360,12 +369,6 @@ export const cityServicePages: CityServicePageDefinition[] = [
         value: '6.3x',
         label: 'ROI on localized SEO compared to generic county landing pages'
       },
-      testimonial: {
-        quote:
-          'River Vale residents read everything before calling. PixelVerse helped us deliver the exact proof they needed, and our referral partners love the new resources.',
-        name: 'Daniela Moore',
-        role: 'Owner, Vale Home Renovations'
-      }
     },
     faq: [
       {
@@ -415,13 +418,13 @@ export const cityServicePages: CityServicePageDefinition[] = [
     },
     hero: {
       eyebrow: 'Hackensack, NJ',
-      heading: 'Enterprise-ready sites wired for Hackensack’s most competitive industries.',
+      heading: "Enterprise-ready sites wired for Hackensack's most competitive industries.",
       description:
-        'From legal and medical groups to fast-scaling service providers, Hackensack organizations need ADA-compliant, high-performing digital systems. We blend conversion storytelling with airtight technical SEO so you stay visible across the county seat.',
+        "As Bergen County's seat, Hackensack anchors the region's legal, medical, and municipal infrastructure. Hackensack University Medical Center draws patients from across North Jersey. The Bergen County Justice Complex brings attorneys, plaintiffs, and business disputes through downtown daily. Main Street's revitalization has sparked new professional services, dining, and retail. We build ADA-compliant, high-performing digital systems that help law firms, medical practices, financial advisors, and service providers compete in this concentrated market—ranking for high-intent searches and converting visitors into consultations, patients, and retainers.",
       bullets: [
-        'Regulated-industry UX tuned for attorneys, clinics, and financial firms',
-        'Schema strategies that surface downtown locations, parking details, and multi-location practices',
-        'Measurement frameworks that connect digital initiatives to signed retainers and patient volume'
+        'Regulated-industry UX tuned for attorneys near the Justice Complex, medical specialists around Hackensack Meridian, and financial advisors serving Bergen County businesses',
+        'Schema strategies that surface Main Street locations, Johnson Park offices, parking details, and multi-location practices across the Hackensack healthcare corridor',
+        'Measurement frameworks that connect digital initiatives to signed retainers, patient intake volume, and professional service inquiries'
       ],
       stat: {
         heading: 'Key result',
@@ -429,7 +432,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
         label: 'increase in qualified medical leads after relaunching Hackensack service funnels'
       },
       neighborhoods:
-        'We craft city narratives that reference Main Street revitalization, the Justice Complex corridor, and proximity to Hackensack University Medical Center.'
+        "We craft city narratives that reference Main Street's downtown revival, the Justice Complex and courthouse corridor, Hackensack University Medical Center and surrounding medical offices, Johnson Park professional district, and River Street's growing service economy. Whether your clients walk from the courthouse, drive from Paramus, or get referred from HUMC, every section speaks to their specific journey."
     },
     serviceHighlights: [
       {
@@ -470,17 +473,11 @@ export const cityServicePages: CityServicePageDefinition[] = [
     ],
     proof: {
       headline: 'Trusted partner for Hackensack legal, medical, and civic teams.',
-      body: 'Our launch playbooks, schema libraries, and analytics readiness helped Hackensack firms jump ahead of regional competitors while meeting strict accessibility and security standards.',
+      body: "Our launch playbooks, schema libraries, and analytics readiness helped Hackensack firms jump ahead of regional competitors while meeting strict accessibility and security standards. Hackensack's professional services market is dense—dozens of law firms within walking distance of the courthouse, medical practices clustered around HUMC, and financial advisors competing for Bergen County business owners. Standing out requires more than a template site. We build custom systems that load fast, rank for specific practice areas, and convert the high-intent visitors who search for 'Hackensack personal injury lawyer' or 'Bergen County cardiologist' into booked consultations.",
       stat: {
         value: '98%',
         label: 'ADA + WCAG conformance scores on new Hackensack builds'
       },
-      testimonial: {
-        quote:
-          'We needed a partner that understood compliance and could still move fast. PixelVerse rebuilt our Hackensack presence without sacrificing security or storytelling.',
-        name: 'Laura Jensen',
-        role: 'Director of Marketing, Bergen Valley Health Network'
-      }
     },
     faq: [
       {
@@ -497,6 +494,31 @@ export const cityServicePages: CityServicePageDefinition[] = [
         question: 'Do you support multi-location practices based in Hackensack?',
         answer:
           'Absolutely. We create location hubs with structured data for each office, ensuring Hackensack remains the primary entity while nearby towns receive optimized landing pages.'
+      },
+      {
+        question: 'What industries do you serve in Hackensack?',
+        answer:
+          'We work with Hackensack law firms (personal injury, family law, corporate, real estate), medical practices and specialists affiliated with Hackensack Meridian Health, dental offices, financial advisors, accounting firms, and professional service providers. Our builds address the compliance, accessibility, and trust requirements these industries demand while optimizing for local search visibility.'
+      },
+      {
+        question: 'How do you help Hackensack law firms rank for competitive legal keywords?',
+        answer:
+          "Legal SEO in Hackensack requires practice-area specificity and local relevance. We build dedicated pages for each practice area, implement attorney schema markup, create content addressing Bergen County legal questions, and optimize for searches like 'Hackensack divorce lawyer' or 'Bergen County business attorney.' Combined with fast load times and mobile optimization, your firm stands out in a crowded courthouse corridor market."
+      },
+      {
+        question: 'Do you work with medical practices near Hackensack University Medical Center?',
+        answer:
+          "Yes. We build sites for specialists, primary care physicians, dental practices, and healthcare providers in the HUMC corridor. Our medical builds include HIPAA-aware contact forms, physician profile templates, condition and service pages optimized for healthcare searches, and schema markup that helps practices rank for specialty terms like 'Hackensack orthopedic surgeon' or 'Bergen County pediatrician.'"
+      },
+      {
+        question: 'How long does a Hackensack professional services website take to build?',
+        answer:
+          'Most Hackensack professional services sites launch in 10-12 weeks, accounting for compliance review cycles common in legal and medical industries. We prioritize high-value pages early so you can start ranking for Hackensack searches while stakeholder reviews continue on remaining sections. Rush timelines are available for practices with urgent competitive needs.'
+      },
+      {
+        question: 'Can you help Hackensack businesses rank in nearby towns too?',
+        answer:
+          "Yes. We build location-aware content structures so your Hackensack site also captures searches from Paramus, Teaneck, Maywood, Rochelle Park, and other nearby Bergen County towns. Each area gets targeted landing content while Hackensack remains your primary hub, avoiding duplicate content issues and strengthening your overall Bergen County presence."
       }
     ],
     cta: {
@@ -534,11 +556,11 @@ export const cityServicePages: CityServicePageDefinition[] = [
       eyebrow: 'Paramus, NJ',
       heading: 'Retail-ready websites tuned for Paramus traffic patterns and high-volume demand.',
       description:
-        'Paramus shoppers research on mobile before ever hitting Route 17. We pair ecommerce-grade performance with persuasive service copy so you capture the lead before they reach another store or book elsewhere.',
+        "Paramus is Bergen County's retail capital—home to Garden State Plaza, Westfield Garden State Plaza, Paramus Park, Bergen Town Center, and miles of Route 4 and Route 17 storefronts that draw shoppers from across North Jersey and New York. But Paramus isn't just malls. It's showrooms, professional services, medical practices, fitness studios, and restaurants competing for attention in one of the highest-traffic retail corridors in the country. We build ecommerce-grade websites and local SEO programs that help Paramus businesses capture mobile researchers before they drive past to a competitor—converting digital attention into store visits, appointments, and sales.",
       bullets: [
-        'Storefront, showroom, and professional services funnels tailored to Paramus retail hours',
-        'Landing page frameworks built for promos, events, and rapid A/B testing',
-        'Analytics that connect digital campaigns to in-store visits and booked appointments'
+        'Storefront, showroom, and professional services funnels tailored to Paramus retail hours (including Sunday closure considerations) and high-traffic seasonal periods',
+        'Landing page frameworks built for promos, events, Black Friday campaigns, and rapid A/B testing across Route 17 and Route 4 business corridors',
+        'Analytics that connect digital campaigns to in-store visits, booked appointments, and ecommerce revenue with clear attribution across channels'
       ],
       stat: {
         heading: 'Key result',
@@ -546,7 +568,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
         label: 'increase in booked consultations for Paramus professional service clients'
       },
       neighborhoods:
-        'We localize for Garden State Plaza traffic, Route 4 commuters, and Ridgewood spillover, highlighting parking considerations and weekend schedules.'
+        "We localize for Garden State Plaza traffic, Route 4 commuters, Route 17 showroom browsers, Paramus Park visitors, and Ridgewood/Oradell spillover. We highlight parking considerations, weekend schedules, and Sunday alternatives so your messaging stays relevant to how Paramus shoppers actually behave."
     },
     serviceHighlights: [
       {
@@ -587,21 +609,15 @@ export const cityServicePages: CityServicePageDefinition[] = [
     ],
     proof: {
       headline: 'Paramus brands stay booked with PixelVerse powering their digital storefronts.',
-      body: 'From professional services to high-end retail, our clients combine fast-loading landing pages with strategic promos that keep calendars full even during off-peak seasons.',
+      body: "From professional services to high-end retail, our clients combine fast-loading landing pages with strategic promos that keep calendars full even during off-peak seasons. Paramus competition is fierce—national chains in the malls, regional showrooms along Route 17, and local services fighting for the same Bergen County customers. Your website needs to load instantly on mobile (where most Paramus research happens), rank for specific product and service searches, and convert browsers into buyers before they scroll to a competitor. We build sites optimized for Paramus shopping behavior: quick-loading product pages, clear store hours and directions, prominent calls-to-action, and analytics that show exactly which campaigns drive foot traffic and revenue.",
       stat: {
         value: '79%',
         label: 'lift in organic traffic for Paramus clients within the first six months'
       },
-      testimonial: {
-        quote:
-          'We finally have a site that keeps pace with Paramus shoppers. Appointment volume went up immediately and our dashboards show exactly which promos work.',
-        name: 'Gabriel Russo',
-        role: 'Owner, Paramus Performance Studio'
-      }
     },
     faq: [
       {
-        question: 'How do you account for Paramus’s unique retail hours?',
+        question: "How do you account for Paramus's unique retail hours?",
         answer:
           'We build scheduling logic and automated messaging that respect Sunday retail laws, highlight alternative contact options, and keep your conversion funnels active seven days a week.'
       },
@@ -613,12 +629,37 @@ export const cityServicePages: CityServicePageDefinition[] = [
       {
         question: 'What analytics do you provide for Paramus campaigns?',
         answer:
-          'We track ecommerce revenue, appointment requests, phone calls, and foot traffic indicators through GA4, call tracking, and in-store attribution tools so you always know what’s driving results.'
+          "We track ecommerce revenue, appointment requests, phone calls, and foot traffic indicators through GA4, call tracking, and in-store attribution tools so you always know what's driving results."
       },
       {
         question: 'Do you handle website design and local SEO for Paramus, NJ retailers and service brands?',
         answer:
-          'Yes. We build fast, promo-ready websites and local SEO programs for Paramus—metadata, schema, and location content aligned to “website design Paramus NJ” and related queries—plus reporting that ties campaigns to store visits and bookings.'
+          'Yes. We build fast, promo-ready websites and local SEO programs for Paramus—metadata, schema, and location content aligned to "website design Paramus NJ" and related queries—plus reporting that ties campaigns to store visits and bookings.'
+      },
+      {
+        question: 'What types of Paramus businesses do you work with?',
+        answer:
+          'We serve Paramus retailers (clothing, furniture, home goods), showrooms (automotive, appliances, home improvement), professional services (medical, dental, legal, financial), fitness studios, salons, restaurants, and service providers along Route 4 and Route 17. Our builds adapt to each industry—ecommerce for retailers, appointment booking for services, and lead capture for showrooms.'
+      },
+      {
+        question: 'How do you help Paramus businesses compete with big-box retailers and national chains?',
+        answer:
+          "National chains have brand recognition, but local businesses win on service, expertise, and community connection. We build sites that highlight what makes your Paramus business different—local ownership, specialized knowledge, personalized service—while ensuring you rank for the specific searches shoppers use when they want an alternative to big-box stores. Fast load times, local schema, and compelling service pages help you capture customers who value quality over convenience."
+      },
+      {
+        question: 'Can you build ecommerce websites for Paramus retailers?',
+        answer:
+          'Yes. We build ecommerce sites on Shopify, WooCommerce, or custom platforms depending on your needs. Paramus ecommerce builds include inventory management, local pickup options, delivery radius configuration, and integrations with your POS system. We also handle the SEO so your products rank for Paramus and Bergen County searches alongside your paid campaigns.'
+      },
+      {
+        question: 'How long does a Paramus retail website take to build?',
+        answer:
+          'Standard Paramus business sites launch in 8-10 weeks. Ecommerce builds with product catalogs and inventory integrations typically take 10-14 weeks. We prioritize key landing pages and product categories early so you can start driving traffic while the full build completes. Seasonal businesses often start projects in Q1-Q2 to launch before holiday traffic peaks.'
+      },
+      {
+        question: 'Do you help Paramus businesses with Google Business Profile and local listings?',
+        answer:
+          'Yes. Local SEO for Paramus includes Google Business Profile optimization, category selection, service area configuration, photo uploads, review management strategy, and consistent NAP (name, address, phone) across directories. We ensure your Paramus location shows up in Maps searches and local pack results for relevant queries.'
       }
     ],
     cta: {
@@ -712,12 +753,6 @@ export const cityServicePages: CityServicePageDefinition[] = [
         value: '41%',
         label: 'increase in inquiry-to-appointment rates after launching multilingual Teaneck landing flows'
       },
-      testimonial: {
-        quote:
-          'PixelVerse wrangled our clinical, donor, and community messaging into one fast experience. Teaneck families find what they need and staff finally has usable analytics.',
-        name: 'Dr. Lena Moradi',
-        role: 'Director, Votee Health Collaborative'
-      }
     },
     faq: [
       {
@@ -827,12 +862,6 @@ export const cityServicePages: CityServicePageDefinition[] = [
         value: '32%',
         label: 'reduction in quote response time after automating Fair Lawn intake flows'
       },
-      testimonial: {
-        quote:
-          'PixelVerse turned our spec-heavy site into a fast sales tool. Field crews and office staff finally work from the same lead pipeline.',
-        name: 'Marcus Ellison',
-        role: 'GM, Broadway Industrial Services'
-      }
     },
     faq: [
       {
@@ -885,11 +914,11 @@ export const cityServicePages: CityServicePageDefinition[] = [
       eyebrow: 'Englewood, NJ',
       heading: 'Local SEO agency and web design for Englewood businesses.',
       description:
-        'Englewood brands compete with NYC without the Manhattan overhead. We deliver conversion-first builds highlighting hospital service lines, downtown boutiques, and Englewood Cliffs innovators.',
+        'Englewood brands compete with NYC without the Manhattan overhead. With Englewood Hospital anchoring the healthcare corridor and Palisade Avenue driving downtown retail, your digital presence needs to match the expectations of affluent residents and discerning professionals. We deliver conversion-first builds highlighting hospital service lines, downtown boutiques, medical specialists, and Englewood Cliffs corporate innovators—all optimized to rank ahead of Manhattan competitors in local search.',
       bullets: [
-        'Story-driven copy tuned for Palisade Avenue retail, Englewood Health specialists, and Englewood Cliffs tech corridors',
-        'Luxury-grade UI systems that pair editorial layouts with decisive CTAs for affluent residents and corporate partners',
-        'Structured data, review accelerators, and analytics tying boutique sales and private patient leads to marketing spend'
+        'Story-driven copy tuned for Palisade Avenue retail, Englewood Health specialists, medical practices, and Englewood Cliffs tech corridors',
+        'Luxury-grade UI systems that pair editorial layouts with decisive CTAs for affluent residents, healthcare seekers, and corporate partners',
+        'Structured data, review accelerators, and analytics tying boutique sales, private patient leads, and professional service inquiries to marketing spend'
       ],
       stat: {
         heading: 'Performance benchmark',
@@ -897,7 +926,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
         label: 'median Englewood LCP after migrating to our stack'
       },
       neighborhoods:
-        'We adjust tone for downtown shoppers, East Hill estates, Englewood Hospital visitors, and Englewood Cliffs commuters to keep conversions high.'
+        'We adjust tone for downtown Palisade Avenue shoppers, East Hill estate residents, Englewood Hospital visitors and staff, and Englewood Cliffs corporate commuters. Whether your clients walk in from the train station, drive down Route 9W, or find you through a physician referral, every section speaks to their specific needs.'
     },
     serviceHighlights: [
       {
@@ -938,17 +967,11 @@ export const cityServicePages: CityServicePageDefinition[] = [
     ],
     proof: {
       headline: 'Englewood launches earn premium positioning without overcomplication.',
-      body: 'Clients see more private-pay leads and appointment volume once we combine editorial storytelling with sub-two-second load speeds and localized schema.',
+      body: "Clients see more private-pay leads and appointment volume once we combine editorial storytelling with sub-two-second load speeds and localized schema. Englewood's mix of healthcare, luxury retail, and corporate headquarters requires a nuanced approach—medical practices need HIPAA-aware forms and physician directories, boutiques need lookbooks and appointment booking, and corporate teams need investor-ready content. We build unified systems that serve all these audiences without bloating your site or slowing down your marketing calendar.",
       stat: {
         value: '58%',
         label: 'growth in qualified Englewood luxury-service inquiries post launch'
       },
-      testimonial: {
-        quote:
-          'Our new Englewood experience finally matches the in-studio vibe. Bookings climbed fast and we have clean data on what brings clients through the door.',
-        name: 'Selena Ortiz',
-        role: 'Founder, Palisade Aesthetic Studio'
-      }
     },
     faq: [
       {
@@ -970,6 +993,21 @@ export const cityServicePages: CityServicePageDefinition[] = [
         question: 'Do you operate as a local SEO agency for Englewood, NJ?',
         answer:
           'Yes. We pair site builds with local SEO—metadata, schema, review acceleration, and Palisade Avenue/Englewood Cliffs landing content—plus analytics that show how Englewood searches convert to bookings and inquiries.'
+      },
+      {
+        question: 'Do you work with Englewood healthcare and medical practices?',
+        answer:
+          'Yes. We build sites for medical specialists, dental practices, wellness studios, and healthcare providers near Englewood Hospital. Our builds include HIPAA-aware contact forms, physician directory layouts, patient testimonial frameworks, and schema markup that helps medical practices rank for specialty searches in Bergen County.'
+      },
+      {
+        question: 'How long does an Englewood website project take?',
+        answer:
+          'Most Englewood projects launch in 8-10 weeks. We prioritize high-value landing pages early—like your main service or location page—so you start ranking while the full site build completes. Healthcare and corporate builds with compliance requirements may take slightly longer for stakeholder review.'
+      },
+      {
+        question: 'Can you help Englewood businesses rank for nearby towns too?',
+        answer:
+          'Yes. We build location-aware content structures so your Englewood site also captures searches from Teaneck, Tenafly, Leonia, and Englewood Cliffs. Each area gets targeted landing content while Englewood remains your primary hub, avoiding duplicate content issues.'
       }
     ],
     cta: {
@@ -1063,12 +1101,6 @@ export const cityServicePages: CityServicePageDefinition[] = [
         value: '29%',
         label: 'lift in inbound calls from Bergenfield households within the first quarter'
       },
-      testimonial: {
-        quote:
-          'PixelVerse gave us a Bergenfield page that finally respects how families research care. Calls picked up immediately and reviews doubled.',
-        name: 'Noel Reyes',
-        role: 'Owner, Bergenfield Family Dental Group'
-      }
     },
     faq: [
       {
@@ -1120,11 +1152,11 @@ export const cityServicePages: CityServicePageDefinition[] = [
       eyebrow: 'Ridgewood, NJ',
       heading: 'Boutique UX for Ridgewood firms and retailers.',
       description:
-        'Ridgewood buyers expect white-glove experiences—whether booking private medical consults or shopping downtown boutiques. We craft fast, story-driven sites with data-backed CTAs that respect their expectations.',
+        "Ridgewood is Bergen County's most affluent village—a walkable downtown of independent boutiques, acclaimed restaurants, professional services, and specialty retailers serving discerning families with high expectations. From Ridgewood Avenue's curated storefronts to Van Neste Square's dining scene to the medical specialists near Valley Hospital, Ridgewood businesses cater to an audience that researches thoroughly and expects excellence. We craft fast, story-driven websites with premium aesthetics and data-backed CTAs that match the white-glove experience your clients expect—converting high-intent visitors into consultations, reservations, and loyal customers.",
       bullets: [
-        'Narrative strategy for Ridgewood Avenue retail, Van Neste Square dining, and professional firms serving affluent families',
-        'Conversion journeys that balance premium editorial design with decisive CTAs for consultations, reservations, or membership inquiries',
-        'Metadata, schema, and analytics tuned to commuters along the Ridgewood NJ Transit station and surrounding neighborhoods'
+        'Narrative strategy for Ridgewood Avenue retail, Van Neste Square dining, The Stable creative district, and professional firms serving affluent families throughout the village',
+        'Conversion journeys that balance premium editorial design with decisive CTAs for consultations, reservations, membership inquiries, and luxury service bookings',
+        'Metadata, schema, and analytics tuned to NYC-bound commuters at Ridgewood NJ Transit station, local residents in Willard and Upper Ridgewood, and visitors from neighboring Glen Rock, Ho-Ho-Kus, and Wyckoff'
       ],
       stat: {
         heading: 'Momentum metric',
@@ -1132,7 +1164,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
         label: 'average uplift in qualified Ridgewood consultations after relaunch'
       },
       neighborhoods:
-        'We personalize content for Ridgewood’s historic district, Willard neighborhoods, and NYC-bound commuters so every visit feels bespoke.'
+        "We personalize content for Ridgewood's historic downtown district, the Willard School neighborhoods, Upper Ridgewood estates, Ridgewood Junction commuters, and the growing Stable area creative corridor. Whether your clients walk from the train station, drive from neighboring villages, or find you through word-of-mouth referrals, every section speaks to their expectations for quality and service."
     },
     serviceHighlights: [
       {
@@ -1173,21 +1205,15 @@ export const cityServicePages: CityServicePageDefinition[] = [
     ],
     proof: {
       headline: 'Ridgewood launches look bespoke and stay measurable.',
-      body: 'By pairing luxe visuals with disciplined SEO and analytics, Ridgewood clients finally see direct attribution between storytelling and revenue.',
+      body: "By pairing luxe visuals with disciplined SEO and analytics, Ridgewood clients finally see direct attribution between storytelling and revenue. Ridgewood's affluent market demands a different approach than mass-market Bergen County towns. Your audience has higher expectations, does more research, and values quality over price. Template websites signal the opposite of what your business represents. We build custom sites with editorial photography, refined typography, and thoughtful interactions that communicate premium positioning—while ensuring fast load times, mobile excellence, and the SEO fundamentals that help you rank for high-intent Ridgewood searches like 'Ridgewood interior designer' or 'best restaurant Van Neste Square.'",
       stat: {
         value: '3.6x',
         label: 'increase in premium-service leads year over year'
       },
-      testimonial: {
-        quote:
-          'PixelVerse delivered the elegant feel we needed without sacrificing speed. Our Ridgewood clientele now books online first, and we see exactly which stories convert.',
-        name: 'Elena Park',
-        role: 'Founder, Ridgewood Atelier Collective'
-      }
     },
     faq: [
       {
-        question: 'How do you maintain Ridgewood’s boutique feel while optimizing for conversions?',
+        question: "How do you maintain Ridgewood's boutique feel while optimizing for conversions?",
         answer:
           'We use editorial components, restrained gradients, and thoughtful motion so pages stay premium while heatmaps and testing ensure CTAs remain clear.'
       },
@@ -1200,6 +1226,36 @@ export const cityServicePages: CityServicePageDefinition[] = [
         question: 'Will Ridgewood messaging conflict with other Bergen town pages?',
         answer:
           'No. We maintain canonical structures and localized schema so each page ranks independently while still supporting the Bergen County hub.'
+      },
+      {
+        question: 'What types of Ridgewood businesses do you work with?',
+        answer:
+          "We serve Ridgewood boutique retailers, restaurants and cafes, professional services (attorneys, financial advisors, therapists), medical and dental practices, wellness studios, interior designers, creative agencies, and specialty service providers. Our builds reflect each industry's premium positioning while ensuring the technical foundation for local search visibility and lead generation."
+      },
+      {
+        question: 'How do you help Ridgewood restaurants and dining establishments?',
+        answer:
+          "Ridgewood's dining scene—from Van Neste Square to Ridgewood Avenue—competes on experience, not just food. We build restaurant sites with reservation integrations (OpenTable, Resy, Tock), menu displays that work beautifully on mobile, event promotion for private dining and tastings, and local SEO that helps you rank for 'best restaurants Ridgewood NJ' and cuisine-specific searches. Photography and design communicate the dining experience before guests arrive."
+      },
+      {
+        question: 'Do you work with medical practices near Valley Hospital?',
+        answer:
+          "Yes. We build sites for Ridgewood physicians, specialists, dentists, and healthcare providers. Medical builds include HIPAA-aware forms, provider bio templates, condition and service pages optimized for healthcare searches, and appointment booking integrations. We help practices rank for searches like 'Ridgewood dermatologist' or 'pediatrician near Valley Hospital' while maintaining the premium aesthetic Ridgewood patients expect."
+      },
+      {
+        question: 'How do you approach SEO for luxury and premium Ridgewood businesses?',
+        answer:
+          "Luxury SEO requires different tactics than mass-market optimization. We focus on quality signals—editorial content, authoritative backlinks, detailed service pages, professional photography—rather than keyword stuffing. We target high-intent searches from affluent researchers who value quality over price, like 'best interior designer Ridgewood' or 'luxury home renovation Bergen County.' Schema markup, fast load times, and mobile excellence complete the technical foundation."
+      },
+      {
+        question: 'How long does a Ridgewood website project take?',
+        answer:
+          "Most Ridgewood business sites launch in 8-12 weeks, depending on photography needs and content complexity. Premium brands often invest in custom photography, which we coordinate with local photographers who understand Ridgewood's aesthetic. We prioritize key pages early so you can start ranking while the full site comes together. Seasonal businesses should plan launches around Ridgewood Guild events and holiday shopping calendars."
+      },
+      {
+        question: 'Can you help Ridgewood businesses reach customers in neighboring towns?',
+        answer:
+          "Yes. We build location-aware content that helps your Ridgewood business capture searches from Glen Rock, Ho-Ho-Kus, Wyckoff, Waldwick, and Midland Park. Each town gets targeted content while Ridgewood remains your primary location, strengthening your overall presence in northwest Bergen County's affluent corridor."
       }
     ],
     cta: {

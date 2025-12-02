@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import * as React from 'react';
 import type { LucideIcon, LucideProps } from 'lucide-react';
-import { Facebook, Instagram, Youtube } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -53,6 +53,11 @@ export const SOCIAL_LINKS: SocialLink[] = [
     label: 'Facebook',
     href: 'https://www.facebook.com/profile.php?id=61582670432316',
     icon: Facebook,
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/company/pixelverse-studios/',
+    icon: Linkedin,
   },
   {
     label: 'YouTube',

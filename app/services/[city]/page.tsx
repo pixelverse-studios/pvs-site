@@ -16,7 +16,11 @@ import {
   getCityServicePage
 } from '@/data/services-city-pages';
 import { createPageMetadata } from '@/lib/metadata';
-import { createBreadcrumbSchema } from '@/lib/structured-data';
+import {
+  createBreadcrumbSchema,
+  createCityLocalBusinessSchema,
+  createCityServicesSchema
+} from '@/lib/structured-data';
 
 interface CityPageParams {
   city: string;
@@ -57,9 +61,28 @@ export default function CityServicesPage({ params }: { params: CityPageParams })
     { name: `${page.city}, ${page.state}`, path: `/services/${page.slug}` },
   ]);
 
+  // Per-city LocalBusiness schema
+  const localBusinessSchema = createCityLocalBusinessSchema({
+    slug: page.slug,
+    city: page.city,
+    state: page.state,
+    description: page.metadata.description
+  });
+
+  // Service schemas for this city
+  const serviceSchemas = createCityServicesSchema(page.slug, page.city, page.state);
+
   return (
     <main>
       <StructuredData id={`breadcrumb-${page.slug}`} data={breadcrumbSchema} />
+      <StructuredData id={`local-business-${page.slug}`} data={localBusinessSchema} />
+      {serviceSchemas.map((schema, index) => (
+        <StructuredData
+          key={`service-${page.slug}-${index}`}
+          id={`service-${page.slug}-${index}`}
+          data={schema}
+        />
+      ))}
       <CityServicesHero hero={page.hero} />
       <ServicesIntroSection headingLevel="h2" />
       <ServicesCoreSection />
