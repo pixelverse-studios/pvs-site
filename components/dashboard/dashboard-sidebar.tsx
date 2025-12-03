@@ -14,6 +14,7 @@ import {
   Menu,
   X,
 } from 'lucide-react';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 interface NavItem {
   label: string;
@@ -277,10 +278,15 @@ export function DashboardSidebar() {
                 })}
               </div>
 
+              {/* Theme toggle */}
+              <div className={`mt-4 flex ${isCollapsed && !isMobileOpen ? 'justify-center' : 'px-3'}`}>
+                <ThemeToggle />
+              </div>
+
               {/* Collapse toggle button - desktop only */}
               <button
                 onClick={() => setIsCollapsed(!isCollapsed)}
-                className="group relative mx-3 mt-auto hidden overflow-hidden rounded-xl p-3 transition-all duration-300 lg:block"
+                className="group relative mx-3 mt-4 hidden overflow-hidden rounded-xl p-3 transition-all duration-300 lg:block"
                 style={{
                   background: 'var(--pv-border)',
                   color: 'var(--pv-text-muted)',

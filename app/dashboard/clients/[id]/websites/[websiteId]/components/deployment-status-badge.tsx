@@ -20,7 +20,7 @@ const statusConfig = {
     animate: true,
   },
   requested: {
-    label: 'Requested',
+    label: 'Submitted',
     description: 'Awaiting Google indexing',
     icon: Send,
     colors: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
@@ -64,7 +64,7 @@ export function DeploymentStatusBadge({
     if (indexedCount !== undefined && indexedCount > 0) {
       label = `${indexedCount}/${totalCount} Indexed`
     } else if (requestedCount !== undefined && requestedCount > 0) {
-      label = `${requestedCount}/${totalCount} Requested`
+      label = `${requestedCount}/${totalCount} Submitted`
     } else {
       label = `0/${totalCount} Indexed`
     }

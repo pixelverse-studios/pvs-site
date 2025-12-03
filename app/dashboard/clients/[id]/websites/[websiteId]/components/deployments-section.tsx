@@ -20,23 +20,26 @@ export function DeploymentsSection({ websiteId, websiteTitle }: DeploymentsSecti
   const [error, setError] = useState<string | null>(null)
   const [filter, setFilter] = useState<DeploymentFilter>('all')
 
-  // Filter deployments based on selected filter
+  // Filter deployments based on selected filter (show deployments that have URLs matching the filter)
   const filteredDeployments = useMemo(() => {
     if (!data) return []
 
     if (filter === 'all') {
       return data.deployments
     }
-    return data.deployments.filter(d => d.indexing_status === filter)
+    // Show deployments that have at least one URL matching the filter status
+    return data.deployments.filter(d =>
+      d.changed_urls.some(u => u.indexing_status === filter)
+    )
   }, [data, filter])
 
-  // Count deployments per status
+  // Count deployments that have at least one URL of each status
   const statusCounts = useMemo(() => {
     if (!data) return { pending: 0, requested: 0, indexed: 0 }
     return {
-      pending: data.deployments.filter(d => d.indexing_status === 'pending').length,
-      requested: data.deployments.filter(d => d.indexing_status === 'requested').length,
-      indexed: data.deployments.filter(d => d.indexing_status === 'indexed').length,
+      pending: data.deployments.filter(d => d.changed_urls.some(u => u.indexing_status === 'pending')).length,
+      requested: data.deployments.filter(d => d.changed_urls.some(u => u.indexing_status === 'requested')).length,
+      indexed: data.deployments.filter(d => d.changed_urls.some(u => u.indexing_status === 'indexed')).length,
     }
   }, [data])
 
@@ -300,7 +303,7 @@ export function DeploymentsSection({ websiteId, websiteTitle }: DeploymentsSecti
             }`}
           >
             <Send className="h-3 w-3" />
-            Requested
+            Submitted
             {statusCounts.requested > 0 && (
               <span className="font-mono">({statusCounts.requested})</span>
             )}
@@ -359,7 +362,7 @@ export function DeploymentsSection({ websiteId, websiteTitle }: DeploymentsSecti
       {/* Filter Results Info */}
       {filteredDeployments.length > 0 && filter !== 'all' && (
         <div className="mb-4 text-sm text-[var(--pv-text-muted)]">
-          Showing {filteredDeployments.length} {filter} deployment{filteredDeployments.length !== 1 ? 's' : ''}
+          Showing {filteredDeployments.length} deployment{filteredDeployments.length !== 1 ? 's' : ''} with {filter === 'requested' ? 'submitted' : filter} URLs
         </div>
       )}
 
@@ -371,12 +374,12 @@ export function DeploymentsSection({ websiteId, websiteTitle }: DeploymentsSecti
           </div>
           <div className="text-center space-y-2">
             <p className="text-[var(--pv-text)] font-semibold">
-              No {filter} deployments
+              No {filter === 'requested' ? 'submitted' : filter} URLs
             </p>
             <p className="text-[var(--pv-text-muted)] text-sm max-w-md">
-              {filter === 'pending' && 'All deployments have been submitted to GSC!'}
-              {filter === 'requested' && 'No deployments are currently awaiting Google indexing.'}
-              {filter === 'indexed' && 'No deployments have been fully indexed yet.'}
+              {filter === 'pending' && 'All URLs have been submitted to GSC!'}
+              {filter === 'requested' && 'No URLs are currently awaiting Google indexing.'}
+              {filter === 'indexed' && 'No URLs have been indexed yet.'}
             </p>
           </div>
         </div>
@@ -387,6 +390,7 @@ export function DeploymentsSection({ websiteId, websiteTitle }: DeploymentsSecti
         <DeploymentTimeline
           deployments={filteredDeployments}
           onStatusUpdated={handleStatusUpdated}
+          urlFilter={filter}
         />
       )}
 

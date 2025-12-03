@@ -4,29 +4,19 @@ import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Search, Mail, Phone, Eye, Edit3, Globe } from 'lucide-react'
+import { Search, Mail, Eye, Edit3 } from 'lucide-react'
 import { ClientStatusBadge } from './client-status-badge'
 import { ClientsEmptyState } from './clients-empty-state'
 import { Button } from '@/components/ui/button'
-
-interface Website {
-  id: string
-  type: string
-  title: string
-  domain: string
-  website_slug: string
-}
 
 interface Client {
   id: string
   firstname: string | null
   lastname: string | null
   email: string | null
-  phone: string | null
   active: boolean | null
   created_at: string
   updated_at: string | null
-  websites?: Website[]
 }
 
 interface ClientsTableProps {
@@ -42,11 +32,9 @@ export function ClientsTable({ clients }: ClientsTableProps) {
     return clients.filter((client) => {
       const fullName = `${client.firstname || ''} ${client.lastname || ''}`.toLowerCase()
       const email = (client.email || '').toLowerCase()
-      const phone = (client.phone || '').toLowerCase()
       const query = searchQuery.toLowerCase()
 
-      const matchesSearch =
-        fullName.includes(query) || email.includes(query) || phone.includes(query)
+      const matchesSearch = fullName.includes(query) || email.includes(query)
 
       const matchesStatus =
         statusFilter === 'all' ||
@@ -73,7 +61,7 @@ export function ClientsTable({ clients }: ClientsTableProps) {
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--pv-text-muted)]" />
               <Input
                 type="text"
-                placeholder="Search clients by name, email, or phone..."
+                placeholder="Search clients by name or email..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10"
@@ -147,12 +135,6 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                         Email
                       </th>
                       <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
-                        Phone
-                      </th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
-                        Websites
-                      </th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
                         Status
                       </th>
                       <th className="px-6 py-4 text-right text-sm font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
@@ -187,30 +169,6 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                             <span className="text-[var(--pv-text)]">
                               {client.email || 'No email'}
                             </span>
-                          </div>
-                        </td>
-
-                        {/* Phone */}
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-2 text-sm">
-                            <Phone className="h-4 w-4 text-[var(--pv-text-muted)]" />
-                            <span className="text-[var(--pv-text)]">
-                              {client.phone || 'No phone'}
-                            </span>
-                          </div>
-                        </td>
-
-                        {/* Websites */}
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-2 text-sm">
-                            <Globe className="h-4 w-4 text-[var(--pv-text-muted)]" />
-                            {client.websites && client.websites.length > 0 ? (
-                              <span className="text-[var(--pv-text)]">
-                                {client.websites.length} {client.websites.length === 1 ? 'site' : 'sites'}
-                              </span>
-                            ) : (
-                              <span className="text-[var(--pv-text-muted)]">None</span>
-                            )}
                           </div>
                         </td>
 
@@ -272,22 +230,6 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                       <span className="text-[var(--pv-text)]">
                         {client.email || 'No email'}
                       </span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Phone className="h-4 w-4 text-[var(--pv-text-muted)]" />
-                      <span className="text-[var(--pv-text)]">
-                        {client.phone || 'No phone'}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Globe className="h-4 w-4 text-[var(--pv-text-muted)]" />
-                      {client.websites && client.websites.length > 0 ? (
-                        <span className="text-[var(--pv-text)]">
-                          {client.websites.length} {client.websites.length === 1 ? 'website' : 'websites'}
-                        </span>
-                      ) : (
-                        <span className="text-[var(--pv-text-muted)]">No websites</span>
-                      )}
                     </div>
                   </div>
 

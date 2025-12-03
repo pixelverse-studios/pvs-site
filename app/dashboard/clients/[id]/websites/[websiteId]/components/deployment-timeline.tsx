@@ -1,6 +1,8 @@
 import { Deployment, IndexingStatus } from '../types'
 import { DeploymentCard } from './deployment-card'
 
+type UrlFilter = 'all' | 'pending' | 'requested' | 'indexed'
+
 interface DeploymentTimelineProps {
   deployments: Deployment[]
   onStatusUpdated?: (
@@ -8,6 +10,7 @@ interface DeploymentTimelineProps {
     newStatus: IndexingStatus,
     url?: string
   ) => void
+  urlFilter?: UrlFilter
 }
 
 // Get timeline dot color based on deployment indexing status
@@ -25,6 +28,7 @@ function getTimelineDotColor(status: IndexingStatus): string {
 export function DeploymentTimeline({
   deployments,
   onStatusUpdated,
+  urlFilter = 'all',
 }: DeploymentTimelineProps) {
   if (deployments.length === 0) {
     return null
@@ -80,6 +84,7 @@ export function DeploymentTimeline({
                 deployment={deployment}
                 index={index}
                 onStatusUpdated={onStatusUpdated}
+                urlFilter={urlFilter}
               />
             </div>
           )

@@ -17,6 +17,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { getApiBaseUrl } from '@/lib/api-config'
 
+type UrlFilter = 'all' | 'pending' | 'requested' | 'indexed'
+
 interface DeploymentCardProps {
   deployment: Deployment
   index: number
@@ -25,19 +27,26 @@ interface DeploymentCardProps {
     newStatus: IndexingStatus,
     url?: string
   ) => void
+  urlFilter?: UrlFilter
 }
 
 export function DeploymentCard({
   deployment,
   index,
   onStatusUpdated,
+  urlFilter = 'all',
 }: DeploymentCardProps) {
   const [updatingUrl, setUpdatingUrl] = useState<string | null>(null)
   const [updatingAll, setUpdatingAll] = useState<IndexingStatus | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [copiedAll, setCopiedAll] = useState(false)
 
-  // Calculate counts per status
+  // Filter URLs based on urlFilter
+  const filteredUrls = urlFilter === 'all'
+    ? deployment.changed_urls
+    : deployment.changed_urls.filter(u => u.indexing_status === urlFilter)
+
+  // Calculate counts per status (from all URLs, not filtered)
   const pendingCount = deployment.changed_urls.filter(
     (u) => u.indexing_status === 'pending'
   ).length
@@ -233,12 +242,12 @@ export function DeploymentCard({
           <div className="flex items-center gap-2">
             <ExternalLink className="h-4 w-4 text-[var(--pv-text-muted)]" />
             <h4 className="text-sm font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
-              Changed URLs ({totalCount})
+              {urlFilter === 'all' ? 'Changed URLs' : urlFilter === 'requested' ? 'Submitted URLs' : `${urlFilter.charAt(0).toUpperCase() + urlFilter.slice(1)} URLs`} ({filteredUrls.length}{urlFilter !== 'all' ? `/${totalCount}` : ''})
             </h4>
-            {totalCount > 0 && (
+            {urlFilter === 'all' && totalCount > 0 && (
               <span className="text-xs text-[var(--pv-text-muted)]">
                 {indexedCount}/{totalCount} indexed
-                {requestedCount > 0 && ` • ${requestedCount} requested`}
+                {requestedCount > 0 && ` • ${requestedCount} submitted`}
               </span>
             )}
           </div>
@@ -286,7 +295,7 @@ export function DeploymentCard({
                 ) : (
                   <>
                     <Send className="h-3.5 w-3.5 mr-1.5" />
-                    <span>Request All</span>
+                    <span>Submit All</span>
                   </>
                 )}
               </Button>
@@ -319,12 +328,14 @@ export function DeploymentCard({
         </div>
 
         <div className="space-y-1.5">
-          {deployment.changed_urls.map((urlObj) => {
+          {filteredUrls.map((urlObj) => {
             const isUpdating = updatingUrl === urlObj.url
             const canRequest = urlObj.indexing_status === 'pending'
             const canIndex =
               urlObj.indexing_status === 'pending' ||
               urlObj.indexing_status === 'requested'
+            // Get the original index from the full list (not filtered)
+            const originalIndex = deployment.changed_urls.findIndex(u => u.url === urlObj.url)
 
             return (
               <div
@@ -339,8 +350,11 @@ export function DeploymentCard({
                   ${getUrlBorderClass(urlObj.indexing_status)}
                 `}
               >
-                {/* Status indicator + URL */}
+                {/* Number + Status indicator + URL */}
                 <div className="flex items-center gap-2.5 flex-1 min-w-0">
+                  <span className="flex-shrink-0 w-6 text-xs font-mono text-[var(--pv-text-muted)] text-right">
+                    {originalIndex + 1}.
+                  </span>
                   <UrlStatusIndicator
                     status={urlObj.indexing_status}
                     showLabel={false}
@@ -381,7 +395,7 @@ export function DeploymentCard({
                       ) : (
                         <>
                           <Send className="h-3.5 w-3.5 mr-1" />
-                          <span>Request</span>
+                          <span>Submitted URL</span>
                         </>
                       )}
                     </Button>
@@ -462,7 +476,7 @@ export function DeploymentCard({
         {deployment.indexing_requested_at && (
           <div className="flex items-center gap-1.5">
             <Send className="h-3 w-3 text-blue-500" />
-            <span className="font-semibold">Requested:</span>
+            <span className="font-semibold">Submitted:</span>
             <time
               className="font-mono"
               dateTime={deployment.indexing_requested_at}
