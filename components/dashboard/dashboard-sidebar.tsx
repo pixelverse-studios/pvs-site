@@ -9,6 +9,7 @@ import {
   FolderKanban,
   TrendingUp,
   FileText,
+  BookOpen,
   ChevronLeft,
   ChevronRight,
   Menu,
@@ -53,6 +54,12 @@ const navItems: NavItem[] = [
     href: '/dashboard/audits',
     icon: FileText,
     available: false,
+  },
+  {
+    label: 'Docs',
+    href: '/dashboard/docs',
+    icon: BookOpen,
+    available: true,
   },
 ];
 
