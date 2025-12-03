@@ -35,6 +35,47 @@ npm run dev (run_in_background: true, store shell_id)
 
 ---
 
+## ⚠️ CRITICAL: Deployment Summary Updates (CLIENT COMMUNICATION)
+
+**This is NON-NEGOTIABLE. The deployment summary powers automated client email notifications.**
+
+### THE RULE:
+**IMMEDIATELY after completing ANY work, update `docs/deployment_summary.md` BEFORE doing anything else.**
+
+This is not optional. This is not an afterthought. This is the FIRST action after finishing work.
+
+### Why This Matters:
+- A Git pre-push hook reads this file and sends email notifications to Phil and Sami
+- If the summary is empty, the notification is skipped silently
+- The user trusts this automation to keep stakeholders informed
+- **Skipping this step breaks that trust and leaves clients uninformed**
+
+### Required Actions After EVERY Task:
+1. **STOP** - Do not proceed to audit files or wait for commit approval
+2. **UPDATE** `docs/deployment_summary.md` with:
+   - `## Latest deploy summary` - Plain-language bullet points (what changed, not how)
+   - `## Notes for internal team` - Technical details (optional)
+   - `## Changed URLs` - Full URLs affected (for Google re-indexing)
+3. **THEN** create the audit file in `docs/audits/landing/`
+4. **THEN** wait for user commit approval
+
+### Quick Reference:
+```markdown
+## Latest deploy summary
+- Redesigned the pricing page layout for better clarity
+- Fixed mobile navigation menu alignment
+
+## Notes for internal team
+- Updated PricingCard component props
+
+## Changed URLs
+- https://www.pixelversestudios.io/packages
+```
+
+**See "Documentation Requirements" section below for full formatting details.**
+
+---
+
 ## Project Overview
 
 A custom-coded marketing website for PixelVerse Studios, built with **Next.js 14**, **Tailwind CSS**, and a **CSS variable design system** supporting light and dark themes.
@@ -197,15 +238,9 @@ docs/
 
 ### Deployment Summary Workflow
 
-**CRITICAL: After completing each task or feature, update `docs/deployment_summary.md` with a high-level summary**
+> ⚠️ **SEE CRITICAL SECTION AT TOP OF FILE** - Updating the deployment summary is the FIRST action after completing any work. Do not skip this step.
 
 This file is automatically processed by a Git pre-push hook that sends deployment data to the PVS API and triggers an email notification to Phil and Sami. Keep summaries concise and non-technical.
-
-#### When to Update:
-- After completing any feature, fix, or enhancement
-- Before waiting for user to commit/push changes
-- Each time you finish a discrete unit of work
-- **MUST include all affected URLs** in the "Changed URLs" section
 
 #### Format:
 The file has **three required sections**:
@@ -253,10 +288,7 @@ The file has **three required sections**:
 
 #### Process:
 1. Complete your work on a feature/task
-2. Update `docs/deployment_summary.md`:
-   - Add user-friendly bullet points to "Latest deploy summary"
-   - Add technical details to "Notes for internal team" (optional)
-   - Add all affected URLs to "Changed URLs"
+2. **IMMEDIATELY** update `docs/deployment_summary.md` (see critical section at top)
 3. Create the detailed audit log in `docs/audits/landing/`
 4. Wait for user to review and request commit
 5. When user runs `git push`, the pre-push hook will:
