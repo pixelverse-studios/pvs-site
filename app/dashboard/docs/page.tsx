@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { Container } from '@/components/ui/container';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, Search, PenTool, Target, MapPin, FileText } from 'lucide-react';
 import { DocCard } from './components/doc-card';
 
 export const metadata: Metadata = {
@@ -35,39 +35,35 @@ const docs = [
 
 export default function DocsPage() {
   return (
-    <main className="pb-16 pt-8 md:pb-24">
+    <main className="pb-16 pt-6 lg:pt-8">
       <Container className="max-w-5xl">
         <div className="space-y-8">
           {/* Header */}
-          <div className="text-center">
+          <div className="flex items-center gap-4">
             <div
-              className="mx-auto mb-4 inline-flex rounded-2xl p-4"
+              className="flex h-12 w-12 items-center justify-center rounded-2xl"
               style={{
-                background: 'linear-gradient(135deg, rgba(63, 0, 233, 0.1), rgba(201, 71, 255, 0.1))',
+                background: 'linear-gradient(135deg, rgba(63, 0, 233, 0.15), rgba(201, 71, 255, 0.08))',
                 border: '1px solid rgba(63, 0, 233, 0.2)',
               }}
             >
-              <BookOpen
-                className="h-8 w-8"
-                style={{ color: 'var(--pv-primary)' }}
-              />
+              <BookOpen className="h-5 w-5" style={{ color: 'var(--pv-primary)' }} />
             </div>
-            <h1
-              className="mb-3 text-4xl font-bold md:text-5xl"
-              style={{ color: 'var(--pv-text)' }}
-            >
-              Documentation
-            </h1>
-            <p
-              className="mx-auto max-w-xl text-lg"
-              style={{ color: 'var(--pv-text-muted)' }}
-            >
-              Reference guides and standards for SEO, content creation, and development workflows.
-            </p>
+            <div>
+              <h1
+                className="font-heading text-2xl font-bold md:text-3xl"
+                style={{ color: 'var(--pv-text)' }}
+              >
+                Documentation
+              </h1>
+              <p className="text-sm" style={{ color: 'var(--pv-text-muted)' }}>
+                Reference guides and standards for SEO and content
+              </p>
+            </div>
           </div>
 
           {/* Doc cards grid */}
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-2">
             {docs.map((doc) => (
               <DocCard
                 key={doc.href}
@@ -81,7 +77,7 @@ export default function DocsPage() {
             ))}
           </div>
 
-          {/* Quick tips section */}
+          {/* Quick Reference Cards */}
           <div
             className="rounded-2xl border p-6"
             style={{
@@ -90,26 +86,32 @@ export default function DocsPage() {
             }}
           >
             <h2
-              className="mb-4 text-lg font-semibold"
+              className="mb-6 text-base font-semibold"
               style={{ color: 'var(--pv-text)' }}
             >
               Quick Reference
             </h2>
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-3">
               <QuickTip
+                icon={Target}
                 label="GBP Impact"
                 value="32%"
                 description="of local ranking"
+                color="#10b981"
               />
               <QuickTip
+                icon={MapPin}
                 label="Priority Cities"
                 value="3-5"
                 description="focus before expanding"
+                color="var(--pv-primary)"
               />
               <QuickTip
+                icon={FileText}
                 label="Content Depth"
                 value="1,500+"
                 description="words for city pages"
+                color="#3b82f6"
               />
             </div>
           </div>
@@ -119,32 +121,50 @@ export default function DocsPage() {
   );
 }
 
-function QuickTip({ label, value, description }: { label: string; value: string; description: string }) {
+function QuickTip({
+  icon: Icon,
+  label,
+  value,
+  description,
+  color,
+}: {
+  icon: typeof Target;
+  label: string;
+  value: string;
+  description: string;
+  color: string;
+}) {
   return (
-    <div className="text-center">
-      <p
-        className="text-xs font-medium uppercase tracking-wider"
-        style={{ color: 'var(--pv-text-muted)' }}
-      >
-        {label}
-      </p>
-      <p
-        className="my-1 text-2xl font-bold"
+    <div className="flex items-start gap-4">
+      <div
+        className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl"
         style={{
-          background: 'var(--pv-gradient)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
+          background: `linear-gradient(135deg, ${color}15, ${color}05)`,
+          border: `1px solid ${color}20`,
         }}
       >
-        {value}
-      </p>
-      <p
-        className="text-sm"
-        style={{ color: 'var(--pv-text-muted)' }}
-      >
-        {description}
-      </p>
+        <Icon className="h-4 w-4" style={{ color }} />
+      </div>
+      <div>
+        <p
+          className="text-xs font-medium uppercase tracking-wider"
+          style={{ color: 'var(--pv-text-muted)' }}
+        >
+          {label}
+        </p>
+        <p
+          className="text-xl font-bold"
+          style={{ color: 'var(--pv-text)' }}
+        >
+          {value}
+        </p>
+        <p
+          className="text-xs"
+          style={{ color: 'var(--pv-text-muted)' }}
+        >
+          {description}
+        </p>
+      </div>
     </div>
   );
 }

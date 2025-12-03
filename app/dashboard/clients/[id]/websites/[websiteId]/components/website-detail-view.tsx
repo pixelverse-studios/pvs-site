@@ -38,28 +38,21 @@ export function WebsiteDetailView({ website, client }: WebsiteDetailViewProps) {
       : client.firstname || client.lastname || 'Client';
 
   return (
-    <main className="relative min-h-screen overflow-hidden pb-16 pt-8">
-      {/* Grain texture overlay */}
-      <div
-        className="pointer-events-none fixed inset-0 opacity-[0.015]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E")`,
-          backgroundRepeat: 'repeat',
-        }}
-      />
-
-      {/* Gradient spotlight effects */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+    <main className="relative min-h-screen overflow-hidden pb-16 pt-6 lg:pt-8">
+      {/* Subtle gradient background */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden opacity-30">
         <div
-          className="absolute -top-1/2 right-0 h-[800px] w-[800px] rounded-full opacity-20 blur-3xl"
+          className="absolute -top-1/2 right-0 h-[600px] w-[600px] rounded-full blur-3xl"
           style={{
             background: 'radial-gradient(circle, var(--pv-primary) 0%, transparent 70%)',
+            opacity: 0.15,
           }}
         />
         <div
-          className="absolute bottom-0 left-0 h-[600px] w-[600px] rounded-full opacity-10 blur-3xl"
+          className="absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full blur-3xl"
           style={{
             background: 'radial-gradient(circle, var(--pv-primary-2) 0%, transparent 70%)',
+            opacity: 0.1,
           }}
         />
       </div>

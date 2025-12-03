@@ -1,121 +1,254 @@
-import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
-import { Container } from '@/components/ui/container'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { LogoutButton } from '@/components/auth/logout-button'
-import { Users, FolderKanban, Mail, FileText } from 'lucide-react'
+import { redirect } from 'next/navigation';
+import { createClient } from '@/lib/supabase/server';
+import { getApiBaseUrl } from '@/lib/api-config';
+import { Container } from '@/components/ui/container';
+import { StatCard } from '@/components/dashboard/stat-card';
+import { DashboardCard } from '@/components/dashboard/dashboard-card';
+import { ActivityFeed, ActivityItem } from '@/components/dashboard/activity-feed';
+import { QuickActionButton } from '@/components/dashboard/quick-action-button';
+import { ClientListItem } from '@/components/dashboard/client-list-item';
 
 export const metadata = {
   title: 'Dashboard | PixelVerse Studios',
   description: 'Your PixelVerse Studios dashboard',
+};
+
+interface Website {
+  website_id: string;
+  website_title: string;
+  domain: string;
+}
+
+interface Deployment {
+  deployment_id: string;
+  website_id: string;
+  website_title: string;
+  deploy_summary: string;
+  indexing_status: 'pending' | 'requested' | 'indexed';
+  created_at: string;
+}
+
+interface Client {
+  client_id: string;
+  firstname: string;
+  lastname: string;
+  client_email: string | null;
+  client_active: boolean | null;
+  website_count: number;
+  websites: Website[];
+  recent_deployments: Deployment[];
+  deployment_count_30d: number;
+}
+
+async function getClients(): Promise<Client[]> {
+  try {
+    const response = await fetch(`${getApiBaseUrl()}/api/clients`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store',
+    });
+    if (!response.ok) return [];
+    return await response.json();
+  } catch {
+    return [];
+  }
 }
 
 export default async function DashboardPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  // If not logged in, redirect to login
   if (!user) {
-    redirect('/login')
+    redirect('/login');
   }
 
+  const clients = await getClients();
+
+  // Calculate stats
+  const totalClients = clients.length;
+  const activeClients = clients.filter((c) => c.client_active === true).length;
+  const totalWebsites = clients.reduce((acc, c) => acc + (c.website_count || 0), 0);
+  const totalDeployments = clients.reduce((acc, c) => acc + (c.deployment_count_30d || 0), 0);
+
+  // Gather all recent deployments from all clients, sort by date
+  const allDeployments = clients
+    .flatMap((c) => c.recent_deployments || [])
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+  // Build activity feed
+  const activities: ActivityItem[] = allDeployments.slice(0, 5).map((d) => ({
+    id: d.deployment_id,
+    type: 'deployment' as const,
+    title: 'New Deployment',
+    description: d.deploy_summary?.split('\n')[0]?.replace(/^-\s*/, '') || 'Deployment pushed',
+    timestamp: d.created_at,
+    href: `/dashboard/clients`,
+    meta: {
+      websiteName: d.website_title || 'Website',
+    },
+  }));
+
+  // Get greeting based on time
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 17) return 'Good afternoon';
+    return 'Good evening';
+  };
+
+  const firstName = user.user_metadata?.full_name?.split(' ')[0] || 'there';
+
   return (
-    <main className="pt-8 pb-16 md:pb-24">
-      <Container className="max-w-5xl">
+    <main className="pb-16 pt-6 lg:pt-8">
+      <Container className="max-w-7xl">
         <div className="space-y-8">
-          {/* Header */}
-          <div className="flex items-start justify-between">
-            <div>
-              <h1 className="text-4xl font-bold md:text-5xl">Dashboard</h1>
-              <p className="mt-2 text-lg text-[var(--pv-text-muted)]">
-                Welcome back, {user.user_metadata?.full_name || user.email}
-              </p>
+          {/* Welcome Header */}
+          <div className="space-y-1">
+            <h1
+              className="font-heading text-2xl font-bold md:text-3xl"
+              style={{ color: 'var(--pv-text)' }}
+            >
+              {getGreeting()}, {firstName}
+            </h1>
+            <p className="text-sm" style={{ color: 'var(--pv-text-muted)' }}>
+              Here&apos;s what&apos;s happening with your studio today.
+            </p>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard
+              title="Total Clients"
+              value={totalClients}
+              subtitle={`${activeClients} active`}
+              iconName="users"
+              accentColor="#3b82f6"
+            />
+            <StatCard
+              title="Websites"
+              value={totalWebsites}
+              subtitle="Managed sites"
+              iconName="folderKanban"
+              accentColor="var(--pv-primary)"
+            />
+            <StatCard
+              title="Recent Deploys"
+              value={totalDeployments}
+              subtitle="Last 30 days"
+              iconName="rocket"
+              accentColor="#10b981"
+            />
+            <StatCard
+              title="Pending Items"
+              value={0}
+              subtitle="All caught up!"
+              iconName="zap"
+              accentColor="#f59e0b"
+            />
+          </div>
+
+          {/* Main Content Grid */}
+          <div className="grid gap-6 lg:grid-cols-3">
+            {/* Activity Feed - Takes 2 columns */}
+            <div className="lg:col-span-2">
+              <DashboardCard
+                title="Recent Activity"
+                subtitle="Latest deployments and updates"
+                iconName="activity"
+                headerAction={{
+                  label: 'View all',
+                  href: '/dashboard/clients',
+                }}
+                noPadding
+                contentClassName="px-2 py-2"
+              >
+                <ActivityFeed
+                  activities={activities}
+                  maxItems={5}
+                  emptyMessage="No recent activity"
+                />
+              </DashboardCard>
             </div>
-            <LogoutButton />
+
+            {/* Quick Actions - Takes 1 column */}
+            <div className="space-y-6">
+              <DashboardCard
+                title="Quick Actions"
+                subtitle="Common tasks"
+                iconName="zap"
+              >
+                <div className="space-y-2">
+                  <QuickActionButton
+                    title="Manage Clients"
+                    description="View and edit client profiles"
+                    iconName="users"
+                    href="/dashboard/clients"
+                    accentColor="#3b82f6"
+                  />
+                  <QuickActionButton
+                    title="Documentation"
+                    description="SEO guides and checklists"
+                    iconName="bookOpen"
+                    href="/dashboard/docs"
+                    accentColor="#10b981"
+                  />
+                  <QuickActionButton
+                    title="Manage Projects"
+                    description="Track project progress"
+                    iconName="folderKanban"
+                    href="/dashboard/projects"
+                    disabled
+                    badge="Soon"
+                  />
+                  <QuickActionButton
+                    title="View Leads"
+                    description="Incoming inquiries"
+                    iconName="trendingUp"
+                    href="/dashboard/leads"
+                    disabled
+                    badge="Soon"
+                  />
+                </div>
+              </DashboardCard>
+            </div>
           </div>
 
-          {/* User Info Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Account Information</CardTitle>
-              <CardDescription>Your PixelVerse Studios account details</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <p className="text-sm font-medium text-[var(--pv-text-muted)]">Email</p>
-                  <p className="mt-1 text-base">{user.email}</p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-[var(--pv-text-muted)]">Name</p>
-                  <p className="mt-1 text-base">
-                    {user.user_metadata?.full_name || 'Not provided'}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-[var(--pv-text-muted)]">Provider</p>
-                  <p className="mt-1 text-base capitalize">
-                    {user.app_metadata?.provider || 'Google'}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-[var(--pv-text-muted)]">User ID</p>
-                  <p className="mt-1 font-mono text-sm">{user.id}</p>
-                </div>
+          {/* Recent Clients */}
+          {clients.length > 0 && (
+            <DashboardCard
+              title="Recent Clients"
+              subtitle={`${totalClients} total clients`}
+              iconName="users"
+              headerAction={{
+                label: 'View all',
+                href: '/dashboard/clients',
+              }}
+              noPadding
+              contentClassName="divide-y divide-[var(--pv-border)]"
+            >
+              <div className="px-3 py-2">
+                {clients.slice(0, 5).map((client) => {
+                  const fullName = [client.firstname, client.lastname]
+                    .filter(Boolean)
+                    .join(' ') || 'Unknown';
+                  return (
+                    <ClientListItem
+                      key={client.client_id}
+                      id={client.client_id}
+                      name={fullName}
+                      email={client.client_email || ''}
+                      status={client.client_active ? 'active' : 'inactive'}
+                      websiteCount={client.website_count}
+                    />
+                  );
+                })}
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Placeholder Sections */}
-          <div className="grid gap-6 md:grid-cols-2">
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-                <CardDescription>Common tasks and shortcuts</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-3">
-                  <Button variant="outline" className="justify-start" asChild>
-                    <Link href="/dashboard/clients">
-                      <Users className="mr-2 h-4 w-4" />
-                      Manage Clients
-                    </Link>
-                  </Button>
-                  <Button variant="outline" className="justify-start" disabled>
-                    <FolderKanban className="mr-2 h-4 w-4" />
-                    Manage Projects
-                    <span className="ml-auto text-xs text-[var(--pv-text-muted)]">Coming soon</span>
-                  </Button>
-                  <Button variant="outline" className="justify-start" disabled>
-                    <Mail className="mr-2 h-4 w-4" />
-                    View Leads
-                    <span className="ml-auto text-xs text-[var(--pv-text-muted)]">Coming soon</span>
-                  </Button>
-                  <Button variant="outline" className="justify-start" disabled>
-                    <FileText className="mr-2 h-4 w-4" />
-                    Audit Requests
-                    <span className="ml-auto text-xs text-[var(--pv-text-muted)]">Coming soon</span>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Recent Activity</CardTitle>
-                <CardDescription>Your latest updates</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-[var(--pv-text-muted)]">
-                  Activity feed coming soon...
-                </p>
-              </CardContent>
-            </Card>
-          </div>
+            </DashboardCard>
+          )}
         </div>
       </Container>
     </main>
-  )
+  );
 }

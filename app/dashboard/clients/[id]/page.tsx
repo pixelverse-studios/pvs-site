@@ -90,16 +90,17 @@ export default async function ClientDetailPage({ params }: { params: { id: strin
   const formattedUpdatedAt = client.updated_at ? formatDate(client.updated_at) : 'Never';
 
   return (
-    <main className="pb-16 pt-8 md:pb-24">
+    <main className="pb-16 pt-6 lg:pt-8">
       <Container className="max-w-7xl">
         {/* Header */}
         <div className="mb-6 flex items-center justify-between">
           <Link
             href="/dashboard/clients"
-            className="flex items-center gap-2 text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-text)]"
+            className="group flex items-center gap-2 text-sm transition-colors"
+            style={{ color: 'var(--pv-text-muted)' }}
           >
-            <ArrowLeft className="h-4 w-4" />
-            <span className="text-sm font-medium">Back to Clients</span>
+            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+            <span className="font-medium group-hover:text-[var(--pv-text)]">Back to Clients</span>
           </Link>
 
           <Button size="sm" className="gap-2">

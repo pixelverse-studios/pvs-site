@@ -10,13 +10,13 @@ import { ClientsEmptyState } from './clients-empty-state'
 import { Button } from '@/components/ui/button'
 
 interface Client {
-  id: string
-  firstname: string | null
-  lastname: string | null
-  email: string | null
-  active: boolean | null
-  created_at: string
-  updated_at: string | null
+  client_id: string
+  firstname: string
+  lastname: string
+  client_email: string | null
+  client_active: boolean | null
+  website_count: number
+  deployment_count_30d: number
 }
 
 interface ClientsTableProps {
@@ -31,15 +31,15 @@ export function ClientsTable({ clients }: ClientsTableProps) {
   const filteredClients = useMemo(() => {
     return clients.filter((client) => {
       const fullName = `${client.firstname || ''} ${client.lastname || ''}`.toLowerCase()
-      const email = (client.email || '').toLowerCase()
+      const email = (client.client_email || '').toLowerCase()
       const query = searchQuery.toLowerCase()
 
       const matchesSearch = fullName.includes(query) || email.includes(query)
 
       const matchesStatus =
         statusFilter === 'all' ||
-        (statusFilter === 'active' && client.active === true) ||
-        (statusFilter === 'inactive' && client.active !== true)
+        (statusFilter === 'active' && client.client_active === true) ||
+        (statusFilter === 'inactive' && client.client_active !== true)
 
       return matchesSearch && matchesStatus
     })
@@ -145,7 +145,7 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                   <tbody className="divide-y divide-[var(--pv-border)]">
                     {filteredClients.map((client) => (
                       <tr
-                        key={client.id}
+                        key={client.client_id}
                         className="group transition-colors hover:bg-[var(--pv-surface)]"
                       >
                         {/* Client Name */}
@@ -157,7 +157,7 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                                 : client.firstname || client.lastname || 'Unnamed Client'}
                             </p>
                             <p className="text-sm font-mono text-[var(--pv-text-muted)]">
-                              ID: {client.id.slice(0, 8)}...
+                              ID: {client.client_id.slice(0, 8)}...
                             </p>
                           </div>
                         </td>
@@ -167,21 +167,21 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                           <div className="flex items-center gap-2 text-sm">
                             <Mail className="h-4 w-4 text-[var(--pv-text-muted)]" />
                             <span className="text-[var(--pv-text)]">
-                              {client.email || 'No email'}
+                              {client.client_email || 'No email'}
                             </span>
                           </div>
                         </td>
 
                         {/* Status */}
                         <td className="px-6 py-4">
-                          <ClientStatusBadge active={client.active} />
+                          <ClientStatusBadge active={client.client_active} />
                         </td>
 
                         {/* Actions */}
                         <td className="px-6 py-4 text-right">
                           <div className="flex items-center justify-end gap-2">
                             <Button variant="ghost" size="sm" asChild>
-                              <Link href={`/dashboard/clients/${client.id}`}>
+                              <Link href={`/dashboard/clients/${client.client_id}`}>
                                 <Eye className="mr-2 h-4 w-4" />
                                 View
                               </Link>
@@ -206,7 +206,7 @@ export function ClientsTable({ clients }: ClientsTableProps) {
           {/* Mobile Card View */}
           <div className="grid gap-4 md:hidden">
             {filteredClients.map((client) => (
-              <Card key={client.id} className="overflow-hidden">
+              <Card key={client.client_id} className="overflow-hidden">
                 <CardContent className="p-6">
                   {/* Header with Status */}
                   <div className="mb-4 flex items-start justify-between">
@@ -217,10 +217,10 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                           : client.firstname || client.lastname || 'Unnamed Client'}
                       </p>
                       <p className="text-xs font-mono text-[var(--pv-text-muted)]">
-                        {client.id.slice(0, 8)}...
+                        {client.client_id.slice(0, 8)}...
                       </p>
                     </div>
-                    <ClientStatusBadge active={client.active} />
+                    <ClientStatusBadge active={client.client_active} />
                   </div>
 
                   {/* Contact Info */}
@@ -228,7 +228,7 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                     <div className="flex items-center gap-2 text-sm">
                       <Mail className="h-4 w-4 text-[var(--pv-text-muted)]" />
                       <span className="text-[var(--pv-text)]">
-                        {client.email || 'No email'}
+                        {client.client_email || 'No email'}
                       </span>
                     </div>
                   </div>
@@ -236,7 +236,7 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                   {/* Actions */}
                   <div className="mt-4 flex gap-2 border-t border-[var(--pv-border)] pt-4">
                     <Button variant="outline" size="sm" className="flex-1" asChild>
-                      <Link href={`/dashboard/clients/${client.id}`}>
+                      <Link href={`/dashboard/clients/${client.client_id}`}>
                         <Eye className="mr-2 h-4 w-4" />
                         View
                       </Link>

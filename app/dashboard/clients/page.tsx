@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { Container } from '@/components/ui/container';
 import { ClientsTable } from './components/clients-table';
 import { getApiBaseUrl } from '@/lib/api-config';
+import { Users } from 'lucide-react';
 
 export const metadata = {
   title: 'Clients | Dashboard | PixelVerse Studios',
@@ -17,12 +18,10 @@ export default async function ClientsPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // If not logged in, redirect to login
   if (!user) {
     redirect('/login');
   }
 
-  // Fetch all clients from the API
   let clients = [];
   try {
     const response = await fetch(`${API_BASE_URL}/api/clients`, {
@@ -30,29 +29,45 @@ export default async function ClientsPage() {
       headers: {
         'Content-Type': 'application/json',
       },
-      cache: 'no-store', // Don't cache to always get fresh data
+      cache: 'no-store',
     });
     if (!response.ok) {
       throw new Error(`Failed to fetch clients: ${response.status} ${response.statusText}`);
     }
-
     clients = await response.json();
   } catch (error) {
     console.error('Error fetching clients:', error);
-    // Clients will remain empty array, which will show empty state
   }
 
+  const activeCount = clients.filter((c: { client_active: boolean | null }) => c.client_active === true).length;
+
   return (
-    <main className="pb-16 pt-8 md:pb-24">
+    <main className="pb-16 pt-6 lg:pt-8">
       <Container className="max-w-7xl">
-        <div className="space-y-8">
+        <div className="space-y-6">
           {/* Header */}
-          <div className="flex items-start justify-between">
-            <div>
-              <h1 className="text-4xl font-bold md:text-5xl">Clients</h1>
-              <p className="mt-2 text-lg text-[var(--pv-text-muted)]">
-                Manage and track all your client relationships
-              </p>
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div
+                className="flex h-12 w-12 items-center justify-center rounded-2xl"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.05))',
+                  border: '1px solid rgba(59, 130, 246, 0.2)',
+                }}
+              >
+                <Users className="h-5 w-5 text-blue-500" />
+              </div>
+              <div>
+                <h1
+                  className="font-heading text-2xl font-bold md:text-3xl"
+                  style={{ color: 'var(--pv-text)' }}
+                >
+                  Clients
+                </h1>
+                <p className="text-sm" style={{ color: 'var(--pv-text-muted)' }}>
+                  {clients.length} total &middot; {activeCount} active
+                </p>
+              </div>
             </div>
           </div>
 
