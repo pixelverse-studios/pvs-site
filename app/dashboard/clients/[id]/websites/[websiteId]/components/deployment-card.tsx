@@ -200,10 +200,11 @@ export function DeploymentCard({
   return (
     <div
       className="
+        relative
         bg-[var(--pv-surface)]
         border border-[var(--pv-border)]
         rounded-lg
-        overflow-hidden
+        overflow-clip
         transition-all duration-200
         hover:border-[var(--pv-primary)]/30
         animate-fade-in
@@ -213,42 +214,72 @@ export function DeploymentCard({
         animationFillMode: 'backwards',
       }}
     >
-      {/* Header: Status + Timestamps */}
-      <div className="flex items-center justify-between gap-4 px-5 py-3 bg-[var(--pv-bg)] border-b border-[var(--pv-border)]">
-        <DeploymentStatusBadge
-          status={status}
-          indexedCount={indexedCount}
-          requestedCount={requestedCount}
-          totalCount={totalCount}
-        />
+      {/* Sticky Header Container - includes status row and URL actions row */}
+      <div
+        className="
+          sticky top-0 z-10
+          bg-[var(--pv-surface)]
+          border-b border-[var(--pv-border)]
+          rounded-t-lg
+        "
+      >
+        {/* Header: Status + Timestamps */}
+        <div className="flex items-center justify-between gap-4 px-5 py-3 bg-[var(--pv-bg)] border-b border-[var(--pv-border)]">
+          <DeploymentStatusBadge
+            status={status}
+            indexedCount={indexedCount}
+            requestedCount={requestedCount}
+            totalCount={totalCount}
+          />
 
-        <div className="flex items-center gap-3 text-xs text-[var(--pv-text-muted)]">
-          <time
-            className="font-mono"
-            dateTime={deployment.created_at}
-            title={formatTimestamp(deployment.created_at)}
-          >
-            {formatTimestamp(deployment.created_at)}
-          </time>
-          <span className="text-[var(--pv-text-muted)]/70">
-            {formatRelativeTime(deployment.created_at)}
-          </span>
+          <div className="flex items-center gap-3 text-xs text-[var(--pv-text-muted)]">
+            <time
+              className="font-mono"
+              dateTime={deployment.created_at}
+              title={formatTimestamp(deployment.created_at)}
+            >
+              {formatTimestamp(deployment.created_at)}
+            </time>
+            <span className="text-[var(--pv-text-muted)]/70">
+              {formatRelativeTime(deployment.created_at)}
+            </span>
+          </div>
         </div>
-      </div>
 
-      {/* Changed URLs Section */}
-      <div className="px-5 py-4 border-b border-[var(--pv-border)]">
-        <div className="flex items-center justify-between gap-4 mb-3">
-          <div className="flex items-center gap-2">
-            <ExternalLink className="h-4 w-4 text-[var(--pv-text-muted)]" />
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
-              {urlFilter === 'all' ? 'Changed URLs' : urlFilter === 'requested' ? 'Submitted URLs' : `${urlFilter.charAt(0).toUpperCase() + urlFilter.slice(1)} URLs`} ({filteredUrls.length}{urlFilter !== 'all' ? `/${totalCount}` : ''})
-            </h4>
+        {/* Changed URLs Header Row */}
+        <div className="flex items-center justify-between gap-4 px-5 pt-5 pb-3 bg-[var(--pv-surface)]">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <ExternalLink className="h-4 w-4 text-[var(--pv-text-muted)]" />
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
+                {urlFilter === 'all' ? 'Changed URLs' : urlFilter === 'requested' ? 'Submitted URLs' : `${urlFilter.charAt(0).toUpperCase() + urlFilter.slice(1)} URLs`} ({filteredUrls.length}{urlFilter !== 'all' ? `/${totalCount}` : ''})
+              </h4>
+            </div>
+            {/* Status count chips */}
             {urlFilter === 'all' && totalCount > 0 && (
-              <span className="text-xs text-[var(--pv-text-muted)]">
-                {indexedCount}/{totalCount} indexed
-                {requestedCount > 0 && ` • ${requestedCount} submitted`}
-              </span>
+              <div className="flex items-center gap-2">
+                {pendingCount > 0 && (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-2.5 py-1 text-xs font-medium text-amber-500 border border-amber-500/20">
+                    <Clock className="h-3 w-3" />
+                    <span className="font-mono">{pendingCount}</span>
+                    <span className="hidden sm:inline">pending</span>
+                  </span>
+                )}
+                {requestedCount > 0 && (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-2.5 py-1 text-xs font-medium text-blue-500 border border-blue-500/20">
+                    <Send className="h-3 w-3" />
+                    <span className="font-mono">{requestedCount}</span>
+                    <span className="hidden sm:inline">submitted</span>
+                  </span>
+                )}
+                {indexedCount > 0 && (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-500 border border-emerald-500/20">
+                    <CheckCircle className="h-3 w-3" />
+                    <span className="font-mono">{indexedCount}</span>
+                    <span className="hidden sm:inline">indexed</span>
+                  </span>
+                )}
+              </div>
             )}
           </div>
 
@@ -326,7 +357,10 @@ export function DeploymentCard({
             )}
           </div>
         </div>
+      </div>
 
+      {/* Changed URLs List */}
+      <div className="px-5 py-4 border-b border-[var(--pv-border)]">
         <div className="space-y-1.5">
           {filteredUrls.map((urlObj) => {
             const isUpdating = updatingUrl === urlObj.url

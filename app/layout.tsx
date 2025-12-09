@@ -1,4 +1,3 @@
-import Script from 'next/script';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { Inter, Poppins } from 'next/font/google';
@@ -7,6 +6,7 @@ import type { ReactNode } from 'react';
 
 import './globals.css';
 import { LayoutWrapper } from '@/components/layout-wrapper';
+import { SiteBehaviourScript } from '@/components/sitebehaviour-script';
 import { ThemeProvider } from '@/components/theme-provider';
 import { StructuredData } from '@/components/ui/structured-data';
 import { sharedMetadata } from '@/lib/metadata';
@@ -142,7 +142,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         className={`${headingFont.variable} ${bodyFont.variable} min-h-screen bg-[var(--pv-bg)] font-body text-[var(--pv-text)] antialiased transition-colors duration-300`}
       >
         {enableSiteBehaviourTracking && siteBehaviourBootstrap ? (
-          <Script id="sitebehaviour-tracking" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: siteBehaviourBootstrap }} />
+          <SiteBehaviourScript bootstrapScript={siteBehaviourBootstrap} />
         ) : null}
         <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
         <ThemeProvider disableTransitionOnChange>

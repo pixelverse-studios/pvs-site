@@ -51,3 +51,6 @@ public/sitemap*.xml
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+
+docs/audits
+docs/gsc

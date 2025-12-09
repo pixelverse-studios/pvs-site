@@ -38,7 +38,7 @@ export function WebsiteDetailView({ website, client }: WebsiteDetailViewProps) {
       : client.firstname || client.lastname || 'Client';
 
   return (
-    <main className="relative min-h-screen overflow-hidden pb-16 pt-6 lg:pt-8">
+    <main className="relative min-h-screen overflow-x-clip pb-16 pt-6 lg:pt-8">
       {/* Subtle gradient background */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden opacity-30">
         <div

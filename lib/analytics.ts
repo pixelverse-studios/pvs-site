@@ -1,3 +1,5 @@
+import { isTrackingExcludedRoute } from '@/lib/tracking-config';
+
 type AdSourceCode = 'G' | 'M' | 'QR' | 'AUDIT' | string;
 
 const AD_SOURCE_COOKIE = 'ad_source';
@@ -20,6 +22,13 @@ function isBrowser() {
   return typeof window !== 'undefined';
 }
 
+function isExcludedRoute(): boolean {
+  if (!isBrowser()) {
+    return false;
+  }
+  return isTrackingExcludedRoute(window.location.pathname);
+}
+
 function debugLog(...args: unknown[]) {
   if (process.env.NODE_ENV !== 'production') {
     // eslint-disable-next-line no-console
@@ -28,7 +37,7 @@ function debugLog(...args: unknown[]) {
 }
 
 function enqueueSiteBehaviourEvent(eventName: string, payload: Record<string, unknown>) {
-  if (!isBrowser()) {
+  if (!isBrowser() || isExcludedRoute()) {
     return;
   }
 
@@ -55,7 +64,7 @@ function normalizeSource(code: string | null): AdSourceCode | null {
 }
 
 export function trackAdSource(code: string | null, path: string) {
-  if (!isBrowser()) {
+  if (!isBrowser() || isExcludedRoute()) {
     return;
   }
 
@@ -76,7 +85,7 @@ export function trackAdSource(code: string | null, path: string) {
 }
 
 export function storeAdSource(code: string | null) {
-  if (!isBrowser()) {
+  if (!isBrowser() || isExcludedRoute()) {
     return;
   }
 
@@ -112,7 +121,7 @@ export function getStoredAdSource(): string | null {
 }
 
 export function trackPageView(path: string) {
-  if (!isBrowser()) {
+  if (!isBrowser() || isExcludedRoute()) {
     return;
   }
 
