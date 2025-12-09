@@ -12,6 +12,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 // ANSI color codes for better terminal output
 const colors = {
@@ -193,9 +194,29 @@ function resetDeploymentSummary() {
   logSuccess('deployment_summary.md reset to template');
 }
 
+// Get current git branch name
+function getCurrentBranch() {
+  try {
+    return execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8' }).trim();
+  } catch {
+    return null;
+  }
+}
+
 // Main execution
 async function main() {
   log('\n🚀 Running pre-push deployment tracking hook...\n', 'bold');
+
+  // Only run deployment tracking on main branch
+  const currentBranch = getCurrentBranch();
+  if (currentBranch !== 'main') {
+    logInfo(`Current branch: ${currentBranch}`);
+    logInfo('Skipping deployment tracking (only runs on main branch)');
+    log('\n✅ Push allowed\n', 'green');
+    process.exit(0);
+  }
+
+  logInfo('Pushing to main branch - running deployment tracking...');
 
   // Load environment variables
   const env = loadEnvFile();
