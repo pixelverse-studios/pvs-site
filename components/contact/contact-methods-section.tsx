@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Mail, Send, Sparkles } from 'lucide-react';
+import { Mail, MapPin, Send, Sparkles } from 'lucide-react';
 
 import { ContactForm } from '@/components/contact/ContactForm';
 import { ContactInfoCard } from '@/components/contact/contact-info-card';
@@ -60,6 +60,31 @@ export function ContactMethodsSection() {
               <Button asChild variant="ctaGhost" className="w-full">
                 <Link href="/audit">Request Free Audit</Link>
               </Button>
+            </ContactInfoCard>
+          </MotionItem>
+          <MotionItem triggerOnViewport={false}>
+            <ContactInfoCard
+              icon={<MapPin className="h-5 w-5" aria-hidden />}
+              title="Location"
+              description="Based in Bergen County, NJ. Serving businesses across North Jersey."
+            >
+              <address className="mb-3 text-sm not-italic text-[var(--pv-text-muted)]">
+                79 Edgewater Road<br />
+                Cliffside Park, NJ 07010
+              </address>
+              <div className="overflow-hidden rounded-lg border border-[var(--pv-border)]">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3019.8!2d-73.9876!3d40.8215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2f7a1d4e5f6a7%3A0x1234567890abcdef!2s79%20Edgewater%20Rd%2C%20Cliffside%20Park%2C%20NJ%2007010!5e0!3m2!1sen!2sus!4v1234567890"
+                  width="100%"
+                  height="150"
+                  style={{ border: 0 }}
+                  allowFullScreen={false}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="PixelVerse Studios location"
+                  className="grayscale transition-all hover:grayscale-0"
+                />
+              </div>
             </ContactInfoCard>
           </MotionItem>
         </MotionSection>

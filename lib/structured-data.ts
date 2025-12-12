@@ -53,16 +53,30 @@ export const localBusinessSchema = {
   },
   address: {
     '@type': 'PostalAddress',
-    addressLocality: 'Bergen County',
+    streetAddress: '79 Edgewater Road',
+    addressLocality: 'Cliffside Park',
     addressRegion: 'NJ',
+    postalCode: '07010',
     addressCountry: 'US'
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 40.8215,
+    longitude: -73.9876
   },
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'sales',
     email: 'info@pixelversestudios.io',
     availableLanguage: ['English']
-  }
+  },
+  sameAs: [
+    'https://www.instagram.com/pixel.verse.studios/',
+    'https://www.facebook.com/profile.php?id=61582670432316',
+    'https://www.linkedin.com/company/pixelverse-studios/',
+    'https://www.youtube.com/@PixelVerse_Studios_nj',
+    'https://x.com/pvs_nj'
+  ]
 };
 
 // Per-city LocalBusiness schema for priority cities
