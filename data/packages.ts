@@ -31,7 +31,7 @@ export const packages: PackageDetail[] = [
     level: 'Core Lite',
     name: 'Entry Essential',
     summary: 'Get online quickly and affordably.',
-    price: '$500 setup + $59/mo',
+    price: '$500 setup + $49/mo',
     ideal: 'Side hustlers, freelancers, and early-stage startups',
     includes: [
       '1-page sleek, custom-coded website (no templates)',
@@ -55,7 +55,7 @@ export const packages: PackageDetail[] = [
     level: 'Core Starter',
     name: 'Growth Ready',
     summary: 'Build a professional presence that lasts.',
-    price: '$1,850 setup + $149/mo',
+    price: '$2,000 setup + $79/mo',
     ideal: 'Service businesses ready to elevate their credibility',
     includes: [
       'Multi-page custom website (up to 5 pages)',
@@ -80,7 +80,7 @@ export const packages: PackageDetail[] = [
     level: 'Core Growth',
     name: 'Scale Focused',
     summary: 'Scale with advanced features and flexibility.',
-    price: '$3,400 setup + $289/mo',
+    price: '$4,000 setup + $179/mo',
     ideal: 'Established teams ready for deeper integrations and funnels',
     includes: [
       'Custom architecture for 8–12 pages & landing page system',
@@ -105,7 +105,7 @@ export const packages: PackageDetail[] = [
     level: 'Core Premium',
     name: 'Enterprise Custom',
     summary: 'Unlock custom solutions for maximum growth.',
-    price: 'Custom proposal starting at $6,800 + retainer',
+    price: 'Custom proposal starting at $6,500 + retainer',
     ideal: 'High-growth brands needing bespoke workflows and SLA support',
     includes: [
       'Full UX research & stakeholder discovery',
@@ -130,7 +130,7 @@ export const packages: PackageDetail[] = [
     level: 'SEO Starter',
     name: 'Visibility Boost',
     summary: 'Build your search presence.',
-    price: '$950 setup + $225/mo',
+    price: '$150 setup + $349/mo',
     ideal: 'Businesses new to SEO wanting foundational visibility',
     includes: [
       'Technical health audit & remediation',
@@ -153,7 +153,7 @@ export const packages: PackageDetail[] = [
     level: 'SEO Growth',
     name: 'Ranking Momentum',
     summary: 'Expand rankings and visibility.',
-    price: '$1,650 setup + $375/mo',
+    price: '$300 setup + $649/mo',
     ideal: 'Teams ready to capture more demand and expand reach',
     includes: [
       'Deep content gap & competitor analysis',
@@ -176,7 +176,7 @@ export const packages: PackageDetail[] = [
     level: 'SEO Premium',
     name: 'Market Leader',
     summary: 'Dominate your market.',
-    price: '$2,450 setup + $575/mo',
+    price: '$500 setup + $1149/mo',
     ideal: 'Brands competing in crowded markets needing proactive search leadership',
     includes: [
       'Full-funnel SEO strategy with CRO alignment',

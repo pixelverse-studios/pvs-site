@@ -25,6 +25,7 @@
 - Prefer static analysis over running servers when possible
 
 **Example Pattern:**
+
 ```bash
 # Start server for validation
 npm run dev (run_in_background: true, store shell_id)
@@ -40,17 +41,20 @@ npm run dev (run_in_background: true, store shell_id)
 **This is NON-NEGOTIABLE. The deployment summary powers automated client email notifications.**
 
 ### THE RULE:
+
 **IMMEDIATELY after completing ANY work, update `docs/deployment_summary.md` BEFORE doing anything else.**
 
 This is not optional. This is not an afterthought. This is the FIRST action after finishing work.
 
 ### Why This Matters:
+
 - A Git pre-push hook reads this file and sends email notifications to stakeholders
 - If the summary is empty, the notification is skipped silently
 - The user trusts this automation to keep stakeholders informed
 - **Skipping this step breaks that trust and leaves clients uninformed**
 
 ### Required Actions After EVERY Task:
+
 1. **STOP** - Do not proceed to audit files or wait for commit approval
 2. **UPDATE** `docs/deployment_summary.md` with:
    - `## Latest deploy summary` - Plain-language bullet points (what changed, not how)
@@ -60,15 +64,19 @@ This is not optional. This is not an afterthought. This is the FIRST action afte
 4. **THEN** wait for user commit approval
 
 ### Quick Reference:
+
 ```markdown
 ## Latest deploy summary
+
 - Redesigned the pricing page layout for better clarity
 - Fixed mobile navigation menu alignment
 
 ## Notes for internal team
+
 - Updated PricingCard component props
 
 ## Changed URLs
+
 - https://[DOMAIN]/packages
 ```
 
@@ -79,6 +87,7 @@ This is not optional. This is not an afterthought. This is the FIRST action afte
 ## Project Overview
 
 <!-- Replace with project description -->
+
 [Brief description of the project, its purpose, and key goals]
 
 ---
@@ -100,6 +109,7 @@ This is not optional. This is not an afterthought. This is the FIRST action afte
 **Goal:** Centralized visual language for all pages and components.
 
 **Structure:**
+
 ```
 /styles/globals.css    # Theme variables
 /tailwind.config.js    # Theme extensions + utility mapping
@@ -107,6 +117,7 @@ This is not optional. This is not an afterthought. This is the FIRST action afte
 ```
 
 **CSS Variables (globals.css):**
+
 ```css
 :root {
   --primary: #[HEX];
@@ -130,6 +141,7 @@ This is not optional. This is not an afterthought. This is the FIRST action afte
 ```
 
 **Core Components:**
+
 - `Button` (primary, secondary, ghost variants)
 - `Card` (bordered, rounded, surface-aware)
 - `SectionHeader`
@@ -145,6 +157,7 @@ This is not optional. This is not an afterthought. This is the FIRST action afte
 Each major page has its own component directory under `/components/` and a route under `/app/`.
 
 ### Pages:
+
 1. **Homepage** - [Brief description]
 2. **[Page Name]** - [Brief description]
 3. **[Page Name]** - [Brief description]
@@ -198,6 +211,7 @@ Each major page has its own component directory under `/components/` and a route
 **IMPORTANT: ALL documentation and audit files MUST be created in the `docs/` directory**
 
 ### Directory Structure:
+
 ```
 docs/
 ├── audits/             # Change audit files
@@ -214,10 +228,11 @@ docs/
 This file is automatically processed by a Git pre-push hook that sends deployment data to the API and triggers an email notification. Keep summaries concise and non-technical.
 
 #### Format:
+
 The file has **three required sections**:
 
 1. **Latest deploy summary** - Client-facing changes (sent in email)
-   - Use markdown formatting (bullet points, **bold**, *italic*)
+   - Use markdown formatting (bullet points, **bold**, _italic_)
    - Write in plain language (non-technical summaries)
    - Focus on WHAT changed, not HOW it was implemented
    - Each bullet should be one clear, concise sentence
@@ -234,30 +249,37 @@ The file has **three required sections**:
    - These URLs are tracked for Google Search Console re-indexing
 
 #### URL Formatting Examples:
+
 ```markdown
 ## Changed URLs
+
 - https://[DOMAIN]/
 - https://[DOMAIN]/dashboard
 - https://[DOMAIN]/blog/my-post
 ```
 
 **Do NOT add notes after URLs:**
+
 ```markdown
 ## Changed URLs
-- https://[DOMAIN]/ (all pages)     ❌ WRONG
-- https://[DOMAIN]/dashboard        ✅ CORRECT
+
+- https://[DOMAIN]/ (all pages) ❌ WRONG
+- https://[DOMAIN]/dashboard ✅ CORRECT
 ```
 
 #### Example Good Entries:
+
 - ✅ "Added Google sign-in for team dashboard access"
 - ✅ "Fixed contact form validation on mobile devices"
 - ✅ "Updated homepage hero section with new messaging"
 
 #### Example Bad Entries:
+
 - ❌ "Implemented Supabase auth with @supabase/ssr package using middleware.ts for JWT validation"
 - ❌ "Refactored Button component to use class-variance-authority"
 
 #### Process:
+
 1. Complete your work on a feature/task
 2. **IMMEDIATELY** update `docs/deployment_summary.md` (see critical section at top)
 3. Create the detailed audit log in `docs/audits/`
@@ -269,20 +291,25 @@ The file has **three required sections**:
    - Automatically reset the file to template
 
 #### Reset Template (automatically applied after git push):
+
 ```markdown
 # Deployment Summary
 
 ## Latest deploy summary
+
 -
 
 ## Notes for internal team
+
 -
 
 ## Changed URLs
+
 -
 ```
 
 **IMPORTANT:**
+
 - The deployment summary is a staging area for the CURRENT deployment only
 - The pre-push Git hook automatically processes and resets this file
 - All three sections (deploy summary, internal notes, changed URLs) are required
@@ -290,7 +317,9 @@ The file has **three required sections**:
 - If summary or URLs are empty, the hook will skip deployment tracking
 
 #### Pre-Push Hook Setup:
+
 Run this once after cloning the repository:
+
 ```bash
 node scripts/install-hooks.js
 ```
@@ -302,6 +331,7 @@ node scripts/install-hooks.js
 After completing any task, create an audit file:
 
 #### File Naming Convention:
+
 ```
 docs/audits/YYYY-MM-DD-HH-MM-SS-[brief-description].md
 ```
@@ -309,42 +339,52 @@ docs/audits/YYYY-MM-DD-HH-MM-SS-[brief-description].md
 Example: `docs/audits/2025-01-15-14-30-45-hero-section.md`
 
 #### Audit File Template:
+
 ```markdown
 # Audit Log - [Feature/Task] - [Date Time]
 
 ## Prompt Summary
+
 [Summarize what the user asked for]
 
 ## Actions Taken
+
 1. [List each action performed]
 2. [Include files created/modified]
 3. [Note any decisions made]
 
 ## Files Changed
+
 - `path/to/file1.tsx` - [Brief description of changes]
 - `path/to/file2.ts` - [Brief description of changes]
 
 ## Components/Features Affected
+
 - [Component/Feature name]
 - [Related dependencies]
 
 ## Testing Considerations
+
 - [What should be tested]
 - [Potential edge cases]
 - [Device/browser testing needs]
 
 ## Performance Impact
+
 - [Bundle size changes]
 - [Loading time considerations]
 - [SEO implications]
 
 ## Next Steps
+
 - [Suggested follow-up tasks]
 
 ## Notes
+
 [Any additional context, warnings, or important information]
 
 ## Timestamp
+
 Created: YYYY-MM-DD HH:MM:SS
 Page Section: [section name]
 ```
@@ -377,3 +417,27 @@ For specialized tasks, read the appropriate reference file:
 - **Blog Content:** Read `docs/reference/blog-guidelines.md` for content writing standards
 
 <!-- Add project-specific reference documents as needed -->
+
+## Linear Ticket Creation
+
+When creating Linear tickets for this project:
+
+| Field    | Value              |
+| -------- | ------------------ |
+| Team     | PixelVerse Studios |
+| Assignee | `me`               |
+| Project  | PVS Website        |
+| Priority | Medium (3)         |
+
+**Labels:** Always apply one from each sub-label group:
+
+- **Environment:** `Front End`, `Fullstack`, `Server`
+- **Scope:** `Ticket`, `Epic`
+- **Task:** `Feature`, `Bug`, `Improvement`, `Refactor`, `Maintenance`, `Research`
+
+**Description format:**
+
+- `## Summary` - what and why
+- `## Current State` / `## Target State` - when applicable
+- `## Implementation` - files to modify, code snippets
+- `## Acceptance Criteria` - checkbox list
