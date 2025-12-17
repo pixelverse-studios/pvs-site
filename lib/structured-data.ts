@@ -47,6 +47,7 @@ export const localBusinessSchema = {
   description:
     'PixelVerse Studios crafts custom-coded marketing websites with UX-first design, performance, and local SEO for Bergen County service brands.',
   email: 'info@pixelversestudios.io',
+  telephone: '+1-201-638-1769',
   areaServed: {
     '@type': 'AdministrativeArea',
     name: 'Bergen County, NJ'
@@ -67,6 +68,7 @@ export const localBusinessSchema = {
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'sales',
+    telephone: '+1-201-638-1769',
     email: 'info@pixelversestudios.io',
     availableLanguage: ['English']
   },
@@ -104,6 +106,7 @@ export function createCityLocalBusinessSchema({
     description: description || defaultDescription,
     url: `${siteUrl}/services/${slug}`,
     email: 'info@pixelversestudios.io',
+    telephone: '+1-201-638-1769',
     image: lightModeLogo,
     logo: lightModeLogo,
     priceRange: '$$',
