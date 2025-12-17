@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import { CityRelatedCitiesSection } from '@/components/services/city/city-related-cities-section';
 import { CityServicesCtaSection } from '@/components/services/city/city-services-cta-section';
 import { CityServicesFaqSection } from '@/components/services/city/city-services-faq-section';
 import { CityServicesHero } from '@/components/services/city/city-services-hero';
@@ -90,6 +91,7 @@ export default function CityServicesPage({ params }: { params: CityPageParams })
       <ServicesProcessSection />
       <CityServicesProofSection proof={page.proof} city={page.city} />
       <CityServicesFaqSection city={page.city} faq={page.faq} />
+      <CityRelatedCitiesSection currentCity={page.city} relatedCities={page.relatedCities} />
       <CityServicesCtaSection cta={page.cta} />
       <ServicesClosingCtaSection contactHref={`/contact/${page.slug}`} />
     </main>
