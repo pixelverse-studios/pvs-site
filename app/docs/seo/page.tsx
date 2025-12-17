@@ -56,6 +56,10 @@ export const metadata: Metadata = createPageMetadata({
     'local SEO updates',
   ],
 });
+metadata.robots = {
+  index: false,
+  follow: false,
+};
 
 const updates = [
   {

@@ -11,6 +11,7 @@
 - Added phone number to structured data schema for NAP consistency
 - Added cross-city internal linking between all 10 Bergen County city pages
 - Each city now links to 2-3 geographically relevant neighboring cities
+- Added noindex directive to internal pages (/docs/seo) to conserve crawl budget
 
 ## Notes for internal team
 - Meta description reduced from 181 to 147 characters (target is under 160)
@@ -25,6 +26,7 @@
 - Format: +1-201-638-1769 (schema), (201) 638-1769 (display), tel:+12016381769 (links)
 - New CityRelatedCitiesSection component added after FAQ section
 - Cross-city links use descriptive anchor text: "[City] web design & SEO"
+- NoIndex added to: /docs/seo (/styleguide already had it)
 
 ## Changed URLs
 - https://www.pixelversestudios.io/services/englewood
