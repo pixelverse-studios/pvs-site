@@ -84,7 +84,7 @@ export default async function DashboardPage() {
     title: 'New Deployment',
     description: d.deploy_summary?.split('\n')[0]?.replace(/^-\s*/, '') || 'Deployment pushed',
     timestamp: d.created_at,
-    href: `/dashboard/clients`,
+    href: `/dashboard/deployments/${d.deployment_id}`,
     meta: {
       websiteName: d.website_title || 'Website',
     },

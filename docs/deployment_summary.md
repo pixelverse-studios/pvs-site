@@ -3,11 +3,17 @@
 <!-- This file is automatically sent via email on successful deployment, then reset for the next cycle -->
 
 ## Latest deploy summary
-- Dashboard deployment history timestamps now display in local time instead of UTC
+- Added direct links to deployments from the dashboard activity feed
+- Clicking a deployment now opens a dedicated detail page instead of navigating to clients list
+- Deployment detail pages show full context: breadcrumbs, status, URLs, and indexing actions
 
 ## Notes for internal team
-- Changed `formatTimestamp` function in deployment-card.tsx from UTC methods to local time methods
-- File: app/dashboard/clients/[id]/websites/[websiteId]/components/deployment-card.tsx
+- PVS-116 completed
+- New route: `/dashboard/deployments/[id]`
+- Files created: `app/dashboard/deployments/[id]/page.tsx`, `types.ts`, `not-found.tsx`, `components/deployment-detail-view.tsx`
+- Modified: `app/dashboard/page.tsx` (activity feed links)
+- Backend API was updated to include website and client context in deployment response
 
 ## Changed URLs
 - https://www.pixelversestudios.io/dashboard
+- https://www.pixelversestudios.io/dashboard/deployments/[id]
