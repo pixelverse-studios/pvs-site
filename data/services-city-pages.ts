@@ -53,6 +53,10 @@ export interface CityServicePageDefinition {
       href: string;
     };
   };
+  relatedCities?: Array<{
+    slug: string;
+    city: string;
+  }>;
 }
 
 export const cityServicePages: CityServicePageDefinition[] = [
@@ -180,7 +184,12 @@ export const cityServicePages: CityServicePageDefinition[] = [
         label: 'View Bergen County hub',
         href: '/services/bergen-county'
       }
-    }
+    },
+    relatedCities: [
+      { slug: 'englewood', city: 'Englewood' },
+      { slug: 'cliffside-park', city: 'Cliffside Park' },
+      { slug: 'hackensack', city: 'Hackensack' }
+    ]
   },
   {
     slug: 'cliffside-park',
@@ -289,7 +298,11 @@ export const cityServicePages: CityServicePageDefinition[] = [
         label: 'Explore Bergen County strategy',
         href: '/services/bergen-county'
       }
-    }
+    },
+    relatedCities: [
+      { slug: 'fort-lee', city: 'Fort Lee' },
+      { slug: 'englewood', city: 'Englewood' }
+    ]
   },
   {
     slug: 'river-vale',
@@ -398,7 +411,11 @@ export const cityServicePages: CityServicePageDefinition[] = [
         label: 'See Bergen County insights',
         href: '/services/bergen-county'
       }
-    }
+    },
+    relatedCities: [
+      { slug: 'fair-lawn', city: 'Fair Lawn' },
+      { slug: 'bergenfield', city: 'Bergenfield' }
+    ]
   },
   {
     slug: 'hackensack',
@@ -532,7 +549,12 @@ export const cityServicePages: CityServicePageDefinition[] = [
         label: 'Review Bergen County coverage',
         href: '/services/bergen-county'
       }
-    }
+    },
+    relatedCities: [
+      { slug: 'paramus', city: 'Paramus' },
+      { slug: 'teaneck', city: 'Teaneck' },
+      { slug: 'englewood', city: 'Englewood' }
+    ]
   },
   {
     slug: 'paramus',
@@ -673,7 +695,12 @@ export const cityServicePages: CityServicePageDefinition[] = [
         label: 'See Bergen County roadmap',
         href: '/services/bergen-county'
       }
-    }
+    },
+    relatedCities: [
+      { slug: 'hackensack', city: 'Hackensack' },
+      { slug: 'ridgewood', city: 'Ridgewood' },
+      { slug: 'fair-lawn', city: 'Fair Lawn' }
+    ]
   },
   {
     slug: 'teaneck',
@@ -782,7 +809,12 @@ export const cityServicePages: CityServicePageDefinition[] = [
         label: 'Explore Bergen hub',
         href: '/services/bergen-county'
       }
-    }
+    },
+    relatedCities: [
+      { slug: 'englewood', city: 'Englewood' },
+      { slug: 'hackensack', city: 'Hackensack' },
+      { slug: 'bergenfield', city: 'Bergenfield' }
+    ]
   },
   {
     slug: 'fair-lawn',
@@ -891,7 +923,12 @@ export const cityServicePages: CityServicePageDefinition[] = [
         label: 'Explore Bergen County hub',
         href: '/services/bergen-county'
       }
-    }
+    },
+    relatedCities: [
+      { slug: 'paramus', city: 'Paramus' },
+      { slug: 'hackensack', city: 'Hackensack' },
+      { slug: 'ridgewood', city: 'Ridgewood' }
+    ]
   },
   {
     slug: 'englewood',
@@ -1021,7 +1058,12 @@ export const cityServicePages: CityServicePageDefinition[] = [
         label: 'See Bergen County roadmap',
         href: '/services/bergen-county'
       }
-    }
+    },
+    relatedCities: [
+      { slug: 'fort-lee', city: 'Fort Lee' },
+      { slug: 'hackensack', city: 'Hackensack' },
+      { slug: 'teaneck', city: 'Teaneck' }
+    ]
   },
   {
     slug: 'bergenfield',
@@ -1130,7 +1172,11 @@ export const cityServicePages: CityServicePageDefinition[] = [
         label: 'Explore Bergen County hub',
         href: '/services/bergen-county'
       }
-    }
+    },
+    relatedCities: [
+      { slug: 'teaneck', city: 'Teaneck' },
+      { slug: 'englewood', city: 'Englewood' }
+    ]
   },
   {
     slug: 'ridgewood',
@@ -1269,7 +1315,11 @@ export const cityServicePages: CityServicePageDefinition[] = [
         label: 'View Bergen County strategy',
         href: '/services/bergen-county'
       }
-    }
+    },
+    relatedCities: [
+      { slug: 'paramus', city: 'Paramus' },
+      { slug: 'fair-lawn', city: 'Fair Lawn' }
+    ]
   }
 ];
 

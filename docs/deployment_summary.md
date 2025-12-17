@@ -9,6 +9,8 @@
 - Strengthens on-page relevance signals for Fort Lee, Hackensack, Paramus, and Ridgewood
 - Added phone number (201) 638-1769 to website footer and contact page
 - Added phone number to structured data schema for NAP consistency
+- Added cross-city internal linking between all 10 Bergen County city pages
+- Each city now links to 2-3 geographically relevant neighboring cities
 
 ## Notes for internal team
 - Meta description reduced from 181 to 147 characters (target is under 160)
@@ -21,6 +23,8 @@
 - All H1s remain under 70 character target and read naturally
 - Phone added to: global LocalBusiness schema, city LocalBusiness schemas, footer, contact page
 - Format: +1-201-638-1769 (schema), (201) 638-1769 (display), tel:+12016381769 (links)
+- New CityRelatedCitiesSection component added after FAQ section
+- Cross-city links use descriptive anchor text: "[City] web design & SEO"
 
 ## Changed URLs
 - https://www.pixelversestudios.io/services/englewood
@@ -28,4 +32,9 @@
 - https://www.pixelversestudios.io/services/hackensack
 - https://www.pixelversestudios.io/services/paramus
 - https://www.pixelversestudios.io/services/ridgewood
+- https://www.pixelversestudios.io/services/cliffside-park
+- https://www.pixelversestudios.io/services/river-vale
+- https://www.pixelversestudios.io/services/teaneck
+- https://www.pixelversestudios.io/services/fair-lawn
+- https://www.pixelversestudios.io/services/bergenfield
 - https://www.pixelversestudios.io/contact
