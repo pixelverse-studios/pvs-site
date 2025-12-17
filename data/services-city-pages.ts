@@ -900,7 +900,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     metadata: {
       title: 'Local SEO Agency Englewood NJ | Web Design & SEO | PixelVerse',
       description:
-        'Looking for an SEO agency in Englewood NJ? PixelVerse is a local SEO agency serving Englewood with premium websites, conversion funnels, and SEO for healthcare, retail, and corporate teams.',
+        'Local SEO agency in Englewood NJ. PixelVerse builds premium websites, conversion funnels, and SEO for healthcare, retail, and corporate businesses.',
       keywords: [
         'local SEO agency Englewood NJ',
         'SEO agency Englewood NJ',
