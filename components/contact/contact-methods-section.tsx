@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Mail, MapPin, Send, Sparkles } from 'lucide-react';
+import { Mail, MapPin, Phone, Send, Sparkles } from 'lucide-react';
 
 import { ContactForm } from '@/components/contact/ContactForm';
 import { ContactInfoCard } from '@/components/contact/contact-info-card';
@@ -48,6 +48,21 @@ export function ContactMethodsSection() {
               >
                 <Mail className="h-4 w-4" aria-hidden />
                 info@pixelversestudios.io
+              </a>
+            </ContactInfoCard>
+          </MotionItem>
+          <MotionItem triggerOnViewport={false}>
+            <ContactInfoCard
+              icon={<Phone className="h-5 w-5" aria-hidden />}
+              title="Phone"
+              description="Call or text us directly."
+            >
+              <a
+                href="tel:+12016381769"
+                className="inline-flex items-center gap-2 text-base font-medium text-[var(--pv-primary)] hover:text-[var(--pv-primary-2)] dark:text-white"
+              >
+                <Phone className="h-4 w-4" aria-hidden />
+                (201) 638-1769
               </a>
             </ContactInfoCard>
           </MotionItem>

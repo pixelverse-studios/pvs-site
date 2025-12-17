@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Link from 'next/link';
-import { MapPin } from 'lucide-react';
+import { MapPin, Phone } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -48,6 +48,13 @@ export function Footer({
             <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
             <span>79 Edgewater Road, Cliffside Park, NJ 07010</span>
           </address>
+          <a
+            href="tel:+12016381769"
+            className="flex items-center gap-2 text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]"
+          >
+            <Phone className="h-4 w-4 shrink-0" aria-hidden />
+            <span>(201) 638-1769</span>
+          </a>
           <small>&copy; {new Date().getFullYear()} PixelVerse Studios. All rights reserved.</small>
         </div>
         <div className="flex w-full flex-col gap-6 md:w-auto">
