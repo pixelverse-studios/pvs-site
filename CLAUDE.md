@@ -10,6 +10,8 @@
 - After making code changes, STOP and wait for user review
 - Only create commits when user explicitly requests it
 - Do not batch commits - wait for approval after each set of changes
+- **NEVER push to main remote** unless user explicitly says "push main" or "push to main remote"
+- Merging PRs into local main is fine, but pushing main to origin triggers deployment
 
 ---
 

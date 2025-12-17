@@ -76,7 +76,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     },
     hero: {
       eyebrow: 'Fort Lee, NJ',
-      heading: 'Web design and local SEO that outpace Manhattan competition.',
+      heading: 'Fort Lee web design and local SEO that outpace Manhattan competition.',
       description:
         'Fort Lee audiences expect Manhattan polish with New Jersey responsiveness. Sitting at the foot of the George Washington Bridge, Fort Lee is a gateway borough where professionals, medical specialists, and hospitality operators compete directly with NYC for attention. We build performance-first websites, service positioning, and analytics stacks that help law firms, medical practices, boutique hotels, and local operators stand out from Palisade Avenue to Hudson Lights—and rank ahead of Manhattan competitors in local search.',
       bullets: [
@@ -418,7 +418,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     },
     hero: {
       eyebrow: 'Hackensack, NJ',
-      heading: "Enterprise-ready sites wired for Hackensack's most competitive industries.",
+      heading: "Hackensack web design and SEO for competitive industries.",
       description:
         "As Bergen County's seat, Hackensack anchors the region's legal, medical, and municipal infrastructure. Hackensack University Medical Center draws patients from across North Jersey. The Bergen County Justice Complex brings attorneys, plaintiffs, and business disputes through downtown daily. Main Street's revitalization has sparked new professional services, dining, and retail. We build ADA-compliant, high-performing digital systems that help law firms, medical practices, financial advisors, and service providers compete in this concentrated market—ranking for high-intent searches and converting visitors into consultations, patients, and retainers.",
       bullets: [
@@ -554,7 +554,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     },
     hero: {
       eyebrow: 'Paramus, NJ',
-      heading: 'Retail-ready websites tuned for Paramus traffic patterns and high-volume demand.',
+      heading: 'Paramus retail web design and local SEO for high-volume demand.',
       description:
         "Paramus is Bergen County's retail capital—home to Garden State Plaza, Westfield Garden State Plaza, Paramus Park, Bergen Town Center, and miles of Route 4 and Route 17 storefronts that draw shoppers from across North Jersey and New York. But Paramus isn't just malls. It's showrooms, professional services, medical practices, fitness studios, and restaurants competing for attention in one of the highest-traffic retail corridors in the country. We build ecommerce-grade websites and local SEO programs that help Paramus businesses capture mobile researchers before they drive past to a competitor—converting digital attention into store visits, appointments, and sales.",
       bullets: [
@@ -1150,7 +1150,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     },
     hero: {
       eyebrow: 'Ridgewood, NJ',
-      heading: 'Boutique UX for Ridgewood firms and retailers.',
+      heading: 'Ridgewood SEO and boutique web design for premium firms.',
       description:
         "Ridgewood is Bergen County's most affluent village—a walkable downtown of independent boutiques, acclaimed restaurants, professional services, and specialty retailers serving discerning families with high expectations. From Ridgewood Avenue's curated storefronts to Van Neste Square's dining scene to the medical specialists near Valley Hospital, Ridgewood businesses cater to an audience that researches thoroughly and expects excellence. We craft fast, story-driven websites with premium aesthetics and data-backed CTAs that match the white-glove experience your clients expect—converting high-intent visitors into consultations, reservations, and loyal customers.",
       bullets: [
