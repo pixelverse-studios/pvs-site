@@ -40,9 +40,16 @@ npm run dev (run_in_background: true, store shell_id)
 **This is NON-NEGOTIABLE. The deployment summary powers automated client email notifications.**
 
 ### THE RULE:
-**IMMEDIATELY after completing ANY work, update `docs/deployment_summary.md` BEFORE doing anything else.**
+**IMMEDIATELY after completing ANY work, APPEND to `docs/deployment_summary.md` BEFORE doing anything else.**
 
 This is not optional. This is not an afterthought. This is the FIRST action after finishing work.
+
+### Accumulation Workflow:
+- **ADD** new bullet points below existing ones (don't replace previous entries)
+- The summary accumulates across multiple PRs until `main` is pushed
+- Think of it as a changelog for "everything since last deployment"
+- The hook **only fires on pushes to `main`** (feature branches don't trigger it)
+- After pushing to `main`: hook sends accumulated summary → file auto-resets
 
 ### Why This Matters:
 - A Git pre-push hook reads this file and sends email notifications to Phil and Sami
@@ -52,24 +59,30 @@ This is not optional. This is not an afterthought. This is the FIRST action afte
 
 ### Required Actions After EVERY Task:
 1. **STOP** - Do not proceed to audit files or wait for commit approval
-2. **UPDATE** `docs/deployment_summary.md` with:
+2. **APPEND** to `docs/deployment_summary.md` (add below existing entries):
    - `## Latest deploy summary` - Plain-language bullet points (what changed, not how)
-   - `## Notes for internal team` - Technical details (optional)
+   - `## Notes for internal team` - Technical details, ticket IDs (optional)
    - `## Changed URLs` - Full URLs affected (for Google re-indexing)
 3. **THEN** create the audit file in `docs/audits/landing/`
 4. **THEN** wait for user commit approval
 
-### Quick Reference:
+### Quick Reference (Accumulated Example):
 ```markdown
 ## Latest deploy summary
-- Redesigned the pricing page layout for better clarity
-- Fixed mobile navigation menu alignment
+- Shortened Englewood meta description for better search visibility
+- Optimized H1 tags on Fort Lee, Hackensack, Paramus, Ridgewood pages
+- Added business phone number to website footer and schema
 
 ## Notes for internal team
-- Updated PricingCard component props
+- PVS-126, PVS-127, PVS-128 completed
+- Files: data/services-city-pages.ts, lib/structured-data.ts
 
 ## Changed URLs
-- https://www.pixelversestudios.io/packages
+- https://www.pixelversestudios.io/services/englewood
+- https://www.pixelversestudios.io/services/fort-lee
+- https://www.pixelversestudios.io/services/hackensack
+- https://www.pixelversestudios.io/services/paramus
+- https://www.pixelversestudios.io/services/ridgewood
 ```
 
 **See "Documentation Requirements" section below for full formatting details.**
@@ -238,9 +251,16 @@ docs/
 
 ### Deployment Summary Workflow
 
-> ⚠️ **SEE CRITICAL SECTION AT TOP OF FILE** - Updating the deployment summary is the FIRST action after completing any work. Do not skip this step.
+> ⚠️ **SEE CRITICAL SECTION AT TOP OF FILE** - Appending to the deployment summary is the FIRST action after completing any work. Do not skip this step.
 
 This file is automatically processed by a Git pre-push hook that sends deployment data to the PVS API and triggers an email notification to Phil and Sami. Keep summaries concise and non-technical.
+
+#### Accumulation Model:
+- The deployment summary **accumulates changes** across multiple PRs/tasks
+- Each completed task **adds** bullet points (don't replace existing entries)
+- The file represents "everything changed since the last push to `main`"
+- **Feature branch pushes do NOT trigger the hook** - only `main` does
+- When `main` is pushed: hook fires → sends full summary → file auto-resets
 
 #### Format:
 The file has **three required sections**:
@@ -250,17 +270,20 @@ The file has **three required sections**:
    - Write in plain language (non-technical summaries)
    - Focus on WHAT changed, not HOW it was implemented
    - Each bullet should be one clear, concise sentence
+   - **APPEND new bullets below existing ones**
 
 2. **Notes for internal team** - Technical details (NOT sent in email)
    - Use markdown formatting
-   - Include environment variables, technical notes, internal tasks
+   - Include environment variables, technical notes, ticket IDs
    - This section is stored but NOT sent to clients
+   - **APPEND new notes below existing ones**
 
 3. **Changed URLs** - List all affected page URLs
    - Use bullet points (- https://www.pixelversestudios.io/page)
    - Include full URLs with protocol
    - **URLs must be plain and valid** - no extra text, parentheses, or comments after the URL
    - These URLs are tracked for Google Search Console re-indexing
+   - **APPEND new URLs below existing ones** (duplicates are OK, hook dedupes)
 
 #### URL Formatting Examples:
 ```markdown
@@ -288,16 +311,17 @@ The file has **three required sections**:
 
 #### Process:
 1. Complete your work on a feature/task
-2. **IMMEDIATELY** update `docs/deployment_summary.md` (see critical section at top)
+2. **IMMEDIATELY APPEND** to `docs/deployment_summary.md` (add below existing entries)
 3. Create the detailed audit log in `docs/audits/landing/`
 4. Wait for user to review and request commit
-5. When user runs `git push`, the pre-push hook will:
-   - Read deployment_summary.md
-   - Send data to PVS API
-   - Trigger email notification
+5. Commit and push to feature branch (hook skips - file stays populated)
+6. When PR is merged and `main` is pushed, the pre-push hook will:
+   - Read the accumulated deployment_summary.md
+   - Send all changes to PVS API
+   - Trigger email notification with full summary
    - Automatically reset the file to template
 
-#### Reset Template (automatically applied after git push):
+#### Reset Template (automatically applied after pushing to main):
 ```markdown
 # Deployment Summary
 
@@ -312,11 +336,12 @@ The file has **three required sections**:
 ```
 
 **IMPORTANT:**
-- The deployment summary is a staging area for the CURRENT deployment only
-- The pre-push Git hook automatically processes and resets this file
+- The deployment summary **accumulates until `main` is pushed** (true deployment)
+- Feature branch pushes do NOT trigger the hook or reset the file
+- The pre-push Git hook only fires on `main` branch
 - All three sections (deploy summary, internal notes, changed URLs) are required
 - Use markdown formatting for the summary and notes sections
-- If summary or URLs are empty, the hook will skip deployment tracking
+- If summary or URLs are empty when pushing `main`, the hook will skip deployment tracking
 
 #### Pre-Push Hook Setup:
 Run this once after cloning the repository:
@@ -324,7 +349,7 @@ Run this once after cloning the repository:
 node scripts/install-hooks.js
 ```
 
-This installs a Git hook that automatically tracks deployments on `git push`.
+This installs a Git hook that automatically tracks deployments on `git push` to `main`.
 
 ---
 
@@ -579,6 +604,30 @@ Use it to ensure all key optimization elements are consistently implemented acro
 - [ ] No mixed content errors
 
 ---
+
+## Linear Ticket Creation
+
+When creating Linear tickets for this project:
+
+| Field    | Value               |
+| -------- | ------------------- |
+| Team     | PixelVerse Studios           |
+| Assignee | `me`                |
+| Project  | PVS Website |
+| Priority | Medium (3)          |
+
+**Labels:** Always apply one from each sub-label group:
+
+- **Environment:** `Front End`, `Fullstack`, `Server`
+- **Scope:** `Ticket`, `Epic`
+- **Task:** `Feature`, `Bug`, `Improvement`, `Refactor`, `Maintenance`, `Research`
+
+**Description format:**
+
+- `## Summary` - what and why
+- `## Current State` / `## Target State` - when applicable
+- `## Implementation` - files to modify, code snippets
+- `## Acceptance Criteria` - checkbox list
 
 ## 🧾 Content & Local Optimization
 
