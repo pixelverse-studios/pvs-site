@@ -53,17 +53,11 @@ export function CountdownTimer({
   // Prevent hydration mismatch
   if (!mounted || !timeLeft) return null;
 
-  const TimeUnit = ({
-    value,
-    label,
-  }: {
-    value: number;
-    label: string;
-  }) => (
+  const TimeUnit = ({ value, label }: { value: number; label: string }) => (
     <div
       className={`flex flex-col items-center ${
         compact ? 'min-w-[28px] px-1 py-0.5' : 'min-w-[40px] px-2 py-1'
-      } rounded-md bg-[var(--pv-sale)]/10`}
+      } bg-[var(--pv-sale)]/10 rounded-md`}
     >
       <span
         className={`font-semibold tabular-nums leading-tight text-[var(--pv-sale)] ${
@@ -85,9 +79,7 @@ export function CountdownTimer({
       {timeLeft.days > 0 && (
         <>
           <TimeUnit value={timeLeft.days} label="days" />
-          <span className="text-base font-bold text-[var(--pv-text-muted)]">
-            :
-          </span>
+          <span className="text-base font-bold text-[var(--pv-text-muted)]">:</span>
         </>
       )}
       <TimeUnit value={timeLeft.hours} label="hrs" />

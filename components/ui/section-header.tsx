@@ -21,8 +21,8 @@ export function SectionHeader({
     <div
       className={cn(
         'flex flex-col items-start gap-4',
-        align === 'center' && 'text-center items-center',
-        className
+        align === 'center' && 'items-center text-center',
+        className,
       )}
       {...props}
     >
@@ -30,7 +30,7 @@ export function SectionHeader({
         <span
           className={cn(
             'inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-1 text-xs uppercase tracking-[0.2em] text-[var(--pv-text-muted)]',
-            align === 'center' && 'justify-center'
+            align === 'center' && 'justify-center',
           )}
         >
           {eyebrow}

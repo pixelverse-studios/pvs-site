@@ -27,7 +27,9 @@ const bodyFont = Inter({
 const { siteUrl, siteName, defaultOgImage } = sharedMetadata;
 
 const siteBehaviourSecret = process.env.NEXT_PUBLIC_SITEBEHAVIOUR_SECRET?.trim();
-const enableSiteBehaviourTracking = Boolean(siteBehaviourSecret && process.env.NODE_ENV === 'production');
+const enableSiteBehaviourTracking = Boolean(
+  siteBehaviourSecret && process.env.NODE_ENV === 'production',
+);
 
 // Bootstraps SiteBehaviour analytics loader after hydration.
 const siteBehaviourBootstrap = enableSiteBehaviourTracking

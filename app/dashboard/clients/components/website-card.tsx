@@ -1,38 +1,38 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { ExternalLink, Copy, Check } from 'lucide-react'
-import { WebsiteTypeBadge } from './website-type-badge'
+import { useState } from 'react';
+import { ExternalLink, Copy, Check } from 'lucide-react';
+import { WebsiteTypeBadge } from './website-type-badge';
 
 interface Website {
-  id: string
-  type: string
-  title: string
-  domain: string
-  website_slug: string
+  id: string;
+  type: string;
+  title: string;
+  domain: string;
+  website_slug: string;
 }
 
 interface WebsiteCardProps {
-  website: Website
+  website: Website;
 }
 
 export function WebsiteCard({ website }: WebsiteCardProps) {
-  const [copied, setCopied] = useState(false)
-  const fullUrl = `https://${website.domain}`
+  const [copied, setCopied] = useState(false);
+  const fullUrl = `https://${website.domain}`;
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(fullUrl)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      await navigator.clipboard.writeText(fullUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy:', err)
+      console.error('Failed to copy:', err);
     }
-  }
+  };
 
   const handleVisit = () => {
-    window.open(fullUrl, '_blank', 'noopener,noreferrer')
-  }
+    window.open(fullUrl, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <div
@@ -60,23 +60,14 @@ export function WebsiteCard({ website }: WebsiteCardProps) {
       >
         {/* Browser dots */}
         <div className="flex gap-1.5">
-          <div
-            className="h-2.5 w-2.5 rounded-full"
-            style={{ background: '#ff5f57' }}
-          />
-          <div
-            className="h-2.5 w-2.5 rounded-full"
-            style={{ background: '#ffbd2e' }}
-          />
-          <div
-            className="h-2.5 w-2.5 rounded-full"
-            style={{ background: '#28ca42' }}
-          />
+          <div className="h-2.5 w-2.5 rounded-full" style={{ background: '#ff5f57' }} />
+          <div className="h-2.5 w-2.5 rounded-full" style={{ background: '#ffbd2e' }} />
+          <div className="h-2.5 w-2.5 rounded-full" style={{ background: '#28ca42' }} />
         </div>
 
         {/* Domain */}
         <div
-          className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-xs font-mono"
+          className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-xs"
           style={{ color: 'var(--pv-text-muted)' }}
         >
           {website.domain}
@@ -89,10 +80,7 @@ export function WebsiteCard({ website }: WebsiteCardProps) {
       {/* Content */}
       <div className="relative p-4">
         <div className="mb-3">
-          <h3
-            className="mb-1 text-lg font-semibold"
-            style={{ color: 'var(--pv-text)' }}
-          >
+          <h3 className="mb-1 text-lg font-semibold" style={{ color: 'var(--pv-text)' }}>
             {website.title}
           </h3>
           <a
@@ -103,7 +91,7 @@ export function WebsiteCard({ website }: WebsiteCardProps) {
             style={{ color: 'var(--pv-primary)' }}
           >
             <span>{website.domain}</span>
-            <ExternalLink className="h-3 w-3 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+            <ExternalLink className="h-3 w-3 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
           </a>
         </div>
 
@@ -132,11 +120,7 @@ export function WebsiteCard({ website }: WebsiteCardProps) {
             }}
             aria-label={copied ? 'URL copied' : 'Copy website URL'}
           >
-            {copied ? (
-              <Check className="h-4 w-4" />
-            ) : (
-              <Copy className="h-4 w-4" />
-            )}
+            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
           </button>
         </div>
 
@@ -162,5 +146,5 @@ export function WebsiteCard({ website }: WebsiteCardProps) {
         }}
       />
     </div>
-  )
+  );
 }

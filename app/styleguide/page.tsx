@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -16,7 +16,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from '@/components/ui/select';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Textarea } from '@/components/ui/textarea';
@@ -51,25 +51,37 @@ const brandPalette = [
   { label: 'Text', token: '--pv-text', value: '#111111 / #f4f6ff' },
   { label: 'Muted', token: '--pv-text-muted', value: '#666666 / #9fa6dd' },
   { label: 'Border', token: '--pv-border', value: '#e6e6ef / #262d62' },
-  { label: 'Overlay Strong', token: '--pv-overlay-strong', value: 'rgba(255,255,255,0.82) / rgba(6,7,30,0.88)' },
-  { label: 'Overlay Soft', token: '--pv-overlay-soft', value: 'rgba(255,255,255,0.65) / rgba(24,26,72,0.68)' },
-  { label: 'Overlay Glow', token: '--pv-overlay-glow', value: 'rgba(169,173,255,0.45) / rgba(34,36,108,0.5)' },
+  {
+    label: 'Overlay Strong',
+    token: '--pv-overlay-strong',
+    value: 'rgba(255,255,255,0.82) / rgba(6,7,30,0.88)',
+  },
+  {
+    label: 'Overlay Soft',
+    token: '--pv-overlay-soft',
+    value: 'rgba(255,255,255,0.65) / rgba(24,26,72,0.68)',
+  },
+  {
+    label: 'Overlay Glow',
+    token: '--pv-overlay-glow',
+    value: 'rgba(169,173,255,0.45) / rgba(34,36,108,0.5)',
+  },
   { label: 'Ring', token: '--pv-ring', value: 'var(--pv-primary)' },
   { label: 'Success', token: '--pv-success', value: '#10b981' },
   { label: 'Warning', token: '--pv-warning', value: '#f59e0b' },
-  { label: 'Danger', token: '--pv-danger', value: '#ef4444' }
+  { label: 'Danger', token: '--pv-danger', value: '#ef4444' },
 ];
 
 const buttonVariants = [
   { label: 'Primary', variant: 'default' as const },
   { label: 'Secondary', variant: 'secondary' as const },
-  { label: 'Ghost', variant: 'ghost' as const }
+  { label: 'Ghost', variant: 'ghost' as const },
 ];
 
 export default function StyleguidePage() {
   return (
     <main className="bg-[var(--pv-bg)]">
-      <section className="border-b border-[var(--pv-border)] bg-[var(--pv-surface)]/60">
+      <section className="bg-[var(--pv-surface)]/60 border-b border-[var(--pv-border)]">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-[1.6fr_1fr] md:px-8 md:py-24">
           <div className="space-y-6">
             <Badge>Design System</Badge>
@@ -77,8 +89,9 @@ export default function StyleguidePage() {
               PixelVerse Visual Language
             </h1>
             <p className="text-lg text-[var(--pv-text-muted)]">
-              A cohesive collection of tokens, patterns, and components crafted for immersive experiences.
-              Explore the primitives below and switch between themes to validate contrast and motion.
+              A cohesive collection of tokens, patterns, and components crafted for immersive
+              experiences. Explore the primitives below and switch between themes to validate
+              contrast and motion.
             </p>
             <div className="flex flex-wrap items-center gap-4">
               <Button>Primary CTA</Button>
@@ -102,15 +115,23 @@ export default function StyleguidePage() {
             <CardContent className="space-y-4 text-sm text-[var(--pv-text-muted)]">
               <div>
                 <p className="font-semibold text-[var(--pv-text)]">Foundations</p>
-                <p>Backgrounds, text, and borders inherit from <code>--pv-*</code> tokens.</p>
+                <p>
+                  Backgrounds, text, and borders inherit from <code>--pv-*</code> tokens.
+                </p>
               </div>
               <div>
                 <p className="font-semibold text-[var(--pv-text)]">Components</p>
-                <p>Buttons, cards, inputs, overlays, and layout primitives adapt to light and dark themes.</p>
+                <p>
+                  Buttons, cards, inputs, overlays, and layout primitives adapt to light and dark
+                  themes.
+                </p>
               </div>
               <div>
                 <p className="font-semibold text-[var(--pv-text)]">Accessibility</p>
-                <p>Focus visibility, keyboard support, and reduced-motion fallbacks included by default.</p>
+                <p>
+                  Focus visibility, keyboard support, and reduced-motion fallbacks included by
+                  default.
+                </p>
               </div>
             </CardContent>
             <CardFooter>
@@ -139,7 +160,10 @@ export default function StyleguidePage() {
                   className="flex h-24 w-full items-center justify-center rounded-pv-sm border border-[var(--pv-border)] text-sm font-medium text-white shadow-inner"
                   style={{
                     background: color.isGradient ? 'var(--pv-gradient)' : `var(${color.token})`,
-                    color: color.label === 'Background' || color.label === 'Surface' ? 'var(--pv-text)' : undefined
+                    color:
+                      color.label === 'Background' || color.label === 'Surface'
+                        ? 'var(--pv-text)'
+                        : undefined,
                   }}
                 >
                   {color.label}
@@ -154,7 +178,10 @@ export default function StyleguidePage() {
         </div>
       </section>
 
-      <section id="typography" className="border-b border-[var(--pv-border)] bg-[var(--pv-surface)]/50">
+      <section
+        id="typography"
+        className="bg-[var(--pv-surface)]/50 border-b border-[var(--pv-border)]"
+      >
         <div className="mx-auto max-w-7xl px-6 py-16 md:px-8 md:py-24">
           <SectionHeader
             eyebrow="Typography"
@@ -183,12 +210,15 @@ export default function StyleguidePage() {
             <div className="grid gap-6 md:grid-cols-2">
               <div className="rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] p-6 shadow-sm">
                 <p className="text-base leading-[1.625rem] text-[var(--pv-text)]">
-                  Body copy sits at 16 / 26 for comfortable reading across devices. Use muted variants to balance
-                  contrast and highlight key actions with the primary gradient.
+                  Body copy sits at 16 / 26 for comfortable reading across devices. Use muted
+                  variants to balance contrast and highlight key actions with the primary gradient.
                 </p>
               </div>
               <div className="rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] p-6 shadow-sm">
-                <small>Small text defaults to 14 / 22 — ideal for metadata, captions, and supporting labels.</small>
+                <small>
+                  Small text defaults to 14 / 22 — ideal for metadata, captions, and supporting
+                  labels.
+                </small>
               </div>
             </div>
           </div>
@@ -224,7 +254,7 @@ export default function StyleguidePage() {
         </div>
       </section>
 
-      <section id="forms" className="border-b border-[var(--pv-border)] bg-[var(--pv-surface)]/50">
+      <section id="forms" className="bg-[var(--pv-surface)]/50 border-b border-[var(--pv-border)]">
         <div className="mx-auto max-w-7xl px-6 py-16 md:px-8 md:py-24">
           <SectionHeader
             eyebrow="Forms"
@@ -240,7 +270,10 @@ export default function StyleguidePage() {
                 <Input id="email" type="email" placeholder="artemis@pixelverse.studio" />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-[var(--pv-text)]" htmlFor="world-trigger">
+                <label
+                  className="text-sm font-medium text-[var(--pv-text)]"
+                  htmlFor="world-trigger"
+                >
                   Active world
                 </label>
                 <Select defaultValue="aurora">
@@ -273,10 +306,13 @@ export default function StyleguidePage() {
               </CardHeader>
               <CardContent className="space-y-4 text-sm text-[var(--pv-text-muted)]">
                 <p>
-                  Leverage <code>rounded-pv-sm</code> for compact fields and <code>rounded-pv</code> for modals
-                  and cards.
+                  Leverage <code>rounded-pv-sm</code> for compact fields and <code>rounded-pv</code>{' '}
+                  for modals and cards.
                 </p>
-                <p>Use helper text to communicate validation states alongside success, warning, or danger badges.</p>
+                <p>
+                  Use helper text to communicate validation states alongside success, warning, or
+                  danger badges.
+                </p>
                 <div className="flex flex-wrap gap-2">
                   <Badge variant="success">Success</Badge>
                   <Badge variant="warning">Warning</Badge>
@@ -303,8 +339,8 @@ export default function StyleguidePage() {
               </CardHeader>
               <CardContent className="space-y-4 text-sm text-[var(--pv-text-muted)]">
                 <p>
-                  Assemble up to 6 explorers to defend the Prism Gate. Rewards include plasma cores and limited
-                  skins.
+                  Assemble up to 6 explorers to defend the Prism Gate. Rewards include plasma cores
+                  and limited skins.
                 </p>
                 <div className="flex items-center gap-2">
                   <Badge variant="success">Online</Badge>
@@ -326,8 +362,8 @@ export default function StyleguidePage() {
               </CardHeader>
               <CardContent className="space-y-4 text-sm text-[var(--pv-text-muted)]">
                 <p>
-                  Weekly builds from the Wavelength community showcasing new biome shaders and interactive lore
-                  drops.
+                  Weekly builds from the Wavelength community showcasing new biome shaders and
+                  interactive lore drops.
                 </p>
                 <Button variant="secondary">View showcase</Button>
               </CardContent>

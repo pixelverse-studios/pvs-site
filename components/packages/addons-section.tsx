@@ -7,20 +7,20 @@ const addons = [
     title: 'Extra Pages',
     price: 'Starting at $150',
     description:
-      'Add focused landing pages or campaign hubs that plug into your component system without derailing timelines.'
+      'Add focused landing pages or campaign hubs that plug into your component system without derailing timelines.',
   },
   {
     title: 'Local SEO Boosts',
     price: '$200–$250',
     description:
-      'Strengthen map pack visibility with localized schema, review prompts, and service area tuning.'
+      'Strengthen map pack visibility with localized schema, review prompts, and service area tuning.',
   },
   {
     title: 'Content Refresh & Audits',
     price: 'From $400',
     description:
-      'Refresh high-value pages with updated copy, UX tweaks, and the latest keyword insights.'
-  }
+      'Refresh high-value pages with updated copy, UX tweaks, and the latest keyword insights.',
+  },
 ];
 
 export function AddonsSection() {
@@ -45,7 +45,7 @@ export function AddonsSection() {
               triggerOnViewport={false}
               className="h-full"
             >
-              <Card className="group flex h-full flex-col border border-[var(--pv-border)] bg-[var(--pv-surface)]/80 shadow-pv transition-all duration-300 hover:-translate-y-1 hover:border-[var(--pv-primary)] dark:bg-[var(--pv-bg)]/80">
+              <Card className="bg-[var(--pv-surface)]/80 dark:bg-[var(--pv-bg)]/80 group flex h-full flex-col border border-[var(--pv-border)] shadow-pv transition-all duration-300 hover:-translate-y-1 hover:border-[var(--pv-primary)]">
                 <CardHeader className="space-y-3 border-b border-[var(--pv-border)] pb-5">
                   <CardTitle className="text-xl font-semibold text-[var(--pv-text)]">
                     {addon.title}

@@ -17,7 +17,7 @@ export function BlogCtaSection() {
           className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center"
           triggerOnViewport={false}
         >
-          <MotionItem className="inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)]/80 px-4 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--pv-text-muted)] dark:border-white/30 dark:bg-white/10 dark:text-white/80">
+          <MotionItem className="bg-[var(--pv-surface)]/80 inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] px-4 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--pv-text-muted)] dark:border-white/30 dark:bg-white/10 dark:text-white/80">
             Work with PixelVerse
           </MotionItem>
           <MotionItem className="space-y-4">

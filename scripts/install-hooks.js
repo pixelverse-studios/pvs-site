@@ -115,7 +115,7 @@ function checkEnvironmentVariables() {
   const requiredVars = ['PVS_WEBSITE_ID', 'PVS_API_URL', 'PVS_BASE_URL'];
   const missingVars = [];
 
-  requiredVars.forEach(varName => {
+  requiredVars.forEach((varName) => {
     if (!envContent.includes(varName)) {
       missingVars.push(varName);
     }
@@ -123,7 +123,7 @@ function checkEnvironmentVariables() {
 
   if (missingVars.length > 0) {
     logWarning('Missing required environment variables in .env.local:');
-    missingVars.forEach(varName => {
+    missingVars.forEach((varName) => {
       log(`  - ${varName}`, 'yellow');
     });
     logInfo('Add these variables to .env.local (see .env.example)');

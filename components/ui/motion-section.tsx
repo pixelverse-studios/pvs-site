@@ -9,7 +9,7 @@ const viewport = { once: true, amount: 0.2 };
 
 const fadeInVariants = {
   hidden: { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0 }
+  visible: { opacity: 1, y: 0 },
 };
 
 type MotionSectionElement = 'div' | 'section' | 'ul';
@@ -28,12 +28,12 @@ export function MotionSection({
   delay = 0,
   as = 'section',
   motionProps,
-  triggerOnViewport = true
+  triggerOnViewport = true,
 }: MotionSectionProps) {
   const componentMap: Record<MotionSectionElement, any> = {
     div: motion.div,
     section: motion.section,
-    ul: motion.ul
+    ul: motion.ul,
   };
 
   const Component = componentMap[as] ?? motion.section;
@@ -47,8 +47,8 @@ export function MotionSection({
       variants={{
         hidden: {},
         visible: {
-          transition: { staggerChildren: 0.12, delayChildren: delay }
-        }
+          transition: { staggerChildren: 0.12, delayChildren: delay },
+        },
       }}
       className={cn(className)}
       {...motionProps}
@@ -78,7 +78,7 @@ export function MotionItem({
 }: MotionItemProps) {
   const baseProps = {
     variants: fadeInVariants,
-    transition: { duration: 0.6, ease: 'easeOut', delay }
+    transition: { duration: 0.6, ease: 'easeOut', delay },
   };
 
   const viewportProps = triggerOnViewport
@@ -90,7 +90,7 @@ export function MotionItem({
     li: motion.li,
     section: motion.section,
     article: motion.article,
-    ul: motion.ul
+    ul: motion.ul,
   };
 
   const Component = componentMap[as] ?? motion.div;

@@ -27,6 +27,7 @@
 - Prefer static analysis over running servers when possible
 
 **Example Pattern:**
+
 ```bash
 # Start server for validation
 npm run dev (run_in_background: true, store shell_id)
@@ -42,11 +43,13 @@ npm run dev (run_in_background: true, store shell_id)
 **This is NON-NEGOTIABLE. The deployment summary powers automated client email notifications.**
 
 ### THE RULE:
+
 **IMMEDIATELY after completing ANY work, APPEND to `docs/deployment_summary.md` BEFORE doing anything else.**
 
 This is not optional. This is not an afterthought. This is the FIRST action after finishing work.
 
 ### Accumulation Workflow:
+
 - **ADD** new bullet points below existing ones (don't replace previous entries)
 - The summary accumulates across multiple PRs until `main` is pushed
 - Think of it as a changelog for "everything since last deployment"
@@ -54,12 +57,14 @@ This is not optional. This is not an afterthought. This is the FIRST action afte
 - After pushing to `main`: hook sends accumulated summary → file auto-resets
 
 ### Why This Matters:
+
 - A Git pre-push hook reads this file and sends email notifications to Phil and Sami
 - If the summary is empty, the notification is skipped silently
 - The user trusts this automation to keep stakeholders informed
 - **Skipping this step breaks that trust and leaves clients uninformed**
 
 ### Required Actions After EVERY Task:
+
 1. **STOP** - Do not proceed to audit files or wait for commit approval
 2. **APPEND** to `docs/deployment_summary.md` (add below existing entries):
    - `## Latest deploy summary` - Plain-language bullet points (what changed, not how)
@@ -69,17 +74,21 @@ This is not optional. This is not an afterthought. This is the FIRST action afte
 4. **THEN** wait for user commit approval
 
 ### Quick Reference (Accumulated Example):
+
 ```markdown
 ## Latest deploy summary
+
 - Shortened Englewood meta description for better search visibility
 - Optimized H1 tags on Fort Lee, Hackensack, Paramus, Ridgewood pages
 - Added business phone number to website footer and schema
 
 ## Notes for internal team
+
 - PVS-126, PVS-127, PVS-128 completed
 - Files: data/services-city-pages.ts, lib/structured-data.ts
 
 ## Changed URLs
+
 - https://www.pixelversestudios.io/services/englewood
 - https://www.pixelversestudios.io/services/fort-lee
 - https://www.pixelversestudios.io/services/hackensack
@@ -258,6 +267,7 @@ docs/
 This file is automatically processed by a Git pre-push hook that sends deployment data to the PVS API and triggers an email notification to Phil and Sami. Keep summaries concise and non-technical.
 
 #### Accumulation Model:
+
 - The deployment summary **accumulates changes** across multiple PRs/tasks
 - Each completed task **adds** bullet points (don't replace existing entries)
 - The file represents "everything changed since the last push to `main`"
@@ -265,10 +275,11 @@ This file is automatically processed by a Git pre-push hook that sends deploymen
 - When `main` is pushed: hook fires → sends full summary → file auto-resets
 
 #### Format:
+
 The file has **three required sections**:
 
 1. **Latest deploy summary** - Client-facing changes (sent in email)
-   - Use markdown formatting (bullet points, **bold**, *italic*)
+   - Use markdown formatting (bullet points, **bold**, _italic_)
    - Write in plain language (non-technical summaries)
    - Focus on WHAT changed, not HOW it was implemented
    - Each bullet should be one clear, concise sentence
@@ -288,30 +299,37 @@ The file has **three required sections**:
    - **APPEND new URLs below existing ones** (duplicates are OK, hook dedupes)
 
 #### URL Formatting Examples:
+
 ```markdown
 ## Changed URLs
+
 - https://www.pixelversestudios.io/
 - https://www.pixelversestudios.io/dashboard
 - https://www.pixelversestudios.io/blog/my-post
 ```
 
 **Do NOT add notes after URLs:**
+
 ```markdown
 ## Changed URLs
-- https://www.pixelversestudios.io/ (all pages)     ❌ WRONG
-- https://www.pixelversestudios.io/dashboard        ✅ CORRECT
+
+- https://www.pixelversestudios.io/ (all pages) ❌ WRONG
+- https://www.pixelversestudios.io/dashboard ✅ CORRECT
 ```
 
 #### Example Good Entries:
+
 - ✅ "Added Google sign-in for team dashboard access"
 - ✅ "Fixed contact form validation on mobile devices"
 - ✅ "Updated homepage hero section with new messaging"
 
 #### Example Bad Entries:
+
 - ❌ "Implemented Supabase auth with @supabase/ssr package using middleware.ts for JWT validation"
 - ❌ "Refactored Button component to use class-variance-authority"
 
 #### Process:
+
 1. Complete your work on a feature/task
 2. **IMMEDIATELY APPEND** to `docs/deployment_summary.md` (add below existing entries)
 3. Create the detailed audit log in `docs/audits/landing/`
@@ -324,20 +342,25 @@ The file has **three required sections**:
    - Automatically reset the file to template
 
 #### Reset Template (automatically applied after pushing to main):
+
 ```markdown
 # Deployment Summary
 
 ## Latest deploy summary
+
 -
 
 ## Notes for internal team
+
 -
 
 ## Changed URLs
+
 -
 ```
 
 **IMPORTANT:**
+
 - The deployment summary **accumulates until `main` is pushed** (true deployment)
 - Feature branch pushes do NOT trigger the hook or reset the file
 - The pre-push Git hook only fires on `main` branch
@@ -346,7 +369,9 @@ The file has **three required sections**:
 - If summary or URLs are empty when pushing `main`, the hook will skip deployment tracking
 
 #### Pre-Push Hook Setup:
+
 Run this once after cloning the repository:
+
 ```bash
 node scripts/install-hooks.js
 ```
@@ -443,13 +468,13 @@ We are executing a **hyper-local, city-focused SEO strategy** instead of broad c
 
 ### Priority Cities (Phase 1 - Active Focus)
 
-| Priority | City | Target Keywords |
-|----------|------|-----------------|
-| 1 | **Fort Lee** | "web design Fort Lee NJ", "Fort Lee SEO agency" |
-| 2 | **Englewood** | "local SEO agency Englewood NJ", "Englewood web design" |
-| 3 | **Hackensack** | "web design Hackensack NJ", "Hackensack digital agency" |
-| 4 | **Paramus** | "web design Paramus NJ", "Paramus SEO services" |
-| 5 | **Ridgewood** | "web design Ridgewood NJ", "Ridgewood digital agency" |
+| Priority | City           | Target Keywords                                         |
+| -------- | -------------- | ------------------------------------------------------- |
+| 1        | **Fort Lee**   | "web design Fort Lee NJ", "Fort Lee SEO agency"         |
+| 2        | **Englewood**  | "local SEO agency Englewood NJ", "Englewood web design" |
+| 3        | **Hackensack** | "web design Hackensack NJ", "Hackensack digital agency" |
+| 4        | **Paramus**    | "web design Paramus NJ", "Paramus SEO services"         |
+| 5        | **Ridgewood**  | "web design Ridgewood NJ", "Ridgewood digital agency"   |
 
 ### Deprioritized Cities (Phase 2 - Later)
 
@@ -468,12 +493,14 @@ When working on SEO tasks:
 ### Technical SEO Status
 
 **Implemented:**
+
 - [x] BreadcrumbList schema on all city pages
 - [x] FAQPage schema on /faq
 - [x] Unique metadata per city page
 - [x] Blog schema (BlogPosting)
 
 **Pending:**
+
 - [ ] Per-city LocalBusiness schema (priority 5 cities)
 - [ ] Service schema per city
 - [ ] GBP optimization (manual task)
@@ -611,12 +638,12 @@ Use it to ensure all key optimization elements are consistently implemented acro
 
 When creating Linear tickets for this project:
 
-| Field    | Value               |
-| -------- | ------------------- |
-| Team     | PixelVerse Studios           |
-| Assignee | `me`                |
-| Project  | PVS Website |
-| Priority | Medium (3)          |
+| Field    | Value              |
+| -------- | ------------------ |
+| Team     | PixelVerse Studios |
+| Assignee | `me`               |
+| Project  | PVS Website        |
+| Priority | Medium (3)         |
 
 **Labels:** Always apply one from each sub-label group:
 

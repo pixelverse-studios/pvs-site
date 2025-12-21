@@ -1,13 +1,7 @@
 import Link from 'next/link';
 import { LifeBuoy, Palette, Search, Sparkles } from 'lucide-react';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
@@ -20,8 +14,8 @@ const services = [
     icon: Palette,
     highlights: [
       'Component libraries built for future campaigns.',
-      'Launch-day QA across devices, browsers, and connection speeds.'
-    ]
+      'Launch-day QA across devices, browsers, and connection speeds.',
+    ],
   },
   {
     title: 'UX & UI Design + Copywriting',
@@ -29,8 +23,8 @@ const services = [
     icon: Sparkles,
     highlights: [
       'Message hierarchy that leads with outcomes, not features.',
-      'Prototype reviews to align stakeholders before we ship a line of code.'
-    ]
+      'Prototype reviews to align stakeholders before we ship a line of code.',
+    ],
   },
   {
     title: 'SEO-Ready Foundations',
@@ -38,8 +32,8 @@ const services = [
     icon: Search,
     highlights: [
       'Technical health baked into every build, no bolt-on fixes later.',
-      'Content models tuned for search intent and easy publishing.'
-    ]
+      'Content models tuned for search intent and easy publishing.',
+    ],
   },
   {
     title: 'Ongoing Support',
@@ -47,9 +41,9 @@ const services = [
     icon: LifeBuoy,
     highlights: [
       'Performance reviews with prioritized action items every cycle.',
-      'Rapid experiments and updates handled by the team that built it.'
-    ]
-  }
+      'Rapid experiments and updates handled by the team that built it.',
+    ],
+  },
 ];
 
 export function ServicesSection() {
@@ -62,7 +56,8 @@ export function ServicesSection() {
               Services snapshot
             </h2>
             <p className="mt-4 text-lg text-[var(--pv-text-muted)]">
-              End-to-end support to design, launch, and scale a digital presence that mirrors the strength of your brand.
+              End-to-end support to design, launch, and scale a digital presence that mirrors the
+              strength of your brand.
             </p>
             <div className="mt-6 flex justify-center">
               <Button asChild variant="ctaGhost">
@@ -73,15 +68,15 @@ export function ServicesSection() {
           <MotionSection as="div" className="grid gap-6 md:grid-cols-2" delay={0.1}>
             {services.map((service, index) => (
               <MotionItem key={service.title} delay={index * 0.08}>
-                <Card
-                  className="group flex h-full flex-col border-[var(--pv-border)] bg-[var(--pv-surface)] transition-transform duration-200 hover:-translate-y-1 hover:shadow-pv"
-                >
+                <Card className="group flex h-full flex-col border-[var(--pv-border)] bg-[var(--pv-surface)] transition-transform duration-200 hover:-translate-y-1 hover:shadow-pv">
                   <CardHeader className="flex flex-col gap-4 border-b border-[var(--pv-border)] pb-6">
                     <div className="flex items-center gap-3">
                       <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-primary)] shadow-sm transition-transform duration-200 group-hover:-translate-y-0.5">
                         <service.icon className="h-5 w-5" aria-hidden="true" />
                       </span>
-                      <CardTitle className="text-xl text-[var(--pv-text)]">{service.title}</CardTitle>
+                      <CardTitle className="text-xl text-[var(--pv-text)]">
+                        {service.title}
+                      </CardTitle>
                     </div>
                     <CardDescription className="text-sm leading-6 text-[var(--pv-text-muted)]">
                       {service.summary}
@@ -91,12 +86,18 @@ export function ServicesSection() {
                     <ul className="space-y-3">
                       {service.highlights.map((highlight) => (
                         <li key={highlight} className="flex gap-3">
-                          <span className="inline-flex h-1.5 w-1.5 shrink-0 self-center rounded-full bg-[var(--pv-primary)]" aria-hidden />
+                          <span
+                            className="inline-flex h-1.5 w-1.5 shrink-0 self-center rounded-full bg-[var(--pv-primary)]"
+                            aria-hidden
+                          />
                           <span>{highlight}</span>
                         </li>
                       ))}
                     </ul>
-                    <div className="h-px w-full bg-[linear-gradient(90deg,transparent,var(--pv-primary)/40,transparent)]" aria-hidden />
+                    <div
+                      className="h-px w-full bg-[linear-gradient(90deg,transparent,var(--pv-primary)/40,transparent)]"
+                      aria-hidden
+                    />
                   </CardContent>
                 </Card>
               </MotionItem>

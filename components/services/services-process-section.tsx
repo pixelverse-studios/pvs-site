@@ -16,17 +16,17 @@ const processCardVariants: Variants = {
     transition: {
       duration: 0.8,
       delay: index * 0.12,
-      ease: [0.16, 1, 0.3, 1]
-    }
+      ease: [0.16, 1, 0.3, 1],
+    },
   }),
   hover: {
     y: -12,
     scale: 1.02,
     transition: {
       duration: 0.3,
-      ease: [0.25, 0.8, 0.25, 1]
-    }
-  }
+      ease: [0.25, 0.8, 0.25, 1],
+    },
+  },
 };
 
 const steps = [
@@ -102,7 +102,12 @@ export function ServicesProcessSection() {
             </MotionSection>
             <MotionSection as="div" className="mt-10 grid gap-6 md:grid-cols-4" delay={0.12}>
               {steps.map((step, index) => (
-                <ProcessCard key={step.title} index={index} title={step.title} description={step.description} />
+                <ProcessCard
+                  key={step.title}
+                  index={index}
+                  title={step.title}
+                  description={step.description}
+                />
               ))}
             </MotionSection>
           </MotionItem>

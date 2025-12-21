@@ -10,7 +10,9 @@ function getSitemapUrls() {
   try {
     const sitemapIndexPath = path.join(process.cwd(), 'public', 'sitemap.xml');
     const sitemapIndex = fs.readFileSync(sitemapIndexPath, 'utf8');
-    const sitemapEntries = Array.from(sitemapIndex.matchAll(/<loc>(.*?)<\/loc>/g)).map((match) => match[1]);
+    const sitemapEntries = Array.from(sitemapIndex.matchAll(/<loc>(.*?)<\/loc>/g)).map(
+      (match) => match[1],
+    );
 
     const urls = new Set<string>();
 
@@ -90,7 +92,7 @@ export default function SeoUpdatesPage() {
 
   return (
     <main className="bg-[var(--pv-bg)] pb-16">
-      <Container className="pt-hero space-y-12">
+      <Container className="space-y-12 pt-hero">
         <header className="space-y-4">
           <div className="inline-flex rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-[var(--pv-text-muted)]">
             SEO Updates Log
@@ -99,13 +101,12 @@ export default function SeoUpdatesPage() {
             Recent SEO changes and indexing checklist
           </h1>
           <p className="max-w-2xl text-lg text-[var(--pv-text-muted)]">
-            Quick reference for what changed, sitemap coverage, and what to monitor in Search Console.
+            Quick reference for what changed, sitemap coverage, and what to monitor in Search
+            Console.
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <div className="inline-flex flex-wrap items-center gap-3 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-2 text-sm text-[var(--pv-text-muted)]">
-              <span className="font-semibold text-[var(--pv-text)]">
-                {sitemapUrlCount ?? '—'}
-              </span>
+              <span className="font-semibold text-[var(--pv-text)]">{sitemapUrlCount ?? '—'}</span>
               <span>unique URLs currently listed in the sitemap</span>
             </div>
             <DownloadSitemapButton urls={sitemapUrls ?? []} />
@@ -116,11 +117,13 @@ export default function SeoUpdatesPage() {
           {updates.map((update) => (
             <article
               key={update.date}
-              className="space-y-6 rounded-3xl border border-[var(--pv-border)] bg-[var(--pv-surface)]/70 p-6 shadow-[0_32px_80px_-48px_rgba(63,0,233,0.35)] dark:bg-[var(--pv-surface)]/85"
+              className="bg-[var(--pv-surface)]/70 dark:bg-[var(--pv-surface)]/85 space-y-6 rounded-3xl border border-[var(--pv-border)] p-6 shadow-[0_32px_80px_-48px_rgba(63,0,233,0.35)]"
             >
-              <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[var(--pv-border)] bg-gradient-to-r from-[var(--pv-primary)]/12 via-[var(--pv-primary)]/6 to-[var(--pv-surface)] p-4">
+              <div className="from-[var(--pv-primary)]/12 via-[var(--pv-primary)]/6 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[var(--pv-border)] bg-gradient-to-r to-[var(--pv-surface)] p-4">
                 <div className="space-y-1">
-                  <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[var(--pv-text-muted)]">Update</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[var(--pv-text-muted)]">
+                    Update
+                  </p>
                   <h2 className="font-heading text-2xl font-semibold text-[var(--pv-text)]">
                     {formatDateIsoToMdY(update.date)}
                   </h2>
@@ -130,7 +133,7 @@ export default function SeoUpdatesPage() {
                 </div>
               </div>
 
-              <div className="space-y-6 rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-bg)]/92 p-6 shadow-[0_18px_50px_-42px_rgba(63,0,233,0.3)]">
+              <div className="bg-[var(--pv-bg)]/92 space-y-6 rounded-2xl border border-[var(--pv-border)] p-6 shadow-[0_18px_50px_-42px_rgba(63,0,233,0.3)]">
                 <div className="space-y-2">
                   <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--pv-text-muted)]">
                     Overview

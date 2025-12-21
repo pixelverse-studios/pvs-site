@@ -3,6 +3,7 @@
 Prepared: 2025-10-14
 
 ## Goals
+
 - Align site architecture with Bergen County keyword and audience research.
 - Define primary and secondary conversion paths for core personas (medical/legal, retail/ecommerce, luxury services, nonprofits).
 - Establish internal linking rules that support SEO silos while guiding visitors toward contact/quote actions.
@@ -52,11 +53,13 @@ Prepared: 2025-10-14
 ## Page Architecture
 
 ### Hub Structure
+
 - `/bergen-county`
   - Sections: Hero (map of service towns), Services overview (cards linking to `/services` & `/packages`), Town grid (cards to town pages), Testimonials, CTA.
   - Internal links: to primary service pages, portfolio anchors, FAQ cluster.
 
 ### Town Landing Pages (template-based)
+
 - URL pattern: `/bergen-county/{town}-web-design`
 - Sections:
   1. Hero with town-specific headline, conversion CTA.
@@ -69,6 +72,7 @@ Prepared: 2025-10-14
 - Internal links: to `/packages`, `/portfolio#segment`, `/faq`, blog resources per persona.
 
 ### Supporting Pages
+
 - `/services`
   - Add “Serving Bergen County” banner linking back to hub/town pages.
   - Modules for Web Design, SEO, Support; each links to relevant package tier and town pages.
@@ -105,10 +109,12 @@ Prepared: 2025-10-14
   - Include lead magnets (checklists) for mid-funnel capture, linked from town and hub pages.
 
 ## Tracking Points
+
 - Use SiteBehaviour to tag key interactions: town page hero CTA clicks, lead magnet downloads, package card interactions, contact form submissions.
 - Set up click events for breadcrumb/map navigation to evaluate cross-town interest.
 
 ## Next Steps
+
 - Translate this map into component requirements for town page template (hero variants, industry modules, CTAs).
 - Update sitemap diagram (XML & HTML) to reflect hub/town hierarchy.
 - Align content briefs with the journeys described above.

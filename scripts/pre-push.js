@@ -56,7 +56,7 @@ function loadEnvFile() {
   const envContent = fs.readFileSync(envPath, 'utf-8');
   const envVars = {};
 
-  envContent.split('\n').forEach(line => {
+  envContent.split('\n').forEach((line) => {
     // Skip comments and empty lines
     if (line.trim().startsWith('#') || !line.trim()) return;
 
@@ -97,10 +97,10 @@ function parseDeploymentSummary() {
   // Parse URLs from the Changed URLs section
   const changedUrls = changedUrlsText
     .split('\n')
-    .map(line => line.trim())
-    .filter(line => line.startsWith('-') || line.startsWith('http'))
-    .map(line => line.replace(/^-\s*/, '').trim())
-    .filter(url => url.length > 0);
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith('-') || line.startsWith('http'))
+    .map((line) => line.replace(/^-\s*/, '').trim())
+    .filter((url) => url.length > 0);
 
   // Check if deploy summary is empty (only contains a dash or is empty)
   if (!deploySummary || deploySummary === '-' || deploySummary.replace(/-/g, '').trim() === '') {
@@ -254,7 +254,7 @@ async function main() {
 }
 
 // Run the script
-main().catch(error => {
+main().catch((error) => {
   logError(`Unexpected error: ${error.message}`);
   console.error(error);
   process.exit(1);

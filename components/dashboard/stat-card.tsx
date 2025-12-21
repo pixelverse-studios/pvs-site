@@ -58,9 +58,9 @@ export function StatCard({
     <div
       className={cn(
         'group relative overflow-hidden rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-6 transition-all duration-300',
-        'hover:border-[var(--pv-primary)]/30 hover:shadow-lg hover:-translate-y-0.5',
+        'hover:border-[var(--pv-primary)]/30 hover:-translate-y-0.5 hover:shadow-lg',
         onClick && 'cursor-pointer',
-        className
+        className,
       )}
       onClick={onClick}
       style={{
@@ -83,10 +83,7 @@ export function StatCard({
             border: `1px solid ${accentColor}20`,
           }}
         >
-          <Icon
-            className="h-5 w-5 transition-colors duration-300"
-            style={{ color: accentColor }}
-          />
+          <Icon className="h-5 w-5 transition-colors duration-300" style={{ color: accentColor }} />
         </div>
 
         {/* Trend indicator */}
@@ -96,7 +93,7 @@ export function StatCard({
               'flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold',
               trend.isPositive
                 ? 'bg-emerald-500/10 text-emerald-500'
-                : 'bg-red-500/10 text-red-500'
+                : 'bg-red-500/10 text-red-500',
             )}
           >
             {trend.isPositive ? (
@@ -120,19 +117,13 @@ export function StatCard({
       </div>
 
       {/* Title */}
-      <p
-        className="text-sm font-medium"
-        style={{ color: 'var(--pv-text-muted)' }}
-      >
+      <p className="text-sm font-medium" style={{ color: 'var(--pv-text-muted)' }}>
         {title}
       </p>
 
       {/* Subtitle */}
       {subtitle && (
-        <p
-          className="mt-1 text-xs"
-          style={{ color: 'var(--pv-text-muted)', opacity: 0.7 }}
-        >
+        <p className="mt-1 text-xs" style={{ color: 'var(--pv-text-muted)', opacity: 0.7 }}>
           {subtitle}
         </p>
       )}

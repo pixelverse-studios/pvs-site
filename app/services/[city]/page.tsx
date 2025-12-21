@@ -12,15 +12,12 @@ import { ServicesCoreSection } from '@/components/services/services-core-section
 import { ServicesIntroSection } from '@/components/services/services-intro-section';
 import { ServicesProcessSection } from '@/components/services/services-process-section';
 import { StructuredData } from '@/components/ui/structured-data';
-import {
-  cityServicePageSlugs,
-  getCityServicePage
-} from '@/data/services-city-pages';
+import { cityServicePageSlugs, getCityServicePage } from '@/data/services-city-pages';
 import { createPageMetadata } from '@/lib/metadata';
 import {
   createBreadcrumbSchema,
   createCityLocalBusinessSchema,
-  createCityServicesSchema
+  createCityServicesSchema,
 } from '@/lib/structured-data';
 
 interface CityPageParams {
@@ -44,7 +41,7 @@ export function generateMetadata({ params }: { params: CityPageParams }): Metada
     title: page.metadata.title,
     description: page.metadata.description,
     path: `/services/${page.slug}`,
-    keywords: page.metadata.keywords
+    keywords: page.metadata.keywords,
   });
 }
 
@@ -67,7 +64,7 @@ export default function CityServicesPage({ params }: { params: CityPageParams })
     slug: page.slug,
     city: page.city,
     state: page.state,
-    description: page.metadata.description
+    description: page.metadata.description,
   });
 
   // Service schemas for this city

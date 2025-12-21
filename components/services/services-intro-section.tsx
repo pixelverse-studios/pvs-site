@@ -14,7 +14,7 @@ export function ServicesIntroSection({ headingLevel = 'h1' }: ServicesIntroSecti
   const HeadingTag = headingLevel;
 
   return (
-    <section className="bg-[var(--pv-surface)] pt-hero pb-16 md:pt-hero md:pb-24">
+    <section className="bg-[var(--pv-surface)] pb-16 pt-hero md:pb-24 md:pt-hero">
       <Container className="max-w-3xl text-center">
         <MotionSection as="div" className="space-y-6">
           <MotionItem>
@@ -24,16 +24,18 @@ export function ServicesIntroSection({ headingLevel = 'h1' }: ServicesIntroSecti
           </MotionItem>
           <MotionItem delay={0.08}>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
-              Your website is only as strong as the strategy behind it. That’s why our services focus
-              on design, usability, and performance — making sure your online presence isn’t just
-              seen, but remembered.
+              Your website is only as strong as the strategy behind it. That’s why our services
+              focus on design, usability, and performance — making sure your online presence isn’t
+              just seen, but remembered.
             </p>
           </MotionItem>
           <MotionItem delay={0.12} className="flex justify-center">
             <Button asChild variant="ctaGhost">
               <Link href="/services/bergen-county">
                 <span className="md:hidden">See our local SEO approach</span>
-                <span className="hidden md:inline">See our Bergen County SEO & web design approach</span>
+                <span className="hidden md:inline">
+                  See our Bergen County SEO & web design approach
+                </span>
               </Link>
             </Button>
           </MotionItem>

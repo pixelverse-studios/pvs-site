@@ -57,7 +57,7 @@ export function QuickActionButton({
         'group relative flex items-center gap-4 rounded-xl border p-4 transition-all duration-300',
         disabled
           ? 'cursor-not-allowed opacity-50'
-          : 'cursor-pointer hover:border-[var(--pv-primary)]/30 hover:shadow-md hover:-translate-y-0.5'
+          : 'hover:border-[var(--pv-primary)]/30 cursor-pointer hover:-translate-y-0.5 hover:shadow-md',
       )}
       style={{
         background: 'var(--pv-surface)',
@@ -81,10 +81,10 @@ export function QuickActionButton({
       </div>
 
       {/* Content */}
-      <div className="flex-1 min-w-0">
+      <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <p
-            className="text-sm font-semibold truncate transition-colors duration-200"
+            className="truncate text-sm font-semibold transition-colors duration-200"
             style={{
               color: disabled ? 'var(--pv-text-muted)' : 'var(--pv-text)',
             }}
@@ -104,10 +104,7 @@ export function QuickActionButton({
           )}
         </div>
         {description && (
-          <p
-            className="mt-0.5 text-xs truncate"
-            style={{ color: 'var(--pv-text-muted)' }}
-          >
+          <p className="mt-0.5 truncate text-xs" style={{ color: 'var(--pv-text-muted)' }}>
             {description}
           </p>
         )}

@@ -3,12 +3,14 @@
 ## Overview
 
 Automated deployment tracking system using Git pre-push hooks. When you push code, a Git hook automatically:
+
 1. Reads `docs/deployment_summary.md`
 2. Sends deployment data to PVS API
 3. Triggers email notification to project stakeholders
 4. Resets the file to template
 
 **Key Features:**
+
 - ✅ Automatic deployment notifications via email
 - ✅ Tracks changed URLs for Google Search Console re-indexing
 - ✅ Separates client-facing summary from internal technical notes
@@ -20,6 +22,7 @@ Automated deployment tracking system using Git pre-push hooks. When you push cod
 ## Files Required
 
 ### 1. `docs/deployment_summary.md`
+
 Template file with three sections:
 
 ```markdown
@@ -28,16 +31,20 @@ Template file with three sections:
 <!-- This file is automatically sent via email on successful deployment, then reset for the next cycle -->
 
 ## Latest deploy summary
+
 -
 
 ## Notes for internal team
+
 -
 
 ## Changed URLs
+
 -
 ```
 
 **Section Breakdown:**
+
 - **Latest deploy summary** - Client-facing changes (sent in email as markdown)
 - **Notes for internal team** - Technical details (stored in DB, NOT sent in email)
 - **Changed URLs** - Full URLs affected by deployment (tracked for re-indexing)
@@ -45,6 +52,7 @@ Template file with three sections:
 ---
 
 ### 2. `scripts/pre-push.js`
+
 Node.js script that runs on `git push`. Copy this file exactly:
 
 ```javascript
@@ -105,7 +113,7 @@ function loadEnvFile() {
   const envContent = fs.readFileSync(envPath, 'utf-8');
   const envVars = {};
 
-  envContent.split('\n').forEach(line => {
+  envContent.split('\n').forEach((line) => {
     // Skip comments and empty lines
     if (line.trim().startsWith('#') || !line.trim()) return;
 
@@ -146,10 +154,10 @@ function parseDeploymentSummary() {
   // Parse URLs from the Changed URLs section
   const changedUrls = changedUrlsText
     .split('\n')
-    .map(line => line.trim())
-    .filter(line => line.startsWith('-') || line.startsWith('http'))
-    .map(line => line.replace(/^-\s*/, '').trim())
-    .filter(url => url.length > 0);
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith('-') || line.startsWith('http'))
+    .map((line) => line.replace(/^-\s*/, '').trim())
+    .filter((url) => url.length > 0);
 
   // Check if deploy summary is empty (only contains a dash or is empty)
   if (!deploySummary || deploySummary === '-' || deploySummary.replace(/-/g, '').trim() === '') {
@@ -283,7 +291,7 @@ async function main() {
 }
 
 // Run the script
-main().catch(error => {
+main().catch((error) => {
   logError(`Unexpected error: ${error.message}`);
   console.error(error);
   process.exit(1);
@@ -293,6 +301,7 @@ main().catch(error => {
 ---
 
 ### 3. `scripts/install-hooks.js`
+
 One-time installer script. Copy this file exactly:
 
 ```javascript
@@ -413,7 +422,7 @@ function checkEnvironmentVariables() {
   const requiredVars = ['PVS_WEBSITE_ID', 'PVS_API_URL', 'PVS_BASE_URL'];
   const missingVars = [];
 
-  requiredVars.forEach(varName => {
+  requiredVars.forEach((varName) => {
     if (!envContent.includes(varName)) {
       missingVars.push(varName);
     }
@@ -421,7 +430,7 @@ function checkEnvironmentVariables() {
 
   if (missingVars.length > 0) {
     logWarning('Missing required environment variables in .env.local:');
-    missingVars.forEach(varName => {
+    missingVars.forEach((varName) => {
       log(`  - ${varName}`, 'yellow');
     });
     logInfo('Add these variables to .env.local (see .env.example)');
@@ -472,6 +481,7 @@ main();
 ### Step 1: Get Project-Specific Information
 
 You'll need from the client:
+
 1. **Website ID** (UUID from PVS database)
 2. **Website Base URL** (e.g., `https://www.clientsite.com`)
 
@@ -523,6 +533,7 @@ node scripts/install-hooks.js
 ```
 
 Expected output:
+
 ```
 🔧 Installing Git hooks for deployment tracking...
 
@@ -549,16 +560,18 @@ Add this section to the project's main documentation file (e.g., `CLAUDE.md` or 
 This file is automatically processed by a Git pre-push hook that sends deployment data to the PVS API and triggers an email notification. Keep summaries concise and non-technical.
 
 #### When to Update:
+
 - After completing any feature, fix, or enhancement
 - Before waiting for user to commit/push changes
 - Each time you finish a discrete unit of work
 - **MUST include all affected URLs** in the "Changed URLs" section
 
 #### Format:
+
 The file has **three required sections**:
 
 1. **Latest deploy summary** - Client-facing changes (sent in email)
-   - Use markdown formatting (bullet points, **bold**, *italic*)
+   - Use markdown formatting (bullet points, **bold**, _italic_)
    - Write in plain language (non-technical summaries)
    - Focus on WHAT changed, not HOW it was implemented
 
@@ -573,15 +586,18 @@ The file has **three required sections**:
    - These URLs are tracked for Google Search Console re-indexing
 
 #### Example Good Entries:
+
 - ✅ "Added contact form with email notifications"
 - ✅ "Fixed mobile navigation menu bug"
 - ✅ "Updated homepage hero section with new imagery"
 
 #### Example Bad Entries:
+
 - ❌ "Implemented React Hook Form with Zod validation schema"
 - ❌ "Refactored Button component to use Tailwind variants"
 
 #### Process:
+
 1. Complete your work on a feature/task
 2. Update `docs/deployment_summary.md`:
    - Add user-friendly bullet points to "Latest deploy summary"
@@ -595,6 +611,7 @@ The file has **three required sections**:
    - Automatically reset the file to template
 
 **IMPORTANT:**
+
 - The pre-push Git hook automatically processes and resets this file
 - All three sections (deploy summary, internal notes, changed URLs) are required
 - Use markdown formatting for the summary and notes sections
@@ -609,19 +626,24 @@ The file has **three required sections**:
 
 1. **Make code changes** as usual
 2. **Update `docs/deployment_summary.md`** after completing features:
+
    ```markdown
    ## Latest deploy summary
+
    - Added new pricing page with interactive calculator
    - Fixed login form validation on mobile
 
    ## Notes for internal team
+
    - Updated Stripe webhook endpoint URL in .env
    - Requires re-deployment of API server
 
    ## Changed URLs
+
    - https://www.clientsite.com/pricing
    - https://www.clientsite.com/login
    ```
+
 3. **Commit changes**: `git commit -m "feat: add pricing calculator"`
 4. **Push**: `git push` ← Hook runs automatically
 5. **File resets** to template automatically
@@ -632,26 +654,31 @@ The file has **three required sections**:
 ## Troubleshooting
 
 ### Hook doesn't run on push
+
 - Run `node scripts/install-hooks.js` again
 - Check that `.git/hooks/pre-push` exists and is executable
 - Verify the hook contains the correct Node.js script path
 
 ### Push blocked with "Missing environment variables"
+
 - Ensure `.env.local` exists with all three variables
 - Check variable names match exactly: `PVS_WEBSITE_ID`, `PVS_API_URL`, `PVS_BASE_URL`
 
 ### Push blocked with "API request failed"
+
 - Verify API server is running
 - Check `PVS_API_URL` is correct
 - Check `PVS_WEBSITE_ID` exists in database
 - Check network connectivity
 
 ### Hook skips deployment tracking
+
 - This is normal if `deployment_summary.md` is empty
 - Add content to "Latest deploy summary" and "Changed URLs" sections
 - The dash (`-`) alone is considered empty
 
 ### Email not received
+
 - Check that the website has a `contact_email` in the database
 - Check API server logs for email sending errors
 - Verify Resend API key is configured on server
@@ -663,14 +690,18 @@ The file has **three required sections**:
 After installation, test with a dummy deployment:
 
 1. Update `docs/deployment_summary.md`:
+
    ```markdown
    ## Latest deploy summary
+
    - Test deployment tracking system
 
    ## Notes for internal team
+
    - This is a test deployment
 
    ## Changed URLs
+
    - https://www.clientsite.com/
    ```
 
@@ -679,6 +710,7 @@ After installation, test with a dummy deployment:
 3. Push: `git push`
 
 4. Expected output:
+
    ```
    🚀 Running pre-push deployment tracking hook...
 
@@ -740,6 +772,7 @@ When setting up in a new project:
 ## Support
 
 For issues or questions:
+
 - Check troubleshooting section above
 - Review API server logs at: `https://pvs-server-62hx7.ondigitalocean.app`
 - Verify database has correct website entry with `contact_email`

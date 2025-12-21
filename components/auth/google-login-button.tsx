@@ -1,26 +1,26 @@
-'use client'
+'use client';
 
-import { createClient } from '@/lib/supabase/client'
-import { Button } from '@/components/ui/button'
+import { createClient } from '@/lib/supabase/client';
+import { Button } from '@/components/ui/button';
 
 export function GoogleLoginButton() {
-  const supabase = createClient()
+  const supabase = createClient();
 
   const handleGoogleSignIn = async () => {
-    const redirectUrl = `${window.location.origin}/auth/callback`
+    const redirectUrl = `${window.location.origin}/auth/callback`;
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: redirectUrl,
       },
-    })
+    });
 
     if (error) {
-      console.error('OAuth error:', error)
-      alert(`Auth Error: ${error.message}`)
+      console.error('OAuth error:', error);
+      alert(`Auth Error: ${error.message}`);
     }
-  }
+  };
 
   return (
     <div className="group relative">
@@ -31,7 +31,7 @@ export function GoogleLoginButton() {
         onClick={handleGoogleSignIn}
         variant="default"
         size="lg"
-        className="relative w-full gap-3 h-14 text-base font-semibold shadow-sm transition-all duration-300 hover:shadow-lg active:scale-[0.98] bg-white text-gray-900 hover:bg-gray-50 dark:bg-[var(--pv-surface)] dark:text-[var(--pv-text)] dark:hover:bg-[var(--pv-surface)]/80 border-2 border-[var(--pv-border)] hover:border-[var(--pv-primary)]/20 dark:hover:border-[var(--pv-primary)]/40"
+        className="dark:hover:bg-[var(--pv-surface)]/80 hover:border-[var(--pv-primary)]/20 dark:hover:border-[var(--pv-primary)]/40 relative h-14 w-full gap-3 border-2 border-[var(--pv-border)] bg-white text-base font-semibold text-gray-900 shadow-sm transition-all duration-300 hover:bg-gray-50 hover:shadow-lg active:scale-[0.98] dark:bg-[var(--pv-surface)] dark:text-[var(--pv-text)]"
       >
         {/* Google Logo - colored version */}
         <svg className="h-5 w-5 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true">
@@ -58,5 +58,5 @@ export function GoogleLoginButton() {
         <div className="absolute inset-0 -translate-x-full rounded-xl bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
       </Button>
     </div>
-  )
+  );
 }

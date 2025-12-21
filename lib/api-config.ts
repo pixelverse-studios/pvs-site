@@ -19,8 +19,8 @@ const DEVELOPMENT_API_URL = 'http://localhost:5001';
 export function getApiBaseUrl(): string {
   // In browser context, check window.location.hostname
   if (typeof window !== 'undefined') {
-    const isLocalhost = window.location.hostname === 'localhost' ||
-                       window.location.hostname === '127.0.0.1';
+    const isLocalhost =
+      window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     return isLocalhost ? DEVELOPMENT_API_URL : PRODUCTION_API_URL;
   }
 

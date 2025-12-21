@@ -8,7 +8,9 @@ interface ServicesClosingCtaSectionProps {
   contactHref?: string;
 }
 
-export function ServicesClosingCtaSection({ contactHref = '/contact' }: ServicesClosingCtaSectionProps = {}) {
+export function ServicesClosingCtaSection({
+  contactHref = '/contact',
+}: ServicesClosingCtaSectionProps = {}) {
   return (
     <section className="py-16 md:py-24">
       <Container className="max-w-3xl space-y-8 text-center">
@@ -18,8 +20,8 @@ export function ServicesClosingCtaSection({ contactHref = '/contact' }: Services
               Your business deserves a site built for more. Let&apos;s make it happen.
             </h2>
             <p className="text-lg text-[var(--pv-text-muted)]">
-              Partner with a team that designs every touchpoint intentionally and codes every feature
-              for performance.
+              Partner with a team that designs every touchpoint intentionally and codes every
+              feature for performance.
             </p>
           </MotionItem>
           <MotionItem delay={0.08} className="flex w-full justify-center">

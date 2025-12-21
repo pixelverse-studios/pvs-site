@@ -11,7 +11,8 @@ export const metadata: Metadata = {
 const docs = [
   {
     title: 'SEO Checklist',
-    description: 'Comprehensive hyper-local SEO checklist prioritized by impact. Covers GBP optimization, NAP consistency, citations, and technical SEO.',
+    description:
+      'Comprehensive hyper-local SEO checklist prioritized by impact. Covers GBP optimization, NAP consistency, citations, and technical SEO.',
     href: '/dashboard/docs/seo-checklist',
     iconName: 'search' as const,
     accentColor: '#10b981',
@@ -22,7 +23,8 @@ const docs = [
   },
   {
     title: 'Blog Guidelines',
-    description: 'Standards for creating SEO-optimized, engaging blog content. Includes templates, checklists, and quality standards.',
+    description:
+      'Standards for creating SEO-optimized, engaging blog content. Includes templates, checklists, and quality standards.',
     href: '/dashboard/docs/blog-guidelines',
     iconName: 'penTool' as const,
     accentColor: '#3b82f6',
@@ -43,7 +45,8 @@ export default function DocsPage() {
             <div
               className="flex h-12 w-12 items-center justify-center rounded-2xl"
               style={{
-                background: 'linear-gradient(135deg, rgba(63, 0, 233, 0.15), rgba(201, 71, 255, 0.08))',
+                background:
+                  'linear-gradient(135deg, rgba(63, 0, 233, 0.15), rgba(201, 71, 255, 0.08))',
                 border: '1px solid rgba(63, 0, 233, 0.2)',
               }}
             >
@@ -85,10 +88,7 @@ export default function DocsPage() {
               borderColor: 'var(--pv-border)',
             }}
           >
-            <h2
-              className="mb-6 text-base font-semibold"
-              style={{ color: 'var(--pv-text)' }}
-            >
+            <h2 className="mb-6 text-base font-semibold" style={{ color: 'var(--pv-text)' }}>
               Quick Reference
             </h2>
             <div className="grid gap-6 md:grid-cols-3">
@@ -152,16 +152,10 @@ function QuickTip({
         >
           {label}
         </p>
-        <p
-          className="text-xl font-bold"
-          style={{ color: 'var(--pv-text)' }}
-        >
+        <p className="text-xl font-bold" style={{ color: 'var(--pv-text)' }}>
           {value}
         </p>
-        <p
-          className="text-xs"
-          style={{ color: 'var(--pv-text-muted)' }}
-        >
+        <p className="text-xs" style={{ color: 'var(--pv-text-muted)' }}>
           {description}
         </p>
       </div>

@@ -1,21 +1,21 @@
-'use client'
+'use client';
 
-import { Plus, Globe } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { EditableWebsiteCard } from './editable-website-card'
+import { Plus, Globe } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { EditableWebsiteCard } from './editable-website-card';
 
 interface Website {
-  id: string
-  type: string
-  title: string
-  domain: string
-  website_slug: string
-  seo_focus?: object | null
+  id: string;
+  type: string;
+  title: string;
+  domain: string;
+  website_slug: string;
+  seo_focus?: object | null;
 }
 
 interface WebsitesListProps {
-  websites?: Website[]
-  clientId: string
+  websites?: Website[];
+  clientId: string;
 }
 
 export function WebsitesList({ websites, clientId }: WebsitesListProps) {
@@ -25,14 +25,14 @@ export function WebsitesList({ websites, clientId }: WebsitesListProps) {
     //   method: 'PUT',
     //   body: JSON.stringify(updatedWebsite),
     // })
-  }
+  };
 
   const handleDelete = async (websiteId: string) => {
     // TODO: Implement API call to delete website
     // const response = await fetch(`/api/clients/${clientId}/websites/${websiteId}`, {
     //   method: 'DELETE',
     // })
-  }
+  };
 
   return (
     <div>
@@ -91,5 +91,5 @@ export function WebsitesList({ websites, clientId }: WebsitesListProps) {
         </div>
       )}
     </div>
-  )
+  );
 }

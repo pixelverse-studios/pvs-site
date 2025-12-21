@@ -54,10 +54,7 @@ export function BlogTopicsSection({ posts }: BlogTopicsSectionProps) {
             description="Every article slots into one of our three performance pillars. Start with the pillar that aligns with your next growth priority, then work through the related playbooks."
             align="center"
           />
-          <MotionSection
-            as="div"
-            className="grid gap-8 md:grid-cols-3"
-          >
+          <MotionSection as="div" className="grid gap-8 md:grid-cols-3">
             {categoryMeta.map((category) => (
               <MotionItem
                 key={category.name}

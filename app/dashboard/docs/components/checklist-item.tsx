@@ -20,7 +20,7 @@ export function ChecklistItem({
   children,
   checked = false,
   onChange,
-  priority = 'normal'
+  priority = 'normal',
 }: ChecklistItemProps) {
   const accentColor = priorityColors[priority];
 
@@ -47,7 +47,7 @@ export function ChecklistItem({
             initial={false}
             animate={{
               scale: checked ? 1 : 0,
-              opacity: checked ? 1 : 0
+              opacity: checked ? 1 : 0,
             }}
             transition={{ duration: 0.15 }}
           >
@@ -73,7 +73,7 @@ export function ChecklistItem({
 // Static version for display-only checklists
 export function ChecklistItemStatic({
   children,
-  priority = 'normal'
+  priority = 'normal',
 }: Omit<ChecklistItemProps, 'checked' | 'onChange'>) {
   const accentColor = priorityColors[priority];
 
@@ -85,10 +85,7 @@ export function ChecklistItemStatic({
         style={{ background: accentColor }}
       />
       {/* Text */}
-      <span
-        className="text-sm leading-relaxed"
-        style={{ color: 'var(--pv-text)' }}
-      >
+      <span className="text-sm leading-relaxed" style={{ color: 'var(--pv-text)' }}>
         {children}
       </span>
     </div>

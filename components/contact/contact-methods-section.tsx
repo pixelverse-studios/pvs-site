@@ -84,7 +84,8 @@ export function ContactMethodsSection() {
               description="Based in Bergen County, NJ. Serving businesses across North Jersey."
             >
               <address className="mb-3 text-sm not-italic text-[var(--pv-text-muted)]">
-                79 Edgewater Road<br />
+                79 Edgewater Road
+                <br />
                 Cliffside Park, NJ 07010
               </address>
               <div className="overflow-hidden rounded-lg border border-[var(--pv-border)]">

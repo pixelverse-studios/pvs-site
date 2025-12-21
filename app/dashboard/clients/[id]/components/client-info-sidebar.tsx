@@ -1,29 +1,33 @@
-'use client'
+'use client';
 
-import { Mail, Phone, Calendar, Clock, Hash, User } from 'lucide-react'
-import { ClientStatusBadge } from '../../components/client-status-badge'
-import { CopyButton } from './copy-button'
+import { Mail, Phone, Calendar, Clock, Hash, User } from 'lucide-react';
+import { ClientStatusBadge } from '../../components/client-status-badge';
+import { CopyButton } from './copy-button';
 
 interface ClientInfoSidebarProps {
   client: {
-    id: string
-    firstname: string | null
-    lastname: string | null
-    email: string | null
-    phone: string | null
-    active: boolean | null
-    created_at: string
-    updated_at: string | null
-  }
-  formattedCreatedAt: string
-  formattedUpdatedAt: string
+    id: string;
+    firstname: string | null;
+    lastname: string | null;
+    email: string | null;
+    phone: string | null;
+    active: boolean | null;
+    created_at: string;
+    updated_at: string | null;
+  };
+  formattedCreatedAt: string;
+  formattedUpdatedAt: string;
 }
 
-export function ClientInfoSidebar({ client, formattedCreatedAt, formattedUpdatedAt }: ClientInfoSidebarProps) {
+export function ClientInfoSidebar({
+  client,
+  formattedCreatedAt,
+  formattedUpdatedAt,
+}: ClientInfoSidebarProps) {
   const fullName =
     client.firstname && client.lastname
       ? `${client.firstname} ${client.lastname}`
-      : client.firstname || client.lastname || 'Unnamed Client'
+      : client.firstname || client.lastname || 'Unnamed Client';
 
   return (
     <div className="space-y-4">
@@ -35,7 +39,9 @@ export function ClientInfoSidebar({ client, formattedCreatedAt, formattedUpdated
           </h2>
           <ClientStatusBadge active={client.active} />
         </div>
-        <p className="font-mono text-xs text-[var(--pv-text-muted)]">ID: {client.id.slice(0, 12)}...</p>
+        <p className="font-mono text-xs text-[var(--pv-text-muted)]">
+          ID: {client.id.slice(0, 12)}...
+        </p>
       </div>
 
       {/* Contact Section */}
@@ -126,9 +132,7 @@ export function ClientInfoSidebar({ client, formattedCreatedAt, formattedUpdated
                 Created
               </p>
             </div>
-            <p className="mt-1 text-sm text-[var(--pv-text)]">
-              {formattedCreatedAt}
-            </p>
+            <p className="mt-1 text-sm text-[var(--pv-text)]">{formattedCreatedAt}</p>
           </div>
 
           {/* Updated */}
@@ -139,12 +143,10 @@ export function ClientInfoSidebar({ client, formattedCreatedAt, formattedUpdated
                 Last Updated
               </p>
             </div>
-            <p className="mt-1 text-sm text-[var(--pv-text)]">
-              {formattedUpdatedAt}
-            </p>
+            <p className="mt-1 text-sm text-[var(--pv-text)]">{formattedUpdatedAt}</p>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

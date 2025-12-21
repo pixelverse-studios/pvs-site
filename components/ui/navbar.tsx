@@ -4,7 +4,17 @@ import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { LucideIcon } from 'lucide-react';
-import { Box, Folder, HelpCircle, Info, LayoutDashboard, Menu, PenSquare, Sparkles, X } from 'lucide-react';
+import {
+  Box,
+  Folder,
+  HelpCircle,
+  Info,
+  LayoutDashboard,
+  Menu,
+  PenSquare,
+  Sparkles,
+  X,
+} from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { createPortal } from 'react-dom';
@@ -127,7 +137,10 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
           <div className="fixed inset-0 z-[70] lg:hidden">
             <button
               type="button"
-              className={cn('absolute inset-0 backdrop-blur-sm transition-opacity duration-300', overlayBgClass)}
+              className={cn(
+                'absolute inset-0 backdrop-blur-sm transition-opacity duration-300',
+                overlayBgClass,
+              )}
               aria-hidden="true"
               tabIndex={-1}
               onClick={() => setIsMobileNavOpen(false)}
@@ -140,7 +153,12 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
             >
               <div className={cn('pointer-events-none absolute inset-0', primaryGradientClass)} />
               <div className={cn('pointer-events-none absolute inset-0', secondaryGradientClass)} />
-              <div className={cn('relative z-10 flex min-h-[100svh] flex-col px-7 py-9', drawerTextClass)}>
+              <div
+                className={cn(
+                  'relative z-10 flex min-h-[100svh] flex-col px-7 py-9',
+                  drawerTextClass,
+                )}
+              >
                 <div className="flex items-center justify-between">
                   <Link
                     href="/"
@@ -160,7 +178,12 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                         priority={false}
                       />
                     </span>
-                    <span className={cn('text-lg font-semibold tracking-wide', isDarkMode ? 'text-white' : 'text-[var(--pv-text)]')}>
+                    <span
+                      className={cn(
+                        'text-lg font-semibold tracking-wide',
+                        isDarkMode ? 'text-white' : 'text-[var(--pv-text)]',
+                      )}
+                    >
                       PixelVerse Studios
                     </span>
                   </Link>
@@ -168,7 +191,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                     type="button"
                     className={cn(
                       'inline-flex h-9 w-9 items-center justify-center rounded-full transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
-                      closeButtonThemeClass
+                      closeButtonThemeClass,
                     )}
                     aria-label="Close navigation"
                     ref={mobileCloseButtonRef}
@@ -194,15 +217,11 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                           navItemBaseClass,
                           navItemThemeClass,
                           navItemHoverBgClass,
-                          isActive && navItemActiveClass
+                          isActive && navItemActiveClass,
                         )}
                       >
                         <span
-                          className={cn(
-                            iconBaseClass,
-                            iconThemeClass,
-                            isActive && iconActiveClass
-                          )}
+                          className={cn(iconBaseClass, iconThemeClass, isActive && iconActiveClass)}
                         >
                           <Icon className="h-4 w-4" aria-hidden="true" />
                         </span>
@@ -245,7 +264,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
         )}
         {...props}
       >
-        <div className="bg-[var(--pv-surface)]/85 pointer-events-auto flex w-full max-w-5xl items-center gap-4 rounded-pv-lg border border-[var(--pv-border)] px-4 py-3 shadow-[0_28px_60px_-30px_rgba(32,32,72,0.55)] backdrop-blur-xl transition-colors duration-300 dark:bg-[var(--pv-surface)]/92 dark:shadow-[0_48px_96px_-52px_rgba(12,14,52,0.72)] lg:gap-6 lg:px-6">
+        <div className="bg-[var(--pv-surface)]/85 dark:bg-[var(--pv-surface)]/92 pointer-events-auto flex w-full max-w-5xl items-center gap-4 rounded-pv-lg border border-[var(--pv-border)] px-4 py-3 shadow-[0_28px_60px_-30px_rgba(32,32,72,0.55)] backdrop-blur-xl transition-colors duration-300 dark:shadow-[0_48px_96px_-52px_rgba(12,14,52,0.72)] lg:gap-6 lg:px-6">
           <Link href="/" className="flex items-center">
             <span className="relative inline-flex h-16 w-16 items-center justify-center rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] shadow-[0_18px_34px_-22px_rgba(63,0,233,0.55)] transition-transform duration-200 hover:-translate-y-0.5 dark:bg-[var(--pv-surface)] dark:shadow-[0_22px_48px_-30px_rgba(12,14,52,0.7)]">
               <Image

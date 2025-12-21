@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
-import { Globe, Code, Blocks, Wrench } from 'lucide-react'
+import { Globe, Code, Blocks, Wrench } from 'lucide-react';
 
 interface WebsiteTypeBadgeProps {
-  type: string
-  className?: string
+  type: string;
+  className?: string;
 }
 
 const typeConfig = {
@@ -32,11 +32,11 @@ const typeConfig = {
     bg: 'rgba(63, 0, 233, 0.1)',
     color: 'var(--pv-primary)',
   },
-}
+};
 
 export function WebsiteTypeBadge({ type, className = '' }: WebsiteTypeBadgeProps) {
-  const config = typeConfig[type as keyof typeof typeConfig] || typeConfig.Default
-  const Icon = config.icon
+  const config = typeConfig[type as keyof typeof typeConfig] || typeConfig.Default;
+  const Icon = config.icon;
 
   return (
     <div
@@ -50,5 +50,5 @@ export function WebsiteTypeBadge({ type, className = '' }: WebsiteTypeBadgeProps
       <Icon className="h-3 w-3" />
       <span>{type}</span>
     </div>
-  )
+  );
 }

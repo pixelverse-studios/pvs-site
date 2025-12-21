@@ -1,6 +1,6 @@
-import Link from 'next/link'
-import { Container } from '@/components/ui/container'
-import { PackageX, ArrowLeft } from 'lucide-react'
+import Link from 'next/link';
+import { Container } from '@/components/ui/container';
+import { PackageX, ArrowLeft } from 'lucide-react';
 
 export default function DeploymentNotFound() {
   return (
@@ -11,10 +11,7 @@ export default function DeploymentNotFound() {
             className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl"
             style={{ background: 'var(--pv-surface)' }}
           >
-            <PackageX
-              className="h-10 w-10"
-              style={{ color: 'var(--pv-text-muted)' }}
-            />
+            <PackageX className="h-10 w-10" style={{ color: 'var(--pv-text-muted)' }} />
           </div>
 
           <h1
@@ -24,17 +21,14 @@ export default function DeploymentNotFound() {
             Deployment Not Found
           </h1>
 
-          <p
-            className="mb-8 max-w-md text-sm"
-            style={{ color: 'var(--pv-text-muted)' }}
-          >
-            The deployment you&apos;re looking for doesn&apos;t exist or may have been
-            removed. Check the URL or navigate back to the dashboard.
+          <p className="mb-8 max-w-md text-sm" style={{ color: 'var(--pv-text-muted)' }}>
+            The deployment you&apos;re looking for doesn&apos;t exist or may have been removed.
+            Check the URL or navigate back to the dashboard.
           </p>
 
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 rounded-lg border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-2 text-sm font-medium transition-colors hover:border-[var(--pv-primary)]/30"
+            className="hover:border-[var(--pv-primary)]/30 inline-flex items-center gap-2 rounded-lg border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-2 text-sm font-medium transition-colors"
             style={{ color: 'var(--pv-text)' }}
           >
             <ArrowLeft className="h-4 w-4" />
@@ -43,5 +37,5 @@ export default function DeploymentNotFound() {
         </div>
       </Container>
     </main>
-  )
+  );
 }

@@ -2,40 +2,34 @@ import { Code2, GaugeCircle, LineChart, Radar, Repeat } from 'lucide-react';
 
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const glanceServices = [
   {
     icon: Code2,
     title: 'Custom Development',
-    description: 'Fully coded websites with zero templates.'
+    description: 'Fully coded websites with zero templates.',
   },
   {
     icon: GaugeCircle,
     title: 'UX & UI Design',
-    description: 'Intuitive layouts that keep users engaged.'
+    description: 'Intuitive layouts that keep users engaged.',
   },
   {
     icon: LineChart,
     title: 'SEO-Ready Builds',
-    description: 'Fast, structured, and optimized from day one.'
+    description: 'Fast, structured, and optimized from day one.',
   },
   {
     icon: Radar,
     title: 'Analytics & Reporting',
-    description: 'Clear insights to track performance.'
+    description: 'Clear insights to track performance.',
   },
   {
     icon: Repeat,
     title: 'Ongoing Support',
-    description: 'Flexible plans to keep your site growing.'
-  }
+    description: 'Flexible plans to keep your site growing.',
+  },
 ];
 
 export function ServicesGlanceSection() {
@@ -46,8 +40,8 @@ export function ServicesGlanceSection() {
           <MotionItem className="space-y-3">
             <h2 className="text-3xl font-semibold md:text-4xl">Services at a Glance</h2>
             <p className="text-lg text-[var(--pv-text-muted)]">
-              Every engagement includes the strategy, execution, and follow-through needed to sustain
-              growth.
+              Every engagement includes the strategy, execution, and follow-through needed to
+              sustain growth.
             </p>
           </MotionItem>
           <MotionSection as="div" className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" delay={0.12}>
@@ -58,7 +52,7 @@ export function ServicesGlanceSection() {
                 triggerOnViewport={false}
                 className="h-full"
               >
-                <Card className="group flex h-full flex-col justify-between overflow-hidden border border-[var(--pv-border)] bg-[var(--pv-surface)]/80 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--pv-primary)] hover:shadow-[0_28px_55px_-40px_rgba(63,0,233,0.8)] dark:bg-[var(--pv-bg)]/70">
+                <Card className="bg-[var(--pv-surface)]/80 dark:bg-[var(--pv-bg)]/70 group flex h-full flex-col justify-between overflow-hidden border border-[var(--pv-border)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--pv-primary)] hover:shadow-[0_28px_55px_-40px_rgba(63,0,233,0.8)]">
                   <CardHeader className="flex flex-col gap-4">
                     <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-[linear-gradient(135deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_42px_-32px_rgba(63,0,233,0.85)]">
                       <Icon className="h-6 w-6" aria-hidden="true" />
@@ -69,10 +63,10 @@ export function ServicesGlanceSection() {
                     </div>
                   </CardHeader>
                   <CardContent className="mt-auto flex flex-col gap-4 text-sm text-[var(--pv-text-muted)]">
-                    <div className="h-px w-full bg-gradient-to-r from-transparent via-[var(--pv-primary)]/40 to-transparent" />
+                    <div className="via-[var(--pv-primary)]/40 h-px w-full bg-gradient-to-r from-transparent to-transparent" />
                     <p>
-                      Backed by our UX-first approach, we align every deliverable to measurable business
-                      outcomes so you know what works and why.
+                      Backed by our UX-first approach, we align every deliverable to measurable
+                      business outcomes so you know what works and why.
                     </p>
                   </CardContent>
                 </Card>

@@ -23,7 +23,7 @@ export function ThemeToggle() {
       type="button"
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} theme`}
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="border border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)] transition-transform duration-300 hover:-translate-y-0.5 hover:border-[var(--pv-primary)] hover:text-[var(--pv-primary)] dark:bg-[var(--pv-surface)]/90"
+      className="dark:bg-[var(--pv-surface)]/90 border border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)] transition-transform duration-300 hover:-translate-y-0.5 hover:border-[var(--pv-primary)] hover:text-[var(--pv-primary)]"
     >
       {mounted ? (
         isDark ? (

@@ -9,7 +9,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from '@/components/ui/dialog';
 import {
   Sheet,
@@ -17,7 +17,7 @@ import {
   SheetDescription,
   SheetFooter,
   SheetHeader,
-  SheetTitle
+  SheetTitle,
 } from '@/components/ui/sheet';
 
 export function OverlaysDemo() {
@@ -38,12 +38,13 @@ export function OverlaysDemo() {
           <DialogHeader>
             <DialogTitle>Stay in the loop</DialogTitle>
             <DialogDescription>
-              Modals are surfaced with a dimmed overlay, focus management, and motion-safe transitions.
+              Modals are surfaced with a dimmed overlay, focus management, and motion-safe
+              transitions.
             </DialogDescription>
           </DialogHeader>
           <div className="text-base text-[var(--pv-text)]">
-            We share monthly updates on new PixelVerse world drops, live events, and ecosystem features. Toggle the theme
-            to preview accessibility in both modes.
+            We share monthly updates on new PixelVerse world drops, live events, and ecosystem
+            features. Toggle the theme to preview accessibility in both modes.
           </div>
           <DialogFooter className="sm:flex-row sm:space-x-2">
             <Button variant="ghost" onClick={() => setDialogOpen(false)}>
@@ -64,8 +65,8 @@ export function OverlaysDemo() {
           </SheetHeader>
           <div className="space-y-4 text-base text-[var(--pv-text)]">
             <p>
-              Build journeys, configure drops, and measure performance inside the creator dashboard. Drawers support
-              overflow content and action footers.
+              Build journeys, configure drops, and measure performance inside the creator dashboard.
+              Drawers support overflow content and action footers.
             </p>
             <ul className="list-disc space-y-2 pl-5 text-sm text-[var(--pv-text-muted)]">
               <li>Surface contextual workflows without navigating away.</li>
