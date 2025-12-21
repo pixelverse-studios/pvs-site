@@ -15,6 +15,7 @@ import {
   Menu,
   X,
   Sparkles,
+  ListTodo,
 } from 'lucide-react';
 
 interface NavItem {
@@ -35,6 +36,12 @@ const navItems: NavItem[] = [
     label: 'Clients',
     href: '/dashboard/clients',
     icon: Users,
+    available: true,
+  },
+  {
+    label: 'Agenda',
+    href: '/dashboard/agenda',
+    icon: ListTodo,
     available: true,
   },
   {
