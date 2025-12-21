@@ -3,6 +3,7 @@
 <!-- This file is automatically sent via email on successful deployment, then reset for the next cycle -->
 
 ## Latest deploy summary
+
 - Added configurable promotional sale banner system for marketing campaigns
 - Sale banner displays at top of page with countdown timer, discount info, and CTA
 - Package cards now show sale badges and discounted pricing when sale is active
@@ -10,8 +11,16 @@
 - Supports multiple sale types: holiday, flash, seasonal, launch, anniversary, referral
 - Fixed navbar responsive layout to prevent items bleeding outside container on tablet viewports
 - Improved services page button text to show shorter version on mobile screens
+- Agenda kanban board now supports full CRUD operations (create, edit, delete items)
+- Drag-and-drop reordering between Pending, In Progress, and Completed columns
+- Status changes happen automatically when dragging items between columns
 
 ## Notes for internal team
+
+- PVS-153: Added CRUD operations and drag-and-drop to Agenda
+- New components: `components/dashboard/agenda/agenda-item-modal.tsx`, `delete-agenda-dialog.tsx`
+- Updated: `app/dashboard/agenda/components/agenda-page-client.tsx`, `agenda-board.tsx`, `agenda-card.tsx`
+- Installed `@hello-pangea/dnd` for drag-and-drop functionality
 - PVS-152: Created full Agenda page with kanban board at /dashboard/agenda
 - New files: `app/dashboard/agenda/page.tsx`, `agenda-board.tsx`, `agenda-card.tsx`
 - Added Agenda to sidebar navigation
@@ -29,6 +38,7 @@
 - Fixed empty copy-button.tsx that was causing build failures
 
 ## Changed URLs
+
 - https://www.pixelversestudios.io/
 - https://www.pixelversestudios.io/services
 - https://www.pixelversestudios.io/packages
