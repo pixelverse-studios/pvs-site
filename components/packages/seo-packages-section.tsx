@@ -18,6 +18,7 @@ import { seoPackages as seoPackagesData } from '@/data/packages';
 import type { PackageDetail } from '@/data/packages';
 import { PackageModal } from '@/components/packages/package-modal';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
+import { SaleBadge, DiscountedPrice } from '@/components/sale';
 
 const iconMap = {
   search: Search,
@@ -65,7 +66,8 @@ export function SeoPackagesSection() {
                   triggerOnViewport={false}
                   className="h-full"
                 >
-                  <Card className="bg-[var(--pv-bg)]/95 dark:bg-[var(--pv-surface)]/95 group flex h-full flex-col border border-[var(--pv-border)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--pv-primary)] hover:shadow-[0_26px_60px_-40px_rgba(63,0,233,0.75)]">
+                  <Card className="bg-[var(--pv-bg)]/95 dark:bg-[var(--pv-surface)]/95 group relative flex h-full flex-col overflow-visible border border-[var(--pv-border)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--pv-primary)] hover:shadow-[0_26px_60px_-40px_rgba(63,0,233,0.75)]">
+                    <SaleBadge packageId={pkg.id} />
                     <CardHeader className="flex items-start gap-4 border-b border-[var(--pv-border)] pb-6">
                       <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_46px_-34px_rgba(63,0,233,0.85)]">
                         <Icon className="h-6 w-6" aria-hidden="true" />
@@ -77,9 +79,9 @@ export function SeoPackagesSection() {
                         <CardTitle className="text-lg font-medium text-[var(--pv-text)]">
                           {pkg.name}
                         </CardTitle>
-                        <p className="text-sm font-medium uppercase tracking-[0.22em] text-[var(--pv-text-muted)]">
-                          {pkg.price}
-                        </p>
+                        <div className="text-sm font-medium uppercase tracking-[0.22em] text-[var(--pv-text-muted)]">
+                          <DiscountedPrice packageId={pkg.id} priceString={pkg.price} />
+                        </div>
                         <CardDescription className="text-sm leading-6">
                           {pkg.summary}
                         </CardDescription>
