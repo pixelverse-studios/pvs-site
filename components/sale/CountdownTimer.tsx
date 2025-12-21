@@ -62,18 +62,18 @@ export function CountdownTimer({
   }) => (
     <div
       className={`flex flex-col items-center ${
-        compact ? 'min-w-[28px] px-1 py-0.5' : 'min-w-[36px] px-1.5 py-1'
-      } rounded-md bg-black/15`}
+        compact ? 'min-w-[28px] px-1 py-0.5' : 'min-w-[40px] px-2 py-1'
+      } rounded-md bg-[var(--pv-sale)]/10`}
     >
       <span
-        className={`font-semibold tabular-nums leading-tight text-white ${
-          compact ? 'text-sm' : 'text-base'
+        className={`font-semibold tabular-nums leading-tight text-[var(--pv-sale)] ${
+          compact ? 'text-sm' : 'text-lg'
         }`}
       >
         {value.toString().padStart(2, '0')}
       </span>
       {!compact && (
-        <span className="text-[0.5rem] font-medium uppercase tracking-widest text-white/70">
+        <span className="text-[0.6rem] font-medium uppercase tracking-wider text-[var(--pv-text-muted)]">
           {label}
         </span>
       )}
@@ -81,19 +81,19 @@ export function CountdownTimer({
   );
 
   return (
-    <div className={`flex items-center gap-1 ${className}`}>
+    <div className={`flex items-center gap-1.5 ${className}`}>
       {timeLeft.days > 0 && (
         <>
           <TimeUnit value={timeLeft.days} label="days" />
-          <span className="animate-pulse text-base font-bold text-white/50">
+          <span className="text-base font-bold text-[var(--pv-text-muted)]">
             :
           </span>
         </>
       )}
       <TimeUnit value={timeLeft.hours} label="hrs" />
-      <span className="animate-pulse text-base font-bold text-white/50">:</span>
+      <span className="text-base font-bold text-[var(--pv-text-muted)]">:</span>
       <TimeUnit value={timeLeft.minutes} label="min" />
-      <span className="animate-pulse text-base font-bold text-white/50">:</span>
+      <span className="text-base font-bold text-[var(--pv-text-muted)]">:</span>
       <TimeUnit value={timeLeft.seconds} label="sec" />
     </div>
   );

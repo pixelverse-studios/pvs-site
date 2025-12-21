@@ -12,9 +12,9 @@ interface SaleBadgeProps {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  sale: 'bg-gradient-to-r from-[var(--pv-sale)] to-[#ff6b35] shadow-[0_4px_12px_-2px_var(--pv-sale-glow)]',
-  gold: 'bg-gradient-to-r from-[var(--pv-gold-dark)] via-[var(--pv-gold)] to-[var(--pv-gold-dark)] shadow-[0_4px_12px_-2px_var(--pv-gold-glow)] text-[#1a1400]',
-  primary: 'bg-[var(--pv-gradient)] shadow-[0_4px_12px_-2px_rgba(63,0,233,0.4)]',
+  sale: 'bg-gradient-to-r from-[var(--pv-sale)] to-[#ff6b5b] shadow-[0_4px_14px_-4px_var(--pv-sale-glow)]',
+  gold: 'bg-gradient-to-r from-[var(--pv-gold-dark)] via-[var(--pv-gold)] to-[var(--pv-gold-dark)] shadow-[0_4px_14px_-4px_var(--pv-gold-glow)]',
+  primary: 'bg-gradient-to-r from-[var(--pv-primary)] to-[var(--pv-primary-2)] shadow-[0_4px_14px_-4px_rgba(63,0,233,0.5)]',
 };
 
 export function SaleBadge({
@@ -39,17 +39,16 @@ export function SaleBadge({
   return (
     <div
       className={`
-        absolute right-[-8px] top-4
-        px-4 py-1.5 text-white
+        absolute -right-1 top-5
+        rounded-l-full rounded-r-sm
+        px-4 py-1.5
+        text-white
         font-heading text-xs font-bold uppercase tracking-wider
         ${variantStyles[badgeVariant]}
-        transition-transform duration-200
-        group-hover:translate-x-[-2px]
+        transition-all duration-200
+        group-hover:translate-x-[-2px] group-hover:shadow-[0_6px_20px_-4px_var(--pv-sale-glow)]
         ${className}
       `}
-      style={{
-        clipPath: 'polygon(12px 0, 100% 0, 100% 100%, 0 100%)',
-      }}
       aria-label={`${badgeText} offer`}
     >
       {badgeText}

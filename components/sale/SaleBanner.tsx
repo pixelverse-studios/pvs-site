@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { X, Sparkles } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -14,6 +14,7 @@ import { CountdownTimer } from './CountdownTimer';
 
 const DISMISSED_KEY = 'pvs-sale-dismissed';
 const DISMISSAL_HOURS = 24;
+const SHOW_DELAY_MS = 5000; // 5 seconds before showing
 
 function getDismissalState(saleId: string): boolean {
   if (typeof window === 'undefined') return false;
@@ -39,20 +40,27 @@ function setDismissalState(saleId: string): void {
 }
 
 const themeStyles = {
-  sale: 'bg-[var(--pv-sale)]',
-  gold: 'bg-gradient-to-r from-[var(--pv-gold-dark)] via-[var(--pv-gold)] to-[var(--pv-gold-dark)]',
-  primary: 'bg-[var(--pv-primary)]',
+  sale: 'bg-[var(--pv-surface)] border-[var(--pv-sale)]/30',
+  gold: 'bg-[var(--pv-surface)] border-[var(--pv-gold)]/30',
+  primary: 'bg-[var(--pv-surface)] border-[var(--pv-primary)]/30',
+};
+
+const accentStyles = {
+  sale: 'text-[var(--pv-sale)]',
+  gold: 'text-[var(--pv-gold)]',
+  primary: 'text-[var(--pv-primary)]',
 };
 
 const ctaStyles = {
-  sale: 'bg-white text-[var(--pv-sale)] hover:bg-white/90',
-  gold: 'bg-[#1a1400] text-[var(--pv-gold)] hover:bg-[#1a1400]/90',
-  primary: 'bg-white text-[var(--pv-primary)] hover:bg-white/90',
+  sale: 'bg-[var(--pv-sale)] text-white hover:bg-[var(--pv-sale-dark)]',
+  gold: 'bg-[var(--pv-gold)] text-white hover:bg-[var(--pv-gold-dark)]',
+  primary: 'bg-[var(--pv-primary)] text-white hover:bg-[var(--pv-primary)]',
 };
 
 export function SaleBanner() {
   const pathname = usePathname();
   const [visible, setVisible] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
   const [sale, setSale] = useState<Sale | null>(null);
 
   useEffect(() => {
@@ -61,104 +69,103 @@ export function SaleBanner() {
     if (getDismissalState(currentSale.id)) return;
 
     setSale(currentSale);
-    setVisible(true);
+    setShouldRender(true);
+
+    // Delay showing the toast
+    const showTimer = setTimeout(() => {
+      setVisible(true);
+    }, SHOW_DELAY_MS);
+
+    return () => clearTimeout(showTimer);
   }, [pathname]);
 
   const handleDismiss = () => {
     if (!sale) return;
     setDismissalState(sale.id);
     setVisible(false);
+    // Remove from DOM after animation
+    setTimeout(() => setShouldRender(false), 300);
   };
 
-  if (!visible || !sale) return null;
+  if (!shouldRender || !sale) return null;
 
   return (
     <div
-      className={`sticky top-0 z-40 w-full text-white ${themeStyles[sale.theme]}`}
-      role="banner"
+      className={`
+        fixed bottom-6 right-6 z-50
+        w-full max-w-sm
+        rounded-2xl border-2 p-4
+        shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]
+        backdrop-blur-xl
+        transition-all duration-300 ease-out
+        dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)]
+        ${themeStyles[sale.theme]}
+        ${visible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
+      `}
+      role="dialog"
       aria-label="Promotional offer"
-      style={{
-        animation: 'bannerSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-      }}
     >
-      <style jsx>{`
-        @keyframes bannerSlideIn {
-          from {
-            transform: translateY(-100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateY(0);
-            opacity: 1;
-          }
-        }
-      `}</style>
+      {/* Dismiss button - top right */}
+      <button
+        onClick={handleDismiss}
+        className="absolute right-3 top-3 rounded-full p-1.5 text-[var(--pv-text-muted)] transition-colors hover:bg-[var(--pv-border)] hover:text-[var(--pv-text)]"
+        aria-label="Dismiss promotional offer"
+      >
+        <X className="h-4 w-4" />
+      </button>
 
-      {/* Desktop Layout */}
-      <div className="mx-auto hidden max-w-7xl items-center justify-between gap-4 px-4 py-3 md:flex">
-        {/* Left: Discount Badge */}
-        <span className="shrink-0 rounded border-l-[3px] border-white/30 bg-black/20 px-3 py-1 font-heading text-sm font-extrabold uppercase tracking-wider">
-          {sale.discountLabel}
-        </span>
-
-        {/* Center: Message + Countdown */}
-        <div className="flex flex-1 items-center justify-center gap-4 text-center">
-          <div>
-            <span className="font-heading font-bold">{sale.headline}</span>
-            {sale.subtext && (
-              <span className="ml-2 text-white/80">{sale.subtext}</span>
-            )}
-          </div>
-
-          {sale.showCountdown && (
-            <CountdownTimer endDate={sale.endDate} compact />
-          )}
-        </div>
-
-        {/* Right: CTA + Dismiss */}
-        <div className="flex shrink-0 items-center gap-2">
-          <Link
-            href={sale.ctaLink}
-            className={`inline-flex items-center rounded-full px-4 py-1.5 text-sm font-semibold transition-all hover:scale-[1.02] ${ctaStyles[sale.theme]}`}
+      {/* Centered content */}
+      <div className="flex flex-col items-center text-center">
+        {/* Badge */}
+        <div className="mb-3 flex items-center gap-2">
+          <span
+            className={`flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--pv-sale)]/10 ${accentStyles[sale.theme]}`}
           >
-            {sale.ctaText}
-          </Link>
-          <button
-            onClick={handleDismiss}
-            className="rounded-full p-1.5 transition-colors hover:bg-white/20"
-            aria-label="Dismiss promotional banner"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Layout */}
-      <div className="flex flex-col gap-2 px-4 py-2.5 md:hidden">
-        <div className="flex items-center justify-between">
-          <span className="font-heading text-sm font-bold">
-            <span className="mr-1.5 font-extrabold">{sale.discountLabel}</span>
-            {sale.headline}
+            <Sparkles className="h-4 w-4" />
           </span>
-          <button
-            onClick={handleDismiss}
-            className="rounded-full p-1 transition-colors hover:bg-white/20"
-            aria-label="Dismiss promotional banner"
+          <span
+            className={`font-heading text-sm font-bold uppercase tracking-wider ${accentStyles[sale.theme]}`}
           >
-            <X className="h-4 w-4" />
-          </button>
+            {sale.discountLabel}
+          </span>
         </div>
-        <div className="flex items-center justify-between gap-3">
-          {sale.showCountdown && (
-            <CountdownTimer endDate={sale.endDate} compact />
-          )}
-          <Link
-            href={sale.ctaLink}
-            className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold transition-all ${ctaStyles[sale.theme]}`}
-          >
-            {sale.ctaText}
-          </Link>
-        </div>
+
+        {/* Headline */}
+        <h3 className="mb-1 font-heading text-lg font-bold text-[var(--pv-text)]">
+          {sale.headline}
+        </h3>
+        {sale.subtext && (
+          <p className="mb-4 text-sm text-[var(--pv-text-muted)]">
+            {sale.subtext}
+          </p>
+        )}
+
+        {/* Countdown */}
+        {sale.showCountdown && (
+          <div className="mb-4">
+            <p className="mb-2 text-xs font-medium uppercase tracking-wider text-[var(--pv-text-muted)]">
+              Offer ends in
+            </p>
+            <div className="inline-flex rounded-lg bg-[var(--pv-bg)] p-2">
+              <CountdownTimer endDate={sale.endDate} />
+            </div>
+          </div>
+        )}
+
+        {/* CTA */}
+        <Link
+          href={sale.ctaLink}
+          className={`
+            inline-flex w-full items-center justify-center
+            rounded-xl px-4 py-2.5
+            font-semibold
+            transition-all duration-200
+            hover:-translate-y-0.5
+            ${ctaStyles[sale.theme]}
+          `}
+        >
+          {sale.ctaText}
+        </Link>
       </div>
     </div>
   );

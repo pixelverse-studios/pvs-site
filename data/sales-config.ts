@@ -55,8 +55,8 @@ export const currentSale: Sale | null = {
   type: 'holiday',
   active: true,
 
-  startDate: '2024-12-20T00:00:00-05:00',
-  endDate: '2025-01-05T23:59:59-05:00',
+  startDate: '2025-12-20T00:00:00-05:00',
+  endDate: '2026-01-05T23:59:59-05:00',
   showCountdown: true,
 
   discountType: 'percentage',
