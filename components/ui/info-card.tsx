@@ -13,11 +13,11 @@ export function InfoCard({ className, icon: Icon, title, description, ...props }
   return (
     <div
       className={cn(
-        'group relative flex h-full flex-col gap-4 overflow-hidden rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)]/85 p-8 shadow-pv transition-colors-opacity-transform dark:bg-[var(--pv-surface)]/85',
+        'bg-[var(--pv-bg)]/85 dark:bg-[var(--pv-surface)]/85 group relative flex h-full flex-col gap-4 overflow-hidden rounded-pv border border-[var(--pv-border)] p-8 shadow-pv transition-colors-opacity-transform',
         'before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-[var(--pv-gradient)] before:opacity-70 before:transition-opacity before:duration-300',
         'after:absolute after:inset-0 after:-z-10 after:bg-[radial-gradient(circle_at_top,var(--pv-primary)/0.12,transparent_65%)] after:opacity-0 after:transition-opacity after:duration-300',
-        'hover:border-[var(--pv-primary)] hover:shadow-[0_25px_50px_-30px_rgba(63,0,233,0.45)] hover:after:opacity-100 hover:before:opacity-100',
-        className
+        'hover:border-[var(--pv-primary)] hover:shadow-[0_25px_50px_-30px_rgba(63,0,233,0.45)] hover:before:opacity-100 hover:after:opacity-100',
+        className,
       )}
       {...props}
     >

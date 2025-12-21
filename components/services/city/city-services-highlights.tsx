@@ -1,11 +1,5 @@
 import { CityServicePageDefinition } from '@/data/services-city-pages';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import { SectionHeader } from '@/components/ui/section-header';
@@ -31,7 +25,7 @@ export function CityServicesHighlights({ city, highlights }: CityServicesHighlig
         <MotionSection as="div" className="grid gap-6 md:grid-cols-2">
           {highlights.map(({ serviceTitle, summary, localAngle }, index) => (
             <MotionItem key={serviceTitle} delay={index * 0.08} className="h-full">
-              <Card className="flex h-full flex-col border border-[var(--pv-primary)]/30 bg-[var(--pv-bg)]/95 shadow-[0_24px_50px_-40px_rgba(63,0,233,0.45)] transition-transform duration-300 hover:-translate-y-1 dark:bg-[var(--pv-surface)]/90">
+              <Card className="border-[var(--pv-primary)]/30 bg-[var(--pv-bg)]/95 dark:bg-[var(--pv-surface)]/90 flex h-full flex-col border shadow-[0_24px_50px_-40px_rgba(63,0,233,0.45)] transition-transform duration-300 hover:-translate-y-1">
                 <CardHeader className="space-y-3 border-b border-[var(--pv-border)] pb-6">
                   <CardTitle className="text-lg font-semibold text-[var(--pv-text)]">
                     {serviceTitle}

@@ -42,6 +42,7 @@ Name, Address, Phone must be **character-for-character identical** everywhere:
 - [ ] Schema markup
 
 **Common mistakes to avoid:**
+
 - "Street" vs "St." vs "St"
 - "Suite 100" vs "#100" vs "Ste 100"
 - "(201) 555-1234" vs "201-555-1234" vs "2015551234"
@@ -55,6 +56,7 @@ Pick ONE format and use it everywhere.
 Build consistent listings on high-authority directories:
 
 ### Tier 1 (Must Have)
+
 - [ ] Google Business Profile
 - [ ] Apple Maps / Apple Business Connect
 - [ ] Bing Places for Business
@@ -63,6 +65,7 @@ Build consistent listings on high-authority directories:
 - [ ] LinkedIn Company Page
 
 ### Tier 2 (High Priority)
+
 - [ ] Better Business Bureau (BBB)
 - [ ] Yellow Pages / YP.com
 - [ ] Angi (formerly Angie's List)
@@ -70,12 +73,14 @@ Build consistent listings on high-authority directories:
 - [ ] Nextdoor Business
 
 ### Tier 3 (Industry-Specific)
+
 - [ ] Industry-specific directories relevant to the business
 - [ ] Local Chamber of Commerce
 - [ ] Local business associations
 - [ ] State/regional directories
 
 ### Citation Audit
+
 - [ ] Use Moz Local, BrightLocal, or Whitespark to audit existing citations
 - [ ] Fix or remove duplicate listings
 - [ ] Update outdated NAP on old listings
@@ -118,12 +123,14 @@ For each priority city, create a dedicated page with:
 ### Priority City Selection
 
 Focus on 3-5 cities before expanding. Criteria:
+
 - Distance from business location (closer = easier to rank)
 - Population and search volume
 - Competition level (check who's ranking now)
 - Revenue potential
 
 ### Content Expansion Ideas
+
 - [ ] Local guides ("Best [X] in [City]")
 - [ ] Local event sponsorships or participation (with blog coverage)
 - [ ] Case studies featuring local clients (with permission)
@@ -167,6 +174,7 @@ Implement structured data for every service area:
 ## Technical SEO & Performance
 
 ### Core Requirements
+
 - [ ] SSL certificate active (HTTPS)
 - [ ] Mobile-friendly / responsive design
 - [ ] Page load time **<3 seconds**
@@ -177,6 +185,7 @@ Implement structured data for every service area:
   - [ ] TBT < 300ms
 
 ### Crawlability
+
 - [ ] Robots.txt allows intended pages to be crawled
 - [ ] XML Sitemap submitted to Google Search Console
 - [ ] No accidental noindex tags
@@ -184,6 +193,7 @@ Implement structured data for every service area:
 - [ ] Fix all 404 errors
 
 ### Image Optimization
+
 - [ ] **Compress all images** (WebP preferred, <300KB each)
 - [ ] **Lazy-load** images below the fold
 - [ ] Descriptive file names (e.g., `fort-lee-plumber-fixing-pipe.webp`)
@@ -195,6 +205,7 @@ Implement structured data for every service area:
 Local backlinks signal geographic relevance to Google.
 
 ### High-Value Local Links
+
 - [ ] Local Chamber of Commerce membership
 - [ ] Sponsor local events, sports teams, or charities
 - [ ] Partner with complementary local businesses
@@ -203,6 +214,7 @@ Local backlinks signal geographic relevance to Google.
 - [ ] Join local business associations
 
 ### Link Audit
+
 - [ ] Monitor backlinks via Search Console or Ahrefs
 - [ ] Disavow spammy or irrelevant links
 - [ ] Track competitor backlinks for opportunities

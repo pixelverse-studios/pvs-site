@@ -27,7 +27,14 @@ interface DocCardProps {
   };
 }
 
-export function DocCard({ title, description, href, iconName, accentColor = 'var(--pv-primary)', stats }: DocCardProps) {
+export function DocCard({
+  title,
+  description,
+  href,
+  iconName,
+  accentColor = 'var(--pv-primary)',
+  stats,
+}: DocCardProps) {
   const Icon = iconMap[iconName];
 
   return (
@@ -81,10 +88,7 @@ export function DocCard({ title, description, href, iconName, accentColor = 'var
           </h3>
 
           {/* Description */}
-          <p
-            className="mb-4 text-sm leading-relaxed"
-            style={{ color: 'var(--pv-text-muted)' }}
-          >
+          <p className="mb-4 text-sm leading-relaxed" style={{ color: 'var(--pv-text-muted)' }}>
             {description}
           </p>
 

@@ -1,43 +1,37 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { Container } from '@/components/ui/container'
-import { DeploymentStatusBadge } from '@/app/dashboard/clients/[id]/websites/[websiteId]/components/deployment-status-badge'
-import { DeploymentCard } from '@/app/dashboard/clients/[id]/websites/[websiteId]/components/deployment-card'
-import { ArrowLeft, Globe, Rocket, ExternalLink, Users } from 'lucide-react'
-import { DeploymentDetail, IndexingStatus } from '../types'
+import { useState } from 'react';
+import Link from 'next/link';
+import { Container } from '@/components/ui/container';
+import { DeploymentStatusBadge } from '@/app/dashboard/clients/[id]/websites/[websiteId]/components/deployment-status-badge';
+import { DeploymentCard } from '@/app/dashboard/clients/[id]/websites/[websiteId]/components/deployment-card';
+import { ArrowLeft, Globe, Rocket, ExternalLink, Users } from 'lucide-react';
+import { DeploymentDetail, IndexingStatus } from '../types';
 
 interface DeploymentDetailViewProps {
-  deployment: DeploymentDetail
+  deployment: DeploymentDetail;
 }
 
 export function DeploymentDetailView({ deployment }: DeploymentDetailViewProps) {
   // State for optimistic updates when URL statuses change
-  const [currentDeployment, setCurrentDeployment] = useState(deployment)
+  const [currentDeployment, setCurrentDeployment] = useState(deployment);
 
   // Build navigation paths
   const clientName =
-    [deployment.client.firstname, deployment.client.lastname]
-      .filter(Boolean)
-      .join(' ') || 'Client'
-  const websitePath = `/dashboard/clients/${deployment.client.id}/websites/${deployment.website.id}`
-  const clientPath = `/dashboard/clients/${deployment.client.id}`
+    [deployment.client.firstname, deployment.client.lastname].filter(Boolean).join(' ') || 'Client';
+  const websitePath = `/dashboard/clients/${deployment.client.id}/websites/${deployment.website.id}`;
+  const clientPath = `/dashboard/clients/${deployment.client.id}`;
 
   // Handler for status updates (passed to DeploymentCard)
-  const handleStatusUpdated = (
-    deploymentId: string,
-    newStatus: IndexingStatus,
-    url?: string
-  ) => {
+  const handleStatusUpdated = (deploymentId: string, newStatus: IndexingStatus, url?: string) => {
     // Implement optimistic update logic similar to deployments-section.tsx
     setCurrentDeployment((prev) => {
-      const now = new Date().toISOString()
+      const now = new Date().toISOString();
 
       if (url) {
         // Update single URL
         const updatedUrls = prev.changed_urls.map((u) => {
-          if (u.url !== url) return u
+          if (u.url !== url) return u;
           return {
             ...u,
             indexing_status: newStatus,
@@ -46,21 +40,17 @@ export function DeploymentDetailView({ deployment }: DeploymentDetailViewProps) 
                 ? u.indexing_requested_at || now
                 : u.indexing_requested_at,
             indexed_at: newStatus === 'indexed' ? now : u.indexed_at,
-          }
-        })
+          };
+        });
 
         // Recalculate deployment-level status
-        const allIndexed = updatedUrls.every(
-          (u) => u.indexing_status === 'indexed'
-        )
-        const anyPending = updatedUrls.some(
-          (u) => u.indexing_status === 'pending'
-        )
+        const allIndexed = updatedUrls.every((u) => u.indexing_status === 'indexed');
+        const anyPending = updatedUrls.some((u) => u.indexing_status === 'pending');
         const deploymentStatus: IndexingStatus = allIndexed
           ? 'indexed'
           : anyPending
             ? 'pending'
-            : 'requested'
+            : 'requested';
 
         return {
           ...prev,
@@ -71,7 +61,7 @@ export function DeploymentDetailView({ deployment }: DeploymentDetailViewProps) 
               ? prev.indexing_requested_at || now
               : prev.indexing_requested_at,
           indexed_at: deploymentStatus === 'indexed' ? now : prev.indexed_at,
-        }
+        };
       } else {
         // Update all URLs
         return {
@@ -91,10 +81,10 @@ export function DeploymentDetailView({ deployment }: DeploymentDetailViewProps) 
               ? prev.indexing_requested_at || now
               : prev.indexing_requested_at,
           indexed_at: newStatus === 'indexed' ? now : prev.indexed_at,
-        }
+        };
       }
-    })
-  }
+    });
+  };
 
   // Format timestamp for display
   const formatDate = (isoString: string) => {
@@ -105,20 +95,20 @@ export function DeploymentDetailView({ deployment }: DeploymentDetailViewProps) 
       day: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
-    })
-  }
+    });
+  };
 
   // Calculate status counts for display
   const pendingCount = currentDeployment.changed_urls.filter(
-    (u) => u.indexing_status === 'pending'
-  ).length
+    (u) => u.indexing_status === 'pending',
+  ).length;
   const requestedCount = currentDeployment.changed_urls.filter(
-    (u) => u.indexing_status === 'requested'
-  ).length
+    (u) => u.indexing_status === 'requested',
+  ).length;
   const indexedCount = currentDeployment.changed_urls.filter(
-    (u) => u.indexing_status === 'indexed'
-  ).length
-  const totalCount = currentDeployment.changed_urls.length
+    (u) => u.indexing_status === 'indexed',
+  ).length;
+  const totalCount = currentDeployment.changed_urls.length;
 
   return (
     <main className="pb-16 pt-6 lg:pt-8">
@@ -135,10 +125,7 @@ export function DeploymentDetailView({ deployment }: DeploymentDetailViewProps) 
 
           {/* Breadcrumb trail */}
           <nav className="mt-3 flex items-center gap-2 text-xs text-[var(--pv-text-muted)]">
-            <Link
-              href="/dashboard"
-              className="transition-colors hover:text-[var(--pv-primary)]"
-            >
+            <Link href="/dashboard" className="transition-colors hover:text-[var(--pv-primary)]">
               Dashboard
             </Link>
             <span>/</span>
@@ -149,17 +136,11 @@ export function DeploymentDetailView({ deployment }: DeploymentDetailViewProps) 
               Clients
             </Link>
             <span>/</span>
-            <Link
-              href={clientPath}
-              className="transition-colors hover:text-[var(--pv-primary)]"
-            >
+            <Link href={clientPath} className="transition-colors hover:text-[var(--pv-primary)]">
               {clientName}
             </Link>
             <span>/</span>
-            <Link
-              href={websitePath}
-              className="transition-colors hover:text-[var(--pv-primary)]"
-            >
+            <Link href={websitePath} className="transition-colors hover:text-[var(--pv-primary)]">
               {deployment.website.title}
             </Link>
             <span>/</span>
@@ -177,10 +158,7 @@ export function DeploymentDetailView({ deployment }: DeploymentDetailViewProps) 
                   className="flex h-10 w-10 items-center justify-center rounded-lg"
                   style={{ background: 'rgba(63, 0, 233, 0.1)' }}
                 >
-                  <Rocket
-                    className="h-5 w-5"
-                    style={{ color: 'var(--pv-primary)' }}
-                  />
+                  <Rocket className="h-5 w-5" style={{ color: 'var(--pv-primary)' }} />
                 </div>
                 <div>
                   <h1
@@ -199,17 +177,15 @@ export function DeploymentDetailView({ deployment }: DeploymentDetailViewProps) 
               <div className="flex flex-wrap items-center gap-3">
                 <Link
                   href={websitePath}
-                  className="inline-flex items-center gap-2 rounded-lg border border-[var(--pv-border)] bg-[var(--pv-bg)] px-3 py-1.5 text-sm transition-colors hover:border-[var(--pv-primary)]/30"
+                  className="hover:border-[var(--pv-primary)]/30 inline-flex items-center gap-2 rounded-lg border border-[var(--pv-border)] bg-[var(--pv-bg)] px-3 py-1.5 text-sm transition-colors"
                 >
                   <Globe className="h-4 w-4 text-[var(--pv-text-muted)]" />
-                  <span style={{ color: 'var(--pv-text)' }}>
-                    {deployment.website.title}
-                  </span>
+                  <span style={{ color: 'var(--pv-text)' }}>{deployment.website.title}</span>
                 </Link>
 
                 <Link
                   href={clientPath}
-                  className="inline-flex items-center gap-2 rounded-lg border border-[var(--pv-border)] bg-[var(--pv-bg)] px-3 py-1.5 text-sm transition-colors hover:border-[var(--pv-primary)]/30"
+                  className="hover:border-[var(--pv-primary)]/30 inline-flex items-center gap-2 rounded-lg border border-[var(--pv-border)] bg-[var(--pv-bg)] px-3 py-1.5 text-sm transition-colors"
                 >
                   <Users className="h-4 w-4 text-[var(--pv-text-muted)]" />
                   <span style={{ color: 'var(--pv-text)' }}>{clientName}</span>
@@ -220,7 +196,7 @@ export function DeploymentDetailView({ deployment }: DeploymentDetailViewProps) 
                     href={`https://${deployment.website.domain}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--pv-border)] bg-[var(--pv-bg)] px-3 py-1.5 text-sm text-[var(--pv-text-muted)] transition-colors hover:border-[var(--pv-primary)]/30 hover:text-[var(--pv-primary)]"
+                    className="hover:border-[var(--pv-primary)]/30 inline-flex items-center gap-1.5 rounded-lg border border-[var(--pv-border)] bg-[var(--pv-bg)] px-3 py-1.5 text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]"
                   >
                     <ExternalLink className="h-3.5 w-3.5" />
                     {deployment.website.domain}
@@ -262,7 +238,7 @@ export function DeploymentDetailView({ deployment }: DeploymentDetailViewProps) 
         <div className="mt-8 flex items-center justify-between">
           <Link
             href={websitePath}
-            className="inline-flex items-center gap-2 rounded-lg border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-2 text-sm font-medium transition-colors hover:border-[var(--pv-primary)]/30"
+            className="hover:border-[var(--pv-primary)]/30 inline-flex items-center gap-2 rounded-lg border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-2 text-sm font-medium transition-colors"
             style={{ color: 'var(--pv-text)' }}
           >
             <ArrowLeft className="h-4 w-4" />
@@ -280,5 +256,5 @@ export function DeploymentDetailView({ deployment }: DeploymentDetailViewProps) 
         </div>
       </Container>
     </main>
-  )
+  );
 }

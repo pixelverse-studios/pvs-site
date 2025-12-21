@@ -15,8 +15,8 @@ export function PackagesClosingCtaSection() {
               future.
             </h2>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
-              Tell us about your goals and we’ll recommend the plan, timeline, and add-ons that get you
-              there without the guesswork.
+              Tell us about your goals and we’ll recommend the plan, timeline, and add-ons that get
+              you there without the guesswork.
             </p>
           </MotionItem>
           <MotionItem delay={0.08} className="flex w-full justify-center">

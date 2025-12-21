@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 
 const siteUrl = 'https://pixelversestudios.io';
 const siteName = 'PixelVerse Studios';
-const lightModeLogo = 'https://res.cloudinary.com/pixelverse-studios/image/upload/v1761333954/pvs/logo-black.png';
-const darkModeLogo = 'https://res.cloudinary.com/pixelverse-studios/image/upload/v1761333954/pvs/logo-white.png';
+const lightModeLogo =
+  'https://res.cloudinary.com/pixelverse-studios/image/upload/v1761333954/pvs/logo-black.png';
+const darkModeLogo =
+  'https://res.cloudinary.com/pixelverse-studios/image/upload/v1761333954/pvs/logo-white.png';
 const defaultOgImage = lightModeLogo;
 
 type CreatePageMetadataArgs = {

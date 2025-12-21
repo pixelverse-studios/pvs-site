@@ -48,10 +48,20 @@ export const priorityCities: FocusCity[] = [
     population: '~40K',
     whyPriority: '1 position from page 1 - highest momentum',
     targetKeywords: [
-      { keyword: 'web design Fort Lee NJ', currentPosition: 10, targetPosition: 3, priority: 'high' },
+      {
+        keyword: 'web design Fort Lee NJ',
+        currentPosition: 10,
+        targetPosition: 3,
+        priority: 'high',
+      },
       { keyword: 'Fort Lee SEO agency', currentPosition: 12, targetPosition: 5, priority: 'high' },
       { keyword: 'SEO Fort Lee', currentPosition: 9, targetPosition: 3, priority: 'medium' },
-      { keyword: 'Fort Lee website developer', currentPosition: null, targetPosition: 10, priority: 'medium' },
+      {
+        keyword: 'Fort Lee website developer',
+        currentPosition: null,
+        targetPosition: 10,
+        priority: 'medium',
+      },
     ],
   },
   {
@@ -65,10 +75,30 @@ export const priorityCities: FocusCity[] = [
     population: '~28K',
     whyPriority: '2-3 positions from page 1',
     targetKeywords: [
-      { keyword: 'local SEO agency Englewood NJ', currentPosition: 11, targetPosition: 3, priority: 'high' },
-      { keyword: 'SEO agency Englewood NJ', currentPosition: 12, targetPosition: 5, priority: 'high' },
-      { keyword: 'Englewood web design', currentPosition: 13, targetPosition: 5, priority: 'medium' },
-      { keyword: 'Englewood digital agency', currentPosition: null, targetPosition: 10, priority: 'low' },
+      {
+        keyword: 'local SEO agency Englewood NJ',
+        currentPosition: 11,
+        targetPosition: 3,
+        priority: 'high',
+      },
+      {
+        keyword: 'SEO agency Englewood NJ',
+        currentPosition: 12,
+        targetPosition: 5,
+        priority: 'high',
+      },
+      {
+        keyword: 'Englewood web design',
+        currentPosition: 13,
+        targetPosition: 5,
+        priority: 'medium',
+      },
+      {
+        keyword: 'Englewood digital agency',
+        currentPosition: null,
+        targetPosition: 10,
+        priority: 'low',
+      },
     ],
   },
   {
@@ -82,10 +112,30 @@ export const priorityCities: FocusCity[] = [
     population: '~45K',
     whyPriority: 'Largest city in Bergen County - biggest market',
     targetKeywords: [
-      { keyword: 'web design Hackensack NJ', currentPosition: null, targetPosition: 10, priority: 'high' },
-      { keyword: 'Hackensack SEO company', currentPosition: null, targetPosition: 10, priority: 'high' },
-      { keyword: 'Hackensack digital agency', currentPosition: null, targetPosition: 15, priority: 'medium' },
-      { keyword: 'website design Hackensack', currentPosition: null, targetPosition: 10, priority: 'medium' },
+      {
+        keyword: 'web design Hackensack NJ',
+        currentPosition: null,
+        targetPosition: 10,
+        priority: 'high',
+      },
+      {
+        keyword: 'Hackensack SEO company',
+        currentPosition: null,
+        targetPosition: 10,
+        priority: 'high',
+      },
+      {
+        keyword: 'Hackensack digital agency',
+        currentPosition: null,
+        targetPosition: 15,
+        priority: 'medium',
+      },
+      {
+        keyword: 'website design Hackensack',
+        currentPosition: null,
+        targetPosition: 10,
+        priority: 'medium',
+      },
     ],
   },
   {
@@ -99,10 +149,30 @@ export const priorityCities: FocusCity[] = [
     population: '~27K',
     whyPriority: 'Major retail/business hub - high commercial density',
     targetKeywords: [
-      { keyword: 'web design Paramus NJ', currentPosition: null, targetPosition: 10, priority: 'high' },
-      { keyword: 'Paramus SEO services', currentPosition: null, targetPosition: 10, priority: 'high' },
-      { keyword: 'e-commerce website Paramus', currentPosition: null, targetPosition: 15, priority: 'medium' },
-      { keyword: 'Paramus digital marketing', currentPosition: null, targetPosition: 15, priority: 'low' },
+      {
+        keyword: 'web design Paramus NJ',
+        currentPosition: null,
+        targetPosition: 10,
+        priority: 'high',
+      },
+      {
+        keyword: 'Paramus SEO services',
+        currentPosition: null,
+        targetPosition: 10,
+        priority: 'high',
+      },
+      {
+        keyword: 'e-commerce website Paramus',
+        currentPosition: null,
+        targetPosition: 15,
+        priority: 'medium',
+      },
+      {
+        keyword: 'Paramus digital marketing',
+        currentPosition: null,
+        targetPosition: 15,
+        priority: 'low',
+      },
     ],
   },
   {
@@ -116,9 +186,24 @@ export const priorityCities: FocusCity[] = [
     population: '~25K',
     whyPriority: 'Affluent market - high-value clients',
     targetKeywords: [
-      { keyword: 'web design Ridgewood NJ', currentPosition: null, targetPosition: 10, priority: 'high' },
-      { keyword: 'Ridgewood digital agency', currentPosition: null, targetPosition: 10, priority: 'high' },
-      { keyword: 'premium website design Bergen County', currentPosition: null, targetPosition: 15, priority: 'medium' },
+      {
+        keyword: 'web design Ridgewood NJ',
+        currentPosition: null,
+        targetPosition: 10,
+        priority: 'high',
+      },
+      {
+        keyword: 'Ridgewood digital agency',
+        currentPosition: null,
+        targetPosition: 10,
+        priority: 'high',
+      },
+      {
+        keyword: 'premium website design Bergen County',
+        currentPosition: null,
+        targetPosition: 15,
+        priority: 'medium',
+      },
       { keyword: 'Ridgewood SEO', currentPosition: null, targetPosition: 10, priority: 'medium' },
     ],
   },
@@ -137,7 +222,12 @@ export const phase2Cities: FocusCity[] = [
     population: '~40K',
     whyPriority: 'Page already exists, needs optimization after Phase 1',
     targetKeywords: [
-      { keyword: 'web design Teaneck NJ', currentPosition: null, targetPosition: 10, priority: 'medium' },
+      {
+        keyword: 'web design Teaneck NJ',
+        currentPosition: null,
+        targetPosition: 10,
+        priority: 'medium',
+      },
       { keyword: 'Teaneck SEO', currentPosition: 16, targetPosition: 10, priority: 'medium' },
     ],
   },
@@ -152,7 +242,12 @@ export const phase2Cities: FocusCity[] = [
     population: '~35K',
     whyPriority: 'Page exists, expand after Phase 1 success',
     targetKeywords: [
-      { keyword: 'web design Fair Lawn NJ', currentPosition: null, targetPosition: 10, priority: 'medium' },
+      {
+        keyword: 'web design Fair Lawn NJ',
+        currentPosition: null,
+        targetPosition: 10,
+        priority: 'medium',
+      },
     ],
   },
   {
@@ -166,7 +261,12 @@ export const phase2Cities: FocusCity[] = [
     population: '~28K',
     whyPriority: 'Currently position 77 - needs significant work',
     targetKeywords: [
-      { keyword: 'web design Bergenfield NJ', currentPosition: 77, targetPosition: 15, priority: 'low' },
+      {
+        keyword: 'web design Bergenfield NJ',
+        currentPosition: 77,
+        targetPosition: 15,
+        priority: 'low',
+      },
     ],
   },
   {
@@ -180,7 +280,12 @@ export const phase2Cities: FocusCity[] = [
     population: '~25K',
     whyPriority: 'Smaller market, Phase 2 expansion',
     targetKeywords: [
-      { keyword: 'web design Cliffside Park NJ', currentPosition: null, targetPosition: 15, priority: 'low' },
+      {
+        keyword: 'web design Cliffside Park NJ',
+        currentPosition: null,
+        targetPosition: 15,
+        priority: 'low',
+      },
     ],
   },
   {
@@ -194,15 +299,30 @@ export const phase2Cities: FocusCity[] = [
     population: '~10K',
     whyPriority: 'Smallest market, Phase 2 expansion',
     targetKeywords: [
-      { keyword: 'web design River Vale NJ', currentPosition: null, targetPosition: 20, priority: 'low' },
+      {
+        keyword: 'web design River Vale NJ',
+        currentPosition: null,
+        targetPosition: 20,
+        priority: 'low',
+      },
     ],
   },
 ];
 
 // County-level keyword (deprioritized)
 export const countyKeywords: TargetKeyword[] = [
-  { keyword: 'website analytics agency Bergen County NJ', currentPosition: 22, targetPosition: 5, priority: 'medium' },
-  { keyword: 'SEO agency Bergen County NJ', currentPosition: 67, targetPosition: 10, priority: 'low' },
+  {
+    keyword: 'website analytics agency Bergen County NJ',
+    currentPosition: 22,
+    targetPosition: 5,
+    priority: 'medium',
+  },
+  {
+    keyword: 'SEO agency Bergen County NJ',
+    currentPosition: 67,
+    targetPosition: 10,
+    priority: 'low',
+  },
   { keyword: 'web design Bergen County', currentPosition: 66, targetPosition: 15, priority: 'low' },
 ];
 
@@ -211,7 +331,11 @@ export const implementationTasks: ImplementationTask[] = [
   // Schema tasks
   { task: 'BreadcrumbList schema on all city pages', status: 'done', category: 'schema' },
   { task: 'FAQPage schema on /faq', status: 'done', category: 'schema' },
-  { task: 'Per-city LocalBusiness schema (5 priority cities)', status: 'pending', category: 'schema' },
+  {
+    task: 'Per-city LocalBusiness schema (5 priority cities)',
+    status: 'pending',
+    category: 'schema',
+  },
   { task: 'Service schema per city', status: 'pending', category: 'schema' },
 
   // Content tasks

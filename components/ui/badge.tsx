@@ -11,18 +11,19 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default: 'border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)] shadow-sm',
-        primary: 'border-transparent bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-pv',
+        primary:
+          'border-transparent bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-pv',
         success: 'border-transparent bg-[var(--pv-success)] text-white shadow-sm',
         warning: 'border-transparent bg-[var(--pv-warning)] text-white shadow-sm',
         danger: 'border-transparent bg-[var(--pv-danger)] text-white shadow-sm',
         outline:
-          'border-[var(--pv-border)] bg-transparent text-[var(--pv-text)] hover:bg-[var(--pv-surface)]'
-      }
+          'border-[var(--pv-border)] bg-transparent text-[var(--pv-text)] hover:bg-[var(--pv-surface)]',
+      },
     },
     defaultVariants: {
-      variant: 'default'
-    }
-  }
+      variant: 'default',
+    },
+  },
 );
 
 export interface BadgeProps
@@ -32,7 +33,7 @@ export interface BadgeProps
 const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   ({ className, variant, ...props }, ref) => (
     <span ref={ref} className={cn(badgeVariants({ variant }), className)} {...props} />
-  )
+  ),
 );
 Badge.displayName = 'Badge';
 

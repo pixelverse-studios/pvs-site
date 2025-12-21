@@ -41,7 +41,7 @@ export function CopyUrlPill({ url, className, hideButton }: CopyUrlPillProps) {
         className ?? ''
       }`}
     >
-      <code className="text-[0.95rem] leading-tight break-words">{url}</code>
+      <code className="break-words text-[0.95rem] leading-tight">{url}</code>
       {!hideButton && (
         <button
           type="button"
@@ -49,7 +49,11 @@ export function CopyUrlPill({ url, className, hideButton }: CopyUrlPillProps) {
           className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[var(--pv-surface)] text-[var(--pv-text-muted)] transition hover:text-[var(--pv-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--pv-primary)]"
           aria-label={copied ? 'URL copied' : 'Copy URL'}
         >
-          {copied ? <Check className="h-4 w-4" aria-hidden /> : <Copy className="h-4 w-4" aria-hidden />}
+          {copied ? (
+            <Check className="h-4 w-4" aria-hidden />
+          ) : (
+            <Copy className="h-4 w-4" aria-hidden />
+          )}
         </button>
       )}
     </div>

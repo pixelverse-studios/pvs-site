@@ -59,7 +59,7 @@ export function DashboardCard({
       className={cn(
         'relative overflow-hidden rounded-2xl border transition-all duration-300',
         'hover:border-[var(--pv-primary)]/20',
-        className
+        className,
       )}
       style={{
         background: 'var(--pv-surface)',
@@ -73,12 +73,13 @@ export function DashboardCard({
         className="flex items-center justify-between gap-4 px-6 py-4"
         style={{ borderBottom: '1px solid var(--pv-border)' }}
       >
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex min-w-0 items-center gap-3">
           {Icon && (
             <div
               className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg"
               style={{
-                background: 'linear-gradient(135deg, rgba(63, 0, 233, 0.1), rgba(201, 71, 255, 0.05))',
+                background:
+                  'linear-gradient(135deg, rgba(63, 0, 233, 0.1), rgba(201, 71, 255, 0.05))',
                 border: '1px solid rgba(63, 0, 233, 0.15)',
               }}
             >
@@ -86,17 +87,11 @@ export function DashboardCard({
             </div>
           )}
           <div className="min-w-0">
-            <h3
-              className="text-base font-semibold truncate"
-              style={{ color: 'var(--pv-text)' }}
-            >
+            <h3 className="truncate text-base font-semibold" style={{ color: 'var(--pv-text)' }}>
               {title}
             </h3>
             {subtitle && (
-              <p
-                className="text-xs truncate"
-                style={{ color: 'var(--pv-text-muted)' }}
-              >
+              <p className="truncate text-xs" style={{ color: 'var(--pv-text-muted)' }}>
                 {subtitle}
               </p>
             )}
@@ -116,9 +111,7 @@ export function DashboardCard({
       </div>
 
       {/* Content */}
-      <div className={cn(noPadding ? '' : 'p-6', contentClassName)}>
-        {children}
-      </div>
+      <div className={cn(noPadding ? '' : 'p-6', contentClassName)}>{children}</div>
     </div>
   );
 }

@@ -1,9 +1,7 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
 import {
   Calendar,
-  MoreHorizontal,
   GripVertical,
   Pencil,
   Trash2,
@@ -36,30 +34,8 @@ export function AgendaCard({
   onDelete,
   onStatusChange,
 }: AgendaCardProps) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-
   const isOverdue =
     item.due_date && item.status !== 'completed' && new Date(item.due_date) < new Date();
-
-  // Close menu on outside click
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuOpen(false);
-      }
-    };
-
-    if (menuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }
-  }, [menuOpen]);
-
-  const handleStatusChange = (status: AgendaStatus) => {
-    onStatusChange?.(item.id, status);
-    setMenuOpen(false);
-  };
 
   return (
     <div
@@ -89,84 +65,71 @@ export function AgendaCard({
             {item.name}
           </h4>
 
-          {/* Actions Menu Trigger */}
-          <div className="relative" ref={menuRef}>
+          {/* Inline Action Buttons - appear on hover/focus */}
+          <div
+            className="flex items-center gap-0.5 opacity-0 transition-opacity duration-150 group-focus-within:opacity-100 group-hover:opacity-100"
+            role="group"
+            aria-label="Card actions"
+          >
+            {/* Status Buttons */}
+            {statusOptions.map(({ status, label, icon: Icon, color }) => (
+              <button
+                key={status}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onStatusChange?.(item.id, status);
+                }}
+                className={cn(
+                  'flex h-7 w-7 items-center justify-center rounded transition-colors',
+                  'focus:ring-[var(--pv-primary)]/50 hover:bg-[var(--pv-surface)] focus:outline-none focus:ring-2',
+                  item.status === status && 'bg-[var(--pv-surface)]',
+                )}
+                aria-label={`Mark as ${label}`}
+                title={label}
+              >
+                <Icon className={cn('h-3.5 w-3.5', color)} />
+              </button>
+            ))}
+
+            {/* Divider */}
+            <div
+              className="mx-1 h-4 w-px"
+              style={{ background: 'var(--pv-border)' }}
+              aria-hidden="true"
+            />
+
+            {/* Edit Button */}
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                setMenuOpen(!menuOpen);
+                onEdit?.();
               }}
-              className="rounded p-1 opacity-0 transition-all hover:bg-[var(--pv-surface)] group-hover:opacity-100"
+              className={cn(
+                'flex h-7 w-7 items-center justify-center rounded transition-colors',
+                'focus:ring-[var(--pv-primary)]/50 hover:bg-[var(--pv-surface)] focus:outline-none focus:ring-2',
+              )}
+              aria-label="Edit item"
+              title="Edit"
             >
-              <MoreHorizontal className="h-4 w-4 text-[var(--pv-text-muted)]" />
+              <Pencil className="h-3.5 w-3.5 text-[var(--pv-text-muted)]" />
             </button>
 
-            {/* Dropdown Menu */}
-            {menuOpen && (
-              <div
-                className="absolute right-0 top-full z-50 mt-1 min-w-[160px] rounded-lg border py-1 shadow-lg"
-                style={{
-                  background: 'var(--pv-surface)',
-                  borderColor: 'var(--pv-border)',
-                }}
-                onClick={(e) => e.stopPropagation()}
-              >
-                {/* Edit */}
-                <button
-                  onClick={() => {
-                    onEdit?.();
-                    setMenuOpen(false);
-                  }}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-[var(--pv-bg)]"
-                  style={{ color: 'var(--pv-text)' }}
-                >
-                  <Pencil className="h-3.5 w-3.5" />
-                  Edit
-                </button>
-
-                {/* Status submenu */}
-                <div
-                  className="my-1 border-b border-t py-1"
-                  style={{ borderColor: 'var(--pv-border)' }}
-                >
-                  <p
-                    className="px-3 py-1 text-[10px] font-medium uppercase tracking-wider"
-                    style={{ color: 'var(--pv-text-muted)' }}
-                  >
-                    Status
-                  </p>
-                  {statusOptions.map(({ status, label, icon: Icon, color }) => (
-                    <button
-                      key={status}
-                      onClick={() => handleStatusChange(status)}
-                      className={cn(
-                        'flex w-full items-center gap-2 px-3 py-1.5 text-sm transition-colors hover:bg-[var(--pv-bg)]',
-                        item.status === status && 'bg-[var(--pv-bg)]',
-                      )}
-                      style={{ color: 'var(--pv-text)' }}
-                    >
-                      <Icon className={cn('h-3.5 w-3.5', color)} />
-                      {label}
-                      {item.status === status && (
-                        <CheckCircle2 className="ml-auto h-3.5 w-3.5 text-[var(--pv-primary)]" />
-                      )}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Delete */}
-                <button
-                  onClick={() => {
-                    onDelete?.();
-                    setMenuOpen(false);
-                  }}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-sm text-red-500 transition-colors hover:bg-red-500/10"
-                >
-                  <Trash2 className="h-3.5 w-3.5" />
-                  Delete
-                </button>
-              </div>
-            )}
+            {/* Delete Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete?.();
+              }}
+              className={cn(
+                'flex h-7 w-7 items-center justify-center rounded transition-colors',
+                'text-[var(--pv-text-muted)] hover:bg-red-500/10 hover:text-red-500',
+                'focus:outline-none focus:ring-2 focus:ring-red-500/50',
+              )}
+              aria-label="Delete item"
+              title="Delete"
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+            </button>
           </div>
         </div>
 

@@ -211,9 +211,8 @@ export default async function DashboardPage() {
             >
               <div className="px-3 py-2">
                 {clients.slice(0, 5).map((client) => {
-                  const fullName = [client.firstname, client.lastname]
-                    .filter(Boolean)
-                    .join(' ') || 'Unknown';
+                  const fullName =
+                    [client.firstname, client.lastname].filter(Boolean).join(' ') || 'Unknown';
                   return (
                     <ClientListItem
                       key={client.client_id}

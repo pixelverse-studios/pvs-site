@@ -95,7 +95,7 @@ export function WebsiteDetailView({ website, client }: WebsiteDetailViewProps) {
                 }}
               >
                 <span>Visit Site</span>
-                <ExternalLink className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <ExternalLink className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </a>
             </div>
           </div>
@@ -111,10 +111,10 @@ export function WebsiteDetailView({ website, client }: WebsiteDetailViewProps) {
               style={{ color: 'var(--pv-primary)' }}
             >
               <Globe className="h-4 w-4" />
-              <span className="underline decoration-[var(--pv-primary)]/30 decoration-1 underline-offset-2 transition-all group-hover/link:decoration-[var(--pv-primary)]">
+              <span className="decoration-[var(--pv-primary)]/30 underline decoration-1 underline-offset-2 transition-all group-hover/link:decoration-[var(--pv-primary)]">
                 {website.domain}
               </span>
-              <ExternalLink className="h-3.5 w-3.5 opacity-50 transition-all group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 group-hover/link:opacity-100" />
+              <ExternalLink className="h-3.5 w-3.5 opacity-50 transition-all group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 group-hover/link:opacity-100" />
             </a>
 
             {/* Slug if exists */}
@@ -139,10 +139,7 @@ export function WebsiteDetailView({ website, client }: WebsiteDetailViewProps) {
         </div>
 
         {/* Deployments Section */}
-        <DeploymentsSection
-          websiteId={website.id}
-          websiteTitle={website.title}
-        />
+        <DeploymentsSection websiteId={website.id} websiteTitle={website.title} />
       </Container>
     </main>
   );

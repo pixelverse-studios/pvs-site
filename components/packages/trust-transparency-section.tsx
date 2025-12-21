@@ -14,7 +14,11 @@ export function TrustTransparencySection() {
               just packages designed to give you exactly what you need, when you need it.
             </p>
           </MotionItem>
-          <MotionItem delay={0.16} className="mx-auto h-px w-full max-w-3xl bg-[var(--pv-border)]" aria-hidden />
+          <MotionItem
+            delay={0.16}
+            className="mx-auto h-px w-full max-w-3xl bg-[var(--pv-border)]"
+            aria-hidden
+          />
         </MotionSection>
       </Container>
     </section>

@@ -15,42 +15,42 @@ module.exports = {
           ring: 'var(--pv-ring)',
           success: 'var(--pv-success)',
           warning: 'var(--pv-warning)',
-          danger: 'var(--pv-danger)'
-        }
+          danger: 'var(--pv-danger)',
+        },
       },
       boxShadow: {
-        pv: 'var(--pv-shadow)'
+        pv: 'var(--pv-shadow)',
       },
       borderRadius: {
         pv: 'var(--pv-radius)',
         'pv-sm': 'var(--pv-radius-sm)',
-        'pv-lg': 'var(--pv-radius-lg)'
+        'pv-lg': 'var(--pv-radius-lg)',
       },
       fontFamily: {
         heading: ['Poppins', 'ui-sans-serif', 'system-ui'],
-        body: ['Inter', 'ui-sans-serif', 'system-ui']
+        body: ['Inter', 'ui-sans-serif', 'system-ui'],
       },
       spacing: {
-        hero: '12rem'
+        hero: '12rem',
       },
       transitionProperty: {
-        'colors-opacity-transform': 'color, background-color, border-color, opacity, transform'
+        'colors-opacity-transform': 'color, background-color, border-color, opacity, transform',
       },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' }
+          to: { height: 'var(--radix-accordion-content-height)' },
         },
         'accordion-up': {
           from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' }
-        }
+          to: { height: '0' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out'
-      }
-    }
+        'accordion-up': 'accordion-up 0.2s ease-out',
+      },
+    },
   },
-  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')]
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
 };

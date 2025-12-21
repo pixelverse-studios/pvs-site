@@ -30,10 +30,7 @@ export function DocHeader({ title, description, lastUpdated, readTime }: DocHead
       </Link>
 
       {/* Title */}
-      <h1
-        className="mb-3 text-3xl font-bold md:text-4xl"
-        style={{ color: 'var(--pv-text)' }}
-      >
+      <h1 className="mb-3 text-3xl font-bold md:text-4xl" style={{ color: 'var(--pv-text)' }}>
         {title}
       </h1>
 
@@ -48,19 +45,13 @@ export function DocHeader({ title, description, lastUpdated, readTime }: DocHead
       {/* Meta info */}
       <div className="flex flex-wrap items-center gap-4 text-sm">
         {lastUpdated && (
-          <div
-            className="flex items-center gap-1.5"
-            style={{ color: 'var(--pv-text-muted)' }}
-          >
+          <div className="flex items-center gap-1.5" style={{ color: 'var(--pv-text-muted)' }}>
             <Clock className="h-4 w-4" />
             <span>Updated {lastUpdated}</span>
           </div>
         )}
         {readTime && (
-          <div
-            className="flex items-center gap-1.5"
-            style={{ color: 'var(--pv-text-muted)' }}
-          >
+          <div className="flex items-center gap-1.5" style={{ color: 'var(--pv-text-muted)' }}>
             <FileText className="h-4 w-4" />
             <span>{readTime} read</span>
           </div>

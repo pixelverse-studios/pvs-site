@@ -152,6 +152,7 @@ WHERE trigger_name = 'on_auth_user_created';
 ### Step 3: Verify Installation
 
 After running the script, you should see output confirming:
+
 - ✅ Function `is_allowed_email` created
 - ✅ Function `handle_new_user` created
 - ✅ Trigger `on_auth_user_created` created
@@ -214,6 +215,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 **Cause:** Google redirect URI doesn't match Supabase callback URL
 
 **Fix:**
+
 1. Check Supabase callback URL: `https://yhijvzfgsucanbydmsif.supabase.co/auth/v1/callback`
 2. Ensure it's EXACTLY in Google Cloud Console → Credentials → Authorized redirect URIs
 3. No trailing slashes, exact match required
@@ -223,6 +225,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 **Cause:** User email not in allowed list
 
 **Fix:**
+
 1. Verify the email is spelled correctly in the SQL function
 2. Check if trigger is enabled: `SELECT * FROM information_schema.triggers WHERE trigger_name = 'on_auth_user_created';`
 3. Ensure user is signing in with the exact email in the allowed list
@@ -232,6 +235,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 **Cause:** Missing environment variables
 
 **Fix:**
+
 1. Check `.env.local` has both:
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
@@ -242,6 +246,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 **Cause:** Middleware not protecting routes
 
 **Fix:**
+
 1. Verify `middleware.ts` exists at project root
 2. Check `protectedPaths` includes `/dashboard`
 3. Restart dev server

@@ -1,53 +1,53 @@
-'use client'
+'use client';
 
-import { useState, useMemo } from 'react'
-import Link from 'next/link'
-import { Card, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Search, Mail, Eye, Edit3 } from 'lucide-react'
-import { ClientStatusBadge } from './client-status-badge'
-import { ClientsEmptyState } from './clients-empty-state'
-import { Button } from '@/components/ui/button'
+import { useState, useMemo } from 'react';
+import Link from 'next/link';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Search, Mail, Eye, Edit3 } from 'lucide-react';
+import { ClientStatusBadge } from './client-status-badge';
+import { ClientsEmptyState } from './clients-empty-state';
+import { Button } from '@/components/ui/button';
 
 interface Client {
-  client_id: string
-  firstname: string
-  lastname: string
-  client_email: string | null
-  client_active: boolean | null
-  website_count: number
-  deployment_count_30d: number
+  client_id: string;
+  firstname: string;
+  lastname: string;
+  client_email: string | null;
+  client_active: boolean | null;
+  website_count: number;
+  deployment_count_30d: number;
 }
 
 interface ClientsTableProps {
-  clients: Client[]
+  clients: Client[];
 }
 
 export function ClientsTable({ clients }: ClientsTableProps) {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all')
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
 
   // Filter clients based on search and status
   const filteredClients = useMemo(() => {
     return clients.filter((client) => {
-      const fullName = `${client.firstname || ''} ${client.lastname || ''}`.toLowerCase()
-      const email = (client.client_email || '').toLowerCase()
-      const query = searchQuery.toLowerCase()
+      const fullName = `${client.firstname || ''} ${client.lastname || ''}`.toLowerCase();
+      const email = (client.client_email || '').toLowerCase();
+      const query = searchQuery.toLowerCase();
 
-      const matchesSearch = fullName.includes(query) || email.includes(query)
+      const matchesSearch = fullName.includes(query) || email.includes(query);
 
       const matchesStatus =
         statusFilter === 'all' ||
         (statusFilter === 'active' && client.client_active === true) ||
-        (statusFilter === 'inactive' && client.client_active !== true)
+        (statusFilter === 'inactive' && client.client_active !== true);
 
-      return matchesSearch && matchesStatus
-    })
-  }, [clients, searchQuery, statusFilter])
+      return matchesSearch && matchesStatus;
+    });
+  }, [clients, searchQuery, statusFilter]);
 
   // Show empty state if no clients
   if (clients.length === 0) {
-    return <ClientsEmptyState />
+    return <ClientsEmptyState />;
   }
 
   return (
@@ -114,9 +114,7 @@ export function ClientsTable({ clients }: ClientsTableProps) {
       {filteredClients.length === 0 ? (
         <Card>
           <CardContent className="py-16 text-center">
-            <p className="text-[var(--pv-text-muted)]">
-              No clients match your search criteria
-            </p>
+            <p className="text-[var(--pv-text-muted)]">No clients match your search criteria</p>
           </CardContent>
         </Card>
       ) : (
@@ -156,7 +154,7 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                                 ? `${client.firstname} ${client.lastname}`
                                 : client.firstname || client.lastname || 'Unnamed Client'}
                             </p>
-                            <p className="text-sm font-mono text-[var(--pv-text-muted)]">
+                            <p className="font-mono text-sm text-[var(--pv-text-muted)]">
                               ID: {client.client_id.slice(0, 8)}...
                             </p>
                           </div>
@@ -186,10 +184,7 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                                 View
                               </Link>
                             </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                            >
+                            <Button variant="ghost" size="sm">
                               <Edit3 className="mr-2 h-4 w-4" />
                               Edit
                             </Button>
@@ -216,7 +211,7 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                           ? `${client.firstname} ${client.lastname}`
                           : client.firstname || client.lastname || 'Unnamed Client'}
                       </p>
-                      <p className="text-xs font-mono text-[var(--pv-text-muted)]">
+                      <p className="font-mono text-xs text-[var(--pv-text-muted)]">
                         {client.client_id.slice(0, 8)}...
                       </p>
                     </div>
@@ -253,5 +248,5 @@ export function ClientsTable({ clients }: ClientsTableProps) {
         </>
       )}
     </div>
-  )
+  );
 }

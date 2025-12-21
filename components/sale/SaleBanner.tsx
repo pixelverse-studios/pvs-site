@@ -4,12 +4,7 @@ import { useState, useEffect } from 'react';
 import { X, Sparkles } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import {
-  currentSale,
-  isSaleActive,
-  shouldShowOnPage,
-  Sale,
-} from '@/data/sales-config';
+import { currentSale, isSaleActive, shouldShowOnPage, Sale } from '@/data/sales-config';
 import { CountdownTimer } from './CountdownTimer';
 
 const DISMISSED_KEY = 'pvs-sale-dismissed';
@@ -119,7 +114,7 @@ export function SaleBanner() {
         {/* Badge */}
         <div className="mb-3 flex items-center gap-2">
           <span
-            className={`flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--pv-sale)]/10 ${accentStyles[sale.theme]}`}
+            className={`bg-[var(--pv-sale)]/10 flex h-8 w-8 items-center justify-center rounded-lg ${accentStyles[sale.theme]}`}
           >
             <Sparkles className="h-4 w-4" />
           </span>
@@ -134,11 +129,7 @@ export function SaleBanner() {
         <h3 className="mb-1 font-heading text-lg font-bold text-[var(--pv-text)]">
           {sale.headline}
         </h3>
-        {sale.subtext && (
-          <p className="mb-4 text-sm text-[var(--pv-text-muted)]">
-            {sale.subtext}
-          </p>
-        )}
+        {sale.subtext && <p className="mb-4 text-sm text-[var(--pv-text-muted)]">{sale.subtext}</p>}
 
         {/* Countdown */}
         {sale.showCountdown && (

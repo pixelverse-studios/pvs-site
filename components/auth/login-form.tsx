@@ -1,13 +1,12 @@
-'use client'
+'use client';
 
-import { GoogleLoginButton } from '@/components/auth/google-login-button'
+import { GoogleLoginButton } from '@/components/auth/google-login-button';
 
 export function LoginForm() {
   return (
     <main className="relative flex min-h-screen overflow-hidden">
       {/* LEFT SIDE - Immersive Brand Experience */}
-      <div className="relative hidden lg:flex lg:w-[55%] xl:w-[60%] items-center justify-center overflow-hidden bg-gradient-to-br from-[#3f00e9] via-[#7c3aed] to-[#c947ff] dark:from-[#2d0099] dark:via-[#5b21b6] dark:to-[#9333ea]">
-
+      <div className="relative hidden items-center justify-center overflow-hidden bg-gradient-to-br from-[#3f00e9] via-[#7c3aed] to-[#c947ff] dark:from-[#2d0099] dark:via-[#5b21b6] dark:to-[#9333ea] lg:flex lg:w-[55%] xl:w-[60%]">
         {/* Animated Gradient Mesh Background */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-purple-400/30 via-transparent to-transparent" />
@@ -17,28 +16,43 @@ export function LoginForm() {
         {/* Floating Geometric Shapes */}
         <div className="absolute inset-0">
           {/* Large rotating hexagon */}
-          <div className="absolute left-[15%] top-[20%] h-64 w-64 animate-spin-slow opacity-20">
-            <svg viewBox="0 0 100 100" className="h-full w-full" fill="none" stroke="white" strokeWidth="0.5">
+          <div className="animate-spin-slow absolute left-[15%] top-[20%] h-64 w-64 opacity-20">
+            <svg
+              viewBox="0 0 100 100"
+              className="h-full w-full"
+              fill="none"
+              stroke="white"
+              strokeWidth="0.5"
+            >
               <path d="M50 2 L93.3 27.5 L93.3 72.5 L50 98 L6.7 72.5 L6.7 27.5 Z" />
             </svg>
           </div>
 
           {/* Medium floating circle */}
-          <div className="absolute right-[20%] top-[35%] h-32 w-32 animate-float-diagonal opacity-30 rounded-full border border-white/40 backdrop-blur-sm" />
+          <div className="animate-float-diagonal absolute right-[20%] top-[35%] h-32 w-32 rounded-full border border-white/40 opacity-30 backdrop-blur-sm" />
 
           {/* Small triangle */}
-          <div className="absolute left-[25%] bottom-[25%] h-24 w-24 animate-float-reverse opacity-25">
-            <svg viewBox="0 0 100 100" className="h-full w-full" fill="none" stroke="white" strokeWidth="1">
+          <div className="animate-float-reverse absolute bottom-[25%] left-[25%] h-24 w-24 opacity-25">
+            <svg
+              viewBox="0 0 100 100"
+              className="h-full w-full"
+              fill="none"
+              stroke="white"
+              strokeWidth="1"
+            >
               <path d="M50 10 L90 90 L10 90 Z" />
             </svg>
           </div>
 
           {/* Extra geometric accent */}
-          <div className="absolute right-[15%] bottom-[40%] h-20 w-20 animate-float-slow opacity-20 rotate-45 border border-white/50" />
+          <div className="animate-float-slow absolute bottom-[40%] right-[15%] h-20 w-20 rotate-45 border border-white/50 opacity-20" />
 
           {/* Glowing orbs for depth */}
-          <div className="absolute left-[30%] top-[50%] h-40 w-40 animate-pulse-glow rounded-full bg-white/5 blur-3xl" />
-          <div className="absolute right-[25%] bottom-[30%] h-56 w-56 animate-pulse-glow rounded-full bg-fuchsia-300/10 blur-3xl" style={{ animationDelay: '2s' }} />
+          <div className="animate-pulse-glow absolute left-[30%] top-[50%] h-40 w-40 rounded-full bg-white/5 blur-3xl" />
+          <div
+            className="animate-pulse-glow absolute bottom-[30%] right-[25%] h-56 w-56 rounded-full bg-fuchsia-300/10 blur-3xl"
+            style={{ animationDelay: '2s' }}
+          />
         </div>
 
         {/* Content */}
@@ -46,7 +60,7 @@ export function LoginForm() {
           <div className="animate-slide-up">
             <div className="mb-8 inline-block">
               <div className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/30 bg-white/20 backdrop-blur-md">
                   <span className="text-2xl font-bold">PV</span>
                 </div>
                 <span className="text-3xl font-bold tracking-tight">PixelVerse</span>
@@ -62,7 +76,8 @@ export function LoginForm() {
             </h1>
 
             <p className="text-lg leading-relaxed text-white/90">
-              Step into the future of web design. Access your dashboard to manage projects, track analytics, and bring your creative vision to life.
+              Step into the future of web design. Access your dashboard to manage projects, track
+              analytics, and bring your creative vision to life.
             </p>
 
             <div className="mt-12 flex gap-8 text-sm">
@@ -85,21 +100,22 @@ export function LoginForm() {
 
       {/* RIGHT SIDE - Clean Authentication */}
       <div className="relative flex flex-1 items-center justify-center bg-[var(--pv-bg)] px-6 py-12 lg:px-12">
-
         {/* Subtle background pattern */}
         <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, var(--pv-text) 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
-          }} />
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `radial-gradient(circle at 1px 1px, var(--pv-text) 1px, transparent 0)`,
+              backgroundSize: '40px 40px',
+            }}
+          />
         </div>
 
         {/* Content */}
-        <div className="relative z-10 w-full max-w-md animate-fade-in-right">
-
+        <div className="animate-fade-in-right relative z-10 w-full max-w-md">
           {/* Mobile logo */}
-          <div className="mb-12 lg:hidden text-center">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-[var(--pv-primary)] to-[var(--pv-primary-2)] bg-clip-text text-transparent">
+          <div className="mb-12 text-center lg:hidden">
+            <h1 className="bg-gradient-to-r from-[var(--pv-primary)] to-[var(--pv-primary-2)] bg-clip-text text-3xl font-bold text-transparent">
               PixelVerse
             </h1>
             <p className="mt-2 text-sm text-[var(--pv-text-muted)]">Access your dashboard</p>
@@ -107,10 +123,9 @@ export function LoginForm() {
 
           {/* Main card */}
           <div className="space-y-8">
-
             {/* Header */}
             <div className="space-y-2">
-              <h2 className="text-3xl font-bold text-[var(--pv-text)] tracking-tight">
+              <h2 className="text-3xl font-bold tracking-tight text-[var(--pv-text)]">
                 Welcome back
               </h2>
               <p className="text-[var(--pv-text-muted)]">
@@ -124,7 +139,7 @@ export function LoginForm() {
                 <div className="w-full border-t border-[var(--pv-border)]" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-[var(--pv-bg)] px-4 text-[var(--pv-text-muted)] font-medium tracking-wider">
+                <span className="bg-[var(--pv-bg)] px-4 font-medium tracking-wider text-[var(--pv-text-muted)]">
                   Team Authentication
                 </span>
               </div>
@@ -136,8 +151,19 @@ export function LoginForm() {
 
               {/* Security badge */}
               <div className="flex items-center justify-center gap-2 text-xs text-[var(--pv-text-muted)]">
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+                  />
                 </svg>
                 <span>Secured by Google OAuth 2.0</span>
               </div>
@@ -146,49 +172,93 @@ export function LoginForm() {
             {/* Footer notice */}
             <div className="rounded-lg border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-3 text-center">
               <p className="text-sm text-[var(--pv-text-muted)]">
-                This dashboard is only accessible to <span className="font-semibold text-[var(--pv-text)]">PixelVerse Studios</span> team members.
+                This dashboard is only accessible to{' '}
+                <span className="font-semibold text-[var(--pv-text)]">PixelVerse Studios</span> team
+                members.
               </p>
             </div>
-
           </div>
-
         </div>
       </div>
 
       {/* Animations */}
       <style jsx>{`
         @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
         }
         @keyframes float-diagonal {
-          0%, 100% { transform: translate(0, 0); }
-          33% { transform: translate(20px, -20px); }
-          66% { transform: translate(-15px, 15px); }
+          0%,
+          100% {
+            transform: translate(0, 0);
+          }
+          33% {
+            transform: translate(20px, -20px);
+          }
+          66% {
+            transform: translate(-15px, 15px);
+          }
         }
         @keyframes float-reverse {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          50% { transform: translate(-10px, 20px) rotate(5deg); }
+          0%,
+          100% {
+            transform: translate(0, 0) rotate(0deg);
+          }
+          50% {
+            transform: translate(-10px, 20px) rotate(5deg);
+          }
         }
         @keyframes float-slow {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(10px, -10px) scale(1.1); }
+          0%,
+          100% {
+            transform: translate(0, 0) scale(1);
+          }
+          50% {
+            transform: translate(10px, -10px) scale(1.1);
+          }
         }
         @keyframes pulse-glow {
-          0%, 100% { opacity: 0.3; transform: scale(1); }
-          50% { opacity: 0.6; transform: scale(1.2); }
+          0%,
+          100% {
+            opacity: 0.3;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.6;
+            transform: scale(1.2);
+          }
         }
         @keyframes slide-up {
-          from { opacity: 0; transform: translateY(40px); }
-          to { opacity: 1; transform: translateY(0); }
+          from {
+            opacity: 0;
+            transform: translateY(40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
         @keyframes fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
         }
         @keyframes fade-in-right {
-          from { opacity: 0; transform: translateX(30px); }
-          to { opacity: 1; transform: translateX(0); }
+          from {
+            opacity: 0;
+            transform: translateX(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
         }
 
         :global(.animate-spin-slow) {
@@ -218,5 +288,5 @@ export function LoginForm() {
         }
       `}</style>
     </main>
-  )
+  );
 }

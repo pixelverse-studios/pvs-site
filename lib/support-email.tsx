@@ -46,7 +46,7 @@ export function formatMessageWithEmailLink(
         <a
           key={`email-${startIndex}-${index}`}
           href={buildMailtoHref(hrefEmail)}
-          className="underline decoration-[var(--pv-primary)] decoration-2 underline-offset-4 transition hover:text-[var(--pv-primary)] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)]/40"
+          className="focus-visible:ring-[var(--pv-primary)]/40 underline decoration-[var(--pv-primary)] decoration-2 underline-offset-4 transition hover:text-[var(--pv-primary)] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2"
         >
           {matchedEmail}
         </a>,

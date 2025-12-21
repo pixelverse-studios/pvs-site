@@ -1,11 +1,5 @@
 // Keep in sync with cityServicePageSlugs in data/services-city-pages.ts.
-const cityServicePageSlugs = [
-  'fort-lee',
-  'cliffside-park',
-  'river-vale',
-  'hackensack',
-  'paramus',
-];
+const cityServicePageSlugs = ['fort-lee', 'cliffside-park', 'river-vale', 'hackensack', 'paramus'];
 
 const contactContextSlugs = [
   'bergen-county',
@@ -31,8 +25,8 @@ module.exports = {
 
     return {
       loc,
-      changefreq: isHome ? 'daily' : config.changefreq ?? 'weekly',
-      priority: isHome ? 1.0 : config.priority ?? 0.7,
+      changefreq: isHome ? 'daily' : (config.changefreq ?? 'weekly'),
+      priority: isHome ? 1.0 : (config.priority ?? 0.7),
       lastmod: new Date().toISOString(),
     };
   },

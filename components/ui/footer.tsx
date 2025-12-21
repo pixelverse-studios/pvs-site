@@ -44,7 +44,7 @@ export function Footer({
           <p className="max-w-md text-sm text-[var(--pv-text-muted)]">
             Building websites that work. Designed for people, built to grow.
           </p>
-          <address className="flex items-start gap-2 not-italic text-sm text-[var(--pv-text-muted)]">
+          <address className="flex items-start gap-2 text-sm not-italic text-[var(--pv-text-muted)]">
             <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
             <span>79 Edgewater Road, Cliffside Park, NJ 07010</span>
           </address>

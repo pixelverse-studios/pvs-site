@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { UserPlus, Users } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { UserPlus, Users } from 'lucide-react';
 
 export function ClientsEmptyState() {
   return (
@@ -13,7 +13,7 @@ export function ClientsEmptyState() {
           <div className="absolute -inset-8 rounded-full bg-[var(--pv-primary)] opacity-5"></div>
 
           {/* Icon */}
-          <div className="relative flex h-24 w-24 items-center justify-center rounded-full bg-[var(--pv-surface)] border-2 border-[var(--pv-border)]">
+          <div className="relative flex h-24 w-24 items-center justify-center rounded-full border-2 border-[var(--pv-border)] bg-[var(--pv-surface)]">
             <Users className="h-12 w-12 text-[var(--pv-text-muted)]" />
           </div>
         </div>
@@ -38,5 +38,5 @@ export function ClientsEmptyState() {
         </p>
       </CardContent>
     </Card>
-  )
+  );
 }

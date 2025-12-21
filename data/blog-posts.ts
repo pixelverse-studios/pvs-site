@@ -62,28 +62,28 @@ const blogPosts: BlogPost[] = [
       {
         type: 'paragraph',
         content:
-          'Google Search Console shows the real story: impressions without clicks mean your snippet is not convincing enough. Before chasing backlinks or rewriting whole pages, fix your titles and meta descriptions so they match local intent and promise value.'
+          'Google Search Console shows the real story: impressions without clicks mean your snippet is not convincing enough. Before chasing backlinks or rewriting whole pages, fix your titles and meta descriptions so they match local intent and promise value.',
       },
       {
         type: 'heading',
-        content: 'See what we target in titles'
+        content: 'See what we target in titles',
       },
       {
         type: 'paragraph',
         content:
-          'Title formulas that work for Bergen County and nearby towns focus on {service} + {location} + {proof/benefit}. Keep them under 60 characters so they do not truncate.'
+          'Title formulas that work for Bergen County and nearby towns focus on {service} + {location} + {proof/benefit}. Keep them under 60 characters so they do not truncate.',
       },
       {
         type: 'list',
         items: [
           'Bergen County SEO & Web Design Agency | Analytics Included',
           'Fort Lee Local SEO & Web Design | Win Manhattan-Adjacent Searches',
-          'Paramus Web Design & Local SEO | Book More Visits'
-        ]
+          'Paramus Web Design & Local SEO | Book More Visits',
+        ],
       },
       {
         type: 'heading',
-        content: 'Meta descriptions that win clicks'
+        content: 'Meta descriptions that win clicks',
       },
       {
         type: 'list',
@@ -91,38 +91,38 @@ const blogPosts: BlogPost[] = [
           'Lead with the outcome: “Rank locally, prove it with dashboards.”',
           'Name the audience: “For Bergen service brands and retailers.”',
           'Add a CTA: “Book a roadmap call.”',
-          'Stay under ~155 characters to avoid truncation.'
-        ]
+          'Stay under ~155 characters to avoid truncation.',
+        ],
       },
       {
         type: 'paragraph',
         content:
-          'Example: “PixelVerse builds fast Bergen County websites with local SEO and monthly analytics dashboards. For service brands and retailers. Book a roadmap call.”'
+          'Example: “PixelVerse builds fast Bergen County websites with local SEO and monthly analytics dashboards. For service brands and retailers. Book a roadmap call.”',
       },
       {
         type: 'heading',
-        content: 'Use FAQs to earn more SERP space'
+        content: 'Use FAQs to earn more SERP space',
       },
       {
         type: 'list',
         items: [
           'Add 2–3 FAQs that echo real queries (e.g., “website analytics agency Bergen County NJ”).',
           'Keep answers concise and specific to the region and service.',
-          'Ensure FAQ schema is valid so rich results can appear.'
-        ]
+          'Ensure FAQ schema is valid so rich results can appear.',
+        ],
       },
       {
         type: 'heading',
-        content: 'Match pages to local intent'
+        content: 'Match pages to local intent',
       },
       {
         type: 'paragraph',
         content:
-          'Internal links and CTA placement matter. From your home, services, and blog pages, point directly to your best local page (e.g., /services/bergen-county). Move the primary CTA near the top of that page so mobile users see it before scrolling.'
+          'Internal links and CTA placement matter. From your home, services, and blog pages, point directly to your best local page (e.g., /services/bergen-county). Move the primary CTA near the top of that page so mobile users see it before scrolling.',
       },
       {
         type: 'heading',
-        content: 'Quick checklist before you request indexing'
+        content: 'Quick checklist before you request indexing',
       },
       {
         type: 'list',
@@ -131,25 +131,25 @@ const blogPosts: BlogPost[] = [
           'Meta description promises outcome and CTA.',
           'FAQs cover top GSC queries with concise answers.',
           'Canonical and redirects point to your preferred host (apex over www).',
-          'Internal links drive traffic to the local page you just improved.'
-        ]
+          'Internal links drive traffic to the local page you just improved.',
+        ],
       },
       {
         type: 'paragraph',
         content:
-          'Once you deploy these updates, request indexing in Search Console and watch CTR and positions over the next 7–14 days. Small snippet changes often beat bigger, slower projects.'
+          'Once you deploy these updates, request indexing in Search Console and watch CTR and positions over the next 7–14 days. Small snippet changes often beat bigger, slower projects.',
       },
       {
         type: 'paragraph',
         content:
-          'Need this done for your own brand? PixelVerse will audit your existing snippets, map local intent, and ship the updates with tracking so you can see the lift.'
-      }
+          'Need this done for your own brand? PixelVerse will audit your existing snippets, map local intent, and ship the updates with tracking so you can see the lift.',
+      },
     ],
     highlights: [
       'Use service + location + benefit titles under 60 characters to avoid truncation.',
       'Write meta descriptions that pair outcomes with a CTA and the exact audience you serve.',
-      'Add FAQs matching real queries, validate schema, then request indexing to measure CTR lift.'
-    ]
+      'Add FAQs matching real queries, validate schema, then request indexing to measure CTR lift.',
+    ],
   },
   {
     slug: 'why-seo-matters-for-small-businesses',
@@ -234,7 +234,11 @@ const blogPosts: BlogPost[] = [
       },
       {
         type: 'list',
-        items: ['Google Maps results', '“Near me” search intent', 'Local service listings and citations'],
+        items: [
+          'Google Maps results',
+          '“Near me” search intent',
+          'Local service listings and citations',
+        ],
       },
       {
         type: 'paragraph',
@@ -345,7 +349,12 @@ const blogPosts: BlogPost[] = [
       },
       {
         type: 'list',
-        items: ['Faster load times', 'Better Core Web Vitals', 'Higher SEO rankings', 'Lower bounce rates'],
+        items: [
+          'Faster load times',
+          'Better Core Web Vitals',
+          'Higher SEO rankings',
+          'Lower bounce rates',
+        ],
       },
       {
         type: 'paragraph',

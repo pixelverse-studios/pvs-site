@@ -14,9 +14,14 @@
 - Agenda kanban board now supports full CRUD operations (create, edit, delete items)
 - Drag-and-drop reordering between Pending, In Progress, and Completed columns
 - Status changes happen automatically when dragging items between columns
+- Agenda cards now show inline action buttons on hover for faster status changes, editing, and deletion
 
 ## Notes for internal team
 
+- PVS-156: Replaced ellipsis dropdown menu with inline action buttons on agenda cards
+- Status buttons (Pending, In Progress, Completed) + Edit + Delete now appear on hover/focus
+- Added accessibility: `aria-label`, `role="group"`, keyboard focus support
+- Updated: `app/dashboard/agenda/components/agenda-card.tsx`
 - PVS-153: Added CRUD operations and drag-and-drop to Agenda
 - New components: `components/dashboard/agenda/agenda-item-modal.tsx`, `delete-agenda-dialog.tsx`
 - Updated: `app/dashboard/agenda/components/agenda-page-client.tsx`, `agenda-board.tsx`, `agenda-card.tsx`

@@ -62,7 +62,7 @@ html {
   }
 
   body {
-    @apply bg-[var(--pv-bg)] font-body text-[var(--pv-text)] text-base leading-[1.625rem];
+    @apply bg-[var(--pv-bg)] font-body text-base leading-[1.625rem] text-[var(--pv-text)];
   }
 
   h1,
