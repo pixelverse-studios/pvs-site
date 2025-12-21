@@ -16,7 +16,7 @@
 - Config file: `/data/sales-config.ts` - edit `active: true/false` to toggle
 - New components in `/components/sale/`: SaleBanner, SaleBadge, CountdownTimer, DiscountedPrice
 - CSS variables added: `--pv-sale`, `--pv-sale-dark`, `--pv-sale-glow`, `--pv-gold`, `--pv-gold-dark`, `--pv-gold-glow`
-- Current sale configured: Holiday 2024 (15% off) ending Jan 5, 2025
+- Current sale configured: Holiday 2025 (15% off) ending Jan 5, 2026
 - Navbar breakpoint raised from `md` (768px) to `lg` (1024px) to prevent overflow
 - Fixed empty copy-button.tsx that was causing build failures
 

@@ -50,8 +50,8 @@ export interface Sale {
  * Set `active: false` to disable the sale entirely
  */
 export const currentSale: Sale | null = {
-  id: 'holiday-2024',
-  name: 'Holiday Sale 2024',
+  id: 'holiday-2025',
+  name: 'Holiday Sale 2025',
   type: 'holiday',
   active: true,
 
@@ -64,9 +64,9 @@ export const currentSale: Sale | null = {
   discountLabel: '15% OFF',
 
   headline: 'New Year, New Website',
-  subtext: 'Start 2025 with a fresh digital presence',
+  subtext: 'Start 2026 with a fresh digital presence',
   ctaText: 'Claim Offer',
-  ctaLink: '/contact?ref=holiday2024',
+  ctaLink: '/contact?ref=holiday2025',
 
   showOnPages: ['/', '/services', '/packages'],
   excludePages: ['/dashboard', '/blog'],
