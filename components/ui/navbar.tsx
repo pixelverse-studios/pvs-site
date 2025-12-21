@@ -124,7 +124,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
   const mobileNavPortal =
     isMobileNavOpen && portalElement
       ? createPortal(
-          <div className="fixed inset-0 z-[70] md:hidden">
+          <div className="fixed inset-0 z-[70] lg:hidden">
             <button
               type="button"
               className={cn('absolute inset-0 backdrop-blur-sm transition-opacity duration-300', overlayBgClass)}
@@ -245,7 +245,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
         )}
         {...props}
       >
-        <div className="bg-[var(--pv-surface)]/85 pointer-events-auto flex w-full max-w-5xl items-center gap-4 rounded-pv-lg border border-[var(--pv-border)] px-4 py-3 shadow-[0_28px_60px_-30px_rgba(32,32,72,0.55)] backdrop-blur-xl transition-colors duration-300 dark:bg-[var(--pv-surface)]/92 dark:shadow-[0_48px_96px_-52px_rgba(12,14,52,0.72)] md:gap-6 md:px-6">
+        <div className="bg-[var(--pv-surface)]/85 pointer-events-auto flex w-full max-w-5xl items-center gap-4 rounded-pv-lg border border-[var(--pv-border)] px-4 py-3 shadow-[0_28px_60px_-30px_rgba(32,32,72,0.55)] backdrop-blur-xl transition-colors duration-300 dark:bg-[var(--pv-surface)]/92 dark:shadow-[0_48px_96px_-52px_rgba(12,14,52,0.72)] lg:gap-6 lg:px-6">
           <Link href="/" className="flex items-center">
             <span className="relative inline-flex h-16 w-16 items-center justify-center rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] shadow-[0_18px_34px_-22px_rgba(63,0,233,0.55)] transition-transform duration-200 hover:-translate-y-0.5 dark:bg-[var(--pv-surface)] dark:shadow-[0_22px_48px_-30px_rgba(12,14,52,0.7)]">
               <Image
@@ -262,7 +262,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
           {items.length > 0 && (
             <nav
               aria-label="Primary navigation"
-              className="hidden flex-1 items-center justify-center gap-4 text-sm font-medium md:flex"
+              className="hidden flex-1 items-center justify-center gap-4 text-sm font-medium lg:flex"
             >
               {items.map((item) => {
                 const isActive =
@@ -289,13 +289,13 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
               })}
             </nav>
           )}
-          <div className="ml-auto flex items-center gap-2 md:gap-3">
+          <div className="ml-auto flex items-center gap-2 lg:gap-3">
             {/* Dashboard link - only visible to authenticated users */}
-            <div className="hidden md:flex">
+            <div className="hidden lg:flex">
               <AuthDashboardLink variant="desktop" />
             </div>
             {cta && (
-              <Button asChild variant="cta" className="hidden md:inline-flex">
+              <Button asChild variant="cta" className="hidden lg:inline-flex">
                 <Link href={cta.href} className="whitespace-nowrap">
                   {cta.label}
                 </Link>
@@ -305,7 +305,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className="inline-flex md:hidden"
+                className="inline-flex lg:hidden"
                 aria-label="Open navigation"
                 aria-expanded={isMobileNavOpen}
                 onClick={() => setIsMobileNavOpen(true)}

@@ -31,7 +31,10 @@ export function ServicesIntroSection({ headingLevel = 'h1' }: ServicesIntroSecti
           </MotionItem>
           <MotionItem delay={0.12} className="flex justify-center">
             <Button asChild variant="ctaGhost">
-              <Link href="/services/bergen-county">See our Bergen County SEO & web design approach</Link>
+              <Link href="/services/bergen-county">
+                <span className="md:hidden">See our local SEO approach</span>
+                <span className="hidden md:inline">See our Bergen County SEO & web design approach</span>
+              </Link>
             </Button>
           </MotionItem>
         </MotionSection>

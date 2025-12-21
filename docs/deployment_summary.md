@@ -8,6 +8,8 @@
 - Package cards now show sale badges and discounted pricing when sale is active
 - Sales can be toggled on/off via config file without code changes
 - Supports multiple sale types: holiday, flash, seasonal, launch, anniversary, referral
+- Fixed navbar responsive layout to prevent items bleeding outside container on tablet viewports
+- Improved services page button text to show shorter version on mobile screens
 
 ## Notes for internal team
 - PVS-135: Sale banner feature
@@ -15,6 +17,8 @@
 - New components in `/components/sale/`: SaleBanner, SaleBadge, CountdownTimer, DiscountedPrice
 - CSS variables added: `--pv-sale`, `--pv-sale-dark`, `--pv-sale-glow`, `--pv-gold`, `--pv-gold-dark`, `--pv-gold-glow`
 - Current sale configured: Holiday 2024 (15% off) ending Jan 5, 2025
+- Navbar breakpoint raised from `md` (768px) to `lg` (1024px) to prevent overflow
+- Fixed empty copy-button.tsx that was causing build failures
 
 ## Changed URLs
 - https://www.pixelversestudios.io/

@@ -1,40 +1,38 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Copy, Check } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { useState } from 'react';
+import { Check, Copy } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface CopyButtonProps {
-  text: string
+  value?: string;
+  text?: string;
+  className?: string;
 }
 
-export function CopyButton({ text }: CopyButtonProps) {
-  const [copied, setCopied] = useState(false)
+export function CopyButton({ value, text, className }: CopyButtonProps) {
+  const [copied, setCopied] = useState(false);
+  const copyValue = value || text || '';
 
   const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(text)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    } catch (err) {
-      console.error('Failed to copy:', err)
-    }
-  }
+    await navigator.clipboard.writeText(copyValue);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <Button
       variant="ghost"
-      size="sm"
+      size="icon"
+      className={className}
       onClick={handleCopy}
-      className="h-8 w-8 p-0"
-      title={copied ? 'Copied!' : 'Copy to clipboard'}
-      aria-label={copied ? 'Copied to clipboard' : 'Copy to clipboard'}
+      aria-label={copied ? 'Copied' : 'Copy to clipboard'}
     >
       {copied ? (
-        <Check className="h-4 w-4 text-[var(--pv-success)]" />
+        <Check className="h-4 w-4 text-green-500" />
       ) : (
         <Copy className="h-4 w-4" />
       )}
     </Button>
-  )
+  );
 }
