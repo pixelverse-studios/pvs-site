@@ -12,6 +12,9 @@
 - Improved services page button text to show shorter version on mobile screens
 
 ## Notes for internal team
+- PVS-151: Added Focus/Agenda widget to dashboard homepage
+- New component: `components/dashboard/agenda-widget.tsx`
+- Modified: `app/dashboard/page.tsx` to use agenda API and widget
 - PVS-150: Added agenda types and API client functions for dashboard agenda feature
 - New files: `lib/types/agenda.ts`, `lib/api/agenda.ts`
 - PVS-135: Sale banner feature
