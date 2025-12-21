@@ -12,6 +12,8 @@
 - Improved services page button text to show shorter version on mobile screens
 
 ## Notes for internal team
+- PVS-150: Added agenda types and API client functions for dashboard agenda feature
+- New files: `lib/types/agenda.ts`, `lib/api/agenda.ts`
 - PVS-135: Sale banner feature
 - Config file: `/data/sales-config.ts` - edit `active: true/false` to toggle
 - New components in `/components/sale/`: SaleBanner, SaleBadge, CountdownTimer, DiscountedPrice
