@@ -12,6 +12,9 @@
 - Improved services page button text to show shorter version on mobile screens
 
 ## Notes for internal team
+- PVS-152: Created full Agenda page with kanban board at /dashboard/agenda
+- New files: `app/dashboard/agenda/page.tsx`, `agenda-board.tsx`, `agenda-card.tsx`
+- Added Agenda to sidebar navigation
 - PVS-151: Added Focus/Agenda widget to dashboard homepage
 - New component: `components/dashboard/agenda-widget.tsx`
 - Modified: `app/dashboard/page.tsx` to use agenda API and widget
