@@ -58,8 +58,8 @@ export const currentSale: Sale | null = {
   showCountdown: true,
 
   discountType: 'percentage',
-  discountValue: 20,
-  discountLabel: '20% OFF',
+  discountValue: 30,
+  discountLabel: '30% OFF',
 
   headline: 'New Year, New Website',
   subtext: 'Start 2026 with a fresh digital presence',
@@ -72,7 +72,7 @@ export const currentSale: Sale | null = {
   theme: 'sale',
 
   showBadge: true,
-  badgeText: '20% OFF',
+  badgeText: '30% OFF',
   // applyToPackages omitted = applies to ALL packages
 
   discountMonthly: true,
