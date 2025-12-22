@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@/components/ui/badge';
 
 interface ClientStatusBadgeProps {
-  active: boolean | null
+  active: boolean | null;
 }
 
 export function ClientStatusBadge({ active }: ClientStatusBadgeProps) {
@@ -13,16 +13,19 @@ export function ClientStatusBadge({ active }: ClientStatusBadgeProps) {
         <span className="h-1.5 w-1.5 rounded-full bg-white"></span>
         Active
       </Badge>
-    )
+    );
   }
 
   if (active === false) {
     return (
-      <Badge variant="default" className="gap-1.5 bg-[var(--pv-text-muted)] text-white border-transparent">
+      <Badge
+        variant="default"
+        className="gap-1.5 border-transparent bg-[var(--pv-text-muted)] text-white"
+      >
         <span className="h-1.5 w-1.5 rounded-full bg-white opacity-60"></span>
         Inactive
       </Badge>
-    )
+    );
   }
 
   return (
@@ -30,5 +33,5 @@ export function ClientStatusBadge({ active }: ClientStatusBadgeProps) {
       <span className="h-1.5 w-1.5 rounded-full bg-white"></span>
       Unknown
     </Badge>
-  )
+  );
 }

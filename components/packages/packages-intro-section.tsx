@@ -3,7 +3,7 @@ import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
 export function PackagesIntroSection() {
   return (
-    <section className="bg-[var(--pv-surface)] pt-hero pb-16 md:pb-24">
+    <section className="bg-[var(--pv-surface)] pb-16 pt-hero md:pb-24">
       <Container className="max-w-3xl space-y-6 text-center">
         <MotionSection as="div" className="space-y-6">
           <MotionItem>

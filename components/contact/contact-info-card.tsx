@@ -1,12 +1,6 @@
 import * as React from 'react';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
 interface ContactInfoCardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -28,7 +22,7 @@ export function ContactInfoCard({
     <Card
       className={cn(
         'bg-[var(--pv-surface)]/90 dark:bg-[var(--pv-bg)]/85 border border-[var(--pv-border)] p-6 shadow-pv transition hover:-translate-y-1 hover:border-[var(--pv-primary)]',
-        className
+        className,
       )}
       {...props}
     >

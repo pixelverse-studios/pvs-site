@@ -29,24 +29,17 @@ export function BlogArticlesSection({
   return (
     <section
       id={id}
-      className="border-b border-[var(--pv-border)] bg-[var(--pv-bg)] scroll-mt-32 md:scroll-mt-40"
+      className="scroll-mt-32 border-b border-[var(--pv-border)] bg-[var(--pv-bg)] md:scroll-mt-40"
     >
       <Container className="py-16 md:py-24">
         <div className="space-y-12">
           <SectionHeader eyebrow={eyebrow} title={title} description={description} align="left" />
-          <MotionSection
-            as="ul"
-            className="grid gap-8 md:grid-cols-2 xl:grid-cols-3"
-          >
+          <MotionSection as="ul" className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {posts.map((post) => {
               const postUrl = `/blog/${post.slug}`;
 
               return (
-                <MotionItem
-                  key={post.slug}
-                  as="li"
-                  className="group h-full list-none"
-                >
+                <MotionItem key={post.slug} as="li" className="group h-full list-none">
                   <Link href={postUrl} className="block h-full">
                     <article className="relative flex h-full flex-col gap-5 overflow-hidden rounded-3xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-7 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[rgba(63,0,233,0.35)] hover:shadow-[0_32px_64px_-40px_rgba(63,0,233,0.45)]">
                       <div className="space-y-4">

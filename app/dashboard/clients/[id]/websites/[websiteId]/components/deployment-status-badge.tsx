@@ -1,12 +1,12 @@
-import { IndexingStatus, DeploymentStatus } from '../types'
-import { Clock, Send, CheckCircle } from 'lucide-react'
+import { IndexingStatus, DeploymentStatus } from '../types';
+import { Clock, Send, CheckCircle } from 'lucide-react';
 
 interface DeploymentStatusBadgeProps {
-  status: DeploymentStatus
-  indexedCount?: number
-  requestedCount?: number
-  totalCount?: number
-  size?: 'sm' | 'md'
+  status: DeploymentStatus;
+  indexedCount?: number;
+  requestedCount?: number;
+  totalCount?: number;
+  size?: 'sm' | 'md';
 }
 
 const statusConfig = {
@@ -46,7 +46,7 @@ const statusConfig = {
     glowColor: 'bg-amber-400',
     animate: true,
   },
-}
+};
 
 export function DeploymentStatusBadge({
   status,
@@ -55,32 +55,30 @@ export function DeploymentStatusBadge({
   totalCount,
   size = 'md',
 }: DeploymentStatusBadgeProps) {
-  const config = statusConfig[status]
-  const Icon = config.icon
+  const config = statusConfig[status];
+  const Icon = config.icon;
 
   // Determine the label
-  let label = config.label
+  let label = config.label;
   if (status === 'partial' && totalCount !== undefined) {
     if (indexedCount !== undefined && indexedCount > 0) {
-      label = `${indexedCount}/${totalCount} Indexed`
+      label = `${indexedCount}/${totalCount} Indexed`;
     } else if (requestedCount !== undefined && requestedCount > 0) {
-      label = `${requestedCount}/${totalCount} Submitted`
+      label = `${requestedCount}/${totalCount} Submitted`;
     } else {
-      label = `0/${totalCount} Indexed`
+      label = `0/${totalCount} Indexed`;
     }
   }
 
-  const sizeClasses = size === 'sm'
-    ? 'px-2 py-1 text-[10px] gap-1.5'
-    : 'px-3 py-1.5 text-xs gap-2'
+  const sizeClasses = size === 'sm' ? 'px-2 py-1 text-[10px] gap-1.5' : 'px-3 py-1.5 text-xs gap-2';
 
-  const dotSize = size === 'sm' ? 'h-1.5 w-1.5' : 'h-2 w-2'
-  const iconSize = size === 'sm' ? 'h-3 w-3' : 'h-3.5 w-3.5'
+  const dotSize = size === 'sm' ? 'h-1.5 w-1.5' : 'h-2 w-2';
+  const iconSize = size === 'sm' ? 'h-3 w-3' : 'h-3.5 w-3.5';
 
   return (
     <span
       className={`
-        inline-flex items-center rounded-full font-medium uppercase tracking-wider border
+        inline-flex items-center rounded-full border font-medium uppercase tracking-wider
         ${config.colors}
         ${sizeClasses}
       `}
@@ -93,7 +91,7 @@ export function DeploymentStatusBadge({
         {config.animate && (
           <span
             className={`
-              absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping
+              absolute inline-flex h-full w-full animate-ping rounded-full opacity-75
               ${config.glowColor}
             `}
           />
@@ -111,21 +109,19 @@ export function DeploymentStatusBadge({
       <span className="font-mono">{label}</span>
 
       {/* Icon for larger badges */}
-      {size === 'md' && status === 'indexed' && (
-        <Icon className={`${iconSize} ml-0.5`} />
-      )}
+      {size === 'md' && status === 'indexed' && <Icon className={`${iconSize} ml-0.5`} />}
     </span>
-  )
+  );
 }
 
 interface UrlStatusIndicatorProps {
-  status: IndexingStatus
-  showLabel?: boolean
+  status: IndexingStatus;
+  showLabel?: boolean;
 }
 
 export function UrlStatusIndicator({ status, showLabel = true }: UrlStatusIndicatorProps) {
-  const config = statusConfig[status]
-  const Icon = config.icon
+  const config = statusConfig[status];
+  const Icon = config.icon;
 
   return (
     <div
@@ -140,5 +136,5 @@ export function UrlStatusIndicator({ status, showLabel = true }: UrlStatusIndica
       <Icon className="h-3.5 w-3.5" />
       {showLabel && <span>{config.label}</span>}
     </div>
-  )
+  );
 }

@@ -3,7 +3,7 @@ import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
 export function IntroSection() {
   return (
-    <section className="bg-[var(--pv-surface)] pt-hero pb-16 md:pt-hero md:pb-24">
+    <section className="bg-[var(--pv-surface)] pb-16 pt-hero md:pb-24 md:pt-hero">
       <Container className="flex max-w-3xl flex-col items-center gap-8 text-center">
         <MotionSection as="div" className="flex w-full flex-col items-center gap-8 text-center">
           <MotionItem>
@@ -16,15 +16,18 @@ export function IntroSection() {
               Custom code, human-centered experiences, and lasting partnerships
             </h1>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
-              We believe your website should be more than just a digital brochure. At Pixelverse, every
-              site we create is designed around how real people use it — and coded from scratch to make
-              it faster, stronger, and more reliable than template-built alternatives.
+              We believe your website should be more than just a digital brochure. At Pixelverse,
+              every site we create is designed around how real people use it — and coded from
+              scratch to make it faster, stronger, and more reliable than template-built
+              alternatives.
             </p>
           </MotionItem>
           <MotionItem delay={0.2}>
-            <div className="flex items-center gap-3 rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)]/90 px-4 py-2 text-sm text-[var(--pv-text-muted)] shadow-[0_30px_60px_-45px_rgba(63,0,233,0.65)] md:flex-row md:text-left">
+            <div className="bg-[var(--pv-bg)]/90 flex items-center gap-3 rounded-full border border-[var(--pv-border)] px-4 py-2 text-sm text-[var(--pv-text-muted)] shadow-[0_30px_60px_-45px_rgba(63,0,233,0.65)] md:flex-row md:text-left">
               <span aria-hidden className="h-2 w-2 shrink-0 rounded-full bg-[var(--pv-primary)]" />
-              <span className="text-left">Strategy-led builds, engineered to move your metrics.</span>
+              <span className="text-left">
+                Strategy-led builds, engineered to move your metrics.
+              </span>
             </div>
           </MotionItem>
         </MotionSection>

@@ -1,5 +1,10 @@
 import { CityServicePageDefinition } from '@/data/services-city-pages';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import { SectionHeader } from '@/components/ui/section-header';
@@ -30,7 +35,7 @@ export function CityServicesFaqSection({ city, faq }: CityServicesFaqSectionProp
           <Accordion
             type="single"
             collapsible
-            className="divide-y divide-[var(--pv-border)] rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)]/95 dark:bg-[var(--pv-surface)]/90"
+            className="bg-[var(--pv-bg)]/95 dark:bg-[var(--pv-surface)]/90 divide-y divide-[var(--pv-border)] rounded-pv border border-[var(--pv-border)]"
           >
             {faq.map((item, index) => (
               <AccordionItem key={item.question} value={`faq-${index + 1}`}>

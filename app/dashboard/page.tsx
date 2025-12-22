@@ -5,8 +5,9 @@ import { Container } from '@/components/ui/container';
 import { StatCard } from '@/components/dashboard/stat-card';
 import { DashboardCard } from '@/components/dashboard/dashboard-card';
 import { ActivityFeed, ActivityItem } from '@/components/dashboard/activity-feed';
-import { QuickActionButton } from '@/components/dashboard/quick-action-button';
+import { AgendaWidget } from '@/components/dashboard/agenda-widget';
 import { ClientListItem } from '@/components/dashboard/client-list-item';
+import { getActiveAgendaItems, getPendingAgendaCount } from '@/lib/api/agenda';
 
 export const metadata = {
   title: 'Dashboard | PixelVerse Studios',
@@ -64,7 +65,12 @@ export default async function DashboardPage() {
     redirect('/login');
   }
 
-  const clients = await getClients();
+  // Fetch clients and agenda data in parallel
+  const [clients, agendaData, pendingCount] = await Promise.all([
+    getClients(),
+    getActiveAgendaItems(8).catch(() => ({ items: [], total: 0 })),
+    getPendingAgendaCount().catch(() => 0),
+  ]);
 
   // Calculate stats
   const totalClients = clients.length;
@@ -142,8 +148,8 @@ export default async function DashboardPage() {
             />
             <StatCard
               title="Pending Items"
-              value={0}
-              subtitle="All caught up!"
+              value={pendingCount}
+              subtitle={pendingCount === 0 ? 'All caught up!' : `${pendingCount} to do`}
               iconName="zap"
               accentColor="#f59e0b"
             />
@@ -172,45 +178,20 @@ export default async function DashboardPage() {
               </DashboardCard>
             </div>
 
-            {/* Quick Actions - Takes 1 column */}
+            {/* Focus/Agenda Widget - Takes 1 column */}
             <div className="space-y-6">
               <DashboardCard
-                title="Quick Actions"
-                subtitle="Common tasks"
+                title="Focus"
+                subtitle="Priority items"
                 iconName="zap"
+                headerAction={{
+                  label: 'View all',
+                  href: '/dashboard/agenda',
+                }}
+                noPadding
+                contentClassName="px-2 py-2"
               >
-                <div className="space-y-2">
-                  <QuickActionButton
-                    title="Manage Clients"
-                    description="View and edit client profiles"
-                    iconName="users"
-                    href="/dashboard/clients"
-                    accentColor="#3b82f6"
-                  />
-                  <QuickActionButton
-                    title="Documentation"
-                    description="SEO guides and checklists"
-                    iconName="bookOpen"
-                    href="/dashboard/docs"
-                    accentColor="#10b981"
-                  />
-                  <QuickActionButton
-                    title="Manage Projects"
-                    description="Track project progress"
-                    iconName="folderKanban"
-                    href="/dashboard/projects"
-                    disabled
-                    badge="Soon"
-                  />
-                  <QuickActionButton
-                    title="View Leads"
-                    description="Incoming inquiries"
-                    iconName="trendingUp"
-                    href="/dashboard/leads"
-                    disabled
-                    badge="Soon"
-                  />
-                </div>
+                <AgendaWidget items={agendaData.items} />
               </DashboardCard>
             </div>
           </div>
@@ -230,9 +211,8 @@ export default async function DashboardPage() {
             >
               <div className="px-3 py-2">
                 {clients.slice(0, 5).map((client) => {
-                  const fullName = [client.firstname, client.lastname]
-                    .filter(Boolean)
-                    .join(' ') || 'Unknown';
+                  const fullName =
+                    [client.firstname, client.lastname].filter(Boolean).join(' ') || 'Unknown';
                   return (
                     <ClientListItem
                       key={client.client_id}

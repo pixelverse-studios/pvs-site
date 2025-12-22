@@ -1,10 +1,4 @@
-export type SaleType =
-  | 'holiday'
-  | 'flash'
-  | 'seasonal'
-  | 'launch'
-  | 'anniversary'
-  | 'referral';
+export type SaleType = 'holiday' | 'flash' | 'seasonal' | 'launch' | 'anniversary' | 'referral';
 
 export type DiscountType = 'percentage' | 'fixed' | 'bonus' | 'bundle';
 
@@ -104,9 +98,7 @@ export function shouldShowOnPage(sale: Sale, pathname: string): boolean {
     return false;
   }
   if (sale.showOnPages.includes('*')) return true;
-  return sale.showOnPages.some(
-    (page) => pathname === page || pathname.startsWith(page + '/'),
-  );
+  return sale.showOnPages.some((page) => pathname === page || pathname.startsWith(page + '/'));
 }
 
 /**
@@ -121,10 +113,7 @@ export function isPackageOnSale(sale: Sale | null, packageId: string): boolean {
 /**
  * Calculate discounted price
  */
-export function calculateDiscountedPrice(
-  originalPrice: number,
-  sale: Sale,
-): number {
+export function calculateDiscountedPrice(originalPrice: number, sale: Sale): number {
   if (sale.discountType === 'percentage') {
     return originalPrice * (1 - sale.discountValue / 100);
   }

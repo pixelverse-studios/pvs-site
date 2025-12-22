@@ -12,21 +12,13 @@ interface ClientListItemProps {
   websiteCount?: number;
 }
 
-export function ClientListItem({
-  id,
-  name,
-  email,
-  status,
-  websiteCount = 0,
-}: ClientListItemProps) {
+export function ClientListItem({ id, name, email, status, websiteCount = 0 }: ClientListItemProps) {
   const displayName = name || 'Unknown';
   const initials = displayName.slice(0, 2).toUpperCase();
 
   return (
     <Link href={`/dashboard/clients/${id}`}>
-      <div
-        className="group flex items-center gap-4 rounded-xl p-3 transition-all duration-200 hover:bg-[var(--pv-bg)]"
-      >
+      <div className="group flex items-center gap-4 rounded-xl p-3 transition-all duration-200 hover:bg-[var(--pv-bg)]">
         {/* Avatar */}
         <div
           className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full text-sm font-semibold uppercase transition-transform duration-300 group-hover:scale-105"
@@ -39,10 +31,10 @@ export function ClientListItem({
         </div>
 
         {/* Info */}
-        <div className="flex-1 min-w-0">
+        <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <p
-              className="text-sm font-medium truncate transition-colors duration-200 group-hover:text-[var(--pv-primary)]"
+              className="truncate text-sm font-medium transition-colors duration-200 group-hover:text-[var(--pv-primary)]"
               style={{ color: 'var(--pv-text)' }}
             >
               {displayName}
@@ -51,14 +43,17 @@ export function ClientListItem({
             <Circle
               className={cn(
                 'h-2 w-2 flex-shrink-0 fill-current',
-                status === 'active' ? 'text-emerald-500' : 'text-gray-400'
+                status === 'active' ? 'text-emerald-500' : 'text-gray-400',
               )}
             />
           </div>
-          <div className="mt-0.5 flex items-center gap-3 text-xs" style={{ color: 'var(--pv-text-muted)' }}>
+          <div
+            className="mt-0.5 flex items-center gap-3 text-xs"
+            style={{ color: 'var(--pv-text-muted)' }}
+          >
             <span className="truncate">{email}</span>
             {websiteCount > 0 && (
-              <span className="flex items-center gap-1 flex-shrink-0">
+              <span className="flex flex-shrink-0 items-center gap-1">
                 <Globe className="h-3 w-3" />
                 {websiteCount}
               </span>

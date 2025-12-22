@@ -34,7 +34,9 @@ export function HeroSection() {
               <span className="bg-[linear-gradient(90deg,var(--pv-primary-2),var(--pv-primary))] bg-clip-text text-transparent">
                 Custom-built Websites:
               </span>{' '}
-              <span className="text-[var(--pv-text)]">Your business deserves more than a template.</span>
+              <span className="text-[var(--pv-text)]">
+                Your business deserves more than a template.
+              </span>
             </h1>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
               We create digital presences built to scale.

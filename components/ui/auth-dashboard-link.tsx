@@ -59,9 +59,7 @@ export function AuthDashboardLink({
     const navItemThemeClass = isDarkMode
       ? 'text-white/80 hover:text-white'
       : 'text-[var(--pv-text-muted)] hover:text-[var(--pv-text)]';
-    const navItemHoverBgClass = isDarkMode
-      ? 'hover:bg-white/10'
-      : 'hover:bg-[rgba(63,0,233,0.08)]';
+    const navItemHoverBgClass = isDarkMode ? 'hover:bg-white/10' : 'hover:bg-[rgba(63,0,233,0.08)]';
     const navItemActiveClass = isDarkMode
       ? 'bg-white/12 text-white shadow-[0_24px_48px_-32px_rgba(120,65,255,0.75)]'
       : 'bg-[rgba(63,0,233,0.12)] text-[var(--pv-primary)] shadow-[0_24px_48px_-34px_rgba(63,0,233,0.35)]';
@@ -84,12 +82,10 @@ export function AuthDashboardLink({
           navItemThemeClass,
           navItemHoverBgClass,
           isActive && navItemActiveClass,
-          'animate-in fade-in duration-300'
+          'duration-300 animate-in fade-in',
         )}
       >
-        <span
-          className={cn(iconBaseClass, iconThemeClass, isActive && iconActiveClass)}
-        >
+        <span className={cn(iconBaseClass, iconThemeClass, isActive && iconActiveClass)}>
           <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
         </span>
         <span className="flex-1">Dashboard</span>
@@ -108,19 +104,19 @@ export function AuthDashboardLink({
         'text-[var(--pv-text-muted)] hover:text-[var(--pv-text)]',
         'hover:bg-white/85 hover:shadow-[0_12px_28px_-16px_rgba(63,0,233,0.35)] dark:hover:bg-white/10',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
-        'animate-in fade-in duration-300',
+        'duration-300 animate-in fade-in',
         isActive && [
           'bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))]',
           'text-white shadow-[0_16px_32px_-20px_rgba(63,0,233,0.65)]',
           'hover:text-white hover:shadow-[0_20px_40px_-24px_rgba(63,0,233,0.75)]',
-        ]
+        ],
       )}
     >
       <LayoutDashboard
         className={cn(
           'h-4.5 w-4.5 transition-transform duration-200',
           'group-hover:scale-110',
-          isActive && 'scale-100 group-hover:scale-105'
+          isActive && 'scale-100 group-hover:scale-105',
         )}
         aria-hidden="true"
       />
@@ -128,9 +124,9 @@ export function AuthDashboardLink({
       <span
         className={cn(
           'pointer-events-none absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium',
-          'bg-[var(--pv-surface)] text-[var(--pv-text)] shadow-lg border border-[var(--pv-border)]',
+          'border border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)] shadow-lg',
           'opacity-0 transition-opacity duration-200 group-hover:opacity-100',
-          'dark:bg-[var(--pv-surface)] dark:border-[var(--pv-border)]'
+          'dark:border-[var(--pv-border)] dark:bg-[var(--pv-surface)]',
         )}
         role="tooltip"
       >

@@ -38,11 +38,7 @@ const contactContextData: ContactContextData[] = [
     metaTitle: 'Contact PixelVerse Studios | Fort Lee Web & SEO Partner',
     metaDescription:
       'Schedule a Fort Lee strategy session with PixelVerse Studios. We handle custom websites, SEO, and analytics so local founders can focus on growth.',
-    keywords: [
-      'Fort Lee web design contact',
-      'Fort Lee SEO agency',
-      'PixelVerse Studios Fort Lee',
-    ],
+    keywords: ['Fort Lee web design contact', 'Fort Lee SEO agency', 'PixelVerse Studios Fort Lee'],
   },
   {
     slug: 'cliffside-park',
@@ -106,11 +102,7 @@ const contactContextData: ContactContextData[] = [
     metaTitle: 'Contact PixelVerse Studios | Paramus Web & SEO Partner',
     metaDescription:
       'Talk with PixelVerse Studios about Paramus web design and SEO. We protect your digital foundation while you focus on customer experience.',
-    keywords: [
-      'Paramus web design contact',
-      'Paramus SEO partner',
-      'PixelVerse Studios Paramus',
-    ],
+    keywords: ['Paramus web design contact', 'Paramus SEO partner', 'PixelVerse Studios Paramus'],
   },
   {
     slug: 'teaneck',
@@ -123,11 +115,7 @@ const contactContextData: ContactContextData[] = [
     metaTitle: 'Contact PixelVerse Studios | Teaneck Web & SEO Partner',
     metaDescription:
       'Connect with PixelVerse Studios to plan Teaneck web design, multilingual UX, and local SEO programs built for patients, students, and residents.',
-    keywords: [
-      'Teaneck web design contact',
-      'Teaneck SEO agency',
-      'PixelVerse Studios Teaneck',
-    ],
+    keywords: ['Teaneck web design contact', 'Teaneck SEO agency', 'PixelVerse Studios Teaneck'],
   },
   {
     slug: 'fair-lawn',

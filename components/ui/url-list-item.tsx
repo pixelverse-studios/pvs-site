@@ -41,14 +41,18 @@ export function UrlListItem({ url, index }: UrlListItemProps) {
       <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--pv-surface)] text-[var(--pv-text-muted)]">
         {index + 1}
       </span>
-      <CopyUrlPill url={url} hideButton className="flex-1 min-w-0 whitespace-normal break-words" />
+      <CopyUrlPill url={url} hideButton className="min-w-0 flex-1 whitespace-normal break-words" />
       <button
         type="button"
         onClick={handleCopy}
         className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-text-muted)] transition hover:text-[var(--pv-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--pv-primary)]"
         aria-label={copied ? `URL ${index + 1} copied` : `Copy URL ${index + 1}`}
       >
-        {copied ? <Check className="h-4 w-4" aria-hidden /> : <Copy className="h-4 w-4" aria-hidden />}
+        {copied ? (
+          <Check className="h-4 w-4" aria-hidden />
+        ) : (
+          <Copy className="h-4 w-4" aria-hidden />
+        )}
       </button>
     </li>
   );

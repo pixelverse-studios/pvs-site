@@ -39,7 +39,9 @@ export default async function ClientsPage() {
     console.error('Error fetching clients:', error);
   }
 
-  const activeCount = clients.filter((c: { client_active: boolean | null }) => c.client_active === true).length;
+  const activeCount = clients.filter(
+    (c: { client_active: boolean | null }) => c.client_active === true,
+  ).length;
 
   return (
     <main className="pb-16 pt-6 lg:pt-8">
@@ -51,7 +53,8 @@ export default async function ClientsPage() {
               <div
                 className="flex h-12 w-12 items-center justify-center rounded-2xl"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.05))',
+                  background:
+                    'linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.05))',
                   border: '1px solid rgba(59, 130, 246, 0.2)',
                 }}
               >

@@ -91,9 +91,8 @@ export default async function SeoFocusPage({
   let seoFocus: SeoFocus = emptySeoFocus;
   if (website.seo_focus) {
     try {
-      const parsed = typeof website.seo_focus === 'string'
-        ? JSON.parse(website.seo_focus)
-        : website.seo_focus;
+      const parsed =
+        typeof website.seo_focus === 'string' ? JSON.parse(website.seo_focus) : website.seo_focus;
       seoFocus = {
         strategy: parsed.strategy || undefined,
         goal: parsed.goal || undefined,
@@ -402,7 +401,7 @@ function CityCard({ city }: { city: SeoCity }) {
   });
 
   return (
-    <article className="group relative rounded-xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-4 transition-all hover:border-[var(--pv-primary)]/30 hover:shadow-lg">
+    <article className="hover:border-[var(--pv-primary)]/30 group relative rounded-xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-4 transition-all hover:shadow-lg">
       {/* Rank Badge */}
       <div className="absolute -left-2.5 -top-2.5 flex h-7 w-7 items-center justify-center rounded-full bg-[var(--pv-primary)] text-xs font-bold text-white shadow-md">
         {city.rank}

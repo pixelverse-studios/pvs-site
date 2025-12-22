@@ -15,7 +15,7 @@ export function CityServicesCtaSection({ cta }: CityServicesCtaSectionProps) {
       <Container className="max-w-4xl">
         <MotionSection
           as="div"
-          className="flex flex-col items-center gap-6 rounded-pv border border-[var(--pv-primary)]/40 bg-[linear-gradient(135deg,rgba(63,0,233,0.12),rgba(201,71,255,0.1))] px-8 py-12 text-center shadow-[0_40px_90px_-60px_rgba(63,0,233,0.55)]"
+          className="border-[var(--pv-primary)]/40 flex flex-col items-center gap-6 rounded-pv border bg-[linear-gradient(135deg,rgba(63,0,233,0.12),rgba(201,71,255,0.1))] px-8 py-12 text-center shadow-[0_40px_90px_-60px_rgba(63,0,233,0.55)]"
         >
           <MotionItem>
             <h2 className="font-heading text-3xl font-semibold text-[var(--pv-text)] md:text-4xl">
@@ -30,7 +30,12 @@ export function CityServicesCtaSection({ cta }: CityServicesCtaSectionProps) {
               <Link href={cta.primary.href}>{cta.primary.label}</Link>
             </Button>
             {cta.secondary ? (
-              <Button asChild variant="ghost" size="lg" className="border border-[var(--pv-border)]">
+              <Button
+                asChild
+                variant="ghost"
+                size="lg"
+                className="border border-[var(--pv-border)]"
+              >
                 <Link href={cta.secondary.href}>{cta.secondary.label}</Link>
               </Button>
             ) : null}

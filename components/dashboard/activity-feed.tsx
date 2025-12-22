@@ -106,28 +106,17 @@ export function ActivityFeed({
 
   if (displayedActivities.length === 0) {
     return (
-      <div
-        className={cn(
-          'flex flex-col items-center justify-center py-12 text-center',
-          className
-        )}
-      >
+      <div className={cn('flex flex-col items-center justify-center py-12 text-center', className)}>
         <div
           className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl"
           style={{ background: 'var(--pv-surface)' }}
         >
           <FileText className="h-6 w-6" style={{ color: 'var(--pv-text-muted)' }} />
         </div>
-        <p
-          className="text-sm font-medium"
-          style={{ color: 'var(--pv-text-muted)' }}
-        >
+        <p className="text-sm font-medium" style={{ color: 'var(--pv-text-muted)' }}>
           {emptyMessage}
         </p>
-        <p
-          className="mt-1 text-xs"
-          style={{ color: 'var(--pv-text-muted)', opacity: 0.7 }}
-        >
+        <p className="mt-1 text-xs" style={{ color: 'var(--pv-text-muted)', opacity: 0.7 }}>
           Activity will appear here as you work
         </p>
       </div>
@@ -144,7 +133,7 @@ export function ActivityFeed({
           <div
             className={cn(
               'group relative flex items-start gap-4 rounded-xl p-4 transition-all duration-200',
-              activity.href && 'cursor-pointer hover:bg-[var(--pv-surface)]'
+              activity.href && 'cursor-pointer hover:bg-[var(--pv-surface)]',
             )}
           >
             {/* Timeline connector */}
@@ -164,19 +153,16 @@ export function ActivityFeed({
             </div>
 
             {/* Content */}
-            <div className="flex-1 min-w-0">
+            <div className="min-w-0 flex-1">
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
                   <p
-                    className="text-sm font-medium truncate transition-colors duration-200 group-hover:text-[var(--pv-primary)]"
+                    className="truncate text-sm font-medium transition-colors duration-200 group-hover:text-[var(--pv-primary)]"
                     style={{ color: 'var(--pv-text)' }}
                   >
                     {activity.title}
                   </p>
-                  <p
-                    className="mt-0.5 text-xs truncate"
-                    style={{ color: 'var(--pv-text-muted)' }}
-                  >
+                  <p className="mt-0.5 truncate text-xs" style={{ color: 'var(--pv-text-muted)' }}>
                     {activity.description}
                   </p>
                 </div>

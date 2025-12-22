@@ -7,7 +7,7 @@ const incentives = [
   'Save up to 20% on annual plans',
   'Get free add-ons with long-term commitments',
   'Extra discounts when bundling web + SEO',
-  'Loyalty perks like audits and early access'
+  'Loyalty perks like audits and early access',
 ];
 
 export function RetentionIncentivesSection() {
@@ -41,9 +41,12 @@ export function RetentionIncentivesSection() {
               key={item}
               delay={index * 0.08}
               triggerOnViewport={false}
-              className="flex items-start gap-3 rounded-pv border border-[var(--pv-border)] bg-[var(--pv-surface)]/70 p-4 shadow-pv transition-all duration-300 hover:-translate-y-1 hover:border-[var(--pv-primary)] dark:bg-[var(--pv-bg)]/60"
+              className="bg-[var(--pv-surface)]/70 dark:bg-[var(--pv-bg)]/60 flex items-start gap-3 rounded-pv border border-[var(--pv-border)] p-4 shadow-pv transition-all duration-300 hover:-translate-y-1 hover:border-[var(--pv-primary)]"
             >
-              <CheckCircle2 className="mt-0.5 h-5 w-5 text-[var(--pv-primary)]" aria-hidden="true" />
+              <CheckCircle2
+                className="mt-0.5 h-5 w-5 text-[var(--pv-primary)]"
+                aria-hidden="true"
+              />
               <span className="text-sm text-[var(--pv-text)] dark:text-white">{item}</span>
             </MotionItem>
           ))}

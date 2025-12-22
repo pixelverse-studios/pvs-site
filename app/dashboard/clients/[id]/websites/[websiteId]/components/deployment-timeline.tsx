@@ -1,27 +1,23 @@
-import { Deployment, IndexingStatus } from '../types'
-import { DeploymentCard } from './deployment-card'
+import { Deployment, IndexingStatus } from '../types';
+import { DeploymentCard } from './deployment-card';
 
-type UrlFilter = 'all' | 'pending' | 'requested' | 'indexed'
+type UrlFilter = 'all' | 'pending' | 'requested' | 'indexed';
 
 interface DeploymentTimelineProps {
-  deployments: Deployment[]
-  onStatusUpdated?: (
-    deploymentId: string,
-    newStatus: IndexingStatus,
-    url?: string
-  ) => void
-  urlFilter?: UrlFilter
+  deployments: Deployment[];
+  onStatusUpdated?: (deploymentId: string, newStatus: IndexingStatus, url?: string) => void;
+  urlFilter?: UrlFilter;
 }
 
 // Get timeline dot color based on deployment indexing status
 function getTimelineDotColor(status: IndexingStatus): string {
   switch (status) {
     case 'pending':
-      return '#f59e0b' // amber
+      return '#f59e0b'; // amber
     case 'requested':
-      return '#3b82f6' // blue
+      return '#3b82f6'; // blue
     case 'indexed':
-      return '#10b981' // emerald
+      return '#10b981'; // emerald
   }
 }
 
@@ -31,7 +27,7 @@ export function DeploymentTimeline({
   urlFilter = 'all',
 }: DeploymentTimelineProps) {
   if (deployments.length === 0) {
-    return null
+    return null;
   }
 
   return (
@@ -39,9 +35,9 @@ export function DeploymentTimeline({
       {/* Vertical timeline line */}
       <div
         className="
-          absolute left-0 top-4 bottom-4 w-px
-          bg-gradient-to-b from-transparent via-[var(--pv-border)] to-transparent
-          hidden md:block
+          absolute bottom-4 left-0 top-4 hidden
+          w-px bg-gradient-to-b from-transparent via-[var(--pv-border)]
+          to-transparent md:block
         "
         style={{
           marginLeft: '0.5rem',
@@ -51,7 +47,7 @@ export function DeploymentTimeline({
       {/* Deployment cards */}
       <div className="relative space-y-6 md:pl-12">
         {deployments.map((deployment, index) => {
-          const dotColor = getTimelineDotColor(deployment.indexing_status)
+          const dotColor = getTimelineDotColor(deployment.indexing_status);
 
           return (
             <div key={deployment.id} className="relative">
@@ -59,20 +55,20 @@ export function DeploymentTimeline({
               <div
                 className="
                   absolute -left-12 top-6
-                  hidden md:flex
+                  z-10 hidden
+                  h-4 w-4
                   items-center justify-center
-                  w-4 h-4
                   rounded-full
-                  bg-[var(--pv-bg)]
                   border-2
-                  z-10
+                  bg-[var(--pv-bg)]
+                  md:flex
                 "
                 style={{
                   borderColor: dotColor,
                 }}
               >
                 <div
-                  className="w-2 h-2 rounded-full"
+                  className="h-2 w-2 rounded-full"
                   style={{
                     backgroundColor: dotColor,
                   }}
@@ -87,9 +83,9 @@ export function DeploymentTimeline({
                 urlFilter={urlFilter}
               />
             </div>
-          )
+          );
         })}
       </div>
     </div>
-  )
+  );
 }

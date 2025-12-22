@@ -55,23 +55,14 @@ export function Callout({ type, title, children }: CalloutProps) {
       }}
     >
       <div className="flex items-start gap-3">
-        <Icon
-          className="mt-0.5 h-5 w-5 flex-shrink-0"
-          style={{ color: config.iconColor }}
-        />
+        <Icon className="mt-0.5 h-5 w-5 flex-shrink-0" style={{ color: config.iconColor }} />
         <div className="flex-1">
           {title && (
-            <h4
-              className="mb-1 font-semibold"
-              style={{ color: 'var(--pv-text)' }}
-            >
+            <h4 className="mb-1 font-semibold" style={{ color: 'var(--pv-text)' }}>
               {title}
             </h4>
           )}
-          <div
-            className="text-sm leading-relaxed"
-            style={{ color: 'var(--pv-text-muted)' }}
-          >
+          <div className="text-sm leading-relaxed" style={{ color: 'var(--pv-text-muted)' }}>
             {children}
           </div>
         </div>

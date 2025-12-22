@@ -14,6 +14,7 @@ Goal: Identify prominent web design/SEO competitors targeting Bergen County muni
 ## Town-Level Analysis
 
 ### Hackensack
+
 - **Observed competitors**
   - SmartSites – dedicated landing page for Hackensack medical/healthcare marketing.
   - Lform Design – NJ-based agency with strong healthcare portfolio, ranking via blog content.
@@ -26,6 +27,7 @@ Goal: Identify prominent web design/SEO competitors targeting Bergen County muni
   - Few agencies provide interactive process visuals or modular components for clinics; highlight UX expertise.
 
 ### Fort Lee
+
 - **Observed competitors**
   - NYC agencies targeting Fort Lee commuters (Blue Fountain Media, Huemor).
   - SmartSites (fort lee variant landing page).
@@ -38,6 +40,7 @@ Goal: Identify prominent web design/SEO competitors targeting Bergen County muni
   - Weak multilingual support; offering Korean/Mandarin content strategy + translation workflow is a differentiator.
 
 ### Paramus
+
 - **Observed competitors**
   - SmartSites (HQ), dominating organic + paid for “Paramus web design”.
   - JSMT Media – NJ agency focusing on ecommerce and retail verticals.
@@ -50,6 +53,7 @@ Goal: Identify prominent web design/SEO competitors targeting Bergen County muni
   - Template-based competitors lack custom CMS; emphasize modular promo builders and easy merchandising updates.
 
 ### Ridgewood
+
 - **Observed competitors**
   - Boutique studios (Top Notch Dezigns, Creative Click Media) using polished visuals.
   - Freelancers advertising on Upwork/Thumbtack with emphasis on affordability.
@@ -62,6 +66,7 @@ Goal: Identify prominent web design/SEO competitors targeting Bergen County muni
   - Few accessible-first builds; promote ADA compliance audits and inclusive design.
 
 ### Englewood
+
 - **Observed competitors**
   - SmartSites (healthcare and small business verticals).
   - Route 22 Designs (regional agency with strong branding packages).
@@ -74,6 +79,7 @@ Goal: Identify prominent web design/SEO competitors targeting Bergen County muni
   - Few long-form case studies; produce Englewood-centric success stories with KPIs.
 
 ### Teaneck
+
 - **Observed competitors**
   - Nonprofit-focused agencies (Cause Inspired, DNL OmniMedia) ranking for NJ nonprofit web design.
   - Local freelancers focusing on WordPress maintenance.
@@ -86,11 +92,13 @@ Goal: Identify prominent web design/SEO competitors targeting Bergen County muni
   - Few highlight training/documentation; provide turnkey onboarding and support retainers.
 
 ## SERP Feature Observations
+
 - Google Business Profile map packs appear for most town + “web design” queries; need GBP optimization and review acquisition strategy.
 - Some towns show “People also ask” focused on cost, SEO benefits, and timeline—prime targets for FAQ content.
 - Featured snippets commonly pull from listicles (“Top web designers in Bergen County”); pursue inclusion via guest posts or curated lists.
 
 ## Action Items
+
 - Validate competitor rankings with live searches once network access/domain transfer is available.
 - Capture screenshots of competitor hero sections, CTAs, and schema for internal reference.
 - Use insights to shape town landing page copy, emphasizing differentiators (speed, accessibility, localization, compliance).

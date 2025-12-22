@@ -121,11 +121,12 @@ export function AuditForm() {
   const submitAudit = useCallback(async (payload: AuditApiPayload) => {
     const apiBaseUrl = getApiBaseUrl();
     const auditEndpointOverride = process.env.NEXT_PUBLIC_AUDIT_ENDPOINT?.trim();
-    const auditEndpoint = auditEndpointOverride && auditEndpointOverride.length > 0
-      ? auditEndpointOverride
-      : apiBaseUrl
-        ? `${apiBaseUrl.replace(/\/$/, '')}/api/audit`
-        : '/api/audit';
+    const auditEndpoint =
+      auditEndpointOverride && auditEndpointOverride.length > 0
+        ? auditEndpointOverride
+        : apiBaseUrl
+          ? `${apiBaseUrl.replace(/\/$/, '')}/api/audit`
+          : '/api/audit';
     const response = await fetch(auditEndpoint, {
       method: 'POST',
       headers: {

@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   webpack: (config) => {
     config.infrastructureLogging = {
-      level: 'error'
+      level: 'error',
     };
     return config;
   },
@@ -12,9 +12,9 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
-        pathname: '/pixelverse-studios/image/upload/**'
-      }
-    ]
+        pathname: '/pixelverse-studios/image/upload/**',
+      },
+    ],
   },
   async redirects() {
     const contactContextSlugs = [
@@ -23,7 +23,7 @@ const nextConfig = {
       'cliffside-park',
       'river-vale',
       'hackensack',
-      'paramus'
+      'paramus',
     ];
 
     const contactContextRedirects = contactContextSlugs.map((slug) => ({
@@ -32,27 +32,27 @@ const nextConfig = {
         {
           type: 'query',
           key: 'context',
-          value: slug
-        }
+          value: slug,
+        },
       ],
       destination: `/contact/${slug}`,
-      permanent: true
+      permanent: true,
     }));
 
     return [
       {
         source: '/works',
         destination: '/portfolio',
-        permanent: true
+        permanent: true,
       },
       {
         source: '/pricing',
         destination: '/packages',
-        permanent: true
+        permanent: true,
       },
-      ...contactContextRedirects
+      ...contactContextRedirects,
     ];
-  }
+  },
 };
 
 module.exports = nextConfig;

@@ -12,7 +12,7 @@ interface CityRelatedCitiesSectionProps {
 
 export function CityRelatedCitiesSection({
   currentCity,
-  relatedCities
+  relatedCities,
 }: CityRelatedCitiesSectionProps) {
   if (!relatedCities?.length) {
     return null;
@@ -23,7 +23,7 @@ export function CityRelatedCitiesSection({
       <Container>
         <MotionSection as="div" delay={0.08}>
           <MotionItem>
-            <div className="rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-surface)]/50 p-6 md:p-8">
+            <div className="bg-[var(--pv-surface)]/50 rounded-2xl border border-[var(--pv-border)] p-6 md:p-8">
               <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
                 <MapPin className="h-4 w-4" aria-hidden />
                 <span>Also serving nearby Bergen County communities</span>

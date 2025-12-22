@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import * as SelectPrimitive from "@radix-ui/react-select";
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import * as React from 'react';
+import * as SelectPrimitive from '@radix-ui/react-select';
+import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 const Select = SelectPrimitive.Root;
 const SelectGroup = SelectPrimitive.Group;
@@ -17,8 +17,8 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex h-11 w-full items-center justify-between rounded-pv-sm border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 text-base text-[var(--pv-text)] placeholder:text-[var(--pv-text-muted)] shadow-sm transition-colors-opacity-transform focus-visible:border-[var(--pv-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)] disabled:cursor-not-allowed disabled:opacity-60",
-      className
+      'flex h-11 w-full items-center justify-between rounded-pv-sm border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 text-base text-[var(--pv-text)] shadow-sm transition-colors-opacity-transform placeholder:text-[var(--pv-text-muted)] focus-visible:border-[var(--pv-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)] disabled:cursor-not-allowed disabled:opacity-60',
+      className,
     )}
     {...props}
   >
@@ -33,14 +33,14 @@ SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
->(({ className, children, position = "popper", ...props }, ref) => (
+>(({ className, children, position = 'popper', ...props }, ref) => (
   <SelectPrimitive.Portal>
     <SelectPrimitive.Content
       ref={ref}
       className={cn(
-        "relative z-50 min-w-[10rem] overflow-hidden rounded-pv border border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)] shadow-pv data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2",
-        position === "popper" && "data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1",
-        className
+        'relative z-50 min-w-[10rem] overflow-hidden rounded-pv border border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)] shadow-pv data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2',
+        position === 'popper' && 'data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1',
+        className,
       )}
       position={position}
       {...props}
@@ -50,9 +50,9 @@ const SelectContent = React.forwardRef<
       </SelectPrimitive.ScrollUpButton>
       <SelectPrimitive.Viewport
         className={cn(
-          "p-1",
-          position === "popper" &&
-            "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
+          'p-1',
+          position === 'popper' &&
+            'h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]',
         )}
       >
         {children}
@@ -72,8 +72,8 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex w-full cursor-default select-none items-center rounded-pv-sm px-3 py-2 text-sm text-[var(--pv-text)] outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50 focus:bg-[var(--pv-surface)] focus:text-[var(--pv-primary)]",
-      className
+      'relative flex w-full cursor-default select-none items-center rounded-pv-sm px-3 py-2 text-sm text-[var(--pv-text)] outline-none transition-colors focus:bg-[var(--pv-surface)] focus:text-[var(--pv-primary)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      className,
     )}
     {...props}
   >
@@ -105,7 +105,7 @@ const SelectSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Separator
     ref={ref}
-    className={cn("my-1 h-px bg-[var(--pv-border)]", className)}
+    className={cn('my-1 h-px bg-[var(--pv-border)]', className)}
     {...props}
   />
 ));
@@ -119,5 +119,5 @@ export {
   SelectContent,
   SelectItem,
   SelectLabel,
-  SelectSeparator
+  SelectSeparator,
 };

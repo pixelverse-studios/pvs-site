@@ -15,6 +15,7 @@ import {
   Menu,
   X,
   Sparkles,
+  ListTodo,
 } from 'lucide-react';
 
 interface NavItem {
@@ -35,6 +36,12 @@ const navItems: NavItem[] = [
     label: 'Clients',
     href: '/dashboard/clients',
     icon: Users,
+    available: true,
+  },
+  {
+    label: 'Agenda',
+    href: '/dashboard/agenda',
+    icon: ListTodo,
     available: true,
   },
   {
@@ -222,9 +229,9 @@ export function DashboardSidebar() {
 
                       {/* Label */}
                       <span
-                        className={`text-sm font-medium whitespace-nowrap transition-all duration-300 ${
+                        className={`whitespace-nowrap text-sm font-medium transition-all duration-300 ${
                           isCollapsed && !isMobileOpen
-                            ? 'w-0 opacity-0 overflow-hidden'
+                            ? 'w-0 overflow-hidden opacity-0'
                             : 'w-auto opacity-100'
                         }`}
                       >
@@ -265,10 +272,7 @@ export function DashboardSidebar() {
           </nav>
 
           {/* Bottom section */}
-          <div
-            className="border-t px-3 py-4"
-            style={{ borderColor: 'var(--pv-border)' }}
-          >
+          <div className="border-t px-3 py-4" style={{ borderColor: 'var(--pv-border)' }}>
             {/* Collapse toggle - desktop only */}
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}

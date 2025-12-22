@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
+import { useState } from 'react';
 import {
   ExternalLink,
   Copy,
@@ -13,75 +13,80 @@ import {
   Target,
   Globe,
   Pencil,
-} from 'lucide-react'
-import { WebsiteTypeBadge } from '../../components/website-type-badge'
-import { Input } from '@/components/ui/input'
-import { useRouter } from 'next/navigation'
-import { cn } from '@/lib/utils'
+} from 'lucide-react';
+import { WebsiteTypeBadge } from '../../components/website-type-badge';
+import { Input } from '@/components/ui/input';
+import { useRouter } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 interface Website {
-  id: string
-  type: string
-  title: string
-  domain: string
-  website_slug: string
-  seo_focus?: object | null
+  id: string;
+  type: string;
+  title: string;
+  domain: string;
+  website_slug: string;
+  seo_focus?: object | null;
 }
 
 interface EditableWebsiteCardProps {
-  website: Website
-  clientId: string
-  onSave?: (updatedWebsite: Website) => void
-  onDelete?: (websiteId: string) => void
+  website: Website;
+  clientId: string;
+  onSave?: (updatedWebsite: Website) => void;
+  onDelete?: (websiteId: string) => void;
 }
 
-export function EditableWebsiteCard({ website, clientId, onSave, onDelete }: EditableWebsiteCardProps) {
-  const router = useRouter()
-  const [isEditing, setIsEditing] = useState(false)
-  const [copied, setCopied] = useState(false)
-  const [editedWebsite, setEditedWebsite] = useState(website)
+export function EditableWebsiteCard({
+  website,
+  clientId,
+  onSave,
+  onDelete,
+}: EditableWebsiteCardProps) {
+  const router = useRouter();
+  const [isEditing, setIsEditing] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [editedWebsite, setEditedWebsite] = useState(website);
 
-  const fullUrl = `https://${website.domain}`
+  const fullUrl = `https://${website.domain}`;
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(fullUrl)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      await navigator.clipboard.writeText(fullUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy:', err)
+      console.error('Failed to copy:', err);
     }
-  }
+  };
 
   const handleVisit = () => {
-    window.open(fullUrl, '_blank', 'noopener,noreferrer')
-  }
+    window.open(fullUrl, '_blank', 'noopener,noreferrer');
+  };
 
   const handleDeployments = () => {
-    router.push(`/dashboard/clients/${clientId}/websites/${website.id}`)
-  }
+    router.push(`/dashboard/clients/${clientId}/websites/${website.id}`);
+  };
 
   const handleSeoFocus = () => {
-    router.push(`/dashboard/clients/${clientId}/websites/${website.id}/seo-focus`)
-  }
+    router.push(`/dashboard/clients/${clientId}/websites/${website.id}/seo-focus`);
+  };
 
   const handleCancel = () => {
-    setIsEditing(false)
-    setEditedWebsite(website)
-  }
+    setIsEditing(false);
+    setEditedWebsite(website);
+  };
 
   const handleSave = () => {
     if (onSave) {
-      onSave(editedWebsite)
+      onSave(editedWebsite);
     }
-    setIsEditing(false)
-  }
+    setIsEditing(false);
+  };
 
   const handleDelete = () => {
     if (onDelete && confirm(`Are you sure you want to delete "${website.title}"?`)) {
-      onDelete(website.id)
+      onDelete(website.id);
     }
-  }
+  };
 
   return (
     <div
@@ -89,7 +94,7 @@ export function EditableWebsiteCard({ website, clientId, onSave, onDelete }: Edi
         'group relative overflow-hidden rounded-2xl border transition-all duration-300',
         isEditing
           ? 'border-[var(--pv-primary)] shadow-[0_0_0_3px_rgba(63,0,233,0.1)]'
-          : 'border-[var(--pv-border)] hover:border-[var(--pv-border)] hover:shadow-[0_8px_30px_-12px_rgba(63,0,233,0.15)]'
+          : 'border-[var(--pv-border)] hover:border-[var(--pv-border)] hover:shadow-[0_8px_30px_-12px_rgba(63,0,233,0.15)]',
       )}
       style={{ background: 'var(--pv-surface)' }}
     >
@@ -97,7 +102,7 @@ export function EditableWebsiteCard({ website, clientId, onSave, onDelete }: Edi
       <div
         className={cn(
           'h-1 w-full transition-opacity duration-300',
-          isEditing ? 'opacity-100' : 'opacity-40 group-hover:opacity-70'
+          isEditing ? 'opacity-100' : 'opacity-40 group-hover:opacity-70',
         )}
         style={{ background: 'var(--pv-gradient)' }}
       />
@@ -140,7 +145,7 @@ export function EditableWebsiteCard({ website, clientId, onSave, onDelete }: Edi
                 <select
                   value={editedWebsite.type}
                   onChange={(e) => setEditedWebsite({ ...editedWebsite, type: e.target.value })}
-                  className="h-10 w-full rounded-lg border px-3 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--pv-primary)]/20"
+                  className="focus:ring-[var(--pv-primary)]/20 h-10 w-full rounded-lg border px-3 text-sm font-medium transition-colors focus:outline-none focus:ring-2"
                   style={{
                     background: 'var(--pv-bg)',
                     borderColor: 'var(--pv-border)',
@@ -172,7 +177,9 @@ export function EditableWebsiteCard({ website, clientId, onSave, onDelete }: Edi
                 </label>
                 <Input
                   value={editedWebsite.website_slug}
-                  onChange={(e) => setEditedWebsite({ ...editedWebsite, website_slug: e.target.value })}
+                  onChange={(e) =>
+                    setEditedWebsite({ ...editedWebsite, website_slug: e.target.value })
+                  }
                   className="font-mono text-sm"
                   placeholder="e.g., 360dc"
                 />
@@ -243,7 +250,7 @@ export function EditableWebsiteCard({ website, clientId, onSave, onDelete }: Edi
                 style={{ color: 'var(--pv-text)' }}
               >
                 <span className="font-mono">{website.domain}</span>
-                <ExternalLink className="h-4 w-4 text-[var(--pv-text-muted)] transition-all group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 group-hover/link:text-[var(--pv-primary)]" />
+                <ExternalLink className="h-4 w-4 text-[var(--pv-text-muted)] transition-all group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 group-hover/link:text-[var(--pv-primary)]" />
               </a>
               {website.website_slug && (
                 <div className="mt-2 flex items-center gap-2">
@@ -280,7 +287,7 @@ export function EditableWebsiteCard({ website, clientId, onSave, onDelete }: Edi
                   'group/copy flex flex-col items-center gap-2 rounded-xl border px-4 py-4 text-sm font-medium transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]',
                   copied
                     ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-                    : 'border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-text)] hover:border-[var(--pv-primary)]/50 hover:text-[var(--pv-primary)]'
+                    : 'hover:border-[var(--pv-primary)]/50 border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-text)] hover:text-[var(--pv-primary)]',
                 )}
               >
                 {copied ? (
@@ -294,7 +301,7 @@ export function EditableWebsiteCard({ website, clientId, onSave, onDelete }: Edi
               {/* Deployments */}
               <button
                 onClick={handleDeployments}
-                className="group/deploy flex flex-col items-center gap-2 rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)] px-4 py-4 text-sm font-medium text-[var(--pv-text)] transition-all duration-300 hover:scale-[1.02] hover:border-[var(--pv-primary)]/50 hover:text-[var(--pv-primary)] active:scale-[0.98]"
+                className="group/deploy hover:border-[var(--pv-primary)]/50 flex flex-col items-center gap-2 rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)] px-4 py-4 text-sm font-medium text-[var(--pv-text)] transition-all duration-300 hover:scale-[1.02] hover:text-[var(--pv-primary)] active:scale-[0.98]"
               >
                 <History className="h-5 w-5 transition-transform duration-200 group-hover/deploy:scale-110" />
                 <span>Deploys</span>
@@ -304,7 +311,7 @@ export function EditableWebsiteCard({ website, clientId, onSave, onDelete }: Edi
               {website.seo_focus ? (
                 <button
                   onClick={handleSeoFocus}
-                  className="group/seo flex flex-col items-center gap-2 rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)] px-4 py-4 text-sm font-medium text-[var(--pv-text)] transition-all duration-300 hover:scale-[1.02] hover:border-[var(--pv-primary)]/50 hover:text-[var(--pv-primary)] active:scale-[0.98]"
+                  className="group/seo hover:border-[var(--pv-primary)]/50 flex flex-col items-center gap-2 rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)] px-4 py-4 text-sm font-medium text-[var(--pv-text)] transition-all duration-300 hover:scale-[1.02] hover:text-[var(--pv-primary)] active:scale-[0.98]"
                 >
                   <Target className="h-5 w-5 transition-transform duration-200 group-hover/seo:scale-110" />
                   <span>SEO Focus</span>
@@ -336,5 +343,5 @@ export function EditableWebsiteCard({ website, clientId, onSave, onDelete }: Edi
         )}
       </div>
     </div>
-  )
+  );
 }

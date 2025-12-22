@@ -41,7 +41,9 @@ export function DashboardHeader({ userName, userEmail, onLogout }: DashboardHead
       if (segment === 'blog-guidelines') label = 'Blog Guidelines';
 
       // Skip UUIDs in labels but keep them in the path
-      const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(segment);
+      const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        segment,
+      );
       if (isUUID) {
         label = 'Details';
       }
@@ -85,10 +87,7 @@ export function DashboardHeader({ userName, userEmail, onLogout }: DashboardHead
                 />
               )}
               {index === breadcrumbs.length - 1 ? (
-                <span
-                  className="text-sm font-medium"
-                  style={{ color: 'var(--pv-text)' }}
-                >
+                <span className="text-sm font-medium" style={{ color: 'var(--pv-text)' }}>
                   {crumb.label}
                 </span>
               ) : (
@@ -96,7 +95,7 @@ export function DashboardHeader({ userName, userEmail, onLogout }: DashboardHead
                   href={crumb.href}
                   className={cn(
                     'text-sm transition-colors duration-200',
-                    'hover:text-[var(--pv-primary)]'
+                    'hover:text-[var(--pv-primary)]',
                   )}
                   style={{ color: 'var(--pv-text-muted)' }}
                 >
@@ -112,16 +111,10 @@ export function DashboardHeader({ userName, userEmail, onLogout }: DashboardHead
           {/* Greeting (hidden on mobile) */}
           {userName && (
             <div className="hidden text-right md:block">
-              <p
-                className="text-xs"
-                style={{ color: 'var(--pv-text-muted)' }}
-              >
+              <p className="text-xs" style={{ color: 'var(--pv-text-muted)' }}>
                 {getGreeting()}
               </p>
-              <p
-                className="text-sm font-medium"
-                style={{ color: 'var(--pv-text)' }}
-              >
+              <p className="text-sm font-medium" style={{ color: 'var(--pv-text)' }}>
                 {userName}
               </p>
             </div>
@@ -147,7 +140,7 @@ export function DashboardHeader({ userName, userEmail, onLogout }: DashboardHead
           {onLogout && (
             <button
               onClick={onLogout}
-              className="flex h-9 w-9 items-center justify-center rounded-lg border transition-all duration-200 hover:border-[var(--pv-danger)] hover:bg-[var(--pv-danger)]/10 hover:text-[var(--pv-danger)]"
+              className="hover:bg-[var(--pv-danger)]/10 flex h-9 w-9 items-center justify-center rounded-lg border transition-all duration-200 hover:border-[var(--pv-danger)] hover:text-[var(--pv-danger)]"
               style={{
                 borderColor: 'var(--pv-border)',
                 color: 'var(--pv-text-muted)',

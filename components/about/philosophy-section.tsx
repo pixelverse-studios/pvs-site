@@ -14,8 +14,8 @@ export function PhilosophySection() {
               Our approach is rooted in partnership and guided by purpose
             </h2>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
-              Every project is a partnership. We take time to understand your goals, your audience, and
-              your challenges — then design and code a solution that fits.
+              Every project is a partnership. We take time to understand your goals, your audience,
+              and your challenges — then design and code a solution that fits.
             </p>
           </MotionItem>
         </MotionSection>
