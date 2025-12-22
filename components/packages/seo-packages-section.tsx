@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { BarChart3, LineChart, Search } from 'lucide-react';
+import { BarChart3, LineChart, Search, Star } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
@@ -58,6 +58,8 @@ export function SeoPackagesSection() {
           <MotionSection as="div" className="grid gap-6 md:grid-cols-3" delay={0.12}>
             {seoPackagesData.map((pkg, index) => {
               const Icon = iconMap[pkg.icon as keyof typeof iconMap] ?? Search;
+              const isMostPopular = pkg.id === 'seo-growth';
+              const isFeatured = pkg.id === 'seo-growth';
 
               return (
                 <MotionItem
@@ -66,8 +68,22 @@ export function SeoPackagesSection() {
                   triggerOnViewport={false}
                   className="h-full"
                 >
-                  <Card className="bg-[var(--pv-bg)]/95 dark:bg-[var(--pv-surface)]/95 group relative flex h-full flex-col overflow-visible border border-[var(--pv-border)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--pv-primary)] hover:shadow-[0_26px_60px_-40px_rgba(63,0,233,0.75)]">
+                  <Card
+                    className={`bg-[var(--pv-bg)]/95 dark:bg-[var(--pv-surface)]/95 group relative flex h-full flex-col overflow-visible border transition-all duration-300 hover:-translate-y-1 ${
+                      isFeatured
+                        ? 'ring-[var(--pv-primary)]/20 border-[var(--pv-primary)] shadow-[0_26px_60px_-20px_rgba(63,0,233,0.35)] ring-2'
+                        : 'border-[var(--pv-border)] hover:border-[var(--pv-primary)] hover:shadow-[0_26px_60px_-40px_rgba(63,0,233,0.75)]'
+                    }`}
+                  >
                     <SaleBadge packageId={pkg.id} />
+                    {isMostPopular && (
+                      <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-[linear-gradient(135deg,var(--pv-primary),var(--pv-primary-2))] px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white shadow-lg">
+                          <Star className="h-3 w-3 fill-current" />
+                          Most Popular
+                        </span>
+                      </div>
+                    )}
                     <CardHeader className="flex items-start gap-4 border-b border-[var(--pv-border)] pb-6">
                       <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_46px_-34px_rgba(63,0,233,0.85)]">
                         <Icon className="h-6 w-6" aria-hidden="true" />
@@ -113,9 +129,9 @@ export function SeoPackagesSection() {
                         </div>
                       </div>
                       <Button
-                        variant="secondary"
+                        variant={isFeatured ? 'default' : 'secondary'}
                         size="sm"
-                        className="mt-3 w-full dark:text-white"
+                        className={`mt-3 w-full ${isFeatured ? '' : 'dark:text-white'}`}
                         onClick={() => handleOpen(pkg)}
                       >
                         Learn More
