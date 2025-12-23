@@ -54,15 +54,15 @@ export const currentSale: Sale | null = {
   active: true,
 
   startDate: '2025-12-20T00:00:00-05:00',
-  endDate: '2026-01-05T23:59:59-05:00',
+  endDate: '2025-12-31T23:59:59-05:00',
   showCountdown: true,
 
   discountType: 'percentage',
   discountValue: 30,
   discountLabel: '30% OFF',
 
-  headline: 'New Year, New Website',
-  subtext: 'Start 2026 with a fresh digital presence',
+  headline: 'Holiday Sale',
+  subtext: 'End the year with a brand new website',
   ctaText: 'Claim Offer',
   ctaLink: '/contact?ref=holiday2025',
 

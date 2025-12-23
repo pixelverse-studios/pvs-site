@@ -3,12 +3,12 @@
 <!-- This file is automatically sent via email on successful deployment, then reset for the next cycle -->
 
 ## Latest deploy summary
-- Increased holiday sale discount from 20% to 30% off all packages
+- Updated holiday sale messaging and end date to December 31st
 
 ## Notes for internal team
-- Updated `data/sales-config.ts`: discountValue, discountLabel, badgeText
-- Sale applies to all website and SEO packages
-- Monthly discount still applies for first 3 months
+- Changed headline: "New Year, New Website" → "Holiday Sale"
+- Changed subtext: "Start 2026 with a fresh digital presence" → "End the year with a brand new website"
+- Sale now expires Dec 31, 2025 at 11:59pm EST (was Jan 5, 2026)
 
 ## Changed URLs
 - https://www.pixelversestudios.io/packages
