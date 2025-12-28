@@ -6,6 +6,7 @@
 
 - Added centralized TypeScript types for client data management in the dashboard
 - Added API client functions for client CRUD operations
+- Added modal for creating new clients from the dashboard
 
 ## Notes for internal team
 
@@ -16,6 +17,9 @@
 - PVS-164 completed
 - Created `lib/api/clients.ts` with getClients, getClient, createClient, updateClient, deleteClient
 - Includes convenience functions: getActiveClients, getClientCount
+- PVS-165 completed
+- Created `app/dashboard/clients/components/add-client-modal.tsx`
+- Auto-generates slug from client name, validates required fields
 
 ## Changed URLs
 
