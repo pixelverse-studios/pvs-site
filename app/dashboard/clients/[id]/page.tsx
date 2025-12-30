@@ -2,41 +2,22 @@ import { redirect, notFound } from 'next/navigation';
 import { createClient as createSupabaseClient } from '@/lib/supabase/server';
 import { Container } from '@/components/ui/container';
 import Link from 'next/link';
-import { ArrowLeft, Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 import { ClientInfoSidebar } from './components/client-info-sidebar';
+import { ClientActions } from './components/client-actions';
 import { WebsitesList } from './components/websites-list';
-import { getApiBaseUrl } from '@/lib/api-config';
+import { getClient } from '@/lib/api/clients';
 
 export const metadata = {
   title: 'Client Details | Dashboard | PixelVerse Studios',
   description: 'View and manage client websites',
 };
 
-const API_BASE_URL = getApiBaseUrl();
-
-interface Website {
-  id: string;
-  type: string;
-  title: string;
-  domain: string;
-  website_slug: string;
-  seo_focus?: object | null;
+interface PageProps {
+  params: Promise<{ id: string }>;
 }
 
-interface Client {
-  id: string;
-  firstname: string | null;
-  lastname: string | null;
-  email: string | null;
-  phone: string | null;
-  active: boolean | null;
-  created_at: string;
-  updated_at: string | null;
-  websites?: Website[];
-}
-
-export default async function ClientDetailPage({ params }: { params: { id: string } }) {
+export default async function ClientDetailPage({ params }: PageProps) {
   const supabase = await createSupabaseClient();
   const {
     data: { user },
@@ -48,23 +29,10 @@ export default async function ClientDetailPage({ params }: { params: { id: strin
   }
 
   // Fetch client from API
-  let client: Client | null = null;
+  const { id } = await params;
+  let client;
   try {
-    const response = await fetch(`${API_BASE_URL}/api/clients/${params.id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store',
-    });
-
-    if (response.ok) {
-      client = await response.json();
-    } else if (response.status === 404) {
-      notFound();
-    } else {
-      throw new Error(`Failed to fetch client: ${response.status}`);
-    }
+    client = await getClient(id);
   } catch (error) {
     console.error('Error fetching client:', error);
     notFound();
@@ -103,10 +71,7 @@ export default async function ClientDetailPage({ params }: { params: { id: strin
             <span className="font-medium group-hover:text-[var(--pv-text)]">Back to Clients</span>
           </Link>
 
-          <Button size="sm" className="gap-2">
-            <Plus className="h-4 w-4" />
-            Add Website
-          </Button>
+          <ClientActions client={client} />
         </div>
 
         {/* Main Layout: Sidebar + Content */}
@@ -121,7 +86,7 @@ export default async function ClientDetailPage({ params }: { params: { id: strin
           </div>
 
           {/* Main Content - Websites */}
-          <WebsitesList websites={client.websites} clientId={params.id} />
+          <WebsitesList websites={client.websites} clientId={id} />
         </div>
       </Container>
     </main>
