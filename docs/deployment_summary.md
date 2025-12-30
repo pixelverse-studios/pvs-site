@@ -14,6 +14,7 @@
 - Added Edit and Delete actions to client detail page header
 - Added project kanban card component for CRM board display
 - Added client swimlane component for CRM kanban board
+- Added CRM kanban board orchestrator for managing client projects
 
 ## Notes for internal team
 
@@ -51,6 +52,12 @@
 - Created `app/dashboard/clients/components/client-swimlane.tsx`
 - Collapsible swimlane with client header, contact info, and drag-and-drop drop zones
 - Integrates with ProjectKanbanCard and @hello-pangea/dnd
+- PVS-174 completed
+- Created `app/dashboard/clients/components/crm-kanban-board.tsx`
+- DragDropContext orchestrator with sticky column headers, status counts, and icons
+- Optimistic drag-end updates with API rollback on error
+- Created `lib/api/projects.ts` with updateProjectStatus and reorderProjects functions
+- Supports visibleColumns prop to filter displayed status columns
 
 ## Changed URLs
 
