@@ -13,6 +13,7 @@
 - Added pagination controls to clients list page
 - Added Edit and Delete actions to client detail page header
 - Added project kanban card component for CRM board display
+- Added client swimlane component for CRM kanban board
 
 ## Notes for internal team
 
@@ -46,6 +47,10 @@
 - PVS-172 completed
 - Created `lib/types/project.ts` with ProjectStatus, Project types, and status helpers
 - Created `app/dashboard/clients/components/project-kanban-card.tsx` for CRM kanban board
+- PVS-173 completed
+- Created `app/dashboard/clients/components/client-swimlane.tsx`
+- Collapsible swimlane with client header, contact info, and drag-and-drop drop zones
+- Integrates with ProjectKanbanCard and @hello-pangea/dnd
 
 ## Changed URLs
 
