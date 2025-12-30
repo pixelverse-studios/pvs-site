@@ -8,6 +8,7 @@
 - Added API client functions for client CRUD operations
 - Added modal for creating new clients from the dashboard
 - Added modal for editing existing client details
+- Added delete confirmation dialog with cascade warnings
 
 ## Notes for internal team
 
@@ -24,6 +25,10 @@
 - PVS-166 completed
 - Created `app/dashboard/clients/components/edit-client-modal.tsx`
 - Pre-fills form with client data, only sends changed fields in PATCH
+- PVS-167 completed
+- Created `app/dashboard/clients/components/delete-client-dialog.tsx`
+- Added `destructive` variant to Button component
+- Shows cascade warnings for websites that will be deleted
 
 ## Changed URLs
 
