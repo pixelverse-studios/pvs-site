@@ -15,6 +15,7 @@
 - Added project kanban card component for CRM board display
 - Added client swimlane component for CRM kanban board
 - Added CRM kanban board orchestrator for managing client projects
+- Added toolbar with view toggle, search, and filters for Clients page
 
 ## Notes for internal team
 
@@ -58,6 +59,11 @@
 - Optimistic drag-end updates with API rollback on error
 - Created `lib/api/projects.ts` with updateProjectStatus and reorderProjects functions
 - Supports visibleColumns prop to filter displayed status columns
+- PVS-175 completed
+- Created `app/dashboard/clients/components/clients-toolbar.tsx`
+- View toggle (Table/Board) with localStorage persistence
+- Phase filter (All/Sales/Project/Post-Launch) and Type filter (All/Websites/Apps)
+- Search input for filtering clients and projects
 
 ## Changed URLs
 
