@@ -16,6 +16,7 @@
 - Added client swimlane component for CRM kanban board
 - Added CRM kanban board orchestrator for managing client projects
 - Added toolbar with view toggle, search, and filters for Clients page
+- Integrated CRM kanban board into Clients dashboard with Table/Board view toggle
 
 ## Notes for internal team
 
@@ -64,6 +65,13 @@
 - View toggle (Table/Board) with localStorage persistence
 - Phase filter (All/Sales/Project/Post-Launch) and Type filter (All/Websites/Apps)
 - Search input for filtering clients and projects
+- PVS-176 completed
+- Created `app/dashboard/clients/components/clients-page-client.tsx`
+- Client-side wrapper managing view state, filtering, and localStorage persistence
+- Updated `app/dashboard/clients/page.tsx` to fetch both list and full client data
+- Added `getAllClientsWithWebsites()` helper to `lib/api/clients.ts`
+- Table view shows paginated ClientsTable with its own search/filter
+- Board view shows CRMKanbanBoard with toolbar-based filtering
 
 ## Changed URLs
 
