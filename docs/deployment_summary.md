@@ -12,6 +12,7 @@
 - Added inline Edit and Delete buttons to clients table with modal integration
 - Added pagination controls to clients list page
 - Added Edit and Delete actions to client detail page header
+- Added project kanban card component for CRM board display
 
 ## Notes for internal team
 
@@ -42,6 +43,9 @@
 - Created `app/dashboard/clients/[id]/components/client-actions.tsx` with Edit/Delete buttons
 - Updated `app/dashboard/clients/[id]/page.tsx` to use getClient() API client
 - Updated `app/dashboard/clients/[id]/components/client-info-sidebar.tsx` with client name, slug, CMS badge
+- PVS-172 completed
+- Created `lib/types/project.ts` with ProjectStatus, Project types, and status helpers
+- Created `app/dashboard/clients/components/project-kanban-card.tsx` for CRM kanban board
 
 ## Changed URLs
 
