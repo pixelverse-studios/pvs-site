@@ -10,6 +10,7 @@
 - Added modal for editing existing client details
 - Added delete confirmation dialog with cascade warnings
 - Added inline Edit and Delete buttons to clients table with modal integration
+- Added pagination controls to clients list page
 
 ## Notes for internal team
 
@@ -33,6 +34,9 @@
 - PVS-168 completed
 - Refactored `app/dashboard/clients/components/clients-table.tsx` to use centralized types
 - Added inline Edit/Delete action buttons with modal integration
+- PVS-169 completed
+- Created `app/dashboard/clients/components/pagination.tsx`
+- Updated `app/dashboard/clients/page.tsx` to use paginated API with URL-based navigation
 
 ## Changed URLs
 

@@ -2,7 +2,8 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { Container } from '@/components/ui/container';
 import { ClientsTable } from './components/clients-table';
-import { getApiBaseUrl } from '@/lib/api-config';
+import { Pagination } from './components/pagination';
+import { getClients } from '@/lib/api/clients';
 import { Users } from 'lucide-react';
 
 export const metadata = {
@@ -10,9 +11,13 @@ export const metadata = {
   description: 'Manage your clients',
 };
 
-const API_BASE_URL = getApiBaseUrl();
+const DEFAULT_LIMIT = 20;
 
-export default async function ClientsPage() {
+interface PageProps {
+  searchParams: Promise<{ page?: string; limit?: string }>;
+}
+
+export default async function ClientsPage({ searchParams }: PageProps) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -22,26 +27,32 @@ export default async function ClientsPage() {
     redirect('/login');
   }
 
-  let clients = [];
+  // Parse pagination params
+  const params = await searchParams;
+  const page = Math.max(1, parseInt(params.page || '1', 10) || 1);
+  const limit = Math.min(100, Math.max(1, parseInt(params.limit || String(DEFAULT_LIMIT), 10) || DEFAULT_LIMIT));
+  const offset = (page - 1) * limit;
+
+  // Fetch paginated clients
+  let clients: Awaited<ReturnType<typeof getClients>>['clients'] = [];
+  let total = 0;
+  let activeCount = 0;
+
   try {
-    const response = await fetch(`${API_BASE_URL}/api/clients`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store',
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to fetch clients: ${response.status} ${response.statusText}`);
-    }
-    clients = await response.json();
+    const response = await getClients({ limit, offset });
+    clients = response.clients;
+    total = response.total;
+    activeCount = clients.filter((c) => c.client_active === true).length;
   } catch (error) {
     console.error('Error fetching clients:', error);
   }
 
-  const activeCount = clients.filter(
-    (c: { client_active: boolean | null }) => c.client_active === true,
-  ).length;
+  const totalPages = Math.ceil(total / limit);
+
+  // Redirect to last valid page if current page is too high
+  if (page > totalPages && totalPages > 0) {
+    redirect(`/dashboard/clients?page=${totalPages}${limit !== DEFAULT_LIMIT ? `&limit=${limit}` : ''}`);
+  }
 
   return (
     <main className="pb-16 pt-6 lg:pt-8">
@@ -68,7 +79,7 @@ export default async function ClientsPage() {
                   Clients
                 </h1>
                 <p className="text-sm" style={{ color: 'var(--pv-text-muted)' }}>
-                  {clients.length} total &middot; {activeCount} active
+                  {total} total &middot; {activeCount} active on this page
                 </p>
               </div>
             </div>
@@ -76,6 +87,14 @@ export default async function ClientsPage() {
 
           {/* Clients Table */}
           <ClientsTable clients={clients} />
+
+          {/* Pagination */}
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            total={total}
+            limit={limit}
+          />
         </div>
       </Container>
     </main>
