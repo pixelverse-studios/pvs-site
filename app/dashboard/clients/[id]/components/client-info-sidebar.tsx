@@ -1,20 +1,12 @@
 'use client';
 
-import { Mail, Phone, Calendar, Clock, Hash, User } from 'lucide-react';
+import { Mail, Phone, Calendar, Clock, Hash, User, Link as LinkIcon, Database } from 'lucide-react';
 import { ClientStatusBadge } from '../../components/client-status-badge';
 import { CopyButton } from './copy-button';
+import type { Client } from '@/lib/types/client';
 
 interface ClientInfoSidebarProps {
-  client: {
-    id: string;
-    firstname: string | null;
-    lastname: string | null;
-    email: string | null;
-    phone: string | null;
-    active: boolean | null;
-    created_at: string;
-    updated_at: string | null;
-  };
+  client: Client;
   formattedCreatedAt: string;
   formattedUpdatedAt: string;
 }
@@ -24,10 +16,11 @@ export function ClientInfoSidebar({
   formattedCreatedAt,
   formattedUpdatedAt,
 }: ClientInfoSidebarProps) {
-  const fullName =
+  // Contact name (firstname + lastname)
+  const contactName =
     client.firstname && client.lastname
       ? `${client.firstname} ${client.lastname}`
-      : client.firstname || client.lastname || 'Unnamed Client';
+      : client.firstname || client.lastname || null;
 
   return (
     <div className="space-y-4">
@@ -35,13 +28,23 @@ export function ClientInfoSidebar({
       <div>
         <div className="mb-2 flex items-start justify-between gap-2">
           <h2 className="text-2xl font-bold" style={{ color: 'var(--pv-text)' }}>
-            {fullName}
+            {client.client}
           </h2>
-          <ClientStatusBadge active={client.active} />
+          <div className="flex items-center gap-2">
+            {client.cms && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-purple-500/10 px-2 py-0.5 text-xs font-medium text-purple-500">
+                <Database className="h-3 w-3" />
+                CMS
+              </span>
+            )}
+            <ClientStatusBadge active={client.active} />
+          </div>
         </div>
-        <p className="font-mono text-xs text-[var(--pv-text-muted)]">
-          ID: {client.id.slice(0, 12)}...
-        </p>
+        <div className="flex items-center gap-2 text-xs text-[var(--pv-text-muted)]">
+          <LinkIcon className="h-3 w-3" />
+          <span className="font-mono">{client.client_slug}</span>
+          <CopyButton text={client.client_slug} />
+        </div>
       </div>
 
       {/* Contact Section */}
@@ -60,6 +63,16 @@ export function ClientInfoSidebar({
         </div>
 
         <div className="space-y-3">
+          {/* Contact Name */}
+          {contactName && (
+            <div>
+              <p className="text-xs font-medium uppercase tracking-wider text-[var(--pv-text-muted)]">
+                Name
+              </p>
+              <p className="mt-1 text-sm text-[var(--pv-text)]">{contactName}</p>
+            </div>
+          )}
+
           {/* Email */}
           <div>
             <div className="flex items-center gap-2">
@@ -124,6 +137,17 @@ export function ClientInfoSidebar({
         </div>
 
         <div className="space-y-3">
+          {/* Client ID */}
+          <div>
+            <p className="text-xs font-medium uppercase tracking-wider text-[var(--pv-text-muted)]">
+              Client ID
+            </p>
+            <div className="mt-1 flex items-center justify-between gap-2">
+              <p className="font-mono text-xs text-[var(--pv-text)]">{client.id.slice(0, 12)}...</p>
+              <CopyButton text={client.id} />
+            </div>
+          </div>
+
           {/* Created */}
           <div>
             <div className="flex items-center gap-2">

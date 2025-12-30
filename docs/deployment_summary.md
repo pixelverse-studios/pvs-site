@@ -11,6 +11,7 @@
 - Added delete confirmation dialog with cascade warnings
 - Added inline Edit and Delete buttons to clients table with modal integration
 - Added pagination controls to clients list page
+- Added Edit and Delete actions to client detail page header
 
 ## Notes for internal team
 
@@ -37,6 +38,10 @@
 - PVS-169 completed
 - Created `app/dashboard/clients/components/pagination.tsx`
 - Updated `app/dashboard/clients/page.tsx` to use paginated API with URL-based navigation
+- PVS-170 completed
+- Created `app/dashboard/clients/[id]/components/client-actions.tsx` with Edit/Delete buttons
+- Updated `app/dashboard/clients/[id]/page.tsx` to use getClient() API client
+- Updated `app/dashboard/clients/[id]/components/client-info-sidebar.tsx` with client name, slug, CMS badge
 
 ## Changed URLs
 
