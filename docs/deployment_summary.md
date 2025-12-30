@@ -9,6 +9,7 @@
 - Added modal for creating new clients from the dashboard
 - Added modal for editing existing client details
 - Added delete confirmation dialog with cascade warnings
+- Added inline Edit and Delete buttons to clients table with modal integration
 
 ## Notes for internal team
 
@@ -29,6 +30,9 @@
 - Created `app/dashboard/clients/components/delete-client-dialog.tsx`
 - Added `destructive` variant to Button component
 - Shows cascade warnings for websites that will be deleted
+- PVS-168 completed
+- Refactored `app/dashboard/clients/components/clients-table.tsx` to use centralized types
+- Added inline Edit/Delete action buttons with modal integration
 
 ## Changed URLs
 
