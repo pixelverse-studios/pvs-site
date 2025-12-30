@@ -7,6 +7,7 @@
 - Added centralized TypeScript types for client data management in the dashboard
 - Added API client functions for client CRUD operations
 - Added modal for creating new clients from the dashboard
+- Added modal for editing existing client details
 
 ## Notes for internal team
 
@@ -20,6 +21,9 @@
 - PVS-165 completed
 - Created `app/dashboard/clients/components/add-client-modal.tsx`
 - Auto-generates slug from client name, validates required fields
+- PVS-166 completed
+- Created `app/dashboard/clients/components/edit-client-modal.tsx`
+- Pre-fills form with client data, only sends changed fields in PATCH
 
 ## Changed URLs
 
