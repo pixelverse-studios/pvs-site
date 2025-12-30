@@ -82,3 +82,15 @@ export async function getClientCount(active?: boolean): Promise<number> {
   const { total } = await getClients({ active, limit: 1 });
   return total;
 }
+
+// Get all clients with their websites (for board view)
+export async function getAllClientsWithWebsites(): Promise<Client[]> {
+  // Fetch all clients (up to 250)
+  const { clients: clientList } = await getClients({ limit: 250 });
+
+  // Fetch full details for each client (includes websites)
+  const clientPromises = clientList.map((c) => getClient(c.client_id));
+  const clients = await Promise.all(clientPromises);
+
+  return clients;
+}
