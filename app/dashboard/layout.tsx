@@ -1,6 +1,8 @@
 import { DashboardSidebar } from '@/components/dashboard/dashboard-sidebar';
 import { createClient } from '@/lib/supabase/server';
 import { DashboardShell } from '@/components/dashboard/dashboard-shell';
+import { SidebarProvider } from '@/components/dashboard/sidebar-context';
+import { DashboardContent } from '@/components/dashboard/dashboard-content';
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -12,16 +14,18 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const userEmail = user?.email || '';
 
   return (
-    <div className="relative min-h-screen" style={{ background: 'var(--pv-bg)' }}>
-      {/* Sidebar */}
-      <DashboardSidebar />
+    <SidebarProvider>
+      <div className="relative min-h-screen" style={{ background: 'var(--pv-bg)' }}>
+        {/* Sidebar */}
+        <DashboardSidebar />
 
-      {/* Main content area */}
-      <div className="w-full transition-all duration-500 lg:pl-64">
-        <DashboardShell userName={userName} userEmail={userEmail}>
-          {children}
-        </DashboardShell>
+        {/* Main content area */}
+        <DashboardContent>
+          <DashboardShell userName={userName} userEmail={userEmail}>
+            {children}
+          </DashboardShell>
+        </DashboardContent>
       </div>
-    </div>
+    </SidebarProvider>
   );
 }

@@ -1,34 +1,13 @@
 import { redirect, notFound } from 'next/navigation';
 import { createClient as createSupabaseClient } from '@/lib/supabase/server';
 import { WebsiteDetailView } from './components/website-detail-view';
-import { getApiBaseUrl } from '@/lib/api-config';
+import { getClient } from '@/lib/api/clients';
+import type { Client } from '@/lib/types/client';
 
 export const metadata = {
   title: 'Website Details | Dashboard | PixelVerse Studios',
   description: 'View website analytics and information',
 };
-
-const API_BASE_URL = getApiBaseUrl();
-
-interface Website {
-  id: string;
-  type: string;
-  title: string;
-  domain: string;
-  website_slug: string;
-}
-
-interface Client {
-  id: string;
-  firstname: string | null;
-  lastname: string | null;
-  email: string | null;
-  phone: string | null;
-  active: boolean | null;
-  created_at: string;
-  updated_at: string | null;
-  websites?: Website[];
-}
 
 export default async function WebsiteDetailPage({
   params,
@@ -46,29 +25,11 @@ export default async function WebsiteDetailPage({
   }
 
   // Fetch client from API (which includes websites)
-  let client: Client | null = null;
+  let client: Client;
   try {
-    const response = await fetch(`${API_BASE_URL}/api/clients/${params.id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store',
-    });
-
-    if (response.ok) {
-      client = await response.json();
-    } else if (response.status === 404) {
-      notFound();
-    } else {
-      throw new Error(`Failed to fetch client: ${response.status}`);
-    }
+    client = await getClient(params.id);
   } catch (error) {
     console.error('Error fetching client:', error);
-    notFound();
-  }
-
-  if (!client) {
     notFound();
   }
 

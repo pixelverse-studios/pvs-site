@@ -1,8 +1,8 @@
 import { redirect, notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getApiBaseUrl } from '@/lib/api-config';
+import { getDeployment } from '@/lib/api/deployments';
 import { DeploymentDetailView } from './components/deployment-detail-view';
-import { DeploymentDetail } from './types';
+import type { DeploymentDetail } from '@/lib/types/deployment';
 
 export const metadata = {
   title: 'Deployment Details | Dashboard | PixelVerse Studios',
@@ -21,33 +21,12 @@ export default async function DeploymentDetailPage({ params }: { params: { id: s
   }
 
   // Fetch deployment from API
-  let deployment: DeploymentDetail | null = null;
+  let deployment: DeploymentDetail;
 
   try {
-    const response = await fetch(`${getApiBaseUrl()}/api/deployments/${params.id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store',
-    });
-
-    if (response.ok) {
-      deployment = await response.json();
-    } else if (response.status === 404) {
-      notFound();
-    } else if (response.status === 400) {
-      // Invalid UUID format
-      notFound();
-    } else {
-      throw new Error(`Failed to fetch deployment: ${response.status}`);
-    }
+    deployment = await getDeployment(params.id);
   } catch (error) {
     console.error('Error fetching deployment:', error);
-    notFound();
-  }
-
-  if (!deployment) {
     notFound();
   }
 

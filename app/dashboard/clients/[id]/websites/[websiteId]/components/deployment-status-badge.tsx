@@ -1,4 +1,4 @@
-import { IndexingStatus, DeploymentStatus } from '../types';
+import type { IndexingStatus, DeploymentStatus } from '@/lib/types/deployment';
 import { Clock, Send, CheckCircle } from 'lucide-react';
 
 interface DeploymentStatusBadgeProps {
