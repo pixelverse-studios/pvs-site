@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { Deployment, IndexingStatus } from '../types';
+import { Deployment, IndexingStatus } from '@/lib/types/deployment';
+import { updateDeploymentUrlStatus, updateAllDeploymentUrlsStatus } from '@/lib/api/deployments';
 import { DeploymentStatusBadge, UrlStatusIndicator } from './deployment-status-badge';
 import { CopyButton } from '../../../components/copy-button';
 import { ExternalLink, FileText, Loader2, Send, CheckCircle, Clock, Copy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { getApiBaseUrl } from '@/lib/api-config';
 
 type UrlFilter = 'all' | 'pending' | 'requested' | 'indexed';
 
@@ -75,21 +75,7 @@ export function DeploymentCard({
     }
 
     try {
-      const response = await fetch(
-        `${getApiBaseUrl()}/api/deployments/${deployment.id}/urls/status`,
-        {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url, status: newStatus }),
-        },
-      );
-
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error('Deployment not found');
-        }
-        throw new Error(`Failed to update URL status: ${response.status}`);
-      }
+      await updateDeploymentUrlStatus(deployment.id, url, newStatus);
     } catch (err) {
       console.error('Error updating URL status:', err);
       setError(err instanceof Error ? err.message : 'Failed to update URL status');
@@ -109,18 +95,7 @@ export function DeploymentCard({
     }
 
     try {
-      const response = await fetch(`${getApiBaseUrl()}/api/deployments/${deployment.id}/status`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus }),
-      });
-
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error('Deployment not found');
-        }
-        throw new Error(`Failed to update deployment status: ${response.status}`);
-      }
+      await updateAllDeploymentUrlsStatus(deployment.id, newStatus);
     } catch (err) {
       console.error('Error updating deployment status:', err);
       setError(err instanceof Error ? err.message : 'Failed to update deployment status');

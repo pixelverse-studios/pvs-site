@@ -8,8 +8,6 @@ import type {
   ClientQueryParams,
 } from '@/lib/types/client';
 
-const API_BASE = getApiBaseUrl();
-
 // List clients with pagination and filtering
 export async function getClients(params?: ClientQueryParams): Promise<ClientListResponse> {
   const searchParams = new URLSearchParams();
@@ -18,15 +16,19 @@ export async function getClients(params?: ClientQueryParams): Promise<ClientList
   if (params?.active !== undefined) searchParams.set('active', String(params.active));
   if (params?.search) searchParams.set('search', params.search);
 
-  const url = `${API_BASE}/api/clients?${searchParams}`;
+  const url = `${getApiBaseUrl()}/api/clients?${searchParams}`;
   const res = await fetch(url, { cache: 'no-store' });
-  if (!res.ok) throw new Error('Failed to fetch clients');
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error.message || `Failed to fetch clients: ${res.status}`);
+  }
   return res.json();
 }
 
 // Get single client by ID (includes websites)
 export async function getClient(id: string): Promise<Client> {
-  const res = await fetch(`${API_BASE}/api/clients/${id}`, { cache: 'no-store' });
+  const res = await fetch(`${getApiBaseUrl()}/api/clients/${id}`, { cache: 'no-store' });
   if (!res.ok) {
     if (res.status === 404) throw new Error('Client not found');
     throw new Error('Failed to fetch client');
@@ -36,7 +38,7 @@ export async function getClient(id: string): Promise<Client> {
 
 // Create new client
 export async function createClient(data: ClientCreatePayload): Promise<Client> {
-  const res = await fetch(`${API_BASE}/api/clients/new`, {
+  const res = await fetch(`${getApiBaseUrl()}/api/clients/new`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -50,7 +52,7 @@ export async function createClient(data: ClientCreatePayload): Promise<Client> {
 
 // Update existing client
 export async function updateClient(id: string, data: ClientUpdatePayload): Promise<Client> {
-  const res = await fetch(`${API_BASE}/api/clients/${id}`, {
+  const res = await fetch(`${getApiBaseUrl()}/api/clients/${id}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -64,7 +66,7 @@ export async function updateClient(id: string, data: ClientUpdatePayload): Promi
 
 // Delete client (cascades to websites/apps)
 export async function deleteClient(id: string): Promise<Client> {
-  const res = await fetch(`${API_BASE}/api/clients/${id}`, { method: 'DELETE' });
+  const res = await fetch(`${getApiBaseUrl()}/api/clients/${id}`, { method: 'DELETE' });
   if (!res.ok) {
     const error = await res.json().catch(() => ({}));
     throw new Error(error.message || 'Failed to delete client');
@@ -85,8 +87,8 @@ export async function getClientCount(active?: boolean): Promise<number> {
 
 // Get all clients with their websites (for board view)
 export async function getAllClientsWithWebsites(): Promise<Client[]> {
-  // Fetch all clients (up to 250)
-  const { clients: clientList } = await getClients({ limit: 250 });
+  // Fetch all clients (API max limit is 100)
+  const { clients: clientList } = await getClients({ limit: 100 });
 
   // Fetch full details for each client (includes websites)
   const clientPromises = clientList.map((c) => getClient(c.client_id));

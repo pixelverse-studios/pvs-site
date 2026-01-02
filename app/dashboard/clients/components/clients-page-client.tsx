@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Users } from 'lucide-react';
 import {
@@ -12,12 +12,14 @@ import {
   saveViewMode,
 } from './clients-toolbar';
 import { ClientsTable } from './clients-table';
-import { CRMKanbanBoard } from './crm-kanban-board';
+import { PipelineKanbanBoard } from './pipeline-kanban-board';
+import { PipelineListView } from './pipeline-list-view';
 import { ClientsEmptyState } from './clients-empty-state';
 import { Pagination } from './pagination';
 import type { ClientListItem, Client } from '@/lib/types/client';
 import type { Project, ProjectStatus } from '@/lib/types/project';
 import { STATUS_PHASES } from '@/lib/types/project';
+import { updateProjectStatus } from '@/lib/api/projects';
 
 // Phase filter to status mapping
 const PHASE_STATUSES: Record<Exclude<PhaseFilter, 'all'>, ProjectStatus[]> = {
@@ -50,10 +52,11 @@ export function ClientsPageClient({
   const router = useRouter();
 
   // View state
-  const [viewMode, setViewMode] = useState<ViewMode>('table');
+  const [viewMode, setViewMode] = useState<ViewMode>('board');
   const [searchQuery, setSearchQuery] = useState('');
   const [phaseFilter, setPhaseFilter] = useState<PhaseFilter>('all');
   const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');
+  const [selectedClientIds, setSelectedClientIds] = useState<string[]>([]);
   const [isHydrated, setIsHydrated] = useState(false);
 
   // Load view preference from localStorage after hydration
@@ -67,9 +70,56 @@ export function ClientsPageClient({
     saveViewMode(mode);
   };
 
-  // Filter projects for board view
+  const handlePhaseFilterChange = (phase: PhaseFilter) => {
+    setPhaseFilter(phase);
+  };
+
+  // Determine which board component to show:
+  // - "All Phases" = grouped list view (15 statuses too many for kanban)
+  // - Specific phase = kanban board (4-6 columns, manageable)
+  const showKanban = viewMode === 'board' && phaseFilter !== 'all';
+
+  // Local projects state for optimistic updates in list view
+  const [localProjects, setLocalProjects] = useState<Project[]>(projects);
+
+  // Sync local projects with props when props change
+  useEffect(() => {
+    setLocalProjects(projects);
+  }, [projects]);
+
+  // Handle status change for list view (optimistic update + API call)
+  const handleListStatusChange = useCallback(
+    async (projectId: string, projectType: 'website' | 'app', newStatus: ProjectStatus) => {
+      const project = localProjects.find((p) => p.id === projectId);
+      if (!project || project.status === newStatus) return;
+
+      // Optimistic update
+      setLocalProjects((prev) =>
+        prev.map((p) => (p.id === projectId ? { ...p, status: newStatus } : p)),
+      );
+
+      // API call
+      try {
+        await updateProjectStatus(projectId, projectType, newStatus);
+        // Refresh to get server state
+        router.refresh();
+      } catch (error) {
+        console.error('Failed to update project status:', error);
+        // Revert on error
+        setLocalProjects(projects);
+      }
+    },
+    [localProjects, projects, router],
+  );
+
+  // Filter projects for board view (use localProjects for optimistic updates in list view)
   const filteredProjects = useMemo(() => {
-    let filtered = projects;
+    let filtered = localProjects;
+
+    // Client filter
+    if (selectedClientIds.length > 0) {
+      filtered = filtered.filter((p) => selectedClientIds.includes(p.client_id));
+    }
 
     // Type filter
     if (typeFilter !== 'all') {
@@ -88,39 +138,22 @@ export function ClientsPageClient({
       filtered = filtered.filter((p) => {
         const title = p.title.toLowerCase();
         const domain = 'domain' in p ? p.domain?.toLowerCase() : '';
-        return title.includes(query) || (domain && domain.includes(query));
+        // Also search by client name
+        const client = clients.find((c) => c.id === p.client_id);
+        const clientName = client
+          ? `${client.firstname || ''} ${client.lastname || ''} ${client.client || ''}`.toLowerCase()
+          : '';
+        return (
+          title.includes(query) || (domain && domain.includes(query)) || clientName.includes(query)
+        );
       });
     }
 
     return filtered;
-  }, [projects, typeFilter, phaseFilter, searchQuery]);
+  }, [localProjects, selectedClientIds, typeFilter, phaseFilter, searchQuery, clients]);
 
-  // Filter clients for board view - show clients with matching projects or matching search
-  const filteredClients = useMemo(() => {
-    const clientIdsWithProjects = new Set(filteredProjects.map((p) => p.client_id));
-
-    return clients.filter((c) => {
-      // Always show if has matching projects
-      if (clientIdsWithProjects.has(c.id)) return true;
-
-      // Also show if client name/contact matches search
-      if (searchQuery) {
-        const query = searchQuery.toLowerCase();
-        const clientName = c.client.toLowerCase();
-        const firstName = c.firstname?.toLowerCase() || '';
-        const lastName = c.lastname?.toLowerCase() || '';
-        return (
-          clientName.includes(query) || firstName.includes(query) || lastName.includes(query)
-        );
-      }
-
-      // When no search and no projects match filters, hide client
-      return false;
-    });
-  }, [clients, filteredProjects, searchQuery]);
-
-  // Visible columns based on phase filter (for board view)
-  const visibleColumns = phaseFilter === 'all' ? undefined : PHASE_STATUSES[phaseFilter];
+  // Visible statuses based on phase filter (for board view)
+  const visibleStatuses = phaseFilter === 'all' ? undefined : PHASE_STATUSES[phaseFilter];
 
   // Calculate active count for display
   const activeCount = clientListItems.filter((c) => c.client_active === true).length;
@@ -188,7 +221,13 @@ export function ClientsPageClient({
                 </>
               ) : (
                 <>
-                  {filteredClients.length} clients &middot; {filteredProjects.length} projects
+                  {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''}{' '}
+                  {selectedClientIds.length > 0 && (
+                    <>
+                      from {selectedClientIds.length} client
+                      {selectedClientIds.length !== 1 ? 's' : ''}
+                    </>
+                  )}
                 </>
               )}
             </p>
@@ -203,9 +242,12 @@ export function ClientsPageClient({
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         phaseFilter={phaseFilter}
-        onPhaseFilterChange={setPhaseFilter}
+        onPhaseFilterChange={handlePhaseFilterChange}
         typeFilter={typeFilter}
         onTypeFilterChange={setTypeFilter}
+        clients={clients}
+        selectedClientIds={selectedClientIds}
+        onClientFilterChange={setSelectedClientIds}
       />
 
       {/* Content */}
@@ -220,27 +262,32 @@ export function ClientsPageClient({
             limit={limit}
           />
         </>
+      ) : projects.length === 0 ? (
+        <ClientsEmptyState />
+      ) : showKanban ? (
+        <>
+          {/* Kanban View - for specific phase (4-6 columns) */}
+          <PipelineKanbanBoard
+            projects={filteredProjects}
+            clients={clients}
+            visibleStatuses={visibleStatuses}
+            onEditProject={(project) => {
+              router.push(`/dashboard/clients/${project.client_id}`);
+            }}
+          />
+        </>
       ) : (
         <>
-          {/* Board View */}
-          {filteredClients.length === 0 ? (
-            <ClientsEmptyState />
-          ) : (
-            <CRMKanbanBoard
-              initialClients={filteredClients}
-              initialProjects={filteredProjects}
-              visibleColumns={visibleColumns}
-              onAddProject={(clientId) => {
-                // Navigate to client detail page to add project
-                router.push(`/dashboard/clients/${clientId}`);
-              }}
-              onEditProject={(project) => {
-                // Navigate to project detail page
-                const projectType = project.type === 'website' ? 'websites' : 'apps';
-                router.push(`/dashboard/clients/${project.client_id}/${projectType}/${project.id}`);
-              }}
-            />
-          )}
+          {/* Grouped List View - for "All Phases" (15 statuses) */}
+          <PipelineListView
+            projects={filteredProjects}
+            clients={clients}
+            visibleStatuses={visibleStatuses}
+            onEditProject={(project) => {
+              router.push(`/dashboard/clients/${project.client_id}`);
+            }}
+            onStatusChange={handleListStatusChange}
+          />
         </>
       )}
     </div>

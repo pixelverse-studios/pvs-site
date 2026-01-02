@@ -32,14 +32,12 @@ export function ClientsTable({ clients }: ClientsTableProps) {
   // Filter clients based on search and status
   const filteredClients = useMemo(() => {
     return clients.filter((client) => {
-      // Search by client name, firstname, lastname, or email
-      const clientName = (client.client || '').toLowerCase();
+      // Search by name or email
       const fullName = `${client.firstname || ''} ${client.lastname || ''}`.toLowerCase();
       const email = (client.client_email || '').toLowerCase();
       const query = searchQuery.toLowerCase();
 
-      const matchesSearch =
-        clientName.includes(query) || fullName.includes(query) || email.includes(query);
+      const matchesSearch = fullName.includes(query) || email.includes(query);
 
       const matchesStatus =
         statusFilter === 'all' ||
@@ -51,10 +49,7 @@ export function ClientsTable({ clients }: ClientsTableProps) {
   }, [clients, searchQuery, statusFilter]);
 
   // Fetch full client data for edit/delete modals
-  const handleOpenModal = async (
-    clientListItem: ClientListItem,
-    action: 'edit' | 'delete',
-  ) => {
+  const handleOpenModal = async (clientListItem: ClientListItem, action: 'edit' | 'delete') => {
     setIsLoadingClient(true);
     try {
       const fullClient = await getClient(clientListItem.client_id);
@@ -187,16 +182,10 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                         >
                           {/* Client Name */}
                           <td className="px-6 py-4">
-                            <div>
-                              <p className="font-medium text-[var(--pv-text)]">
-                                {client.client || 'Unnamed Client'}
-                              </p>
-                              {(client.firstname || client.lastname) && (
-                                <p className="text-sm text-[var(--pv-text-muted)]">
-                                  {[client.firstname, client.lastname].filter(Boolean).join(' ')}
-                                </p>
-                              )}
-                            </div>
+                            <p className="font-medium text-[var(--pv-text)]">
+                              {[client.firstname, client.lastname].filter(Boolean).join(' ') ||
+                                'Unnamed Client'}
+                            </p>
                           </td>
 
                           {/* Contact */}
@@ -258,16 +247,10 @@ export function ClientsTable({ clients }: ClientsTableProps) {
                   <CardContent className="p-6">
                     {/* Header with Status */}
                     <div className="mb-4 flex items-start justify-between">
-                      <div>
-                        <p className="font-semibold text-[var(--pv-text)]">
-                          {client.client || 'Unnamed Client'}
-                        </p>
-                        {(client.firstname || client.lastname) && (
-                          <p className="text-sm text-[var(--pv-text-muted)]">
-                            {[client.firstname, client.lastname].filter(Boolean).join(' ')}
-                          </p>
-                        )}
-                      </div>
+                      <p className="font-semibold text-[var(--pv-text)]">
+                        {[client.firstname, client.lastname].filter(Boolean).join(' ') ||
+                          'Unnamed Client'}
+                      </p>
                       <ClientStatusBadge active={client.client_active} />
                     </div>
 

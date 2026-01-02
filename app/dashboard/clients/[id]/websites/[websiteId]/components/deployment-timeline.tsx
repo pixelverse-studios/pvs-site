@@ -1,4 +1,4 @@
-import { Deployment, IndexingStatus } from '../types';
+import type { Deployment, IndexingStatus } from '@/lib/types/deployment';
 import { DeploymentCard } from './deployment-card';
 
 type UrlFilter = 'all' | 'pending' | 'requested' | 'indexed';

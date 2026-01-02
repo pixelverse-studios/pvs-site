@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { DeploymentsResponse, IndexingStatus } from '../types';
+import { DeploymentsResponse, IndexingStatus } from '@/lib/types/deployment';
+import { getWebsiteDeployments } from '@/lib/api/deployments';
 import { DeploymentTimeline } from './deployment-timeline';
 import { Rocket, AlertCircle, Loader2, PackageX, Clock, Send, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { getApiBaseUrl } from '@/lib/api-config';
 
 interface DeploymentsSectionProps {
   websiteId: string;
@@ -64,20 +64,7 @@ export function DeploymentsSection({ websiteId, websiteTitle }: DeploymentsSecti
     setError(null);
 
     try {
-      const response = await fetch(`${getApiBaseUrl()}/api/websites/${websiteId}/deployments`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-        cache: 'no-store',
-      });
-
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error('Website not found');
-        }
-        throw new Error(`Failed to fetch deployments: ${response.status}`);
-      }
-
-      const result: DeploymentsResponse = await response.json();
+      const result = await getWebsiteDeployments(websiteId);
       setData(result);
     } catch (err) {
       console.error('Error fetching deployments:', err);

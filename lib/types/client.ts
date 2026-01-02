@@ -6,6 +6,7 @@
  */
 
 import type { SeoFocus } from './seo-focus';
+import type { ProjectStatus } from './project';
 
 // Website entity (nested within Client)
 export interface Website {
@@ -14,16 +15,19 @@ export interface Website {
   website_slug: string;
   domain: string;
   type: 'Static' | 'CMS' | string;
+  status: ProjectStatus;
+  priority: number;
   seo_focus?: SeoFocus | null;
 }
 
 // Core Client entity from API
 export interface Client {
   id: string;
-  client: string;
+  client?: string; // @deprecated - use company_name
   client_slug: string;
-  firstname: string | null;
-  lastname: string | null;
+  company_name?: string | null; // Business/company name (optional)
+  firstname: string; // Contact person's first name (required)
+  lastname: string; // Contact person's last name (required)
   email: string | null;
   phone: string | null;
   active: boolean;
@@ -33,41 +37,57 @@ export interface Client {
   websites?: Website[];
 }
 
+// Nested website in client list response
+export interface ClientWebsite {
+  website_id: string;
+  website_title: string;
+  domain: string;
+  status: ProjectStatus;
+  priority: number;
+}
+
+// Nested deployment in client list response
+export interface ClientDeployment {
+  deployment_id: string;
+  website_id: string;
+  website_title: string;
+  deploy_summary: string;
+  indexing_status: 'pending' | 'requested' | 'indexed';
+  created_at: string;
+}
+
 // Client list item (for table/list views with aggregated data)
 export interface ClientListItem {
   client_id: string;
-  client: string;
-  client_slug: string;
-  firstname: string | null;
-  lastname: string | null;
+  company_name?: string | null; // Business/company name (optional)
+  firstname: string;
+  lastname: string;
   client_email: string | null;
   client_active: boolean | null;
-  cms: boolean | null;
   website_count: number;
+  websites: ClientWebsite[];
+  recent_deployments: ClientDeployment[];
   deployment_count_30d: number;
 }
 
 // Request payload for creating a new client
 export interface ClientCreatePayload {
-  client: string;
-  client_slug: string;
-  active: boolean;
-  cms?: boolean;
-  firstname?: string;
-  lastname?: string;
+  firstname: string; // required
+  lastname: string; // required
+  company_name?: string; // optional
   email?: string;
   phone?: string;
+  active?: boolean; // defaults to true
 }
 
 // Request payload for updating a client
 export interface ClientUpdatePayload {
-  client?: string;
-  active?: boolean;
-  cms?: boolean;
+  company_name?: string;
   firstname?: string;
   lastname?: string;
   email?: string;
   phone?: string;
+  active?: boolean;
 }
 
 // API response for paginated client list
@@ -87,9 +107,16 @@ export interface ClientQueryParams {
 }
 
 // Helper: Get display name for a client
+// Prefers company_name if set, otherwise falls back to "firstname lastname"
 export function getClientDisplayName(client: Client | ClientListItem): string {
-  const firstName = 'firstname' in client ? client.firstname : null;
-  const lastName = 'lastname' in client ? client.lastname : null;
+  // Prefer company name if available
+  if ('company_name' in client && client.company_name) {
+    return client.company_name;
+  }
+
+  // Fall back to firstname + lastname
+  const firstName = client.firstname;
+  const lastName = client.lastname;
 
   if (firstName && lastName) {
     return `${firstName} ${lastName}`;
@@ -103,8 +130,7 @@ export function getClientDisplayName(client: Client | ClientListItem): string {
     return lastName;
   }
 
-  // Fall back to client name
-  return client.client;
+  return 'Unknown';
 }
 
 // Helper: Get initials for avatar

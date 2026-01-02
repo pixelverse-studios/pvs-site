@@ -16,13 +16,12 @@ interface EditClientModalProps {
 
 export function EditClientModal({ client, isOpen, onClose, onSuccess }: EditClientModalProps) {
   // Form state - initialized from client prop
-  const [clientName, setClientName] = useState(client.client);
-  const [active, setActive] = useState(client.active);
-  const [cms, setCms] = useState(client.cms ?? false);
+  const [companyName, setCompanyName] = useState(client.company_name ?? '');
   const [firstname, setFirstname] = useState(client.firstname ?? '');
   const [lastname, setLastname] = useState(client.lastname ?? '');
   const [email, setEmail] = useState(client.email ?? '');
   const [phone, setPhone] = useState(client.phone ?? '');
+  const [active, setActive] = useState(client.active);
 
   // UI state
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,13 +30,12 @@ export function EditClientModal({ client, isOpen, onClose, onSuccess }: EditClie
   // Reset form when modal opens or client changes
   useEffect(() => {
     if (isOpen) {
-      setClientName(client.client);
-      setActive(client.active);
-      setCms(client.cms ?? false);
+      setCompanyName(client.company_name ?? '');
       setFirstname(client.firstname ?? '');
       setLastname(client.lastname ?? '');
       setEmail(client.email ?? '');
       setPhone(client.phone ?? '');
+      setActive(client.active);
       setError(null);
     }
   }, [isOpen, client]);
@@ -45,9 +43,13 @@ export function EditClientModal({ client, isOpen, onClose, onSuccess }: EditClie
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validation
-    if (!clientName.trim()) {
-      setError('Client name is required');
+    // Validation - firstname and lastname are required
+    if (!firstname.trim()) {
+      setError('First name is required');
+      return;
+    }
+    if (!lastname.trim()) {
+      setError('Last name is required');
       return;
     }
 
@@ -57,26 +59,23 @@ export function EditClientModal({ client, isOpen, onClose, onSuccess }: EditClie
     // Build payload with only changed fields
     const payload: ClientUpdatePayload = {};
 
-    if (clientName.trim() !== client.client) {
-      payload.client = clientName.trim();
-    }
-    if (active !== client.active) {
-      payload.active = active;
-    }
-    if (cms !== (client.cms ?? false)) {
-      payload.cms = cms;
+    if (companyName.trim() !== (client.company_name ?? '')) {
+      payload.company_name = companyName.trim() || undefined;
     }
     if (firstname.trim() !== (client.firstname ?? '')) {
-      payload.firstname = firstname.trim() || undefined;
+      payload.firstname = firstname.trim();
     }
     if (lastname.trim() !== (client.lastname ?? '')) {
-      payload.lastname = lastname.trim() || undefined;
+      payload.lastname = lastname.trim();
     }
     if (email.trim() !== (client.email ?? '')) {
       payload.email = email.trim() || undefined;
     }
     if (phone.trim() !== (client.phone ?? '')) {
       payload.phone = phone.trim() || undefined;
+    }
+    if (active !== client.active) {
+      payload.active = active;
     }
 
     // If nothing changed, just close
@@ -136,43 +135,95 @@ export function EditClientModal({ client, isOpen, onClose, onSuccess }: EditClie
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4 p-6">
-          {/* Client Name + Slug (read-only) */}
+          {/* Contact Name (Required) */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label
-                htmlFor="edit-client-name"
+                htmlFor="edit-client-firstname"
                 className="text-sm font-medium"
                 style={{ color: 'var(--pv-text)' }}
               >
-                Client Name <span className="text-red-500">*</span>
+                First Name <span className="text-red-500">*</span>
               </label>
               <Input
-                id="edit-client-name"
-                value={clientName}
-                onChange={(e) => setClientName(e.target.value)}
+                id="edit-client-firstname"
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
                 autoFocus
               />
             </div>
 
             <div className="space-y-1.5">
               <label
-                htmlFor="edit-client-slug"
+                htmlFor="edit-client-lastname"
                 className="text-sm font-medium"
-                style={{ color: 'var(--pv-text-muted)' }}
+                style={{ color: 'var(--pv-text)' }}
               >
-                Slug (read-only)
+                Last Name <span className="text-red-500">*</span>
               </label>
               <Input
-                id="edit-client-slug"
-                value={client.client_slug}
-                disabled
-                className="cursor-not-allowed opacity-60"
+                id="edit-client-lastname"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
               />
             </div>
           </div>
 
-          {/* Toggles Row */}
-          <div className="flex items-center gap-6">
+          {/* Company Name (Optional) */}
+          <div className="space-y-1.5">
+            <label
+              htmlFor="edit-company-name"
+              className="text-sm font-medium"
+              style={{ color: 'var(--pv-text)' }}
+            >
+              Company Name{' '}
+              <span className="font-normal text-[var(--pv-text-muted)]">(optional)</span>
+            </label>
+            <Input
+              id="edit-company-name"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+              placeholder="e.g. 360 Degree Care, Tampa Aquatic"
+            />
+          </div>
+
+          {/* Contact Info */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label
+                htmlFor="edit-client-email"
+                className="text-sm font-medium"
+                style={{ color: 'var(--pv-text)' }}
+              >
+                Email
+              </label>
+              <Input
+                id="edit-client-email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label
+                htmlFor="edit-client-phone"
+                className="text-sm font-medium"
+                style={{ color: 'var(--pv-text)' }}
+              >
+                Phone
+              </label>
+              <Input
+                id="edit-client-phone"
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Active Toggle */}
+          <div className="flex items-center gap-6 border-t pt-4" style={{ borderColor: 'var(--pv-border)' }}>
             <label className="flex cursor-pointer items-center gap-2">
               <input
                 type="checkbox"
@@ -181,100 +232,9 @@ export function EditClientModal({ client, isOpen, onClose, onSuccess }: EditClie
                 className="h-4 w-4 rounded border-[var(--pv-border)] text-[var(--pv-primary)] focus:ring-[var(--pv-primary)]"
               />
               <span className="text-sm" style={{ color: 'var(--pv-text)' }}>
-                Active
+                Active Client
               </span>
             </label>
-
-            <label className="flex cursor-pointer items-center gap-2">
-              <input
-                type="checkbox"
-                checked={cms}
-                onChange={(e) => setCms(e.target.checked)}
-                className="h-4 w-4 rounded border-[var(--pv-border)] text-[var(--pv-primary)] focus:ring-[var(--pv-primary)]"
-              />
-              <span className="text-sm" style={{ color: 'var(--pv-text)' }}>
-                CMS
-              </span>
-            </label>
-          </div>
-
-          {/* Contact Info Section */}
-          <div
-            className="border-t pt-4"
-            style={{ borderColor: 'var(--pv-border)' }}
-          >
-            <p
-              className="mb-3 text-xs font-medium uppercase tracking-wide"
-              style={{ color: 'var(--pv-text-muted)' }}
-            >
-              Contact Information
-            </p>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="edit-client-firstname"
-                  className="text-sm font-medium"
-                  style={{ color: 'var(--pv-text)' }}
-                >
-                  First Name
-                </label>
-                <Input
-                  id="edit-client-firstname"
-                  value={firstname}
-                  onChange={(e) => setFirstname(e.target.value)}
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="edit-client-lastname"
-                  className="text-sm font-medium"
-                  style={{ color: 'var(--pv-text)' }}
-                >
-                  Last Name
-                </label>
-                <Input
-                  id="edit-client-lastname"
-                  value={lastname}
-                  onChange={(e) => setLastname(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="mt-4 grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="edit-client-email"
-                  className="text-sm font-medium"
-                  style={{ color: 'var(--pv-text)' }}
-                >
-                  Email
-                </label>
-                <Input
-                  id="edit-client-email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="edit-client-phone"
-                  className="text-sm font-medium"
-                  style={{ color: 'var(--pv-text)' }}
-                >
-                  Phone
-                </label>
-                <Input
-                  id="edit-client-phone"
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-              </div>
-            </div>
           </div>
 
           {/* Error */}

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   LayoutDashboard,
   Users,
@@ -17,6 +17,7 @@ import {
   Sparkles,
   ListTodo,
 } from 'lucide-react';
+import { useSidebar } from './sidebar-context';
 
 interface NavItem {
   label: string;
@@ -72,29 +73,12 @@ const navItems: NavItem[] = [
 
 export function DashboardSidebar() {
   const pathname = usePathname();
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-
-  // Auto-collapse/expand based on screen size
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1024) {
-        setIsCollapsed(true);
-      } else {
-        setIsCollapsed(false);
-        setIsMobileOpen(false);
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const { isCollapsed, setIsCollapsed, isMobileOpen, setIsMobileOpen } = useSidebar();
 
   // Close mobile menu when route changes
   useEffect(() => {
     setIsMobileOpen(false);
-  }, [pathname]);
+  }, [pathname, setIsMobileOpen]);
 
   const isActive = (href: string) => {
     if (href === '/dashboard') {

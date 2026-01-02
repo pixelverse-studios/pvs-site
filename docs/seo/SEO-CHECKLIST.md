@@ -8,6 +8,7 @@
 ## Technical SEO
 
 ### Core Setup
+
 - [x] SSL configured (HTTPS)
 - [x] Mobile-friendly (responsive design)
 - [x] sitemap.xml present (auto-generated with next-sitemap)
@@ -20,6 +21,7 @@
 - [x] Gzip/Brotli compression (Netlify default)
 
 ### Core Web Vitals
+
 - [ ] LCP < 2.5s verified (need Lighthouse baseline)
 - [ ] CLS < 0.1 verified (need Lighthouse baseline)
 - [ ] FID/INP < 200ms verified (need Lighthouse baseline)
@@ -28,6 +30,7 @@
 - [ ] Export initial Lighthouse benchmark
 
 ### Crawlability & Indexing
+
 - [x] Sitemap submitted to Google Search Console
 - [ ] Verify all priority pages indexed (check "crawled, not indexed")
 - [ ] Request reindexing for /services pages
@@ -40,6 +43,7 @@
 ## Structured Data (Schema)
 
 ### Implemented
+
 - [x] LocalBusiness schema (global)
 - [x] Per-city LocalBusiness schema (all 10 cities)
 - [x] Organization schema
@@ -49,6 +53,7 @@
 - [x] BlogPosting schema (blog posts)
 
 ### Validation
+
 - [ ] Google Rich Results Test - LocalBusiness
 - [ ] Google Rich Results Test - FAQ
 - [ ] Google Rich Results Test - Breadcrumbs
@@ -59,12 +64,14 @@
 ## On-Page SEO
 
 ### Metadata
+
 - [x] Unique Title Tags (50-60 chars) - All pages
 - [x] Meta Descriptions (120-160 chars) - All pages
 - [x] Keywords in title tags - Priority cities
 - [x] Keywords in meta descriptions - Priority cities
 
 ### Content Structure
+
 - [x] Single H1 per page
 - [x] H2-H4 headings with keywords
 - [x] ALT attributes on images
@@ -73,6 +80,7 @@
 - [ ] Contextual internal links between city pages (expand)
 
 ### Open Graph & Social
+
 - [x] Open Graph title
 - [x] Open Graph description
 - [x] Open Graph image (1200x630)
@@ -84,15 +92,17 @@
 ## Content SEO
 
 ### City Pages (Priority 5)
-| City | Word Count | Local Refs | Industry Sections | FAQs | Status |
-|------|------------|------------|-------------------|------|--------|
-| Fort Lee | 1,500+ | Yes | Needs work | 3+ | Complete |
-| Englewood | 1,500+ | Yes | Needs work | 3+ | Complete |
-| Hackensack | 1,500+ | Yes | Yes (legal/medical) | 5+ | Complete |
-| Paramus | 1,500+ | Yes | Yes (retail) | 5+ | Complete |
-| Ridgewood | 1,500+ | Yes | Yes (restaurants) | 6+ | Complete |
+
+| City       | Word Count | Local Refs | Industry Sections   | FAQs | Status   |
+| ---------- | ---------- | ---------- | ------------------- | ---- | -------- |
+| Fort Lee   | 1,500+     | Yes        | Needs work          | 3+   | Complete |
+| Englewood  | 1,500+     | Yes        | Needs work          | 3+   | Complete |
+| Hackensack | 1,500+     | Yes        | Yes (legal/medical) | 5+   | Complete |
+| Paramus    | 1,500+     | Yes        | Yes (retail)        | 5+   | Complete |
+| Ridgewood  | 1,500+     | Yes        | Yes (restaurants)   | 6+   | Complete |
 
 ### Blog Content
+
 - [x] Blog hub page (/blog)
 - [x] BlogPosting schema on posts
 - [ ] Content calendar created
@@ -103,6 +113,7 @@
 - [ ] Regular publishing schedule (1-2/week)
 
 ### FAQ Content
+
 - [x] FAQ page with schema (/faq)
 - [x] City-specific FAQs on service pages
 - [ ] Expand FAQs for featured snippet targeting
@@ -112,6 +123,7 @@
 ## Local SEO
 
 ### Google Business Profile
+
 - [ ] GBP claimed and verified (**BLOCKED** - awaiting verification)
 - [ ] Accurate NAP (Name, Address, Phone)
 - [ ] Business description optimized
@@ -124,28 +136,31 @@
 - [ ] Reply to all reviews
 
 ### Local Citations (Directories)
-| Directory | Status | NAP Consistent |
-|-----------|--------|----------------|
-| Google Business Profile | Pending verification | - |
-| Yelp | Not submitted | - |
-| BBB | Not submitted | - |
-| YellowPages | Not submitted | - |
-| Clutch | Not submitted | - |
-| DesignRush | Not submitted | - |
-| UpCity | Not submitted | - |
-| Expertise.com | Not submitted | - |
-| Apple Maps | Not submitted | - |
-| Bing Places | Not submitted | - |
-| Facebook Business | Not submitted | - |
-| LinkedIn | Not submitted | - |
+
+| Directory               | Status               | NAP Consistent |
+| ----------------------- | -------------------- | -------------- |
+| Google Business Profile | Pending verification | -              |
+| Yelp                    | Not submitted        | -              |
+| BBB                     | Not submitted        | -              |
+| YellowPages             | Not submitted        | -              |
+| Clutch                  | Not submitted        | -              |
+| DesignRush              | Not submitted        | -              |
+| UpCity                  | Not submitted        | -              |
+| Expertise.com           | Not submitted        | -              |
+| Apple Maps              | Not submitted        | -              |
+| Bing Places             | Not submitted        | -              |
+| Facebook Business       | Not submitted        | -              |
+| LinkedIn                | Not submitted        | -              |
 
 **NAP to Use:**
+
 - **Name:** PixelVerse Studios
 - **Address:** Bergen County, NJ (service area business)
 - **Phone:** +1-201-638-1769
 - **Email:** info@pixelversestudios.io
 
 ### Chamber of Commerce
+
 - [ ] Bergen County Chamber
 - [ ] Fort Lee Chamber
 - [ ] Englewood Chamber
@@ -158,17 +173,20 @@
 ## Off-Page SEO (Link Building)
 
 ### Directory Backlinks
+
 - [ ] Submit to 10+ directories (0/10 complete)
 - [ ] Consistent NAP across all listings
 - [ ] Verify listings are live and indexable
 
 ### Local Partnerships
+
 - [ ] Identify complementary businesses (photographers, copywriters)
 - [ ] Outreach for guest posts
 - [ ] Link exchange with non-competing agencies
 - [ ] Sponsor local events for backlinks
 
 ### Review Generation
+
 - [ ] Review request system implemented
 - [ ] Request reviews from past clients
 - [ ] Target: 10 reviews by Month 3
@@ -179,6 +197,7 @@
 ## Analytics & Tracking
 
 ### Setup
+
 - [x] SiteBehaviour analytics active
 - [x] Production-only guard (no local/staging tracking)
 - [x] Campaign attribution tracking (src= parameter)
@@ -186,6 +205,7 @@
 - [ ] Google Tag Manager (if using)
 
 ### Search Console
+
 - [x] Domain property created
 - [x] Sitemap submitted
 - [ ] Verify ownership
@@ -194,6 +214,7 @@
 - [ ] Monitor Core Web Vitals report
 
 ### Reporting
+
 - [ ] Monthly traffic report created
 - [ ] Monthly ranking report created
 - [ ] Quarterly strategy review scheduled
@@ -203,12 +224,14 @@
 ## Quick Reference: Next Actions
 
 ### This Week (Priority)
+
 1. [ ] Capture Lighthouse baseline (mobile + desktop)
 2. [ ] Submit to 5 directories (Clutch, DesignRush, UpCity, Yelp, BBB)
 3. [ ] Create "Website Cost Guide" blog post outline
 4. [ ] Verify Google Search Console access
 
 ### This Month
+
 1. [ ] Complete GBP verification (if possible)
 2. [ ] Submit to all 12 directories
 3. [ ] Add industry sections to Fort Lee and Englewood pages
@@ -216,6 +239,7 @@
 5. [ ] Request first batch of client reviews
 
 ### This Quarter
+
 1. [ ] All 5 priority cities in top 10 positions
 2. [ ] 10+ GBP reviews
 3. [ ] 25+ local citations/backlinks
@@ -227,17 +251,19 @@
 ## Checklist Maintenance
 
 **How to update this file:**
+
 1. Check off items as they're completed
 2. Add dates in Notes column when tasks complete
 3. Update progress count at top
 4. Add new items as strategy evolves
 
 **Review Schedule:**
+
 - Weekly: Check off completed items
 - Monthly: Add new tasks based on strategy
 - Quarterly: Full audit and reorganization
 
 ---
 
-*Last Updated: 2025-12-22*
-*Next Review: 2025-12-29*
+_Last Updated: 2025-12-22_
+_Next Review: 2025-12-29_

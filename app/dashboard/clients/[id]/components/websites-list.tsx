@@ -3,15 +3,7 @@
 import { Plus, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EditableWebsiteCard } from './editable-website-card';
-
-interface Website {
-  id: string;
-  type: string;
-  title: string;
-  domain: string;
-  website_slug: string;
-  seo_focus?: object | null;
-}
+import type { Website } from '@/lib/types/client';
 
 interface WebsitesListProps {
   websites?: Website[];

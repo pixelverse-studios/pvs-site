@@ -47,7 +47,7 @@ function TypeBadge({ project }: { project: Project }) {
       <span
         className={cn(
           'inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium',
-          config.color
+          config.color,
         )}
       >
         <Icon className="h-3 w-3" />
@@ -63,7 +63,7 @@ function TypeBadge({ project }: { project: Project }) {
     <span
       className={cn(
         'inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium',
-        config.color
+        config.color,
       )}
     >
       <Icon className="h-3 w-3" />
@@ -138,10 +138,7 @@ export function ProjectKanbanCard({
 }: ProjectKanbanCardProps) {
   const statusColor = STATUS_COLORS[project.status];
   const isInactive = isProjectInactive(project.status);
-  const relativeTime = useMemo(
-    () => formatRelativeTime(project.updated_at),
-    [project.updated_at]
-  );
+  const relativeTime = useMemo(() => formatRelativeTime(project.updated_at), [project.updated_at]);
 
   // Build detail page URL
   const detailUrl = useMemo(() => {
@@ -163,9 +160,9 @@ export function ProjectKanbanCard({
     <div
       className={cn(
         'group relative rounded-lg border bg-[var(--pv-surface)] transition-all duration-200',
-        isDragging && 'rotate-2 shadow-xl opacity-90',
+        isDragging && 'rotate-2 opacity-90 shadow-xl',
         isInactive && 'opacity-60',
-        !isDragging && 'hover:shadow-md'
+        !isDragging && 'hover:shadow-md',
       )}
       style={{
         borderColor: 'var(--pv-border)',
@@ -178,15 +175,13 @@ export function ProjectKanbanCard({
         {/* Header: Drag handle + Title + Type Badge */}
         <div className="mb-2 flex items-start gap-2">
           {/* Drag Handle */}
-          <div className="mt-0.5 cursor-grab opacity-0 transition-opacity group-hover:opacity-100 active:cursor-grabbing">
+          <div className="mt-0.5 cursor-grab opacity-0 transition-opacity active:cursor-grabbing group-hover:opacity-100">
             <GripVertical className="h-4 w-4 text-[var(--pv-text-muted)]" />
           </div>
 
           {/* Title */}
           <div className="min-w-0 flex-1">
-            <h4 className="truncate text-sm font-medium text-[var(--pv-text)]">
-              {project.title}
-            </h4>
+            <h4 className="truncate text-sm font-medium text-[var(--pv-text)]">{project.title}</h4>
           </div>
 
           {/* Type Badge */}

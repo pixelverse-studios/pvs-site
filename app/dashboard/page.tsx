@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getApiBaseUrl } from '@/lib/api-config';
 import { Container } from '@/components/ui/container';
 import { StatCard } from '@/components/dashboard/stat-card';
 import { DashboardCard } from '@/components/dashboard/dashboard-card';
@@ -8,52 +7,13 @@ import { ActivityFeed, ActivityItem } from '@/components/dashboard/activity-feed
 import { AgendaWidget } from '@/components/dashboard/agenda-widget';
 import { ClientListItem } from '@/components/dashboard/client-list-item';
 import { getActiveAgendaItems, getPendingAgendaCount } from '@/lib/api/agenda';
+import { getClients } from '@/lib/api/clients';
+import type { ClientListItem as ClientData } from '@/lib/types/client';
 
 export const metadata = {
   title: 'Dashboard | PixelVerse Studios',
   description: 'Your PixelVerse Studios dashboard',
 };
-
-interface Website {
-  website_id: string;
-  website_title: string;
-  domain: string;
-}
-
-interface Deployment {
-  deployment_id: string;
-  website_id: string;
-  website_title: string;
-  deploy_summary: string;
-  indexing_status: 'pending' | 'requested' | 'indexed';
-  created_at: string;
-}
-
-interface Client {
-  client_id: string;
-  firstname: string;
-  lastname: string;
-  client_email: string | null;
-  client_active: boolean | null;
-  website_count: number;
-  websites: Website[];
-  recent_deployments: Deployment[];
-  deployment_count_30d: number;
-}
-
-async function getClients(): Promise<Client[]> {
-  try {
-    const response = await fetch(`${getApiBaseUrl()}/api/clients`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      cache: 'no-store',
-    });
-    if (!response.ok) return [];
-    return await response.json();
-  } catch {
-    return [];
-  }
-}
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -66,35 +26,22 @@ export default async function DashboardPage() {
   }
 
   // Fetch clients and agenda data in parallel
-  const [clients, agendaData, pendingCount] = await Promise.all([
-    getClients(),
+  const [clientsResponse, agendaData, pendingCount] = await Promise.all([
+    getClients().catch(() => ({ clients: [] as ClientData[], total: 0, limit: 50, offset: 0 })),
     getActiveAgendaItems(8).catch(() => ({ items: [], total: 0 })),
     getPendingAgendaCount().catch(() => 0),
   ]);
 
+  const clients = clientsResponse.clients;
+
   // Calculate stats
-  const totalClients = clients.length;
+  const totalClients = clientsResponse.total;
   const activeClients = clients.filter((c) => c.client_active === true).length;
   const totalWebsites = clients.reduce((acc, c) => acc + (c.website_count || 0), 0);
   const totalDeployments = clients.reduce((acc, c) => acc + (c.deployment_count_30d || 0), 0);
 
-  // Gather all recent deployments from all clients, sort by date
-  const allDeployments = clients
-    .flatMap((c) => c.recent_deployments || [])
-    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-
-  // Build activity feed
-  const activities: ActivityItem[] = allDeployments.slice(0, 5).map((d) => ({
-    id: d.deployment_id,
-    type: 'deployment' as const,
-    title: 'New Deployment',
-    description: d.deploy_summary?.split('\n')[0]?.replace(/^-\s*/, '') || 'Deployment pushed',
-    timestamp: d.created_at,
-    href: `/dashboard/deployments/${d.deployment_id}`,
-    meta: {
-      websiteName: d.website_title || 'Website',
-    },
-  }));
+  // Activity feed - will be populated when we add a deployments API
+  const activities: ActivityItem[] = [];
 
   // Get greeting based on time
   const getGreeting = () => {

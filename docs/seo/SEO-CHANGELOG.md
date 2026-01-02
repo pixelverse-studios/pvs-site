@@ -5,6 +5,7 @@
 ## How to Use
 
 Record every SEO change with:
+
 - **Date** - When the change was made
 - **Category** - Technical / On-Page / Content / Local / Off-Page
 - **Change** - What was done
@@ -27,6 +28,7 @@ Record every SEO change with:
 **Rationale:** [Why]
 
 **Files Affected:**
+
 - [file/page 1]
 - [file/page 2]
 
@@ -50,6 +52,7 @@ Record every SEO change with:
 **Rationale:** Establish centralized, living SEO documentation separate from legacy planning files. Provides clear strategy, keyword targets, competitor analysis, and implementation checklist.
 
 **Files Affected:**
+
 - docs/seo/SEO-SCOPE.md (created)
 - docs/seo/SEO-KEYWORDS.md (created)
 - docs/seo/SEO-COMPETITORS.md (created)
@@ -71,6 +74,7 @@ Record every SEO change with:
 **Rationale:** Expand city page content to 1,500+ words with local landmarks, industry sections, and FAQs to improve local rankings.
 
 **Files Affected:**
+
 - app/services/[city]/page.tsx
 - data/services-city-pages.ts
 
@@ -89,6 +93,7 @@ Record every SEO change with:
 **Rationale:** Improve local SEO signals and enable rich results for each service area
 
 **Files Affected:**
+
 - lib/structured-data.ts
 - app/services/[city]/page.tsx
 
@@ -100,15 +105,15 @@ Record every SEO change with:
 
 ## Milestones
 
-| Date | Milestone | Metrics Before | Metrics After |
-|------|-----------|----------------|---------------|
-| 2025-12-22 | SEO Scope Initialized | N/A | Baseline documented |
-| 2025-12-XX | Phase 3 Content Complete | Fort Lee: ~10 | TBD |
-| - | Fort Lee Top 5 | Position ~10 | - |
-| - | Englewood Top 5 | Position ~12 | - |
-| - | GBP Verified | Not verified | - |
-| - | First 10 Reviews | 0 reviews | - |
-| - | 25 Citations Complete | 0 citations | - |
+| Date       | Milestone                | Metrics Before | Metrics After       |
+| ---------- | ------------------------ | -------------- | ------------------- |
+| 2025-12-22 | SEO Scope Initialized    | N/A            | Baseline documented |
+| 2025-12-XX | Phase 3 Content Complete | Fort Lee: ~10  | TBD                 |
+| -          | Fort Lee Top 5           | Position ~10   | -                   |
+| -          | Englewood Top 5          | Position ~12   | -                   |
+| -          | GBP Verified             | Not verified   | -                   |
+| -          | First 10 Reviews         | 0 reviews      | -                   |
+| -          | 25 Citations Complete    | 0 citations    | -                   |
 
 ---
 
@@ -120,30 +125,37 @@ Use this format for monthly rollup entries:
 ### Month YYYY Summary
 
 **Traffic:**
+
 - Organic sessions: X (change: +/-%)
 - Clicks (GSC): X (change: +/-%)
 
 **Rankings:**
+
 - Fort Lee "web design": Position X
 - Englewood "SEO agency": Position X
 - [other keywords]
 
 **Local:**
+
 - GBP views: X
 - Reviews: X total
 - Citations: X total
 
 **Content:**
+
 - New posts: X
 - Pages updated: X
 
 **Key Wins:**
+
 - [Notable achievements]
 
 **Issues/Blockers:**
+
 - [Problems encountered]
 
 **Next Month Focus:**
+
 - [Priorities for next period]
 ```
 
@@ -151,15 +163,15 @@ Use this format for monthly rollup entries:
 
 ## Change Categories Reference
 
-| Category | Includes |
-|----------|----------|
+| Category      | Includes                                                                |
+| ------------- | ----------------------------------------------------------------------- |
 | **Technical** | Core Web Vitals, schema, sitemap, robots, redirects, speed optimization |
-| **On-Page** | Title tags, meta descriptions, H1s, content structure, internal linking |
-| **Content** | Blog posts, city page content, FAQ expansion, new pages |
-| **Local** | GBP updates, citations, NAP consistency, reviews |
-| **Off-Page** | Backlinks, directory submissions, partnerships |
+| **On-Page**   | Title tags, meta descriptions, H1s, content structure, internal linking |
+| **Content**   | Blog posts, city page content, FAQ expansion, new pages                 |
+| **Local**     | GBP updates, citations, NAP consistency, reviews                        |
+| **Off-Page**  | Backlinks, directory submissions, partnerships                          |
 
 ---
 
-*Changelog Started: 2025-12-22*
-*Maintained By: Phil & Sami*
+_Changelog Started: 2025-12-22_
+_Maintained By: Phil & Sami_

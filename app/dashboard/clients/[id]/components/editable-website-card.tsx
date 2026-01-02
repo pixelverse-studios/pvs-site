@@ -18,15 +18,7 @@ import { WebsiteTypeBadge } from '../../components/website-type-badge';
 import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-
-interface Website {
-  id: string;
-  type: string;
-  title: string;
-  domain: string;
-  website_slug: string;
-  seo_focus?: object | null;
-}
+import type { Website } from '@/lib/types/client';
 
 interface EditableWebsiteCardProps {
   website: Website;

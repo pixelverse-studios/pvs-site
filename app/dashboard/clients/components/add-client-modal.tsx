@@ -13,26 +13,14 @@ interface AddClientModalProps {
   onSuccess?: () => void;
 }
 
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/[\s_-]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
 export function AddClientModal({ isOpen, onClose, onSuccess }: AddClientModalProps) {
   // Form state
-  const [clientName, setClientName] = useState('');
-  const [clientSlug, setClientSlug] = useState('');
-  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
-  const [active, setActive] = useState(true);
-  const [cms, setCms] = useState(false);
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
+  const [companyName, setCompanyName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [active, setActive] = useState(true);
 
   // UI state
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -41,41 +29,26 @@ export function AddClientModal({ isOpen, onClose, onSuccess }: AddClientModalPro
   // Reset form when modal opens/closes
   useEffect(() => {
     if (isOpen) {
-      setClientName('');
-      setClientSlug('');
-      setSlugManuallyEdited(false);
-      setActive(true);
-      setCms(false);
       setFirstname('');
       setLastname('');
+      setCompanyName('');
       setEmail('');
       setPhone('');
+      setActive(true);
       setError(null);
     }
   }, [isOpen]);
 
-  // Auto-generate slug from client name
-  useEffect(() => {
-    if (!slugManuallyEdited && clientName) {
-      setClientSlug(slugify(clientName));
-    }
-  }, [clientName, slugManuallyEdited]);
-
-  const handleSlugChange = (value: string) => {
-    setSlugManuallyEdited(true);
-    setClientSlug(slugify(value));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validation
-    if (!clientName.trim()) {
-      setError('Client name is required');
+    // Validation - firstname and lastname are required
+    if (!firstname.trim()) {
+      setError('First name is required');
       return;
     }
-    if (!clientSlug.trim()) {
-      setError('Client slug is required');
+    if (!lastname.trim()) {
+      setError('Last name is required');
       return;
     }
 
@@ -83,14 +56,12 @@ export function AddClientModal({ isOpen, onClose, onSuccess }: AddClientModalPro
     setError(null);
 
     const payload: ClientCreatePayload = {
-      client: clientName.trim(),
-      client_slug: clientSlug.trim(),
-      active,
-      cms: cms || undefined,
-      firstname: firstname.trim() || undefined,
-      lastname: lastname.trim() || undefined,
+      firstname: firstname.trim(),
+      lastname: lastname.trim(),
+      company_name: companyName.trim() || undefined,
       email: email.trim() || undefined,
       phone: phone.trim() || undefined,
+      active,
     };
 
     try {
@@ -144,44 +115,102 @@ export function AddClientModal({ isOpen, onClose, onSuccess }: AddClientModalPro
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4 p-6">
-          {/* Client Name + Slug */}
+          {/* Contact Name (Required) */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label
-                htmlFor="client-name"
+                htmlFor="client-firstname"
                 className="text-sm font-medium"
                 style={{ color: 'var(--pv-text)' }}
               >
-                Client Name <span className="text-red-500">*</span>
+                First Name <span className="text-red-500">*</span>
               </label>
               <Input
-                id="client-name"
-                value={clientName}
-                onChange={(e) => setClientName(e.target.value)}
-                placeholder="Acme Corp"
+                id="client-firstname"
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
+                placeholder="John"
                 autoFocus
               />
             </div>
 
             <div className="space-y-1.5">
               <label
-                htmlFor="client-slug"
+                htmlFor="client-lastname"
                 className="text-sm font-medium"
                 style={{ color: 'var(--pv-text)' }}
               >
-                Slug <span className="text-red-500">*</span>
+                Last Name <span className="text-red-500">*</span>
               </label>
               <Input
-                id="client-slug"
-                value={clientSlug}
-                onChange={(e) => handleSlugChange(e.target.value)}
-                placeholder="acme-corp"
+                id="client-lastname"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
+                placeholder="Doe"
               />
             </div>
           </div>
 
-          {/* Toggles Row */}
-          <div className="flex items-center gap-6">
+          {/* Company Name (Optional) */}
+          <div className="space-y-1.5">
+            <label
+              htmlFor="company-name"
+              className="text-sm font-medium"
+              style={{ color: 'var(--pv-text)' }}
+            >
+              Company Name{' '}
+              <span className="font-normal text-[var(--pv-text-muted)]">(optional)</span>
+            </label>
+            <Input
+              id="company-name"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+              placeholder="e.g. Acme Corp, 360 Degree Care"
+            />
+          </div>
+
+          {/* Contact Info */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label
+                htmlFor="client-email"
+                className="text-sm font-medium"
+                style={{ color: 'var(--pv-text)' }}
+              >
+                Email
+              </label>
+              <Input
+                id="client-email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="john@acme.com"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label
+                htmlFor="client-phone"
+                className="text-sm font-medium"
+                style={{ color: 'var(--pv-text)' }}
+              >
+                Phone
+              </label>
+              <Input
+                id="client-phone"
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="(555) 123-4567"
+              />
+            </div>
+          </div>
+
+          {/* Active Toggle */}
+          <div
+            className="flex items-center gap-6 border-t pt-4"
+            style={{ borderColor: 'var(--pv-border)' }}
+          >
             <label className="flex cursor-pointer items-center gap-2">
               <input
                 type="checkbox"
@@ -190,104 +219,9 @@ export function AddClientModal({ isOpen, onClose, onSuccess }: AddClientModalPro
                 className="h-4 w-4 rounded border-[var(--pv-border)] text-[var(--pv-primary)] focus:ring-[var(--pv-primary)]"
               />
               <span className="text-sm" style={{ color: 'var(--pv-text)' }}>
-                Active
+                Active Client
               </span>
             </label>
-
-            <label className="flex cursor-pointer items-center gap-2">
-              <input
-                type="checkbox"
-                checked={cms}
-                onChange={(e) => setCms(e.target.checked)}
-                className="h-4 w-4 rounded border-[var(--pv-border)] text-[var(--pv-primary)] focus:ring-[var(--pv-primary)]"
-              />
-              <span className="text-sm" style={{ color: 'var(--pv-text)' }}>
-                CMS
-              </span>
-            </label>
-          </div>
-
-          {/* Contact Info Section */}
-          <div
-            className="border-t pt-4"
-            style={{ borderColor: 'var(--pv-border)' }}
-          >
-            <p
-              className="mb-3 text-xs font-medium uppercase tracking-wide"
-              style={{ color: 'var(--pv-text-muted)' }}
-            >
-              Contact Information (Optional)
-            </p>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="client-firstname"
-                  className="text-sm font-medium"
-                  style={{ color: 'var(--pv-text)' }}
-                >
-                  First Name
-                </label>
-                <Input
-                  id="client-firstname"
-                  value={firstname}
-                  onChange={(e) => setFirstname(e.target.value)}
-                  placeholder="John"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="client-lastname"
-                  className="text-sm font-medium"
-                  style={{ color: 'var(--pv-text)' }}
-                >
-                  Last Name
-                </label>
-                <Input
-                  id="client-lastname"
-                  value={lastname}
-                  onChange={(e) => setLastname(e.target.value)}
-                  placeholder="Doe"
-                />
-              </div>
-            </div>
-
-            <div className="mt-4 grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="client-email"
-                  className="text-sm font-medium"
-                  style={{ color: 'var(--pv-text)' }}
-                >
-                  Email
-                </label>
-                <Input
-                  id="client-email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="john@acme.com"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="client-phone"
-                  className="text-sm font-medium"
-                  style={{ color: 'var(--pv-text)' }}
-                >
-                  Phone
-                </label>
-                <Input
-                  id="client-phone"
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="(555) 123-4567"
-                />
-              </div>
-            </div>
           </div>
 
           {/* Error */}

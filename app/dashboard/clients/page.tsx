@@ -31,7 +31,7 @@ export default async function ClientsPage({ searchParams }: PageProps) {
   const page = Math.max(1, parseInt(params.page || '1', 10) || 1);
   const limit = Math.min(
     100,
-    Math.max(1, parseInt(params.limit || String(DEFAULT_LIMIT), 10) || DEFAULT_LIMIT)
+    Math.max(1, parseInt(params.limit || String(DEFAULT_LIMIT), 10) || DEFAULT_LIMIT),
   );
   const offset = (page - 1) * limit;
 
@@ -58,8 +58,8 @@ export default async function ClientsPage({ searchParams }: PageProps) {
         (website): WebsiteProject => ({
           id: website.id,
           title: website.title,
-          status: 'deployed', // Default status - API should return this
-          priority: 0,
+          status: website.status,
+          priority: website.priority,
           created_at: new Date().toISOString(),
           updated_at: null,
           type: 'website',
@@ -68,8 +68,8 @@ export default async function ClientsPage({ searchParams }: PageProps) {
           websiteType: website.type,
           seo_focus: website.seo_focus,
           client_id: client.id,
-        })
-      )
+        }),
+      ),
     );
   } catch (error) {
     console.error('Error fetching clients:', error);
@@ -80,7 +80,7 @@ export default async function ClientsPage({ searchParams }: PageProps) {
   // Redirect to last valid page if current page is too high
   if (page > totalPages && totalPages > 0) {
     redirect(
-      `/dashboard/clients?page=${totalPages}${limit !== DEFAULT_LIMIT ? `&limit=${limit}` : ''}`
+      `/dashboard/clients?page=${totalPages}${limit !== DEFAULT_LIMIT ? `&limit=${limit}` : ''}`,
     );
   }
 

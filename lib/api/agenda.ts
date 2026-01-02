@@ -11,8 +11,6 @@ import type {
   ReorderAgendaRequest,
 } from '@/lib/types/agenda';
 
-const API_BASE = getApiBaseUrl();
-
 // List agenda items
 export async function getAgendaItems(params?: AgendaQueryParams): Promise<AgendaListResponse> {
   const searchParams = new URLSearchParams();
@@ -22,7 +20,7 @@ export async function getAgendaItems(params?: AgendaQueryParams): Promise<Agenda
   if (params?.limit) searchParams.set('limit', String(params.limit));
   if (params?.offset) searchParams.set('offset', String(params.offset));
 
-  const url = `${API_BASE}/api/agenda?${searchParams}`;
+  const url = `${getApiBaseUrl()}/api/agenda?${searchParams}`;
   const res = await fetch(url, { cache: 'no-store' });
   if (!res.ok) throw new Error('Failed to fetch agenda items');
   return res.json();
@@ -30,14 +28,14 @@ export async function getAgendaItems(params?: AgendaQueryParams): Promise<Agenda
 
 // Get single item
 export async function getAgendaItem(id: string): Promise<AgendaItem> {
-  const res = await fetch(`${API_BASE}/api/agenda/${id}`, { cache: 'no-store' });
+  const res = await fetch(`${getApiBaseUrl()}/api/agenda/${id}`, { cache: 'no-store' });
   if (!res.ok) throw new Error('Failed to fetch agenda item');
   return res.json();
 }
 
 // Create item
 export async function createAgendaItem(data: CreateAgendaItemRequest): Promise<AgendaItem> {
-  const res = await fetch(`${API_BASE}/api/agenda/new`, {
+  const res = await fetch(`${getApiBaseUrl()}/api/agenda/new`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -54,7 +52,7 @@ export async function updateAgendaItem(
   id: string,
   data: UpdateAgendaItemRequest,
 ): Promise<AgendaItem> {
-  const res = await fetch(`${API_BASE}/api/agenda/${id}`, {
+  const res = await fetch(`${getApiBaseUrl()}/api/agenda/${id}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -68,7 +66,7 @@ export async function updateAgendaStatus(
   id: string,
   data: UpdateAgendaStatusRequest,
 ): Promise<AgendaItem> {
-  const res = await fetch(`${API_BASE}/api/agenda/${id}/status`, {
+  const res = await fetch(`${getApiBaseUrl()}/api/agenda/${id}/status`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -82,7 +80,7 @@ export async function updateAgendaPriority(
   id: string,
   data: UpdateAgendaPriorityRequest,
 ): Promise<AgendaItem> {
-  const res = await fetch(`${API_BASE}/api/agenda/${id}/priority`, {
+  const res = await fetch(`${getApiBaseUrl()}/api/agenda/${id}/priority`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -95,7 +93,7 @@ export async function updateAgendaPriority(
 export async function reorderAgendaItems(
   data: ReorderAgendaRequest,
 ): Promise<AgendaReorderResponse> {
-  const res = await fetch(`${API_BASE}/api/agenda/reorder`, {
+  const res = await fetch(`${getApiBaseUrl()}/api/agenda/reorder`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -106,7 +104,7 @@ export async function reorderAgendaItems(
 
 // Delete item
 export async function deleteAgendaItem(id: string): Promise<void> {
-  const res = await fetch(`${API_BASE}/api/agenda/${id}`, {
+  const res = await fetch(`${getApiBaseUrl()}/api/agenda/${id}`, {
     method: 'DELETE',
   });
   if (!res.ok) throw new Error('Failed to delete agenda item');

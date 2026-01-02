@@ -6,7 +6,7 @@ import { Container } from '@/components/ui/container';
 import { DeploymentStatusBadge } from '@/app/dashboard/clients/[id]/websites/[websiteId]/components/deployment-status-badge';
 import { DeploymentCard } from '@/app/dashboard/clients/[id]/websites/[websiteId]/components/deployment-card';
 import { ArrowLeft, Globe, Rocket, ExternalLink, Users } from 'lucide-react';
-import { DeploymentDetail, IndexingStatus } from '../types';
+import type { DeploymentDetail, IndexingStatus } from '@/lib/types/deployment';
 
 interface DeploymentDetailViewProps {
   deployment: DeploymentDetail;
