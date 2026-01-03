@@ -92,14 +92,8 @@ export interface SocialLinksProps {
 }
 
 // Expandable Google Review Button with hover animation
+// Uses CSS @media (hover: hover) via Tailwind arbitrary variants for hover-capable detection
 function GoogleReviewButton({ iconClassName }: { iconClassName?: string }) {
-  const [isHoverCapable, setIsHoverCapable] = React.useState(false);
-
-  React.useEffect(() => {
-    // Check if device supports hover (not touch-only)
-    setIsHoverCapable(window.matchMedia('(hover: hover)').matches);
-  }, []);
-
   return (
     <Link
       href={GOOGLE_REVIEW_LINK.href}
@@ -111,46 +105,30 @@ function GoogleReviewButton({ iconClassName }: { iconClassName?: string }) {
         'group/review relative flex h-10 items-center justify-center overflow-hidden',
         // Default state - matches sibling icons
         'w-10 rounded-full border border-[var(--pv-border)]',
-        'bg-[var(--pv-surface)] text-[var(--pv-text-muted)]',
+        'bg-[var(--pv-surface)]',
         'shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)]',
         // Focus styles
         'focus-visible:border-[var(--pv-primary)] focus-visible:outline-none',
         'focus-visible:ring-[var(--pv-primary)]/40 focus-visible:ring-2',
-        // Transition for container (width, bg, border, shadow)
-        'transition-[width,background-color,border-color,box-shadow] duration-200 ease-out',
-        // Hover expansion (only on hover-capable devices via group state)
-        isHoverCapable && [
-          'hover:w-[156px] hover:rounded-full hover:border-transparent',
-          'hover:bg-[var(--pv-primary)] hover:pl-3 hover:pr-4',
-          'hover:shadow-[0_0_20px_-4px_var(--pv-primary)]',
-        ],
+        // Hover expansion - only on devices that support hover
+        '@media(hover:hover):transition-[width,background-color,border-color,box-shadow,padding]',
+        '@media(hover:hover):duration-200 @media(hover:hover):ease-out',
+        '@media(hover:hover):hover:w-[156px] @media(hover:hover):hover:border-transparent',
+        '@media(hover:hover):hover:bg-[var(--pv-primary)] @media(hover:hover):hover:pl-3 @media(hover:hover):hover:pr-4',
+        '@media(hover:hover):hover:shadow-[0_0_20px_-4px_var(--pv-primary)]',
         iconClassName,
       )}
     >
-      {/* Icon - color transitions with slight delay */}
+      {/* Icon */}
       <GoogleGlyphIcon
-        className={cn(
-          'h-4 w-4 shrink-0',
-          'text-[var(--pv-text-muted)]',
-          'transition-colors duration-200',
-          isHoverCapable && 'delay-50 group-hover/review:text-white',
-        )}
+        className="h-4 w-4 shrink-0 text-[var(--pv-text-muted)] @media(hover:hover):transition-colors @media(hover:hover):duration-200 @media(hover:hover):delay-50 @media(hover:hover):group-hover/review:text-white"
         aria-hidden="true"
       />
 
-      {/* CTA Text - slides in with staggered delay */}
-      {isHoverCapable && (
-        <span
-          className={cn(
-            'ml-2 whitespace-nowrap text-sm font-medium tracking-tight text-white',
-            '-translate-x-2 opacity-0',
-            'delay-100 transition-[opacity,transform] duration-150 ease-out',
-            'group-hover/review:translate-x-0 group-hover/review:opacity-100',
-          )}
-        >
-          {GOOGLE_REVIEW_LINK.ctaText}
-        </span>
-      )}
+      {/* CTA Text - hidden on touch, visible on hover for hover-capable devices */}
+      <span className="ml-2 hidden whitespace-nowrap text-sm font-medium tracking-tight text-white opacity-0 -translate-x-2 @media(hover:hover):block @media(hover:hover):transition-[opacity,transform] @media(hover:hover):duration-150 @media(hover:hover):delay-100 @media(hover:hover):ease-out @media(hover:hover):group-hover/review:translate-x-0 @media(hover:hover):group-hover/review:opacity-100">
+        {GOOGLE_REVIEW_LINK.ctaText}
+      </span>
 
       {/* Screen reader text (always present) */}
       <span className="sr-only">{GOOGLE_REVIEW_LINK.label}</span>
