@@ -128,6 +128,7 @@ function GoogleReviewButton({ iconClassName }: { iconClassName?: string }) {
       <GoogleGlyphIcon
         className={cn(
           'h-4 w-4 shrink-0',
+          'text-[var(--pv-text-muted)]',
           'transition-colors duration-200',
           isHoverCapable && 'delay-[50ms] group-hover/review:text-white',
         )}
