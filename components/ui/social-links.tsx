@@ -92,7 +92,6 @@ export interface SocialLinksProps {
 }
 
 // Expandable Google Review Button with hover animation
-// Uses CSS @media (hover: hover) via Tailwind arbitrary variants for hover-capable detection
 function GoogleReviewButton({ iconClassName }: { iconClassName?: string }) {
   return (
     <Link
@@ -110,23 +109,23 @@ function GoogleReviewButton({ iconClassName }: { iconClassName?: string }) {
         // Focus styles
         'focus-visible:border-[var(--pv-primary)] focus-visible:outline-none',
         'focus-visible:ring-[var(--pv-primary)]/40 focus-visible:ring-2',
-        // Hover expansion - only on devices that support hover
-        '@media(hover:hover):transition-[width,background-color,border-color,box-shadow,padding]',
-        '@media(hover:hover):duration-200 @media(hover:hover):ease-out',
-        '@media(hover:hover):hover:w-[156px] @media(hover:hover):hover:border-transparent',
-        '@media(hover:hover):hover:bg-[var(--pv-primary)] @media(hover:hover):hover:pl-3 @media(hover:hover):hover:pr-4',
-        '@media(hover:hover):hover:shadow-[0_0_20px_-4px_var(--pv-primary)]',
+        // Transitions
+        'transition-[width,background-color,border-color,box-shadow,padding] duration-200 ease-out',
+        // Hover expansion
+        'hover:w-[156px] hover:border-transparent',
+        'hover:bg-[var(--pv-primary)] hover:pl-3 hover:pr-4',
+        'hover:shadow-[0_0_20px_-4px_var(--pv-primary)]',
         iconClassName,
       )}
     >
       {/* Icon */}
       <GoogleGlyphIcon
-        className="h-4 w-4 shrink-0 text-[var(--pv-text-muted)] @media(hover:hover):transition-colors @media(hover:hover):duration-200 @media(hover:hover):delay-50 @media(hover:hover):group-hover/review:text-white"
+        className="h-4 w-4 shrink-0 text-[var(--pv-text-muted)] transition-colors duration-200 delay-50 group-hover/review:text-white"
         aria-hidden="true"
       />
 
-      {/* CTA Text - hidden on touch, visible on hover for hover-capable devices */}
-      <span className="ml-2 hidden whitespace-nowrap text-sm font-medium tracking-tight text-white opacity-0 -translate-x-2 @media(hover:hover):block @media(hover:hover):transition-[opacity,transform] @media(hover:hover):duration-150 @media(hover:hover):delay-100 @media(hover:hover):ease-out @media(hover:hover):group-hover/review:translate-x-0 @media(hover:hover):group-hover/review:opacity-100">
+      {/* CTA Text - slides in on hover */}
+      <span className="ml-2 whitespace-nowrap text-sm font-medium tracking-tight text-white opacity-0 -translate-x-2 transition-[opacity,transform] duration-150 delay-100 ease-out group-hover/review:translate-x-0 group-hover/review:opacity-100">
         {GOOGLE_REVIEW_LINK.ctaText}
       </span>
 
