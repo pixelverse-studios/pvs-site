@@ -130,7 +130,7 @@ function GoogleReviewButton({ iconClassName }: { iconClassName?: string }) {
           'h-4 w-4 shrink-0',
           'text-[var(--pv-text-muted)]',
           'transition-colors duration-200',
-          isHoverCapable && 'delay-[50ms] group-hover/review:text-white',
+          isHoverCapable && 'delay-50 group-hover/review:text-white',
         )}
         aria-hidden="true"
       />
@@ -141,7 +141,7 @@ function GoogleReviewButton({ iconClassName }: { iconClassName?: string }) {
           className={cn(
             'ml-2 whitespace-nowrap text-sm font-medium tracking-tight text-white',
             '-translate-x-2 opacity-0',
-            'delay-[100ms] transition-[opacity,transform] duration-150 ease-out',
+            'delay-100 transition-[opacity,transform] duration-150 ease-out',
             'group-hover/review:translate-x-0 group-hover/review:opacity-100',
           )}
         >
