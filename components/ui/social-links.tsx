@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import * as React from 'react';
 import type { LucideIcon, LucideProps } from 'lucide-react';
@@ -39,6 +41,7 @@ const GoogleGlyphSvg = React.forwardRef<SVGSVGElement, LucideProps>(
 GoogleGlyphSvg.displayName = 'GoogleGlyphIcon';
 const GoogleGlyphIcon = GoogleGlyphSvg as LucideIcon;
 
+// Regular social links (excluding Google Review which gets special treatment)
 export const SOCIAL_LINKS: SocialLink[] = [
   {
     label: 'Instagram',
@@ -61,25 +64,94 @@ export const SOCIAL_LINKS: SocialLink[] = [
     icon: Youtube,
   },
   {
-    label: 'Google Business Profile',
-    href: 'https://share.google/QU5tjH8prhGXPp95b',
-    icon: GoogleGlyphIcon,
-  },
-  {
     label: 'Twitter/X',
     href: 'https://x.com/pvs_nj',
     icon: XLogoIcon,
   },
 ];
 
+// Google Review link (separate for expandable button treatment)
+export const GOOGLE_REVIEW_LINK = {
+  label: 'Leave a review on Google',
+  href: 'https://search.google.com/local/writereview?placeid=ChIJP9TTk-nyGIgRJLhBiKpq0Nw',
+  ctaText: 'Leave a Review',
+};
+
 export interface SocialLinksProps {
   className?: string;
   iconClassName?: string;
 }
 
+// Expandable Google Review Button with hover animation
+function GoogleReviewButton({ iconClassName }: { iconClassName?: string }) {
+  const [isHoverCapable, setIsHoverCapable] = React.useState(false);
+
+  React.useEffect(() => {
+    // Check if device supports hover (not touch-only)
+    setIsHoverCapable(window.matchMedia('(hover: hover)').matches);
+  }, []);
+
+  return (
+    <Link
+      href={GOOGLE_REVIEW_LINK.href}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={GOOGLE_REVIEW_LINK.label}
+      className={cn(
+        // Base layout
+        'group/review relative flex h-10 items-center justify-center overflow-hidden',
+        // Default state - matches sibling icons
+        'w-10 rounded-full border border-[var(--pv-border)]',
+        'bg-[var(--pv-surface)] text-[var(--pv-text-muted)]',
+        'shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)]',
+        // Focus styles
+        'focus-visible:border-[var(--pv-primary)] focus-visible:outline-none',
+        'focus-visible:ring-[var(--pv-primary)]/40 focus-visible:ring-2',
+        // Transition for container (width, bg, border, shadow)
+        'transition-[width,background-color,border-color,box-shadow] duration-200 ease-out',
+        // Hover expansion (only on hover-capable devices via group state)
+        isHoverCapable && [
+          'hover:w-[156px] hover:rounded-full hover:border-transparent',
+          'hover:bg-[var(--pv-primary)] hover:pl-3 hover:pr-4',
+          'hover:shadow-[0_0_20px_-4px_var(--pv-primary)]',
+        ],
+        iconClassName,
+      )}
+    >
+      {/* Icon - color transitions with slight delay */}
+      <GoogleGlyphIcon
+        className={cn(
+          'h-4 w-4 shrink-0',
+          'transition-colors duration-200',
+          isHoverCapable && 'delay-[50ms] group-hover/review:text-white',
+        )}
+        aria-hidden="true"
+      />
+
+      {/* CTA Text - slides in with staggered delay */}
+      {isHoverCapable && (
+        <span
+          className={cn(
+            'ml-2 whitespace-nowrap text-sm font-medium tracking-tight text-white',
+            '-translate-x-2 opacity-0',
+            'delay-[100ms] transition-[opacity,transform] duration-150 ease-out',
+            'group-hover/review:translate-x-0 group-hover/review:opacity-100',
+          )}
+        >
+          {GOOGLE_REVIEW_LINK.ctaText}
+        </span>
+      )}
+
+      {/* Screen reader text (always present) */}
+      <span className="sr-only">{GOOGLE_REVIEW_LINK.label}</span>
+    </Link>
+  );
+}
+
 export function SocialLinks({ className, iconClassName }: SocialLinksProps) {
   return (
     <div className={cn('flex items-center gap-3', className)}>
+      {/* Regular social icons */}
       {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
         <Link
           key={href}
@@ -95,6 +167,9 @@ export function SocialLinks({ className, iconClassName }: SocialLinksProps) {
           <Icon className="h-4 w-4" aria-hidden="true" />
         </Link>
       ))}
+
+      {/* Expandable Google Review button */}
+      <GoogleReviewButton iconClassName={iconClassName} />
     </div>
   );
 }
