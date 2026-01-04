@@ -13,23 +13,22 @@ export interface SocialLink {
   icon: LucideIcon;
 }
 
-const XLogoSvg = React.forwardRef<SVGSVGElement, LucideProps>(
-  ({ className, ...props }, ref) => (
-    <svg
-      ref={ref}
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
-      className={className}
-      {...props}
-    >
-      <path d="M3.2 3h4.77l4.11 5.89L16.41 3H20.8l-6.7 8.08L21 21h-4.77l-4.37-6.19L7.68 21H3.2l6.78-8.13L3.2 3Z" />
-    </svg>
-  ),
-);
+const XLogoSvg = React.forwardRef<SVGSVGElement, LucideProps>(({ className, ...props }, ref) => (
+  <svg
+    ref={ref}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    aria-hidden="true"
+    className={className}
+    {...props}
+  >
+    <path d="M3.2 3h4.77l4.11 5.89L16.41 3H20.8l-6.7 8.08L21 21h-4.77l-4.37-6.19L7.68 21H3.2l6.78-8.13L3.2 3Z" />
+  </svg>
+));
 XLogoSvg.displayName = 'XLogoIcon';
 const XLogoIcon = XLogoSvg as LucideIcon;
 
+// Google "G" logo - official 4-color version
 const GoogleGlyphSvg = React.forwardRef<SVGSVGElement, LucideProps>(
   ({ className, ...props }, ref) => (
     <svg
@@ -50,7 +49,7 @@ const GoogleGlyphSvg = React.forwardRef<SVGSVGElement, LucideProps>(
 GoogleGlyphSvg.displayName = 'GoogleGlyphIcon';
 const GoogleGlyphIcon = GoogleGlyphSvg as LucideIcon;
 
-// Regular social links (excluding Google Review which gets special treatment)
+// Regular social links
 export const SOCIAL_LINKS: SocialLink[] = [
   {
     label: 'Instagram',
@@ -79,7 +78,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
   },
 ];
 
-// Google Review link (separate for expandable button treatment)
+// Google Review link configuration
 export const GOOGLE_REVIEW_LINK = {
   label: 'Leave a review on Google',
   href: 'https://search.google.com/local/writereview?placeid=ChIJP9TTk-nyGIgRJLhBiKpq0Nw',
@@ -91,7 +90,14 @@ export interface SocialLinksProps {
   iconClassName?: string;
 }
 
-// Expandable Google Review Button with hover animation
+/**
+ * Expandable Google Review Button
+ *
+ * Uses max-width technique for hydration-safe CSS animation:
+ * - Icon has NO transition classes (prevents hydration flash)
+ * - Text expands via max-width: 0 → max-width: 200px
+ * - Container expands naturally with content
+ */
 function GoogleReviewButton({ iconClassName }: { iconClassName?: string }) {
   return (
     <Link
@@ -100,36 +106,44 @@ function GoogleReviewButton({ iconClassName }: { iconClassName?: string }) {
       rel="noreferrer"
       aria-label={GOOGLE_REVIEW_LINK.label}
       className={cn(
-        // Base layout
-        'group/review relative flex h-10 items-center justify-center overflow-hidden',
-        // Default state - matches sibling icons
-        'w-10 rounded-full border border-[var(--pv-border)]',
-        'bg-[var(--pv-surface)]',
-        'shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)]',
+        // Layout - inline-flex so it sizes to content
+        'group/review inline-flex h-10 items-center overflow-hidden',
+        // Default state - circular like other social icons
+        'rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)]',
+        // Padding: icon area is always 40px (h-10 w-10 equivalent)
+        'pl-3 pr-3',
         // Focus styles
         'focus-visible:border-[var(--pv-primary)] focus-visible:outline-none',
         'focus-visible:ring-[var(--pv-primary)]/40 focus-visible:ring-2',
-        // Transitions
-        'transition-[width,background-color,border-color,box-shadow,padding] duration-200 ease-out',
-        // Hover expansion
-        'hover:w-[156px] hover:border-transparent',
-        'hover:bg-[var(--pv-primary)] hover:pl-3 hover:pr-4',
+        // Hover state - expand padding and change colors
+        'hover:border-transparent hover:bg-[var(--pv-primary)] hover:pr-4',
         'hover:shadow-[0_0_20px_-4px_var(--pv-primary)]',
+        // Transition ONLY on properties that should animate
+        'transition-[padding,background-color,border-color,box-shadow] duration-200 ease-out',
         iconClassName,
       )}
     >
-      {/* Icon - no transition to avoid fade on page load */}
+      {/* Icon - NO TRANSITIONS to prevent hydration flash */}
       <GoogleGlyphIcon
         className="h-4 w-4 shrink-0 text-[var(--pv-text-muted)] group-hover/review:text-white"
         aria-hidden="true"
       />
 
-      {/* CTA Text - slides in on hover */}
-      <span className="ml-2 whitespace-nowrap text-sm font-medium tracking-tight text-white opacity-0 -translate-x-2 transition-[opacity,transform] duration-150 delay-100 ease-out group-hover/review:translate-x-0 group-hover/review:opacity-100">
+      {/* CTA Text - uses max-width technique for smooth reveal */}
+      <span
+        className={cn(
+          'max-w-0 overflow-hidden whitespace-nowrap',
+          'text-sm font-medium tracking-tight text-white opacity-0',
+          // Transition max-width and opacity
+          'transition-[max-width,opacity,margin] duration-200 ease-out',
+          // On hover: expand max-width, show text, add margin
+          'group-hover/review:ml-2 group-hover/review:max-w-[120px] group-hover/review:opacity-100',
+        )}
+      >
         {GOOGLE_REVIEW_LINK.ctaText}
       </span>
 
-      {/* Screen reader text (always present) */}
+      {/* Screen reader text (always available) */}
       <span className="sr-only">{GOOGLE_REVIEW_LINK.label}</span>
     </Link>
   );
