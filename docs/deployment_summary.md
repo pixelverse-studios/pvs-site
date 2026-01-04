@@ -17,6 +17,9 @@
 - Added CRM kanban board orchestrator for managing client projects
 - Added toolbar with view toggle, search, and filters for Clients page
 - Integrated CRM kanban board into Clients dashboard with Table/Board view toggle
+- Added animated Google Review button to footer that expands on hover to reveal "Leave a Review" CTA
+- Button matches existing social icons in default state but transforms to branded pill button on hover
+- Uses CSS-only animation (max-width technique) for smooth, hydration-safe expansion
 
 ## Notes for internal team
 
@@ -72,7 +75,13 @@
 - Added `getAllClientsWithWebsites()` helper to `lib/api/clients.ts`
 - Table view shows paginated ClientsTable with its own search/filter
 - Board view shows CRMKanbanBoard with toolbar-based filtering
+- PVS-177 completed
+- Modified `components/ui/social-links.tsx` - added `GoogleGlyphIcon` SVG and `GoogleReviewButton` component
+- Uses max-width technique instead of width transitions to avoid React hydration issues
+- Icon has NO transition classes to prevent fade-on-load bug
+- Review link uses direct Google writereview URL for better UX
 
 ## Changed URLs
 
 - https://www.pixelversestudios.io/dashboard/clients
+- https://www.pixelversestudios.io/
