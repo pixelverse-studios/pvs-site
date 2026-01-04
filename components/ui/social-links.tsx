@@ -118,9 +118,9 @@ function GoogleReviewButton({ iconClassName }: { iconClassName?: string }) {
         iconClassName,
       )}
     >
-      {/* Icon */}
+      {/* Icon - no transition to avoid fade on page load */}
       <GoogleGlyphIcon
-        className="h-4 w-4 shrink-0 text-[var(--pv-text-muted)] transition-colors duration-200 delay-50 group-hover/review:text-white"
+        className="h-4 w-4 shrink-0 text-[var(--pv-text-muted)] group-hover/review:text-white"
         aria-hidden="true"
       />
 
