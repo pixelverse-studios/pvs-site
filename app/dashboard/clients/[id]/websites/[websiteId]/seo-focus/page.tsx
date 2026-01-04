@@ -2,7 +2,6 @@ import { redirect, notFound } from 'next/navigation';
 import Link from 'next/link';
 import { createClient as createSupabaseClient } from '@/lib/supabase/server';
 import { Container } from '@/components/ui/container';
-import { getApiBaseUrl } from '@/lib/api-config';
 import { ArrowLeft } from 'lucide-react';
 import {
   type SeoFocus,
@@ -11,34 +10,13 @@ import {
   getPositionDisplay,
   getPriorityColor,
 } from '@/lib/types/seo-focus';
+import { getClient } from '@/lib/api/clients';
+import type { Client, Website } from '@/lib/types/client';
 
 export const metadata = {
   title: 'SEO Focus | Dashboard | PixelVerse Studios',
   description: 'Track hyper-local SEO progress for this website.',
 };
-
-const API_BASE_URL = getApiBaseUrl();
-
-interface Website {
-  id: string;
-  type: string;
-  title: string;
-  domain: string;
-  website_slug: string;
-  seo_focus?: SeoFocus | null;
-}
-
-interface Client {
-  id: string;
-  firstname: string | null;
-  lastname: string | null;
-  email: string | null;
-  phone: string | null;
-  active: boolean | null;
-  created_at: string;
-  updated_at: string | null;
-  websites?: Website[];
-}
 
 export default async function SeoFocusPage({
   params,
@@ -55,29 +33,11 @@ export default async function SeoFocusPage({
   }
 
   // Fetch client from API (which includes websites with seo_focus)
-  let client: Client | null = null;
+  let client: Client;
   try {
-    const response = await fetch(`${API_BASE_URL}/api/clients/${params.id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store',
-    });
-
-    if (response.ok) {
-      client = await response.json();
-    } else if (response.status === 404) {
-      notFound();
-    } else {
-      throw new Error(`Failed to fetch client: ${response.status}`);
-    }
+    client = await getClient(params.id);
   } catch (error) {
     console.error('Error fetching client:', error);
-    notFound();
-  }
-
-  if (!client) {
     notFound();
   }
 

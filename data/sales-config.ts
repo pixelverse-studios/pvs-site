@@ -37,6 +37,10 @@ export interface Sale {
   showBadge: boolean;
   badgeText?: string;
   applyToPackages?: string[];
+
+  // Monthly discount configuration (percentage discounts only)
+  discountMonthly?: boolean;
+  monthlyDiscountDuration?: number; // Number of months (e.g., 3 = "first 3 months")
 }
 
 /**
@@ -50,15 +54,15 @@ export const currentSale: Sale | null = {
   active: true,
 
   startDate: '2025-12-20T00:00:00-05:00',
-  endDate: '2026-01-05T23:59:59-05:00',
+  endDate: '2025-12-31T23:59:59-05:00',
   showCountdown: true,
 
   discountType: 'percentage',
-  discountValue: 15,
-  discountLabel: '15% OFF',
+  discountValue: 30,
+  discountLabel: '30% OFF',
 
-  headline: 'New Year, New Website',
-  subtext: 'Start 2026 with a fresh digital presence',
+  headline: 'Holiday Sale',
+  subtext: 'End the year with a brand new website',
   ctaText: 'Claim Offer',
   ctaLink: '/contact?ref=holiday2025',
 
@@ -68,8 +72,11 @@ export const currentSale: Sale | null = {
   theme: 'sale',
 
   showBadge: true,
-  badgeText: 'SALE',
-  applyToPackages: ['core-starter', 'core-growth', 'seo-starter', 'seo-growth'],
+  badgeText: '30% OFF',
+  // applyToPackages omitted = applies to ALL packages
+
+  discountMonthly: true,
+  monthlyDiscountDuration: 3, // First 3 months
 };
 
 /**
@@ -121,6 +128,15 @@ export function calculateDiscountedPrice(originalPrice: number, sale: Sale): num
  */
 export function parseSetupPrice(priceString: string): number | null {
   const match = priceString.match(/\$([0-9,]+)/);
+  if (!match) return null;
+  return parseInt(match[1].replace(/,/g, ''), 10);
+}
+
+/**
+ * Parse monthly price from string (e.g., "$2,000 setup + $79/mo" -> 79)
+ */
+export function parseMonthlyPrice(priceString: string): number | null {
+  const match = priceString.match(/\+\s*\$([0-9,]+)\/mo/);
   if (!match) return null;
   return parseInt(match[1].replace(/,/g, ''), 10);
 }
