@@ -209,7 +209,7 @@ export const draftBlogPosts: BlogPost[] = [
       {
         type: 'paragraph',
         content:
-          'Posts expire after seven days, so create a schedule to maintain visibility. Even one post per week keeps your profile active in Google\'s eyes.',
+          "Posts expire after seven days, so create a schedule to maintain visibility. Even one post per week keeps your profile active in Google's eyes.",
       },
       {
         type: 'heading',
@@ -651,7 +651,7 @@ export const draftBlogPosts: BlogPost[] = [
       {
         type: 'paragraph',
         content:
-          'Be mindful of your state bar\'s advertising rules. New Jersey has specific requirements about testimonials and case results. Work with a web design partner who understands legal marketing compliance.',
+          "Be mindful of your state bar's advertising rules. New Jersey has specific requirements about testimonials and case results. Work with a web design partner who understands legal marketing compliance.",
       },
       {
         type: 'heading',
@@ -1039,7 +1039,7 @@ export const draftBlogPosts: BlogPost[] = [
       {
         type: 'paragraph',
         content:
-          'Healthcare websites require more than good design. They need HIPAA awareness, patient-centered trust building, accessibility compliance, and local SEO to compete in Bergen County\'s crowded healthcare market.',
+          "Healthcare websites require more than good design. They need HIPAA awareness, patient-centered trust building, accessibility compliance, and local SEO to compete in Bergen County's crowded healthcare market.",
       },
       {
         type: 'paragraph',
@@ -1238,8 +1238,7 @@ export const draftBlogPosts: BlogPost[] = [
       },
       {
         type: 'paragraph',
-        content:
-          'Your initial investment is not the only cost. Plan for ongoing expenses:',
+        content: 'Your initial investment is not the only cost. Plan for ongoing expenses:',
       },
       {
         type: 'list',
@@ -1290,8 +1289,7 @@ export const draftBlogPosts: BlogPost[] = [
       },
       {
         type: 'paragraph',
-        content:
-          'The "right" website investment depends on your business. Ask yourself:',
+        content: 'The "right" website investment depends on your business. Ask yourself:',
       },
       {
         type: 'list',
@@ -1420,8 +1418,7 @@ export const draftBlogPosts: BlogPost[] = [
       },
       {
         type: 'paragraph',
-        content:
-          'Consider a local service business:',
+        content: 'Consider a local service business:',
       },
       {
         type: 'list',
@@ -1495,8 +1492,7 @@ export const draftBlogPosts: BlogPost[] = [
       },
       {
         type: 'paragraph',
-        content:
-          'The best time to redesign depends on your business cycle. Consider:',
+        content: 'The best time to redesign depends on your business cycle. Consider:',
       },
       {
         type: 'list',
@@ -1513,8 +1509,7 @@ export const draftBlogPosts: BlogPost[] = [
       },
       {
         type: 'paragraph',
-        content:
-          'To estimate ROI for your business:',
+        content: 'To estimate ROI for your business:',
       },
       {
         type: 'list',
@@ -1732,8 +1727,7 @@ export const draftBlogPosts: BlogPost[] = [
       },
       {
         type: 'paragraph',
-        content:
-          'Mobile performance directly affects your bottom line:',
+        content: 'Mobile performance directly affects your bottom line:',
       },
       {
         type: 'list',
@@ -1783,8 +1777,7 @@ export const draftBlogPosts: BlogPost[] = [
   // ==========================================================================
   {
     slug: 'website-speed-performance-new-jersey-businesses',
-    title:
-      'Website Speed and Performance: How Slow Loading Costs New Jersey Businesses Customers',
+    title: 'Website Speed and Performance: How Slow Loading Costs New Jersey Businesses Customers',
     excerpt:
       'Every second of load time costs conversions. Learn why website speed matters, how to measure it, and what NJ businesses can do to improve performance.',
     category: 'Web Development',
@@ -1833,8 +1826,7 @@ export const draftBlogPosts: BlogPost[] = [
       },
       {
         type: 'paragraph',
-        content:
-          'Beyond rankings, speed directly impacts whether visitors become customers:',
+        content: 'Beyond rankings, speed directly impacts whether visitors become customers:',
       },
       {
         type: 'list',
@@ -2182,7 +2174,7 @@ export const draftBlogPosts: BlogPost[] = [
         items: [
           'Community Development Financial Institutions (CDFIs)',
           'Minority Business Development Centers',
-          'Women\'s Business Centers',
+          "Women's Business Centers",
           'Industry-specific associations',
           'Local economic development corporations',
         ],
@@ -2283,7 +2275,7 @@ export const draftBlogPosts: BlogPost[] = [
       {
         type: 'paragraph',
         content:
-          'Starting a business is exciting and overwhelming. Between legal paperwork, financing, and operations, digital presence often gets pushed aside. That is a mistake. Your online presence is how customers find and evaluate you—and in Bergen County\'s competitive market, digital credibility matters from day one.',
+          "Starting a business is exciting and overwhelming. Between legal paperwork, financing, and operations, digital presence often gets pushed aside. That is a mistake. Your online presence is how customers find and evaluate you—and in Bergen County's competitive market, digital credibility matters from day one.",
       },
       {
         type: 'paragraph',
@@ -2384,8 +2376,7 @@ export const draftBlogPosts: BlogPost[] = [
       },
       {
         type: 'paragraph',
-        content:
-          'You do not need to be everywhere, but claim your name on major platforms:',
+        content: 'You do not need to be everywhere, but claim your name on major platforms:',
       },
       {
         type: 'list',
@@ -2446,8 +2437,7 @@ export const draftBlogPosts: BlogPost[] = [
       },
       {
         type: 'paragraph',
-        content:
-          'Ensure NAP consistency across all listings. Identical information everywhere.',
+        content: 'Ensure NAP consistency across all listings. Identical information everywhere.',
       },
       {
         type: 'heading',
@@ -2473,8 +2463,7 @@ export const draftBlogPosts: BlogPost[] = [
       },
       {
         type: 'paragraph',
-        content:
-          'Start creating content that positions you as a local expert:',
+        content: 'Start creating content that positions you as a local expert:',
       },
       {
         type: 'list',
@@ -2495,8 +2484,7 @@ export const draftBlogPosts: BlogPost[] = [
       },
       {
         type: 'paragraph',
-        content:
-          'With your foundation established, build out your site strategically:',
+        content: 'With your foundation established, build out your site strategically:',
       },
       {
         type: 'list',
