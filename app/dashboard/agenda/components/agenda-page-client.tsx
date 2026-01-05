@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
-import { Circle, Loader2, CheckCircle2, Plus } from 'lucide-react';
+import { Circle, Loader2, CheckCircle2, Plus, LayoutGrid, LayoutList } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Container } from '@/components/ui/container';
 import type { AgendaItem, AgendaStatus } from '@/lib/types/agenda';
@@ -14,11 +14,29 @@ import {
   reorderAgendaItems,
 } from '@/lib/api/agenda';
 import { AgendaCard } from './agenda-card';
+import { AgendaListView } from './agenda-list-view';
 import {
   AgendaItemModal,
   type AgendaFormData,
 } from '@/components/dashboard/agenda/agenda-item-modal';
 import { DeleteAgendaDialog } from '@/components/dashboard/agenda/delete-agenda-dialog';
+import { Button } from '@/components/ui/button';
+
+// View mode types and localStorage helpers
+type AgendaViewMode = 'kanban' | 'list';
+const VIEW_MODE_STORAGE_KEY = 'pvs-agenda-view-mode';
+
+function getSavedViewMode(): AgendaViewMode {
+  if (typeof window === 'undefined') return 'kanban';
+  const saved = localStorage.getItem(VIEW_MODE_STORAGE_KEY);
+  if (saved === 'list' || saved === 'kanban') return saved;
+  return 'kanban';
+}
+
+function saveViewMode(mode: AgendaViewMode): void {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(VIEW_MODE_STORAGE_KEY, mode);
+}
 
 interface AgendaPageClientProps {
   initialItems: AgendaItem[];
@@ -38,6 +56,17 @@ const columns: { status: AgendaStatus; title: string; icon: typeof Circle; color
 export function AgendaPageClient({ initialItems }: AgendaPageClientProps) {
   const [items, setItems] = useState(initialItems);
   const [toast, setToast] = useState<Toast | null>(null);
+  const [viewMode, setViewMode] = useState<AgendaViewMode>('kanban');
+
+  // Load saved view mode on mount
+  useEffect(() => {
+    setViewMode(getSavedViewMode());
+  }, []);
+
+  const handleViewModeChange = (mode: AgendaViewMode) => {
+    setViewMode(mode);
+    saveViewMode(mode);
+  };
 
   // Modal states
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -186,7 +215,7 @@ export function AgendaPageClient({ initialItems }: AgendaPageClientProps) {
       <main className="pb-16 pt-6 lg:pt-8">
         <Container className="max-w-7xl">
           {/* Header */}
-          <div className="mb-8 flex items-center justify-between">
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h1
                 className="font-heading text-2xl font-bold md:text-3xl"
@@ -198,104 +227,147 @@ export function AgendaPageClient({ initialItems }: AgendaPageClientProps) {
                 Track your focus items and priorities
               </p>
             </div>
-            <button
-              onClick={() => setCreateModalOpen(true)}
-              className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white transition-all hover:opacity-90"
-              style={{
-                background: 'linear-gradient(135deg, var(--pv-primary), var(--pv-primary-2))',
-                boxShadow: '0 4px 12px rgba(63, 0, 233, 0.3)',
-              }}
-            >
-              <Plus className="h-4 w-4" />
-              Add Item
-            </button>
+            <div className="flex items-center gap-3">
+              {/* View Toggle */}
+              <div
+                className="flex items-center overflow-hidden rounded-md border"
+                style={{ borderColor: 'var(--pv-border)' }}
+              >
+                <Button
+                  variant={viewMode === 'kanban' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => handleViewModeChange('kanban')}
+                  className={cn(
+                    'h-9 rounded-none border-r px-3',
+                    viewMode !== 'kanban' && 'bg-transparent',
+                  )}
+                  style={{ borderColor: 'var(--pv-border)' }}
+                  aria-label="Kanban view"
+                  aria-pressed={viewMode === 'kanban'}
+                >
+                  <LayoutGrid className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant={viewMode === 'list' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => handleViewModeChange('list')}
+                  className={cn('h-9 rounded-none px-3', viewMode !== 'list' && 'bg-transparent')}
+                  aria-label="List view"
+                  aria-pressed={viewMode === 'list'}
+                >
+                  <LayoutList className="h-4 w-4" />
+                </Button>
+              </div>
+
+              {/* Add Item Button */}
+              <button
+                onClick={() => setCreateModalOpen(true)}
+                className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white transition-all hover:opacity-90"
+                style={{
+                  background: 'linear-gradient(135deg, var(--pv-primary), var(--pv-primary-2))',
+                  boxShadow: '0 4px 12px rgba(63, 0, 233, 0.3)',
+                }}
+              >
+                <Plus className="h-4 w-4" />
+                Add Item
+              </button>
+            </div>
           </div>
 
           {/* Kanban Board */}
-          <DragDropContext onDragEnd={handleDragEnd}>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              {columns.map(({ status, title, icon: Icon, color }) => (
-                <Droppable droppableId={status} key={status}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className={cn(
-                        'flex flex-col rounded-xl border transition-all',
-                        snapshot.isDraggingOver && 'ring-[var(--pv-primary)]/50 ring-2',
-                      )}
-                      style={{
-                        background: 'var(--pv-surface)',
-                        borderColor: 'var(--pv-border)',
-                      }}
-                    >
-                      {/* Column Header */}
+          {viewMode === 'kanban' ? (
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                {columns.map(({ status, title, icon: Icon, color }) => (
+                  <Droppable droppableId={status} key={status}>
+                    {(provided, snapshot) => (
                       <div
-                        className="flex items-center justify-between border-b px-4 py-3"
-                        style={{ borderColor: 'var(--pv-border)' }}
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        className={cn(
+                          'flex flex-col rounded-xl border transition-all',
+                          snapshot.isDraggingOver && 'ring-[var(--pv-primary)]/50 ring-2',
+                        )}
+                        style={{
+                          background: 'var(--pv-surface)',
+                          borderColor: 'var(--pv-border)',
+                        }}
                       >
-                        <div className="flex items-center gap-2">
-                          <Icon className={cn('h-4 w-4', color)} />
-                          <h3 className="font-semibold" style={{ color: 'var(--pv-text)' }}>
-                            {title}
-                          </h3>
-                          <span
-                            className="rounded-full px-2 py-0.5 text-xs"
-                            style={{
-                              background: 'var(--pv-bg)',
-                              color: 'var(--pv-text-muted)',
-                            }}
-                          >
-                            {groupedItems[status].length}
-                          </span>
+                        {/* Column Header */}
+                        <div
+                          className="flex items-center justify-between border-b px-4 py-3"
+                          style={{ borderColor: 'var(--pv-border)' }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <Icon className={cn('h-4 w-4', color)} />
+                            <h3 className="font-semibold" style={{ color: 'var(--pv-text)' }}>
+                              {title}
+                            </h3>
+                            <span
+                              className="rounded-full px-2 py-0.5 text-xs"
+                              style={{
+                                background: 'var(--pv-bg)',
+                                color: 'var(--pv-text-muted)',
+                              }}
+                            >
+                              {groupedItems[status].length}
+                            </span>
+                          </div>
+
+                          {status === 'pending' && (
+                            <button
+                              onClick={() => setCreateModalOpen(true)}
+                              className="rounded p-1 transition-colors hover:bg-[var(--pv-bg)]"
+                              title="Add item"
+                            >
+                              <Plus className="h-4 w-4 text-[var(--pv-text-muted)]" />
+                            </button>
+                          )}
                         </div>
 
-                        {status === 'pending' && (
-                          <button
-                            onClick={() => setCreateModalOpen(true)}
-                            className="rounded p-1 transition-colors hover:bg-[var(--pv-bg)]"
-                            title="Add item"
-                          >
-                            <Plus className="h-4 w-4 text-[var(--pv-text-muted)]" />
-                          </button>
-                        )}
+                        {/* Column Content */}
+                        <div className="min-h-[200px] flex-1 space-y-2 p-3">
+                          {groupedItems[status].length === 0 ? (
+                            <div className="flex h-full items-center justify-center text-sm text-[var(--pv-text-muted)]">
+                              {status === 'completed' ? 'Nothing completed yet' : 'No items'}
+                            </div>
+                          ) : (
+                            groupedItems[status].map((item, index) => (
+                              <Draggable key={item.id} draggableId={item.id} index={index}>
+                                {(dragProvided, dragSnapshot) => (
+                                  <div
+                                    ref={dragProvided.innerRef}
+                                    {...dragProvided.draggableProps}
+                                    {...dragProvided.dragHandleProps}
+                                  >
+                                    <AgendaCard
+                                      item={item}
+                                      isDragging={dragSnapshot.isDragging}
+                                      onEdit={() => setEditingItem(item)}
+                                      onDelete={() => setDeletingItem(item)}
+                                      onStatusChange={handleStatusChange}
+                                    />
+                                  </div>
+                                )}
+                              </Draggable>
+                            ))
+                          )}
+                          {provided.placeholder}
+                        </div>
                       </div>
-
-                      {/* Column Content */}
-                      <div className="min-h-[200px] flex-1 space-y-2 p-3">
-                        {groupedItems[status].length === 0 ? (
-                          <div className="flex h-full items-center justify-center text-sm text-[var(--pv-text-muted)]">
-                            {status === 'completed' ? 'Nothing completed yet' : 'No items'}
-                          </div>
-                        ) : (
-                          groupedItems[status].map((item, index) => (
-                            <Draggable key={item.id} draggableId={item.id} index={index}>
-                              {(dragProvided, dragSnapshot) => (
-                                <div
-                                  ref={dragProvided.innerRef}
-                                  {...dragProvided.draggableProps}
-                                  {...dragProvided.dragHandleProps}
-                                >
-                                  <AgendaCard
-                                    item={item}
-                                    isDragging={dragSnapshot.isDragging}
-                                    onEdit={() => setEditingItem(item)}
-                                    onDelete={() => setDeletingItem(item)}
-                                    onStatusChange={handleStatusChange}
-                                  />
-                                </div>
-                              )}
-                            </Draggable>
-                          ))
-                        )}
-                        {provided.placeholder}
-                      </div>
-                    </div>
-                  )}
-                </Droppable>
-              ))}
-            </div>
-          </DragDropContext>
+                    )}
+                  </Droppable>
+                ))}
+              </div>
+            </DragDropContext>
+          ) : (
+            <AgendaListView
+              groupedItems={groupedItems}
+              onEdit={(item) => setEditingItem(item)}
+              onDelete={(item) => setDeletingItem(item)}
+              onStatusChange={handleStatusChange}
+            />
+          )}
         </Container>
       </main>
 
