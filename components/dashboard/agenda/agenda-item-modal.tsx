@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { X, Calendar, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import { RichTextEditor } from '@/components/dashboard/agenda/rich-text-editor';
 import {
   Select,
   SelectContent,
@@ -150,12 +150,11 @@ export function AgendaItemModal({ item, isOpen, onClose, onSave }: AgendaItemMod
             >
               Description
             </label>
-            <Textarea
-              id="agenda-description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+            <RichTextEditor
+              content={description}
+              onChange={setDescription}
               placeholder="Add details..."
-              className="min-h-[100px]"
+              minHeight="100px"
             />
           </div>
 

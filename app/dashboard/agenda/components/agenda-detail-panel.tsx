@@ -16,7 +16,7 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import { RichTextEditor } from '@/components/dashboard/agenda/rich-text-editor';
 import {
   Select,
   SelectContent,
@@ -240,24 +240,22 @@ export function AgendaDetailPanel({
               Description
             </label>
             {isEditing ? (
-              <Textarea
-                id="panel-description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+              <RichTextEditor
+                content={description}
+                onChange={setDescription}
                 placeholder="Add details..."
-                className="min-h-[120px] resize-none"
+                minHeight="140px"
               />
             ) : item.description ? (
               <div
-                className="rounded-lg border p-4 text-sm leading-relaxed"
+                className="prose prose-sm max-w-none rounded-lg border p-4 dark:prose-invert prose-p:my-2 prose-a:text-[var(--pv-primary)] prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-[var(--pv-primary)] prose-blockquote:text-[var(--pv-text-muted)] prose-code:rounded prose-code:bg-[var(--pv-surface)] prose-code:px-1.5 prose-code:py-0.5 prose-code:before:content-none prose-code:after:content-none prose-ol:my-2 prose-ul:my-2 prose-li:my-0.5"
                 style={{
                   background: 'var(--pv-bg)',
                   borderColor: 'var(--pv-border)',
                   color: 'var(--pv-text)',
                 }}
-              >
-                {item.description}
-              </div>
+                dangerouslySetInnerHTML={{ __html: item.description }}
+              />
             ) : (
               <p className="text-sm italic text-[var(--pv-text-muted)]">No description</p>
             )}
