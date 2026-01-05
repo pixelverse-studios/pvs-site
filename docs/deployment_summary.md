@@ -20,6 +20,9 @@
 - Added animated Google Review button to footer that expands on hover to reveal "Leave a Review" CTA
 - Button matches existing social icons in default state but transforms to branded pill button on hover
 - Uses CSS-only animation (max-width technique) for smooth, hydration-safe expansion
+- Added slide-out detail panel for agenda items (click card or list row to preview task details)
+- Panel shows full description, status controls, category, due date, and timestamps
+- Edit and Delete actions available directly from the panel
 
 ## Notes for internal team
 
@@ -81,6 +84,10 @@
 - Icon has NO transition classes to prevent fade-on-load bug
 - Review link uses direct Google writereview URL for better UX
 - Flipped all SEO meta titles to show offerings first, brand last for better SERP visibility
+- PVS-189 completed
+- Created `app/dashboard/agenda/components/agenda-detail-panel.tsx` using Sheet component
+- Added onSelect prop to AgendaCard and AgendaListView for click-to-preview
+- Click vs drag distinguished by checking target element in kanban view
 
 ## Changed URLs
 
@@ -105,3 +112,4 @@
 - https://www.pixelversestudios.io/services/englewood
 - https://www.pixelversestudios.io/services/bergenfield
 - https://www.pixelversestudios.io/services/ridgewood
+- https://www.pixelversestudios.io/dashboard/agenda
