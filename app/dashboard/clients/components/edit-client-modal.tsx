@@ -223,7 +223,10 @@ export function EditClientModal({ client, isOpen, onClose, onSuccess }: EditClie
           </div>
 
           {/* Active Toggle */}
-          <div className="flex items-center gap-6 border-t pt-4" style={{ borderColor: 'var(--pv-border)' }}>
+          <div
+            className="flex items-center gap-6 border-t pt-4"
+            style={{ borderColor: 'var(--pv-border)' }}
+          >
             <label className="flex cursor-pointer items-center gap-2">
               <input
                 type="checkbox"

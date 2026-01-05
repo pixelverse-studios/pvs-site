@@ -32,9 +32,7 @@ export function SidebarProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <SidebarContext.Provider
-      value={{ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobileOpen }}
-    >
+    <SidebarContext.Provider value={{ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobileOpen }}>
       {children}
     </SidebarContext.Provider>
   );

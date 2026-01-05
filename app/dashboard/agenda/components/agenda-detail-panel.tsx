@@ -179,7 +179,10 @@ export function AgendaDetailPanel({
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <SheetContent side="right" className="flex flex-col overflow-hidden p-0">
         {/* Header */}
-        <SheetHeader className="flex-shrink-0 border-b p-6" style={{ borderColor: 'var(--pv-border)' }}>
+        <SheetHeader
+          className="flex-shrink-0 border-b p-6"
+          style={{ borderColor: 'var(--pv-border)' }}
+        >
           {isEditing ? (
             <div className="space-y-2 pr-8">
               <label
@@ -209,10 +212,7 @@ export function AgendaDetailPanel({
         <div className="flex-1 space-y-6 overflow-y-auto p-6">
           {/* Status Section */}
           <div>
-            <label
-              className="mb-3 block text-sm font-medium"
-              style={{ color: 'var(--pv-text)' }}
-            >
+            <label className="mb-3 block text-sm font-medium" style={{ color: 'var(--pv-text)' }}>
               Status
             </label>
             <div className="flex flex-wrap gap-2">
@@ -225,7 +225,7 @@ export function AgendaDetailPanel({
                     'border',
                     item.status === status
                       ? cn(bgColor, 'border-transparent')
-                      : 'border-[var(--pv-border)] bg-transparent hover:border-[var(--pv-primary)]/30',
+                      : 'hover:border-[var(--pv-primary)]/30 border-[var(--pv-border)] bg-transparent',
                   )}
                 >
                   <Icon
