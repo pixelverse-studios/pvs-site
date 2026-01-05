@@ -195,7 +195,10 @@ function AgendaListItem({
           {item.name}
         </p>
         {item.description && (
-          <p className="mt-0.5 truncate text-sm text-[var(--pv-text-muted)]">{item.description}</p>
+          <div
+            className="prose prose-sm mt-0.5 line-clamp-1 max-w-none text-sm text-[var(--pv-text-muted)] dark:prose-invert prose-p:m-0 prose-ol:m-0 prose-ul:m-0 prose-li:m-0"
+            dangerouslySetInnerHTML={{ __html: item.description }}
+          />
         )}
       </div>
 

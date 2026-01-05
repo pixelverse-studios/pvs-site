@@ -32,7 +32,7 @@ const sheetVariants = {
     'inset-x-0 bottom-0 border-t data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom',
   left: 'inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left',
   right:
-    'inset-y-0 right-0 h-full w-full border-l sm:max-w-md lg:max-w-lg xl:max-w-xl data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right',
+    'inset-y-0 right-0 h-full w-full border-l sm:max-w-lg lg:max-w-xl xl:max-w-2xl data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right',
 } as const;
 
 type SheetSide = keyof typeof sheetVariants;

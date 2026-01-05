@@ -27,6 +27,10 @@
 - Converted agenda detail panel to unified view/edit mode - no more separate edit modal
 - Edit button now toggles inline form fields within the panel
 - Save/Cancel buttons in edit mode, returns to view mode after save
+- Added rich text editor for agenda item descriptions with formatting toolbar
+- Editor supports bold, italic, underline, strikethrough, lists, blockquotes, code blocks, and links
+- Descriptions now render as formatted HTML in kanban cards, list view, and detail panel
+- Links open in new tabs with proper security attributes
 
 ## Notes for internal team
 
@@ -95,6 +99,15 @@
 - Enhanced agenda detail panel with view/edit mode toggle
 - Updated Sheet component right variant with responsive widths (md → lg → xl)
 - Removed edit modal from agenda flow, all editing now happens in the panel
+- PVS-191 completed
+- Created `components/dashboard/agenda/rich-text-editor.tsx` - TipTap-based WYSIWYG editor
+- Added @tiptap/react, @tiptap/starter-kit, @tiptap/extension-link, @tiptap/extension-underline, @tiptap/pm
+- Editor toolbar includes: Bold, Italic, Underline, Strikethrough, Bullet List, Ordered List, Blockquote, Code Block, Link, Undo, Redo
+- Updated agenda-detail-panel.tsx to use RichTextEditor in edit mode, render HTML in view mode
+- Updated agenda-card.tsx and agenda-list-view.tsx to render HTML descriptions with prose styling
+- Updated agenda-item-modal.tsx to use RichTextEditor for create form
+- Uses @tailwindcss/typography prose classes with dark mode support
+- Server sanitizes HTML content (XSS protection handled backend)
 
 ## Changed URLs
 

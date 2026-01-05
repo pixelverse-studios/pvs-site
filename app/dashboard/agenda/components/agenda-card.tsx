@@ -150,9 +150,10 @@ export function AgendaCard({
 
         {/* Description preview */}
         {item.description && (
-          <p className="mt-1 line-clamp-2 text-xs text-[var(--pv-text-muted)]">
-            {item.description}
-          </p>
+          <div
+            className="prose prose-sm mt-1 line-clamp-2 max-w-none text-xs text-[var(--pv-text-muted)] dark:prose-invert prose-p:m-0 prose-ol:m-0 prose-ul:m-0 prose-li:m-0"
+            dangerouslySetInnerHTML={{ __html: item.description }}
+          />
         )}
 
         {/* Meta row */}
