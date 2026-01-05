@@ -137,6 +137,13 @@ export function AgendaListView({
   );
 }
 
+const statusOptions: { status: AgendaStatus; label: string; icon: typeof Circle; color: string }[] =
+  [
+    { status: 'pending', label: 'Pending', icon: Circle, color: 'text-amber-500' },
+    { status: 'in_progress', label: 'In Progress', icon: Loader2, color: 'text-blue-500' },
+    { status: 'completed', label: 'Completed', icon: CheckCircle2, color: 'text-emerald-500' },
+  ];
+
 function AgendaListItem({
   item,
   onEdit,
@@ -150,15 +157,6 @@ function AgendaListItem({
   onStatusChange: (id: string, status: AgendaStatus) => void;
   onSelect: () => void;
 }) {
-  const cycleStatus = () => {
-    const next: Record<AgendaStatus, AgendaStatus> = {
-      pending: 'in_progress',
-      in_progress: 'completed',
-      completed: 'pending',
-    };
-    onStatusChange(item.id, next[item.status]);
-  };
-
   const config = statusConfig.find((s) => s.status === item.status)!;
   const StatusIcon = config.icon;
 
@@ -177,14 +175,10 @@ function AgendaListItem({
       className="group flex cursor-pointer items-center gap-4 px-4 py-3 transition-colors hover:bg-[var(--pv-bg)]"
       style={{ borderColor: 'var(--pv-border)' }}
     >
-      {/* Status Icon - Clickable */}
-      <button
-        onClick={cycleStatus}
-        className={cn('flex-shrink-0 transition-transform hover:scale-110', config.color)}
-        title={`Status: ${config.title} (click to change)`}
-      >
+      {/* Current Status Icon */}
+      <div className={cn('flex-shrink-0', config.color)}>
         <StatusIcon className={cn('h-5 w-5', item.status === 'in_progress' && 'animate-spin')} />
-      </button>
+      </div>
 
       {/* Content */}
       <div className="min-w-0 flex-1">
@@ -220,21 +214,70 @@ function AgendaListItem({
         </div>
       )}
 
-      {/* Actions */}
-      <div className="flex flex-shrink-0 items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+      {/* Actions - Status buttons + Edit/Delete */}
+      <div
+        className="flex flex-shrink-0 items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100"
+        role="group"
+        aria-label="Item actions"
+      >
+        {/* Status Buttons */}
+        {statusOptions.map(({ status, label, icon: Icon, color }) => (
+          <button
+            key={status}
+            onClick={(e) => {
+              e.stopPropagation();
+              onStatusChange(item.id, status);
+            }}
+            className={cn(
+              'flex h-7 w-7 items-center justify-center rounded transition-colors',
+              'hover:bg-[var(--pv-surface)] focus:outline-none focus:ring-2 focus:ring-[var(--pv-primary)]/50',
+              item.status === status && 'bg-[var(--pv-surface)]',
+            )}
+            aria-label={`Mark as ${label}`}
+            title={label}
+          >
+            <Icon className={cn('h-3.5 w-3.5', color)} />
+          </button>
+        ))}
+
+        {/* Divider */}
+        <div
+          className="mx-1 h-4 w-px"
+          style={{ background: 'var(--pv-border)' }}
+          aria-hidden="true"
+        />
+
+        {/* Edit Button */}
         <button
-          onClick={onEdit}
-          className="rounded p-1.5 transition-colors hover:bg-[var(--pv-border)]"
+          onClick={(e) => {
+            e.stopPropagation();
+            onEdit();
+          }}
+          className={cn(
+            'flex h-7 w-7 items-center justify-center rounded transition-colors',
+            'hover:bg-[var(--pv-surface)] focus:outline-none focus:ring-2 focus:ring-[var(--pv-primary)]/50',
+          )}
+          aria-label="Edit item"
           title="Edit"
         >
-          <Pencil className="h-4 w-4 text-[var(--pv-text-muted)]" />
+          <Pencil className="h-3.5 w-3.5 text-[var(--pv-text-muted)]" />
         </button>
+
+        {/* Delete Button */}
         <button
-          onClick={onDelete}
-          className="rounded p-1.5 transition-colors hover:bg-red-500/10"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
+          }}
+          className={cn(
+            'flex h-7 w-7 items-center justify-center rounded transition-colors',
+            'text-[var(--pv-text-muted)] hover:bg-red-500/10 hover:text-red-500',
+            'focus:outline-none focus:ring-2 focus:ring-red-500/50',
+          )}
+          aria-label="Delete item"
           title="Delete"
         >
-          <Trash2 className="h-4 w-4 text-red-500" />
+          <Trash2 className="h-3.5 w-3.5" />
         </button>
       </div>
     </div>
