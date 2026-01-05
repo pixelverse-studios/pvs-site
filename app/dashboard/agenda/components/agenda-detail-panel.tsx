@@ -177,13 +177,15 @@ export function AgendaDetailPanel({
 
   return (
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <SheetContent side="right" className="flex flex-col overflow-hidden">
-        <SheetHeader className="flex-shrink-0">
+      <SheetContent side="right" className="flex flex-col overflow-hidden p-0">
+        {/* Header */}
+        <SheetHeader className="flex-shrink-0 border-b p-6" style={{ borderColor: 'var(--pv-border)' }}>
           {isEditing ? (
-            <div className="space-y-1.5 pr-8">
+            <div className="space-y-2 pr-8">
               <label
                 htmlFor="panel-name"
-                className="text-xs font-medium uppercase tracking-wider text-[var(--pv-text-muted)]"
+                className="text-sm font-medium"
+                style={{ color: 'var(--pv-text)' }}
               >
                 Name <span className="text-red-500">*</span>
               </label>
@@ -193,7 +195,7 @@ export function AgendaDetailPanel({
                 onChange={(e) => setName(e.target.value)}
                 placeholder="What needs to be done?"
                 autoFocus
-                className="text-lg font-semibold"
+                className="text-base"
               />
             </div>
           ) : (
@@ -203,10 +205,14 @@ export function AgendaDetailPanel({
           )}
         </SheetHeader>
 
-        <div className="flex-1 space-y-6 overflow-y-auto py-2">
+        {/* Scrollable Content */}
+        <div className="flex-1 space-y-6 overflow-y-auto p-6">
           {/* Status Section */}
           <div>
-            <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-[var(--pv-text-muted)]">
+            <label
+              className="mb-3 block text-sm font-medium"
+              style={{ color: 'var(--pv-text)' }}
+            >
               Status
             </label>
             <div className="flex flex-wrap gap-2">
@@ -215,11 +221,11 @@ export function AgendaDetailPanel({
                   key={status}
                   onClick={() => handleStatusClick(status)}
                   className={cn(
-                    'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all',
-                    'hover:border-[var(--pv-primary)]/30 border',
+                    'flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all',
+                    'border',
                     item.status === status
                       ? cn(bgColor, 'border-transparent')
-                      : 'border-[var(--pv-border)] bg-transparent',
+                      : 'border-[var(--pv-border)] bg-transparent hover:border-[var(--pv-primary)]/30',
                   )}
                 >
                   <Icon
@@ -235,7 +241,8 @@ export function AgendaDetailPanel({
           <div>
             <label
               htmlFor="panel-description"
-              className="mb-2 block text-xs font-medium uppercase tracking-wider text-[var(--pv-text-muted)]"
+              className="mb-3 block text-sm font-medium"
+              style={{ color: 'var(--pv-text)' }}
             >
               Description
             </label>
@@ -263,11 +270,12 @@ export function AgendaDetailPanel({
 
           {/* Category + Due Date - Edit Mode */}
           {isEditing ? (
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
+            <div className="grid grid-cols-2 gap-6">
+              <div className="space-y-2">
                 <label
                   htmlFor="panel-category"
-                  className="text-xs font-medium uppercase tracking-wider text-[var(--pv-text-muted)]"
+                  className="block text-sm font-medium"
+                  style={{ color: 'var(--pv-text)' }}
                 >
                   Category
                 </label>
@@ -285,10 +293,11 @@ export function AgendaDetailPanel({
                 </Select>
               </div>
 
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 <label
                   htmlFor="panel-due-date"
-                  className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-[var(--pv-text-muted)]"
+                  className="block text-sm font-medium"
+                  style={{ color: 'var(--pv-text)' }}
                 >
                   Due Date
                 </label>
@@ -398,8 +407,9 @@ export function AgendaDetailPanel({
           )}
         </div>
 
+        {/* Footer */}
         <SheetFooter
-          className="flex-shrink-0 border-t pt-4"
+          className="flex-shrink-0 border-t p-6"
           style={{ borderColor: 'var(--pv-border)' }}
         >
           {isEditing ? (
