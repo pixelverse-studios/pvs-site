@@ -15,11 +15,8 @@ import {
 } from '@/lib/api/agenda';
 import { AgendaCard } from './agenda-card';
 import { AgendaListView } from './agenda-list-view';
-import { AgendaDetailPanel } from './agenda-detail-panel';
-import {
-  AgendaItemModal,
-  type AgendaFormData,
-} from '@/components/dashboard/agenda/agenda-item-modal';
+import { AgendaDetailPanel, type AgendaFormData } from './agenda-detail-panel';
+import { AgendaItemModal } from '@/components/dashboard/agenda/agenda-item-modal';
 import { DeleteAgendaDialog } from '@/components/dashboard/agenda/delete-agenda-dialog';
 import { Button } from '@/components/ui/button';
 
@@ -71,7 +68,6 @@ export function AgendaPageClient({ initialItems }: AgendaPageClientProps) {
 
   // Modal/panel states
   const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState<AgendaItem | null>(null);
   const [deletingItem, setDeletingItem] = useState<AgendaItem | null>(null);
   const [selectedItem, setSelectedItem] = useState<AgendaItem | null>(null);
 
@@ -108,13 +104,14 @@ export function AgendaPageClient({ initialItems }: AgendaPageClientProps) {
     showToast('success', 'Item created');
   };
 
-  // Edit item
-  const handleEdit = async (data: AgendaFormData) => {
-    if (!editingItem) return;
-    const updated = await updateAgendaItem(editingItem.id, data);
+  // Edit item (from panel)
+  const handlePanelSave = async (data: AgendaFormData) => {
+    if (!selectedItem) return;
+    const updated = await updateAgendaItem(selectedItem.id, data);
     setItems((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
+    // Update selectedItem so panel shows new values
+    setSelectedItem(updated);
     showToast('success', 'Item updated');
-    setEditingItem(null);
   };
 
   // Delete item
@@ -345,7 +342,7 @@ export function AgendaPageClient({ initialItems }: AgendaPageClientProps) {
                                     <AgendaCard
                                       item={item}
                                       isDragging={dragSnapshot.isDragging}
-                                      onEdit={() => setEditingItem(item)}
+                                      onEdit={() => setSelectedItem(item)}
                                       onDelete={() => setDeletingItem(item)}
                                       onStatusChange={handleStatusChange}
                                       onSelect={setSelectedItem}
@@ -366,7 +363,7 @@ export function AgendaPageClient({ initialItems }: AgendaPageClientProps) {
           ) : (
             <AgendaListView
               groupedItems={groupedItems}
-              onEdit={(item) => setEditingItem(item)}
+              onEdit={(item) => setSelectedItem(item)}
               onDelete={(item) => setDeletingItem(item)}
               onStatusChange={handleStatusChange}
               onSelect={setSelectedItem}
@@ -382,14 +379,6 @@ export function AgendaPageClient({ initialItems }: AgendaPageClientProps) {
         onSave={handleCreate}
       />
 
-      {/* Edit Modal */}
-      <AgendaItemModal
-        item={editingItem || undefined}
-        isOpen={!!editingItem}
-        onClose={() => setEditingItem(null)}
-        onSave={handleEdit}
-      />
-
       {/* Delete Dialog */}
       <DeleteAgendaDialog
         item={deletingItem}
@@ -398,14 +387,12 @@ export function AgendaPageClient({ initialItems }: AgendaPageClientProps) {
         onConfirm={handleDelete}
       />
 
-      {/* Detail Panel */}
+      {/* Detail Panel (view + edit) */}
       <AgendaDetailPanel
         item={selectedItem}
         isOpen={!!selectedItem}
         onClose={() => setSelectedItem(null)}
-        onEdit={() => {
-          if (selectedItem) setEditingItem(selectedItem);
-        }}
+        onSave={handlePanelSave}
         onDelete={() => {
           if (selectedItem) setDeletingItem(selectedItem);
         }}

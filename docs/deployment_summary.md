@@ -23,6 +23,10 @@
 - Added slide-out detail panel for agenda items (click card or list row to preview task details)
 - Panel shows full description, status controls, category, due date, and timestamps
 - Edit and Delete actions available directly from the panel
+- Enlarged slide-out panel at larger breakpoints (512px at lg, 576px at xl)
+- Converted agenda detail panel to unified view/edit mode - no more separate edit modal
+- Edit button now toggles inline form fields within the panel
+- Save/Cancel buttons in edit mode, returns to view mode after save
 
 ## Notes for internal team
 
@@ -88,6 +92,9 @@
 - Created `app/dashboard/agenda/components/agenda-detail-panel.tsx` using Sheet component
 - Added onSelect prop to AgendaCard and AgendaListView for click-to-preview
 - Click vs drag distinguished by checking target element in kanban view
+- Enhanced agenda detail panel with view/edit mode toggle
+- Updated Sheet component right variant with responsive widths (md → lg → xl)
+- Removed edit modal from agenda flow, all editing now happens in the panel
 
 ## Changed URLs
 
