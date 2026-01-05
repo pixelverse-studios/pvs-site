@@ -8,7 +8,7 @@ import { AuditWhySection } from '@/components/audit/audit-why-section';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Free Website Audit | PixelVerse Studios',
+  title: 'Free Website Audit | UX, SEO & Speed Review',
   description:
     'Request a no-cost, 360° website audit from PixelVerse Studios. Get a prioritized plan for UX, SEO, speed, and conversion improvements in 2-3 business days.',
   path: '/audit',

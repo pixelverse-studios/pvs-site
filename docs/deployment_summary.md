@@ -80,8 +80,28 @@
 - Uses max-width technique instead of width transitions to avoid React hydration issues
 - Icon has NO transition classes to prevent fade-on-load bug
 - Review link uses direct Google writereview URL for better UX
+- Flipped all SEO meta titles to show offerings first, brand last for better SERP visibility
 
 ## Changed URLs
 
 - https://www.pixelversestudios.io/dashboard/clients
 - https://www.pixelversestudios.io/
+- https://www.pixelversestudios.io/about
+- https://www.pixelversestudios.io/services
+- https://www.pixelversestudios.io/packages
+- https://www.pixelversestudios.io/portfolio
+- https://www.pixelversestudios.io/contact
+- https://www.pixelversestudios.io/faq
+- https://www.pixelversestudios.io/blog
+- https://www.pixelversestudios.io/audit
+- https://www.pixelversestudios.io/services/bergen-county
+- https://www.pixelversestudios.io/services/fort-lee
+- https://www.pixelversestudios.io/services/cliffside-park
+- https://www.pixelversestudios.io/services/river-vale
+- https://www.pixelversestudios.io/services/hackensack
+- https://www.pixelversestudios.io/services/paramus
+- https://www.pixelversestudios.io/services/teaneck
+- https://www.pixelversestudios.io/services/fair-lawn
+- https://www.pixelversestudios.io/services/englewood
+- https://www.pixelversestudios.io/services/bergenfield
+- https://www.pixelversestudios.io/services/ridgewood

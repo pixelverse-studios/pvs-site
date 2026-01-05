@@ -65,7 +65,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'Fort Lee',
     state: 'NJ',
     metadata: {
-      title: 'Fort Lee NJ Web Design & Local SEO Agency | PixelVerse',
+      title: 'Web Design & Local SEO Fort Lee NJ',
       description:
         'PixelVerse builds custom-coded websites, conversion funnels, and local SEO for Fort Lee law firms, medical specialists, and high-end hospitality brands.',
       keywords: [
@@ -195,7 +195,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'Cliffside Park',
     state: 'NJ',
     metadata: {
-      title: 'Cliffside Park NJ Web Design & Local SEO | PixelVerse',
+      title: 'Web Design & Local SEO Cliffside Park NJ',
       description:
         'PixelVerse delivers booking-ready sites and local SEO programs for Cliffside Park salons, wellness studios, contractors, and neighborhood restaurants.',
       keywords: [
@@ -309,7 +309,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'River Vale',
     state: 'NJ',
     metadata: {
-      title: 'River Vale NJ Web Design & Local SEO Agency | PixelVerse',
+      title: 'Web Design & Local SEO River Vale NJ',
       description:
         'PixelVerse builds trust-driven websites, content hubs, and local SEO campaigns for River Vale home services, financial advisors, and professional firms.',
       keywords: [
@@ -420,7 +420,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'Hackensack',
     state: 'NJ',
     metadata: {
-      title: 'Hackensack NJ Web Design & Enterprise SEO | PixelVerse',
+      title: 'Web Design & Enterprise SEO Hackensack NJ',
       description:
         'PixelVerse engineers ADA-compliant websites, regulated-industry SEO, and analytics for Hackensack medical groups, law firms, and multi-location service brands.',
       keywords: [
@@ -559,7 +559,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'Paramus',
     state: 'NJ',
     metadata: {
-      title: 'Paramus NJ Retail Web Design & Local SEO | PixelVerse',
+      title: 'Retail Web Design & Local SEO Paramus NJ',
       description:
         'PixelVerse powers fast, promo-ready websites, ecommerce integrations, and local SEO campaigns for Paramus retailers, showrooms, and service studios.',
       keywords: [
@@ -707,7 +707,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'Teaneck',
     state: 'NJ',
     metadata: {
-      title: 'Teaneck NJ Web Design & Local SEO Agency | PixelVerse',
+      title: 'Web Design & Local SEO Teaneck NJ',
       description:
         'PixelVerse ships accessible websites, multilingual UX, and local SEO for Teaneck healthcare systems, universities, and community-forward service brands.',
       keywords: [
@@ -822,7 +822,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'Fair Lawn',
     state: 'NJ',
     metadata: {
-      title: 'Fair Lawn NJ Web Design & Local SEO Agency | PixelVerse',
+      title: 'Web Design & Local SEO Fair Lawn NJ',
       description:
         'PixelVerse powers Fair Lawn manufacturers, logistics teams, and service retailers with fast websites, local SEO, and analytics that capture Route 208 demand.',
       keywords: [
@@ -933,7 +933,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'Englewood',
     state: 'NJ',
     metadata: {
-      title: 'Local SEO Agency Englewood NJ | Web Design & SEO | PixelVerse',
+      title: 'Web Design & Local SEO Englewood NJ',
       description:
         'Local SEO agency in Englewood NJ. PixelVerse builds premium websites, conversion funnels, and SEO for healthcare, retail, and corporate businesses.',
       keywords: [
@@ -1066,7 +1066,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'Bergenfield',
     state: 'NJ',
     metadata: {
-      title: 'Bergenfield NJ Web Design & Local SEO Agency | PixelVerse',
+      title: 'Web Design & Local SEO Bergenfield NJ',
       description:
         'PixelVerse delivers mobile-first websites, review engines, and local SEO for Bergenfield medical clinics, contractors, after-school programs, and cultural organizations.',
       keywords: [
@@ -1175,7 +1175,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     city: 'Ridgewood',
     state: 'NJ',
     metadata: {
-      title: 'Ridgewood NJ Web Design & Local SEO Agency | PixelVerse',
+      title: 'Web Design & Local SEO Ridgewood NJ',
       description:
         'PixelVerse crafts boutique websites, CRO programs, and SEO for Ridgewood professional firms, luxury retail, and hospitality groups serving high-intent audiences.',
       keywords: [

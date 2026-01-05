@@ -5,7 +5,7 @@ export const bergenCountyPage: CityServicePageDefinition = {
   city: 'Bergen County',
   state: 'NJ',
   metadata: {
-    title: 'Website Analytics & SEO Agency Bergen County NJ | PixelVerse',
+    title: 'Web Design, SEO & Analytics Agency Bergen County NJ',
     description:
       'PixelVerse is a website analytics agency in Bergen County NJ offering custom web design, local SEO, and analytics reporting for service brands and professional firms.',
     keywords: [
