@@ -36,6 +36,7 @@ export function RichTextEditor({
   minHeight = '120px',
 }: RichTextEditorProps) {
   const editor = useEditor({
+    immediatelyRender: false, // Prevent SSR hydration mismatch
     extensions: [
       StarterKit.configure({
         heading: {
