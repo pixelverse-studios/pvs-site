@@ -8,7 +8,7 @@ import { ValueSection } from '@/components/home/value-section';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'PixelVerse Studios | Custom Web Design & Local SEO',
+  title: 'Custom Web Design & Local SEO Agency NJ',
   description:
     'Partner with PixelVerse Studios for UX-first, custom-coded marketing websites and SEO programs that turn visitors into revenue.',
   path: '/',

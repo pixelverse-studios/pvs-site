@@ -4,7 +4,7 @@ import { Container } from '@/components/ui/container';
 import { StatCard } from '@/components/dashboard/stat-card';
 import { DashboardCard } from '@/components/dashboard/dashboard-card';
 import { ActivityFeed, ActivityItem } from '@/components/dashboard/activity-feed';
-import { AgendaWidget } from '@/components/dashboard/agenda-widget';
+import { AgendaWidgetWrapper } from '@/components/dashboard/agenda-widget-wrapper';
 import { ClientListItem } from '@/components/dashboard/client-list-item';
 import { getActiveAgendaItems, getPendingAgendaCount } from '@/lib/api/agenda';
 import { getClients } from '@/lib/api/clients';
@@ -138,7 +138,7 @@ export default async function DashboardPage() {
                 noPadding
                 contentClassName="px-2 py-2"
               >
-                <AgendaWidget items={agendaData.items} />
+                <AgendaWidgetWrapper initialItems={agendaData.items} />
               </DashboardCard>
             </div>
           </div>

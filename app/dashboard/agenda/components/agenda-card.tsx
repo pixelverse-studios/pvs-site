@@ -18,6 +18,7 @@ interface AgendaCardProps {
   onEdit?: () => void;
   onDelete?: () => void;
   onStatusChange?: (id: string, status: AgendaStatus) => void;
+  onSelect?: (item: AgendaItem) => void;
 }
 
 const statusOptions: { status: AgendaStatus; label: string; icon: typeof Circle; color: string }[] =
@@ -33,14 +34,25 @@ export function AgendaCard({
   onEdit,
   onDelete,
   onStatusChange,
+  onSelect,
 }: AgendaCardProps) {
   const isOverdue =
     item.due_date && item.status !== 'completed' && new Date(item.due_date) < new Date();
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Prevent triggering when clicking action buttons or drag handle
+    const target = e.target as HTMLElement;
+    if (target.closest('button') || target.closest('[data-drag-handle]')) {
+      return;
+    }
+    onSelect?.(item);
+  };
+
   return (
     <div
+      onClick={handleCardClick}
       className={cn(
-        'group relative rounded-lg border p-3 transition-all',
+        'group relative cursor-pointer rounded-lg border p-3 transition-all',
         'hover:border-[var(--pv-primary)]/30 hover:shadow-sm',
         isDragging && 'rotate-2 opacity-50 shadow-lg',
         item.status === 'completed' && 'opacity-60',
@@ -51,7 +63,10 @@ export function AgendaCard({
       }}
     >
       {/* Drag Handle - visible on hover */}
-      <div className="absolute left-1 top-1/2 -translate-y-1/2 cursor-grab opacity-0 transition-opacity group-hover:opacity-100">
+      <div
+        data-drag-handle
+        className="absolute left-1 top-1/2 -translate-y-1/2 cursor-grab opacity-0 transition-opacity group-hover:opacity-100"
+      >
         <GripVertical className="h-4 w-4 text-[var(--pv-text-muted)]" />
       </div>
 
@@ -135,9 +150,10 @@ export function AgendaCard({
 
         {/* Description preview */}
         {item.description && (
-          <p className="mt-1 line-clamp-2 text-xs text-[var(--pv-text-muted)]">
-            {item.description}
-          </p>
+          <div
+            className="prose prose-sm mt-1 line-clamp-2 max-w-none text-xs text-[var(--pv-text-muted)] dark:prose-invert prose-p:m-0 prose-ol:m-0 prose-ul:m-0 prose-li:m-0"
+            dangerouslySetInnerHTML={{ __html: item.description }}
+          />
         )}
 
         {/* Meta row */}
