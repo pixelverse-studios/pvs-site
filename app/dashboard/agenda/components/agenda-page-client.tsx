@@ -15,6 +15,7 @@ import {
 } from '@/lib/api/agenda';
 import { AgendaCard } from './agenda-card';
 import { AgendaListView } from './agenda-list-view';
+import { AgendaDetailPanel } from './agenda-detail-panel';
 import {
   AgendaItemModal,
   type AgendaFormData,
@@ -68,10 +69,11 @@ export function AgendaPageClient({ initialItems }: AgendaPageClientProps) {
     saveViewMode(mode);
   };
 
-  // Modal states
+  // Modal/panel states
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<AgendaItem | null>(null);
   const [deletingItem, setDeletingItem] = useState<AgendaItem | null>(null);
+  const [selectedItem, setSelectedItem] = useState<AgendaItem | null>(null);
 
   // Auto-hide toast
   const showToast = useCallback((type: 'success' | 'error', message: string) => {
@@ -346,6 +348,7 @@ export function AgendaPageClient({ initialItems }: AgendaPageClientProps) {
                                       onEdit={() => setEditingItem(item)}
                                       onDelete={() => setDeletingItem(item)}
                                       onStatusChange={handleStatusChange}
+                                      onSelect={setSelectedItem}
                                     />
                                   </div>
                                 )}
@@ -366,6 +369,7 @@ export function AgendaPageClient({ initialItems }: AgendaPageClientProps) {
               onEdit={(item) => setEditingItem(item)}
               onDelete={(item) => setDeletingItem(item)}
               onStatusChange={handleStatusChange}
+              onSelect={setSelectedItem}
             />
           )}
         </Container>
@@ -392,6 +396,20 @@ export function AgendaPageClient({ initialItems }: AgendaPageClientProps) {
         isOpen={!!deletingItem}
         onClose={() => setDeletingItem(null)}
         onConfirm={handleDelete}
+      />
+
+      {/* Detail Panel */}
+      <AgendaDetailPanel
+        item={selectedItem}
+        isOpen={!!selectedItem}
+        onClose={() => setSelectedItem(null)}
+        onEdit={() => {
+          if (selectedItem) setEditingItem(selectedItem);
+        }}
+        onDelete={() => {
+          if (selectedItem) setDeletingItem(selectedItem);
+        }}
+        onStatusChange={handleStatusChange}
       />
     </>
   );

@@ -19,6 +19,7 @@ interface AgendaListViewProps {
   onEdit: (item: AgendaItem) => void;
   onDelete: (item: AgendaItem) => void;
   onStatusChange: (id: string, status: AgendaStatus) => void;
+  onSelect: (item: AgendaItem) => void;
 }
 
 const statusConfig: {
@@ -56,6 +57,7 @@ export function AgendaListView({
   onEdit,
   onDelete,
   onStatusChange,
+  onSelect,
 }: AgendaListViewProps) {
   const [expandedSections, setExpandedSections] = useState<Record<AgendaStatus, boolean>>({
     pending: true,
@@ -121,6 +123,7 @@ export function AgendaListView({
                         onEdit={() => onEdit(item)}
                         onDelete={() => onDelete(item)}
                         onStatusChange={onStatusChange}
+                        onSelect={() => onSelect(item)}
                       />
                     ))}
                   </div>
@@ -139,11 +142,13 @@ function AgendaListItem({
   onEdit,
   onDelete,
   onStatusChange,
+  onSelect,
 }: {
   item: AgendaItem;
   onEdit: () => void;
   onDelete: () => void;
   onStatusChange: (id: string, status: AgendaStatus) => void;
+  onSelect: () => void;
 }) {
   const cycleStatus = () => {
     const next: Record<AgendaStatus, AgendaStatus> = {
@@ -157,9 +162,19 @@ function AgendaListItem({
   const config = statusConfig.find((s) => s.status === item.status)!;
   const StatusIcon = config.icon;
 
+  const handleRowClick = (e: React.MouseEvent) => {
+    // Prevent triggering when clicking action buttons or status toggle
+    const target = e.target as HTMLElement;
+    if (target.closest('button')) {
+      return;
+    }
+    onSelect();
+  };
+
   return (
     <div
-      className="group flex items-center gap-4 px-4 py-3 transition-colors hover:bg-[var(--pv-bg)]"
+      onClick={handleRowClick}
+      className="group flex cursor-pointer items-center gap-4 px-4 py-3 transition-colors hover:bg-[var(--pv-bg)]"
       style={{ borderColor: 'var(--pv-border)' }}
     >
       {/* Status Icon - Clickable */}
