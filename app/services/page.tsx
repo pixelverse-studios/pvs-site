@@ -7,16 +7,16 @@ import { ServicesProcessSection } from '@/components/services/services-process-s
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Web Design, SEO & CRO Services',
+  title: 'Our Services | Web Development, UX/UI Design & SEO',
   description:
-    'Explore PixelVerse service pillars—strategy, UX/UI design, development, SEO, analytics, and ongoing optimization—for revenue-focused teams.',
+    'Explore our core services: custom web development, UX/UI design, and SEO. Strategic digital solutions that drive measurable business results.',
   path: '/services',
   keywords: [
     'web design services',
-    'custom development services',
-    'PixelVerse Studios offerings',
-    'UX and UI design agency',
-    'conversion-focused websites',
+    'custom web development',
+    'UX UI design agency',
+    'SEO services',
+    'digital agency services',
   ],
 });
 
