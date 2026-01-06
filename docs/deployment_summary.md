@@ -8,6 +8,7 @@
 - Created hero, features, process, FAQ, CTA, related services, and testimonial components
 - FAQ component automatically generates SEO-friendly FAQPage schema
 - Created Web Development service page with comprehensive content targeting custom development keywords
+- Added hover dropdown menu to Services navigation item for easy access to service subpages
 
 ## Notes for internal team
 
@@ -17,6 +18,7 @@
 - All components are fully typed and follow existing design patterns
 - PVS-144: Web Development page at `/services/web-development`
 - Page includes 6 FAQs with JSON-LD schema, 6 feature cards, 5 differentiators, tech stack section
+- Navbar dropdown: hover-activated on desktop, expandable submenu on mobile
 
 ## Changed URLs
 
