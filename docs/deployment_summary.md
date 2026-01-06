@@ -12,6 +12,7 @@
 - Created UX/UI Design service page targeting design-related keywords
 - Created comprehensive SEO Services page with local SEO focus and Bergen County city links
 - Added Service JSON-LD schema to all three service pages for improved search visibility
+- Updated /services hub page with linked service cards and visual hierarchy
 
 ## Notes for internal team
 
@@ -29,9 +30,14 @@
 - PVS-192: Added Service JSON-LD schema to all service pages
 - New utility `createServiceSchema` in `lib/structured-data.ts` for reusable Service schema generation
 - Schema includes: name, serviceType, description, provider (Organization), areaServed (Bergen County, NJ)
+- PVS-147: Updated /services hub page
+- Primary services (Web Dev, UX/UI, SEO) now link to dedicated pages with "Learn More →" CTAs
+- Secondary services (Analytics, Support) styled as "Included With Every Project" with muted appearance
+- Updated page metadata to reflect hub role
 
 ## Changed URLs
 
+- https://www.pixelversestudios.io/services
 - https://www.pixelversestudios.io/services/web-development
 - https://www.pixelversestudios.io/services/ux-ui-design
 - https://www.pixelversestudios.io/services/seo
