@@ -9,6 +9,7 @@
 - FAQ component automatically generates SEO-friendly FAQPage schema
 - Created Web Development service page with comprehensive content targeting custom development keywords
 - Added hover dropdown menu to Services navigation item for easy access to service subpages
+- Created UX/UI Design service page targeting design-related keywords
 
 ## Notes for internal team
 
@@ -19,7 +20,10 @@
 - PVS-144: Web Development page at `/services/web-development`
 - Page includes 6 FAQs with JSON-LD schema, 6 feature cards, 5 differentiators, tech stack section
 - Navbar dropdown: hover-activated on desktop, expandable submenu on mobile
+- PVS-145: UX/UI Design page at `/services/ux-ui-design`
+- Page includes 6 FAQs with schema, 6 feature cards, 5 design principles, UX ROI statistics section, 6-step process
 
 ## Changed URLs
 
 - https://www.pixelversestudios.io/services/web-development
+- https://www.pixelversestudios.io/services/ux-ui-design
