@@ -11,6 +11,7 @@
 - Added hover dropdown menu to Services navigation item for easy access to service subpages
 - Created UX/UI Design service page targeting design-related keywords
 - Created comprehensive SEO Services page with local SEO focus and Bergen County city links
+- Added Service JSON-LD schema to all three service pages for improved search visibility
 
 ## Notes for internal team
 
@@ -25,6 +26,9 @@
 - Page includes 6 FAQs with schema, 6 feature cards, 5 design principles, UX ROI statistics section, 6-step process
 - PVS-146: SEO Services page at `/services/seo`
 - Most comprehensive page: 8 FAQs, 6 services, 6 technical capabilities, 4 process steps, local SEO section with Bergen County city links, timeline expectations
+- PVS-192: Added Service JSON-LD schema to all service pages
+- New utility `createServiceSchema` in `lib/structured-data.ts` for reusable Service schema generation
+- Schema includes: name, serviceType, description, provider (Organization), areaServed (Bergen County, NJ)
 
 ## Changed URLs
 

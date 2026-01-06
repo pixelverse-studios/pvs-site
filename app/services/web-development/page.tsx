@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 
 import { createPageMetadata } from '@/lib/metadata';
+import { createServiceSchema } from '@/lib/structured-data';
 import {
   ServiceHero,
   ServiceFeatures,
@@ -24,6 +25,7 @@ import {
   ServiceCta,
 } from '@/components/services/individual';
 import { Container } from '@/components/ui/container';
+import { StructuredData } from '@/components/ui/structured-data';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
@@ -191,6 +193,15 @@ const faqs = [
   },
 ];
 
+// Service schema for SEO
+const serviceSchema = createServiceSchema({
+  name: 'Custom Web Development Services',
+  serviceType: 'Web Development',
+  description:
+    'Hand-coded, high-performance websites built for conversion. No templates, no page builders—just clean code tailored to your business goals.',
+  path: '/services/web-development',
+});
+
 // Related services
 const relatedServices = [
   {
@@ -212,6 +223,8 @@ const relatedServices = [
 export default function WebDevelopmentPage() {
   return (
     <main>
+      <StructuredData data={serviceSchema} id="web-development-service-schema" />
+
       {/* Hero */}
       <ServiceHero
         eyebrow="Web Development"
