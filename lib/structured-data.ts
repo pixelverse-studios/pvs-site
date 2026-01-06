@@ -193,6 +193,41 @@ export function createCityServiceSchema({
   };
 }
 
+// Service schema for individual service pages (not city-specific)
+export interface IndividualServiceSchemaParams {
+  name: string;
+  serviceType: string;
+  description: string;
+  path: string;
+}
+
+export function createServiceSchema({
+  name,
+  serviceType,
+  description,
+  path,
+}: IndividualServiceSchemaParams) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${siteUrl}${path}/#service`,
+    name,
+    serviceType,
+    description,
+    url: `${siteUrl}${path}`,
+    provider: {
+      '@type': 'ProfessionalService',
+      '@id': `${siteUrl}/#organization`,
+      name: 'PixelVerse Studios',
+      url: siteUrl,
+    },
+    areaServed: {
+      '@type': 'AdministrativeArea',
+      name: 'Bergen County, NJ',
+    },
+  };
+}
+
 // Bundled services schema for city pages (combines multiple services)
 export function createCityServicesSchema(slug: string, city: string, state: string) {
   const services = [

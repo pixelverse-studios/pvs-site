@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 
 import { createPageMetadata } from '@/lib/metadata';
+import { createServiceSchema } from '@/lib/structured-data';
 import {
   ServiceHero,
   ServiceFeatures,
@@ -30,6 +31,7 @@ import {
   ServiceCta,
 } from '@/components/services/individual';
 import { Container } from '@/components/ui/container';
+import { StructuredData } from '@/components/ui/structured-data';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
@@ -238,6 +240,15 @@ const faqs = [
   },
 ];
 
+// Service schema for SEO
+const serviceSchema = createServiceSchema({
+  name: 'SEO Services & Search Engine Optimization',
+  serviceType: 'SEO',
+  description:
+    'Technical SEO, local SEO, and content optimization that drives organic growth. We engineer websites for visibility from day one.',
+  path: '/services/seo',
+});
+
 // Related services
 const relatedServices = [
   {
@@ -259,6 +270,8 @@ const relatedServices = [
 export default function SEOServicesPage() {
   return (
     <main>
+      <StructuredData data={serviceSchema} id="seo-services-service-schema" />
+
       {/* Hero */}
       <ServiceHero
         eyebrow="SEO Services"

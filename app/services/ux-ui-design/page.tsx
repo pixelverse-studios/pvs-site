@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 
 import { createPageMetadata } from '@/lib/metadata';
+import { createServiceSchema } from '@/lib/structured-data';
 import {
   ServiceHero,
   ServiceFeatures,
@@ -32,6 +33,7 @@ import {
   ServiceCta,
 } from '@/components/services/individual';
 import { Container } from '@/components/ui/container';
+import { StructuredData } from '@/components/ui/structured-data';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
@@ -235,6 +237,15 @@ const faqs = [
   },
 ];
 
+// Service schema for SEO
+const serviceSchema = createServiceSchema({
+  name: 'UX/UI Design Services',
+  serviceType: 'UX UI Design',
+  description:
+    'Strategic UX/UI design that converts visitors into customers. User-centered design backed by research, not guesswork.',
+  path: '/services/ux-ui-design',
+});
+
 // Related services
 const relatedServices = [
   {
@@ -256,6 +267,8 @@ const relatedServices = [
 export default function UXUIDesignPage() {
   return (
     <main>
+      <StructuredData data={serviceSchema} id="ux-ui-design-service-schema" />
+
       {/* Hero */}
       <ServiceHero
         eyebrow="UX/UI Design"

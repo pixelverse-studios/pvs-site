@@ -230,7 +230,7 @@ function AgendaListItem({
             }}
             className={cn(
               'flex h-7 w-7 items-center justify-center rounded transition-colors',
-              'hover:bg-[var(--pv-surface)] focus:outline-none focus:ring-2 focus:ring-[var(--pv-primary)]/50',
+              'focus:ring-[var(--pv-primary)]/50 hover:bg-[var(--pv-surface)] focus:outline-none focus:ring-2',
               item.status === status && 'bg-[var(--pv-surface)]',
             )}
             aria-label={`Mark as ${label}`}
@@ -255,7 +255,7 @@ function AgendaListItem({
           }}
           className={cn(
             'flex h-7 w-7 items-center justify-center rounded transition-colors',
-            'hover:bg-[var(--pv-surface)] focus:outline-none focus:ring-2 focus:ring-[var(--pv-primary)]/50',
+            'focus:ring-[var(--pv-primary)]/50 hover:bg-[var(--pv-surface)] focus:outline-none focus:ring-2',
           )}
           aria-label="Edit item"
           title="Edit"
