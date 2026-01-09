@@ -27,6 +27,7 @@
 - Improved section header text wrapping with CSS text-balance
 - Updated Packages page meta title and description for NJ targeting
 - Updated Portfolio page meta title and description for service completeness
+- Updated Blog hub meta title and description with brand name and practical tone
 
 ## Notes for internal team
 
@@ -72,6 +73,8 @@
 - File changed: `app/packages/page.tsx`
 - Portfolio page: Meta title adds "Development & SEO Results", H1 unchanged (story-driven by design)
 - File changed: `app/portfolio/page.tsx`
+- Blog hub: Meta title adds brand name, description rewritten for practical tone, H1 unchanged (editorial thought leadership)
+- File changed: `app/blog/page.tsx`
 
 ## Changed URLs
 
@@ -83,3 +86,4 @@
 - https://www.pixelversestudios.io/about
 - https://www.pixelversestudios.io/packages
 - https://www.pixelversestudios.io/portfolio
+- https://www.pixelversestudios.io/blog
