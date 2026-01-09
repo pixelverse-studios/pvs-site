@@ -127,12 +127,12 @@ const designPrinciples = [
   },
 ];
 
-// Why UX Matters - Statistics
+// Why UX Matters - Statistics (Research-backed: Forrester, Toptal, Nielsen Norman Group)
 const uxStats = [
   {
-    value: '400%',
-    label: 'Average ROI from UX investment',
-    description: 'Every dollar invested in UX returns $100 in business value.',
+    value: '$100',
+    label: 'Return for every $1 spent on UX',
+    description: 'Forrester research shows UX investment yields up to 9,900% ROI.',
   },
   {
     value: '88%',
@@ -300,6 +300,12 @@ export default function UXUIDesignPage() {
                 description="Good UX isn't just about looking pretty—it directly impacts your bottom line. Here's what the data shows."
                 className="mx-auto max-w-3xl"
               />
+              <div className="mt-4 flex justify-center">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--pv-primary)]/30 bg-[var(--pv-primary)]/5 px-3 py-1 text-xs font-medium text-[var(--pv-primary)]">
+                  <BarChart3 className="h-3 w-3" aria-hidden="true" />
+                  Research-backed statistics
+                </span>
+              </div>
             </MotionItem>
             <MotionSection
               as="div"

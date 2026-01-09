@@ -13,6 +13,10 @@
 - Created comprehensive SEO Services page with local SEO focus and Bergen County city links
 - Added Service JSON-LD schema to all three service pages for improved search visibility
 - Updated /services hub page with linked service cards and visual hierarchy
+- Improved homepage H1 for better SEO clarity and keyword targeting
+- Updated homepage meta title and description for search visibility
+- Corrected UX statistics on design page to accurately reflect Forrester research data
+- Added "Research-backed statistics" badge to UX statistics section
 
 ## Notes for internal team
 
@@ -34,9 +38,16 @@
 - Primary services (Web Dev, UX/UI, SEO) now link to dedicated pages with "Learn More →" CTAs
 - Secondary services (Analytics, Support) styled as "Included With Every Project" with muted appearance
 - Updated page metadata to reflect hub role
+- Homepage hero: H1 changed from "Custom-built Websites: Your business deserves more than a template." to "Custom Website Design & Development for Businesses"
+- Supporting headline added below H1: "Your business deserves more than a template."
+- Files changed: `components/home/hero-section.tsx`, `app/page.tsx`
+- UX stats update: Changed misleading "400%" ROI stat to "$100 return for every $1 spent" (Forrester research)
+- Sources verified: Forrester, Toptal, Nielsen Norman Group
+- File changed: `app/services/ux-ui-design/page.tsx`
 
 ## Changed URLs
 
+- https://www.pixelversestudios.io/
 - https://www.pixelversestudios.io/services
 - https://www.pixelversestudios.io/services/web-development
 - https://www.pixelversestudios.io/services/ux-ui-design
