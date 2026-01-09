@@ -30,14 +30,14 @@ export function HeroSection() {
             <span className="inline-flex items-center rounded-full border border-[var(--pv-border)] bg-white/80 px-4 py-1 text-xs font-medium uppercase tracking-[0.2em] text-[var(--pv-text)] shadow-sm dark:bg-[color:var(--pv-overlay-soft)] dark:text-[var(--pv-text)]">
               PixelVerse Studios
             </span>
-            <h1 className="text-shadow-md font-heading text-4xl font-semibold text-[var(--pv-text)] sm:text-5xl md:text-6xl">
+            <h1 className="text-shadow-md font-heading text-4xl font-semibold sm:text-5xl md:text-6xl">
               <span className="bg-[linear-gradient(90deg,var(--pv-primary-2),var(--pv-primary))] bg-clip-text text-transparent">
-                Custom-built Websites:
-              </span>{' '}
-              <span className="text-[var(--pv-text)]">
-                Your business deserves more than a template.
+                Custom Website Design & Development for Businesses
               </span>
             </h1>
+            <p className="text-xl font-medium text-[var(--pv-text)] md:text-2xl">
+              Your business deserves more than a template.
+            </p>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
               We create digital presences built to scale.
             </p>
