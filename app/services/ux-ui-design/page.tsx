@@ -39,9 +39,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'UX/UI Design Services | PixelVerse Studios',
+  title: 'UX/UI Design Services NJ',
   description:
-    'Strategic UX/UI design that converts visitors into customers. User-centered design backed by research, not guesswork.',
+    'UX/UI design services focused on usability, conversion, and clarity. Research-driven, user-centered design that turns visitors into confident customers.',
   path: '/services/ux-ui-design',
   keywords: [
     'UX design services',
@@ -154,13 +154,8 @@ const uxStats = [
 // Tools We Use
 const tools = [
   { name: 'Figma', category: 'Design' },
-  { name: 'Adobe XD', category: 'Design' },
   { name: 'Photoshop', category: 'Graphics' },
   { name: 'Illustrator', category: 'Graphics' },
-  { name: 'Framer', category: 'Prototyping' },
-  { name: 'Maze', category: 'User Testing' },
-  { name: 'Hotjar', category: 'Analytics' },
-  { name: 'Storybook', category: 'Documentation' },
 ];
 
 // Process steps

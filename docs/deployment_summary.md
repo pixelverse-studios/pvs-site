@@ -21,6 +21,8 @@
 - Improved Services hub H1 for clearer service scope communication
 - Updated Services hub meta title and description for NJ targeting
 - Updated Web Development page meta title and description for NJ targeting
+- Updated UX/UI Design page meta title and description for NJ targeting
+- Removed unused tools from UX/UI toolkit section for accuracy
 
 ## Notes for internal team
 
@@ -55,6 +57,9 @@
 - Files changed: `components/services/services-intro-section.tsx`, `app/services/page.tsx`
 - Web Development page: Meta title shortened with NJ targeting, H1 unchanged (already search-aligned)
 - File changed: `app/services/web-development/page.tsx`
+- UX/UI Design page: Meta title shortened with NJ targeting, H1 unchanged (already effective)
+- Toolkit reduced from 8 to 3 tools (removed: Adobe XD, Framer, Maze, Hotjar, Storybook)
+- File changed: `app/services/ux-ui-design/page.tsx`
 
 ## Changed URLs
 
