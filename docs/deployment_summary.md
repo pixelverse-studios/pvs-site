@@ -26,6 +26,7 @@
 - Updated SEO Services page meta title and description for local/technical focus
 - Improved section header text wrapping with CSS text-balance
 - Updated Packages page meta title and description for NJ targeting
+- Updated Portfolio page meta title and description for service completeness
 
 ## Notes for internal team
 
@@ -69,6 +70,8 @@
 - File changed: `components/ui/section-header.tsx`
 - Packages page: Meta title adds "Development" and NJ targeting, H1 unchanged (user-focused by design)
 - File changed: `app/packages/page.tsx`
+- Portfolio page: Meta title adds "Development & SEO Results", H1 unchanged (story-driven by design)
+- File changed: `app/portfolio/page.tsx`
 
 ## Changed URLs
 
@@ -79,3 +82,4 @@
 - https://www.pixelversestudios.io/services/seo
 - https://www.pixelversestudios.io/about
 - https://www.pixelversestudios.io/packages
+- https://www.pixelversestudios.io/portfolio
