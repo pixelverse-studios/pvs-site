@@ -19,8 +19,11 @@ export function ServicesIntroSection({ headingLevel = 'h1' }: ServicesIntroSecti
         <MotionSection as="div" className="space-y-6">
           <MotionItem>
             <HeadingTag className="font-heading text-4xl font-semibold leading-[3rem] md:text-5xl md:leading-[3.5rem]">
-              Services tailored to strategy, performance, and real outcomes
+              Web Design, Development, and SEO Services
             </HeadingTag>
+            <p className="mt-4 text-xl font-medium text-[var(--pv-text)] md:text-2xl">
+              Services tailored to strategy, performance, and real outcomes
+            </p>
           </MotionItem>
           <MotionItem delay={0.08}>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">

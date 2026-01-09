@@ -18,6 +18,8 @@
 - Corrected UX statistics on design page to accurately reflect Forrester research data
 - Added "Research-backed statistics" badge to UX statistics section
 - Updated About page meta title and description for brand clarity
+- Improved Services hub H1 for clearer service scope communication
+- Updated Services hub meta title and description for NJ targeting
 
 ## Notes for internal team
 
@@ -48,6 +50,8 @@
 - About page: Meta title updated to include brand name, description broadened to "New Jersey and national brands"
 - H1 unchanged per designer feedback (not a primary acquisition page)
 - File changed: `app/about/page.tsx`
+- Services hub: H1 changed to "Web Design, Development, and SEO Services", original moved to supporting headline
+- Files changed: `components/services/services-intro-section.tsx`, `app/services/page.tsx`
 
 ## Changed URLs
 

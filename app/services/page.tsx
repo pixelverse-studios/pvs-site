@@ -7,9 +7,9 @@ import { ServicesProcessSection } from '@/components/services/services-process-s
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Our Services | Web Development, UX/UI Design & SEO',
+  title: 'Web Design, Development & SEO Services NJ',
   description:
-    'Explore our core services: custom web development, UX/UI design, and SEO. Strategic digital solutions that drive measurable business results.',
+    'Custom web design, development, and SEO services built to support growth, usability, and long-term performance for New Jersey businesses.',
   path: '/services',
   keywords: [
     'web design services',
