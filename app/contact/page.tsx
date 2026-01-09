@@ -8,9 +8,9 @@ import { ContactTrustSection } from '@/components/contact/contact-trust-section'
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Contact Us | Book a Strategy Call',
+  title: 'Contact Us | Book a Strategy Call | PixelVerse Studios',
   description:
-    'Reach PixelVerse to discuss custom web design and local SEO. Book a strategy session or send project details to kick off your build.',
+    'Contact PixelVerse Studios to discuss custom web design, development, and local SEO. Book a strategy call or share project details to get started.',
   path: '/contact',
   keywords: [
     'contact PixelVerse Studios',
