@@ -38,9 +38,9 @@ import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'SEO Services & Search Optimization | PixelVerse Studios',
+  title: 'Local & Technical SEO Services NJ',
   description:
-    'Technical SEO, local SEO, and content optimization that drives organic growth. We engineer websites for visibility from day one.',
+    'SEO services focused on technical SEO, local optimization, and content strategy. Built to improve visibility, rankings, and long-term organic growth.',
   path: '/services/seo',
   keywords: [
     'SEO services',

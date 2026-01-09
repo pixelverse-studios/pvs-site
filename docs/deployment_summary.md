@@ -23,6 +23,9 @@
 - Updated Web Development page meta title and description for NJ targeting
 - Updated UX/UI Design page meta title and description for NJ targeting
 - Removed unused tools from UX/UI toolkit section for accuracy
+- Updated SEO Services page meta title and description for local/technical focus
+- Improved section header text wrapping with CSS text-balance
+- Updated Packages page meta title and description for NJ targeting
 
 ## Notes for internal team
 
@@ -60,6 +63,12 @@
 - UX/UI Design page: Meta title shortened with NJ targeting, H1 unchanged (already effective)
 - Toolkit reduced from 8 to 3 tools (removed: Adobe XD, Framer, Maze, Hotjar, Storybook)
 - File changed: `app/services/ux-ui-design/page.tsx`
+- SEO Services page: Meta title changed to "Local & Technical SEO Services NJ", H1 unchanged
+- File changed: `app/services/seo/page.tsx`
+- SectionHeader component: Added `text-balance` class to h2 for better text wrapping across all pages
+- File changed: `components/ui/section-header.tsx`
+- Packages page: Meta title adds "Development" and NJ targeting, H1 unchanged (user-focused by design)
+- File changed: `app/packages/page.tsx`
 
 ## Changed URLs
 
@@ -69,3 +78,4 @@
 - https://www.pixelversestudios.io/services/ux-ui-design
 - https://www.pixelversestudios.io/services/seo
 - https://www.pixelversestudios.io/about
+- https://www.pixelversestudios.io/packages
