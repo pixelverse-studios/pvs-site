@@ -17,6 +17,7 @@
 - Updated homepage meta title and description for search visibility
 - Corrected UX statistics on design page to accurately reflect Forrester research data
 - Added "Research-backed statistics" badge to UX statistics section
+- Updated About page meta title and description for brand clarity
 
 ## Notes for internal team
 
@@ -44,6 +45,9 @@
 - UX stats update: Changed misleading "400%" ROI stat to "$100 return for every $1 spent" (Forrester research)
 - Sources verified: Forrester, Toptal, Nielsen Norman Group
 - File changed: `app/services/ux-ui-design/page.tsx`
+- About page: Meta title updated to include brand name, description broadened to "New Jersey and national brands"
+- H1 unchanged per designer feedback (not a primary acquisition page)
+- File changed: `app/about/page.tsx`
 
 ## Changed URLs
 
@@ -52,3 +56,4 @@
 - https://www.pixelversestudios.io/services/web-development
 - https://www.pixelversestudios.io/services/ux-ui-design
 - https://www.pixelversestudios.io/services/seo
+- https://www.pixelversestudios.io/about
