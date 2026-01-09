@@ -20,6 +20,7 @@
 - Updated About page meta title and description for brand clarity
 - Improved Services hub H1 for clearer service scope communication
 - Updated Services hub meta title and description for NJ targeting
+- Updated Web Development page meta title and description for NJ targeting
 
 ## Notes for internal team
 
@@ -52,6 +53,8 @@
 - File changed: `app/about/page.tsx`
 - Services hub: H1 changed to "Web Design, Development, and SEO Services", original moved to supporting headline
 - Files changed: `components/services/services-intro-section.tsx`, `app/services/page.tsx`
+- Web Development page: Meta title shortened with NJ targeting, H1 unchanged (already search-aligned)
+- File changed: `app/services/web-development/page.tsx`
 
 ## Changed URLs
 

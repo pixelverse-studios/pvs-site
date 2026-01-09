@@ -31,9 +31,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Custom Web Development Services | PixelVerse Studios',
+  title: 'Custom Web Development Services NJ',
   description:
-    'Hand-coded, high-performance websites built for conversion. No templates, no page builders—just clean code tailored to your business goals.',
+    'Custom web development services built with hand-coded, performance-focused websites. No templates or builders—just clean code tailored to your business goals.',
   path: '/services/web-development',
   keywords: [
     'custom web development',
