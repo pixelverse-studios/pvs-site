@@ -54,6 +54,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Prevent layout shift when scrollbar appears/disappears */
+  scrollbar-gutter: stable;
 }
 
 @layer base {
