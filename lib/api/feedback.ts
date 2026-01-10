@@ -26,7 +26,7 @@ export async function getFeedbackItems(
   if (params?.sort_by) searchParams.set('sort_by', params.sort_by);
   if (params?.sort_order) searchParams.set('sort_order', params.sort_order);
 
-  const url = `${getApiBaseUrl()}/api/feedback?${searchParams}`;
+  const url = `${getApiBaseUrl()}/api/domani/feedback?${searchParams}`;
   const res = await fetch(url, { cache: 'no-store' });
 
   if (!res.ok) {
@@ -40,7 +40,7 @@ export async function getFeedbackItems(
  * Get a single feedback item by ID
  */
 export async function getFeedbackItem(id: string): Promise<UnifiedFeedbackItem> {
-  const res = await fetch(`${getApiBaseUrl()}/api/feedback/${id}`, {
+  const res = await fetch(`${getApiBaseUrl()}/api/domani/feedback/${id}`, {
     cache: 'no-store',
   });
 
@@ -59,7 +59,7 @@ export async function updateFeedbackStatus(
   source: 'beta_feedback' | 'support_request',
   status: FeedbackStatus,
 ): Promise<UnifiedFeedbackItem> {
-  const res = await fetch(`${getApiBaseUrl()}/api/feedback/${id}/status`, {
+  const res = await fetch(`${getApiBaseUrl()}/api/domani/feedback/${id}/status`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ source, status }),
@@ -82,7 +82,7 @@ export async function getFeedbackStats(): Promise<{
   by_category: Record<string, number>;
   by_platform: Record<string, number>;
 }> {
-  const res = await fetch(`${getApiBaseUrl()}/api/feedback/stats`, {
+  const res = await fetch(`${getApiBaseUrl()}/api/domani/feedback/stats`, {
     cache: 'no-store',
   });
 

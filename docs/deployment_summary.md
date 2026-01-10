@@ -17,9 +17,11 @@
 - Created waitlist dashboard to view pre-launch signups with confirmation status
 - Created users dashboard to view app users by tier (Free, Premium, Lifetime) and cohort
 - Clickable stat cards link to detailed views for each data type
+- Aligned feedback API client with server endpoint structure
 
 ## Notes for internal team
 
+- PVS-212: Update feedback API client to use /api/domani/feedback endpoint
 - PVS-205: Build Domani feedback dashboard view
 - PVS-207: Add Waitlist types and API client
 - PVS-208: Add Users types and API client
@@ -43,7 +45,7 @@
   - `lib/api/waitlist.ts` - getWaitlistEntries
   - `lib/api/domani-users.ts` - getDomaniUsers
 - API endpoints required on PVS server:
-  - GET/PATCH `/api/feedback`
+  - GET/PATCH `/api/domani/feedback`
   - GET `/api/domani/waitlist`
   - GET `/api/domani/users`
 
