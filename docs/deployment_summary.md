@@ -20,9 +20,11 @@
 - Aligned feedback API client with server endpoint structure
 - Added dedicated support requests API client for `/api/domani/support`
 - Added sub-navigation tabs to Domani dashboard for easy section switching
+- Added server-side pagination to all Domani tables with page size selector
 
 ## Notes for internal team
 
+- PVS-214: Add server-side pagination to Domani tables
 - PVS-215: Add sub-navigation tabs to Domani dashboard
 - PVS-213: Add separate support requests API client
 - PVS-212: Update feedback API client to use /api/domani/feedback endpoint
