@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { DateRangeFilter, type DateRange, getDateRangeLabel } from '@/components/ui/date-range-filter';
 import type { UserTier, SignupCohort } from '@/lib/types/domani-users';
 
 export interface UsersFilters {
@@ -16,6 +17,7 @@ export interface UsersFilters {
   tier: UserTier | 'all';
   cohort: SignupCohort | 'all';
   includeDeleted: boolean;
+  dateRange: DateRange;
 }
 
 interface UsersToolbarProps {
@@ -27,6 +29,8 @@ interface UsersToolbarProps {
   };
 }
 
+const DEFAULT_DATE_RANGE: DateRange = { preset: 'all', startDate: null, endDate: null };
+
 export function UsersToolbar({ filters, onFiltersChange, counts }: UsersToolbarProps) {
   const updateFilter = <K extends keyof UsersFilters>(key: K, value: UsersFilters[K]) => {
     onFiltersChange({ ...filters, [key]: value });
@@ -36,7 +40,8 @@ export function UsersToolbar({ filters, onFiltersChange, counts }: UsersToolbarP
     filters.tier !== 'all' ||
     filters.cohort !== 'all' ||
     filters.includeDeleted ||
-    filters.search !== '';
+    filters.search !== '' ||
+    filters.dateRange.preset !== 'all';
 
   const clearFilters = () => {
     onFiltersChange({
@@ -44,6 +49,7 @@ export function UsersToolbar({ filters, onFiltersChange, counts }: UsersToolbarP
       tier: 'all',
       cohort: 'all',
       includeDeleted: false,
+      dateRange: DEFAULT_DATE_RANGE,
     });
   };
 
@@ -63,6 +69,12 @@ export function UsersToolbar({ filters, onFiltersChange, counts }: UsersToolbarP
 
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-3">
+          {/* Date Range Filter */}
+          <DateRangeFilter
+            value={filters.dateRange}
+            onChange={(value) => updateFilter('dateRange', value)}
+          />
+
           {/* Tier Filter */}
           <Select
             value={filters.tier}
@@ -123,6 +135,12 @@ export function UsersToolbar({ filters, onFiltersChange, counts }: UsersToolbarP
         <div className="flex flex-wrap items-center gap-2">
           {filters.search && (
             <FilterChip label={`"${filters.search}"`} onRemove={() => updateFilter('search', '')} />
+          )}
+          {filters.dateRange.preset !== 'all' && (
+            <FilterChip
+              label={getDateRangeLabel(filters.dateRange)}
+              onRemove={() => updateFilter('dateRange', DEFAULT_DATE_RANGE)}
+            />
           )}
           {filters.tier !== 'all' && (
             <FilterChip

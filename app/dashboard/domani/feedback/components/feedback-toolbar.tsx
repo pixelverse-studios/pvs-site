@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { DateRangeFilter, type DateRange, getDateRangeLabel } from '@/components/ui/date-range-filter';
 import type {
   UnifiedCategory,
   FeedbackStatus,
@@ -22,6 +23,7 @@ export interface FeedbackFilters {
   status: FeedbackStatus | 'all';
   platform: Platform | 'all';
   source: FeedbackSource | 'all';
+  dateRange: DateRange;
 }
 
 interface FeedbackToolbarProps {
@@ -43,7 +45,8 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
     filters.status !== 'all' ||
     filters.platform !== 'all' ||
     filters.source !== 'all' ||
-    filters.search !== '';
+    filters.search !== '' ||
+    filters.dateRange.preset !== 'all';
 
   const clearFilters = () => {
     onFiltersChange({
@@ -52,6 +55,7 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
       status: 'all',
       platform: 'all',
       source: 'all',
+      dateRange: { preset: 'all', startDate: null, endDate: null },
     });
   };
 
@@ -71,6 +75,12 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
 
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-3">
+          {/* Date Range Filter */}
+          <DateRangeFilter
+            value={filters.dateRange}
+            onChange={(value) => updateFilter('dateRange', value)}
+          />
+
           {/* Category Filter */}
           <Select
             value={filters.category}
@@ -154,6 +164,12 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
         <div className="flex flex-wrap items-center gap-2">
           {filters.search && (
             <FilterChip label={`"${filters.search}"`} onRemove={() => updateFilter('search', '')} />
+          )}
+          {filters.dateRange.preset !== 'all' && (
+            <FilterChip
+              label={getDateRangeLabel(filters.dateRange)}
+              onRemove={() => updateFilter('dateRange', { preset: 'all', startDate: null, endDate: null })}
+            />
           )}
           {filters.category !== 'all' && (
             <FilterChip

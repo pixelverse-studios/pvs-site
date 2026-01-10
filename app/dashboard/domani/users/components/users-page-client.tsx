@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { Loader2 } from 'lucide-react';
 import type { UserProfile } from '@/lib/types/domani-users';
 import { getDomaniUsers } from '@/lib/api/domani-users';
 import { UsersToolbar, type UsersFilters } from './users-toolbar';
 import { UsersTable } from './users-table';
 import { Pagination } from '@/components/ui/pagination';
+import type { DateRange } from '@/components/ui/date-range-filter';
 
 interface UsersPageClientProps {
   initialItems: UserProfile[];
@@ -14,6 +15,7 @@ interface UsersPageClientProps {
 }
 
 const DEFAULT_PAGE_SIZE = 50;
+const DEFAULT_DATE_RANGE: DateRange = { preset: 'all', startDate: null, endDate: null };
 
 export function UsersPageClient({ initialItems, initialTotal }: UsersPageClientProps) {
   const [items, setItems] = useState(initialItems);
@@ -23,16 +25,24 @@ export function UsersPageClient({ initialItems, initialTotal }: UsersPageClientP
     tier: 'all',
     cohort: 'all',
     includeDeleted: false,
+    dateRange: DEFAULT_DATE_RANGE,
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(false);
+  const isInitialMount = useRef(true);
 
-  const fetchData = useCallback(async (page: number, size: number, includeDeleted: boolean) => {
+  const fetchData = useCallback(async (page: number, size: number, includeDeleted: boolean, dateRange: DateRange) => {
     setIsLoading(true);
     try {
       const offset = (page - 1) * size;
-      const response = await getDomaniUsers({ limit: size, offset, include_deleted: includeDeleted });
+      const response = await getDomaniUsers({
+        limit: size,
+        offset,
+        include_deleted: includeDeleted,
+        start_date: dateRange.startDate || undefined,
+        end_date: dateRange.endDate || undefined,
+      });
       setItems(response.items);
       setTotal(response.total);
     } catch (error) {
@@ -42,34 +52,36 @@ export function UsersPageClient({ initialItems, initialTotal }: UsersPageClientP
     }
   }, []);
 
-  // Fetch when pagination changes (skip initial render)
+  // Fetch when pagination or filters change
   useEffect(() => {
-    if (currentPage === 1 && pageSize === DEFAULT_PAGE_SIZE && !filters.includeDeleted) {
+    // Skip initial render
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
       return;
     }
-    fetchData(currentPage, pageSize, filters.includeDeleted);
-  }, [currentPage, pageSize, filters.includeDeleted, fetchData]);
+    fetchData(currentPage, pageSize, filters.includeDeleted, filters.dateRange);
+  }, [currentPage, pageSize, filters.includeDeleted, filters.dateRange, fetchData]);
+
+  const handleFiltersChange = (newFilters: UsersFilters) => {
+    // If date range or includeDeleted changed, reset to page 1
+    if (
+      newFilters.dateRange.preset !== filters.dateRange.preset ||
+      newFilters.dateRange.startDate !== filters.dateRange.startDate ||
+      newFilters.dateRange.endDate !== filters.dateRange.endDate ||
+      newFilters.includeDeleted !== filters.includeDeleted
+    ) {
+      setCurrentPage(1);
+    }
+    setFilters(newFilters);
+  };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    // Reset filters except includeDeleted when changing pages
-    setFilters((prev) => ({
-      search: '',
-      tier: 'all',
-      cohort: 'all',
-      includeDeleted: prev.includeDeleted,
-    }));
   };
 
   const handlePageSizeChange = (size: number) => {
     setPageSize(size);
     setCurrentPage(1);
-    setFilters((prev) => ({
-      search: '',
-      tier: 'all',
-      cohort: 'all',
-      includeDeleted: prev.includeDeleted,
-    }));
   };
 
   // Filter and sort items (client-side filtering on current page)
@@ -120,7 +132,7 @@ export function UsersPageClient({ initialItems, initialTotal }: UsersPageClientP
     <>
       {/* Toolbar */}
       <div className="mb-6">
-        <UsersToolbar filters={filters} onFiltersChange={setFilters} counts={counts} />
+        <UsersToolbar filters={filters} onFiltersChange={handleFiltersChange} counts={counts} />
       </div>
 
       {/* Loading state */}

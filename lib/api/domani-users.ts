@@ -13,6 +13,8 @@ export async function getDomaniUsers(params?: UsersQueryParams): Promise<UsersLi
     searchParams.set('include_deleted', String(params.include_deleted));
   if (params?.limit) searchParams.set('limit', String(params.limit));
   if (params?.offset) searchParams.set('offset', String(params.offset));
+  if (params?.start_date) searchParams.set('start_date', params.start_date);
+  if (params?.end_date) searchParams.set('end_date', params.end_date);
 
   const url = `${getApiBaseUrl()}/api/domani/users?${searchParams}`;
   console.log('[API] GET', url);
