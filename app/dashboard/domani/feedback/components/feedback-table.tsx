@@ -3,9 +3,17 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronRight, Smartphone } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { UnifiedFeedbackItem, FeedbackStatus } from '@/lib/types/feedback';
+import type { UnifiedFeedbackItem, FeedbackStatus, CategoryConfig } from '@/lib/types/feedback';
 import { CATEGORY_COLORS, STATUS_COLORS } from '@/lib/types/feedback';
+
 import { FeedbackDetailModal } from './feedback-detail-modal';
+
+// Fallback config for unknown categories
+const UNKNOWN_CATEGORY_CONFIG: CategoryConfig = {
+  label: 'Unknown',
+  color: 'text-gray-600 dark:text-gray-400',
+  bgColor: 'bg-gray-100 dark:bg-gray-800/50',
+};
 
 interface FeedbackTableProps {
   items: UnifiedFeedbackItem[];
@@ -87,7 +95,7 @@ export function FeedbackTable({ items, onStatusChange }: FeedbackTableProps) {
           <tbody>
             {items.map((item) => {
               const isExpanded = expandedId === item.id;
-              const categoryConfig = CATEGORY_COLORS[item.category];
+              const categoryConfig = CATEGORY_COLORS[item.category] || UNKNOWN_CATEGORY_CONFIG;
               const statusConfig = STATUS_COLORS[item.status];
 
               return (
@@ -161,7 +169,7 @@ export function FeedbackTable({ items, onStatusChange }: FeedbackTableProps) {
       {/* Mobile Cards */}
       <div className="space-y-3 md:hidden">
         {items.map((item) => {
-          const categoryConfig = CATEGORY_COLORS[item.category];
+          const categoryConfig = CATEGORY_COLORS[item.category] || UNKNOWN_CATEGORY_CONFIG;
           const statusConfig = STATUS_COLORS[item.status];
 
           return (
