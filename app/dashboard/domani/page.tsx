@@ -33,7 +33,6 @@ export default async function DomaniOverviewPage() {
     },
     waitlist: {
       total: waitlistResult.items.length,
-      confirmed: waitlistResult.items.filter((item) => item.confirmed).length,
     },
     users: {
       total: usersResult.items.length,

@@ -9,8 +9,6 @@ export async function getWaitlistEntries(
 ): Promise<WaitlistListResponse> {
   const searchParams = new URLSearchParams();
 
-  if (params?.status) searchParams.set('status', params.status);
-  if (params?.confirmed !== undefined) searchParams.set('confirmed', String(params.confirmed));
   if (params?.limit) searchParams.set('limit', String(params.limit));
   if (params?.offset) searchParams.set('offset', String(params.offset));
 
@@ -48,9 +46,6 @@ export async function getWaitlistEntry(id: string): Promise<WaitlistEntry> {
  */
 export async function getWaitlistStats(): Promise<{
   total: number;
-  confirmed: number;
-  unconfirmed: number;
-  invited: number;
   by_referral_type: Record<string, number>;
 }> {
   const res = await fetch(`${getApiBaseUrl()}/api/domani/waitlist/stats`, {

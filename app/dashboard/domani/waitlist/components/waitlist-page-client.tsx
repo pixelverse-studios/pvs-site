@@ -15,8 +15,6 @@ export function WaitlistPageClient({ initialItems }: WaitlistPageClientProps) {
   const [items] = useState(initialItems);
   const [filters, setFilters] = useState<WaitlistFilters>({
     search: '',
-    status: 'all',
-    confirmed: 'all',
   });
 
   // Filter and sort items
@@ -26,22 +24,7 @@ export function WaitlistPageClient({ initialItems }: WaitlistPageClientProps) {
     // Search filter
     if (filters.search) {
       const searchLower = filters.search.toLowerCase();
-      result = result.filter(
-        (item) =>
-          item.email.toLowerCase().includes(searchLower) ||
-          (item.name && item.name.toLowerCase().includes(searchLower)),
-      );
-    }
-
-    // Status filter
-    if (filters.status !== 'all') {
-      result = result.filter((item) => item.status === filters.status);
-    }
-
-    // Confirmed filter
-    if (filters.confirmed !== 'all') {
-      const isConfirmed = filters.confirmed === 'true';
-      result = result.filter((item) => item.confirmed === isConfirmed);
+      result = result.filter((item) => item.email.toLowerCase().includes(searchLower));
     }
 
     // Sort by created_at descending (newest first)
@@ -49,15 +32,6 @@ export function WaitlistPageClient({ initialItems }: WaitlistPageClientProps) {
 
     return result;
   }, [items, filters]);
-
-  // Count stats
-  const counts = useMemo(
-    () => ({
-      total: items.length,
-      confirmed: items.filter((item) => item.confirmed).length,
-    }),
-    [items],
-  );
 
   return (
     <main className="pb-16 pt-6 lg:pt-8">
@@ -89,7 +63,7 @@ export function WaitlistPageClient({ initialItems }: WaitlistPageClientProps) {
 
         {/* Toolbar */}
         <div className="mb-6">
-          <WaitlistToolbar filters={filters} onFiltersChange={setFilters} counts={counts} />
+          <WaitlistToolbar filters={filters} onFiltersChange={setFilters} total={items.length} />
         </div>
 
         {/* Table */}
