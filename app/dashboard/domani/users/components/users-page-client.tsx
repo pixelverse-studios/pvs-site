@@ -1,9 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { UserCircle } from 'lucide-react';
-import { Container } from '@/components/ui/container';
-import type { UserProfile, UserTier, SignupCohort } from '@/lib/types/domani-users';
+import type { UserProfile } from '@/lib/types/domani-users';
 import { UsersToolbar, type UsersFilters } from './users-toolbar';
 import { UsersTable } from './users-table';
 
@@ -65,41 +63,14 @@ export function UsersPageClient({ initialItems }: UsersPageClientProps) {
   );
 
   return (
-    <main className="pb-16 pt-6 lg:pt-8">
-      <Container className="max-w-7xl">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-xl"
-              style={{
-                background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
-              }}
-            >
-              <UserCircle className="h-5 w-5 text-white" />
-            </div>
-            <div>
-              <h1
-                className="font-heading text-2xl font-bold md:text-3xl"
-                style={{ color: 'var(--pv-text)' }}
-              >
-                Users
-              </h1>
-              <p className="text-sm text-[var(--pv-text-muted)]">
-                Active Domani app users
-              </p>
-            </div>
-          </div>
-        </div>
+    <>
+      {/* Toolbar */}
+      <div className="mb-6">
+        <UsersToolbar filters={filters} onFiltersChange={setFilters} counts={counts} />
+      </div>
 
-        {/* Toolbar */}
-        <div className="mb-6">
-          <UsersToolbar filters={filters} onFiltersChange={setFilters} counts={counts} />
-        </div>
-
-        {/* Table */}
-        <UsersTable items={filteredItems} />
-      </Container>
-    </main>
+      {/* Table */}
+      <UsersTable items={filteredItems} />
+    </>
   );
 }
