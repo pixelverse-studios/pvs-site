@@ -1,15 +1,16 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
-import { MessageSquare } from 'lucide-react';
-import { Container } from '@/components/ui/container';
+import { useState, useMemo, useCallback, useEffect } from 'react';
+import { Loader2 } from 'lucide-react';
 import type { UnifiedFeedbackItem, FeedbackStatus } from '@/lib/types/feedback';
-import { updateFeedbackStatus } from '@/lib/api/feedback';
+import { getFeedbackItems, updateFeedbackStatus } from '@/lib/api/feedback';
 import { FeedbackToolbar, type FeedbackFilters } from './feedback-toolbar';
 import { FeedbackTable } from './feedback-table';
+import { Pagination } from '@/components/ui/pagination';
 
 interface FeedbackPageClientProps {
   initialItems: UnifiedFeedbackItem[];
+  initialTotal: number;
 }
 
 interface Toast {
@@ -17,8 +18,11 @@ interface Toast {
   message: string;
 }
 
-export function FeedbackPageClient({ initialItems }: FeedbackPageClientProps) {
+const DEFAULT_PAGE_SIZE = 50;
+
+export function FeedbackPageClient({ initialItems, initialTotal }: FeedbackPageClientProps) {
   const [items, setItems] = useState(initialItems);
+  const [total, setTotal] = useState(initialTotal);
   const [toast, setToast] = useState<Toast | null>(null);
   const [filters, setFilters] = useState<FeedbackFilters>({
     search: '',
@@ -27,6 +31,9 @@ export function FeedbackPageClient({ initialItems }: FeedbackPageClientProps) {
     platform: 'all',
     source: 'all',
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Auto-hide toast
   const showToast = useCallback((type: 'success' | 'error', message: string) => {
@@ -34,7 +41,53 @@ export function FeedbackPageClient({ initialItems }: FeedbackPageClientProps) {
     setTimeout(() => setToast(null), 3000);
   }, []);
 
-  // Filter and sort items
+  const fetchData = useCallback(async (page: number, size: number) => {
+    setIsLoading(true);
+    try {
+      const offset = (page - 1) * size;
+      const response = await getFeedbackItems({ limit: size, offset });
+      setItems(response.items);
+      setTotal(response.total);
+    } catch (error) {
+      console.error('Failed to fetch feedback items:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Fetch when pagination changes (skip initial render)
+  useEffect(() => {
+    if (currentPage === 1 && pageSize === DEFAULT_PAGE_SIZE) {
+      return;
+    }
+    fetchData(currentPage, pageSize);
+  }, [currentPage, pageSize, fetchData]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // Reset filters when changing pages
+    setFilters({
+      search: '',
+      category: 'all',
+      status: 'all',
+      platform: 'all',
+      source: 'all',
+    });
+  };
+
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    setCurrentPage(1);
+    setFilters({
+      search: '',
+      category: 'all',
+      status: 'all',
+      platform: 'all',
+      source: 'all',
+    });
+  };
+
+  // Filter and sort items (client-side filtering on current page)
   const filteredItems = useMemo(() => {
     let result = [...items];
 
@@ -77,10 +130,10 @@ export function FeedbackPageClient({ initialItems }: FeedbackPageClientProps) {
   // Count stats
   const counts = useMemo(
     () => ({
-      total: items.length,
+      total: total,
       new: items.filter((item) => item.status === 'new').length,
     }),
-    [items],
+    [items, total],
   );
 
   // Handle status change
@@ -120,42 +173,32 @@ export function FeedbackPageClient({ initialItems }: FeedbackPageClientProps) {
         </div>
       )}
 
-      <main className="pb-16 pt-6 lg:pt-8">
-        <Container className="max-w-7xl">
-          {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3">
-              <div
-                className="flex h-10 w-10 items-center justify-center rounded-xl"
-                style={{
-                  background: 'linear-gradient(135deg, #f59e0b, #d97706)',
-                }}
-              >
-                <MessageSquare className="h-5 w-5 text-white" />
-              </div>
-              <div>
-                <h1
-                  className="font-heading text-2xl font-bold md:text-3xl"
-                  style={{ color: 'var(--pv-text)' }}
-                >
-                  Feedback
-                </h1>
-                <p className="text-sm text-[var(--pv-text-muted)]">
-                  Beta feedback & support requests from Domani users
-                </p>
-              </div>
-            </div>
-          </div>
+      {/* Toolbar */}
+      <div className="mb-6">
+        <FeedbackToolbar filters={filters} onFiltersChange={setFilters} counts={counts} />
+      </div>
 
-          {/* Toolbar */}
-          <div className="mb-6">
-            <FeedbackToolbar filters={filters} onFiltersChange={setFilters} counts={counts} />
-          </div>
+      {/* Loading state */}
+      {isLoading ? (
+        <div className="flex items-center justify-center py-16">
+          <Loader2 className="h-6 w-6 animate-spin text-[var(--pv-primary)]" />
+          <span className="ml-2 text-sm text-[var(--pv-text-muted)]">Loading...</span>
+        </div>
+      ) : (
+        /* Table */
+        <FeedbackTable items={filteredItems} onStatusChange={handleStatusChange} />
+      )}
 
-          {/* Table */}
-          <FeedbackTable items={filteredItems} onStatusChange={handleStatusChange} />
-        </Container>
-      </main>
+      {/* Pagination */}
+      <div className="mt-4">
+        <Pagination
+          currentPage={currentPage}
+          totalItems={total}
+          pageSize={pageSize}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
+        />
+      </div>
     </>
   );
 }

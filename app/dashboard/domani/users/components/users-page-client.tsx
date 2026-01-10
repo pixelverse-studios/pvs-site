@@ -1,26 +1,78 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { UserCircle } from 'lucide-react';
-import { Container } from '@/components/ui/container';
-import type { UserProfile, UserTier, SignupCohort } from '@/lib/types/domani-users';
+import { useState, useMemo, useCallback, useEffect } from 'react';
+import { Loader2 } from 'lucide-react';
+import type { UserProfile } from '@/lib/types/domani-users';
+import { getDomaniUsers } from '@/lib/api/domani-users';
 import { UsersToolbar, type UsersFilters } from './users-toolbar';
 import { UsersTable } from './users-table';
+import { Pagination } from '@/components/ui/pagination';
 
 interface UsersPageClientProps {
   initialItems: UserProfile[];
+  initialTotal: number;
 }
 
-export function UsersPageClient({ initialItems }: UsersPageClientProps) {
-  const [items] = useState(initialItems);
+const DEFAULT_PAGE_SIZE = 50;
+
+export function UsersPageClient({ initialItems, initialTotal }: UsersPageClientProps) {
+  const [items, setItems] = useState(initialItems);
+  const [total, setTotal] = useState(initialTotal);
   const [filters, setFilters] = useState<UsersFilters>({
     search: '',
     tier: 'all',
     cohort: 'all',
     includeDeleted: false,
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Filter and sort items
+  const fetchData = useCallback(async (page: number, size: number, includeDeleted: boolean) => {
+    setIsLoading(true);
+    try {
+      const offset = (page - 1) * size;
+      const response = await getDomaniUsers({ limit: size, offset, include_deleted: includeDeleted });
+      setItems(response.items);
+      setTotal(response.total);
+    } catch (error) {
+      console.error('Failed to fetch users:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Fetch when pagination changes (skip initial render)
+  useEffect(() => {
+    if (currentPage === 1 && pageSize === DEFAULT_PAGE_SIZE && !filters.includeDeleted) {
+      return;
+    }
+    fetchData(currentPage, pageSize, filters.includeDeleted);
+  }, [currentPage, pageSize, filters.includeDeleted, fetchData]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // Reset filters except includeDeleted when changing pages
+    setFilters((prev) => ({
+      search: '',
+      tier: 'all',
+      cohort: 'all',
+      includeDeleted: prev.includeDeleted,
+    }));
+  };
+
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    setCurrentPage(1);
+    setFilters((prev) => ({
+      search: '',
+      tier: 'all',
+      cohort: 'all',
+      includeDeleted: prev.includeDeleted,
+    }));
+  };
+
+  // Filter and sort items (client-side filtering on current page)
   const filteredItems = useMemo(() => {
     let result = [...items];
 
@@ -44,7 +96,7 @@ export function UsersPageClient({ initialItems }: UsersPageClientProps) {
       result = result.filter((item) => item.signup_cohort === filters.cohort);
     }
 
-    // Deleted filter
+    // Deleted filter (already handled server-side, but apply here for initial render)
     if (!filters.includeDeleted) {
       result = result.filter((item) => !item.deleted_at);
     }
@@ -58,48 +110,40 @@ export function UsersPageClient({ initialItems }: UsersPageClientProps) {
   // Count stats
   const counts = useMemo(
     () => ({
-      total: items.length,
+      total: total,
       active: items.filter((item) => !item.deleted_at).length,
     }),
-    [items],
+    [items, total],
   );
 
   return (
-    <main className="pb-16 pt-6 lg:pt-8">
-      <Container className="max-w-7xl">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-xl"
-              style={{
-                background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
-              }}
-            >
-              <UserCircle className="h-5 w-5 text-white" />
-            </div>
-            <div>
-              <h1
-                className="font-heading text-2xl font-bold md:text-3xl"
-                style={{ color: 'var(--pv-text)' }}
-              >
-                Users
-              </h1>
-              <p className="text-sm text-[var(--pv-text-muted)]">
-                Active Domani app users
-              </p>
-            </div>
-          </div>
-        </div>
+    <>
+      {/* Toolbar */}
+      <div className="mb-6">
+        <UsersToolbar filters={filters} onFiltersChange={setFilters} counts={counts} />
+      </div>
 
-        {/* Toolbar */}
-        <div className="mb-6">
-          <UsersToolbar filters={filters} onFiltersChange={setFilters} counts={counts} />
+      {/* Loading state */}
+      {isLoading ? (
+        <div className="flex items-center justify-center py-16">
+          <Loader2 className="h-6 w-6 animate-spin text-[var(--pv-primary)]" />
+          <span className="ml-2 text-sm text-[var(--pv-text-muted)]">Loading...</span>
         </div>
-
-        {/* Table */}
+      ) : (
+        /* Table */
         <UsersTable items={filteredItems} />
-      </Container>
-    </main>
+      )}
+
+      {/* Pagination */}
+      <div className="mt-4">
+        <Pagination
+          currentPage={currentPage}
+          totalItems={total}
+          pageSize={pageSize}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
+        />
+      </div>
+    </>
   );
 }
