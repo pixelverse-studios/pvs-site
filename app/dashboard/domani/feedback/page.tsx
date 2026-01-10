@@ -17,7 +17,7 @@ export default async function FeedbackPage() {
   if (!user) redirect('/login');
 
   // Fetch all feedback items
-  const { items } = await getFeedbackItems({ limit: 200 }).catch(() => ({
+  const { items } = await getFeedbackItems({ limit: 100 }).catch(() => ({
     items: [],
   }));
 

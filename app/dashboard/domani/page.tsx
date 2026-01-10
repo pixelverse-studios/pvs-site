@@ -20,9 +20,9 @@ export default async function DomaniOverviewPage() {
 
   // Fetch all data in parallel
   const [feedbackResult, waitlistResult, usersResult] = await Promise.all([
-    getFeedbackItems({ limit: 200 }).catch(() => ({ items: [] })),
-    getWaitlistEntries({ limit: 200 }).catch(() => ({ items: [], total: 0 })),
-    getDomaniUsers({ limit: 200, include_deleted: true }).catch(() => ({ items: [], total: 0 })),
+    getFeedbackItems({ limit: 100 }).catch(() => ({ items: [] })),
+    getWaitlistEntries({ limit: 100 }).catch(() => ({ items: [], total: 0 })),
+    getDomaniUsers({ limit: 100, include_deleted: true }).catch(() => ({ items: [], total: 0 })),
   ]);
 
   // Calculate stats

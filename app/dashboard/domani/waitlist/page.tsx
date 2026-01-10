@@ -17,7 +17,7 @@ export default async function WaitlistPage() {
   if (!user) redirect('/login');
 
   // Fetch all waitlist entries
-  const { items } = await getWaitlistEntries({ limit: 200 }).catch(() => ({
+  const { items } = await getWaitlistEntries({ limit: 100 }).catch(() => ({
     items: [],
   }));
 
