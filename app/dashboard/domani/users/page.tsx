@@ -17,7 +17,7 @@ export default async function UsersPage() {
   if (!user) redirect('/login');
 
   // Fetch all users (including deleted for admin view)
-  const { items } = await getDomaniUsers({ limit: 200, include_deleted: true }).catch(() => ({
+  const { items } = await getDomaniUsers({ limit: 100, include_deleted: true }).catch(() => ({
     items: [],
   }));
 

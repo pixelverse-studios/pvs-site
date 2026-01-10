@@ -18,9 +18,11 @@
 - Created users dashboard to view app users by tier (Free, Premium, Lifetime) and cohort
 - Clickable stat cards link to detailed views for each data type
 - Aligned feedback API client with server endpoint structure
+- Added dedicated support requests API client for `/api/domani/support`
 
 ## Notes for internal team
 
+- PVS-213: Add separate support requests API client
 - PVS-212: Update feedback API client to use /api/domani/feedback endpoint
 - PVS-205: Build Domani feedback dashboard view
 - PVS-207: Add Waitlist types and API client
@@ -42,10 +44,12 @@
   - `lib/types/domani-users.ts` - UserProfile, UserTier, SignupCohort
 - API clients added:
   - `lib/api/feedback.ts` - getFeedbackItems, updateFeedbackStatus
+  - `lib/api/support.ts` - getSupportRequests, updateSupportStatus
   - `lib/api/waitlist.ts` - getWaitlistEntries
   - `lib/api/domani-users.ts` - getDomaniUsers
 - API endpoints required on PVS server:
   - GET/PATCH `/api/domani/feedback`
+  - GET/PATCH `/api/domani/support`
   - GET `/api/domani/waitlist`
   - GET `/api/domani/users`
 
