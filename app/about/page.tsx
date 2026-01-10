@@ -8,9 +8,9 @@ import { WhyCustomSection } from '@/components/about/why-custom-section';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'About Us | UX-First Web Design Team',
+  title: 'About Pixelverse Studios | Custom Web Design & Development',
   description:
-    'Learn how PixelVerse blends UX, development, and analytics to ship custom websites with measurable outcomes for Bergen County and national brands.',
+    'Learn more about Pixelverse Studios, a custom web design, development, and SEO studio building thoughtful, reliable websites for New Jersey and national brands.',
   path: '/about',
   keywords: [
     'PixelVerse Studios team',

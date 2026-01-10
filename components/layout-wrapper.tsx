@@ -4,12 +4,12 @@ import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 
 import { Footer } from '@/components/ui/footer';
-import { Navbar } from '@/components/ui/navbar';
+import { Navbar, type NavItem } from '@/components/ui/navbar';
 import { SaleBanner } from '@/components/sale';
 
 interface LayoutWrapperProps {
   children: ReactNode;
-  navItems: Array<{ label: string; href: string }>;
+  navItems: NavItem[];
   localContactLinks: Array<{ label: string; href: string }>;
 }
 

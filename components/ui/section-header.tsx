@@ -37,7 +37,7 @@ export function SectionHeader({
         </span>
       )}
       <div className="space-y-3">
-        <h2 className="font-heading text-[2.25rem] leading-[2.75rem] tracking-tight md:text-[2.5rem] md:leading-[3rem]">
+        <h2 className="text-balance font-heading text-[2.25rem] leading-[2.75rem] tracking-tight md:text-[2.5rem] md:leading-[3rem]">
           {title}
         </h2>
         {description &&

@@ -6,12 +6,16 @@ import Link from 'next/link';
 import type { LucideIcon } from 'lucide-react';
 import {
   Box,
+  ChevronDown,
+  Code2,
   Folder,
   HelpCircle,
   Info,
   LayoutDashboard,
   Menu,
+  Palette,
   PenSquare,
+  Search,
   Sparkles,
   X,
 } from 'lucide-react';
@@ -26,9 +30,16 @@ import { AuthDashboardLink } from './auth-dashboard-link';
 import { Button } from './button';
 import { ThemeToggle } from './theme-toggle';
 
+export interface NavItemChild {
+  label: string;
+  href: string;
+  description?: string;
+}
+
 export interface NavItem {
   label: string;
   href: string;
+  children?: NavItemChild[];
 }
 
 export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
@@ -50,6 +61,9 @@ const mobileNavIcons: Record<string, LucideIcon> = {
   Blog: PenSquare,
   FAQ: HelpCircle,
   Dashboard: LayoutDashboard,
+  'Web Development': Code2,
+  'UX/UI Design': Palette,
+  SEO: Search,
 };
 
 export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
@@ -57,6 +71,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = React.useState(false);
+  const [expandedMobileItem, setExpandedMobileItem] = React.useState<string | null>(null);
   const mobileCloseButtonRef = React.useRef<HTMLButtonElement | null>(null);
   const [portalElement, setPortalElement] = React.useState<HTMLElement | null>(null);
 
@@ -98,6 +113,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isMobileNavOpen]);
+
   const theme = (mounted ? resolvedTheme : undefined) ?? 'light';
   const isDarkMode = theme === 'dark';
   const logoSrc = isDarkMode ? DARK_LOGO_URL : LIGHT_LOGO_URL;
@@ -131,6 +147,10 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
     ? 'border-white/40 bg-white/20 text-white'
     : 'border-[rgba(63,0,233,0.55)] bg-[rgba(63,0,233,0.12)] text-[var(--pv-primary)]';
 
+  const toggleMobileExpand = (label: string) => {
+    setExpandedMobileItem((prev) => (prev === label ? null : label));
+  };
+
   const mobileNavPortal =
     isMobileNavOpen && portalElement
       ? createPortal(
@@ -155,7 +175,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
               <div className={cn('pointer-events-none absolute inset-0', secondaryGradientClass)} />
               <div
                 className={cn(
-                  'relative z-10 flex min-h-[100svh] flex-col px-7 py-9',
+                  'relative z-10 flex min-h-[100svh] flex-col overflow-y-auto px-7 py-9',
                   drawerTextClass,
                 )}
               >
@@ -206,27 +226,89 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                       pathname === item.href ||
                       (item.href !== '/' && pathname.startsWith(`${item.href}/`));
                     const Icon = mobileNavIcons[item.label] ?? Sparkles;
+                    const hasChildren = item.children && item.children.length > 0;
+                    const isExpanded = expandedMobileItem === item.label;
 
                     return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        aria-current={isActive ? 'page' : undefined}
-                        onClick={() => setIsMobileNavOpen(false)}
-                        className={cn(
-                          navItemBaseClass,
-                          navItemThemeClass,
-                          navItemHoverBgClass,
-                          isActive && navItemActiveClass,
+                      <div key={item.href}>
+                        <div className="flex items-center">
+                          <Link
+                            href={item.href}
+                            aria-current={isActive ? 'page' : undefined}
+                            onClick={() => setIsMobileNavOpen(false)}
+                            className={cn(
+                              navItemBaseClass,
+                              navItemThemeClass,
+                              navItemHoverBgClass,
+                              isActive && navItemActiveClass,
+                              'flex-1',
+                            )}
+                          >
+                            <span
+                              className={cn(
+                                iconBaseClass,
+                                iconThemeClass,
+                                isActive && iconActiveClass,
+                              )}
+                            >
+                              <Icon className="h-4 w-4" aria-hidden="true" />
+                            </span>
+                            <span className="flex-1">{item.label}</span>
+                          </Link>
+                          {hasChildren && (
+                            <button
+                              type="button"
+                              onClick={() => toggleMobileExpand(item.label)}
+                              className={cn(
+                                'mr-2 inline-flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-200',
+                                isDarkMode
+                                  ? 'text-white/60 hover:bg-white/10 hover:text-white'
+                                  : 'text-[var(--pv-text-muted)] hover:bg-[rgba(63,0,233,0.08)] hover:text-[var(--pv-primary)]',
+                              )}
+                              aria-label={isExpanded ? 'Collapse submenu' : 'Expand submenu'}
+                              aria-expanded={isExpanded}
+                            >
+                              <ChevronDown
+                                className={cn(
+                                  'h-4 w-4 transition-transform duration-200',
+                                  isExpanded && 'rotate-180',
+                                )}
+                                aria-hidden="true"
+                              />
+                            </button>
+                          )}
+                        </div>
+                        {/* Mobile submenu */}
+                        {hasChildren && isExpanded && (
+                          <div className="ml-14 mt-1 flex flex-col gap-1 border-l-2 border-[var(--pv-border)] pl-4 dark:border-white/10">
+                            {item.children!.map((child) => {
+                              const childIsActive = pathname === child.href;
+                              const ChildIcon = mobileNavIcons[child.label] ?? Sparkles;
+
+                              return (
+                                <Link
+                                  key={child.href}
+                                  href={child.href}
+                                  onClick={() => setIsMobileNavOpen(false)}
+                                  className={cn(
+                                    'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all duration-200',
+                                    isDarkMode
+                                      ? 'text-white/70 hover:bg-white/10 hover:text-white'
+                                      : 'text-[var(--pv-text-muted)] hover:bg-[rgba(63,0,233,0.08)] hover:text-[var(--pv-text)]',
+                                    childIsActive &&
+                                      (isDarkMode
+                                        ? 'bg-white/10 text-white'
+                                        : 'bg-[rgba(63,0,233,0.1)] text-[var(--pv-primary)]'),
+                                  )}
+                                >
+                                  <ChildIcon className="h-4 w-4" aria-hidden="true" />
+                                  <span>{child.label}</span>
+                                </Link>
+                              );
+                            })}
+                          </div>
                         )}
-                      >
-                        <span
-                          className={cn(iconBaseClass, iconThemeClass, isActive && iconActiveClass)}
-                        >
-                          <Icon className="h-4 w-4" aria-hidden="true" />
-                        </span>
-                        <span className="flex-1">{item.label}</span>
-                      </Link>
+                      </div>
                     );
                   })}
                   {/* Dashboard link - only visible to authenticated users */}
@@ -287,6 +369,80 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                 const isActive =
                   pathname === item.href ||
                   (item.href !== '/' && pathname.startsWith(`${item.href}/`));
+                const hasChildren = item.children && item.children.length > 0;
+
+                if (hasChildren) {
+                  return (
+                    <div key={item.href} className="group relative">
+                      <Link
+                        href={item.href}
+                        aria-current={isActive ? 'page' : undefined}
+                        className={cn(
+                          'relative inline-flex items-center gap-1 rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-200 ease-out',
+                          'text-[var(--pv-text-muted)] hover:text-[var(--pv-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
+                          'hover:bg-white/85 hover:shadow-[0_18px_40px_-28px_rgba(63,0,233,0.25)] dark:hover:bg-white/10',
+                          'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-[border,transform] after:duration-200 group-hover:after:scale-105 group-hover:after:border-[rgba(63,0,233,0.35)] dark:group-hover:after:border-[rgba(159,166,221,0.35)]',
+                          isActive &&
+                            'bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)] after:scale-100 after:border-transparent hover:text-white',
+                        )}
+                      >
+                        {item.label}
+                        <ChevronDown
+                          className={cn(
+                            'h-3.5 w-3.5 transition-transform duration-200 group-hover:rotate-180',
+                            isActive ? 'text-white/80' : 'text-[var(--pv-text-muted)]',
+                          )}
+                          aria-hidden="true"
+                        />
+                      </Link>
+                      {/* Desktop dropdown */}
+                      <div
+                        className="invisible absolute left-1/2 top-full z-50 pt-2 opacity-0 transition-all duration-200 ease-out group-hover:visible group-hover:opacity-100"
+                        style={{ transform: 'translateX(-50%)' }}
+                      >
+                        <div className="min-w-[240px] overflow-hidden rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] p-2 shadow-[0_24px_48px_-20px_rgba(63,0,233,0.35)] dark:bg-[var(--pv-surface)] dark:shadow-[0_32px_64px_-28px_rgba(12,14,52,0.8)]">
+                          {item.children!.map((child) => {
+                            const ChildIcon = mobileNavIcons[child.label] ?? Sparkles;
+                            const childIsActive = pathname === child.href;
+
+                            return (
+                              <Link
+                                key={child.href}
+                                href={child.href}
+                                className={cn(
+                                  'flex items-center gap-3 rounded-pv-sm px-3 py-2.5 text-sm transition-all duration-150',
+                                  'text-[var(--pv-text-muted)] hover:bg-[var(--pv-surface)] hover:text-[var(--pv-text)]',
+                                  'dark:hover:bg-white/10',
+                                  childIsActive &&
+                                    'bg-[rgba(63,0,233,0.08)] text-[var(--pv-primary)] dark:bg-white/10 dark:text-white',
+                                )}
+                              >
+                                <span
+                                  className={cn(
+                                    'flex h-8 w-8 items-center justify-center rounded-lg transition-colors',
+                                    childIsActive
+                                      ? 'bg-[linear-gradient(135deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_8px_16px_-8px_rgba(63,0,233,0.6)]'
+                                      : 'bg-[var(--pv-surface)] text-[var(--pv-text-muted)] dark:bg-white/10',
+                                  )}
+                                >
+                                  <ChildIcon className="h-4 w-4" aria-hidden="true" />
+                                </span>
+                                <div className="flex flex-col">
+                                  <span className="font-medium">{child.label}</span>
+                                  {child.description && (
+                                    <span className="text-xs text-[var(--pv-text-muted)]">
+                                      {child.description}
+                                    </span>
+                                  )}
+                                </div>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
 
                 return (
                   <Link

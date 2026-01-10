@@ -101,7 +101,27 @@ export const metadata: Metadata = {
 
 const navItems = [
   { label: 'About', href: '/about' },
-  { label: 'Services', href: '/services' },
+  {
+    label: 'Services',
+    href: '/services',
+    children: [
+      {
+        label: 'Web Development',
+        href: '/services/web-development',
+        description: 'Custom-coded websites built for performance',
+      },
+      {
+        label: 'UX/UI Design',
+        href: '/services/ux-ui-design',
+        description: 'Strategic design that drives conversions',
+      },
+      {
+        label: 'SEO',
+        href: '/services/seo',
+        description: 'Search optimization for lasting visibility',
+      },
+    ],
+  },
   { label: 'Packages', href: '/packages' },
   { label: 'Portfolio', href: '/portfolio' },
   { label: 'Blog', href: '/blog' },
