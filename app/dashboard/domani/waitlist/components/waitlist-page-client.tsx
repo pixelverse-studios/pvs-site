@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { Users } from 'lucide-react';
 import { Container } from '@/components/ui/container';
 import type { WaitlistEntry } from '@/lib/types/waitlist';
-import { WaitlistToolbar, type WaitlistFilters } from './waitlist-toolbar';
+import { WaitlistToolbar } from './waitlist-toolbar';
 import { WaitlistTable } from './waitlist-table';
 
 interface WaitlistPageClientProps {
@@ -12,52 +12,7 @@ interface WaitlistPageClientProps {
 }
 
 export function WaitlistPageClient({ initialItems }: WaitlistPageClientProps) {
-  const [items] = useState(initialItems);
-  const [filters, setFilters] = useState<WaitlistFilters>({
-    search: '',
-    status: 'all',
-    confirmed: 'all',
-  });
-
-  // Filter and sort items
-  const filteredItems = useMemo(() => {
-    let result = [...items];
-
-    // Search filter
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      result = result.filter(
-        (item) =>
-          item.email.toLowerCase().includes(searchLower) ||
-          (item.name && item.name.toLowerCase().includes(searchLower)),
-      );
-    }
-
-    // Status filter
-    if (filters.status !== 'all') {
-      result = result.filter((item) => item.status === filters.status);
-    }
-
-    // Confirmed filter
-    if (filters.confirmed !== 'all') {
-      const isConfirmed = filters.confirmed === 'true';
-      result = result.filter((item) => item.confirmed === isConfirmed);
-    }
-
-    // Sort by created_at descending (newest first)
-    result.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-
-    return result;
-  }, [items, filters]);
-
-  // Count stats
-  const counts = useMemo(
-    () => ({
-      total: items.length,
-      confirmed: items.filter((item) => item.confirmed).length,
-    }),
-    [items],
-  );
+  const [globalFilter, setGlobalFilter] = useState('');
 
   return (
     <main className="pb-16 pt-6 lg:pt-8">
@@ -89,11 +44,19 @@ export function WaitlistPageClient({ initialItems }: WaitlistPageClientProps) {
 
         {/* Toolbar */}
         <div className="mb-6">
-          <WaitlistToolbar filters={filters} onFiltersChange={setFilters} counts={counts} />
+          <WaitlistToolbar
+            searchValue={globalFilter}
+            onSearchChange={setGlobalFilter}
+            total={initialItems.length}
+          />
         </div>
 
         {/* Table */}
-        <WaitlistTable items={filteredItems} />
+        <WaitlistTable
+          items={initialItems}
+          globalFilter={globalFilter}
+          onGlobalFilterChange={setGlobalFilter}
+        />
       </Container>
     </main>
   );

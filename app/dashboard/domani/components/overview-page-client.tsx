@@ -11,7 +11,6 @@ interface OverviewStats {
   };
   waitlist: {
     total: number;
-    confirmed: number;
   };
   users: {
     total: number;
@@ -66,8 +65,6 @@ export function OverviewPageClient({ stats }: OverviewPageClientProps) {
           <StatCard
             title="Waitlist Signups"
             count={stats.waitlist.total}
-            subCount={stats.waitlist.confirmed}
-            subLabel="confirmed"
             href="/dashboard/domani/waitlist"
             icon={Users}
             gradient="linear-gradient(135deg, #10b981, #059669)"
