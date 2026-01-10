@@ -56,12 +56,15 @@ export function DataTable<TData, TValue>({
     <>
       {/* Desktop Table */}
       <div
-        className="hidden overflow-hidden rounded-xl border md:block"
+        className="hidden max-h-[calc(100vh-400px)] overflow-auto rounded-xl border md:block"
         style={{ borderColor: 'var(--pv-border)' }}
       >
         <table className="w-full">
-          <thead>
-            <tr style={{ background: 'var(--pv-surface)' }}>
+          <thead className="sticky top-0 z-10">
+            <tr
+              className="border-b"
+              style={{ background: 'var(--pv-surface)', borderColor: 'var(--pv-border)' }}
+            >
               {table.getHeaderGroups().map((headerGroup) =>
                 headerGroup.headers.map((header) => (
                   <th
@@ -110,7 +113,7 @@ export function DataTable<TData, TValue>({
       </div>
 
       {/* Mobile Cards */}
-      <div className="space-y-3 md:hidden">
+      <div className="max-h-[calc(100vh-360px)] space-y-3 overflow-auto md:hidden">
         {table.getRowModel().rows.map((row) => (
           <div
             key={row.id}
