@@ -27,13 +27,17 @@ export async function getFeedbackItems(
   if (params?.sort_order) searchParams.set('sort_order', params.sort_order);
 
   const url = `${getApiBaseUrl()}/api/domani/feedback?${searchParams}`;
+  console.log('[API] GET', url);
   const res = await fetch(url, { cache: 'no-store' });
 
   if (!res.ok) {
+    console.error('[API] Failed:', res.status, res.statusText);
     throw new Error('Failed to fetch feedback items');
   }
 
-  return res.json();
+  const data = await res.json();
+  console.log('[API] Response:', data.items?.length ?? 0, 'items');
+  return data;
 }
 
 /**
