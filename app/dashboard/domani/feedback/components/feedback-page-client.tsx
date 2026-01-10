@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useMemo, useCallback } from 'react';
-import { MessageSquare } from 'lucide-react';
-import { Container } from '@/components/ui/container';
 import type { UnifiedFeedbackItem, FeedbackStatus } from '@/lib/types/feedback';
 import { updateFeedbackStatus } from '@/lib/api/feedback';
 import { FeedbackToolbar, type FeedbackFilters } from './feedback-toolbar';
@@ -120,42 +118,13 @@ export function FeedbackPageClient({ initialItems }: FeedbackPageClientProps) {
         </div>
       )}
 
-      <main className="pb-16 pt-6 lg:pt-8">
-        <Container className="max-w-7xl">
-          {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3">
-              <div
-                className="flex h-10 w-10 items-center justify-center rounded-xl"
-                style={{
-                  background: 'linear-gradient(135deg, #f59e0b, #d97706)',
-                }}
-              >
-                <MessageSquare className="h-5 w-5 text-white" />
-              </div>
-              <div>
-                <h1
-                  className="font-heading text-2xl font-bold md:text-3xl"
-                  style={{ color: 'var(--pv-text)' }}
-                >
-                  Feedback
-                </h1>
-                <p className="text-sm text-[var(--pv-text-muted)]">
-                  Beta feedback & support requests from Domani users
-                </p>
-              </div>
-            </div>
-          </div>
+      {/* Toolbar */}
+      <div className="mb-6">
+        <FeedbackToolbar filters={filters} onFiltersChange={setFilters} counts={counts} />
+      </div>
 
-          {/* Toolbar */}
-          <div className="mb-6">
-            <FeedbackToolbar filters={filters} onFiltersChange={setFilters} counts={counts} />
-          </div>
-
-          {/* Table */}
-          <FeedbackTable items={filteredItems} onStatusChange={handleStatusChange} />
-        </Container>
-      </main>
+      {/* Table */}
+      <FeedbackTable items={filteredItems} onStatusChange={handleStatusChange} />
     </>
   );
 }

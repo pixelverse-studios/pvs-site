@@ -19,9 +19,11 @@
 - Clickable stat cards link to detailed views for each data type
 - Aligned feedback API client with server endpoint structure
 - Added dedicated support requests API client for `/api/domani/support`
+- Added sub-navigation tabs to Domani dashboard for easy section switching
 
 ## Notes for internal team
 
+- PVS-215: Add sub-navigation tabs to Domani dashboard
 - PVS-213: Add separate support requests API client
 - PVS-212: Update feedback API client to use /api/domani/feedback endpoint
 - PVS-205: Build Domani feedback dashboard view
@@ -38,6 +40,9 @@
   - `/dashboard/domani/feedback` - Feedback & support requests
   - `/dashboard/domani/waitlist` - Waitlist signups
   - `/dashboard/domani/users` - Active users
+- Shared layout with sub-navigation tabs:
+  - `app/dashboard/domani/layout.tsx` - Shared header and nav
+  - `app/dashboard/domani/components/domani-nav.tsx` - Tab navigation
 - Types added:
   - `lib/types/feedback.ts` - UnifiedFeedbackItem, FeedbackStatus
   - `lib/types/waitlist.ts` - WaitlistEntry, referral types
