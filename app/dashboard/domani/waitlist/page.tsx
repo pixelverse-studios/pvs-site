@@ -16,10 +16,11 @@ export default async function WaitlistPage() {
 
   if (!user) redirect('/login');
 
-  // Fetch all waitlist entries
-  const { items } = await getWaitlistEntries({ limit: 100 }).catch(() => ({
+  // Fetch initial waitlist entries with pagination
+  const { items, total } = await getWaitlistEntries({ limit: 50, offset: 0 }).catch(() => ({
     items: [],
+    total: 0,
   }));
 
-  return <WaitlistPageClient initialItems={items} />;
+  return <WaitlistPageClient initialItems={items} initialTotal={total} />;
 }

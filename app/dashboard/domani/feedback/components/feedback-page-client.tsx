@@ -1,13 +1,17 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import { Loader2 } from 'lucide-react';
 import type { UnifiedFeedbackItem, FeedbackStatus } from '@/lib/types/feedback';
-import { updateFeedbackStatus } from '@/lib/api/feedback';
+import { getFeedbackItems, updateFeedbackStatus } from '@/lib/api/feedback';
 import { FeedbackToolbar, type FeedbackFilters } from './feedback-toolbar';
 import { FeedbackTable } from './feedback-table';
+import { Pagination } from '@/components/ui/pagination';
+import type { DateRange } from '@/components/ui/date-range-filter';
 
 interface FeedbackPageClientProps {
   initialItems: UnifiedFeedbackItem[];
+  initialTotal: number;
 }
 
 interface Toast {
@@ -15,8 +19,12 @@ interface Toast {
   message: string;
 }
 
-export function FeedbackPageClient({ initialItems }: FeedbackPageClientProps) {
+const DEFAULT_PAGE_SIZE = 50;
+const DEFAULT_DATE_RANGE: DateRange = { preset: 'all', startDate: null, endDate: null };
+
+export function FeedbackPageClient({ initialItems, initialTotal }: FeedbackPageClientProps) {
   const [items, setItems] = useState(initialItems);
+  const [total, setTotal] = useState(initialTotal);
   const [toast, setToast] = useState<Toast | null>(null);
   const [filters, setFilters] = useState<FeedbackFilters>({
     search: '',
@@ -24,7 +32,12 @@ export function FeedbackPageClient({ initialItems }: FeedbackPageClientProps) {
     status: 'all',
     platform: 'all',
     source: 'all',
+    dateRange: DEFAULT_DATE_RANGE,
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
+  const [isLoading, setIsLoading] = useState(false);
+  const isInitialMount = useRef(true);
 
   // Auto-hide toast
   const showToast = useCallback((type: 'success' | 'error', message: string) => {
@@ -32,7 +45,57 @@ export function FeedbackPageClient({ initialItems }: FeedbackPageClientProps) {
     setTimeout(() => setToast(null), 3000);
   }, []);
 
-  // Filter and sort items
+  const fetchData = useCallback(async (page: number, size: number, dateRange: DateRange) => {
+    setIsLoading(true);
+    try {
+      const offset = (page - 1) * size;
+      const response = await getFeedbackItems({
+        limit: size,
+        offset,
+        start_date: dateRange.startDate || undefined,
+        end_date: dateRange.endDate || undefined,
+      });
+      setItems(response.items);
+      setTotal(response.total);
+    } catch (error) {
+      console.error('Failed to fetch feedback items:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Fetch when pagination or date range changes
+  useEffect(() => {
+    // Skip initial render
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    fetchData(currentPage, pageSize, filters.dateRange);
+  }, [currentPage, pageSize, filters.dateRange, fetchData]);
+
+  const handleFiltersChange = (newFilters: FeedbackFilters) => {
+    // If date range changed, reset to page 1 and fetch
+    if (
+      newFilters.dateRange.preset !== filters.dateRange.preset ||
+      newFilters.dateRange.startDate !== filters.dateRange.startDate ||
+      newFilters.dateRange.endDate !== filters.dateRange.endDate
+    ) {
+      setCurrentPage(1);
+    }
+    setFilters(newFilters);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    setCurrentPage(1);
+  };
+
+  // Filter and sort items (client-side filtering on current page)
   const filteredItems = useMemo(() => {
     let result = [...items];
 
@@ -75,10 +138,10 @@ export function FeedbackPageClient({ initialItems }: FeedbackPageClientProps) {
   // Count stats
   const counts = useMemo(
     () => ({
-      total: items.length,
+      total: total,
       new: items.filter((item) => item.status === 'new').length,
     }),
-    [items],
+    [items, total],
   );
 
   // Handle status change
@@ -120,11 +183,30 @@ export function FeedbackPageClient({ initialItems }: FeedbackPageClientProps) {
 
       {/* Toolbar */}
       <div className="mb-6">
-        <FeedbackToolbar filters={filters} onFiltersChange={setFilters} counts={counts} />
+        <FeedbackToolbar filters={filters} onFiltersChange={handleFiltersChange} counts={counts} />
       </div>
 
-      {/* Table */}
-      <FeedbackTable items={filteredItems} onStatusChange={handleStatusChange} />
+      {/* Loading state */}
+      {isLoading ? (
+        <div className="flex items-center justify-center py-16">
+          <Loader2 className="h-6 w-6 animate-spin text-[var(--pv-primary)]" />
+          <span className="ml-2 text-sm text-[var(--pv-text-muted)]">Loading...</span>
+        </div>
+      ) : (
+        /* Table */
+        <FeedbackTable items={filteredItems} onStatusChange={handleStatusChange} />
+      )}
+
+      {/* Pagination */}
+      <div className="mt-4">
+        <Pagination
+          currentPage={currentPage}
+          totalItems={total}
+          pageSize={pageSize}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
+        />
+      </div>
     </>
   );
 }

@@ -16,10 +16,11 @@ export default async function UsersPage() {
 
   if (!user) redirect('/login');
 
-  // Fetch all users (including deleted for admin view)
-  const { items } = await getDomaniUsers({ limit: 100, include_deleted: true }).catch(() => ({
+  // Fetch initial users with pagination (exclude deleted by default)
+  const { items, total } = await getDomaniUsers({ limit: 50, offset: 0, include_deleted: false }).catch(() => ({
     items: [],
+    total: 0,
   }));
 
-  return <UsersPageClient initialItems={items} />;
+  return <UsersPageClient initialItems={items} initialTotal={total} />;
 }

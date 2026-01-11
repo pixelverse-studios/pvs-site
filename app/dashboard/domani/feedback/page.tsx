@@ -16,10 +16,11 @@ export default async function FeedbackPage() {
 
   if (!user) redirect('/login');
 
-  // Fetch all feedback items
-  const { items } = await getFeedbackItems({ limit: 100 }).catch(() => ({
+  // Fetch initial feedback items with pagination
+  const { items, total } = await getFeedbackItems({ limit: 50, offset: 0 }).catch(() => ({
     items: [],
+    total: 0,
   }));
 
-  return <FeedbackPageClient initialItems={items} />;
+  return <FeedbackPageClient initialItems={items} initialTotal={total} />;
 }

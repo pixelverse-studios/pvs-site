@@ -24,6 +24,8 @@ export interface WaitlistListResponse {
 export interface WaitlistQueryParams {
   limit?: number;
   offset?: number;
+  start_date?: string;
+  end_date?: string;
 }
 
 // Referral type display configuration
