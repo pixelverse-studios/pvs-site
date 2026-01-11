@@ -20,6 +20,7 @@
 - Aligned feedback API client with server endpoint structure
 - Added dedicated support requests API client for `/api/domani/support`
 - Added sub-navigation tabs to Domani dashboard for easy section switching
+<<<<<<< HEAD
 - Added server-side pagination to all Domani tables with page size selector
 - Added date range filtering to all Domani tables (Today, 7 days, 30 days, 90 days, custom)
 - Redesigned filter UI with prominent stats display and better visual styling
@@ -40,6 +41,11 @@
 - DataTable supports getRowClassName prop for custom row styling
 - Removed console.log statements from API clients
 - PVS-214: Add server-side pagination to Domani tables
+=======
+
+## Notes for internal team
+
+>>>>>>> origin/main
 - PVS-215: Add sub-navigation tabs to Domani dashboard
 - PVS-213: Add separate support requests API client
 - PVS-212: Update feedback API client to use /api/domani/feedback endpoint
