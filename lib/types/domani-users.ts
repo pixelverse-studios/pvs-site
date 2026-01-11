@@ -37,6 +37,8 @@ export interface UsersQueryParams {
   include_deleted?: boolean;
   limit?: number;
   offset?: number;
+  start_date?: string;
+  end_date?: string;
 }
 
 // Tier display configuration

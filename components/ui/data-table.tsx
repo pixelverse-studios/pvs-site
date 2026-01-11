@@ -20,6 +20,7 @@ interface DataTableProps<TData, TValue> {
   emptyState?: React.ReactNode;
   globalFilter?: string;
   onGlobalFilterChange?: (value: string) => void;
+  getRowClassName?: (row: TData) => string;
 }
 
 export function DataTable<TData, TValue>({
@@ -28,6 +29,7 @@ export function DataTable<TData, TValue>({
   emptyState,
   globalFilter,
   onGlobalFilterChange,
+  getRowClassName,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -56,7 +58,7 @@ export function DataTable<TData, TValue>({
     <>
       {/* Desktop Table */}
       <div
-        className="hidden max-h-[calc(100vh-400px)] overflow-auto rounded-xl border md:block"
+        className="hidden max-h-[calc(100vh-580px)] overflow-auto rounded-xl border md:block"
         style={{ borderColor: 'var(--pv-border)' }}
       >
         <table className="w-full">
@@ -98,7 +100,10 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows.map((row) => (
               <tr
                 key={row.id}
-                className="border-t transition-colors hover:bg-[var(--pv-surface)]"
+                className={cn(
+                  'border-t transition-colors hover:bg-[var(--pv-surface)]',
+                  getRowClassName?.(row.original)
+                )}
                 style={{ borderColor: 'var(--pv-border)' }}
               >
                 {row.getVisibleCells().map((cell) => (
@@ -113,11 +118,11 @@ export function DataTable<TData, TValue>({
       </div>
 
       {/* Mobile Cards */}
-      <div className="max-h-[calc(100vh-360px)] space-y-3 overflow-auto md:hidden">
+      <div className="max-h-[calc(100vh-540px)] space-y-3 overflow-auto md:hidden">
         {table.getRowModel().rows.map((row) => (
           <div
             key={row.id}
-            className="rounded-xl border p-4"
+            className={cn('rounded-xl border p-4', getRowClassName?.(row.original))}
             style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
           >
             {row.getVisibleCells().map((cell, index) => {

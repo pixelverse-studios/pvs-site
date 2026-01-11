@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Loader2 } from 'lucide-react';
 import type { WaitlistEntry } from '@/lib/types/waitlist';
 import { getWaitlistEntries } from '@/lib/api/waitlist';
-import { WaitlistToolbar } from './waitlist-toolbar';
+import { WaitlistToolbar, type WaitlistFilters } from './waitlist-toolbar';
 import { WaitlistTable } from './waitlist-table';
 import { Pagination } from '@/components/ui/pagination';
+import type { DateRange } from '@/components/ui/date-range-filter';
 
 interface WaitlistPageClientProps {
   initialItems: WaitlistEntry[];
@@ -14,20 +15,30 @@ interface WaitlistPageClientProps {
 }
 
 const DEFAULT_PAGE_SIZE = 50;
+const DEFAULT_DATE_RANGE: DateRange = { preset: 'all', startDate: null, endDate: null };
 
 export function WaitlistPageClient({ initialItems, initialTotal }: WaitlistPageClientProps) {
   const [items, setItems] = useState(initialItems);
   const [total, setTotal] = useState(initialTotal);
-  const [globalFilter, setGlobalFilter] = useState('');
+  const [filters, setFilters] = useState<WaitlistFilters>({
+    search: '',
+    dateRange: DEFAULT_DATE_RANGE,
+  });
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(false);
+  const isInitialMount = useRef(true);
 
-  const fetchData = useCallback(async (page: number, size: number) => {
+  const fetchData = useCallback(async (page: number, size: number, dateRange: DateRange) => {
     setIsLoading(true);
     try {
       const offset = (page - 1) * size;
-      const response = await getWaitlistEntries({ limit: size, offset });
+      const response = await getWaitlistEntries({
+        limit: size,
+        offset,
+        start_date: dateRange.startDate || undefined,
+        end_date: dateRange.endDate || undefined,
+      });
       setItems(response.items);
       setTotal(response.total);
     } catch (error) {
@@ -37,24 +48,35 @@ export function WaitlistPageClient({ initialItems, initialTotal }: WaitlistPageC
     }
   }, []);
 
-  // Fetch when pagination changes (skip initial render)
+  // Fetch when pagination or date range changes
   useEffect(() => {
-    // Skip initial render - we already have initialItems
-    if (currentPage === 1 && pageSize === DEFAULT_PAGE_SIZE) {
+    // Skip initial render
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
       return;
     }
-    fetchData(currentPage, pageSize);
-  }, [currentPage, pageSize, fetchData]);
+    fetchData(currentPage, pageSize, filters.dateRange);
+  }, [currentPage, pageSize, filters.dateRange, fetchData]);
+
+  const handleFiltersChange = (newFilters: WaitlistFilters) => {
+    // If date range changed, reset to page 1 and fetch
+    if (
+      newFilters.dateRange.preset !== filters.dateRange.preset ||
+      newFilters.dateRange.startDate !== filters.dateRange.startDate ||
+      newFilters.dateRange.endDate !== filters.dateRange.endDate
+    ) {
+      setCurrentPage(1);
+    }
+    setFilters(newFilters);
+  };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    setGlobalFilter(''); // Reset search when changing pages
   };
 
   const handlePageSizeChange = (size: number) => {
     setPageSize(size);
-    setCurrentPage(1); // Reset to first page when changing page size
-    setGlobalFilter(''); // Reset search when changing page size
+    setCurrentPage(1);
   };
 
   return (
@@ -62,8 +84,8 @@ export function WaitlistPageClient({ initialItems, initialTotal }: WaitlistPageC
       {/* Toolbar */}
       <div className="mb-6">
         <WaitlistToolbar
-          searchValue={globalFilter}
-          onSearchChange={setGlobalFilter}
+          filters={filters}
+          onFiltersChange={handleFiltersChange}
           total={total}
         />
       </div>
@@ -78,8 +100,8 @@ export function WaitlistPageClient({ initialItems, initialTotal }: WaitlistPageC
         /* Table */
         <WaitlistTable
           items={items}
-          globalFilter={globalFilter}
-          onGlobalFilterChange={setGlobalFilter}
+          globalFilter={filters.search}
+          onGlobalFilterChange={(value) => setFilters((prev) => ({ ...prev, search: value }))}
         />
       )}
 

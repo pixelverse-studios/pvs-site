@@ -21,9 +21,24 @@
 - Added dedicated support requests API client for `/api/domani/support`
 - Added sub-navigation tabs to Domani dashboard for easy section switching
 - Added server-side pagination to all Domani tables with page size selector
+- Added date range filtering to all Domani tables (Today, 7 days, 30 days, 90 days, custom)
+- Redesigned filter UI with prominent stats display and better visual styling
+- Fixed crash when viewing feedback with unknown categories
+- Fixed layout shift when scrollbar appears on row expansion
+- Moved expanded row content to detail panel below table for cleaner UX
+- Migrated users table to reusable DataTable component with sortable columns
+- Fixed table heights to keep pages from scrolling (tables scroll internally)
 
 ## Notes for internal team
 
+- PVS-216: Add date range filter to Domani tables
+- DateRangeFilter component: `components/ui/date-range-filter.tsx`
+- Toolbar redesign: Two-section layout (search + stats / filter bar)
+- DetailPanel component shows expanded content below feedback table
+- UNKNOWN_CATEGORY_CONFIG fallback added for unrecognized categories
+- Users table now uses shared DataTable with TanStack React Table
+- DataTable supports getRowClassName prop for custom row styling
+- Removed console.log statements from API clients
 - PVS-214: Add server-side pagination to Domani tables
 - PVS-215: Add sub-navigation tabs to Domani dashboard
 - PVS-213: Add separate support requests API client
