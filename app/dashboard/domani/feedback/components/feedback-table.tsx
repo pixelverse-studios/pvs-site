@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, ChevronRight, Smartphone } from 'lucide-react';
+import { ChevronRight, Smartphone, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { UnifiedFeedbackItem, FeedbackStatus, CategoryConfig } from '@/lib/types/feedback';
 import { CATEGORY_COLORS, STATUS_COLORS } from '@/lib/types/feedback';
@@ -21,11 +21,13 @@ interface FeedbackTableProps {
 }
 
 export function FeedbackTable({ items, onStatusChange }: FeedbackTableProps) {
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [selectedItem, setSelectedItem] = useState<UnifiedFeedbackItem | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [modalItem, setModalItem] = useState<UnifiedFeedbackItem | null>(null);
 
-  const toggleExpanded = (id: string) => {
-    setExpandedId(expandedId === id ? null : id);
+  const selectedItem = items.find((item) => item.id === selectedId) || null;
+
+  const handleRowClick = (id: string) => {
+    setSelectedId(selectedId === id ? null : id);
   };
 
   const formatDate = (dateString: string) => {
@@ -65,11 +67,11 @@ export function FeedbackTable({ items, onStatusChange }: FeedbackTableProps) {
     <>
       {/* Desktop Table */}
       <div
-        className="hidden overflow-hidden rounded-xl border md:block"
+        className="hidden max-h-[calc(100vh-580px)] overflow-auto rounded-xl border md:block"
         style={{ borderColor: 'var(--pv-border)' }}
       >
         <table className="w-full">
-          <thead>
+          <thead className="sticky top-0 z-10">
             <tr style={{ background: 'var(--pv-surface)' }}>
               <th className="w-8 px-4 py-3"></th>
               <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
@@ -94,80 +96,83 @@ export function FeedbackTable({ items, onStatusChange }: FeedbackTableProps) {
           </thead>
           <tbody>
             {items.map((item) => {
-              const isExpanded = expandedId === item.id;
+              const isSelected = selectedId === item.id;
               const categoryConfig = CATEGORY_COLORS[item.category] || UNKNOWN_CATEGORY_CONFIG;
               const statusConfig = STATUS_COLORS[item.status];
 
               return (
-                <>
-                  <tr
-                    key={item.id}
-                    className="cursor-pointer border-t transition-colors hover:bg-[var(--pv-surface)]"
-                    style={{ borderColor: 'var(--pv-border)' }}
-                    onClick={() => toggleExpanded(item.id)}
-                  >
-                    <td className="px-4 py-3">
-                      {isExpanded ? (
-                        <ChevronDown className="h-4 w-4 text-[var(--pv-text-muted)]" />
-                      ) : (
-                        <ChevronRight className="h-4 w-4 text-[var(--pv-text-muted)]" />
-                      )}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-3 text-sm text-[var(--pv-text-muted)]">
-                      {formatDate(item.created_at)}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={cn(
-                          'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
-                          categoryConfig.bgColor,
-                          categoryConfig.color,
-                        )}
-                      >
-                        {categoryConfig.label}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-sm" style={{ color: 'var(--pv-text)' }}>
-                      {item.email}
-                    </td>
-                    <td className="max-w-xs px-4 py-3 text-sm text-[var(--pv-text-muted)]">
-                      {truncateMessage(item.message)}
-                    </td>
-                    <td className="px-4 py-3">
-                      <PlatformBadge platform={item.platform} />
-                    </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={cn(
-                          'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
-                          statusConfig.bgColor,
-                          statusConfig.color,
-                        )}
-                      >
-                        {statusConfig.label}
-                      </span>
-                    </td>
-                  </tr>
-                  {isExpanded && (
-                    <tr key={`${item.id}-expanded`} style={{ background: 'var(--pv-surface)' }}>
-                      <td colSpan={7} className="px-4 py-4">
-                        <ExpandedContent
-                          item={item}
-                          onStatusChange={onStatusChange}
-                          onViewDetails={() => setSelectedItem(item)}
-                        />
-                      </td>
-                    </tr>
+                <tr
+                  key={item.id}
+                  className={cn(
+                    'cursor-pointer border-t transition-colors',
+                    isSelected
+                      ? 'bg-[var(--pv-primary)]/5'
+                      : 'hover:bg-[var(--pv-surface)]'
                   )}
-                </>
+                  style={{ borderColor: 'var(--pv-border)' }}
+                  onClick={() => handleRowClick(item.id)}
+                >
+                  <td className="px-4 py-3">
+                    <ChevronRight
+                      className={cn(
+                        'h-4 w-4 transition-transform',
+                        isSelected ? 'rotate-90 text-[var(--pv-primary)]' : 'text-[var(--pv-text-muted)]'
+                      )}
+                    />
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-3 text-sm text-[var(--pv-text-muted)]">
+                    {formatDate(item.created_at)}
+                  </td>
+                  <td className="px-4 py-3">
+                    <span
+                      className={cn(
+                        'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
+                        categoryConfig.bgColor,
+                        categoryConfig.color,
+                      )}
+                    >
+                      {categoryConfig.label}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-sm" style={{ color: 'var(--pv-text)' }}>
+                    {item.email}
+                  </td>
+                  <td className="max-w-xs px-4 py-3 text-sm text-[var(--pv-text-muted)]">
+                    {truncateMessage(item.message)}
+                  </td>
+                  <td className="px-4 py-3">
+                    <PlatformBadge platform={item.platform} />
+                  </td>
+                  <td className="px-4 py-3">
+                    <span
+                      className={cn(
+                        'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
+                        statusConfig.bgColor,
+                        statusConfig.color,
+                      )}
+                    >
+                      {statusConfig.label}
+                    </span>
+                  </td>
+                </tr>
               );
             })}
           </tbody>
         </table>
       </div>
 
+      {/* Detail Panel - Below the table */}
+      {selectedItem && (
+        <DetailPanel
+          item={selectedItem}
+          onClose={() => setSelectedId(null)}
+          onStatusChange={onStatusChange}
+          onViewDetails={() => setModalItem(selectedItem)}
+        />
+      )}
+
       {/* Mobile Cards */}
-      <div className="space-y-3 md:hidden">
+      <div className="max-h-[calc(100vh-540px)] space-y-3 overflow-auto md:hidden">
         {items.map((item) => {
           const categoryConfig = CATEGORY_COLORS[item.category] || UNKNOWN_CATEGORY_CONFIG;
           const statusConfig = STATUS_COLORS[item.status];
@@ -177,7 +182,7 @@ export function FeedbackTable({ items, onStatusChange }: FeedbackTableProps) {
               key={item.id}
               className="rounded-xl border p-4"
               style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
-              onClick={() => setSelectedItem(item)}
+              onClick={() => setModalItem(item)}
             >
               <div className="mb-3 flex items-start justify-between">
                 <div className="flex items-center gap-2">
@@ -216,12 +221,96 @@ export function FeedbackTable({ items, onStatusChange }: FeedbackTableProps) {
 
       {/* Detail Modal */}
       <FeedbackDetailModal
-        item={selectedItem}
-        isOpen={!!selectedItem}
-        onClose={() => setSelectedItem(null)}
+        item={modalItem}
+        isOpen={!!modalItem}
+        onClose={() => setModalItem(null)}
         onStatusChange={onStatusChange}
       />
     </>
+  );
+}
+
+function DetailPanel({
+  item,
+  onClose,
+  onStatusChange,
+  onViewDetails,
+}: {
+  item: UnifiedFeedbackItem;
+  onClose: () => void;
+  onStatusChange: (id: string, source: 'beta_feedback' | 'support_request', status: FeedbackStatus) => void;
+  onViewDetails: () => void;
+}) {
+  const categoryConfig = CATEGORY_COLORS[item.category] || UNKNOWN_CATEGORY_CONFIG;
+
+  return (
+    <div
+      className="mt-4 hidden rounded-xl border md:block"
+      style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
+    >
+      {/* Header */}
+      <div
+        className="flex items-center justify-between border-b px-6 py-4"
+        style={{ borderColor: 'var(--pv-border)' }}
+      >
+        <div className="flex items-center gap-3">
+          <span
+            className={cn(
+              'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
+              categoryConfig.bgColor,
+              categoryConfig.color,
+            )}
+          >
+            {categoryConfig.label}
+          </span>
+          <span className="text-sm font-medium" style={{ color: 'var(--pv-text)' }}>
+            {item.email}
+          </span>
+          <PlatformBadge platform={item.platform} />
+        </div>
+        <button
+          onClick={onClose}
+          className="rounded-lg p-2 text-[var(--pv-text-muted)] transition-colors hover:bg-[var(--pv-bg)] hover:text-[var(--pv-text)]"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      </div>
+
+      {/* Content */}
+      <div className="space-y-4 p-6">
+        {/* Full Message */}
+        <div>
+          <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
+            Full Message
+          </h4>
+          <p className="whitespace-pre-wrap text-sm" style={{ color: 'var(--pv-text)' }}>
+            {item.message}
+          </p>
+        </div>
+
+        {/* Device Info */}
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <InfoField label="Device" value={`${item.device_brand || ''} ${item.device_model || ''}`.trim() || 'Unknown'} />
+          <InfoField label="OS Version" value={item.os_version || 'Unknown'} />
+          <InfoField label="App Version" value={item.app_version} />
+          <InfoField label="Build" value={item.app_build || 'N/A'} />
+        </div>
+
+        {/* Actions */}
+        <div className="flex items-center gap-3 border-t pt-4" style={{ borderColor: 'var(--pv-border)' }}>
+          <StatusButtons
+            currentStatus={item.status}
+            onStatusChange={(status) => onStatusChange(item.id, item.source, status)}
+          />
+          <button
+            onClick={onViewDetails}
+            className="text-sm font-medium text-[var(--pv-primary)] hover:underline"
+          >
+            View Full Details
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -263,55 +352,6 @@ function AndroidIcon({ className }: { className?: string }) {
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
       <path d="M17.523 15.341c-.5 0-.908.406-.908.908s.408.908.908.908.909-.406.909-.908-.409-.908-.909-.908zm-11.046 0c-.5 0-.908.406-.908.908s.408.908.908.908.908-.406.908-.908-.408-.908-.908-.908zm11.4-5.772l1.997-3.46a.416.416 0 00-.152-.567.416.416 0 00-.568.152L17.12 9.2c-1.527-.694-3.238-1.083-5.12-1.083-1.883 0-3.593.389-5.12 1.083l-2.034-3.506a.416.416 0 00-.568-.152.416.416 0 00-.152.567l1.997 3.46C3.017 11.154 1 14.174 1 17.648h22c0-3.474-2.017-6.494-5.123-8.079z" />
     </svg>
-  );
-}
-
-function ExpandedContent({
-  item,
-  onStatusChange,
-  onViewDetails,
-}: {
-  item: UnifiedFeedbackItem;
-  onStatusChange: (id: string, source: 'beta_feedback' | 'support_request', status: FeedbackStatus) => void;
-  onViewDetails: () => void;
-}) {
-  return (
-    <div className="space-y-4">
-      {/* Full Message */}
-      <div>
-        <h4 className="mb-1 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
-          Full Message
-        </h4>
-        <p className="whitespace-pre-wrap text-sm" style={{ color: 'var(--pv-text)' }}>
-          {item.message}
-        </p>
-      </div>
-
-      {/* Device Info */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <InfoField label="Device" value={`${item.device_brand || ''} ${item.device_model || ''}`.trim() || 'Unknown'} />
-        <InfoField label="OS Version" value={item.os_version || 'Unknown'} />
-        <InfoField label="App Version" value={item.app_version} />
-        <InfoField label="Build" value={item.app_build || 'N/A'} />
-      </div>
-
-      {/* Actions */}
-      <div className="flex items-center gap-3 pt-2">
-        <StatusButtons
-          currentStatus={item.status}
-          onStatusChange={(status) => onStatusChange(item.id, item.source, status)}
-        />
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onViewDetails();
-          }}
-          className="text-sm font-medium text-[var(--pv-primary)] hover:underline"
-        >
-          View Full Details
-        </button>
-      </div>
-    </div>
   );
 }
 

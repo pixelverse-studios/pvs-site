@@ -17,17 +17,13 @@ export async function getDomaniUsers(params?: UsersQueryParams): Promise<UsersLi
   if (params?.end_date) searchParams.set('end_date', params.end_date);
 
   const url = `${getApiBaseUrl()}/api/domani/users?${searchParams}`;
-  console.log('[API] GET', url);
   const res = await fetch(url, { cache: 'no-store' });
 
   if (!res.ok) {
-    console.error('[API] Failed:', res.status, res.statusText);
     throw new Error('Failed to fetch Domani users');
   }
 
-  const data = await res.json();
-  console.log('[API] Response:', data.items?.length ?? 0, 'users');
-  return data;
+  return res.json();
 }
 
 /**

@@ -84,19 +84,9 @@ export function UsersPageClient({ initialItems, initialTotal }: UsersPageClientP
     setCurrentPage(1);
   };
 
-  // Filter and sort items (client-side filtering on current page)
+  // Filter items (client-side filtering on current page for tier/cohort)
   const filteredItems = useMemo(() => {
     let result = [...items];
-
-    // Search filter
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      result = result.filter(
-        (item) =>
-          item.email.toLowerCase().includes(searchLower) ||
-          (item.full_name && item.full_name.toLowerCase().includes(searchLower)),
-      );
-    }
 
     // Tier filter
     if (filters.tier !== 'all') {
@@ -117,7 +107,7 @@ export function UsersPageClient({ initialItems, initialTotal }: UsersPageClientP
     result.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
     return result;
-  }, [items, filters]);
+  }, [items, filters.tier, filters.cohort, filters.includeDeleted]);
 
   // Count stats
   const counts = useMemo(
@@ -143,7 +133,11 @@ export function UsersPageClient({ initialItems, initialTotal }: UsersPageClientP
         </div>
       ) : (
         /* Table */
-        <UsersTable items={filteredItems} />
+        <UsersTable
+          items={filteredItems}
+          globalFilter={filters.search}
+          onGlobalFilterChange={(value) => setFilters((prev) => ({ ...prev, search: value }))}
+        />
       )}
 
       {/* Pagination */}

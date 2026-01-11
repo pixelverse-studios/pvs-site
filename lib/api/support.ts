@@ -37,17 +37,13 @@ export async function getSupportRequests(
   if (params?.offset) searchParams.set('offset', String(params.offset));
 
   const url = `${getApiBaseUrl()}/api/domani/support?${searchParams}`;
-  console.log('[API] GET', url);
   const res = await fetch(url, { cache: 'no-store' });
 
   if (!res.ok) {
-    console.error('[API] Failed:', res.status, res.statusText);
     throw new Error('Failed to fetch support requests');
   }
 
-  const data = await res.json();
-  console.log('[API] Response:', data.items?.length ?? 0, 'support requests');
-  return data;
+  return res.json();
 }
 
 /**
@@ -55,11 +51,9 @@ export async function getSupportRequests(
  */
 export async function getSupportRequest(id: string): Promise<SupportRequest> {
   const url = `${getApiBaseUrl()}/api/domani/support/${id}`;
-  console.log('[API] GET', url);
   const res = await fetch(url, { cache: 'no-store' });
 
   if (!res.ok) {
-    console.error('[API] Failed:', res.status, res.statusText);
     throw new Error('Failed to fetch support request');
   }
 
@@ -74,7 +68,6 @@ export async function updateSupportStatus(
   status: FeedbackStatus,
 ): Promise<SupportRequest> {
   const url = `${getApiBaseUrl()}/api/domani/support/${id}/status`;
-  console.log('[API] PATCH', url);
   const res = await fetch(url, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
@@ -82,7 +75,6 @@ export async function updateSupportStatus(
   });
 
   if (!res.ok) {
-    console.error('[API] Failed:', res.status, res.statusText);
     const error = await res.json().catch(() => ({}));
     throw new Error(error.message || 'Failed to update support request status');
   }
@@ -100,11 +92,9 @@ export async function getSupportStats(): Promise<{
   by_platform: Record<string, number>;
 }> {
   const url = `${getApiBaseUrl()}/api/domani/support/stats`;
-  console.log('[API] GET', url);
   const res = await fetch(url, { cache: 'no-store' });
 
   if (!res.ok) {
-    console.error('[API] Failed:', res.status, res.statusText);
     throw new Error('Failed to fetch support stats');
   }
 

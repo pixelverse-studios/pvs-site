@@ -15,17 +15,13 @@ export async function getWaitlistEntries(
   if (params?.end_date) searchParams.set('end_date', params.end_date);
 
   const url = `${getApiBaseUrl()}/api/domani/waitlist?${searchParams}`;
-  console.log('[API] GET', url);
   const res = await fetch(url, { cache: 'no-store' });
 
   if (!res.ok) {
-    console.error('[API] Failed:', res.status, res.statusText);
     throw new Error('Failed to fetch waitlist entries');
   }
 
-  const data = await res.json();
-  console.log('[API] Response:', data.items?.length ?? 0, 'waitlist entries');
-  return data;
+  return res.json();
 }
 
 /**
