@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { ChevronRight, Smartphone, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { UnifiedFeedbackItem, FeedbackStatus, CategoryConfig } from '@/lib/types/feedback';
@@ -101,8 +101,8 @@ export function FeedbackTable({ items, onStatusChange }: FeedbackTableProps) {
               const statusConfig = STATUS_COLORS[item.status];
 
               return (
+                <Fragment key={item.id}>
                 <tr
-                  key={item.id}
                   className={cn(
                     'cursor-pointer border-t transition-colors',
                     isSelected
@@ -155,21 +155,28 @@ export function FeedbackTable({ items, onStatusChange }: FeedbackTableProps) {
                     </span>
                   </td>
                 </tr>
+                {/* Inline expanded detail row */}
+                {isSelected && (
+                  <tr
+                    className="border-t bg-[var(--pv-surface)]"
+                    style={{ borderColor: 'var(--pv-border)' }}
+                  >
+                    <td colSpan={7} className="p-0">
+                      <InlineDetailPanel
+                        item={item}
+                        onClose={() => setSelectedId(null)}
+                        onStatusChange={onStatusChange}
+                        onViewDetails={() => setModalItem(item)}
+                      />
+                    </td>
+                  </tr>
+                )}
+              </Fragment>
               );
             })}
           </tbody>
         </table>
       </div>
-
-      {/* Detail Panel - Below the table */}
-      {selectedItem && (
-        <DetailPanel
-          item={selectedItem}
-          onClose={() => setSelectedId(null)}
-          onStatusChange={onStatusChange}
-          onViewDetails={() => setModalItem(selectedItem)}
-        />
-      )}
 
       {/* Mobile Cards */}
       <div className="max-h-[calc(100vh-540px)] space-y-3 overflow-auto md:hidden">
@@ -230,7 +237,7 @@ export function FeedbackTable({ items, onStatusChange }: FeedbackTableProps) {
   );
 }
 
-function DetailPanel({
+function InlineDetailPanel({
   item,
   onClose,
   onStatusChange,
@@ -244,13 +251,10 @@ function DetailPanel({
   const categoryConfig = CATEGORY_COLORS[item.category] || UNKNOWN_CATEGORY_CONFIG;
 
   return (
-    <div
-      className="mt-4 hidden rounded-xl border md:block"
-      style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
-    >
+    <div style={{ background: 'var(--pv-surface)' }}>
       {/* Header */}
       <div
-        className="flex items-center justify-between border-b px-6 py-4"
+        className="flex items-center justify-between border-b px-6 py-3"
         style={{ borderColor: 'var(--pv-border)' }}
       >
         <div className="flex items-center gap-3">
@@ -269,7 +273,10 @@ function DetailPanel({
           <PlatformBadge platform={item.platform} />
         </div>
         <button
-          onClick={onClose}
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
           className="rounded-lg p-2 text-[var(--pv-text-muted)] transition-colors hover:bg-[var(--pv-bg)] hover:text-[var(--pv-text)]"
         >
           <X className="h-4 w-4" />
@@ -277,7 +284,7 @@ function DetailPanel({
       </div>
 
       {/* Content */}
-      <div className="space-y-4 p-6">
+      <div className="space-y-4 px-6 py-4">
         {/* Full Message */}
         <div>
           <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
@@ -303,7 +310,10 @@ function DetailPanel({
             onStatusChange={(status) => onStatusChange(item.id, item.source, status)}
           />
           <button
-            onClick={onViewDetails}
+            onClick={(e) => {
+              e.stopPropagation();
+              onViewDetails();
+            }}
             className="text-sm font-medium text-[var(--pv-primary)] hover:underline"
           >
             View Full Details
