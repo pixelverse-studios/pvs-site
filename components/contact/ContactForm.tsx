@@ -21,6 +21,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { formatMessageWithEmailLink } from '@/lib/support-email';
 import { cn } from '@/lib/utils';
 import { getApiBaseUrl } from '@/lib/api-config';
+import { trackFormSubmission } from '@/lib/mixpanel';
 
 const SUBMIT_THROTTLE_MS = 5000;
 
@@ -240,6 +241,7 @@ export function ContactForm() {
         };
 
         await submitLead(payload);
+        trackFormSubmission('Contact Form', true, { budget, timeline });
         resetForm();
         setToast({
           type: 'success',
@@ -247,6 +249,7 @@ export function ContactForm() {
         });
       } catch (error) {
         console.error(error);
+        trackFormSubmission('Contact Form', false);
         let message = 'Something went wrong while submitting. Please try again.';
 
         if (

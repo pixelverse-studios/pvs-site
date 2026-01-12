@@ -3,12 +3,15 @@
 <!-- This file is automatically sent via email on successful deployment, then reset for the next cycle -->
 
 ## Latest deploy summary
-- Improved Domani feedback table UX by moving expanded details inline within the table row instead of below the table
+- Added Mixpanel analytics integration for marketing site pages
+- Page views and contact form submissions are now tracked in Mixpanel
 
 ## Notes for internal team
-- Modified `app/dashboard/domani/feedback/components/feedback-table.tsx`
-- Expansion now uses Fragment wrapper to render detail row immediately after clicked row
-- Added stopPropagation on action buttons to prevent accidental collapse
+- New files: `lib/mixpanel.ts`, `components/mixpanel-provider.tsx`
+- Modified: `app/layout.tsx`, `components/contact/ContactForm.tsx`, `.env.example`
+- Mixpanel only runs in production and excludes dashboard routes
+- Requires `NEXT_PUBLIC_MIXPANEL_TOKEN` env variable
 
 ## Changed URLs
-- https://www.pixelversestudios.io/dashboard/domani/feedback
+- https://www.pixelversestudios.io/
+- https://www.pixelversestudios.io/contact
