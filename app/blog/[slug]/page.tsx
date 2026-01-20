@@ -132,6 +132,22 @@ export default function BlogPostPage({ params }: { params: Params }) {
     articleSection: post.category,
   };
 
+  // FAQPage schema for posts with FAQ content
+  const faqSchema = post.faqs?.length
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: post.faqs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+      }
+    : null;
+
   return (
     <main>
       <article>
@@ -186,6 +202,7 @@ export default function BlogPostPage({ params }: { params: Params }) {
       />
       <StructuredData id={`pixelverse-blog-post-${post.slug}`} data={blogPostSchema} />
       <StructuredData id={`breadcrumb-blog-${post.slug}`} data={breadcrumbSchema} />
+      {faqSchema && <StructuredData id={`faq-blog-${post.slug}`} data={faqSchema} />}
     </main>
   );
 }
