@@ -5,6 +5,7 @@ import { LoginForm } from '@/components/auth/login-form';
 export const metadata = {
   title: 'Login | PixelVerse Studios',
   description: 'Sign in to access your PixelVerse Studios dashboard',
+  robots: { index: false, follow: false },
 };
 
 export default async function LoginPage() {
