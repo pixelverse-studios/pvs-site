@@ -41,6 +41,74 @@ Record every SEO change with:
 
 ---
 
+## 2026 Changes
+
+### 2026-01-20 - Full SEO Audit
+
+**Type:** Full Audit
+**Overall Score:** 78/100 (B)
+
+**Scores by Category:**
+
+| Category      | Score  | Grade | Notes                                        |
+| ------------- | ------ | ----- | -------------------------------------------- |
+| Technical SEO | 88/100 | A     | Excellent foundation, minor noindex gaps     |
+| On-Page SEO   | 90/100 | A     | All metadata, OG, Twitter cards implemented  |
+| Content       | 72/100 | C     | 10 blog posts, city pages excellent, cadence needed |
+| Local SEO     | 65/100 | D     | GBP verified but low engagement, citations missing |
+
+**Key Findings:**
+
+1. **Strong Technical Foundation:** All core technical SEO elements in place (robots.txt, sitemap, canonicals, comprehensive schema)
+2. **Indexing Issues:** 29 pages not indexed (13 redirect issues, 10 canonical alternates, 2 crawled-not-indexed)
+3. **SEO Keywords Gaining Traction:** "local seo agency englewood nj" now at position 10.6, Teaneck keywords emerging
+4. **Traffic Still Low:** 13 clicks in 28 days, most from branded searches (pixelverse studios)
+5. **GBP Underperforming:** Only 31 interactions, 109 views in 6 weeks - needs activation
+
+**GSC Performance Snapshot (Last 28 days):**
+
+- Total Clicks: 13
+- Total Impressions: 206
+- Overall CTR: 6.3%
+- Avg Position: ~12
+- Indexed Pages: 42
+- Not Indexed: 29
+
+**GBP Performance (Dec 2025 - Jan 2026):**
+
+- Profile Views: 109
+- Business Interactions: 31
+- Search Appearances: <50
+
+**Issues Identified:**
+
+- [Critical] 13 pages with redirect issues in GSC
+- [Warning] 2 pages "crawled - currently not indexed"
+- [Warning] No clicks from non-branded keywords (0% CTR on all target keywords)
+- [Warning] GBP engagement very low (31 interactions)
+- [Info] Dashboard pages missing explicit noindex metadata (relying on robots.txt)
+- [Info] Auth pages (/login) not noindex protected
+
+**Actions Recommended:**
+
+1. [ ] Fix 13 redirect issues identified in GSC
+2. [ ] Investigate "crawled - not indexed" pages
+3. [ ] Add noindex to dashboard and auth pages for defense-in-depth
+4. [ ] Increase GBP activity (weekly posts, Q&A, photos)
+5. [ ] Submit to 10+ local directories for citation building
+6. [ ] Create "Website Cost Guide" blog post (high-search intent)
+7. [ ] Improve CTR with meta description optimization for ranking keywords
+
+**Checklist Progress:** 62% complete (+4% since initialization)
+
+**Files Updated:**
+
+- docs/seo/SEO-KEYWORDS.md - Added Jan 2026 rankings and GSC query data
+- docs/seo/SEO-CHECKLIST.md - Marked schema validation items complete
+- docs/seo/SEO-CHANGELOG.md - Added this audit entry
+
+---
+
 ## 2025 Changes
 
 ### 2025-12-22

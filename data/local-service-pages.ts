@@ -610,6 +610,400 @@ export const localServicePages: LocalServicePageDefinition[] = [
     ],
     relatedServices: ['web-development', 'ux-ui-design'],
   },
+
+  // ==========================================================================
+  // ENGLEWOOD
+  // ==========================================================================
+
+  // Englewood - Web Development
+  {
+    serviceSlug: 'web-development',
+    citySlug: 'englewood',
+    metadata: {
+      title: 'Web Development Englewood NJ | Custom Websites',
+      description:
+        'Custom web development for Englewood businesses. Hand-coded websites for healthcare providers, luxury retail, and corporate brands near Palisade Avenue.',
+      keywords: [
+        'web development Englewood NJ',
+        'Englewood web developer',
+        'custom websites Englewood',
+        'Englewood website design',
+        'web design Englewood New Jersey',
+      ],
+    },
+    hero: {
+      eyebrow: 'Web Development in Englewood, NJ',
+      heading: 'Custom websites for Englewood healthcare, retail, and corporate brands.',
+      description:
+        'Englewood sits at the intersection of Bergen County healthcare, upscale retail, and corporate innovation. From Englewood Hospital specialists to Palisade Avenue boutiques to Englewood Cliffs headquarters, your digital presence needs to match the premium expectations of this discerning market. We build custom-coded websites that help Englewood businesses convert affluent residents and healthcare seekers into loyal clients.',
+      bullets: [
+        'Hand-coded sites optimized for Englewood healthcare, retail, and corporate searches',
+        'Sub-2-second load times that outperform template competitors',
+        'HIPAA-aware builds for medical practices near Englewood Hospital',
+      ],
+      stat: {
+        value: '42%',
+        label: 'average increase in qualified leads for Englewood service businesses',
+      },
+    },
+    content: {
+      intro: {
+        heading: 'Why Englewood businesses need custom web development',
+        body: "Englewood's mix of healthcare professionals, luxury retailers, and corporate executives creates a uniquely demanding audience. East Hill residents expect digital experiences matching the premium services they seek. Template websites signal 'budget option' to physicians comparing medical web design, boutique owners seeking e-commerce solutions, and executives evaluating B2B partners. Custom development delivers the performance, compliance, and conversion optimization that positions your Englewood business as the premium choice.",
+      },
+      features: [
+        {
+          title: 'Healthcare-Ready Architecture',
+          description:
+            'HIPAA-aware contact forms, physician directories, patient portals, and appointment scheduling built with security and compliance in mind.',
+          localAngle:
+            'Built for medical practices, specialists, and wellness providers in the Englewood Hospital corridor.',
+        },
+        {
+          title: 'Performance-First Design',
+          description:
+            'Every millisecond matters. We build sites that load in under 2 seconds, improving user experience and Google rankings.',
+          localAngle:
+            'Englewood professionals research services on mobile—fast sites capture attention before they scroll past.',
+        },
+        {
+          title: 'Conversion-Optimized Layouts',
+          description:
+            'Strategic design guides visitors toward consultations, appointments, and purchases with clear calls-to-action.',
+          localAngle:
+            'Designed for Palisade Avenue retail, Englewood Cliffs corporate, and healthcare booking flows.',
+        },
+        {
+          title: 'SEO-Ready Foundation',
+          description:
+            'Clean semantic markup, structured data, and optimized metadata built into every page from the start.',
+          localAngle:
+            'Target Englewood, Englewood Cliffs, Teaneck, and Tenafly searches with localized content architecture.',
+        },
+        {
+          title: 'E-Commerce Capabilities',
+          description:
+            'Product catalogs, inventory management, and secure checkout for retail businesses ready to sell online.',
+          localAngle:
+            'Help Palisade Avenue boutiques and specialty retailers reach customers beyond foot traffic.',
+        },
+        {
+          title: 'Ongoing Support & Maintenance',
+          description:
+            'Monthly updates, security patches, and content changes without waiting on third-party developers.',
+          localAngle:
+            'Sync with Englewood Health calendars, seasonal retail campaigns, and corporate announcements.',
+        },
+      ],
+    },
+    proof: {
+      headline: 'Englewood businesses trust us to build their digital presence.',
+      body: "We've helped Englewood healthcare providers launch patient-focused websites, Palisade Avenue retailers build e-commerce platforms, and professional services firms establish authority online. From medical practices near Englewood Hospital to corporate teams in Englewood Cliffs, our custom builds deliver the performance and polish that turn visitors into clients. The result: faster load times, better search visibility, and measurable increases in qualified leads.",
+      stat: {
+        value: '1.9s',
+        label: 'average page load time for Englewood client sites',
+      },
+    },
+    faq: [
+      {
+        question: 'How long does a custom Englewood website take to build?',
+        answer:
+          'Most Englewood projects launch in 8-10 weeks, from strategy through go-live. Healthcare builds with compliance requirements may take slightly longer for stakeholder review. We prioritize key landing pages early so you start ranking for Englewood searches while the full build completes.',
+      },
+      {
+        question: 'Do you build websites for Englewood medical practices?',
+        answer:
+          'Yes. We specialize in healthcare web development for practices near Englewood Hospital. Our builds include HIPAA-aware contact forms, physician directory layouts, patient testimonial frameworks, and schema markup that helps medical practices rank for specialty searches in Bergen County.',
+      },
+      {
+        question: 'What makes custom development better than WordPress or Squarespace?',
+        answer:
+          "Template platforms add bloat that slows your site, creates security vulnerabilities, and limits design options. For Englewood's premium market—healthcare, luxury retail, corporate—custom development delivers the performance, security, and design sophistication that templates cannot match.",
+      },
+      {
+        question: 'Can you redesign my existing Englewood business website?',
+        answer:
+          'Absolutely. We audit your current site, preserve SEO value during migration, and dramatically improve performance and user experience. Many Englewood businesses come to us after outgrowing template-based sites that no longer reflect their brand.',
+      },
+      {
+        question: 'Do you work with Englewood Cliffs corporate clients?',
+        answer:
+          'Yes. We build corporate websites, investor relations pages, and B2B platforms for companies headquartered along the Englewood Cliffs corridor. Our builds balance executive-level polish with conversion optimization and clear calls-to-action.',
+      },
+    ],
+    cta: {
+      headline: 'Ready to upgrade your Englewood web presence?',
+      body: "Let's discuss your project. We'll audit your current site, analyze your Englewood competition, and create a roadmap to build something that converts.",
+      primaryLabel: 'Start Your Englewood Project',
+      secondaryLabel: 'View Our Work',
+      secondaryHref: '/portfolio',
+    },
+    relatedCities: [
+      { slug: 'fort-lee', city: 'Fort Lee' },
+      { slug: 'hackensack', city: 'Hackensack' },
+    ],
+    relatedServices: ['ux-ui-design', 'seo'],
+  },
+
+  // Englewood - UX/UI Design
+  {
+    serviceSlug: 'ux-ui-design',
+    citySlug: 'englewood',
+    metadata: {
+      title: 'UX/UI Design Englewood NJ | User Experience Agency',
+      description:
+        'UX/UI design for Englewood businesses. Conversion-focused interfaces for healthcare, luxury retail, and corporate brands. Premium design for discerning clients.',
+      keywords: [
+        'UX design Englewood NJ',
+        'UI design Englewood',
+        'user experience Englewood',
+        'Englewood web design agency',
+        'conversion design Englewood NJ',
+      ],
+    },
+    hero: {
+      eyebrow: 'UX/UI Design in Englewood, NJ',
+      heading: "User experiences designed for Englewood's premium market.",
+      description:
+        "Englewood's affluent residents and healthcare seekers expect digital experiences that match the quality of services they're seeking. East Hill homeowners comparing medical specialists, Palisade Avenue shoppers researching boutiques, and executives evaluating corporate partners all judge your business by its digital presence. We craft strategic UX/UI that builds trust, guides action, and converts discerning visitors into clients.",
+      bullets: [
+        'Conversion-focused design that turns Englewood visitors into clients',
+        'Healthcare UX optimized for patient journeys and appointment booking',
+        'Premium aesthetics that match Palisade Avenue and East Hill expectations',
+      ],
+      stat: {
+        value: '51%',
+        label: 'average improvement in conversion rates after UX redesign',
+      },
+    },
+    content: {
+      intro: {
+        heading: "Design that converts Englewood's demanding audience",
+        body: "The professionals, families, and healthcare seekers in Englewood research thoroughly before choosing a service provider. They compare your digital presence against NYC competitors and premium local alternatives. Strategic UX/UI design creates the trust, clarity, and ease-of-action that transforms careful researchers into loyal clients—whether they're booking a specialist appointment, purchasing from a boutique, or engaging corporate services.",
+      },
+      features: [
+        {
+          title: 'Healthcare UX Design',
+          description:
+            'Patient-centered interfaces that simplify appointment booking, provider research, and health information access.',
+          localAngle:
+            'Designed for medical practices, specialists, and wellness providers serving the Englewood Hospital community.',
+        },
+        {
+          title: 'Conversion Architecture',
+          description:
+            'Every element strategically placed to guide users toward your primary business goals—consultations, bookings, and purchases.',
+          localAngle:
+            'Built for Englewood service businesses where a single conversion can mean thousands in revenue.',
+        },
+        {
+          title: 'Trust-Building Design',
+          description:
+            'Visual hierarchy, social proof placement, and credibility signals that establish authority at first glance.',
+          localAngle:
+            'Essential for Englewood healthcare providers and professional services competing against Manhattan alternatives.',
+        },
+        {
+          title: 'Luxury Retail Interfaces',
+          description:
+            'E-commerce experiences that showcase products beautifully while making purchasing effortless.',
+          localAngle:
+            'Help Palisade Avenue boutiques deliver the online shopping experience their clientele expects.',
+        },
+        {
+          title: 'Mobile Experience Design',
+          description:
+            'Touch-optimized interfaces with appropriate tap targets, readable typography, and streamlined mobile flows.',
+          localAngle:
+            'Most Englewood service research happens on phones—your site needs to convert on every device.',
+        },
+        {
+          title: 'Accessibility Standards',
+          description:
+            'WCAG-compliant designs that ensure your site works for all users, regardless of ability.',
+          localAngle:
+            'Required for Englewood healthcare websites and recommended for all professional services.',
+        },
+      ],
+    },
+    proof: {
+      headline: 'Englewood businesses convert more with strategic design.',
+      body: "We've redesigned interfaces for Englewood healthcare providers that were losing patients to confusing appointment flows, retailers missing sales due to clunky checkout processes, and professional services losing leads to weak calls-to-action. The impact is measurable: more appointments booked, more purchases completed, and higher-quality leads from visitors who trust what they see.",
+      stat: {
+        value: '2.8x',
+        label: 'increase in appointment bookings after UX optimization',
+      },
+    },
+    faq: [
+      {
+        question: "What's the difference between UX and UI design?",
+        answer:
+          "UX (user experience) design focuses on how your site works—the flow, structure, and ease of completing tasks like booking appointments or making purchases. UI (user interface) design focuses on how it looks—colors, typography, and visual elements. Both are essential for converting Englewood's discerning visitors into clients.",
+      },
+      {
+        question: 'How do you approach UX design for Englewood healthcare providers?',
+        answer:
+          "We start with the patient journey—from initial search to appointment booking to follow-up care. We map every touchpoint, identify friction points, and design interfaces that make finding providers, understanding services, and taking action easy. Englewood patients expect the same quality online that they receive in person.",
+      },
+      {
+        question: 'Can you redesign my site without rebuilding everything?',
+        answer:
+          "Sometimes. If your current platform supports the improvements needed, we can redesign the interface while preserving your existing infrastructure. Often, though, template platform limitations make a fresh build more effective for Englewood businesses seeking premium results.",
+      },
+      {
+        question: 'How do you measure UX/UI success?',
+        answer:
+          'We track conversion rates, bounce rates, time-on-page, and user flow completion. For Englewood healthcare providers, we measure appointment requests and patient inquiries. For retail, we track cart completion and average order value. We set up analytics to measure what matters to your business.',
+      },
+      {
+        question: 'Do you design for e-commerce businesses in Englewood?',
+        answer:
+          'Yes. We design e-commerce experiences for Palisade Avenue retailers and specialty shops looking to expand their reach online. Our interfaces balance beautiful product presentation with streamlined checkout flows that reduce cart abandonment.',
+      },
+    ],
+    cta: {
+      headline: 'Ready to convert more Englewood visitors?',
+      body: "Let's review your current user experience and identify the changes that will drive more appointments, sales, and revenue.",
+      primaryLabel: 'Get UX/UI Consultation',
+      secondaryLabel: 'See Our Portfolio',
+      secondaryHref: '/portfolio',
+    },
+    relatedCities: [
+      { slug: 'fort-lee', city: 'Fort Lee' },
+      { slug: 'hackensack', city: 'Hackensack' },
+    ],
+    relatedServices: ['web-development', 'seo'],
+  },
+
+  // Englewood - SEO Services
+  {
+    serviceSlug: 'seo',
+    citySlug: 'englewood',
+    metadata: {
+      title: 'SEO Services Englewood NJ | Local Search Agency',
+      description:
+        'Local SEO services for Englewood businesses. Rank higher for healthcare, retail, and professional service searches. Dominate local results in Bergen County.',
+      keywords: [
+        'SEO Englewood NJ',
+        'Englewood SEO agency',
+        'local SEO Englewood',
+        'Englewood search optimization',
+        'SEO services Englewood New Jersey',
+      ],
+    },
+    hero: {
+      eyebrow: 'SEO Services in Englewood, NJ',
+      heading: 'Dominate Englewood search results and capture local healthcare demand.',
+      description:
+        'When Englewood residents search for "dermatologist near me" or "best boutique Englewood," your business needs to appear. When healthcare seekers research specialists near Englewood Hospital, you need to rank. Local SEO puts you in front of high-intent searchers at the exact moment they\'re ready to choose. We build SEO strategies that help Englewood healthcare providers, retailers, and professional services rank above competitors—local and Manhattan-based alike.',
+      bullets: [
+        'Rank for "Englewood" + service keywords that drive qualified leads',
+        'Healthcare SEO for medical practices and specialists',
+        'Google Business Profile optimization for Maps visibility',
+      ],
+      stat: {
+        value: '168%',
+        label: 'average increase in organic traffic for Englewood SEO clients',
+      },
+    },
+    content: {
+      intro: {
+        heading: 'Why local SEO matters for Englewood businesses',
+        body: "Englewood's position as a healthcare hub and affluent residential community means you're competing for searches from patients seeking specialists, residents seeking services, and professionals seeking local partners. Local SEO ensures your business appears when these high-intent searchers look for exactly what you offer. Without proper optimization, you're invisible to the thousands of people searching for Englewood healthcare, retail, and services—and they're finding your competitors instead.",
+      },
+      features: [
+        {
+          title: 'Healthcare SEO',
+          description:
+            'Specialized optimization for medical practices, including physician schema, condition pages, and patient-focused content.',
+          localAngle:
+            'Help Englewood specialists rank for procedure and condition searches in Bergen County.',
+        },
+        {
+          title: 'Google Business Profile Optimization',
+          description:
+            'Complete GBP setup and optimization to appear in Maps results and local pack for Englewood searches.',
+          localAngle:
+            'Rank in the "3-pack" when Englewood residents search for services, healthcare, and retail.',
+        },
+        {
+          title: 'Local Keyword Strategy',
+          description:
+            'Research and targeting of high-intent local search terms that drive qualified traffic.',
+          localAngle:
+            'Target "Englewood" + service terms plus nearby Teaneck, Tenafly, and Englewood Cliffs searches.',
+        },
+        {
+          title: 'On-Page SEO',
+          description:
+            'Optimized title tags, meta descriptions, headers, and content structure for search visibility.',
+          localAngle:
+            'Englewood-specific content that signals relevance to both Google and local searchers.',
+        },
+        {
+          title: 'Technical SEO',
+          description:
+            'Site speed optimization, mobile-friendliness, structured data, and crawlability improvements.',
+          localAngle:
+            'Fast-loading pages that outperform template-based Englewood competitors in Core Web Vitals.',
+        },
+        {
+          title: 'Content Strategy',
+          description:
+            'Blog posts, service pages, and location content that builds topical authority.',
+          localAngle:
+            'Content addressing Englewood healthcare questions, retail guides, and local expertise.',
+        },
+      ],
+    },
+    proof: {
+      headline: 'Englewood businesses rank higher with our SEO strategies.',
+      body: "We've helped Englewood medical practices appear on page one for specialty searches, retailers rank in the local pack, and professional services capture leads from high-intent searchers. Local SEO isn't magic—it's methodical optimization that compounds over time. Our Englewood clients see sustainable traffic growth that translates directly into appointments, sales, and revenue.",
+      stat: {
+        value: 'Page 1',
+        label: 'rankings achieved for primary Englewood service keywords',
+      },
+    },
+    faq: [
+      {
+        question: 'How long does SEO take to show results in Englewood?',
+        answer:
+          "Local SEO typically shows meaningful improvements within 3-6 months, with continued growth over time. Englewood's healthcare-heavy market has specific competitive dynamics—some keywords move faster than others. We prioritize quick wins while building toward more competitive terms.",
+      },
+      {
+        question: 'Do you specialize in healthcare SEO for Englewood practices?',
+        answer:
+          'Yes. We have deep experience optimizing medical practice websites for local search. This includes physician schema markup, condition and procedure pages, patient review management, and content strategies that help Englewood specialists rank for the searches their ideal patients are making.',
+      },
+      {
+        question: 'How do you handle SEO for Englewood businesses serving multiple areas?',
+        answer:
+          'We build location-specific content and schema for each service area while maintaining Englewood as your primary location. This helps you rank in Englewood, Teaneck, Tenafly, Leonia, and Englewood Cliffs without diluting your local relevance.',
+      },
+      {
+        question: "What's included in your Englewood SEO services?",
+        answer:
+          'Our SEO packages include GBP optimization, on-page SEO, technical audits, local citation building, monthly reporting, and ongoing strategy adjustments. We customize the scope based on your Englewood business goals and competitive landscape.',
+      },
+      {
+        question: 'Do you guarantee first page rankings for Englewood searches?',
+        answer:
+          "No legitimate SEO provider can guarantee specific rankings—Google's algorithm is complex and constantly evolving. What we guarantee is proven methodology, transparent reporting, and measurable progress toward your Englewood visibility goals.",
+      },
+    ],
+    cta: {
+      headline: 'Ready to rank higher in Englewood?',
+      body: "Let's audit your current search visibility, identify opportunities, and build an SEO strategy that drives qualified Englewood leads to your business.",
+      primaryLabel: 'Get SEO Analysis',
+      secondaryLabel: 'View SEO Results',
+      secondaryHref: '/portfolio',
+    },
+    relatedCities: [
+      { slug: 'fort-lee', city: 'Fort Lee' },
+      { slug: 'hackensack', city: 'Hackensack' },
+    ],
+    relatedServices: ['web-development', 'ux-ui-design'],
+  },
 ];
 
 // Helper functions
