@@ -7,6 +7,7 @@
 - Added noindex tags to dashboard and login pages to prevent indexing
 - Improved meta descriptions for Englewood and Teaneck pages with stronger CTAs
 - Enhanced city schema markup with complete business address and pricing info
+- Published new blog post: "How Much Does a Website Cost in New Jersey? (2026 Guide)"
 
 ## Notes for internal team
 - Updated sales-config.ts: changed sale ID from holiday-2025 to new-year-2026
@@ -15,6 +16,8 @@
 - PVS-220: Added robots noindex to dashboard layout and login page
 - PVS-222: Updated meta descriptions for Englewood (147 chars) and Teaneck (142 chars)
 - PVS-223: Added priceRange and full NAP address to LocalBusiness schemas
+- PVS-225: Created 2,000+ word website cost guide targeting "how much does a website cost" keywords
+- Added FAQPage schema support to blog posts with faqs field
 
 ## Changed URLs
 - https://www.pixelversestudios.io/packages
@@ -26,3 +29,5 @@
 - https://www.pixelversestudios.io/services/hackensack
 - https://www.pixelversestudios.io/services/paramus
 - https://www.pixelversestudios.io/services/ridgewood
+- https://www.pixelversestudios.io/blog/how-much-does-a-website-cost-new-jersey
+- https://www.pixelversestudios.io/blog
