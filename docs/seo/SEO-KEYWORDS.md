@@ -1,6 +1,6 @@
 # SEO Keyword Strategy
 
-> Last Updated: 2025-12-22
+> Last Updated: 2026-01-20
 
 ## Keyword Overview
 
@@ -231,20 +231,36 @@ These power FAQ pages, blog posts, and featured snippet opportunities:
 
 ### Monthly Tracking Table
 
-| Keyword                             | Dec 2025 | Jan 2026 | Feb 2026 | Mar 2026 | Notes            |
-| ----------------------------------- | -------- | -------- | -------- | -------- | ---------------- |
-| web design Fort Lee NJ              | ~10      | -        | -        | -        | Target: Top 5    |
-| local SEO agency Englewood NJ       | ~12      | -        | -        | -        | Target: Top 5    |
-| web design Hackensack NJ            | N/A      | -        | -        | -        | Target: Top 20   |
-| web design Paramus NJ               | N/A      | -        | -        | -        | Target: Top 20   |
-| web design Ridgewood NJ             | N/A      | -        | -        | -        | Target: Top 20   |
-| Bergen County web design agency     | N/A      | -        | -        | -        |                  |
-| law firm website design Fort Lee NJ | N/A      | -        | -        | -        | Quick win target |
-| medical practice website design NJ  | N/A      | -        | -        | -        | Quick win target |
+| Keyword                             | Dec 2025 | Jan 2026 | Feb 2026 | Mar 2026 | Notes                     |
+| ----------------------------------- | -------- | -------- | -------- | -------- | ------------------------- |
+| web design Fort Lee NJ              | ~10      | NR       | -        | -        | Target: Top 5             |
+| local SEO agency Englewood NJ       | ~12      | 10.6     | -        | -        | Target: Top 5 ✅ Progress |
+| local SEO agency Teaneck NJ         | N/A      | 11.4     | -        | -        | New ranking!              |
+| SEO agency Englewood NJ             | N/A      | 11.1     | -        | -        | New ranking!              |
+| SEO agency Teaneck NJ               | N/A      | 13.8     | -        | -        | New ranking!              |
+| SEO company Bergen County           | N/A      | 32.0     | -        | -        | 32 impressions, 0 clicks  |
+| web design Hackensack NJ            | N/A      | NR       | -        | -        | Target: Top 20            |
+| web design Paramus NJ               | N/A      | NR       | -        | -        | Target: Top 20            |
+| web design Ridgewood NJ             | N/A      | NR       | -        | -        | Target: Top 20            |
+| Bergen County web design agency     | N/A      | NR       | -        | -        |                           |
+| law firm website design Fort Lee NJ | N/A      | NR       | -        | -        | Quick win target          |
+| medical practice website design NJ  | N/A      | NR       | -        | -        | Quick win target          |
+
+### GSC Query Performance (Jan 2026 - 28 days)
+
+| Query                          | Clicks | Impressions | CTR   | Avg Position |
+| ------------------------------ | ------ | ----------- | ----- | ------------ |
+| pixelverse studio              | 3      | 10          | 30%   | 2.4          |
+| pixelverse studios             | 1      | 17          | 5.88% | 2.24         |
+| seo company bergen county      | 0      | 32          | 0%    | 31.97        |
+| local seo agency teaneck nj    | 0      | 8           | 0%    | 11.38        |
+| seo agency englewood nj        | 0      | 7           | 0%    | 11.14        |
+| local seo agency englewood nj  | 0      | 5           | 0%    | 10.6         |
+| seo agency teaneck nj          | 0      | 4           | 0%    | 13.75        |
 
 ### Data Sources
 
-- Google Search Console (primary)
+- Google Search Console (primary) - Last export: 2026-01-20
 - Manual position checks
 - Third-party rank trackers (optional)
 
@@ -281,5 +297,5 @@ These power FAQ pages, blog posts, and featured snippet opportunities:
 
 ---
 
-_Last Updated: 2025-12-22_
-_Next Review: 2026-01-22_
+_Last Updated: 2026-01-20_
+_Next Review: 2026-02-20_

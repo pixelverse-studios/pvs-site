@@ -1,7 +1,7 @@
 # SEO Implementation Checklist
 
-> Progress: 32/55 Complete (58%)
-> Last Updated: 2025-12-22
+> Progress: 34/55 Complete (62%)
+> Last Updated: 2026-01-20
 
 ---
 
@@ -54,9 +54,9 @@
 
 ### Validation
 
-- [ ] Google Rich Results Test - LocalBusiness
-- [ ] Google Rich Results Test - FAQ
-- [ ] Google Rich Results Test - Breadcrumbs
+- [x] Google Rich Results Test - LocalBusiness (Jan 2026 audit: schema present)
+- [x] Google Rich Results Test - FAQ (Jan 2026 audit: schema present)
+- [x] Google Rich Results Test - Breadcrumbs (Jan 2026 audit: schema present)
 - [ ] No schema errors in Search Console
 
 ---
@@ -223,27 +223,28 @@
 
 ## Quick Reference: Next Actions
 
-### This Week (Priority)
+### This Week (Priority) - Updated 2026-01-20
 
-1. [ ] Capture Lighthouse baseline (mobile + desktop)
-2. [ ] Submit to 5 directories (Clutch, DesignRush, UpCity, Yelp, BBB)
-3. [ ] Create "Website Cost Guide" blog post outline
-4. [ ] Verify Google Search Console access
+1. [ ] **Fix redirect issues** - 13 pages with redirect problems in GSC (CRITICAL)
+2. [ ] **Investigate "crawled - not indexed"** - 2 pages need attention
+3. [ ] Submit to 5 directories (Clutch, DesignRush, UpCity, Yelp, BBB)
+4. [ ] Add noindex to dashboard/auth pages for defense-in-depth
+5. [ ] Capture Lighthouse baseline (mobile + desktop)
 
 ### This Month
 
-1. [ ] Complete GBP verification (if possible)
-2. [ ] Submit to all 12 directories
-3. [ ] Add industry sections to Fort Lee and Englewood pages
-4. [ ] Publish "Template vs. Custom" comparison post
-5. [ ] Request first batch of client reviews
+1. [ ] Submit to all 12 directories (0/12 complete)
+2. [ ] Increase GBP activity (weekly posts, Q&A seeding, 10+ photos)
+3. [ ] Create "Website Cost Guide" blog post (high search intent)
+4. [ ] Optimize meta descriptions for Englewood/Teaneck keywords (have impressions, 0 clicks)
+5. [ ] Publish "Template vs. Custom" comparison post
 
 ### This Quarter
 
-1. [ ] All 5 priority cities in top 10 positions
-2. [ ] 10+ GBP reviews
-3. [ ] 25+ local citations/backlinks
-4. [ ] 5 new blog posts published
+1. [ ] All 5 priority cities in top 10 positions (currently: Englewood ~10.6)
+2. [ ] 10+ GBP reviews (current: 0)
+3. [ ] 25+ local citations/backlinks (current: 0)
+4. [ ] 5 new blog posts published (current: 10 total)
 5. [ ] Industry + city hybrid pages created
 
 ---
@@ -265,5 +266,5 @@
 
 ---
 
-_Last Updated: 2025-12-22_
-_Next Review: 2025-12-29_
+_Last Updated: 2026-01-20_
+_Next Review: 2026-01-27_
