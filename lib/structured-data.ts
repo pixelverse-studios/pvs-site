@@ -63,6 +63,7 @@ export const localBusinessSchema = {
     latitude: 40.8215,
     longitude: -73.9876,
   },
+  priceRange: '$$',
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'sales',
@@ -125,8 +126,10 @@ export function createCityLocalBusinessSchema({
     }),
     address: {
       '@type': 'PostalAddress',
-      addressLocality: city,
-      addressRegion: state,
+      streetAddress: '79 Edgewater Road',
+      addressLocality: 'Cliffside Park',
+      addressRegion: 'NJ',
+      postalCode: '07010',
       addressCountry: 'US',
     },
     openingHoursSpecification: {
