@@ -709,7 +709,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     metadata: {
       title: 'Web Design & Local SEO Teaneck NJ',
       description:
-        'PixelVerse ships accessible websites, multilingual UX, and local SEO for Teaneck healthcare systems, universities, and community-forward service brands.',
+        'Teaneck NJ local SEO agency. Multilingual websites and SEO for healthcare, universities, and local businesses. Book your free SEO audit today.',
       keywords: [
         'Teaneck web design',
         'Teaneck NJ SEO',
@@ -935,7 +935,7 @@ export const cityServicePages: CityServicePageDefinition[] = [
     metadata: {
       title: 'Web Design & Local SEO Englewood NJ',
       description:
-        'Local SEO agency in Englewood NJ. PixelVerse builds premium websites, conversion funnels, and SEO for healthcare, retail, and corporate businesses.',
+        'Englewood NJ local SEO agency. Custom websites that rank for healthcare, retail, and corporate brands. Free strategy call—see results in 90 days.',
       keywords: [
         'local SEO agency Englewood NJ',
         'SEO agency Englewood NJ',
