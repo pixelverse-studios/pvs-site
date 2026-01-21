@@ -56,7 +56,7 @@ export function SeoPackagesSection() {
               className="mx-auto max-w-3xl"
             />
           </MotionItem>
-          <MotionSection as="div" className="grid gap-6 md:grid-cols-3" delay={0.12}>
+          <MotionSection as="div" className="grid gap-6 xl:grid-cols-3" delay={0.12}>
             {seoPackagesData.map((pkg, index) => {
               const Icon = iconMap[pkg.icon as keyof typeof iconMap] ?? Search;
               const isMostPopular = pkg.id === 'seo-growth';
@@ -129,9 +129,12 @@ export function SeoPackagesSection() {
                           </span>
                         </div>
                       </div>
-                      <div className="mt-3 grid grid-cols-1 gap-2 lg:grid-cols-2 [&>*]:w-full">
+                      <div className="mt-3 grid w-full grid-cols-1 gap-2 lg:grid-cols-2">
                         <Button variant="cta" asChild>
-                          <Link href={`/contact?package=${pkg.id}`} className="w-full justify-center">
+                          <Link
+                            href={`/contact?package=${pkg.id}`}
+                            className="w-full justify-center"
+                          >
                             Get Started
                           </Link>
                         </Button>
