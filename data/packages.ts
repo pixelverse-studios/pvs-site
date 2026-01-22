@@ -27,8 +27,8 @@ export type PackageIconKey =
   | 'barChart3';
 export const packages: PackageDetail[] = [
   {
-    id: 'core-lite',
-    level: 'Core Lite',
+    id: 'web-lite',
+    level: 'Web Lite',
     name: 'Entry Essential',
     summary: 'Get online quickly and affordably.',
     price: '$500 setup + $49/mo',
@@ -51,8 +51,8 @@ export const packages: PackageDetail[] = [
     icon: 'monitorSmartphone',
   },
   {
-    id: 'core-starter',
-    level: 'Core Starter',
+    id: 'web-starter',
+    level: 'Web Starter',
     name: 'Growth Ready',
     summary: 'Build a professional presence that lasts.',
     price: '$2,000 setup + $79/mo',
@@ -76,8 +76,8 @@ export const packages: PackageDetail[] = [
     icon: 'layers',
   },
   {
-    id: 'core-growth',
-    level: 'Core Growth',
+    id: 'web-growth',
+    level: 'Web Growth',
     name: 'Scale Focused',
     summary: 'Scale with advanced features and flexibility.',
     price: '$4,000 setup + $179/mo',
@@ -101,8 +101,8 @@ export const packages: PackageDetail[] = [
     icon: 'rocket',
   },
   {
-    id: 'core-premium',
-    level: 'Core Premium',
+    id: 'web-premium',
+    level: 'Web Premium',
     name: 'Enterprise Custom',
     summary: 'Unlock custom solutions for maximum growth.',
     price: 'Custom proposal starting at $6,500 + retainer',
