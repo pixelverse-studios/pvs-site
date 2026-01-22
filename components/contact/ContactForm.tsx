@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
@@ -16,12 +17,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { MultiSelect } from '@/components/ui/multi-select';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { formatMessageWithEmailLink } from '@/lib/support-email';
 import { cn } from '@/lib/utils';
 import { getApiBaseUrl } from '@/lib/api-config';
 import { trackFormSubmission } from '@/lib/mixpanel';
+import { serviceOptionGroups, serviceOptionIds } from '@/data/service-options';
 
 const SUBMIT_THROTTLE_MS = 5000;
 
@@ -30,6 +33,7 @@ const createDefaultFormValues = (): Partial<ContactFormValues> => ({
   email: '',
   budget: undefined,
   timeline: undefined,
+  interestedIn: [],
   briefSummary: '',
   hasSeenPackages: undefined,
   honeypot: '',
@@ -64,6 +68,7 @@ const formSchema = z.object({
   timeline: z.enum(timelineValues, {
     required_error: 'Select your project timeline.',
   }),
+  interestedIn: z.array(z.string()).optional().default([]),
   briefSummary: z
     .string()
     .min(10, 'Share a short overview of your project (at least 10 characters).'),
@@ -88,11 +93,14 @@ type ToastState =
     };
 
 export function ContactForm() {
+  const searchParams = useSearchParams();
+
   const {
     control,
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting, isValid },
   } = useForm<ContactFormValues>({
     resolver: zodResolver(formSchema),
@@ -107,6 +115,14 @@ export function ContactForm() {
   const [formResetKey, setFormResetKey] = useState(0);
 
   const isCoolingDown = cooldownUntil !== null;
+
+  // Pre-select package from URL params (e.g., /contact?package=core-starter)
+  useEffect(() => {
+    const packageId = searchParams.get('package');
+    if (packageId && serviceOptionIds.includes(packageId as (typeof serviceOptionIds)[number])) {
+      setValue('interestedIn', [packageId]);
+    }
+  }, [searchParams, setValue]);
 
   useEffect(() => {
     if (!cooldownUntil) {
@@ -153,6 +169,7 @@ export function ContactForm() {
     email: ContactFormValues['email'];
     budget: BudgetValue;
     timeline: TimelineValue;
+    interestedIn: string[];
     briefSummary: ContactFormValues['briefSummary'];
     hasSeenPackages: boolean;
     honeypot: string;
@@ -217,7 +234,7 @@ export function ContactForm() {
   const onSubmit = useCallback(
     async (values: ContactFormValues) => {
       clearToast();
-      const { honeypot, hasSeenPackages, name, email, budget, timeline, briefSummary } = values;
+      const { honeypot, hasSeenPackages, name, email, budget, timeline, interestedIn, briefSummary } = values;
 
       if (honeypot && honeypot.length > 0) {
         resetForm();
@@ -235,6 +252,7 @@ export function ContactForm() {
           email,
           budget,
           timeline,
+          interestedIn: interestedIn ?? [],
           briefSummary,
           hasSeenPackages: hasSeenPackages === 'yes',
           honeypot: honeypot ?? '',
@@ -456,6 +474,28 @@ export function ContactForm() {
               </p>
             )}
           </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[var(--pv-text)] dark:text-white">
+            Interested in{' '}
+            <span className="font-normal text-[var(--pv-text-muted)]">(optional)</span>
+          </label>
+          <Controller
+            name="interestedIn"
+            control={control}
+            render={({ field }) => (
+              <MultiSelect
+                key={`interestedIn-${formResetKey}`}
+                groups={serviceOptionGroups}
+                values={field.value ?? []}
+                onValuesChange={field.onChange}
+                placeholder="Select packages or add-ons..."
+                disabled={isSubmitting || isCoolingDown}
+                aria-label="Select packages or add-ons you're interested in"
+              />
+            )}
+          />
         </div>
 
         <div className="flex flex-col gap-2">

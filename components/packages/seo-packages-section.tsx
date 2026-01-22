@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { BarChart3, LineChart, Search, Star } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -55,7 +56,7 @@ export function SeoPackagesSection() {
               className="mx-auto max-w-3xl"
             />
           </MotionItem>
-          <MotionSection as="div" className="grid gap-6 md:grid-cols-3" delay={0.12}>
+          <MotionSection as="div" className="grid gap-6 xl:grid-cols-3" delay={0.12}>
             {seoPackagesData.map((pkg, index) => {
               const Icon = iconMap[pkg.icon as keyof typeof iconMap] ?? Search;
               const isMostPopular = pkg.id === 'seo-growth';
@@ -128,14 +129,19 @@ export function SeoPackagesSection() {
                           </span>
                         </div>
                       </div>
-                      <Button
-                        variant={isFeatured ? 'default' : 'secondary'}
-                        size="sm"
-                        className={`mt-3 w-full ${isFeatured ? '' : 'dark:text-white'}`}
-                        onClick={() => handleOpen(pkg)}
-                      >
-                        Learn More
-                      </Button>
+                      <div className="mt-3 grid w-full grid-cols-1 gap-2 lg:grid-cols-2">
+                        <Button variant="cta" asChild>
+                          <Link
+                            href={`/contact?package=${pkg.id}`}
+                            className="w-full justify-center"
+                          >
+                            Get Started
+                          </Link>
+                        </Button>
+                        <Button variant="ghost" onClick={() => handleOpen(pkg)}>
+                          Learn More
+                        </Button>
+                      </div>
                     </CardFooter>
                   </Card>
                 </MotionItem>
