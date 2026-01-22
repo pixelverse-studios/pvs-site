@@ -1,7 +1,8 @@
 'use client';
 
+import { Suspense } from 'react';
 import Link from 'next/link';
-import { Mail, MapPin, Phone, Send, Sparkles } from 'lucide-react';
+import { Mail, MapPin, Phone, Send, Sparkles, Loader2 } from 'lucide-react';
 
 import { ContactForm } from '@/components/contact/ContactForm';
 import { ContactInfoCard } from '@/components/contact/contact-info-card';
@@ -30,7 +31,15 @@ export function ContactMethodsSection() {
                 </div>
               </CardHeader>
               <CardContent className="p-0 pt-6">
-                <ContactForm />
+                <Suspense
+                  fallback={
+                    <div className="flex items-center justify-center py-12">
+                      <Loader2 className="h-6 w-6 animate-spin text-[var(--pv-primary)]" />
+                    </div>
+                  }
+                >
+                  <ContactForm />
+                </Suspense>
               </CardContent>
             </Card>
           </MotionItem>

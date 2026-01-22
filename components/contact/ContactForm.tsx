@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
@@ -23,7 +24,7 @@ import { formatMessageWithEmailLink } from '@/lib/support-email';
 import { cn } from '@/lib/utils';
 import { getApiBaseUrl } from '@/lib/api-config';
 import { trackFormSubmission } from '@/lib/mixpanel';
-import { serviceOptionGroups } from '@/data/service-options';
+import { serviceOptionGroups, serviceOptionIds } from '@/data/service-options';
 
 const SUBMIT_THROTTLE_MS = 5000;
 
@@ -92,11 +93,14 @@ type ToastState =
     };
 
 export function ContactForm() {
+  const searchParams = useSearchParams();
+
   const {
     control,
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting, isValid },
   } = useForm<ContactFormValues>({
     resolver: zodResolver(formSchema),
@@ -111,6 +115,14 @@ export function ContactForm() {
   const [formResetKey, setFormResetKey] = useState(0);
 
   const isCoolingDown = cooldownUntil !== null;
+
+  // Pre-select package from URL params (e.g., /contact?package=core-starter)
+  useEffect(() => {
+    const packageId = searchParams.get('package');
+    if (packageId && serviceOptionIds.includes(packageId as (typeof serviceOptionIds)[number])) {
+      setValue('interestedIn', [packageId]);
+    }
+  }, [searchParams, setValue]);
 
   useEffect(() => {
     if (!cooldownUntil) {
