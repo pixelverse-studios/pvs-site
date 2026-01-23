@@ -9,6 +9,7 @@
 - Enhanced city schema markup with complete business address and pricing info
 - Published new blog post: "How Much Does a Website Cost in New Jersey? (2026 Guide)"
 - Added 3 new Englewood local service pages targeting healthcare, retail, and corporate markets
+- Added Sentry error tracking for real-time production error monitoring with Discord alerts
 
 ## Notes for internal team
 - Updated sales-config.ts: changed sale ID from holiday-2025 to new-year-2026
@@ -21,6 +22,8 @@
 - Added FAQPage schema support to blog posts with faqs field
 - PVS-195: Englewood local service pages (web-development, ux-ui-design, seo)
 - All Englewood pages include local content referencing Palisade Avenue, Englewood Hospital, and East Hill
+- Integrated @sentry/nextjs with client, server, and edge runtime configs
+- Added global error boundary for React error capture
 
 ## Changed URLs
 - https://www.pixelversestudios.io/packages
