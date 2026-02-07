@@ -35,7 +35,7 @@ export function ClientsTable({ clients }: ClientsTableProps) {
       // Search by name or email
       const fullName = `${client.firstname || ''} ${client.lastname || ''}`.toLowerCase();
       const email = (client.client_email || '').toLowerCase();
-      const query = searchQuery.toLowerCase();
+      const query = (searchQuery || '').toLowerCase();
 
       const matchesSearch = fullName.includes(query) || email.includes(query);
 

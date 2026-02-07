@@ -174,7 +174,7 @@ export function createCityServiceSchema({
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    '@id': `${siteUrl}/services/${slug}/#service-${serviceType.toLowerCase().replace(/\s+/g, '-')}`,
+    '@id': `${siteUrl}/services/${slug}/#service-${(serviceType || 'service').toLowerCase().replace(/\s+/g, '-')}`,
     name: serviceName,
     serviceType: serviceType,
     description: description,
