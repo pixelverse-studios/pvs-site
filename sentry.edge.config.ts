@@ -3,8 +3,8 @@ import * as Sentry from '@sentry/nextjs';
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
-  // Performance Monitoring
-  tracesSampleRate: 1.0,
+  // Performance Monitoring - reduced from 100% to 10%
+  tracesSampleRate: 0.1,
 
   // Set environment
   environment: process.env.NODE_ENV,
