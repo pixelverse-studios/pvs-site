@@ -20,7 +20,7 @@ export function LocalServiceFeatures({ features, serviceName, city }: LocalServi
               align="center"
               eyebrow="What We Deliver"
               title={`${serviceName} for ${city} Businesses`}
-              description={`Tailored ${serviceName.toLowerCase()} services designed for the unique needs of ${city} businesses and their target audiences.`}
+              description={`Tailored ${(serviceName || 'digital marketing').toLowerCase()} services designed for the unique needs of ${city} businesses and their target audiences.`}
               className="mx-auto max-w-3xl"
             />
           </MotionItem>

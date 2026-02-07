@@ -3,12 +3,14 @@ import * as Sentry from '@sentry/nextjs';
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
-  // Performance Monitoring
-  tracesSampleRate: 1.0, // Capture 100% of transactions in dev, reduce in production
+  // Performance Monitoring - reduced from 100% to 10%
+  tracesSampleRate: 0.1,
 
-  // Session Replay - captures user sessions for debugging
-  replaysSessionSampleRate: 0.1, // Sample 10% of sessions
-  replaysOnErrorSampleRate: 1.0, // Sample 100% of sessions with errors
+  // Session Replay - reduced from 10% to 1%
+  replaysSessionSampleRate: 0.01,
+
+  // Error session replay - reduced from 100% to 50%
+  replaysOnErrorSampleRate: 0.5,
 
   // Set environment
   environment: process.env.NODE_ENV,
