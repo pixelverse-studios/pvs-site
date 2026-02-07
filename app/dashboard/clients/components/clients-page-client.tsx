@@ -134,9 +134,9 @@ export function ClientsPageClient({
 
     // Search filter
     if (searchQuery) {
-      const query = searchQuery.toLowerCase();
+      const query = (searchQuery || '').toLowerCase();
       filtered = filtered.filter((p) => {
-        const title = p.title.toLowerCase();
+        const title = (p.title || '').toLowerCase();
         const domain = 'domain' in p ? p.domain?.toLowerCase() : '';
         // Also search by client name
         const client = clients.find((c) => c.id === p.client_id);

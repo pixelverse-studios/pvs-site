@@ -27,7 +27,7 @@ export function LocalServiceFaq({ faq, city, serviceName }: LocalServiceFaqProps
               align="center"
               eyebrow="FAQ"
               title={`${serviceName} in ${city}`}
-              description={`Common questions about our ${serviceName.toLowerCase()} services for ${city} businesses.`}
+              description={`Common questions about our ${(serviceName || 'digital marketing').toLowerCase()} services for ${city} businesses.`}
               className="mx-auto max-w-2xl"
             />
           </MotionItem>
