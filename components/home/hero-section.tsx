@@ -1,7 +1,9 @@
 import Link from 'next/link';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
+import { homepageHero } from '@/data/homepage';
 
 import { Container } from './container';
 
@@ -27,28 +29,28 @@ export function HeroSection() {
           className="mx-auto flex max-w-3xl flex-col items-center gap-8 rounded-pv-lg bg-white/55 p-6 shadow-[0_40px_90px_-45px_rgba(63,0,233,0.65)] backdrop-blur-md dark:bg-[color:var(--pv-overlay-soft)]"
         >
           <MotionItem className="space-y-5">
-            <span className="inline-flex items-center rounded-full border border-[var(--pv-border)] bg-white/80 px-4 py-1 text-xs font-medium uppercase tracking-[0.2em] text-[var(--pv-text)] shadow-sm dark:bg-[color:var(--pv-overlay-soft)] dark:text-[var(--pv-text)]">
-              PixelVerse Studios
-            </span>
+            <Badge
+              variant="default"
+              className="bg-white/90 text-xs font-medium text-[var(--pv-text-muted)] dark:bg-[color:var(--pv-overlay-soft)]"
+            >
+              {homepageHero.badge}
+            </Badge>
             <h1 className="text-shadow-md font-heading text-4xl font-semibold sm:text-5xl md:text-6xl">
               <span className="bg-[linear-gradient(90deg,var(--pv-primary-2),var(--pv-primary))] bg-clip-text text-transparent">
-                Custom Website Design & Development for Businesses
+                {homepageHero.headline}
               </span>
             </h1>
-            <p className="text-xl font-medium text-[var(--pv-text)] md:text-2xl">
-              Your business deserves more than a template.
-            </p>
-            <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
-              We create digital presences built to scale.
-            </p>
+            <p className="text-lg text-[var(--pv-text)] md:text-xl">{homepageHero.subheadline}</p>
           </MotionItem>
           <MotionItem delay={0.15} className="w-full">
             <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
               <Button asChild size="lg" variant="cta" className="flex-1 sm:flex-none">
-                <Link href="/contact">Start Your Project</Link>
+                <Link href={homepageHero.primaryCta.href}>{homepageHero.primaryCta.label}</Link>
               </Button>
               <Button asChild size="lg" variant="ctaGhost" className="flex-1 sm:flex-none">
-                <Link href="/audit">Free Website Audit</Link>
+                <Link href={homepageHero.secondaryCta.href}>
+                  {homepageHero.secondaryCta.label}
+                </Link>
               </Button>
             </div>
           </MotionItem>

@@ -87,17 +87,17 @@ export interface FinalCta {
 // ----------------------------------------------------------------------------
 
 export const homepageHero: HomepageHero = {
-  badge: 'Web Design & Local SEO in Bergen County, NJ',
-  headline: 'Custom websites built to grow with your business',
+  badge: '⭐⭐⭐⭐⭐ Rated 5.0 by clients',
+  headline: 'Web Design & Development, Done With Intention',
   subheadline:
     'We build fast, scalable websites for businesses that need more than a template. Custom code, UX-first design, and SEO foundations that actually work.',
   primaryCta: {
-    label: 'See Our Work',
-    href: '/portfolio',
+    label: 'Start Your Project',
+    href: '/contact',
   },
   secondaryCta: {
-    label: 'Talk About Your Project',
-    href: '/contact',
+    label: 'Free Website Audit',
+    href: '/audit',
   },
 };
 
