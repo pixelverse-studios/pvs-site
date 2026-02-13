@@ -8,6 +8,7 @@ import { services } from '@/data/homepage';
 import { Container } from './container';
 
 // Map icon string names to Lucide components
+// Defined outside component to prevent recreation on every render
 const iconMap: Record<string, LucideIcon> = {
   code: Code,
   palette: Palette,
@@ -31,15 +32,23 @@ export function ServicesSection() {
           </MotionItem>
           <MotionSection as="div" className="grid gap-6 md:grid-cols-3" delay={0.1}>
             {services.map((service, index) => {
-              const IconComponent = iconMap[service.icon] || Code;
+              const IconComponent = iconMap[service.icon];
+              if (!IconComponent && process.env.NODE_ENV === 'development') {
+                console.warn(`Missing icon mapping for "${service.icon}". Add to iconMap.`);
+              }
+              const Icon = IconComponent || Code;
               return (
                 <MotionItem key={service.title} delay={index * 0.08}>
-                  <Link href={service.href} className="block h-full">
+                  <Link
+                    href={service.href}
+                    className="block h-full"
+                    aria-label={`Learn more about ${service.title}`}
+                  >
                     <Card className="group flex h-full flex-col border-[var(--pv-border)] bg-[var(--pv-surface)] transition-transform duration-200 hover:-translate-y-1 hover:shadow-pv">
                       <CardHeader className="flex flex-col gap-4 border-b border-[var(--pv-border)] pb-6">
                         <div className="flex items-center gap-3">
                           <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-primary)] shadow-sm transition-transform duration-200 group-hover:-translate-y-0.5">
-                            <IconComponent className="h-5 w-5" aria-hidden="true" />
+                            <Icon className="h-5 w-5" aria-hidden="true" />
                           </span>
                           <CardTitle className="text-xl text-[var(--pv-text)]">
                             {service.title}
@@ -51,8 +60,8 @@ export function ServicesSection() {
                       </CardHeader>
                       <CardContent className="flex-1 space-y-4 pt-6 text-sm leading-6 text-[var(--pv-text-muted)]">
                         <ul className="space-y-3">
-                          {service.highlights.map((highlight) => (
-                            <li key={highlight} className="flex gap-3">
+                          {service.highlights.map((highlight, highlightIndex) => (
+                            <li key={`${service.title}-${highlightIndex}`} className="flex gap-3">
                               <span
                                 className="inline-flex h-1.5 w-1.5 shrink-0 self-center rounded-full bg-[var(--pv-primary)]"
                                 aria-hidden

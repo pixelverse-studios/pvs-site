@@ -227,7 +227,7 @@ export const services: Service[] = [
     summary: 'Custom-coded websites built for performance, scalability, and long-term growth.',
     icon: 'palette',
     highlights: [
-      'Component libraries built for future campaigns.',
+      'Fully custom code—no templates, no limitations, no lock-in.',
       'Launch-day QA across devices, browsers, and connection speeds.',
     ],
     href: '/services/web-development',
@@ -250,7 +250,7 @@ export const services: Service[] = [
       'Performance reviews with prioritized action items every cycle.',
       'Rapid experiments and updates handled by the team that built it.',
     ],
-    href: '/services',
+    href: '/contact',
   },
 ];
 

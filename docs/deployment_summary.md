@@ -8,6 +8,8 @@
 - Refactored homepage to use centralized data architecture for easier content updates
 - Simplified services section to 3 focused cards: Web Design & Development, Local SEO, and Ongoing Support
 - Removed Bergen County-specific CTA from homepage services section
+- Improved services section copy to emphasize custom code over templates
+- Fixed Ongoing Support card to link to contact form instead of generic services page
 
 ## Notes for internal team
 
@@ -17,6 +19,7 @@
 - PVS-323: Services section now consumes from centralized data file
 - Changed grid from 2-column to 3-column layout
 - Made service cards clickable with links to service pages
+- PR #81 review fixes: Updated Ongoing Support href, added defensive icon fallback, improved accessibility with aria-labels, fixed highlight key uniqueness
 - Files modified: `/data/homepage.ts`, `/components/home/services-section.tsx`
 
 ## Changed URLs
