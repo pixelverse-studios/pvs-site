@@ -4,6 +4,8 @@
 // Centralized content for the homepage following narrative-driven architecture
 // All components consume from this single source of truth
 
+import { validateHomepageHero } from '@/lib/validation/homepage';
+
 // ----------------------------------------------------------------------------
 // Type Definitions
 // ----------------------------------------------------------------------------
@@ -86,20 +88,25 @@ export interface FinalCta {
 // Homepage Content Data
 // ----------------------------------------------------------------------------
 
-export const homepageHero: HomepageHero = {
-  badge: 'Web Design & Local SEO in Bergen County, NJ',
-  headline: 'Custom websites built to grow with your business',
+const rawHomepageHero = {
+  badge: '⭐⭐⭐⭐⭐ Rated 5.0 by clients',
+  headline: 'Web Design & Development, Done With Intention',
   subheadline:
     'We build fast, scalable websites for businesses that need more than a template. Custom code, UX-first design, and SEO foundations that actually work.',
   primaryCta: {
-    label: 'See Our Work',
-    href: '/portfolio',
-  },
-  secondaryCta: {
-    label: 'Talk About Your Project',
+    label: 'Start Your Project',
     href: '/contact',
   },
+  secondaryCta: {
+    label: 'Free Website Audit',
+    href: '/audit',
+  },
 };
+
+// Validate at build time to catch malicious content early
+const validatedHero = validateHomepageHero(rawHomepageHero);
+
+export const homepageHero: HomepageHero = validatedHero as HomepageHero;
 
 export const whySection: WhySection = {
   eyebrow: 'Why We Exist',
