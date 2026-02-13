@@ -105,6 +105,70 @@ This is not optional. This is not an afterthought. This is the FIRST action afte
 A custom-coded marketing website for PixelVerse Studios, built with **Next.js 14**, **Tailwind CSS**, and a **CSS variable design system** supporting light and dark themes.
 The site emphasizes speed, usability, and scalability, aligning with PixelVerse's philosophy of custom, UX-first builds.
 
+## 📋 Recent Updates (Updated: 2026-02-13)
+
+### 🔥 Critical Changes - Must Know
+
+**Type Safety:** All string method calls now require type guards. Use `(value || '').toLowerCase()` pattern to prevent TypeErrors on undefined/null values. This is now a standard practice across the codebase.
+
+**Sentry Integration:** Error monitoring is live in production. All unhandled errors are automatically captured. Sampling rates are optimized (10% traces, 1%/10% replays) to prevent bandwidth overages.
+
+**Middleware Optimization:** Auth middleware only runs on protected routes (`/dashboard/*`). Public pages (landing, blog, services) have no middleware overhead for better performance.
+
+**PVS Overhaul Project:** Major redesign initiative underway with separate Linear project. Use "PVS Overhaul" for redesign work, "PVS Website" for maintenance.
+
+---
+
+### Performance & Optimization (January 2026)
+- **PVS-244**: Reduced Sentry sampling rates (traces: 10%, replays: 10%/1%) to fix bandwidth overage issues
+- **PVS-245**: Optimized middleware to run only on protected routes (dashboard, admin), eliminating unnecessary auth checks on public pages
+
+### Bug Fixes & Type Safety (January 2026)
+- **PVS-246**: Added type guards to prevent TypeError on `toLowerCase()` calls across multiple components:
+  - `app/dashboard/clients/components/clients-page-client.tsx` - Search query filtering
+  - `app/dashboard/clients/components/clients-table.tsx` - Client search functionality  - `components/services/local/local-service-faq.tsx` - Service name display
+  - `components/services/local/local-service-features.tsx` - Feature descriptions
+  - `lib/structured-data.ts` - Schema generation
+
+### Error Monitoring (January 2026)
+- Integrated **Sentry** for comprehensive error tracking:
+  - Added `app/global-error.tsx` - Global error boundary with automatic Sentry reporting
+  - Configured client, server, and edge runtime monitoring
+  - `instrumentation.ts` - Sentry initialization and setup
+  - All unhandled errors now automatically captured and reported to team
+
+### Planning & Documentation (January 2026)
+- Added comprehensive planning documentation under `docs/planning/`:
+  - `cold-email-outreach-guide.md` - Cold email strategy for local business outreach
+  - `site-architecture-guide.md` - Technical architecture and structure decisions
+  - `strategic-repositioning-plan.md` - Business positioning and market strategy
+- Added `docs/Client Prospects.xlsx` - Prospecting tracking spreadsheet
+
+### Project Structure (2026)
+- **New Project: PVS Overhaul** - Major redesign initiative with 5 milestones:
+  - Homepage redesign (narrative-driven, conversion-focused)
+  - Services overview and detail pages
+  - About page refresh
+  - Lead form optimization
+  - Portfolio showcase
+- Existing **PVS Website** project continues for maintenance and incremental improvements
+
+### File Structure Changes
+**Added:**
+- `app/global-error.tsx` - Global error boundary with Sentry integration
+- `instrumentation.ts` - Sentry initialization for Next.js
+- `sentry.client.config.ts` - Client-side Sentry configuration
+- `sentry.server.config.ts` - Server-side Sentry configuration
+- `sentry.edge.config.ts` - Edge runtime Sentry configuration
+- `docs/planning/cold-email-outreach-guide.md`
+- `docs/planning/site-architecture-guide.md`
+- `docs/planning/strategic-repositioning-plan.md`
+- `docs/Client Prospects.xlsx` - Prospecting tracking
+
+**Cleaned Up:**
+- Removed outdated Google Search Console CSV exports from `/docs/gsc/`
+- Old audit files consolidated and archived
+
 ## 🧱 Tech Stack
 
 - **Framework:** Next.js 14 (App Router)
@@ -113,6 +177,7 @@ The site emphasizes speed, usability, and scalability, aligning with PixelVerse'
 - **Typography:** Poppins (headings), Inter (body)
 - **Icons:** Lucide or inline SVGs
 - **Animation:** Framer Motion (light use for fade/slide)
+- **Error Monitoring:** Sentry (client, server, and edge runtime)
 - **Deployment:** Netlify / Vercel
 
 ## 🎨 Design System
@@ -159,6 +224,23 @@ The site emphasizes speed, usability, and scalability, aligning with PixelVerse'
 - `Input`, `Select`, `Textarea`
 - `ThemeToggle`, `Modal`, `Drawer`
 
+### Component Development Best Practices
+
+**Null Safety & Type Guards:**
+- Always guard against null/undefined before string operations
+- Pattern: `(value || '').toLowerCase()` instead of `value.toLowerCase()`
+- Applies to: API data, user input, dynamic content, search queries
+
+**Data-Driven Components:**
+- Centralize content in `/data/` directory (e.g., `homepage.ts`, `service-paths.ts`)
+- Separate presentation (components) from content (data files)
+- Benefits: easier content updates, consistent structure, better maintainability
+
+**Reusable Patterns:**
+- Create flexible, reusable components for common patterns
+- Example: `ServiceNarrativeSection` supports text-only, bullets, and two-column layouts
+- Use TypeScript interfaces to enforce consistent data structures
+
 ## 🧩 Page Architecture
 
 Each major page has its own component directory under `/components/` and a Next.js route under `/app/`.
@@ -201,6 +283,100 @@ Each major page has its own component directory under `/components/` and a Next.
 - Lighthouse ≥ 90, WCAG AA contrast
 - Blog landing hero and article headers must include `pt-hero` so fixed navigation never overlaps content
 
+### Type Safety & Null Handling
+
+- **Always add type guards before calling string methods** (`.toLowerCase()`, `.includes()`, `.trim()`, etc.)
+- Use pattern: `(variableName || '').toLowerCase()` to prevent TypeErrors on undefined/null values
+- Common locations requiring type guards:
+  - Search query handling in filter functions
+  - Dynamic content from API/database (service names, client names, email addresses)
+  - User input fields and form values
+  - Optional props in React components
+
+**Common Type Guard Patterns:**
+
+```typescript
+// Search/Filter Functions
+const query = (searchQuery || '').toLowerCase();
+const email = (client.client_email || '').toLowerCase();
+const title = (project.title || '').toLowerCase();
+
+// Component Props (optional strings)
+description={`Services for ${(serviceName || 'digital marketing').toLowerCase()}`}
+
+// API/Database Values
+const fullName = `${client.firstname || ''} ${client.lastname || ''}`.toLowerCase();
+```
+
+**Why This Matters:**
+- TypeScript allows `string | undefined | null` types through props and API responses
+- String methods like `.toLowerCase()` throw TypeError if called on undefined/null
+- Type guards with fallback empty strings prevent runtime crashes
+- Pattern `(value || '')` is preferred over `value?.toLowerCase() ?? ''` for brevity
+
+### Error Monitoring with Sentry
+
+**Overview:**
+- Sentry is integrated for production error tracking across all Next.js runtimes
+- Captures unhandled errors, performance issues, and user session replays
+- Provides real-time alerts for critical errors in production
+
+**Configuration Files:**
+- `sentry.client.config.ts` - Browser-side error tracking and performance monitoring
+- `sentry.server.config.ts` - Server-side API and SSR error tracking
+- `sentry.edge.config.ts` - Edge runtime (middleware) error tracking
+- `instrumentation.ts` - Sentry initialization for Next.js instrumentation API
+- `app/global-error.tsx` - Global error boundary that catches React errors and reports to Sentry
+
+**Sampling Strategy (Optimized for Cost Control):**
+
+*Problem:* Initial 100% sampling rate caused bandwidth overages on Sentry plan
+
+*Solution:* Aggressive sampling reduction while maintaining visibility into critical errors
+
+```typescript
+// Traces (Performance Monitoring)
+tracesSampleRate: 0.1  // 10% of transactions (down from 100%)
+
+// Session Replays (User Session Recording)
+replaysSessionSampleRate: 0.01    // 1% of normal sessions (down from 10%)
+replaysOnErrorSampleRate: 0.1     // 10% of error sessions (down from 100%)
+```
+
+**What This Means:**
+- All errors are still captured (100% error tracking remains)
+- Performance traces sampled at 10% (sufficient for trend analysis)
+- Session replays heavily reduced (1% normal, 10% on error)
+- Critical errors with high frequency will still show patterns
+- Cost reduced by ~90% while maintaining error visibility
+
+**When Modifying Sentry:**
+- Do not increase sampling rates without approval (cost implications)
+- Do not remove Sentry integration without explicit approval
+- Test configuration changes in development first
+- Monitor Sentry dashboard bandwidth usage after changes
+
+### Middleware Optimization
+
+- Middleware runs **only on protected routes** (dashboard, admin areas)
+- Pattern: `/middleware.ts` uses matcher config to avoid running on public pages
+- This optimization reduces unnecessary auth checks on landing pages, blog, services
+- When adding new protected routes, update middleware matcher pattern
+
+**Example matcher config:**
+```typescript
+export const config = {
+  matcher: [
+    '/dashboard/:path*',
+    '/admin/:path*',
+    '/api/protected/:path*'
+  ]
+};
+```
+
+**Protected routes:** `/dashboard/*`, authenticated API endpoints
+**Public routes:** Landing pages, blog, services, portfolio (no middleware overhead)
+
 ## ✅ Deliverables
 
 - Complete multi-page site with reusable design tokens
@@ -218,6 +394,8 @@ Each major page has its own component directory under `/components/` and a Next.
   about/
   contact/
   faq/
+  dashboard/           # Protected routes (auth required)
+  global-error.tsx     # Global error boundary with Sentry
 /components/
   ui/
   home/
@@ -230,6 +408,19 @@ Each major page has its own component directory under `/components/` and a Next.
 /styles/
   globals.css
   tailwind.config.js
+/docs/
+  audits/              # Audit logs for all changes
+  planning/            # Strategy and planning documents
+  features/            # Feature documentation
+  technical/           # Technical documentation
+  seo/                 # SEO audits and reports
+/data/                 # Centralized content data structures
+/lib/
+  structured-data.ts   # Schema.org structured data
+  api/                 # API client functions
+/middleware.ts         # Auth middleware (protected routes only)
+/instrumentation.ts    # Sentry initialization
+/sentry.*.config.ts    # Sentry configuration (client, server, edge)
 ```
 
 ## 👥 Team
@@ -634,6 +825,39 @@ Use it to ensure all key optimization elements are consistently implemented acro
 
 ---
 
+## 📚 Planning & Strategy Documentation
+
+The `/docs/planning/` directory contains comprehensive strategy documents for business growth and technical decisions:
+
+### Cold Email Outreach (`cold-email-outreach-guide.md`)
+- Complete cold email strategy for reaching 100 local small business prospects
+- Domain setup and email infrastructure ($20-50/month budget)
+- DNS authentication (SPF, DKIM, DMARC) for deliverability
+- Email templates and outreach sequences
+- Compliance with cold email regulations
+
+### Site Architecture (`site-architecture-guide.md`)
+- Technical architecture decisions and rationale
+- Component organization and reusability patterns
+- Data structure strategies (/data/ directory)
+- Performance optimization approaches
+- Scalability considerations
+
+### Strategic Repositioning (`strategic-repositioning-plan.md`)
+- Business positioning and market differentiation
+- Target audience refinement
+- Messaging framework and value proposition
+- Competitive analysis and market positioning
+- Growth strategies and tactics
+
+**When to reference:**
+- Before major architectural decisions
+- When planning new features or pages
+- During strategic business discussions
+- For understanding the "why" behind technical choices
+
+---
+
 ## Linear Ticket Creation
 
 When creating Linear tickets for this project:
@@ -642,8 +866,14 @@ When creating Linear tickets for this project:
 | -------- | ------------------ |
 | Team     | PixelVerse Studios |
 | Assignee | `me`               |
-| Project  | PVS Website        |
+| Project  | **PVS Overhaul** (major redesign) or **PVS Website** (maintenance/improvements) |
 | Priority | Medium (3)         |
+
+**Milestone Assignment:**
+- **Always ask the user which milestone to assign** before creating tickets
+- List available milestones for the selected project
+- User chooses the appropriate milestone based on the work scope
+- All tickets in an epic/batch should use the same milestone
 
 **Labels:** Always apply one from each sub-label group:
 
