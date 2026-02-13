@@ -32,6 +32,7 @@ export function HeroSection() {
             <Badge
               variant="default"
               className="bg-white/90 text-xs font-medium text-[var(--pv-text-muted)] dark:bg-[color:var(--pv-overlay-soft)]"
+              aria-label="Rated 5.0 stars by clients"
             >
               {homepageHero.badge}
             </Badge>
