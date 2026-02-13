@@ -112,7 +112,7 @@ export const whySection: WhySection = {
   eyebrow: 'Why We Exist',
   heading: "Most websites aren't built to solve real problems",
   description:
-    "Templates look fine at first. But when you need to scale, customize, or integrate—you hit walls. We build websites as systems: flexible, fast, and built for growth.",
+    'Templates look fine at first. But when you need to scale, customize, or integrate—you hit walls. We build websites as systems: flexible, fast, and built for growth.',
   problemPoints: [
     {
       title: 'Templates break under customization',
@@ -223,40 +223,34 @@ export const testimonials: Testimonial[] = [
 
 export const services: Service[] = [
   {
-    title: 'Custom Web Development',
-    summary: 'Next.js builds with performance, scalability, and SEO baked in from day one.',
-    icon: 'code',
+    title: 'Web Design & Development',
+    summary: 'Custom-coded websites built for performance, scalability, and long-term growth.',
+    icon: 'palette',
     highlights: [
-      'Custom-coded architecture (no templates or page builders)',
-      'Optimized for Core Web Vitals and Lighthouse scores',
-      'Content management systems when you need them',
-      'Integrations with CRMs, booking systems, and analytics',
+      'Component libraries built for future campaigns.',
+      'Launch-day QA across devices, browsers, and connection speeds.',
     ],
     href: '/services/web-development',
   },
   {
-    title: 'UX & UI Design',
-    summary: 'Research-driven design that converts visitors into customers.',
-    icon: 'palette',
-    highlights: [
-      'User flow mapping and conversion optimization',
-      'Mobile-first responsive design',
-      'Accessibility compliance (WCAG AA)',
-      'Brand-aligned visual systems',
-    ],
-    href: '/services/ux-ui-design',
-  },
-  {
     title: 'Local SEO',
-    summary: 'Rank for searches that matter in Bergen County and beyond.',
+    summary: 'Structured for visibility with schema, speed, and clean markup from day one.',
     icon: 'search',
     highlights: [
-      'Technical SEO and site architecture',
-      'Local keyword targeting and content strategy',
-      'Schema markup and structured data',
-      'Google Business Profile optimization',
+      'Technical health baked into every build, no bolt-on fixes later.',
+      'Content models tuned for search intent and easy publishing.',
     ],
     href: '/services/seo',
+  },
+  {
+    title: 'Ongoing Support',
+    summary: 'Flexible monthly partnerships to keep the site iterating with your business.',
+    icon: 'lifebuoy',
+    highlights: [
+      'Performance reviews with prioritized action items every cycle.',
+      'Rapid experiments and updates handled by the team that built it.',
+    ],
+    href: '/services',
   },
 ];
 
