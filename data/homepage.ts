@@ -44,6 +44,7 @@ export interface CaseStudy {
   problem: string;
   solution: string;
   issues: Array<{
+    icon?: string;
     issue: string;
     resolution: string;
   }>;
@@ -145,16 +146,19 @@ export const caseStudy: CaseStudy = {
     'We rebuilt their site from scratch: custom Next.js build, city-specific service pages, LocalBusiness schema, and conversion-focused CTAs on every page.',
   issues: [
     {
+      icon: 'fileText',
       issue: 'Generic template with no local SEO structure',
       resolution:
         'Built dedicated landing pages for Fort Lee, Englewood, Hackensack, Paramus, and Ridgewood with unique content and local schema markup',
     },
     {
+      icon: 'zap',
       issue: 'Slow load times hurting mobile conversions',
       resolution:
         'Optimized images, lazy loading, and code splitting reduced page load from 4.2s to 1.1s on mobile',
     },
     {
+      icon: 'alertCircle',
       issue: 'No clear conversion path for quote requests',
       resolution:
         'Added persistent "Get a Free Quote" CTA, simplified form fields, and phone click-to-call on mobile',

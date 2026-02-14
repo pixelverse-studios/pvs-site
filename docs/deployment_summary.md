@@ -11,6 +11,7 @@
 - Improved services section copy to emphasize custom code over templates
 - Fixed Ongoing Support card to link to contact form instead of generic services page
 - Added "Why We Exist" section to homepage with two-column narrative layout
+- Added case study section showcasing client success with 3-column issue grid
 
 ## Notes for internal team
 
@@ -28,6 +29,12 @@
 - Implemented staggered animation delays for cascading reveal effect
 - PR #82 review fixes: Fixed React key uniqueness, extracted animation constants, added aria-labelledby for screen readers
 - Files created: `/components/home/why-section.tsx`
+- PVS-325: Built Case Study Section component with client badge and 3-column issue grid
+- Features client info badge, emphasized problem statement, and responsive grid layout
+- Issue cards include Lucide icons (AlertCircle, Zap, FileText) with hover effects
+- Extended CaseStudy interface to support icon strings for each issue
+- PR #83 review fixes: Extracted animation constants, simplified icon lookup, added aria-labelledby, content-based React keys
+- Files created: `/components/home/case-study-section.tsx`
 
 ## Changed URLs
 
