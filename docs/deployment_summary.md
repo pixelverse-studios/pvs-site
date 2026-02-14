@@ -10,6 +10,7 @@
 - Removed Bergen County-specific CTA from homepage services section
 - Improved services section copy to emphasize custom code over templates
 - Fixed Ongoing Support card to link to contact form instead of generic services page
+- Added "Why We Exist" section to homepage with two-column narrative layout
 
 ## Notes for internal team
 
@@ -21,6 +22,12 @@
 - Made service cards clickable with links to service pages
 - PR #81 review fixes: Updated Ongoing Support href, added defensive icon fallback, improved accessibility with aria-labels, fixed highlight key uniqueness
 - Files modified: `/data/homepage.ts`, `/components/home/services-section.tsx`
+- PVS-324: Built Why Section component with two-column responsive layout
+- Left column displays eyebrow, heading, and description; right column shows problem points list
+- Component follows centralized data pattern, consuming from `/data/homepage.ts`
+- Implemented staggered animation delays for cascading reveal effect
+- PR #82 review fixes: Fixed React key uniqueness, extracted animation constants, added aria-labelledby for screen readers
+- Files created: `/components/home/why-section.tsx`
 
 ## Changed URLs
 
