@@ -13,6 +13,7 @@
 - Added "Why We Exist" section to homepage with two-column narrative layout
 - Added case study section showcasing client success with 3-column issue grid
 - Added process timeline section with horizontal layout and numbered steps
+- Added client testimonial carousel with scroll-snap navigation and keyboard controls
 
 ## Notes for internal team
 
@@ -41,6 +42,12 @@
 - Vertical stack on mobile, responsive design with hover effects
 - 4 process steps with numbered badges (01-04) and gradient styling
 - Files created: `/components/home/process-section.tsx`
+- PVS-327: Built Testimonial Carousel component with native CSS scroll-snap
+- Horizontal carousel with navigation dots, keyboard controls (left/right arrows), and Intersection Observer sync
+- Testimonial cards match design from service-testimonial.tsx without stat component
+- 3 testimonials from homepage data: 360 Degree Care, Jones Pressure Washing, Domani Consulting
+- Mobile: full-width cards, Desktop: 80% width with peek effect for next card
+- Files created: `/components/home/testimonial-carousel.tsx`
 
 ## Changed URLs
 
