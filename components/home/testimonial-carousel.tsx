@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
@@ -17,7 +17,7 @@ export function TestimonialCarousel() {
   const showNavigation = testimonials.length > 1;
 
   // Scroll to specific testimonial
-  const scrollToIndex = (index: number) => {
+  const scrollToIndex = useCallback((index: number) => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
@@ -32,7 +32,7 @@ export function TestimonialCarousel() {
       });
       setCurrentIndex(index);
     }
-  };
+  }, []); // No dependencies - uses ref and setState
 
   // Keyboard navigation
   useEffect(() => {
@@ -52,7 +52,7 @@ export function TestimonialCarousel() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, showNavigation]);
+  }, [currentIndex, showNavigation, scrollToIndex]);
 
   // Sync currentIndex with scroll position using Intersection Observer
   useEffect(() => {
@@ -68,7 +68,8 @@ export function TestimonialCarousel() {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const index = Number(entry.target.getAttribute('data-index'));
-          if (!isNaN(index)) {
+          // Add bounds checking for type safety
+          if (!isNaN(index) && index >= 0 && index < testimonials.length) {
             setCurrentIndex(index);
           }
         }
@@ -79,7 +80,7 @@ export function TestimonialCarousel() {
     cards.forEach((card) => observer.observe(card));
 
     return () => {
-      cards.forEach((card) => observer.unobserve(card));
+      observer.disconnect(); // Better cleanup than manual unobserve
     };
   }, [showNavigation]);
 
@@ -156,7 +157,7 @@ export function TestimonialCarousel() {
                     aria-current={currentIndex === index ? 'true' : undefined}
                     aria-label={`Go to testimonial ${index + 1}`}
                     onClick={() => scrollToIndex(index)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
+                    className={`h-2 rounded-full transition-[width,background-color] duration-300 ${
                       currentIndex === index
                         ? 'w-8 bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))]'
                         : 'w-2 bg-[var(--pv-border)] hover:bg-[var(--pv-text-muted)]'
