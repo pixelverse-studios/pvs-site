@@ -26,6 +26,7 @@
 - Left column displays eyebrow, heading, and description; right column shows problem points list
 - Component follows centralized data pattern, consuming from `/data/homepage.ts`
 - Implemented staggered animation delays for cascading reveal effect
+- PR #82 review fixes: Fixed React key uniqueness, extracted animation constants, added aria-labelledby for screen readers
 - Files created: `/components/home/why-section.tsx`
 
 ## Changed URLs

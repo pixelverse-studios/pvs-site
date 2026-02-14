@@ -3,9 +3,16 @@ import { whySection } from '@/data/homepage';
 
 import { Container } from './container';
 
+// Animation timing constants
+const COLUMN_STAGGER_DELAY = 0.1;
+const ITEM_STAGGER_INCREMENT = 0.08;
+
 export function WhySection() {
   return (
-    <section className="border-b border-[var(--pv-border)] bg-[var(--pv-surface)]">
+    <section
+      className="border-b border-[var(--pv-border)] bg-[var(--pv-surface)]"
+      aria-labelledby="why-section-heading"
+    >
       <Container className="py-16 md:py-24">
         <MotionSection as="div" className="grid gap-12 md:grid-cols-2 md:gap-16">
           {/* Left column: Narrative text */}
@@ -15,7 +22,10 @@ export function WhySection() {
                 {whySection.eyebrow}
               </p>
             )}
-            <h2 className="font-heading text-[2.5rem] leading-[3.125rem] text-[var(--pv-text)]">
+            <h2
+              id="why-section-heading"
+              className="font-heading text-[2.5rem] leading-[3.125rem] text-[var(--pv-text)]"
+            >
               {whySection.heading}
             </h2>
             <p className="text-lg leading-relaxed text-[var(--pv-text-muted)]">
@@ -24,9 +34,13 @@ export function WhySection() {
           </MotionItem>
 
           {/* Right column: Problem points */}
-          <MotionItem delay={0.1} className="space-y-8">
+          <MotionItem delay={COLUMN_STAGGER_DELAY} className="space-y-8">
             {whySection.problemPoints.map((point, index) => (
-              <MotionItem key={point.title} delay={0.1 + index * 0.08} className="space-y-3">
+              <MotionItem
+                key={`problem-point-${index}`}
+                delay={COLUMN_STAGGER_DELAY + index * ITEM_STAGGER_INCREMENT}
+                className="space-y-3"
+              >
                 <div className="flex gap-3">
                   <span
                     className="mt-1.5 inline-flex h-2 w-2 shrink-0 rounded-full bg-[var(--pv-primary)]"
