@@ -2,11 +2,10 @@ import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
-import { SocialLinks } from '@/components/ui/social-links';
 
 import { Container } from './container';
 
-export function ClosingCtaSection() {
+export function FinalCtaSection() {
   return (
     <section id="contact" className="bg-[var(--pv-bg)] py-16 md:py-24">
       <Container>
@@ -16,22 +15,19 @@ export function ClosingCtaSection() {
         >
           <MotionItem>
             <h2 className="font-heading text-[2.5rem] leading-[3.125rem] text-[var(--pv-text)]">
-              Let’s create more than just a website. Let’s build your digital future.
+              Let&apos;s talk about what you actually need.
             </h2>
           </MotionItem>
           <MotionItem delay={0.1}>
-            <Button asChild size="lg" variant="cta" className="w-full md:w-auto">
-              <Link href="/contact">Contact Us to Start Your Project</Link>
-            </Button>
+            <p className="text-lg text-[var(--pv-text-muted)]">
+              No pressure. No sales pitch. Just a conversation about your goals and how we might
+              help.
+            </p>
           </MotionItem>
           <MotionItem delay={0.15}>
-            <div className="space-y-3">
-              <p className="text-sm text-[var(--pv-text-muted)]">
-                Prefer social? Follow along for weekly UX-first drops, project breakdowns, and
-                behind-the-scenes builds.
-              </p>
-              <SocialLinks className="flex-wrap justify-center" iconClassName="bg-[var(--pv-bg)]" />
-            </div>
+            <Button asChild size="lg" variant="cta" className="w-full md:w-auto">
+              <Link href="/contact">Book a Free Call</Link>
+            </Button>
           </MotionItem>
         </MotionSection>
       </Container>

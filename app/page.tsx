@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { ClosingCtaSection } from '@/components/home/closing-cta-section';
+import { FinalCtaSection } from '@/components/home/final-cta-section';
 import { HeroSection } from '@/components/home/hero-section';
 import { PackagesSection } from '@/components/home/packages-section';
 import { ServicesSection } from '@/components/home/services-section';
@@ -28,7 +28,7 @@ export default function Home() {
       <ValueSection />
       <ServicesSection />
       <PackagesSection />
-      <ClosingCtaSection />
+      <FinalCtaSection />
     </main>
   );
 }
