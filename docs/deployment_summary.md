@@ -33,6 +33,7 @@
 - Features client info badge, emphasized problem statement, and responsive grid layout
 - Issue cards include Lucide icons (AlertCircle, Zap, FileText) with hover effects
 - Extended CaseStudy interface to support icon strings for each issue
+- PR #83 review fixes: Extracted animation constants, simplified icon lookup, added aria-labelledby, content-based React keys
 - Files created: `/components/home/case-study-section.tsx`
 
 ## Changed URLs

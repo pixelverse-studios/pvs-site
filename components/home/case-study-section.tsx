@@ -14,9 +14,16 @@ const iconMap: Record<string, LucideIcon> = {
   fileText: FileText,
 };
 
+// Animation timing constants
+const GRID_STAGGER_DELAY = 0.1;
+const ITEM_STAGGER_INCREMENT = 0.08;
+
 export function CaseStudySection() {
   return (
-    <section className="border-b border-[var(--pv-border)] bg-[var(--pv-surface)]">
+    <section
+      className="border-b border-[var(--pv-border)] bg-[var(--pv-surface)]"
+      aria-labelledby="case-study-heading"
+    >
       <Container className="py-16 md:py-24">
         <MotionSection as="div" className="space-y-12">
           {/* Header: Client badge + Problem statement */}
@@ -29,23 +36,26 @@ export function CaseStudySection() {
             </div>
 
             {/* Problem statement */}
-            <h2 className="max-w-4xl font-heading text-[2.5rem] leading-[3.125rem] text-[var(--pv-text)]">
+            <h2
+              id="case-study-heading"
+              className="max-w-4xl font-heading text-[2.5rem] leading-[3.125rem] text-[var(--pv-text)]"
+            >
               {caseStudy.problem}
             </h2>
           </MotionItem>
 
           {/* Issues grid */}
-          <MotionSection as="div" className="grid gap-6 md:grid-cols-3" delay={0.1}>
+          <MotionSection as="div" className="grid gap-6 md:grid-cols-3" delay={GRID_STAGGER_DELAY}>
             {caseStudy.issues.map((item, index) => {
               // Map icon string to Lucide component
-              const IconComponent = iconMap[item.icon as keyof typeof iconMap];
+              const IconComponent = iconMap[item.icon ?? ''];
               if (!IconComponent && process.env.NODE_ENV === 'development') {
                 console.warn(`Missing icon mapping for "${item.icon}". Add to iconMap.`);
               }
               const Icon = IconComponent || AlertCircle;
 
               return (
-                <MotionItem key={`issue-${index}`} delay={index * 0.08}>
+                <MotionItem key={item.issue} delay={index * ITEM_STAGGER_INCREMENT}>
                   <Card className="group flex h-full flex-col border-[var(--pv-border)] bg-[var(--pv-bg)] transition-transform duration-200 hover:-translate-y-1 hover:shadow-pv">
                     <CardHeader className="flex flex-col gap-4 pb-6">
                       <div className="flex items-start gap-3">
