@@ -12,6 +12,7 @@
 - Fixed Ongoing Support card to link to contact form instead of generic services page
 - Added "Why We Exist" section to homepage with two-column narrative layout
 - Added case study section showcasing client success with 3-column issue grid
+- Added process timeline section with horizontal layout and numbered steps
 
 ## Notes for internal team
 
@@ -35,6 +36,11 @@
 - Extended CaseStudy interface to support icon strings for each issue
 - PR #83 review fixes: Extracted animation constants, simplified icon lookup, added aria-labelledby, content-based React keys
 - Files created: `/components/home/case-study-section.tsx`
+- PVS-326: Built Process Section component with numbered timeline steps
+- Horizontal layout on desktop with gradient connecting lines between steps
+- Vertical stack on mobile, responsive design with hover effects
+- 4 process steps with numbered badges (01-04) and gradient styling
+- Files created: `/components/home/process-section.tsx`
 
 ## Changed URLs
 
