@@ -14,6 +14,7 @@
 - Added case study section showcasing client success with 3-column issue grid
 - Added process timeline section with horizontal layout and numbered steps
 - Added client testimonial carousel with scroll-snap navigation and keyboard controls
+- Refactored final CTA section with conversation-focused messaging instead of generic sales language
 
 ## Notes for internal team
 
@@ -48,6 +49,13 @@
 - 3 testimonials from homepage data: 360 Degree Care, Jones Pressure Washing, Domani Consulting
 - Mobile: full-width cards, Desktop: 80% width with peek effect for next card
 - Files created: `/components/home/testimonial-carousel.tsx`
+- PVS-328: Refactored closing CTA to final CTA section with updated messaging
+- Renamed component: ClosingCtaSection → FinalCtaSection
+- New heading: "Let's talk about what you actually need."
+- New description emphasizes no-pressure conversation approach
+- Updated CTA button text: "Book a Free Call" (previously "Contact Us to Start Your Project")
+- Removed social links section (duplicated footer content)
+- Files: Renamed `/components/home/closing-cta-section.tsx` to `/components/home/final-cta-section.tsx`, updated `/app/page.tsx` imports
 
 ## Changed URLs
 
