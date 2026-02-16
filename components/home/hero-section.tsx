@@ -41,7 +41,11 @@ export function HeroSection() {
                 {homepageHero.headline}
               </span>
             </h1>
-            <p className="text-lg text-[var(--pv-text)] md:text-xl">{homepageHero.subheadline}</p>
+            {homepageHero.subheadline.map((line, i) => (
+              <p key={i} className="text-lg text-[var(--pv-text)] md:text-xl">
+                {line}
+              </p>
+            ))}
           </MotionItem>
           <MotionItem delay={0.15} className="w-full">
             <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">

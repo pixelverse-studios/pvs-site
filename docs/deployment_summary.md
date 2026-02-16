@@ -17,6 +17,17 @@
 - Refactored final CTA section with conversation-focused messaging instead of generic sales language
 - Integrated all new homepage sections into complete redesigned homepage
 - Updated homepage metadata with "Intentional Web Design & Development" positioning
+- Updated hero section copy with new badge, dual-paragraph subheadline, and CTA labels
+- Added two alternative hero section designs with a toggle widget to preview all three
+- Redesigned case study section with clearer visual hierarchy, eyebrow label, and outcome metrics
+- Case study section now supports multiple clients with tabbed navigation
+- Added 360 Degree Care as second case study (placeholder data pending backfill)
+- Redesigned case study selector with elegant sidebar navigation and industry icons
+- Replaced "Why We Exist" section with new "Why Businesses Come to Us" narrative copy
+- Added new insight section explaining how website problems are interconnected
+- Insight section features interactive scroll-triggered reveal animations
+- Created two alternative insight section layouts with a preview toggle widget
+- Fixed Sentry build deprecation warnings
 
 ## Notes for internal team
 
@@ -66,6 +77,56 @@
 - Updated keywords to focus on: intentional web design, conversion-focused, user journey mapping, performance-first
 - Homepage bundle size: 4.76 kB (223 kB First Load JS)
 - Files modified: `/app/page.tsx` (imports, section order, metadata)
+- PVS-329 continued: Hero copy updates, variant designs, case study redesign
+- Changed `HomepageHero.subheadline` type from `string` to `string[]` for multi-paragraph support
+- Updated Zod validation schema to match new subheadline array type
+- Created `/components/home/hero-variant-b.tsx` (editorial split layout with dot pattern, grain overlay)
+- Created `/components/home/hero-variant-c.tsx` (dark immersive aurora with gradient orbs)
+- Created `/components/home/hero-switcher.tsx` (toggle widget for A/B/C hero comparison)
+- Added premium CSS effects to globals.css: shimmer, glow-pulse, grain overlay, aurora layers, dot pattern, badge shimmer
+- Added shimmer keyframe to tailwind.config.js
+- Redesigned case study section: added eyebrow, surfaced title/outcome data, icon bubbles for client metadata
+- Converted case study from single to array with tabbed UI (ARIA-compliant tablist)
+- Added 360 Degree Care case study with TODO placeholder data in `/data/homepage.ts`
+- Redesigned case study selector with vertical sidebar cards, gradient left border, and industry icons
+- Replaced "Why We Exist" section with new "Why Businesses Come to Us" narrative copy
+- Added new "Most Website Problems Aren't Isolated" insight section with 6 interactive narrative beats
+- Insight section uses scroll-triggered reveal animations with gradient color progression
+- Created two alternative insight section layouts (split sticky heading + numbered card grid) with toggle widget
+- Fixed Sentry Next.js deprecation warnings for improved build compatibility
+- Consolidated hero and insight toggle widgets into a single unified variant panel
+- Updated Hero Variant C to properly support light and dark themes
+- Upgraded testimonial carousel with premium styling: gradient accents, quote icons, initials avatars
+- Testimonial carousel now shows multiple cards per view with scroll navigation
+- Added 6 placeholder testimonials (9 total) for fuller carousel experience
+- Updated services section copy to match final brand messaging
+- Redesigned final CTA section with premium open layout and gradient background wash
+
+## Notes for internal team
+
+- PVS-329 continued: Case study section rewritten to use sidebar variant (Option C) with `layoutId` sliding gradient border
+- Extracted shared case study content into `/components/home/case-study-content.tsx`
+- Deleted variant files: `case-study-variant-a.tsx`, `case-study-variant-b.tsx`, `case-study-variant-c.tsx`, `case-study-switcher.tsx`
+- Why Section rewritten: removed eyebrow/description/problemPoints, added paragraphs[]/cta to data interface
+- New copy provided by user for why section, centered editorial layout with ghost pill CTA
+- Insight section added between CaseStudySection and ProcessSection
+- Insight data structured as labeled beats: Scenario, Surface, Problem, Impact, Pattern, Our Approach
+- Created `/components/home/insight-section-variant-b.tsx` (split sticky heading layout)
+- Created `/components/home/insight-section-variant-c.tsx` (numbered card grid)
+- Created `/components/home/insight-switcher.tsx` (A/B/C toggle widget)
+- Sentry fix: renamed `sentry.client.config.ts` → `instrumentation-client.ts`, added `onRouterTransitionStart` export
+- Replaced deprecated `disableLogger: true` with `webpack: { treeshake: { removeDebugLogging: true } }` in next.config.js
+- Created `/components/home/variant-panel.tsx` — unified panel with React Context for all variant toggles
+- Created `/components/home/homepage-client.tsx` — client wrapper providing variant context
+- Simplified `hero-switcher.tsx` and `insight-switcher.tsx` to consume from shared context
+- Hero Variant C: replaced hardcoded dark colors with CSS variables, added `.dark .aurora-layer` opacity overrides
+- Aurora animation timings slowed slightly (24s/30s/34s) for premium feel
+- Testimonial carousel rewritten: scroll-by-card navigation, responsive widths (85%/46%/33%), desktop arrows in header
+- Added 6 placeholder testimonials to `data/homepage.ts` (total 9)
+- Services section: removed `highlights` from Service interface, simplified card layout with gradient icons
+- Final CTA section: removed bordered card, added radial gradient glow wash, btn-shimmer CTA with ArrowRight
+- Updated `finalCta` data: heading "Let's Talk It Through", CTA "Start the Conversation"
+- Deleted all subagent-generated docs from `docs/design/` directory
 
 ## Changed URLs
 
