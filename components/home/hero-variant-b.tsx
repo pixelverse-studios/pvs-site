@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { Button } from '@/components/ui/button';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import { homepageHero } from '@/data/homepage';
 
@@ -60,13 +61,12 @@ export function HeroVariantB() {
                 {homepageHero.primaryCta.label}
               </Link>
 
-              {/* Secondary: ghost with subtle border */}
-              <Link
-                href={homepageHero.secondaryCta.href}
-                className="inline-flex h-12 items-center justify-center rounded-full border border-[var(--pv-border)] bg-transparent px-7 text-sm font-medium text-[var(--pv-text-muted)] transition-all duration-200 hover:border-[var(--pv-text-muted)] hover:text-[var(--pv-text)] active:scale-[0.98]"
-              >
-                {homepageHero.secondaryCta.label}
-              </Link>
+              {/* Secondary: reusable ghost CTA */}
+              <Button asChild variant="ctaGhost" className="h-12 rounded-full">
+                <Link href={homepageHero.secondaryCta.href}>
+                  {homepageHero.secondaryCta.label}
+                </Link>
+              </Button>
             </div>
           </MotionItem>
         </MotionSection>
