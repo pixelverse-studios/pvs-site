@@ -13,7 +13,7 @@ import { validateHomepageHero } from '@/lib/validation/homepage';
 export interface HomepageHero {
   badge: string;
   headline: string;
-  subheadline: string;
+  subheadline: string[];
   primaryCta: {
     label: string;
     href: string;
@@ -25,13 +25,12 @@ export interface HomepageHero {
 }
 
 export interface WhySection {
-  eyebrow: string;
   heading: string;
-  description: string;
-  problemPoints: Array<{
-    title: string;
-    description: string;
-  }>;
+  paragraphs: string[];
+  cta: {
+    label: string;
+    href: string;
+  };
 }
 
 export interface CaseStudy {
@@ -54,6 +53,16 @@ export interface CaseStudy {
   };
 }
 
+export interface InsightBeat {
+  label: string;
+  text: string;
+}
+
+export interface InsightSection {
+  heading: string;
+  beats: InsightBeat[];
+}
+
 export interface ProcessStep {
   number: number;
   title: string;
@@ -64,7 +73,6 @@ export interface Service {
   title: string;
   summary: string;
   icon: string;
-  highlights: string[];
   href: string;
 }
 
@@ -90,16 +98,18 @@ export interface FinalCta {
 // ----------------------------------------------------------------------------
 
 const rawHomepageHero = {
-  badge: '⭐⭐⭐⭐⭐ Rated 5.0 by clients',
-  headline: 'Web Design & Development, Done With Intention',
-  subheadline:
-    'We build fast, scalable websites for businesses that need more than a template. Custom code, UX-first design, and SEO foundations that actually work.',
+  badge: '⭐ 5.0 on Google • XX Reviews',
+  headline: 'Web Design & Development for Growing Businesses',
+  subheadline: [
+    'We help businesses understand what their website actually needs, then design and build the right solution, thoughtfully, strategically, and with intention.',
+    "The goal isn't just to have a website. It's to support how the business actually operates and grows.",
+  ],
   primaryCta: {
-    label: 'Start Your Project',
+    label: 'Get Started',
     href: '/contact',
   },
   secondaryCta: {
-    label: 'Free Website Audit',
+    label: 'Request a Free Website Audit',
     href: '/audit',
   },
 };
@@ -110,65 +120,122 @@ const validatedHero = validateHomepageHero(rawHomepageHero);
 export const homepageHero: HomepageHero = validatedHero as HomepageHero;
 
 export const whySection: WhySection = {
-  eyebrow: 'Why We Exist',
-  heading: "Most websites aren't built to solve real problems",
-  description:
-    'Templates look fine at first. But when you need to scale, customize, or integrate—you hit walls. We build websites as systems: flexible, fast, and built for growth.',
-  problemPoints: [
-    {
-      title: 'Templates break under customization',
-      description:
-        "Drag-and-drop builders make promises they can't keep. The moment you need custom logic, integrations, or performance—you're stuck paying for workarounds or starting over.",
-    },
-    {
-      title: 'SEO gets bolted on as an afterthought',
-      description:
-        "Most sites launch without structured data, proper heading hierarchy, or local SEO foundations. Then you wonder why you're not ranking for searches that actually matter.",
-    },
-    {
-      title: "Design doesn't drive decisions",
-      description:
-        "Pretty colors and stock photos don't convert. Visitors need clear pathways, fast load times, and content that speaks to their actual problems—not marketing fluff.",
-    },
+  heading: 'Why Businesses Come to Us',
+  paragraphs: [
+    "Businesses usually reach out after noticing a pattern they can't quite explain. Calls aren't as consistent as they should be, customers arrive needing more clarification than expected, or growth feels less steady even though the effort hasn't changed. Nothing appears obviously broken, but it becomes harder to tell whether the website is truly supporting the business or quietly getting in the way. At that point, making another change without understanding the root cause feels risky.",
+    "The longer this goes unresolved, the more opportunities are missed. If this resonates, it's time to take a closer look.",
   ],
+  cta: {
+    label: 'Discuss Your Situation',
+    href: '/contact',
+  },
 };
 
-export const caseStudy: CaseStudy = {
-  title: 'How we helped a pressure washing company rank #1 locally',
-  client: {
-    name: 'Jones Pressure Washing',
-    industry: 'Home Services',
-    location: 'Bergen County, NJ',
+export const caseStudies: CaseStudy[] = [
+  {
+    title: 'How we helped a pressure washing company build search visibility across two counties',
+    client: {
+      name: 'Jones Pressure Washing',
+      industry: 'Home Services',
+      location: 'Bergen & Essex County, NJ',
+    },
+    problem:
+      'Jones Pressure Washing had a strong local reputation built on word-of-mouth, but no structured online presence. Their previous site was a basic template with no service-specific pages, no city targeting, and no SEO architecture. Homeowners searching for pressure washing, soft washing, or holiday lighting in Bergen and Essex County had no way to find them online.',
+    solution:
+      'We built a custom site with dedicated service pages for each offering — pressure washing, soft washing, and holiday lighting — paired with city-level landing pages targeting key towns across Bergen and Essex County.',
+    issues: [
+      {
+        icon: 'fileText',
+        issue: 'Single-page site with no search visibility',
+        resolution:
+          'Built dedicated service pages and city-level landing pages across Bergen and Essex County, giving Google 14 indexable entry points instead of one',
+      },
+      {
+        icon: 'zap',
+        issue: 'No presence in seasonal service searches',
+        resolution:
+          'Created targeted holiday lighting pages for Essex and Bergen County — now pulling 950+ impressions for seasonal keywords and driving the site\'s highest-converting traffic',
+      },
+      {
+        icon: 'alertCircle',
+        issue: 'No local search footprint beyond direct name searches',
+        resolution:
+          'Structured service and city pages are now surfacing for 299 unique search queries, expanding visibility well beyond branded searches',
+      },
+    ],
+    outcome: {
+      metric: '5,200+ search impressions and 299 indexed queries within 6 months',
+      description:
+        'From a standing start, service-specific pages are pulling targeted impressions across two counties. Holiday lighting pages alone account for nearly 1,000 impressions, and the site architecture is building compounding visibility with each passing month.',
+    },
   },
-  problem:
-    "Jones Pressure Washing had a templated site that looked fine but wasn't ranking for local searches. Competitors with weaker brands were showing up first because their sites were structured for SEO from the start.",
-  solution:
-    'We rebuilt their site from scratch: custom Next.js build, city-specific service pages, LocalBusiness schema, and conversion-focused CTAs on every page.',
-  issues: [
+  {
+    title: 'How we helped a home care agency build a digital presence that matched their reputation',
+    client: {
+      name: '360 Degree Care',
+      industry: 'Home Healthcare',
+      location: 'Ridgewood, NJ',
+    },
+    problem:
+      '360 Degree Care spent years operating under a franchise brand. When they went independent, they had a strong local reputation — 4.8 stars on Google, 80% caregiver retention, CHAP certification — but no online presence of their own. Families searching for home care in Bergen County had no way to find them.',
+    solution:
+      'We built a custom site on a new domain with dedicated service pages, city-level landing pages, and SEO architecture designed to build organic visibility from a standing start.',
+    issues: [
+      {
+        icon: 'fileText',
+        issue: 'No independent online presence',
+        resolution:
+          'Built a custom site on a new domain with structured data, schema markup, and SEO architecture designed to index quickly and rank for local care searches',
+      },
+      {
+        icon: 'zap',
+        issue: 'Six services with no dedicated search visibility',
+        resolution:
+          'Created individual service pages with city-level landing pages — each structured to rank independently for queries like "personal care Bergen County" and "companion care Englewood"',
+      },
+      {
+        icon: 'alertCircle',
+        issue: 'Strong reputation invisible to searchers',
+        resolution:
+          'Surfaced trust signals throughout — Google reviews, CHAP certification, team credentials — so credibility shows up before the first phone call',
+      },
+    ],
+    outcome: {
+      metric: '8,500+ search impressions and 270 indexed queries within 6 months',
+      description:
+        'From a standing start on a new domain, individual service pages are now pulling hundreds of impressions for high-intent local searches. The site architecture is building organic visibility exactly as designed — and it\'s still climbing.',
+    },
+  },
+];
+
+export const insightSection: InsightSection = {
+  heading: "Most Website Problems Aren't Isolated",
+  beats: [
     {
-      icon: 'fileText',
-      issue: 'Generic template with no local SEO structure',
-      resolution:
-        'Built dedicated landing pages for Fort Lee, Englewood, Hackensack, Paramus, and Ridgewood with unique content and local schema markup',
+      label: 'Scenario',
+      text: 'A physical therapy clinic sees consistent website traffic. Visitors land on treatment pages, scroll, and click between conditions. But very few schedule an appointment.',
     },
     {
-      icon: 'zap',
-      issue: 'Slow load times hurting mobile conversions',
-      resolution:
-        'Optimized images, lazy loading, and code splitting reduced page load from 4.2s to 1.1s on mobile',
+      label: 'Surface',
+      text: 'Nothing is technically broken. The site looks polished and functions as expected.',
     },
     {
-      icon: 'alertCircle',
-      issue: 'No clear conversion path for quote requests',
-      resolution:
-        'Added persistent "Get a Free Quote" CTA, simplified form fields, and phone click-to-call on mobile',
+      label: 'Problem',
+      text: "Clarity breaks down at key moments. Conditions are grouped broadly. Outcomes aren't defined. The next step appears before visitors understand what makes this clinic the right choice.",
+    },
+    {
+      label: 'Impact',
+      text: 'Individually, those gaps seem small. Together, they reduce momentum and limit results.',
+    },
+    {
+      label: 'Pattern',
+      text: "We see this pattern across industries. When messaging, structure, and next steps aren't working in sync, growth slows, even if traffic remains steady.",
+    },
+    {
+      label: 'Our Approach',
+      text: "That's why we evaluate the full system before deciding what to address.",
     },
   ],
-  outcome: {
-    metric: 'Page 1 rankings for 12+ local keywords within 90 days',
-    description:
-      'Now showing up for "pressure washing [city]" searches across 5 Bergen County towns. Lead volume up 3x from organic search.',
-  },
 };
 
 export const processSteps: ProcessStep[] = [
@@ -223,47 +290,86 @@ export const testimonials: Testimonial[] = [
     company: 'Domani Consulting',
     location: 'Fort Lee, NJ',
   },
+  {
+    quote:
+      'Placeholder testimonial — real client feedback coming soon. This will highlight how PixelVerse helped transform their online presence and drive measurable business results.',
+    name: 'Client Name',
+    role: 'Role',
+    company: 'Company Name',
+    location: 'Location, NJ',
+  },
+  {
+    quote:
+      'Placeholder testimonial — real client feedback coming soon. This will showcase the strategic approach and attention to detail that sets PixelVerse apart from template-based agencies.',
+    name: 'Client Name',
+    role: 'Role',
+    company: 'Company Name',
+    location: 'Location, NJ',
+  },
+  {
+    quote:
+      'Placeholder testimonial — real client feedback coming soon. This will demonstrate the long-term partnership value and ongoing support that clients receive after launch.',
+    name: 'Client Name',
+    role: 'Role',
+    company: 'Company Name',
+    location: 'Location, NJ',
+  },
+  {
+    quote:
+      'Placeholder testimonial — real client feedback coming soon. This will feature how PixelVerse identified and solved specific business challenges through smart web design.',
+    name: 'Client Name',
+    role: 'Role',
+    company: 'Company Name',
+    location: 'Location, NJ',
+  },
+  {
+    quote:
+      'Placeholder testimonial — real client feedback coming soon. This will highlight the collaborative process and how the team made the entire experience seamless and stress-free.',
+    name: 'Client Name',
+    role: 'Role',
+    company: 'Company Name',
+    location: 'Location, NJ',
+  },
+  {
+    quote:
+      'Placeholder testimonial — real client feedback coming soon. This will focus on the ROI and tangible business growth that resulted from the website redesign.',
+    name: 'Client Name',
+    role: 'Role',
+    company: 'Company Name',
+    location: 'Location, NJ',
+  },
 ];
 
 export const services: Service[] = [
   {
     title: 'Web Design & Development',
-    summary: 'Custom-coded websites built for performance, scalability, and long-term growth.',
+    summary:
+      'Planning, designing, and building websites that are clear, usable, and built to support real business goals.',
     icon: 'palette',
-    highlights: [
-      'Fully custom code—no templates, no limitations, no lock-in.',
-      'Launch-day QA across devices, browsers, and connection speeds.',
-    ],
     href: '/services/web-development',
   },
   {
-    title: 'Local SEO',
-    summary: 'Structured for visibility with schema, speed, and clean markup from day one.',
+    title: 'Website Optimization & SEO',
+    summary:
+      'Improving existing sites through structure, content, performance, and local search visibility to help the right people find and choose the business.',
     icon: 'search',
-    highlights: [
-      'Technical health baked into every build, no bolt-on fixes later.',
-      'Content models tuned for search intent and easy publishing.',
-    ],
     href: '/services/seo',
   },
   {
-    title: 'Ongoing Support',
-    summary: 'Flexible monthly partnerships to keep the site iterating with your business.',
+    title: 'Ongoing Support & Iteration',
+    summary:
+      'Supporting websites over time as goals evolve, content changes, or new opportunities emerge.',
     icon: 'lifebuoy',
-    highlights: [
-      'Performance reviews with prioritized action items every cycle.',
-      'Rapid experiments and updates handled by the team that built it.',
-    ],
     href: '/contact',
   },
 ];
 
 export const finalCta: FinalCta = {
-  heading: 'Ready to build something that works?',
+  heading: "Let's Talk It Through",
   description:
-    "Let's talk about your project. No sales pitch—just a real conversation about what you need and whether we're the right fit.",
+    "If you're unsure what your website needs, or whether you need one at all, the next step is a conversation.\nWe'll look at what's getting in the way and determine what kind of work actually makes sense.",
   cta: {
-    label: 'Start a Conversation',
+    label: 'Start the Conversation',
     href: '/contact',
   },
 };

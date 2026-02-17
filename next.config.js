@@ -121,8 +121,12 @@ module.exports = withSentryConfig(nextConfig, {
   // Upload source maps for better stack traces
   widenClientFileUpload: true,
 
-  // Automatically tree-shake Sentry logger statements
-  disableLogger: true,
+  // Automatically tree-shake Sentry debug logging statements
+  webpack: {
+    treeshake: {
+      removeDebugLogging: true,
+    },
+  },
 
   // Hide source maps from browsers in production
   hideSourceMaps: true,

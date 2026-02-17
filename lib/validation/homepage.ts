@@ -47,7 +47,7 @@ const ctaSchema = z.object({
 export const homepageHeroSchema = z.object({
   badge: createSafeTextSchema(100, 'Badge text'),
   headline: createSafeTextSchema(200, 'Headline'),
-  subheadline: createSafeTextSchema(500, 'Subheadline'),
+  subheadline: z.array(createSafeTextSchema(500, 'Subheadline')).min(1),
   primaryCta: ctaSchema,
   secondaryCta: ctaSchema,
 });

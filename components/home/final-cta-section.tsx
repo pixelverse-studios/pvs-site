@@ -2,32 +2,54 @@ import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
+import { finalCta } from '@/data/homepage';
 
 import { Container } from './container';
 
 export function FinalCtaSection() {
+  const lines = finalCta.description.split('\n');
+
   return (
-    <section id="contact" className="bg-[var(--pv-bg)] py-16 md:py-24">
+    <section className="bg-[var(--pv-bg)] py-24 md:py-32">
       <Container>
-        <MotionSection
-          as="div"
-          className="mx-auto max-w-3xl space-y-6 rounded-pv border border-[var(--pv-border)] bg-[var(--pv-surface)] px-6 py-16 text-center shadow-pv"
-        >
+        <MotionSection as="div" className="mx-auto max-w-2xl text-center">
+          {/* Gradient accent */}
           <MotionItem>
-            <h2 className="font-heading text-[2.5rem] leading-[3.125rem] text-[var(--pv-text)]">
-              Let&apos;s talk about what you actually need.
+            <div
+              className="mx-auto mb-8 h-1 w-12 rounded-full"
+              style={{ background: 'var(--pv-gradient)' }}
+              aria-hidden
+            />
+          </MotionItem>
+
+          {/* Heading */}
+          <MotionItem>
+            <h2 className="font-heading text-[2rem] leading-[2.5rem] tracking-[-0.02em] text-[var(--pv-text)] md:text-[2.75rem] md:leading-[3.25rem]">
+              {finalCta.heading}
             </h2>
           </MotionItem>
-          <MotionItem delay={0.1}>
-            <p className="text-lg text-[var(--pv-text-muted)]">
-              No pressure. No sales pitch. Just a conversation about your goals and how we might
-              help.
-            </p>
+
+          {/* Description paragraphs */}
+          <MotionItem delay={0.08}>
+            <div className="mx-auto mt-6 max-w-xl space-y-4">
+              {lines.map((line, i) => (
+                <p
+                  key={i}
+                  className="text-base leading-[1.75] text-[var(--pv-text-muted)] md:text-[1.0625rem]"
+                >
+                  {line}
+                </p>
+              ))}
+            </div>
           </MotionItem>
-          <MotionItem delay={0.15}>
-            <Button asChild size="lg" variant="cta" className="w-full md:w-auto">
-              <Link href="/contact">Book a Free Call</Link>
-            </Button>
+
+          {/* CTA Button */}
+          <MotionItem delay={0.14}>
+            <div className="mt-10">
+              <Button asChild variant="cta">
+                <Link href={finalCta.cta.href}>{finalCta.cta.label}</Link>
+              </Button>
+            </div>
           </MotionItem>
         </MotionSection>
       </Container>

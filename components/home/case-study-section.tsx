@@ -1,83 +1,118 @@
-import { AlertCircle, FileText, Zap, type LucideIcon } from 'lucide-react';
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { MotionItem, MotionSection } from '@/components/ui/motion-section';
-import { caseStudy } from '@/data/homepage';
+import { useState } from 'react';
 
+import { motion } from 'framer-motion';
+import { Building2, Heart, Wrench } from 'lucide-react';
+
+import { caseStudies } from '@/data/homepage';
+
+import { CaseStudyContent } from './case-study-content';
 import { Container } from './container';
 
-// Map icon string names to Lucide components
-// Defined outside component to prevent recreation on every render
-const iconMap: Record<string, LucideIcon> = {
-  alertCircle: AlertCircle,
-  zap: Zap,
-  fileText: FileText,
+const industryIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  'Home Services': Wrench,
+  'Home Healthcare': Heart,
 };
 
-// Animation timing constants
-const GRID_STAGGER_DELAY = 0.1;
-const ITEM_STAGGER_INCREMENT = 0.08;
-
 export function CaseStudySection() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const study = caseStudies[activeIndex];
+
+  if (!study) return null;
+
   return (
     <section
       className="border-b border-[var(--pv-border)] bg-[var(--pv-surface)]"
       aria-labelledby="case-study-heading"
     >
       <Container className="py-16 md:py-24">
-        <MotionSection as="div" className="space-y-12">
-          {/* Header: Client badge + Problem statement */}
-          <MotionItem className="space-y-6">
-            {/* Client badge */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] px-4 py-2 text-sm font-medium text-[var(--pv-text-muted)]">
-              <span>{caseStudy.client.name}</span>
-              <span className="text-[var(--pv-border)]">•</span>
-              <span>{caseStudy.client.industry}</span>
-            </div>
+        <div className="space-y-12">
+          {/* Eyebrow */}
+          <div className="flex items-center gap-4">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
+              Case Study
+            </p>
+            <div className="h-px flex-1 bg-[var(--pv-border)]" />
+          </div>
 
-            {/* Problem statement */}
-            <h2
-              id="case-study-heading"
-              className="max-w-4xl font-heading text-[2.5rem] leading-[3.125rem] text-[var(--pv-text)]"
-            >
-              {caseStudy.problem}
-            </h2>
-          </MotionItem>
+          {/* Sidebar selector + content */}
+          <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
+            {/* Left: Vertical card selector */}
+            {caseStudies.length > 1 && (
+              <div
+                className="flex gap-3 overflow-x-auto lg:w-72 lg:shrink-0 lg:flex-col lg:gap-2 lg:overflow-visible"
+                role="tablist"
+                aria-label="Case studies"
+              >
+                {caseStudies.map((cs, index) => {
+                  const isActive = activeIndex === index;
+                  const IndustryIcon = industryIconMap[cs.client.industry] || Building2;
 
-          {/* Issues grid */}
-          <MotionSection as="div" className="grid gap-6 md:grid-cols-3" delay={GRID_STAGGER_DELAY}>
-            {caseStudy.issues.map((item, index) => {
-              // Map icon string to Lucide component
-              const IconComponent = iconMap[item.icon ?? ''];
-              if (!IconComponent && process.env.NODE_ENV === 'development') {
-                console.warn(`Missing icon mapping for "${item.icon}". Add to iconMap.`);
-              }
-              const Icon = IconComponent || AlertCircle;
+                  return (
+                    <button
+                      key={cs.client.name}
+                      role="tab"
+                      aria-selected={isActive}
+                      aria-controls="case-study-panel"
+                      onClick={() => setActiveIndex(index)}
+                      className={`relative flex shrink-0 items-center gap-4 rounded-xl p-4 text-left transition-all duration-300 ${
+                        isActive
+                          ? 'bg-[var(--pv-bg)] shadow-md'
+                          : 'bg-transparent opacity-60 hover:opacity-100'
+                      }`}
+                    >
+                      {/* Sliding gradient left border */}
+                      {isActive && (
+                        <motion.div
+                          layoutId="caseStudySidebarBorder"
+                          className="absolute bottom-3 left-0 top-3 w-[3px] rounded-full"
+                          style={{ background: 'var(--pv-gradient)' }}
+                          transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
+                        />
+                      )}
 
-              return (
-                <MotionItem key={item.issue} delay={index * ITEM_STAGGER_INCREMENT}>
-                  <Card className="group flex h-full flex-col border-[var(--pv-border)] bg-[var(--pv-bg)] transition-transform duration-200 hover:-translate-y-1 hover:shadow-pv">
-                    <CardHeader className="flex flex-col gap-4 pb-6">
-                      <div className="flex items-start gap-3">
-                        <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-primary)] shadow-sm transition-transform duration-200 group-hover:-translate-y-0.5">
-                          <Icon className="h-5 w-5" aria-hidden="true" />
-                        </span>
-                        <CardTitle className="text-xl text-[var(--pv-text)]">
-                          {item.issue}
-                        </CardTitle>
+                      {/* Industry icon */}
+                      <div
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
+                          isActive
+                            ? 'bg-[image:var(--pv-gradient)] text-white shadow-[0_4px_12px_-4px_rgba(63,0,233,0.4)]'
+                            : 'border border-[var(--pv-border)] text-[var(--pv-text-muted)]'
+                        }`}
+                      >
+                        <IndustryIcon className="h-4.5 w-4.5" aria-hidden />
                       </div>
-                    </CardHeader>
-                    <CardContent className="flex-1 pt-0">
-                      <CardDescription className="leading-relaxed text-[var(--pv-text-muted)]">
-                        {item.resolution}
-                      </CardDescription>
-                    </CardContent>
-                  </Card>
-                </MotionItem>
-              );
-            })}
-          </MotionSection>
-        </MotionSection>
+
+                      {/* Client info */}
+                      <div className="min-w-0 pl-1">
+                        <p
+                          className={`text-sm font-semibold transition-colors duration-200 ${
+                            isActive ? 'text-[var(--pv-text)]' : 'text-[var(--pv-text-muted)]'
+                          }`}
+                        >
+                          {cs.client.name}
+                        </p>
+                        <p className="mt-0.5 text-xs text-[var(--pv-text-muted)]">
+                          {cs.client.industry} &middot; {cs.client.location}
+                        </p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Right: Content panel */}
+            <div
+              id="case-study-panel"
+              role="tabpanel"
+              className="min-w-0 flex-1"
+              key={activeIndex}
+            >
+              <CaseStudyContent study={study} animationKey={activeIndex} />
+            </div>
+          </div>
+        </div>
       </Container>
     </section>
   );
