@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
 
-import { ClosingSection } from '@/components/about/closing-section';
-import { IntroSection } from '@/components/about/intro-section';
-import { PhilosophySection } from '@/components/about/philosophy-section';
+import { AboutCtaSection } from '@/components/about/about-cta-section';
+import { AboutHeroSection } from '@/components/about/about-hero-section';
 import { TeamSection } from '@/components/about/team-section';
-import { WhyCustomSection } from '@/components/about/why-custom-section';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
@@ -24,11 +22,9 @@ export const metadata: Metadata = createPageMetadata({
 export default function AboutPage() {
   return (
     <main>
-      <IntroSection />
-      <WhyCustomSection />
-      <PhilosophySection />
+      <AboutHeroSection />
       <TeamSection />
-      <ClosingSection />
+      <AboutCtaSection />
     </main>
   );
 }
