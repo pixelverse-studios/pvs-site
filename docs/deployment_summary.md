@@ -8,6 +8,7 @@
 - Built the service path cards section — two cards showcasing Web Design & Development and Local SEO with hover effects and navigation links
 - Updated navigation bar — Services dropdown now shows the two new service paths instead of the previous three entries
 - Refined desktop navigation hover effects with brand-tinted glow, subtle lift animation, and polished active states
+- Built the clarification CTA section for the services page with dual action buttons for visitors unsure which service path to choose
 
 ## Notes for internal team
 - PVS-352: Created `/data/service-paths.ts` with TypeScript interfaces and confirmed copy
@@ -15,6 +16,7 @@
 - PVS-354: Created `components/services/services-path-cards-section.tsx` — 2-card grid with icon accent, gradient hover, and CTA links
 - PVS-354: Updated `app/layout.tsx` nav items and `components/ui/navbar.tsx` icon map — removed UX/UI Design entry, renamed to match new service paths
 - PVS-354: Redesigned navbar hover — brand-primary text, `rgba(63,0,233,0.06)` bg tint, focused purple underglow, `-translate-y-[1px]` lift, removed `::after` scale effect
+- PVS-355: Created `components/services/services-clarification-cta-section.tsx` — props-based dual-CTA with `variant="cta"` + `variant="ctaGhost"` buttons, bordered card layout
 - Components are not yet wired to a page route (page assembly comes in a later ticket)
 
 ## Changed URLs
