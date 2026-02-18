@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 
 import { ServicesClarificationCtaSection } from '@/components/services/services-clarification-cta-section';
-import { ServicesClosingCtaSection } from '@/components/services/services-closing-cta';
 import { ServicesHeroSection } from '@/components/services/services-hero-section';
 import { ServicesPathCardsSection } from '@/components/services/services-path-cards-section';
 import { servicesPageData } from '@/data/service-paths';
@@ -34,7 +33,6 @@ export default function ServicesPage() {
         primaryCta={clarificationCta.primaryCta}
         secondaryCta={clarificationCta.secondaryCta}
       />
-      <ServicesClosingCtaSection />
     </main>
   );
 }

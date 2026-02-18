@@ -23,26 +23,29 @@ export function ServicesClarificationCtaSection({
 
   return (
     <section
-      className="bg-[var(--pv-bg)] py-16 md:py-24"
+      className="bg-[var(--pv-surface)] py-16 md:py-24 dark:bg-[#0d1230]"
       aria-labelledby={headingId}
     >
       <Container>
         <MotionSection
           as="div"
-          className="mx-auto max-w-3xl space-y-6 rounded-pv border border-[var(--pv-border)] bg-[var(--pv-surface)] px-6 py-16 text-center shadow-pv"
+          className="mx-auto max-w-3xl space-y-6 text-center"
         >
           <MotionItem>
-            <h2
-              id={headingId}
-              className="font-heading text-3xl font-semibold leading-tight md:text-4xl"
-            >
-              {title}
-            </h2>
+            <div className="space-y-5">
+              <div className="mx-auto h-[3px] w-14 rounded-full bg-gradient-to-r from-[var(--pv-primary)] to-[var(--pv-primary-2)]" />
+              <h2
+                id={headingId}
+                className="font-heading text-3xl font-semibold leading-tight md:text-4xl"
+              >
+                {title}
+              </h2>
+            </div>
           </MotionItem>
 
           {paragraphs.map((paragraph, idx) => (
             <MotionItem key={`paragraph-${idx}`} delay={0.08 + idx * 0.06}>
-              <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
+              <p className="text-pretty text-lg text-[var(--pv-text-muted)] md:text-xl">
                 {paragraph}
               </p>
             </MotionItem>
