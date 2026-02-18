@@ -13,7 +13,7 @@ import {
   Info,
   LayoutDashboard,
   Menu,
-  Palette,
+
   PenSquare,
   Search,
   Sparkles,
@@ -61,9 +61,8 @@ const mobileNavIcons: Record<string, LucideIcon> = {
   Blog: PenSquare,
   FAQ: HelpCircle,
   Dashboard: LayoutDashboard,
-  'Web Development': Code2,
-  'UX/UI Design': Palette,
-  SEO: Search,
+  'Web Design & Development': Code2,
+  'Optimization & SEO': Search,
 };
 
 export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
@@ -378,12 +377,13 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                         href={item.href}
                         aria-current={isActive ? 'page' : undefined}
                         className={cn(
-                          'relative inline-flex items-center gap-1 rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-200 ease-out',
-                          'text-[var(--pv-text-muted)] hover:text-[var(--pv-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
-                          'hover:bg-white/85 hover:shadow-[0_18px_40px_-28px_rgba(63,0,233,0.25)] dark:hover:bg-white/10',
-                          'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-[border,transform] after:duration-200 group-hover:after:scale-105 group-hover:after:border-[rgba(63,0,233,0.35)] dark:group-hover:after:border-[rgba(159,166,221,0.35)]',
+                          'relative inline-flex items-center gap-1 rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-250 ease-out',
+                          'text-[var(--pv-text-muted)] hover:text-[var(--pv-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
+                          'hover:-translate-y-[1px] hover:bg-[rgba(63,0,233,0.06)] hover:shadow-[0_8px_24px_-8px_rgba(63,0,233,0.3)]',
+                          'dark:hover:bg-white/8 dark:hover:text-white dark:hover:shadow-[0_8px_24px_-8px_rgba(120,70,255,0.4)]',
+                          'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-all after:duration-250 group-hover:after:border-[rgba(63,0,233,0.2)] dark:group-hover:after:border-[rgba(159,166,221,0.25)]',
                           isActive &&
-                            'bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)] after:scale-100 after:border-transparent hover:text-white',
+                            'bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)] after:scale-100 after:border-transparent hover:translate-y-0 hover:text-white hover:shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)]',
                         )}
                       >
                         {item.label}
@@ -450,12 +450,13 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                     href={item.href}
                     aria-current={isActive ? 'page' : undefined}
                     className={cn(
-                      'group relative inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-200 ease-out',
-                      'text-[var(--pv-text-muted)] hover:text-[var(--pv-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
-                      'hover:bg-white/85 hover:shadow-[0_18px_40px_-28px_rgba(63,0,233,0.25)] dark:hover:bg-white/10',
-                      'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-[border,transform] after:duration-200 group-hover:after:scale-105 group-hover:after:border-[rgba(63,0,233,0.35)] dark:group-hover:after:border-[rgba(159,166,221,0.35)]',
+                      'group relative inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-250 ease-out',
+                      'text-[var(--pv-text-muted)] hover:text-[var(--pv-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
+                      'hover:-translate-y-[1px] hover:bg-[rgba(63,0,233,0.06)] hover:shadow-[0_8px_24px_-8px_rgba(63,0,233,0.3)]',
+                      'dark:hover:bg-white/8 dark:hover:text-white dark:hover:shadow-[0_8px_24px_-8px_rgba(120,70,255,0.4)]',
+                      'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-all after:duration-250 hover:after:border-[rgba(63,0,233,0.2)] dark:hover:after:border-[rgba(159,166,221,0.25)]',
                       isActive &&
-                        'bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)] after:scale-100 after:border-transparent hover:text-white',
+                        'bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)] after:scale-100 after:border-transparent hover:translate-y-0 hover:text-white hover:shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)]',
                     )}
                   >
                     {item.label}
