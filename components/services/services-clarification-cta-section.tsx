@@ -33,10 +33,10 @@ export function ServicesClarificationCtaSection({
         >
           <MotionItem>
             <div className="space-y-5">
-              <div className="mx-auto h-[3px] w-14 rounded-full bg-gradient-to-r from-[#3f00e9] to-[#c947ff]" />
+              <div className="mx-auto h-[3px] w-14 rounded-full bg-gradient-to-r from-[var(--pv-primary)] to-[var(--pv-primary-2)]" />
               <h2
                 id={headingId}
-                className="font-heading text-3xl font-semibold leading-tight text-[var(--pv-text)] dark:text-white md:text-4xl"
+                className="font-heading text-3xl font-semibold leading-tight md:text-4xl"
               >
                 {title}
               </h2>
@@ -45,7 +45,7 @@ export function ServicesClarificationCtaSection({
 
           {paragraphs.map((paragraph, idx) => (
             <MotionItem key={`paragraph-${idx}`} delay={0.08 + idx * 0.06}>
-              <p className="text-pretty text-lg text-[var(--pv-text-muted)] dark:text-white/60 md:text-xl">
+              <p className="text-pretty text-lg text-[var(--pv-text-muted)] md:text-xl">
                 {paragraph}
               </p>
             </MotionItem>

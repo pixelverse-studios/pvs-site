@@ -20,8 +20,8 @@ export function ServicesHeroSection({
       className="bg-[var(--pv-surface)] pb-16 pt-hero md:pb-24 md:pt-hero"
       aria-labelledby={headingId}
     >
-      <Container className="max-w-2xl text-center">
-        <MotionSection as="div" className="space-y-6">
+      <Container className="text-center">
+        <MotionSection as="div" className="mx-auto max-w-2xl space-y-6">
           <MotionItem>
             <h1
               id={headingId}
