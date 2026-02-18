@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import {
   BarChart3,
   ClipboardList,
@@ -36,6 +37,7 @@ export type IconKey = keyof typeof iconMap;
 export interface BulletPoint {
   text: string;
   icon?: IconKey;
+  href?: string;
 }
 
 export type BulletLayout = 'cards' | 'inline' | 'connected';
@@ -102,6 +104,15 @@ function CardsVariant({ bulletPoints, background }: BulletVariantsProps) {
               <p className="relative pr-10 text-[0.9375rem] leading-[1.75] text-[var(--pv-text-muted)] md:text-base md:leading-[1.8]">
                 {point.text}
               </p>
+
+              {point.href && (
+                <Link
+                  href={point.href}
+                  className="mt-3 inline-flex text-sm font-medium text-[var(--pv-primary)] transition-colors hover:text-[var(--pv-primary-2)]"
+                >
+                  Learn more &rarr;
+                </Link>
+              )}
             </div>
           </MotionItem>
         );
@@ -120,6 +131,15 @@ function InlineVariant({ bulletPoints }: BulletVariantsProps) {
         {bulletPoints.map((point, i) => {
           const iconColor = getIconColor(i, bulletPoints.length);
           const IconComponent = point.icon ? iconMap[point.icon] : null;
+          const chipClasses = "inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)]/60 px-4 py-2 text-[0.9375rem] text-[var(--pv-text-muted)] transition-all duration-200 hover:border-[var(--pv-primary)]/30 hover:text-[var(--pv-text)]";
+          const chipContent = (
+            <>
+              {IconComponent && (
+                <IconComponent className="h-3.5 w-3.5 shrink-0" style={{ color: iconColor }} />
+              )}
+              {point.text}
+            </>
+          );
 
           return (
             <MotionItem
@@ -127,12 +147,15 @@ function InlineVariant({ bulletPoints }: BulletVariantsProps) {
               delay={i * 0.06}
               className="group"
             >
-              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)]/60 px-4 py-2 text-[0.9375rem] text-[var(--pv-text-muted)] transition-all duration-200 hover:border-[var(--pv-primary)]/30 hover:text-[var(--pv-text)]">
-                {IconComponent && (
-                  <IconComponent className="h-3.5 w-3.5 shrink-0" style={{ color: iconColor }} />
-                )}
-                {point.text}
-              </span>
+              {point.href ? (
+                <Link href={point.href} className={chipClasses}>
+                  {chipContent}
+                </Link>
+              ) : (
+                <span className={chipClasses}>
+                  {chipContent}
+                </span>
+              )}
             </MotionItem>
           );
         })}
@@ -192,6 +215,15 @@ function ConnectedVariant({ bulletPoints, background }: BulletVariantsProps) {
                 <p className="text-[0.9375rem] leading-[1.75] text-[var(--pv-text-muted)] md:text-base md:leading-[1.8]">
                   {point.text}
                 </p>
+
+                {point.href && (
+                  <Link
+                    href={point.href}
+                    className="mt-2 inline-flex text-sm font-medium text-[var(--pv-primary)] transition-colors hover:text-[var(--pv-primary-2)]"
+                  >
+                    Learn more &rarr;
+                  </Link>
+                )}
               </MotionItem>
             );
           })}

@@ -12,7 +12,7 @@ import { createPageMetadata } from '@/lib/metadata';
 export const metadata: Metadata = createPageMetadata({
   title: 'About Us — Partnership-Driven Web Design & Development | PixelVerse Studios',
   description:
-    'Learn how PixelVerse Studios partners with businesses to plan, build, and improve websites with intention and long-term use in mind. System thinking, clarity-first approach.',
+    'PixelVerse Studios partners with businesses using a system-thinking, clarity-first approach to web design, development, and optimization.',
   path: '/about',
   keywords: [
     'partnership approach web development',
