@@ -1,29 +1,17 @@
-export interface WebDevCTA {
-  label: string;
-  href: string;
-}
-
-export interface WebDevCrossLink {
-  text: string;
-  href: string;
-}
-
-export interface WebDevBulletPoint {
-  text: string;
-}
+import type { CTA } from './service-paths';
 
 export interface WebDevContentData {
   hero: {
     title: string;
     description: string;
-    cta: WebDevCTA;
+    cta: CTA;
   };
   whenNewWebsite: {
     title: string;
     intro: string;
-    bulletPoints: WebDevBulletPoint[];
+    bulletPoints: string[];
     closing: string;
-    crossLink: WebDevCrossLink;
+    crossLink: CTA;
   };
   whyBuildsGoWrong: {
     title: string;
@@ -32,7 +20,7 @@ export interface WebDevContentData {
   howWePlan: {
     title: string;
     intro: string;
-    bulletPoints: WebDevBulletPoint[];
+    bulletPoints: string[];
     closing: string;
   };
   designAndDevelopment: {
@@ -42,13 +30,13 @@ export interface WebDevContentData {
   whatToExpect: {
     title: string;
     intro: string;
-    bulletPoints: WebDevBulletPoint[];
+    bulletPoints: string[];
     closing: string;
   };
   finalCta: {
     title: string;
     description: string;
-    cta: WebDevCTA;
+    cta: CTA;
   };
 }
 
@@ -67,22 +55,16 @@ export const webDevelopmentContent: WebDevContentData = {
     intro:
       'Not every website issue calls for a rebuild. But in some situations, starting fresh is the more practical and cost-effective path.\n\nThat\u2019s often the case when:',
     bulletPoints: [
-      {
-        text: 'There isn\u2019t a website yet, or the current one no longer reflects how the business operates',
-      },
-      { text: 'The structure has grown inconsistent as services expanded' },
-      { text: 'The site is difficult to update or maintain' },
-      {
-        text: 'Messaging no longer aligns with what the business actually offers',
-      },
-      {
-        text: 'Previous fixes have added layers without resolving the core issue',
-      },
+      'There isn\u2019t a website yet, or the current one no longer reflects how the business operates',
+      'The structure has grown inconsistent as services expanded',
+      'The site is difficult to update or maintain',
+      'Messaging no longer aligns with what the business actually offers',
+      'Previous fixes have added layers without resolving the core issue',
     ],
     closing:
       'In these cases, continuing to layer fixes onto the existing site can increase complexity without addressing the root problem.\n\nIf your site has a solid foundation and only needs stronger visibility or clearer positioning, optimization is often the better path.',
     crossLink: {
-      text: 'Learn more about Local Website Optimization & SEO',
+      label: 'Learn more about Local Website Optimization & SEO',
       href: '/services/seo',
     },
   },
@@ -92,14 +74,13 @@ export const webDevelopmentContent: WebDevContentData = {
   },
   howWePlan: {
     title: 'How We Plan Before We Build',
-    intro: 'We don\u2019t start with layouts or code.\n\nWe start by clarifying:',
+    intro:
+      'We don\u2019t start with layouts or code.\n\nWe start by clarifying:',
     bulletPoints: [
-      { text: 'What the website needs to support for the business' },
-      { text: 'How services should be structured and explained' },
-      { text: 'How visitors should move through the site' },
-      {
-        text: 'What constraints exist around timeline, budget, and technology',
-      },
+      'What the website needs to support for the business',
+      'How services should be structured and explained',
+      'How visitors should move through the site',
+      'What constraints exist around timeline, budget, and technology',
     ],
     closing:
       'From there, we define a clear site structure, content direction, and technical approach before any design begins.\n\nThat planning becomes the roadmap for everything that follows. It allows design and development decisions to be made with intention instead of guesswork.',
@@ -113,18 +94,18 @@ export const webDevelopmentContent: WebDevContentData = {
     intro:
       'When a build moves forward, the process is structured and transparent.\n\nYou can expect:',
     bulletPoints: [
-      { text: 'A defined site structure before design begins' },
-      { text: 'Clear design direction aligned with business goals' },
-      { text: 'A development phase with review milestones' },
-      { text: 'Thorough testing before launch' },
+      'A defined site structure before design begins',
+      'Clear design direction aligned with business goals',
+      'A development phase with review milestones',
+      'Thorough testing before launch',
     ],
     closing:
       'The result is a site that reflects the business accurately and supports its next stage of growth.',
   },
   finalCta: {
-    title: "Let's Talk It Through",
+    title: 'Let\u2019s Talk It Through',
     description:
-      "If you\u2019re considering a new website, or unsure whether your current one still fits, the next step is a conversation.\n\nWe\u2019ll review your situation and determine what actually makes sense before anything moves forward.",
+      'If you\u2019re considering a new website, or unsure whether your current one still fits, the next step is a conversation.\n\nWe\u2019ll review your situation and determine what actually makes sense before anything moves forward.',
     cta: {
       label: 'Discuss Your Project',
       href: '/contact',
