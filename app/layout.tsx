@@ -106,19 +106,14 @@ const navItems = [
     href: '/services',
     children: [
       {
-        label: 'Web Development',
+        label: 'Web Design & Development',
         href: '/services/web-development',
-        description: 'Custom-coded websites built for performance',
+        description: 'Custom-coded websites built from the ground up',
       },
       {
-        label: 'UX/UI Design',
-        href: '/services/ux-ui-design',
-        description: 'Strategic design that drives conversions',
-      },
-      {
-        label: 'SEO',
+        label: 'Optimization & SEO',
         href: '/services/seo',
-        description: 'Search optimization for lasting visibility',
+        description: 'Local visibility and search performance',
       },
     ],
   },
