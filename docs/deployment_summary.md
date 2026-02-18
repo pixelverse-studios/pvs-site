@@ -135,6 +135,10 @@
 - Added three distinct bullet point layout variants to About page sections (cards, inline chips, connected pillars)
 - Improved homepage process section mobile layout (no longer cramped on small screens)
 - Moved testimonial card gradient accent from top to bottom for visual differentiation from services cards
+- Added internal links from About page to service pages (UX/UI Design, Web Development, SEO)
+- Integrated target SEO keywords naturally into About page narrative sections
+- Improved About page meta description for search engine visibility (137 chars)
+- Enhanced About page accessibility: semantic `<article>` and `<blockquote>` tags for testimonials, `aria-labelledby` on all narrative sections, `aria-label` on external Google reviews link
 
 ## Notes for internal team
 - PVS-379 review fixes: Removed unused variant switcher widget and dead code (timeline/panels variants)
@@ -142,6 +146,12 @@
 - Removed `BulletVariantProvider` context wrapper — all sections use explicit layout props
 - Net code reduction: ~210 lines deleted
 - Process section changed from flex to CSS grid: `sm:grid-cols-2 lg:grid-cols-4`
+- PVS-380: SEO optimization and internal linking for About page
+- Added `href` field to `BulletPoint` interface — connected variant items now render "Learn more" links when href is present
+- Keywords integrated: "partnership approach web development" (hero), "system thinking web design" (Our Approach), "consultative web agency Bergen County" (Built for Clarity), "long-term web development" (Long-Term Perspective)
+- Testimonial cards wrapped in `<article>` with `<blockquote>` and `<footer>` semantic tags
+- Each narrative `<section>` now has `aria-labelledby` pointing to its heading `id`
+- Meta description shortened from 173 → 137 chars with primary keywords
 
 ## Changed URLs
 

@@ -19,7 +19,7 @@ export interface AboutHero {
 export interface NarrativeSection {
   title: string;
   intro: string;
-  bulletPoints: Array<{ text: string; icon?: IconKey }>;
+  bulletPoints: Array<{ text: string; icon?: IconKey; href?: string }>;
   closing: string;
 }
 
@@ -84,7 +84,7 @@ export const aboutContent: AboutContentData = {
     eyebrow: 'About Pixelverse Studios',
     title: 'How We Work',
     description:
-      'Pixelverse Studios partners with businesses to plan, build, and improve websites with intention and long-term use in mind.\n\nBusinesses often come to us feeling unsure about what their website should be doing, why it isn\'t working, or what to fix first. Our role is to slow that moment down, ask the right questions, and help clarify what actually needs to happen before decisions are made.\n\nThat approach shapes everything we do.',
+      'Pixelverse Studios takes a partnership approach to web development — working alongside businesses to plan, build, and improve websites with intention and long-term use in mind.\n\nBusinesses often come to us feeling unsure about what their website should be doing, why it isn\'t working, or what to fix first. Our role is to slow that moment down, ask the right questions, and help clarify what actually needs to happen before decisions are made.\n\nThat approach shapes everything we do.',
   },
 
   // --------------------------------------------------------------------------
@@ -93,7 +93,7 @@ export const aboutContent: AboutContentData = {
   ourApproach: {
     title: 'Our Approach',
     intro:
-      'We don\'t treat websites as isolated design or technical projects. We treat them as systems that need to support real business goals.',
+      'We don\'t treat websites as isolated design or technical projects. We apply system thinking to web design — treating every site as an interconnected whole that needs to support real business goals.',
     bulletPoints: [
       { text: 'understanding what the business needs the website to accomplish', icon: 'compass' },
       { text: 'identifying what\'s helping or holding things back', icon: 'search' },
@@ -109,7 +109,7 @@ export const aboutContent: AboutContentData = {
   builtForClarity: {
     title: 'Built for Clarity, Not Assumptions',
     intro:
-      'Many websites struggle because early decisions were made without enough context. Design choices, development approaches, or SEO tactics were applied before the underlying problem was clearly understood.\n\nWe work differently.\n\nBefore recommending a direction, we take the time to understand:',
+      'Many websites struggle because early decisions were made without enough context. Design choices, development approaches, or SEO tactics were applied before the underlying problem was clearly understood.\n\nAs a consultative web agency serving Bergen County and beyond, we work differently.\n\nBefore recommending a direction, we take the time to understand:',
     bulletPoints: [
       { text: 'the current situation', icon: 'clipboardList' },
       { text: 'the constraints involved', icon: 'shieldCheck' },
@@ -127,9 +127,9 @@ export const aboutContent: AboutContentData = {
     intro:
       'Our work spans web design, development, and local optimization, but those disciplines aren\'t treated as separate silos.',
     bulletPoints: [
-      { text: 'Design supports clarity and usability.', icon: 'palette' },
-      { text: 'Development provides stability and flexibility.', icon: 'code' },
-      { text: 'Optimization helps the site remain visible and effective over time.', icon: 'barChart' },
+      { text: 'Design supports clarity and usability.', icon: 'palette', href: '/services/ux-ui-design' },
+      { text: 'Development provides stability and flexibility.', icon: 'code', href: '/services/web-development' },
+      { text: 'Optimization helps the site remain visible and effective over time.', icon: 'barChart', href: '/services/seo' },
     ],
     closing:
       'By treating these as connected parts of the same system, we\'re able to make decisions that hold up beyond launch and adapt as needs change.',
@@ -140,7 +140,7 @@ export const aboutContent: AboutContentData = {
   // --------------------------------------------------------------------------
   longTermPerspective: {
     title: 'A Long-Term Perspective',
-    body: 'We don\'t view websites as one-time deliverables.\n\nBusinesses change. Services evolve. Markets shift. A website should be able to respond to that without becoming fragile or confusing.\n\nOur focus is on creating work that can be refined, improved, and built on over time, whether that\'s through ongoing optimization, iterative updates, or future growth.',
+    body: 'We don\'t view websites as one-time deliverables.\n\nBusinesses change. Services evolve. Markets shift. A website should be able to respond to that without becoming fragile or confusing.\n\nOur approach to long-term web development means creating work that can be refined, improved, and built on over time — whether that\'s through ongoing optimization, iterative updates, or future growth.',
   },
 
   // --------------------------------------------------------------------------

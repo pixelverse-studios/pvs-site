@@ -32,6 +32,7 @@ export function AboutNarrativeSection({
   bulletLayout,
 }: AboutNarrativeSectionProps) {
   const hasBullets = bulletPoints && bulletPoints.length > 0;
+  const headingId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
   return (
     <section
@@ -39,13 +40,14 @@ export function AboutNarrativeSection({
         'py-16 md:py-24',
         background === 'surface' && 'bg-[var(--pv-surface)]',
       )}
+      aria-labelledby={headingId}
     >
       <Container>
         <MotionSection as="div" className="space-y-10">
           {/* Prose content stays narrow for readability */}
           <div className="mx-auto max-w-3xl space-y-6">
             <MotionItem>
-              <h2 className="text-balance font-heading text-3xl tracking-tight md:text-4xl">
+              <h2 id={headingId} className="text-balance font-heading text-3xl tracking-tight md:text-4xl">
                 {title}
               </h2>
             </MotionItem>

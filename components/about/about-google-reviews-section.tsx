@@ -23,6 +23,7 @@ export function AboutGoogleReviewsSection({
 
   const fullStars = Math.floor(reviews.rating);
   const hasHalfStar = reviews.rating % 1 >= 0.5;
+  const headingId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
   return (
     <section
@@ -30,11 +31,12 @@ export function AboutGoogleReviewsSection({
         'py-16 md:py-24',
         background === 'surface' && 'bg-[var(--pv-surface)]',
       )}
+      aria-labelledby={headingId}
     >
       <Container>
         <MotionSection as="div" className="flex flex-col items-center gap-6 text-center">
           <MotionItem>
-            <h2 className="font-heading text-3xl tracking-tight md:text-4xl">{title}</h2>
+            <h2 id={headingId} className="font-heading text-3xl tracking-tight md:text-4xl">{title}</h2>
           </MotionItem>
 
           {description && (
@@ -71,7 +73,7 @@ export function AboutGoogleReviewsSection({
 
           <MotionItem delay={0.2}>
             <Button asChild variant="outline" size="lg">
-              <a href={reviews.gbpUrl} target="_blank" rel="noopener noreferrer">
+              <a href={reviews.gbpUrl} target="_blank" rel="noopener noreferrer" aria-label="View all PixelVerse Studios reviews on Google Business Profile (opens in new tab)">
                 View All Reviews on Google
                 <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
               </a>
