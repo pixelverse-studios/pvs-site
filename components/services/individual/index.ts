@@ -27,3 +27,6 @@ export type { ServiceNarrativeSectionProps } from './service-narrative-section';
 
 export { ServiceBulletList } from './service-bullet-list';
 export type { ServiceBulletListProps, ServiceBulletItem } from './service-bullet-list';
+
+export { ServiceExpectations } from './service-expectations';
+export type { ServiceExpectationsProps, ServiceExpectationItem } from './service-expectations';
