@@ -32,17 +32,17 @@ export function ProcessSection() {
             </p>
           </MotionItem>
 
-          {/* Process Steps - Horizontal on desktop, vertical on mobile */}
+          {/* Process Steps - stacked on mobile, 2×2 on tablet, 4-across on desktop */}
           <MotionSection
             as="div"
-            className="relative flex flex-col gap-8 md:flex-row md:items-stretch md:justify-between"
+            className="relative grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
             delay={0.1}
           >
             {steps.map((step, index) => (
               <MotionItem
                 key={step.title}
                 delay={index * CARD_STAGGER_INCREMENT}
-                className="relative flex-1"
+                className="relative"
               >
                 {/* Process Card */}
                 <div className="group relative flex h-full flex-col items-center space-y-4 rounded-pv border border-[var(--pv-border)] bg-[var(--pv-surface)] p-6 text-center shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-pv">
@@ -63,7 +63,7 @@ export function ProcessSection() {
                 {/* Connecting Line (desktop only, hidden on last item) */}
                 {index < steps.length - 1 && (
                   <div
-                    className="absolute left-[calc(100%+1rem)] top-[2.25rem] hidden h-0.5 w-[calc(100%-2rem)] bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] opacity-30 md:block"
+                    className="absolute left-[calc(100%+0.75rem)] top-[2.25rem] hidden h-0.5 w-[calc(1.5rem-0.5rem)] bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] opacity-30 lg:block"
                     aria-hidden="true"
                   />
                 )}

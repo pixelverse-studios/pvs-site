@@ -4,6 +4,8 @@
 // Centralized content for the About page following narrative-driven architecture
 // All components consume from this single source of truth
 
+import type { IconKey } from '@/components/about/bullet-variants';
+
 // ----------------------------------------------------------------------------
 // Type Definitions
 // ----------------------------------------------------------------------------
@@ -17,7 +19,7 @@ export interface AboutHero {
 export interface NarrativeSection {
   title: string;
   intro: string;
-  bulletPoints: Array<{ text: string }>;
+  bulletPoints: Array<{ text: string; icon?: IconKey }>;
   closing: string;
 }
 
@@ -93,9 +95,9 @@ export const aboutContent: AboutContentData = {
     intro:
       'We don\'t treat websites as isolated design or technical projects. We treat them as systems that need to support real business goals.',
     bulletPoints: [
-      { text: 'understanding what the business needs the website to accomplish' },
-      { text: 'identifying what\'s helping or holding things back' },
-      { text: 'making decisions based on structure, clarity, and long-term use' },
+      { text: 'understanding what the business needs the website to accomplish', icon: 'compass' },
+      { text: 'identifying what\'s helping or holding things back', icon: 'search' },
+      { text: 'making decisions based on structure, clarity, and long-term use', icon: 'layoutGrid' },
     ],
     closing:
       'Sometimes that leads to building something new. Other times it means improving what already exists. The work changes, but the thinking stays consistent.',
@@ -109,9 +111,9 @@ export const aboutContent: AboutContentData = {
     intro:
       'Many websites struggle because early decisions were made without enough context. Design choices, development approaches, or SEO tactics were applied before the underlying problem was clearly understood.\n\nWe work differently.\n\nBefore recommending a direction, we take the time to understand:',
     bulletPoints: [
-      { text: 'the current situation' },
-      { text: 'the constraints involved' },
-      { text: 'what success actually looks like for the business' },
+      { text: 'the current situation', icon: 'clipboardList' },
+      { text: 'the constraints involved', icon: 'shieldCheck' },
+      { text: 'what success actually looks like for the business', icon: 'trendingUp' },
     ],
     closing:
       'That clarity helps avoid unnecessary work and keeps effort focused where it matters most.',
@@ -125,9 +127,9 @@ export const aboutContent: AboutContentData = {
     intro:
       'Our work spans web design, development, and local optimization, but those disciplines aren\'t treated as separate silos.',
     bulletPoints: [
-      { text: 'Design supports clarity and usability.' },
-      { text: 'Development provides stability and flexibility.' },
-      { text: 'Optimization helps the site remain visible and effective over time.' },
+      { text: 'Design supports clarity and usability.', icon: 'palette' },
+      { text: 'Development provides stability and flexibility.', icon: 'code' },
+      { text: 'Optimization helps the site remain visible and effective over time.', icon: 'barChart' },
     ],
     closing:
       'By treating these as connected parts of the same system, we\'re able to make decisions that hold up beyond launch and adapt as needs change.',

@@ -2,13 +2,16 @@ import { cn } from '@/lib/utils';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
+import { type BulletLayout, type BulletPoint, BulletVariants } from './bullet-variants';
+
 interface AboutNarrativeSectionProps {
   title: string;
   intro?: string;
   body?: string;
-  bulletPoints?: Array<{ text: string }>;
+  bulletPoints?: BulletPoint[];
   closing?: string;
   background?: 'surface' | 'default';
+  bulletLayout?: BulletLayout;
 }
 
 function renderParagraphs(text: string, className?: string) {
@@ -26,7 +29,10 @@ export function AboutNarrativeSection({
   bulletPoints,
   closing,
   background = 'default',
+  bulletLayout,
 }: AboutNarrativeSectionProps) {
+  const hasBullets = bulletPoints && bulletPoints.length > 0;
+
   return (
     <section
       className={cn(
@@ -34,48 +40,41 @@ export function AboutNarrativeSection({
         background === 'surface' && 'bg-[var(--pv-surface)]',
       )}
     >
-      <Container className="mx-auto max-w-3xl">
-        <MotionSection as="div" className="space-y-6">
-          <MotionItem>
-            <h2 className="text-balance font-heading text-3xl tracking-tight md:text-4xl">
-              {title}
-            </h2>
-          </MotionItem>
-
-          {intro && (
-            <MotionItem delay={0.1}>
-              <div className="space-y-4">{renderParagraphs(intro)}</div>
+      <Container>
+        <MotionSection as="div" className="space-y-10">
+          {/* Prose content stays narrow for readability */}
+          <div className="mx-auto max-w-3xl space-y-6">
+            <MotionItem>
+              <h2 className="text-balance font-heading text-3xl tracking-tight md:text-4xl">
+                {title}
+              </h2>
             </MotionItem>
+
+            {intro && (
+              <MotionItem delay={0.1}>
+                <div className="space-y-4">{renderParagraphs(intro)}</div>
+              </MotionItem>
+            )}
+
+            {body && (
+              <MotionItem delay={0.1}>
+                <div className="space-y-4">{renderParagraphs(body)}</div>
+              </MotionItem>
+            )}
+          </div>
+
+          {/* Bullet points — variant controlled by context */}
+          {hasBullets && (
+            <BulletVariants bulletPoints={bulletPoints} background={background} layout={bulletLayout ?? 'cards'} />
           )}
 
-          {body && (
-            <MotionItem delay={0.1}>
-              <div className="space-y-4">{renderParagraphs(body)}</div>
-            </MotionItem>
-          )}
-
-          {bulletPoints && bulletPoints.length > 0 && (
-            <MotionItem delay={0.15}>
-              <ul className="space-y-3 pl-1">
-                {bulletPoints.map((point, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <span
-                      aria-hidden="true"
-                      className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--pv-primary)]"
-                    />
-                    <span className="text-lg leading-relaxed text-[var(--pv-text-muted)]">
-                      {point.text}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </MotionItem>
-          )}
-
+          {/* Closing prose back to narrow column */}
           {closing && (
-            <MotionItem delay={0.2}>
-              <div className="space-y-4">{renderParagraphs(closing)}</div>
-            </MotionItem>
+            <div className="mx-auto max-w-3xl">
+              <MotionItem delay={0.2}>
+                <div className="space-y-4">{renderParagraphs(closing)}</div>
+              </MotionItem>
+            </div>
           )}
         </MotionSection>
       </Container>

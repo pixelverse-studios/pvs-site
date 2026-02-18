@@ -12,9 +12,9 @@ import { Container } from './container';
 function TestimonialCard({ testimonial }: { testimonial: (typeof testimonials)[number] }) {
   return (
     <blockquote className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-bg)] p-7 shadow-[0_4px_6px_rgba(63,0,233,0.04),0_16px_40px_-12px_rgba(63,0,233,0.1)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_4px_6px_rgba(63,0,233,0.06),0_24px_48px_-12px_rgba(63,0,233,0.14)] md:p-8">
-      {/* Gradient top accent */}
+      {/* Gradient bottom accent */}
       <div
-        className="absolute left-0 right-0 top-0 h-[2px]"
+        className="absolute bottom-0 left-0 right-0 h-[2px]"
         style={{ background: 'var(--pv-gradient)' }}
         aria-hidden
       />
