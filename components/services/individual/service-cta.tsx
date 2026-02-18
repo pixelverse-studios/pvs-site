@@ -5,10 +5,7 @@ import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import { cn } from '@/lib/utils';
 
-interface CtaLink {
-  label: string;
-  href: string;
-}
+import type { CtaLink } from './service-hero';
 
 export interface ServiceCtaProps {
   /** Main CTA heading */

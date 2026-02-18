@@ -12,7 +12,7 @@ import { MotionItem, MotionSection } from '@/components/ui/motion-section';
  * as well as action-oriented labels (e.g., "Get a Free Quote", "View Our Work").
  * No label text is hardcoded — pass whatever fits the page tone.
  */
-interface CtaLink {
+export interface CtaLink {
   label: string;
   href: string;
 }
@@ -24,6 +24,7 @@ interface CtaLink {
  *
  * @example Conversational tone (Web Development page)
  * ```tsx
+ * // import { Monitor } from 'lucide-react'; // icon is optional — import from lucide-react
  * <ServiceHero
  *   eyebrow="Web Design & Development"
  *   title="Websites Built to Convert, Not Just Look Good"
