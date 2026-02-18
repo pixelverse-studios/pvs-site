@@ -3,7 +3,9 @@
 <!-- This file is automatically sent via email on successful deployment, then reset for the next cycle -->
 
 ## Latest deploy summary
-
+- Created centralized data structure for the About page with all confirmed copy
+- Added team bios (Sami & Phil) and placeholder client testimonials to data file
+- Built reusable About page section components (narrative sections, testimonials, Google reviews)
 - Added 5-star client rating badge to homepage hero section
 - Refactored homepage to use centralized data architecture for easier content updates
 - Simplified services section to 3 focused cards: Web Design & Development, Local SEO, and Ongoing Support
@@ -30,7 +32,13 @@
 - Fixed Sentry build deprecation warnings
 
 ## Notes for internal team
-
+- PVS-375: Created `/data/about.ts` with TypeScript interfaces and all 6 narrative sections
+- Team bios pulled from existing `components/about/team-section.tsx`
+- 3 placeholder testimonials included — replace with real client quotes when available
+- Google Reviews placeholder included — update with real GBP data
+- PVS-376: Created 3 new components — `about-narrative-section.tsx`, `about-testimonials-section.tsx`, `about-google-reviews-section.tsx`
+- Narrative section handles both `intro + bulletPoints + closing` and prose-only `body` patterns
+- Google Reviews section auto-hides when reviewCount is 0
 - PVS-322: Refactored hero section to consume data from `/data/homepage.ts`
 - Added Badge component with 5-star emoji display
 - All homepage hero content now driven by centralized data structure
@@ -101,9 +109,6 @@
 - Added 6 placeholder testimonials (9 total) for fuller carousel experience
 - Updated services section copy to match final brand messaging
 - Redesigned final CTA section with premium open layout and gradient background wash
-
-## Notes for internal team
-
 - PVS-329 continued: Case study section rewritten to use sidebar variant (Option C) with `layoutId` sliding gradient border
 - Extracted shared case study content into `/components/home/case-study-content.tsx`
 - Deleted variant files: `case-study-variant-a.tsx`, `case-study-variant-b.tsx`, `case-study-variant-c.tsx`, `case-study-switcher.tsx`
@@ -127,7 +132,28 @@
 - Final CTA section: removed bordered card, added radial gradient glow wash, btn-shimmer CTA with ArrowRight
 - Updated `finalCta` data: heading "Let's Talk It Through", CTA "Start the Conversation"
 - Deleted all subagent-generated docs from `docs/design/` directory
+- Added three distinct bullet point layout variants to About page sections (cards, inline chips, connected pillars)
+- Improved homepage process section mobile layout (no longer cramped on small screens)
+- Moved testimonial card gradient accent from top to bottom for visual differentiation from services cards
+- Added internal links from About page to service pages (UX/UI Design, Web Development, SEO)
+- Integrated target SEO keywords naturally into About page narrative sections
+- Improved About page meta description for search engine visibility (137 chars)
+- Enhanced About page accessibility: semantic `<article>` and `<blockquote>` tags for testimonials, `aria-labelledby` on all narrative sections, `aria-label` on external Google reviews link
+
+## Notes for internal team
+- PVS-379 review fixes: Removed unused variant switcher widget and dead code (timeline/panels variants)
+- Tightened icon type safety with `IconKey` derived from `as const` map — invalid icon names are now compile errors
+- Removed `BulletVariantProvider` context wrapper — all sections use explicit layout props
+- Net code reduction: ~210 lines deleted
+- Process section changed from flex to CSS grid: `sm:grid-cols-2 lg:grid-cols-4`
+- PVS-380: SEO optimization and internal linking for About page
+- Added `href` field to `BulletPoint` interface — connected variant items now render "Learn more" links when href is present
+- Keywords integrated: "partnership approach web development" (hero), "system thinking web design" (Our Approach), "consultative web agency Bergen County" (Built for Clarity), "long-term web development" (Long-Term Perspective)
+- Testimonial cards wrapped in `<article>` with `<blockquote>` and `<footer>` semantic tags
+- Each narrative `<section>` now has `aria-labelledby` pointing to its heading `id`
+- Meta description shortened from 173 → 137 chars with primary keywords
 
 ## Changed URLs
 
+- https://www.pixelversestudios.io/about
 - https://www.pixelversestudios.io/

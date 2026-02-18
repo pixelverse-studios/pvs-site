@@ -63,6 +63,13 @@ export interface InsightSection {
   beats: InsightBeat[];
 }
 
+export interface ProcessSection {
+  eyebrow: string;
+  heading: string;
+  subtitle: string;
+  steps: ProcessStep[];
+}
+
 export interface ProcessStep {
   number: number;
   title: string;
@@ -238,32 +245,38 @@ export const insightSection: InsightSection = {
   ],
 };
 
-export const processSteps: ProcessStep[] = [
-  {
-    number: 1,
-    title: 'Discovery & Strategy',
-    description:
-      'We start by understanding your business, audience, and goals. What problems are you solving? Who needs to find you? What actions matter most?',
-  },
-  {
-    number: 2,
-    title: 'Design & Architecture',
-    description:
-      'Wireframes, user flows, and content strategy before any code. We validate the structure with you before building to avoid expensive revisions later.',
-  },
-  {
-    number: 3,
-    title: 'Development & SEO',
-    description:
-      'Custom Next.js build with performance optimization, accessibility compliance, and SEO foundations baked in—not bolted on.',
-  },
-  {
-    number: 4,
-    title: 'Launch & Optimization',
-    description:
-      'Pre-launch QA across devices, speed testing, and structured data validation. Post-launch: analytics tracking, CRO experiments, and continuous improvement.',
-  },
-];
+export const processSection: ProcessSection = {
+  eyebrow: 'Our Process',
+  heading: 'How we figure out what to build',
+  subtitle:
+    "We don't start with a proposal. We start with an evaluation.",
+  steps: [
+    {
+      number: 1,
+      title: 'Evaluate',
+      description:
+        "We look at what you already have — your current site, your traffic patterns, how visitors behave, and where they drop off. We're not starting from scratch unless we need to.",
+    },
+    {
+      number: 2,
+      title: 'Diagnose',
+      description:
+        "We identify what's working, what's underperforming, and why. Is it a messaging problem? A structure problem? A visibility problem? The answer determines the direction.",
+    },
+    {
+      number: 3,
+      title: 'Recommend',
+      description:
+        "We present a clear, prioritized plan tied to your actual business goals — not a templated scope. You'll know exactly what we're proposing, why it matters, and what it's expected to do.",
+    },
+    {
+      number: 4,
+      title: 'Build & Refine',
+      description:
+        "Then we design and develop the right solution — whether that's a full rebuild, targeted improvements, or something in between. After launch, we measure what's working and adjust.",
+    },
+  ],
+};
 
 export const testimonials: Testimonial[] = [
   {
