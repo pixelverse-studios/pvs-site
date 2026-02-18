@@ -3,12 +3,13 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
+import type { CTA } from '@/data/service-paths';
 
 interface ServicesClarificationCtaSectionProps {
   title: string;
-  description: string;
-  primaryCta: { label: string; href: string };
-  secondaryCta?: { label: string; href: string };
+  description?: string;
+  primaryCta: CTA;
+  secondaryCta?: CTA;
 }
 
 export function ServicesClarificationCtaSection({
