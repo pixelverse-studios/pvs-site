@@ -13,6 +13,7 @@
 - Polished the services page hero text layout and tightened the section width for better readability
 - Redesigned the clarification CTA section with a dark accent treatment to visually distinguish it from the section above
 - Removed a redundant legacy CTA section from the bottom of the services page that was not part of the redesigned copy
+- Added centralized content data file for the Web Design & Development service page with all 7 confirmed sections
 
 ## Notes for internal team
 - PVS-352: Created `/data/service-paths.ts` with TypeScript interfaces and confirmed copy
@@ -23,6 +24,8 @@
 - PVS-355: Created `components/services/services-clarification-cta-section.tsx` — props-based dual-CTA with `variant="cta"` + `variant="ctaGhost"` buttons, bordered card layout
 - PVS-356: Updated `app/services/page.tsx` — replaced 4 old sections with ServicesHeroSection, ServicesPathCardsSection, ServicesClarificationCtaSection; updated metadata title, description, and keywords
 - PVS-357: Visual QA pass — narrowed hero container to max-w-2xl, added text-pretty to paragraphs, redesigned ClarificationCTA with dark inversion + theme-responsive colors, removed ServicesClosingCtaSection (legacy, not in redesign copy)
+- PVS-360: Created `/data/web-development-content.ts` — TypeScript interfaces + all 7 sections (hero, whenNewWebsite, whyBuildsGoWrong, howWePlan, designAndDevelopment, whatToExpect, finalCta) with confirmed copy
 
 ## Changed URLs
 - https://www.pixelversestudios.io/services
+- https://www.pixelversestudios.io/services/web-development
