@@ -14,6 +14,7 @@
 - Redesigned the clarification CTA section with a dark accent treatment to visually distinguish it from the section above
 - Removed a redundant legacy CTA section from the bottom of the services page that was not part of the redesigned copy
 - Added centralized content data file for the Web Design & Development service page with all 7 confirmed sections
+- Built the ServiceNarrativeSection component for individual service pages with three layout variants: text-only, text-with-bullets, and two-column
 
 ## Notes for internal team
 - PVS-352: Created `/data/service-paths.ts` with TypeScript interfaces and confirmed copy
@@ -25,6 +26,7 @@
 - PVS-356: Updated `app/services/page.tsx` — replaced 4 old sections with ServicesHeroSection, ServicesPathCardsSection, ServicesClarificationCtaSection; updated metadata title, description, and keywords
 - PVS-357: Visual QA pass — narrowed hero container to max-w-2xl, added text-pretty to paragraphs, redesigned ClarificationCTA with dark inversion + theme-responsive colors, removed ServicesClosingCtaSection (legacy, not in redesign copy)
 - PVS-360: Created `/data/web-development-content.ts` — TypeScript interfaces + all 7 sections (hero, whenNewWebsite, whyBuildsGoWrong, howWePlan, designAndDevelopment, whatToExpect, finalCta) with confirmed copy
+- PVS-361: Created `components/services/individual/service-narrative-section.tsx` — reusable narrative section with `text-only`, `text-with-bullets`, `two-column` layouts; supports eyebrow badge, heading, intro, bullets, closing, background variant props
 
 ## Changed URLs
 - https://www.pixelversestudios.io/services
