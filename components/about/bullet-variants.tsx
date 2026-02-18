@@ -15,22 +15,11 @@ import {
 import { cn } from '@/lib/utils';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
-import { useBulletVariant } from './bullet-variant-context';
+// =============================================================================
+// Shared Types & Utilities
+// =============================================================================
 
-interface BulletPoint {
-  text: string;
-  icon?: string;
-}
-
-export type BulletLayout = 'cards' | 'timeline' | 'panels' | 'inline' | 'connected';
-
-interface BulletVariantsProps {
-  bulletPoints: BulletPoint[];
-  background: 'surface' | 'default';
-  layout?: BulletLayout;
-}
-
-const iconMap: Record<string, React.ComponentType<{ className?: string; style?: React.CSSProperties }>> = {
+const iconMap = {
   compass: Compass,
   search: Search,
   layoutGrid: LayoutGrid,
@@ -40,7 +29,22 @@ const iconMap: Record<string, React.ComponentType<{ className?: string; style?: 
   palette: Palette,
   code: Code,
   barChart: BarChart3,
-};
+} as const;
+
+export type IconKey = keyof typeof iconMap;
+
+export interface BulletPoint {
+  text: string;
+  icon?: IconKey;
+}
+
+export type BulletLayout = 'cards' | 'inline' | 'connected';
+
+interface BulletVariantsProps {
+  bulletPoints: BulletPoint[];
+  background: 'surface' | 'default';
+  layout: BulletLayout;
+}
 
 function getIconColor(index: number, total: number) {
   const progress = total > 1 ? index / (total - 1) : 0;
@@ -63,7 +67,7 @@ function CardsVariant({ bulletPoints, background }: BulletVariantsProps) {
 
         return (
           <MotionItem
-            key={i}
+            key={point.text}
             delay={i * 0.08}
             className="group relative rounded-2xl bg-[var(--pv-gradient)] p-px shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-20px_rgba(63,0,233,0.35)]"
           >
@@ -107,136 +111,7 @@ function CardsVariant({ bulletPoints, background }: BulletVariantsProps) {
 }
 
 // =============================================================================
-// Variant B: Timeline
-// =============================================================================
-function TimelineVariant({ bulletPoints }: BulletVariantsProps) {
-  return (
-    <MotionSection as="div" className="mx-auto max-w-3xl" delay={0.12}>
-      <div className="relative space-y-0">
-        {/* Continuous gradient line */}
-        <div
-          className="absolute bottom-4 left-[15px] top-4 w-px"
-          style={{ background: 'var(--pv-gradient)' }}
-          aria-hidden="true"
-        />
-
-        {bulletPoints.map((point, i) => {
-          const iconColor = getIconColor(i, bulletPoints.length);
-          const IconComponent = point.icon ? iconMap[point.icon] : null;
-          const isLast = i === bulletPoints.length - 1;
-
-          return (
-            <MotionItem
-              key={i}
-              delay={i * 0.1}
-              className={cn('group relative flex gap-6', !isLast && 'pb-8')}
-            >
-              <div className="relative z-10 flex shrink-0 items-start pt-0.5">
-                <div
-                  className="flex h-[31px] w-[31px] items-center justify-center rounded-full border-2 transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_16px_-4px_rgba(63,0,233,0.5)]"
-                  style={{
-                    borderColor: iconColor,
-                    background: 'var(--pv-bg)',
-                  }}
-                >
-                  {IconComponent ? (
-                    <IconComponent className="h-3.5 w-3.5" style={{ color: iconColor }} />
-                  ) : (
-                    <div
-                      className="h-2 w-2 rounded-full"
-                      style={{ background: iconColor }}
-                    />
-                  )}
-                </div>
-              </div>
-
-              <div className="flex-1 pt-1">
-                <p
-                  className={cn(
-                    'text-[1.0625rem] leading-[1.85] md:text-lg md:leading-[1.85]',
-                    isLast
-                      ? 'font-medium text-[var(--pv-text)]'
-                      : 'text-[var(--pv-text-muted)]',
-                  )}
-                >
-                  {point.text}
-                </p>
-              </div>
-            </MotionItem>
-          );
-        })}
-      </div>
-    </MotionSection>
-  );
-}
-
-// =============================================================================
-// Variant C: Stacked Panels
-// =============================================================================
-function PanelsVariant({ bulletPoints, background }: BulletVariantsProps) {
-  return (
-    <MotionSection as="div" className="mx-auto max-w-4xl space-y-3" delay={0.12}>
-      {bulletPoints.map((point, i) => {
-        const accentColor = getIconColor(i, bulletPoints.length);
-        const IconComponent = point.icon ? iconMap[point.icon] : null;
-
-        return (
-          <MotionItem
-            key={i}
-            delay={i * 0.08}
-            className="group"
-          >
-            <div
-              className={cn(
-                'relative flex items-center gap-5 overflow-hidden rounded-xl border border-[var(--pv-border)] px-6 py-5 transition-all duration-300 hover:border-transparent hover:shadow-[0_12px_32px_-12px_rgba(63,0,233,0.3)]',
-                background === 'surface'
-                  ? 'bg-[var(--pv-surface)] hover:bg-[var(--pv-bg)]/80'
-                  : 'bg-[var(--pv-bg)] hover:bg-[var(--pv-surface)]/80',
-              )}
-            >
-              {/* Left accent bar */}
-              <div
-                className="absolute inset-y-0 left-0 w-1 transition-all duration-300 group-hover:w-1.5"
-                style={{ background: accentColor }}
-                aria-hidden="true"
-              />
-
-              {/* Large number */}
-              <span
-                className="shrink-0 font-heading text-3xl font-bold leading-none tracking-tight opacity-20 transition-opacity duration-300 group-hover:opacity-40 md:text-4xl"
-                style={{
-                  background: 'var(--pv-gradient)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-                aria-hidden="true"
-              >
-                {String(i + 1).padStart(2, '0')}
-              </span>
-
-              {IconComponent && (
-                <div
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110"
-                  style={{ background: `color-mix(in srgb, ${accentColor} 12%, transparent)` }}
-                >
-                  <IconComponent className="h-4 w-4" style={{ color: accentColor }} />
-                </div>
-              )}
-
-              <p className="flex-1 text-[0.9375rem] leading-[1.75] text-[var(--pv-text-muted)] transition-colors duration-300 group-hover:text-[var(--pv-text)] md:text-base md:leading-[1.8]">
-                {point.text}
-              </p>
-            </div>
-          </MotionItem>
-        );
-      })}
-    </MotionSection>
-  );
-}
-
-// =============================================================================
-// Variant D: Inline — lightweight emphasis within prose flow
+// Variant B: Inline — lightweight emphasis within prose flow
 // =============================================================================
 function InlineVariant({ bulletPoints }: BulletVariantsProps) {
   return (
@@ -248,7 +123,7 @@ function InlineVariant({ bulletPoints }: BulletVariantsProps) {
 
           return (
             <MotionItem
-              key={i}
+              key={point.text}
               delay={i * 0.06}
               className="group"
             >
@@ -267,7 +142,8 @@ function InlineVariant({ bulletPoints }: BulletVariantsProps) {
 }
 
 // =============================================================================
-// Variant E: Connected — disciplines linked by a horizontal gradient bridge
+// Variant C: Connected — disciplines linked by a horizontal gradient bridge
+// Assumes exactly 3 items in a 3-column grid layout
 // =============================================================================
 function ConnectedVariant({ bulletPoints, background }: BulletVariantsProps) {
   return (
@@ -287,7 +163,7 @@ function ConnectedVariant({ bulletPoints, background }: BulletVariantsProps) {
 
             return (
               <MotionItem
-                key={i}
+                key={point.text}
                 delay={i * 0.1}
                 className="group flex flex-col items-center text-center"
               >
@@ -299,10 +175,15 @@ function ConnectedVariant({ bulletPoints, background }: BulletVariantsProps) {
                     border: `1.5px solid color-mix(in srgb, ${iconColor} 25%, transparent)`,
                   }}
                 >
-                  {IconComponent && (
+                  {IconComponent ? (
                     <IconComponent
                       className="h-6 w-6 transition-transform duration-300 group-hover:scale-110"
                       style={{ color: iconColor }}
+                    />
+                  ) : (
+                    <div
+                      className="h-2.5 w-2.5 rounded-full"
+                      style={{ background: iconColor }}
                     />
                   )}
                 </div>
@@ -325,17 +206,11 @@ function ConnectedVariant({ bulletPoints, background }: BulletVariantsProps) {
 // =============================================================================
 const layoutComponents: Record<BulletLayout, React.ComponentType<BulletVariantsProps>> = {
   cards: CardsVariant,
-  timeline: TimelineVariant,
-  panels: PanelsVariant,
   inline: InlineVariant,
   connected: ConnectedVariant,
 };
 
 export function BulletVariants({ bulletPoints, background, layout }: BulletVariantsProps) {
-  // If an explicit layout is set, use it; otherwise fall back to the context switcher
-  const { variant } = useBulletVariant();
-  const resolvedLayout = layout ?? variant;
-  const LayoutComponent = layoutComponents[resolvedLayout];
-
-  return <LayoutComponent bulletPoints={bulletPoints} background={background} />;
+  const LayoutComponent = layoutComponents[layout];
+  return <LayoutComponent bulletPoints={bulletPoints} background={background} layout={layout} />;
 }

@@ -132,6 +132,16 @@
 - Final CTA section: removed bordered card, added radial gradient glow wash, btn-shimmer CTA with ArrowRight
 - Updated `finalCta` data: heading "Let's Talk It Through", CTA "Start the Conversation"
 - Deleted all subagent-generated docs from `docs/design/` directory
+- Added three distinct bullet point layout variants to About page sections (cards, inline chips, connected pillars)
+- Improved homepage process section mobile layout (no longer cramped on small screens)
+- Moved testimonial card gradient accent from top to bottom for visual differentiation from services cards
+
+## Notes for internal team
+- PVS-379 review fixes: Removed unused variant switcher widget and dead code (timeline/panels variants)
+- Tightened icon type safety with `IconKey` derived from `as const` map — invalid icon names are now compile errors
+- Removed `BulletVariantProvider` context wrapper — all sections use explicit layout props
+- Net code reduction: ~210 lines deleted
+- Process section changed from flex to CSS grid: `sm:grid-cols-2 lg:grid-cols-4`
 
 ## Changed URLs
 

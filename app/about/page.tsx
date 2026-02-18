@@ -5,7 +5,6 @@ import { AboutGoogleReviewsSection } from '@/components/about/about-google-revie
 import { AboutHeroSection } from '@/components/about/about-hero-section';
 import { AboutNarrativeSection } from '@/components/about/about-narrative-section';
 import { AboutTestimonialsSection } from '@/components/about/about-testimonials-section';
-import { BulletVariantProvider } from '@/components/about/bullet-variant-context';
 import { TeamSection } from '@/components/about/team-section';
 import { aboutContent } from '@/data/about';
 import { createPageMetadata } from '@/lib/metadata';
@@ -27,7 +26,6 @@ export const metadata: Metadata = createPageMetadata({
 
 export default function AboutPage() {
   return (
-    <BulletVariantProvider>
     <main>
       {/* 1. Hero */}
       <AboutHeroSection />
@@ -86,6 +84,5 @@ export default function AboutPage() {
       {/* 9. CTA */}
       <AboutCtaSection />
     </main>
-    </BulletVariantProvider>
   );
 }

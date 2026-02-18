@@ -2,13 +2,13 @@ import { cn } from '@/lib/utils';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
-import { type BulletLayout, BulletVariants } from './bullet-variants';
+import { type BulletLayout, type BulletPoint, BulletVariants } from './bullet-variants';
 
 interface AboutNarrativeSectionProps {
   title: string;
   intro?: string;
   body?: string;
-  bulletPoints?: Array<{ text: string; icon?: string }>;
+  bulletPoints?: BulletPoint[];
   closing?: string;
   background?: 'surface' | 'default';
   bulletLayout?: BulletLayout;
@@ -65,7 +65,7 @@ export function AboutNarrativeSection({
 
           {/* Bullet points — variant controlled by context */}
           {hasBullets && (
-            <BulletVariants bulletPoints={bulletPoints} background={background} layout={bulletLayout} />
+            <BulletVariants bulletPoints={bulletPoints} background={background} layout={bulletLayout ?? 'cards'} />
           )}
 
           {/* Closing prose back to narrow column */}

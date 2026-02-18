@@ -4,6 +4,8 @@
 // Centralized content for the About page following narrative-driven architecture
 // All components consume from this single source of truth
 
+import type { IconKey } from '@/components/about/bullet-variants';
+
 // ----------------------------------------------------------------------------
 // Type Definitions
 // ----------------------------------------------------------------------------
@@ -17,7 +19,7 @@ export interface AboutHero {
 export interface NarrativeSection {
   title: string;
   intro: string;
-  bulletPoints: Array<{ text: string; icon?: string }>;
+  bulletPoints: Array<{ text: string; icon?: IconKey }>;
   closing: string;
 }
 
