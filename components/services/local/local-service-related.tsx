@@ -73,7 +73,7 @@ export function LocalServiceRelated({
                 className="max-w-xl"
               />
             </MotionItem>
-            <MotionSection as="div" className="grid gap-4 sm:grid-cols-2" delay={0.08}>
+            <MotionSection as="div" className={`grid gap-4 ${relatedServices.length > 1 ? 'sm:grid-cols-2' : ''}`} delay={0.08}>
               {relatedServices.map((serviceSlug, index) => {
                 const service = serviceDefinitions[serviceSlug];
                 return (

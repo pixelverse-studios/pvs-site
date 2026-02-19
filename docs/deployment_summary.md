@@ -12,6 +12,7 @@
 - Updated FAQ page intro and closing call-to-action copy to match our consultative, conversation-first positioning
 - Updated FAQ page title, meta description, and search keywords to reflect the broader question set
 - Removed the UX/UI Design service from the website (page, city pages, and all navigation references)
+- Removed UX/UI Design entry from city-level structured data schema (lib/structured-data.ts)
 
 ## Notes for internal team
 
@@ -27,4 +28,6 @@
 - https://www.pixelversestudios.io/faq
 - https://www.pixelversestudios.io/services
 - https://www.pixelversestudios.io/services/ux-ui-design
+- https://www.pixelversestudios.io/services/ux-ui-design/fort-lee
+- https://www.pixelversestudios.io/services/ux-ui-design/englewood
 - https://www.pixelversestudios.io/about

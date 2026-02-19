@@ -244,11 +244,6 @@ export function createCityServicesSchema(slug: string, city: string, state: stri
       type: 'Local SEO',
       description: `Local SEO optimization for ${city} businesses. Google Business Profile setup, local citations, schema markup, and content strategy.`,
     },
-    {
-      name: `UX/UI Design in ${city}, ${state}`,
-      type: 'UX UI Design',
-      description: `User experience and interface design for ${city} service brands. Conversion-optimized layouts and intuitive navigation.`,
-    },
   ];
 
   return services.map((service) =>

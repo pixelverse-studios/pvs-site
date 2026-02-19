@@ -7,7 +7,6 @@ import {
   Code,
   Compass,
   LayoutGrid,
-  Palette,
   Search,
   ShieldCheck,
   TrendingUp,
@@ -27,7 +26,6 @@ const iconMap = {
   clipboardList: ClipboardList,
   shieldCheck: ShieldCheck,
   trendingUp: TrendingUp,
-  palette: Palette,
   code: Code,
   barChart: BarChart3,
 } as const;
