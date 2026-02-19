@@ -66,7 +66,7 @@ export default function SEOServicesPage() {
         title={whyBusinessesLook.title}
         intro={whyBusinessesLook.body}
         layout="text-only"
-        background="surface"
+        background="bg"
       />
 
       {/* 3. Why Local SEO Isn't Just About Rankings */}
@@ -124,7 +124,7 @@ export default function SEOServicesPage() {
       {/* 7. Final CTA */}
       <ServiceCta
         heading={finalCta.title}
-        description={finalCta.description}
+        description={finalCta.description.split('\n\n').join(' ')}
         primaryCta={finalCta.cta}
         variant="gradient"
       />
