@@ -9,25 +9,38 @@ import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import { faqContent } from '@/data/faq-content';
 
 export function FaqListSection() {
-  const allItems = faqContent.flatMap((category) => category.items);
-
   return (
     <section className="py-16 md:py-24">
       <Container className="max-w-4xl">
-        <MotionSection
-          as="div"
-          className="bg-[var(--pv-bg)]/90 dark:bg-[var(--pv-surface)]/85 rounded-pv border border-[var(--pv-border)] shadow-pv"
-        >
-          <Accordion type="single" collapsible className="divide-y divide-[var(--pv-border)]">
-            {allItems.map((faq, index) => (
-              <MotionItem key={faq.question} delay={index * 0.04} triggerOnViewport={false}>
-                <AccordionItem value={`faq-${index + 1}`}>
-                  <AccordionTrigger>{faq.question}</AccordionTrigger>
-                  <AccordionContent>{faq.answer}</AccordionContent>
-                </AccordionItem>
-              </MotionItem>
-            ))}
-          </Accordion>
+        <MotionSection as="div" className="space-y-10">
+          {faqContent.map((category, categoryIndex) => (
+            <MotionItem key={category.category} delay={categoryIndex * 0.08}>
+              <div className="space-y-4">
+                {/* Category heading */}
+                <div className="flex items-center gap-4">
+                  <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
+                    {category.category}
+                  </h2>
+                  <div className="h-px flex-1 bg-[var(--pv-border)]" />
+                </div>
+
+                {/* Category accordion */}
+                <div className="rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)]/90 shadow-pv dark:bg-[var(--pv-surface)]/85">
+                  <Accordion type="single" collapsible>
+                    {category.items.map((faq, itemIndex) => (
+                      <AccordionItem
+                        key={faq.question}
+                        value={`faq-${categoryIndex}-${itemIndex}`}
+                      >
+                        <AccordionTrigger>{faq.question}</AccordionTrigger>
+                        <AccordionContent>{faq.answer}</AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </div>
+              </div>
+            </MotionItem>
+          ))}
         </MotionSection>
       </Container>
     </section>
