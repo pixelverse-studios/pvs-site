@@ -4,6 +4,76 @@ import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 type Layout = 'text-only' | 'text-with-bullets' | 'two-column';
 type Background = 'surface' | 'bg';
 
+/**
+ * Reusable narrative content section for individual service pages.
+ *
+ * Supports three layout variants:
+ * - `text-only` — centered prose up to max-w-3xl; use for intro and standalone narrative sections
+ * - `text-with-bullets` — two-column with heading + intro on the left, bullet list on the right,
+ *   and optional full-width closing text below; use for process or criteria sections
+ * - `two-column` — heading on the left, body paragraphs on the right; use for dense explanatory copy
+ *
+ * The `intro` prop accepts either a pre-split `string[]` or a raw string with `\n\n` paragraph
+ * breaks — both render as stacked `<p>` elements.
+ *
+ * For sections that need an inline cross-link (e.g. "Learn more about X"), render the
+ * `ServiceNarrativeSection` first and then add the `<Link>` below it inside a shared background
+ * wrapper — the component does not accept arbitrary child elements.
+ *
+ * **Layout selection guide (SEO page):**
+ * | Section | Layout |
+ * |---------|--------|
+ * | Why Businesses Look | `text-only` — prose only, no bullets |
+ * | Why Not Just Rankings | `text-with-bullets` — 5 bullet points + closing |
+ * | How We Evaluate | `text-with-bullets` — 5 bullet points + closing |
+ * | When Optimization Is Right | `text-only` — prose + cross-link rendered below |
+ * | What to Expect | `text-with-bullets` — 5 bullet points + closing |
+ *
+ * @example Prose-only section (SEO page — Why Businesses Look)
+ * ```tsx
+ * <ServiceNarrativeSection
+ *   eyebrow="Why It Matters"
+ *   title={seoContent.whyBusinessesLook.title}
+ *   intro={seoContent.whyBusinessesLook.body}
+ *   layout="text-only"
+ *   background="surface"
+ * />
+ * ```
+ *
+ * @example Bullet section (SEO page — Why Not Just Rankings)
+ * ```tsx
+ * <ServiceNarrativeSection
+ *   eyebrow="Beyond Rankings"
+ *   title={seoContent.whyNotJustRankings.title}
+ *   intro={seoContent.whyNotJustRankings.intro}
+ *   bullets={seoContent.whyNotJustRankings.bulletPoints}
+ *   closing={seoContent.whyNotJustRankings.closing}
+ *   layout="text-with-bullets"
+ *   background="bg"
+ * />
+ * ```
+ *
+ * @example Prose section with cross-link rendered below (SEO page — When Optimization Is Right)
+ * ```tsx
+ * <div className="bg-[var(--pv-bg)]">
+ *   <ServiceNarrativeSection
+ *     eyebrow="Is It Right for You?"
+ *     title={seoContent.whenOptimizationIsRight.title}
+ *     intro={seoContent.whenOptimizationIsRight.body}
+ *     layout="text-only"
+ *     background="bg"
+ *   />
+ *   <Container className="pb-12 md:pb-16">
+ *     <Link
+ *       href={seoContent.whenOptimizationIsRight.crossLink.href}
+ *       className="text-sm font-medium text-[var(--pv-primary)] underline-offset-4 hover:underline"
+ *     >
+ *       {seoContent.whenOptimizationIsRight.crossLink.label} →
+ *     </Link>
+ *   </Container>
+ * </div>
+ * ```
+ */
 export interface ServiceNarrativeSectionProps {
   eyebrow: string;
   title: string;
