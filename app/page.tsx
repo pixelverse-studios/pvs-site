@@ -26,7 +26,7 @@ export default function Home() {
       <HeroSection />
       <ValueSection />
       <ServicesSection />
-<ClosingCtaSection />
+      <ClosingCtaSection />
     </main>
   );
 }
