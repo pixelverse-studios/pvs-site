@@ -11,18 +11,18 @@ export function FaqClosingCtaSection() {
         <MotionSection as="div" className="space-y-8">
           <MotionItem className="space-y-5">
             <h2 className="text-3xl font-semibold md:text-4xl">
-              Your questions deserve answers.
+              Still have questions?
               <br />
-              Your business deserves a website that works.
+              That&apos;s what the conversation is for.
             </h2>
             <p className="mx-auto max-w-2xl text-lg text-[var(--pv-text-muted)] md:text-xl">
-              When you&apos;re ready, we&apos;re here with a UX-first, custom-coded approach that
-              aligns every detail to your goals.
+              If something isn&apos;t covered here — or you&apos;re not sure what your website
+              actually needs — the next step is a quick conversation. No pitch, no commitment.
             </p>
           </MotionItem>
           <MotionItem delay={0.08}>
             <Button asChild size="lg" variant="cta" className="w-full md:w-auto">
-              <Link href="/contact">Let&apos;s Connect</Link>
+              <Link href="/contact">Start the Conversation</Link>
             </Button>
           </MotionItem>
         </MotionSection>
