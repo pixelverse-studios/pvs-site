@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 
 import { FaqClosingCtaSection } from '@/components/faq/faq-closing-cta';
 import { FaqIntroSection } from '@/components/faq/faq-intro-section';
-import { FaqListSection, faqs } from '@/components/faq/faq-list-section';
+import { FaqListSection } from '@/components/faq/faq-list-section';
+import { faqContent } from '@/data/faq-content';
 import { StructuredData } from '@/components/ui/structured-data';
 import { createPageMetadata } from '@/lib/metadata';
 
@@ -24,14 +25,16 @@ export const metadata: Metadata = createPageMetadata({
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: faqs.map((faq) => ({
-    '@type': 'Question',
-    name: faq.question,
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: faq.answer,
-    },
-  })),
+  mainEntity: faqContent.flatMap((category) =>
+    category.items.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  ),
 };
 
 export default function FaqPage() {
