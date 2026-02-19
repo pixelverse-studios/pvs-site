@@ -49,7 +49,7 @@ const nextConfig = {
       },
       {
         source: '/pricing',
-        destination: '/packages',
+        destination: '/services',
         permanent: true,
       },
       ...contactContextRedirects,

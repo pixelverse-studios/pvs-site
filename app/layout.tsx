@@ -122,7 +122,6 @@ const navItems = [
       },
     ],
   },
-  { label: 'Packages', href: '/packages' },
   { label: 'Portfolio', href: '/portfolio' },
   { label: 'Blog', href: '/blog' },
   { label: 'FAQ', href: '/faq' },
