@@ -18,9 +18,9 @@ export function FaqListSection() {
               <div className="space-y-4">
                 {/* Category heading */}
                 <div className="flex items-center gap-4">
-                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
+                  <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
                     {category.category}
-                  </p>
+                  </h2>
                   <div className="h-px flex-1 bg-[var(--pv-border)]" />
                 </div>
 
@@ -30,7 +30,7 @@ export function FaqListSection() {
                     {category.items.map((faq, itemIndex) => (
                       <AccordionItem
                         key={faq.question}
-                        value={`${categoryIndex}-${itemIndex}`}
+                        value={`faq-${categoryIndex}-${itemIndex}`}
                       >
                         <AccordionTrigger>{faq.question}</AccordionTrigger>
                         <AccordionContent>{faq.answer}</AccordionContent>
