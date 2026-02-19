@@ -104,9 +104,9 @@ export default function SEOServicesPage() {
           <div className="mx-auto max-w-3xl">
             <Link
               href={whenOptimizationIsRight.crossLink.href}
-              className="text-sm font-medium text-[var(--pv-primary)] underline-offset-4 hover:underline"
+              className="text-sm font-medium text-[var(--pv-primary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2"
             >
-              {whenOptimizationIsRight.crossLink.label} →
+              {whenOptimizationIsRight.crossLink.label}<span aria-hidden="true"> →</span>
             </Link>
           </div>
         </Container>
@@ -126,7 +126,7 @@ export default function SEOServicesPage() {
       {/* 7. Final CTA */}
       <ServiceCta
         heading={finalCta.title}
-        description={finalCta.description.split('\n\n').join(' ')}
+        description={finalCta.description}
         primaryCta={finalCta.cta}
         variant="gradient"
       />

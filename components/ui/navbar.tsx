@@ -70,7 +70,6 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = React.useState(false);
-  const [expandedMobileItem, setExpandedMobileItem] = React.useState<string | null>(null);
   const mobileCloseButtonRef = React.useRef<HTMLButtonElement | null>(null);
   const [portalElement, setPortalElement] = React.useState<HTMLElement | null>(null);
 
@@ -145,10 +144,6 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
   const iconActiveClass = isDarkMode
     ? 'border-white/40 bg-white/20 text-white'
     : 'border-[rgba(63,0,233,0.55)] bg-[rgba(63,0,233,0.12)] text-[var(--pv-primary)]';
-
-  const toggleMobileExpand = (label: string) => {
-    setExpandedMobileItem((prev) => (prev === label ? null : label));
-  };
 
   const mobileNavPortal =
     isMobileNavOpen && portalElement
@@ -226,38 +221,39 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                       (item.href !== '/' && pathname.startsWith(`${item.href}/`));
                     const Icon = mobileNavIcons[item.label] ?? Sparkles;
                     const hasChildren = item.children && item.children.length > 0;
-                    const isExpanded = expandedMobileItem === item.label;
 
                     return (
                       <div key={item.href}>
-                        <div className="flex items-center">
-                          <Link
-                            href={item.href}
-                            aria-current={isActive ? 'page' : undefined}
-                            onClick={() => setIsMobileNavOpen(false)}
+                        <Link
+                          href={item.href}
+                          aria-current={isActive ? 'page' : undefined}
+                          aria-haspopup={hasChildren ? 'true' : undefined}
+                          onClick={() => setIsMobileNavOpen(false)}
+                          className={cn(
+                            navItemBaseClass,
+                            navItemThemeClass,
+                            navItemHoverBgClass,
+                            isActive && navItemActiveClass,
+                          )}
+                        >
+                          <span
                             className={cn(
-                              navItemBaseClass,
-                              navItemThemeClass,
-                              navItemHoverBgClass,
-                              isActive && navItemActiveClass,
-                              'flex-1',
+                              iconBaseClass,
+                              iconThemeClass,
+                              isActive && iconActiveClass,
                             )}
                           >
-                            <span
-                              className={cn(
-                                iconBaseClass,
-                                iconThemeClass,
-                                isActive && iconActiveClass,
-                              )}
-                            >
-                              <Icon className="h-4 w-4" aria-hidden="true" />
-                            </span>
-                            <span className="flex-1">{item.label}</span>
-                          </Link>
-                        </div>
+                            <Icon className="h-4 w-4" aria-hidden="true" />
+                          </span>
+                          <span className="flex-1">{item.label}</span>
+                        </Link>
                         {/* Mobile submenu — always visible */}
                         {hasChildren && (
-                          <div className="ml-14 mt-1 flex flex-col gap-1 border-l-2 border-[var(--pv-border)] pl-4 dark:border-white/10">
+                          <div
+                            role="group"
+                            aria-label={item.label}
+                            className="ml-14 mt-1 flex flex-col gap-1 border-l-2 border-[var(--pv-border)] pl-4 dark:border-white/10"
+                          >
                             {item.children!.map((child) => {
                               const childIsActive = pathname === child.href;
                               const ChildIcon = mobileNavIcons[child.label] ?? Sparkles;

@@ -55,7 +55,7 @@ export default function WebDevelopmentPage() {
       <ServiceHero
         eyebrow={hero.title}
         title={hero.title}
-        description={hero.description.split('\n\n')[0]}
+        description={hero.description}
         primaryCta={hero.cta}
         icon={Code2}
       />
@@ -75,9 +75,9 @@ export default function WebDevelopmentPage() {
           <div className="mx-auto max-w-3xl">
             <Link
               href={whenNewWebsite.crossLink.href}
-              className="text-sm font-medium text-[var(--pv-primary)] underline-offset-4 hover:underline"
+              className="text-sm font-medium text-[var(--pv-primary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2"
             >
-              {whenNewWebsite.crossLink.label} →
+              {whenNewWebsite.crossLink.label}<span aria-hidden="true"> →</span>
             </Link>
           </div>
         </Container>

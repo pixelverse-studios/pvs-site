@@ -1,16 +1,18 @@
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
-type Layout = 'text-only' | 'text-with-bullets' | 'text-with-bullets-alt' | 'two-column';
-type Background = 'surface' | 'bg';
+export type Layout = 'text-only' | 'text-with-bullets' | 'text-with-bullets-alt' | 'two-column';
+export type Background = 'surface' | 'bg';
 
 /**
  * Reusable narrative content section for individual service pages.
  *
- * Supports three layout variants:
+ * Supports four layout variants:
  * - `text-only` — centered prose up to max-w-3xl; use for intro and standalone narrative sections
  * - `text-with-bullets` — two-column with heading + intro on the left, bullet list on the right,
  *   and optional full-width closing text below; use for process or criteria sections
+ * - `text-with-bullets-alt` — stacked header (eyebrow + heading + intro) above a 2-column bullet
+ *   grid with gradient dot accents; use when the heading should span full width before the list
  * - `two-column` — heading on the left, body paragraphs on the right; use for dense explanatory copy
  *
  * The `intro` prop accepts either a pre-split `string[]` or a raw string with `\n\n` paragraph
@@ -25,9 +27,14 @@ type Background = 'surface' | 'bg';
  * |---------|--------|
  * | Why Businesses Look | `text-only` — prose only, no bullets |
  * | Why Not Just Rankings | `text-with-bullets` — 5 bullet points + closing |
- * | How We Evaluate | `text-with-bullets` — 5 bullet points + closing |
+ * | How We Evaluate | `text-with-bullets-alt` — 5 bullet points, stacked header |
  * | When Optimization Is Right | `text-only` — prose + cross-link rendered below |
  * | What to Expect | `text-with-bullets` — 5 bullet points + closing |
+ *
+ * **Layout selection guide (web-dev page):**
+ * | Section | Layout |
+ * |---------|--------|
+ * | Design and Development | `text-with-bullets-alt` — stacked header, 2-column bullet grid |
  *
  * @example Prose-only section (SEO page — Why Businesses Look)
  * ```tsx
@@ -73,6 +80,18 @@ type Background = 'surface' | 'bg';
  *   </Container>
  * </div>
  * ```
+ *
+ * @example Stacked-header section with 2-column bullet grid (web-dev page — Design and Development)
+ * ```tsx
+ * <ServiceNarrativeSection
+ *   eyebrow="How We Build"
+ *   title={webDevelopmentContent.designAndDevelopment.title}
+ *   intro={webDevelopmentContent.designAndDevelopment.intro}
+ *   bullets={webDevelopmentContent.designAndDevelopment.bulletPoints}
+ *   layout="text-with-bullets-alt"
+ *   background="surface"
+ * />
+ * ```
  */
 export interface ServiceNarrativeSectionProps {
   eyebrow: string;
@@ -98,9 +117,13 @@ export function ServiceNarrativeSection({
   const closingParagraphs = closing ? closing.split('\n\n').filter(Boolean) : [];
   const bgClass = background === 'bg' ? 'bg-[var(--pv-bg)]' : 'bg-[var(--pv-surface)]';
 
+  const eyebrowClass =
+    'inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-1 text-xs uppercase tracking-[0.2em] text-[var(--pv-text-muted)]';
+  const headingClass =
+    'text-balance font-heading text-[2.25rem] leading-[2.75rem] tracking-tight md:text-[2.5rem] md:leading-[3rem]';
+
   if (layout === 'text-with-bullets') {
-    const closingBgClass =
-      background === 'bg' ? 'bg-[var(--pv-surface)]' : 'bg-[var(--pv-bg)]';
+    const closingBgClass = background === 'bg' ? 'bg-[var(--pv-surface)]' : 'bg-[var(--pv-bg)]';
 
     return (
       <section className={`${bgClass} py-16 md:py-24`} aria-labelledby={headingId}>
@@ -111,12 +134,12 @@ export function ServiceNarrativeSection({
               <MotionSection as="div" className="space-y-5">
                 <MotionItem>
                   <div className="space-y-4">
-                    <span className="inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-1 text-xs uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
+                    <span aria-hidden="true" className={eyebrowClass}>
                       {eyebrow}
                     </span>
                     <h2
                       id={headingId}
-                      className="text-balance font-heading text-[2.25rem] leading-[2.75rem] tracking-tight md:text-[2.5rem] md:leading-[3rem]"
+                      className={headingClass}
                     >
                       {title}
                     </h2>
@@ -190,9 +213,6 @@ export function ServiceNarrativeSection({
   }
 
   if (layout === 'text-with-bullets-alt') {
-    const closingBgClass =
-      background === 'bg' ? 'bg-[var(--pv-surface)]' : 'bg-[var(--pv-bg)]';
-
     return (
       <section className={`${bgClass} py-16 md:py-24`} aria-labelledby={headingId}>
         <Container>
@@ -201,12 +221,12 @@ export function ServiceNarrativeSection({
             <MotionSection as="div" className="max-w-3xl space-y-5">
               <MotionItem>
                 <div className="space-y-4">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-1 text-xs uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
+                  <span aria-hidden="true" className={eyebrowClass}>
                     {eyebrow}
                   </span>
                   <h2
                     id={headingId}
-                    className="text-balance font-heading text-[2.25rem] leading-[2.75rem] tracking-tight md:text-[2.5rem] md:leading-[3rem]"
+                    className={headingClass}
                   >
                     {title}
                   </h2>
@@ -279,14 +299,14 @@ export function ServiceNarrativeSection({
             {/* Left: eyebrow + heading */}
             <MotionSection as="div" className="space-y-4">
               <MotionItem>
-                <span className="inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-1 text-xs uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
+                <span aria-hidden="true" className={eyebrowClass}>
                   {eyebrow}
                 </span>
               </MotionItem>
               <MotionItem delay={0.06}>
                 <h2
                   id={headingId}
-                  className="text-balance font-heading text-[2.25rem] leading-[2.75rem] tracking-tight md:text-[2.5rem] md:leading-[3rem]"
+                  className={headingClass}
                 >
                   {title}
                 </h2>
@@ -316,12 +336,12 @@ export function ServiceNarrativeSection({
         <MotionSection as="div" className="mx-auto max-w-3xl space-y-6">
           <MotionItem>
             <div className="space-y-4">
-              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-1 text-xs uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
+              <span aria-hidden="true" className={eyebrowClass}>
                 {eyebrow}
               </span>
               <h2
                 id={headingId}
-                className="text-balance font-heading text-[2.25rem] leading-[2.75rem] tracking-tight md:text-[2.5rem] md:leading-[3rem]"
+                className={headingClass}
               >
                 {title}
               </h2>

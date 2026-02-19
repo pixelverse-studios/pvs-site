@@ -23,7 +23,7 @@ export { ServiceTestimonial } from './service-testimonial';
 export type { ServiceTestimonialProps, Testimonial } from './service-testimonial';
 
 export { ServiceNarrativeSection } from './service-narrative-section';
-export type { ServiceNarrativeSectionProps } from './service-narrative-section';
+export type { ServiceNarrativeSectionProps, Layout, Background } from './service-narrative-section';
 
 export { ServiceBulletList } from './service-bullet-list';
 export type { ServiceBulletListProps, ServiceBulletItem } from './service-bullet-list';
