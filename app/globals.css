@@ -23,14 +23,6 @@
   --pv-radius: 1rem;
   --pv-radius-sm: 0.5rem;
   --pv-radius-lg: 1.5rem;
-
-  /* Sale/Promo Colors */
-  --pv-sale: #ff3366;
-  --pv-sale-dark: #e6194b;
-  --pv-sale-glow: rgba(255, 51, 102, 0.4);
-  --pv-gold: #d4a853;
-  --pv-gold-dark: #b8923f;
-  --pv-gold-glow: rgba(212, 168, 83, 0.35);
 }
 
 .dark {
@@ -44,12 +36,6 @@
   --pv-overlay-strong: rgba(6, 7, 30, 0.88);
   --pv-overlay-soft: rgba(24, 26, 72, 0.68);
   --pv-overlay-glow: rgba(34, 36, 108, 0.5);
-
-  /* Sale/Promo Colors (Dark Mode) */
-  --pv-sale: #ff4d7a;
-  --pv-sale-dark: #ff3366;
-  --pv-gold: #e8b85d;
-  --pv-gold-dark: #d4a853;
 }
 
 html {
