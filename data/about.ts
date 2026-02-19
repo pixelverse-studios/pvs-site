@@ -127,7 +127,6 @@ export const aboutContent: AboutContentData = {
     intro:
       'Our work spans web design, development, and local optimization, but those disciplines aren\'t treated as separate silos.',
     bulletPoints: [
-      { text: 'Design supports clarity and usability.', icon: 'palette', href: '/services/ux-ui-design' },
       { text: 'Development provides stability and flexibility.', icon: 'code', href: '/services/web-development' },
       { text: 'Optimization helps the site remain visible and effective over time.', icon: 'barChart', href: '/services/seo' },
     ],
