@@ -8,16 +8,16 @@ import { StructuredData } from '@/components/ui/structured-data';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'FAQ | Web Design & SEO Questions',
+  title: 'FAQ | Web Design, SEO & Working With Us',
   description:
-    'Get answers about PixelVerse processes—custom development, UX-first design, SEO retainers, timelines, and collaboration workflows.',
+    'Answers to common questions about web design, local SEO, our process, and working with PixelVerse Studios — so you can decide if it\'s worth a conversation.',
   path: '/faq',
   keywords: [
     'PixelVerse Studios FAQ',
     'web design questions',
-    'SEO process answers',
-    'custom website process',
-    'UX-first development FAQ',
+    'local SEO questions',
+    'website build process',
+    'working with a web agency',
   ],
 });
 
