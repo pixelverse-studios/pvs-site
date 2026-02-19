@@ -16,7 +16,7 @@ import { webDevelopmentContent } from '@/data/web-development-content';
 export const metadata: Metadata = createPageMetadata({
   title: 'Web Design & Development Services NJ | Custom Websites',
   description:
-    'Custom website design and development for businesses that need more than a template. We plan, design, and build websites that support how your business actually operates.',
+    'Custom web design and development for NJ businesses. We plan, design, and build websites that support how your business actually operates.',
   path: '/services/web-development',
   keywords: [
     'web design and development',
