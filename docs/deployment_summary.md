@@ -13,6 +13,12 @@
 - Polished the services page hero text layout and tightened the section width for better readability
 - Redesigned the clarification CTA section with a dark accent treatment to visually distinguish it from the section above
 - Removed a redundant legacy CTA section from the bottom of the services page that was not part of the redesigned copy
+- Added centralized content data file for the Web Design & Development service page with all 7 confirmed sections
+- Built the ServiceNarrativeSection component for individual service pages with three layout variants: text-only, text-with-bullets, and two-column
+- Built the ServiceBulletList component for rich bullet items with icons, titles, and descriptions rendered as hoverable cards
+- Built the ServiceExpectations component for displaying expectation cards in a 2x2 grid with section header, optional icons, and subtle hover effects
+- Launched the redesigned Web Design & Development service page — seven narrative sections walking visitors through when a new website makes sense, why builds go wrong, how planning works, and what to expect from the process
+- Tightened the Web Design & Development page meta description to under 160 characters for better search result display
 
 ## Notes for internal team
 - PVS-352: Created `/data/service-paths.ts` with TypeScript interfaces and confirmed copy
@@ -23,6 +29,14 @@
 - PVS-355: Created `components/services/services-clarification-cta-section.tsx` — props-based dual-CTA with `variant="cta"` + `variant="ctaGhost"` buttons, bordered card layout
 - PVS-356: Updated `app/services/page.tsx` — replaced 4 old sections with ServicesHeroSection, ServicesPathCardsSection, ServicesClarificationCtaSection; updated metadata title, description, and keywords
 - PVS-357: Visual QA pass — narrowed hero container to max-w-2xl, added text-pretty to paragraphs, redesigned ClarificationCTA with dark inversion + theme-responsive colors, removed ServicesClosingCtaSection (legacy, not in redesign copy)
+- PVS-360: Created `/data/web-development-content.ts` — TypeScript interfaces + all 7 sections (hero, whenNewWebsite, whyBuildsGoWrong, howWePlan, designAndDevelopment, whatToExpect, finalCta) with confirmed copy
+- PVS-361: Created `components/services/individual/service-narrative-section.tsx` — reusable narrative section with `text-only`, `text-with-bullets`, `two-column` layouts; supports eyebrow badge, heading, intro, bullets, closing, background variant props
+- PVS-362: Created `components/services/individual/service-bullet-list.tsx` — Card-based bullet list with optional Lucide icon, gradient circle icon bg, hover lift + glow; exports `BulletPoint` and `ServiceBulletListProps` types; supports `grid` and `vertical` layouts
+- PVS-363: Created `components/services/individual/service-expectations.tsx` — 2x2 grid of expectation cards with SectionHeader, optional gradient icon circles, subtle hover border + glow; exports `ServiceExpectationItem` and `ServiceExpectationsProps` types
+- PVS-364: Confirmed `ServiceHero` already supports custom CTA labels — no hardcoded text; added JSDoc examples for conversational tone usage ("Start the Conversation", "See How It Works"); exported `CtaLink` type and eliminated duplicate declaration in `service-cta.tsx`
+- PVS-365: Updated `app/services/web-development/page.tsx` — replaced old feature-list approach with 7 narrative sections using `ServiceHero`, `ServiceNarrativeSection` (3 layout variants across sections), and `ServiceCta`; content fully data-driven from `web-development-content.ts`; alternating surface/bg backgrounds; cross-link to SEO page in "When" section; updated metadata title, description, and keywords
+- PVS-366: Shortened meta description from 169 → 138 chars; confirmed: one H1 (ServiceHero), H2 per section (ServiceNarrativeSection/ServiceCta), `aria-labelledby` on all `<section>` elements, cross-link to `/services/seo` with descriptive anchor text
 
 ## Changed URLs
 - https://www.pixelversestudios.io/services
+- https://www.pixelversestudios.io/services/web-development
