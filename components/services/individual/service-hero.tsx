@@ -95,10 +95,12 @@ export function ServiceHero({
               {title}
             </h1>
           </MotionItem>
-          <MotionItem delay={0.12}>
-            <p className="mx-auto max-w-2xl text-lg text-[var(--pv-text-muted)] md:text-xl">
-              {description}
-            </p>
+          <MotionItem delay={0.12} className="space-y-4">
+            {description.split('\n\n').filter(Boolean).map((para, idx) => (
+              <p key={idx} className="mx-auto max-w-2xl text-lg text-[var(--pv-text-muted)] md:text-xl">
+                {para}
+              </p>
+            ))}
           </MotionItem>
           <MotionItem
             delay={0.16}

@@ -21,6 +21,11 @@
 - Tightened the Web Design & Development page meta description to under 160 characters for better search result display
 - Added centralized content data file for the Local Website Optimization & SEO service page with all 7 confirmed sections
 - Launched the redesigned Local Website Optimization & SEO service page — seven narrative sections walking visitors through why local SEO matters, how performance is evaluated, and when optimization is the right move versus a full rebuild
+- Fixed the SEO service page hero section to display the full two-paragraph description as intended in the copy
+- Updated the mobile navigation so sub-services under the Services section are always visible — no longer requires a tap to expand
+- Fixed the Web Design & Development service page hero to display the full two-paragraph description
+- Improved keyboard accessibility on service page cross-links — focus indicators now visible for keyboard users
+- Cleaned up internal navigation code and removed unused state left over from a previous refactor
 
 ## Notes for internal team
 - PVS-352: Created `/data/service-paths.ts` with TypeScript interfaces and confirmed copy
@@ -41,6 +46,9 @@
 - PVS-369: Created `/data/seo-content.ts` — `SeoContentData` interface + all 7 sections with confirmed copy; `bulletPoints: string[]` (matches `ServiceNarrativeSection`); `crossLink: CTA` (reuses shared type); exports `SeoContentData` only
 - PVS-370: Verified `ServiceNarrativeSection` supports all SEO section layouts without modification; confirmed `ServiceBulletList` is not needed for SEO page (plain string bullets → use `text-with-bullets` layout on `ServiceNarrativeSection`); confirmed `ServiceHero` supports "Discuss Your Situation" CTA; added comprehensive JSDoc with SEO page usage examples to both components
 - PVS-371: Replaced `app/services/seo/page.tsx` (501-line feature-list) with 7-section narrative page using `ServiceHero`, `ServiceNarrativeSection` (`text-only` × 2, `text-with-bullets` × 3), and `ServiceCta`; all content data-driven from `seo-content.ts`; cross-link to `/services/web-development` in "When Optimization Is Right" section; updated metadata title, description (144 chars), and keywords; updated service schema description to match narrative positioning
+- PVS-372: Updated `ServiceHero` to split `description` on `\n\n` and render each paragraph as its own `<p>` with `space-y-4` — removed `.split('\n\n')[0]` from `app/services/seo/page.tsx`; updated `components/ui/navbar.tsx` to remove collapse toggle for mobile nav items with children — submenu now always visible without chevron interaction
+- PVS-372 post-review: Removed dead code from `navbar.tsx` (`expandedMobileItem` state, `toggleMobileExpand` fn, `isExpanded` var); removed unused `closingBgClass` from `text-with-bullets-alt` branch and hoisted it to component scope in `service-narrative-section.tsx`; fixed web-dev hero description truncation; added `aria-hidden` to decorative `→` arrows and `focus-visible` ring classes to cross-links on both service pages; updated JSDoc to reflect four layout variants
+- PVS-372 a11y pass: Added `role="group"` and `aria-label` to mobile Services submenu so screen readers understand the parent–child relationship; added `aria-haspopup` to parent nav items with children; removed leftover flex wrapper div from mobile nav; added `aria-hidden` to eyebrow badge spans (letter-spaced uppercase causes VoiceOver to spell-read); exported `Layout` and `Background` types from the service-narrative-section barrel; added `aria-labelledby` to `ServiceCta` section element; extracted shared eyebrow and heading classNames as reusable consts
 
 ## Changed URLs
 - https://www.pixelversestudios.io/services

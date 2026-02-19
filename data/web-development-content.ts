@@ -25,7 +25,8 @@ export interface WebDevContentData {
   };
   designAndDevelopment: {
     title: string;
-    body: string;
+    intro: string;
+    bulletPoints: string[];
   };
   whatToExpect: {
     title: string;
@@ -87,7 +88,13 @@ export const webDevelopmentContent: WebDevContentData = {
   },
   designAndDevelopment: {
     title: 'Design and Development Working Together',
-    body: 'Design and development aren\u2019t separate steps. They shape the same outcome.\n\nDesign defines structure, hierarchy, and how visitors move through the site.\n\nDevelopment builds that structure in a way that\u2019s stable, performant, and maintainable.\n\nWhen both are aligned from the start, the result isn\u2019t just a polished interface. It\u2019s a site that works.\n\nWe use both custom development and website builders depending on the situation. The goal is choosing the right approach for the business, not forcing one method.',
+    intro: 'Design and development aren\u2019t separate steps. They shape the same outcome.',
+    bulletPoints: [
+      'Design defines structure, hierarchy, and how visitors move through the site.',
+      'Development builds that structure in a way that\u2019s stable, performant, and maintainable.',
+      'When both are aligned from the start, the result isn\u2019t just a polished interface. It\u2019s a site that works.',
+      'We use both custom development and website builders depending on the situation. The goal is choosing the right approach for the business, not forcing one method.',
+    ],
   },
   whatToExpect: {
     title: 'What You Can Expect From a Build',

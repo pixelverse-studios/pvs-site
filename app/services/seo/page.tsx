@@ -55,7 +55,7 @@ export default function SEOServicesPage() {
       <ServiceHero
         eyebrow={hero.title}
         title={hero.title}
-        description={hero.description.split('\n\n')[0]}
+        description={hero.description}
         primaryCta={hero.cta}
         icon={Search}
       />
@@ -87,7 +87,7 @@ export default function SEOServicesPage() {
         intro={howWeEvaluate.intro}
         bullets={howWeEvaluate.bulletPoints}
         closing={howWeEvaluate.closing}
-        layout="text-with-bullets"
+        layout="text-with-bullets-alt"
         background="surface"
       />
 
@@ -101,12 +101,14 @@ export default function SEOServicesPage() {
           background="bg"
         />
         <Container className="pb-12 md:pb-16">
-          <Link
-            href={whenOptimizationIsRight.crossLink.href}
-            className="text-sm font-medium text-[var(--pv-primary)] underline-offset-4 hover:underline"
-          >
-            {whenOptimizationIsRight.crossLink.label} →
-          </Link>
+          <div className="mx-auto max-w-3xl">
+            <Link
+              href={whenOptimizationIsRight.crossLink.href}
+              className="text-sm font-medium text-[var(--pv-primary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2"
+            >
+              {whenOptimizationIsRight.crossLink.label}<span aria-hidden="true"> →</span>
+            </Link>
+          </div>
         </Container>
       </div>
 
@@ -124,7 +126,7 @@ export default function SEOServicesPage() {
       {/* 7. Final CTA */}
       <ServiceCta
         heading={finalCta.title}
-        description={finalCta.description.split('\n\n').join(' ')}
+        description={finalCta.description}
         primaryCta={finalCta.cta}
         variant="gradient"
       />

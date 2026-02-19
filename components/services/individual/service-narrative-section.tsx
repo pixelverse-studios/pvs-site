@@ -1,16 +1,18 @@
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
-type Layout = 'text-only' | 'text-with-bullets' | 'two-column';
-type Background = 'surface' | 'bg';
+export type Layout = 'text-only' | 'text-with-bullets' | 'text-with-bullets-alt' | 'two-column';
+export type Background = 'surface' | 'bg';
 
 /**
  * Reusable narrative content section for individual service pages.
  *
- * Supports three layout variants:
+ * Supports four layout variants:
  * - `text-only` — centered prose up to max-w-3xl; use for intro and standalone narrative sections
  * - `text-with-bullets` — two-column with heading + intro on the left, bullet list on the right,
  *   and optional full-width closing text below; use for process or criteria sections
+ * - `text-with-bullets-alt` — stacked header (eyebrow + heading + intro) above a 2-column bullet
+ *   grid with gradient dot accents; use when the heading should span full width before the list
  * - `two-column` — heading on the left, body paragraphs on the right; use for dense explanatory copy
  *
  * The `intro` prop accepts either a pre-split `string[]` or a raw string with `\n\n` paragraph
@@ -25,9 +27,14 @@ type Background = 'surface' | 'bg';
  * |---------|--------|
  * | Why Businesses Look | `text-only` — prose only, no bullets |
  * | Why Not Just Rankings | `text-with-bullets` — 5 bullet points + closing |
- * | How We Evaluate | `text-with-bullets` — 5 bullet points + closing |
+ * | How We Evaluate | `text-with-bullets-alt` — 5 bullet points, stacked header |
  * | When Optimization Is Right | `text-only` — prose + cross-link rendered below |
  * | What to Expect | `text-with-bullets` — 5 bullet points + closing |
+ *
+ * **Layout selection guide (web-dev page):**
+ * | Section | Layout |
+ * |---------|--------|
+ * | Design and Development | `text-with-bullets-alt` — stacked header, 2-column bullet grid |
  *
  * @example Prose-only section (SEO page — Why Businesses Look)
  * ```tsx
@@ -73,6 +80,18 @@ type Background = 'surface' | 'bg';
  *   </Container>
  * </div>
  * ```
+ *
+ * @example Stacked-header section with 2-column bullet grid (web-dev page — Design and Development)
+ * ```tsx
+ * <ServiceNarrativeSection
+ *   eyebrow="How We Build"
+ *   title={webDevelopmentContent.designAndDevelopment.title}
+ *   intro={webDevelopmentContent.designAndDevelopment.intro}
+ *   bullets={webDevelopmentContent.designAndDevelopment.bulletPoints}
+ *   layout="text-with-bullets-alt"
+ *   background="surface"
+ * />
+ * ```
  */
 export interface ServiceNarrativeSectionProps {
   eyebrow: string;
@@ -98,7 +117,14 @@ export function ServiceNarrativeSection({
   const closingParagraphs = closing ? closing.split('\n\n').filter(Boolean) : [];
   const bgClass = background === 'bg' ? 'bg-[var(--pv-bg)]' : 'bg-[var(--pv-surface)]';
 
+  const eyebrowClass =
+    'inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-1 text-xs uppercase tracking-[0.2em] text-[var(--pv-text-muted)]';
+  const headingClass =
+    'text-balance font-heading text-[2.25rem] leading-[2.75rem] tracking-tight md:text-[2.5rem] md:leading-[3rem]';
+
   if (layout === 'text-with-bullets') {
+    const closingBgClass = background === 'bg' ? 'bg-[var(--pv-surface)]' : 'bg-[var(--pv-bg)]';
+
     return (
       <section className={`${bgClass} py-16 md:py-24`} aria-labelledby={headingId}>
         <Container>
@@ -108,12 +134,12 @@ export function ServiceNarrativeSection({
               <MotionSection as="div" className="space-y-5">
                 <MotionItem>
                   <div className="space-y-4">
-                    <span className="inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-1 text-xs uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
+                    <span aria-hidden="true" className={eyebrowClass}>
                       {eyebrow}
                     </span>
                     <h2
                       id={headingId}
-                      className="text-balance font-heading text-[2.25rem] leading-[2.75rem] tracking-tight md:text-[2.5rem] md:leading-[3rem]"
+                      className={headingClass}
                     >
                       {title}
                     </h2>
@@ -128,38 +154,136 @@ export function ServiceNarrativeSection({
                 ))}
               </MotionSection>
 
-              {/* Right: bullets */}
+              {/* Right: numbered bullets with dividers — offset to align with h2 top */}
               {bullets && bullets.length > 0 && (
-                <MotionSection as="ul" className="space-y-4 self-start">
+                <MotionSection as="ul" className="self-start divide-y divide-[var(--pv-border)] md:pt-10">
                   {bullets.map((bullet, idx) => (
                     <MotionItem
                       key={`bullet-${idx}`}
                       as="li"
                       delay={idx * 0.06}
-                      className="flex items-start gap-3 text-[var(--pv-text-muted)]"
+                      className="group flex items-start gap-4 py-5 first:pt-0 last:pb-0"
                     >
                       <span
-                        className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--pv-primary)]"
+                        className="mt-0.5 shrink-0 font-mono text-xs font-medium tracking-widest text-[var(--pv-primary)]"
                         aria-hidden="true"
-                      />
-                      <span>{bullet}</span>
+                      >
+                        {String(idx + 1).padStart(2, '0')}
+                      </span>
+                      <span className="text-[var(--pv-text-muted)] transition-colors duration-200 group-hover:text-[var(--pv-text)]">
+                        {bullet}
+                      </span>
                     </MotionItem>
                   ))}
                 </MotionSection>
               )}
             </div>
 
-            {/* Closing text (full width below grid) */}
+            {/* Closing callout card */}
             {closingParagraphs.length > 0 && (
-              <MotionSection as="div" className="mx-auto max-w-3xl space-y-4">
-                {closingParagraphs.map((paragraph, idx) => (
-                  <MotionItem key={`closing-${idx}`} delay={idx * 0.06}>
-                    <p className="text-pretty text-lg text-[var(--pv-text-muted)]">
-                      {paragraph}
-                    </p>
+              <MotionItem>
+                <div
+                  className={`relative overflow-hidden rounded-xl border border-[var(--pv-border)] px-8 py-7 ${closingBgClass}`}
+                >
+                  <div
+                    className="absolute left-0 top-0 h-full w-[3px]"
+                    style={{
+                      background:
+                        'linear-gradient(to bottom, var(--pv-primary), var(--pv-primary-2))',
+                    }}
+                    aria-hidden="true"
+                  />
+                  <div className="space-y-4">
+                    {closingParagraphs.map((paragraph, idx) => (
+                      <p
+                        key={`closing-${idx}`}
+                        className="text-pretty text-lg text-[var(--pv-text-muted)]"
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              </MotionItem>
+            )}
+          </div>
+        </Container>
+      </section>
+    );
+  }
+
+  if (layout === 'text-with-bullets-alt') {
+    return (
+      <section className={`${bgClass} py-16 md:py-24`} aria-labelledby={headingId}>
+        <Container>
+          <div className="space-y-10">
+            {/* Stacked header: eyebrow + heading + intro all flow naturally */}
+            <MotionSection as="div" className="max-w-3xl space-y-5">
+              <MotionItem>
+                <div className="space-y-4">
+                  <span aria-hidden="true" className={eyebrowClass}>
+                    {eyebrow}
+                  </span>
+                  <h2
+                    id={headingId}
+                    className={headingClass}
+                  >
+                    {title}
+                  </h2>
+                </div>
+              </MotionItem>
+              {paragraphs.map((paragraph, idx) => (
+                <MotionItem key={`intro-${idx}`} delay={0.08 + idx * 0.06}>
+                  <p className="text-pretty text-lg text-[var(--pv-text-muted)]">
+                    {paragraph}
+                  </p>
+                </MotionItem>
+              ))}
+            </MotionSection>
+
+            {/* Bullets: 2-column grid with gradient dot accents */}
+            {bullets && bullets.length > 0 && (
+              <MotionSection
+                as="ul"
+                className="grid grid-cols-1 gap-x-12 gap-y-5 sm:grid-cols-2"
+              >
+                {bullets.map((bullet, idx) => (
+                  <MotionItem
+                    key={`bullet-${idx}`}
+                    as="li"
+                    delay={idx * 0.05}
+                    className="group flex items-start gap-3"
+                  >
+                    <span
+                      className="mt-1.5 h-2 w-2 shrink-0 rounded-full"
+                      style={{
+                        background:
+                          'linear-gradient(135deg, var(--pv-primary), var(--pv-primary-2))',
+                      }}
+                      aria-hidden="true"
+                    />
+                    <span className="text-[var(--pv-text-muted)] transition-colors duration-200 group-hover:text-[var(--pv-text)]">
+                      {bullet}
+                    </span>
                   </MotionItem>
                 ))}
               </MotionSection>
+            )}
+
+            {/* Closing — top divider treatment (distinct from the bordered card in text-with-bullets) */}
+            {closingParagraphs.length > 0 && (
+              <MotionItem>
+                <div className="space-y-4 border-t border-[var(--pv-border)] pt-8">
+                  {closingParagraphs.map((paragraph, idx) => (
+                    <p
+                      key={`closing-${idx}`}
+                      className="max-w-3xl text-pretty text-lg text-[var(--pv-text-muted)]"
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              </MotionItem>
             )}
           </div>
         </Container>
@@ -175,14 +299,14 @@ export function ServiceNarrativeSection({
             {/* Left: eyebrow + heading */}
             <MotionSection as="div" className="space-y-4">
               <MotionItem>
-                <span className="inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-1 text-xs uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
+                <span aria-hidden="true" className={eyebrowClass}>
                   {eyebrow}
                 </span>
               </MotionItem>
               <MotionItem delay={0.06}>
                 <h2
                   id={headingId}
-                  className="text-balance font-heading text-[2.25rem] leading-[2.75rem] tracking-tight md:text-[2.5rem] md:leading-[3rem]"
+                  className={headingClass}
                 >
                   {title}
                 </h2>
@@ -212,12 +336,12 @@ export function ServiceNarrativeSection({
         <MotionSection as="div" className="mx-auto max-w-3xl space-y-6">
           <MotionItem>
             <div className="space-y-4">
-              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-1 text-xs uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
+              <span aria-hidden="true" className={eyebrowClass}>
                 {eyebrow}
               </span>
               <h2
                 id={headingId}
-                className="text-balance font-heading text-[2.25rem] leading-[2.75rem] tracking-tight md:text-[2.5rem] md:leading-[3rem]"
+                className={headingClass}
               >
                 {title}
               </h2>
