@@ -19,6 +19,7 @@
 - Built the ServiceExpectations component for displaying expectation cards in a 2x2 grid with section header, optional icons, and subtle hover effects
 - Launched the redesigned Web Design & Development service page — seven narrative sections walking visitors through when a new website makes sense, why builds go wrong, how planning works, and what to expect from the process
 - Tightened the Web Design & Development page meta description to under 160 characters for better search result display
+- Added centralized content data file for the Local Website Optimization & SEO service page with all 7 confirmed sections
 
 ## Notes for internal team
 - PVS-352: Created `/data/service-paths.ts` with TypeScript interfaces and confirmed copy
@@ -36,6 +37,7 @@
 - PVS-364: Confirmed `ServiceHero` already supports custom CTA labels — no hardcoded text; added JSDoc examples for conversational tone usage ("Start the Conversation", "See How It Works"); exported `CtaLink` type and eliminated duplicate declaration in `service-cta.tsx`
 - PVS-365: Updated `app/services/web-development/page.tsx` — replaced old feature-list approach with 7 narrative sections using `ServiceHero`, `ServiceNarrativeSection` (3 layout variants across sections), and `ServiceCta`; content fully data-driven from `web-development-content.ts`; alternating surface/bg backgrounds; cross-link to SEO page in "When" section; updated metadata title, description, and keywords
 - PVS-366: Shortened meta description from 169 → 138 chars; confirmed: one H1 (ServiceHero), H2 per section (ServiceNarrativeSection/ServiceCta), `aria-labelledby` on all `<section>` elements, cross-link to `/services/seo` with descriptive anchor text
+- PVS-369: Created `/data/seo-content.ts` — `SeoContentData` interface + all 7 sections with confirmed copy; bullets use `Array<{ text: string }>` pattern; exports `SeoBulletPoint`, `SeoCrossLink`, `SeoContentData` types; `cta` fields use shared `CTA` type from `service-paths.ts`
 
 ## Changed URLs
 - https://www.pixelversestudios.io/services
