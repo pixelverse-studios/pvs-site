@@ -5,7 +5,6 @@ import type { ReactNode } from 'react';
 
 import { Footer } from '@/components/ui/footer';
 import { Navbar, type NavItem } from '@/components/ui/navbar';
-import { SaleBanner } from '@/components/sale';
 
 interface LayoutWrapperProps {
   children: ReactNode;
@@ -29,7 +28,6 @@ export function LayoutWrapper({ children, navItems, localContactLinks }: LayoutW
   // Regular pages: with navbar and footer
   return (
     <div className="flex min-h-screen flex-col">
-      <SaleBanner />
       <Navbar items={navItems} cta={{ label: 'Get Started', href: '/contact' }} />
       <div className="flex-1">{children}</div>
       <Footer
