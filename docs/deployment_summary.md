@@ -37,7 +37,8 @@
 - PVS-364: Confirmed `ServiceHero` already supports custom CTA labels — no hardcoded text; added JSDoc examples for conversational tone usage ("Start the Conversation", "See How It Works"); exported `CtaLink` type and eliminated duplicate declaration in `service-cta.tsx`
 - PVS-365: Updated `app/services/web-development/page.tsx` — replaced old feature-list approach with 7 narrative sections using `ServiceHero`, `ServiceNarrativeSection` (3 layout variants across sections), and `ServiceCta`; content fully data-driven from `web-development-content.ts`; alternating surface/bg backgrounds; cross-link to SEO page in "When" section; updated metadata title, description, and keywords
 - PVS-366: Shortened meta description from 169 → 138 chars; confirmed: one H1 (ServiceHero), H2 per section (ServiceNarrativeSection/ServiceCta), `aria-labelledby` on all `<section>` elements, cross-link to `/services/seo` with descriptive anchor text
-- PVS-369: Created `/data/seo-content.ts` — `SeoContentData` interface + all 7 sections with confirmed copy; bullets use `Array<{ text: string }>` pattern; exports `SeoBulletPoint`, `SeoCrossLink`, `SeoContentData` types; `cta` fields use shared `CTA` type from `service-paths.ts`
+- PVS-369: Created `/data/seo-content.ts` — `SeoContentData` interface + all 7 sections with confirmed copy; `bulletPoints: string[]` (matches `ServiceNarrativeSection`); `crossLink: CTA` (reuses shared type); exports `SeoContentData` only
+- PVS-370: Verified `ServiceNarrativeSection` supports all SEO section layouts without modification; confirmed `ServiceBulletList` is not needed for SEO page (plain string bullets → use `text-with-bullets` layout on `ServiceNarrativeSection`); confirmed `ServiceHero` supports "Discuss Your Situation" CTA; added comprehensive JSDoc with SEO page usage examples to both components
 
 ## Changed URLs
 - https://www.pixelversestudios.io/services
