@@ -5,10 +5,7 @@ import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import { cn } from '@/lib/utils';
 
-interface CtaLink {
-  label: string;
-  href: string;
-}
+import type { CtaLink } from './service-hero';
 
 export interface ServiceCtaProps {
   /** Main CTA heading */
@@ -38,11 +35,11 @@ export function ServiceCta({
   variant = 'default',
 }: ServiceCtaProps) {
   return (
-    <section className={cn('py-16 md:py-24', variantClasses[variant])}>
+    <section aria-labelledby="service-cta-heading" className={cn('py-16 md:py-24', variantClasses[variant])}>
       <Container className="max-w-3xl space-y-8 text-center">
         <MotionSection as="div" className="space-y-8">
           <MotionItem className="space-y-5">
-            <h2 className="text-3xl font-semibold md:text-4xl">{heading}</h2>
+            <h2 id="service-cta-heading" className="text-3xl font-semibold md:text-4xl">{heading}</h2>
             <p className="text-lg text-[var(--pv-text-muted)]">{description}</p>
           </MotionItem>
           <MotionItem

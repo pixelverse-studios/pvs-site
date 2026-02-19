@@ -5,21 +5,64 @@ import { Container } from '@/components/ui/container';
 import { Button } from '@/components/ui/button';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
-interface CtaLink {
+/**
+ * CTA link with fully customizable label text.
+ *
+ * Supports conversational labels (e.g., "Start the Conversation", "See How It Works")
+ * as well as action-oriented labels (e.g., "Get a Free Quote", "View Our Work").
+ * No label text is hardcoded — pass whatever fits the page tone.
+ */
+export interface CtaLink {
   label: string;
   href: string;
 }
 
+/**
+ * Hero section for individual service pages.
+ *
+ * All CTA text is caller-supplied — use whatever tone fits the page.
+ *
+ * @example Conversational tone (Web Development page)
+ * ```tsx
+ * // import { Monitor } from 'lucide-react'; // icon is optional — import from lucide-react
+ * <ServiceHero
+ *   eyebrow="Web Design & Development"
+ *   title="Websites Built to Convert, Not Just Look Good"
+ *   description="We build fast, custom websites that turn visitors into clients."
+ *   primaryCta={{ label: "Start the Conversation", href: "/contact" }}
+ *   secondaryCta={{ label: "See How It Works", href: "#process" }}
+ *   icon={Monitor}
+ * />
+ * ```
+ *
+ * @example Direct/action tone
+ * ```tsx
+ * <ServiceHero
+ *   eyebrow="Local SEO"
+ *   title="Get Found by Customers in Your City"
+ *   description="Rank higher in local search and bring in more foot traffic."
+ *   primaryCta={{ label: "Get a Free Audit", href: "/contact" }}
+ *   secondaryCta={{ label: "View Results", href: "/portfolio" }}
+ * />
+ * ```
+ */
 export interface ServiceHeroProps {
   /** Small label above the main heading (e.g., "Web Development") */
   eyebrow: string;
-  /** H1 heading - primary keyword for SEO */
+  /** H1 heading — primary keyword for SEO */
   title: string;
   /** Supporting description copy */
   description: string;
-  /** Primary call-to-action button */
+  /**
+   * Primary call-to-action button.
+   * Label is fully customizable — use conversational ("Start the Conversation")
+   * or action-oriented ("Get a Free Quote") copy as needed.
+   */
   primaryCta: CtaLink;
-  /** Optional secondary call-to-action button */
+  /**
+   * Optional secondary call-to-action button.
+   * Label is fully customizable — e.g., "See How It Works", "View Our Work".
+   */
   secondaryCta?: CtaLink;
   /** Optional icon displayed alongside the eyebrow */
   icon?: LucideIcon;
@@ -52,10 +95,12 @@ export function ServiceHero({
               {title}
             </h1>
           </MotionItem>
-          <MotionItem delay={0.12}>
-            <p className="mx-auto max-w-2xl text-lg text-[var(--pv-text-muted)] md:text-xl">
-              {description}
-            </p>
+          <MotionItem delay={0.12} className="space-y-4">
+            {description.split('\n\n').filter(Boolean).map((para, idx) => (
+              <p key={idx} className="mx-auto max-w-2xl text-lg text-[var(--pv-text-muted)] md:text-xl">
+                {para}
+              </p>
+            ))}
           </MotionItem>
           <MotionItem
             delay={0.16}
