@@ -72,12 +72,14 @@ export default function WebDevelopmentPage() {
           background="bg"
         />
         <Container className="pb-12 md:pb-16">
-          <Link
-            href={whenNewWebsite.crossLink.href}
-            className="text-sm font-medium text-[var(--pv-primary)] underline-offset-4 hover:underline"
-          >
-            {whenNewWebsite.crossLink.label} →
-          </Link>
+          <div className="mx-auto max-w-3xl">
+            <Link
+              href={whenNewWebsite.crossLink.href}
+              className="text-sm font-medium text-[var(--pv-primary)] underline-offset-4 hover:underline"
+            >
+              {whenNewWebsite.crossLink.label} →
+            </Link>
+          </div>
         </Container>
       </div>
 
@@ -105,8 +107,9 @@ export default function WebDevelopmentPage() {
       <ServiceNarrativeSection
         eyebrow="How We Build"
         title={designAndDevelopment.title}
-        intro={designAndDevelopment.body}
-        layout="two-column"
+        intro={designAndDevelopment.intro}
+        bullets={designAndDevelopment.bulletPoints}
+        layout="text-with-bullets-alt"
         background="surface"
       />
 

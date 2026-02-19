@@ -21,6 +21,8 @@
 - Tightened the Web Design & Development page meta description to under 160 characters for better search result display
 - Added centralized content data file for the Local Website Optimization & SEO service page with all 7 confirmed sections
 - Launched the redesigned Local Website Optimization & SEO service page — seven narrative sections walking visitors through why local SEO matters, how performance is evaluated, and when optimization is the right move versus a full rebuild
+- Fixed the SEO service page hero section to display the full two-paragraph description as intended in the copy
+- Updated the mobile navigation so sub-services under the Services section are always visible — no longer requires a tap to expand
 
 ## Notes for internal team
 - PVS-352: Created `/data/service-paths.ts` with TypeScript interfaces and confirmed copy
@@ -41,6 +43,7 @@
 - PVS-369: Created `/data/seo-content.ts` — `SeoContentData` interface + all 7 sections with confirmed copy; `bulletPoints: string[]` (matches `ServiceNarrativeSection`); `crossLink: CTA` (reuses shared type); exports `SeoContentData` only
 - PVS-370: Verified `ServiceNarrativeSection` supports all SEO section layouts without modification; confirmed `ServiceBulletList` is not needed for SEO page (plain string bullets → use `text-with-bullets` layout on `ServiceNarrativeSection`); confirmed `ServiceHero` supports "Discuss Your Situation" CTA; added comprehensive JSDoc with SEO page usage examples to both components
 - PVS-371: Replaced `app/services/seo/page.tsx` (501-line feature-list) with 7-section narrative page using `ServiceHero`, `ServiceNarrativeSection` (`text-only` × 2, `text-with-bullets` × 3), and `ServiceCta`; all content data-driven from `seo-content.ts`; cross-link to `/services/web-development` in "When Optimization Is Right" section; updated metadata title, description (144 chars), and keywords; updated service schema description to match narrative positioning
+- PVS-372: Updated `ServiceHero` to split `description` on `\n\n` and render each paragraph as its own `<p>` with `space-y-4` — removed `.split('\n\n')[0]` from `app/services/seo/page.tsx`; updated `components/ui/navbar.tsx` to remove collapse toggle for mobile nav items with children — submenu now always visible without chevron interaction
 
 ## Changed URLs
 - https://www.pixelversestudios.io/services

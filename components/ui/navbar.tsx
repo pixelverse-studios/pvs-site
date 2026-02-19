@@ -254,31 +254,9 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                             </span>
                             <span className="flex-1">{item.label}</span>
                           </Link>
-                          {hasChildren && (
-                            <button
-                              type="button"
-                              onClick={() => toggleMobileExpand(item.label)}
-                              className={cn(
-                                'mr-2 inline-flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-200',
-                                isDarkMode
-                                  ? 'text-white/60 hover:bg-white/10 hover:text-white'
-                                  : 'text-[var(--pv-text-muted)] hover:bg-[rgba(63,0,233,0.08)] hover:text-[var(--pv-primary)]',
-                              )}
-                              aria-label={isExpanded ? 'Collapse submenu' : 'Expand submenu'}
-                              aria-expanded={isExpanded}
-                            >
-                              <ChevronDown
-                                className={cn(
-                                  'h-4 w-4 transition-transform duration-200',
-                                  isExpanded && 'rotate-180',
-                                )}
-                                aria-hidden="true"
-                              />
-                            </button>
-                          )}
                         </div>
-                        {/* Mobile submenu */}
-                        {hasChildren && isExpanded && (
+                        {/* Mobile submenu — always visible */}
+                        {hasChildren && (
                           <div className="ml-14 mt-1 flex flex-col gap-1 border-l-2 border-[var(--pv-border)] pl-4 dark:border-white/10">
                             {item.children!.map((child) => {
                               const childIsActive = pathname === child.href;
