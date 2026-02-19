@@ -31,7 +31,6 @@ const createDefaultFormValues = (): Partial<ContactFormValues> => ({
   budget: undefined,
   timeline: undefined,
   briefSummary: '',
-  hasSeenPackages: undefined,
   honeypot: '',
 });
 
@@ -67,9 +66,6 @@ const formSchema = z.object({
   briefSummary: z
     .string()
     .min(10, 'Share a short overview of your project (at least 10 characters).'),
-  hasSeenPackages: z.enum(['yes', 'no'], {
-    required_error: 'Let us know if you have reviewed the Packages page.',
-  }),
   honeypot: z.string().max(0).optional(),
 });
 
@@ -154,7 +150,6 @@ export function ContactForm() {
     budget: BudgetValue;
     timeline: TimelineValue;
     briefSummary: ContactFormValues['briefSummary'];
-    hasSeenPackages: boolean;
     honeypot: string;
   };
 
@@ -217,7 +212,7 @@ export function ContactForm() {
   const onSubmit = useCallback(
     async (values: ContactFormValues) => {
       clearToast();
-      const { honeypot, hasSeenPackages, name, email, budget, timeline, briefSummary } = values;
+      const { honeypot, name, email, budget, timeline, briefSummary } = values;
 
       if (honeypot && honeypot.length > 0) {
         resetForm();
@@ -236,7 +231,6 @@ export function ContactForm() {
           budget,
           timeline,
           briefSummary,
-          hasSeenPackages: hasSeenPackages === 'yes',
           honeypot: honeypot ?? '',
         };
 
@@ -480,44 +474,6 @@ export function ContactForm() {
             </p>
           )}
         </div>
-
-        <fieldset className="space-y-2">
-          <legend className="text-sm font-medium text-[var(--pv-text)] dark:text-white">
-            Have you looked at the Packages page?
-          </legend>
-          <div
-            role="radiogroup"
-            aria-invalid={errors.hasSeenPackages ? 'true' : 'false'}
-            aria-describedby={errors.hasSeenPackages ? 'contact-packages-error' : undefined}
-            className="flex flex-wrap gap-3"
-          >
-            <label className="inline-flex items-center gap-2 rounded-pv-sm border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-2 text-sm text-[var(--pv-text)] transition hover:border-[var(--pv-primary)]">
-              <input
-                type="radio"
-                value="yes"
-                className="h-4 w-4 accent-[var(--pv-primary)]"
-                {...register('hasSeenPackages')}
-                disabled={isSubmitting || isCoolingDown}
-              />
-              Yes
-            </label>
-            <label className="inline-flex items-center gap-2 rounded-pv-sm border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-2 text-sm text-[var(--pv-text)] transition hover:border-[var(--pv-primary)]">
-              <input
-                type="radio"
-                value="no"
-                className="h-4 w-4 accent-[var(--pv-primary)]"
-                {...register('hasSeenPackages')}
-                disabled={isSubmitting || isCoolingDown}
-              />
-              No
-            </label>
-          </div>
-          {errors.hasSeenPackages && (
-            <p id="contact-packages-error" className="text-sm text-[var(--pv-danger)]">
-              {errors.hasSeenPackages.message}
-            </p>
-          )}
-        </fieldset>
 
         <div className="space-y-2">
           <Button
