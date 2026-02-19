@@ -2,7 +2,7 @@
 // Use these components to build individual service pages (e.g., /services/web-development)
 
 export { ServiceHero } from './service-hero';
-export type { ServiceHeroProps } from './service-hero';
+export type { ServiceHeroProps, CtaLink } from './service-hero';
 
 export { ServiceFeatures } from './service-features';
 export type { ServiceFeaturesProps, ServiceFeature } from './service-features';

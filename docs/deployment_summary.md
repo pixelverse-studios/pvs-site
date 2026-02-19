@@ -31,6 +31,7 @@
 - PVS-361: Created `components/services/individual/service-narrative-section.tsx` — reusable narrative section with `text-only`, `text-with-bullets`, `two-column` layouts; supports eyebrow badge, heading, intro, bullets, closing, background variant props
 - PVS-362: Created `components/services/individual/service-bullet-list.tsx` — Card-based bullet list with optional Lucide icon, gradient circle icon bg, hover lift + glow; exports `BulletPoint` and `ServiceBulletListProps` types; supports `grid` and `vertical` layouts
 - PVS-363: Created `components/services/individual/service-expectations.tsx` — 2x2 grid of expectation cards with SectionHeader, optional gradient icon circles, subtle hover border + glow; exports `ServiceExpectationItem` and `ServiceExpectationsProps` types
+- PVS-364: Confirmed `ServiceHero` already supports custom CTA labels — no hardcoded text; added JSDoc examples for conversational tone usage ("Start the Conversation", "See How It Works")
 
 ## Changed URLs
 - https://www.pixelversestudios.io/services
