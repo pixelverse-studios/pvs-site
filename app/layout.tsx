@@ -11,7 +11,6 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { DarkThemePicker } from '@/components/ui/dark-theme-picker';
 import { StructuredData } from '@/components/ui/structured-data';
 import { sharedMetadata } from '@/lib/metadata';
-import { getContactContexts } from '@/data/contact-contexts';
 import { localBusinessSchema } from '@/lib/structured-data';
 
 const headingFont = Poppins({
@@ -123,24 +122,6 @@ const navItems = [
   { label: 'FAQ', href: '/faq' },
 ];
 
-const contactContexts = getContactContexts();
-const bergenCountyContact = contactContexts.find((context) => context.slug === 'bergen-county');
-
-const localContactLinks = [
-  ...(bergenCountyContact
-    ? [
-        {
-          label: `${bergenCountyContact.locationLabel} contact`,
-          href: `/contact/${bergenCountyContact.slug}`,
-        },
-      ]
-    : []),
-  {
-    label: 'View all Bergen locations',
-    href: '/services/bergen-county',
-  },
-];
-
 const CampaignTracker = dynamic(
   () =>
     import('@/components/campaign-tracker').then((module) => ({
@@ -178,7 +159,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <CampaignTracker />
             <MixpanelProvider />
           </Suspense>
-          <LayoutWrapper navItems={navItems} localContactLinks={localContactLinks}>
+          <LayoutWrapper navItems={navItems}>
             {children}
           </LayoutWrapper>
           <DarkThemePicker />

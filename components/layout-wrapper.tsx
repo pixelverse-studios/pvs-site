@@ -9,10 +9,10 @@ import { Navbar, type NavItem } from '@/components/ui/navbar';
 interface LayoutWrapperProps {
   children: ReactNode;
   navItems: NavItem[];
-  localContactLinks: Array<{ label: string; href: string }>;
+  localContactLinks?: Array<{ label: string; href: string }>;
 }
 
-export function LayoutWrapper({ children, navItems, localContactLinks }: LayoutWrapperProps) {
+export function LayoutWrapper({ children, navItems, localContactLinks = [] }: LayoutWrapperProps) {
   const pathname = usePathname();
 
   // Pages that should not have navbar/footer (auth pages and dashboard)

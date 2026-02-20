@@ -72,25 +72,23 @@ const nextConfig = {
     ];
   },
   async redirects() {
-    const contactContextSlugs = [
+    const legacyContactSlugs = [
       'bergen-county',
       'fort-lee',
       'cliffside-park',
       'river-vale',
       'hackensack',
       'paramus',
+      'teaneck',
+      'fair-lawn',
+      'englewood',
+      'bergenfield',
+      'ridgewood',
     ];
 
-    const contactContextRedirects = contactContextSlugs.map((slug) => ({
-      source: '/contact',
-      has: [
-        {
-          type: 'query',
-          key: 'context',
-          value: slug,
-        },
-      ],
-      destination: `/contact/${slug}`,
+    const contactSlugRedirects = legacyContactSlugs.map((slug) => ({
+      source: `/contact/${slug}`,
+      destination: '/contact',
       permanent: true,
     }));
 
@@ -120,7 +118,12 @@ const nextConfig = {
         destination: '/services',
         permanent: true,
       },
-      ...contactContextRedirects,
+      {
+        source: '/audit',
+        destination: '/contact',
+        permanent: true,
+      },
+      ...contactSlugRedirects,
     ];
   },
 };
