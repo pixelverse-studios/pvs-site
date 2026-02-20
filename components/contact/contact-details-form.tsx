@@ -19,27 +19,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { getApiBaseUrl } from '@/lib/api-config';
 import { cn } from '@/lib/utils';
 
-// ─── Schema ──────────────────────────────────────────────────────────────────
-
-const detailsFormSchema = z.object({
-  name: z.string().min(2, 'Please enter your name.'),
-  email: z.string().email('Enter a valid email address.'),
-  companyName: z.string().min(1, 'Company name is required.'),
-  phone: z.string().optional(),
-  budget: z.enum(['<1k', '1-3k', '3-6k', '6-10k', '10k+'], {
-    required_error: 'Select a budget range.',
-  }),
-  timeline: z.enum(['ASAP', '1-2mo', '3-6mo', '6+mo', 'unsure'], {
-    required_error: 'Select a timeline.',
-  }),
-  currentWebsite: z.string().optional(),
-  improvements: z.array(z.string()).min(1, 'Select at least one area.'),
-  briefSummary: z.string().optional(),
-  honeypot: z.string().max(0).optional(),
-});
-
-type DetailsFormValues = z.infer<typeof detailsFormSchema>;
-
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const BUDGET_OPTIONS = [
@@ -66,7 +45,34 @@ const IMPROVEMENT_OPTIONS = [
   { label: 'Not showing up in search results', value: 'seo' },
   { label: 'Site is slow or experiencing technical issues', value: 'performance' },
   { label: 'Not sure yet', value: 'unsure' },
-];
+] as const;
+
+// ─── Schema ──────────────────────────────────────────────────────────────────
+
+function toEnumValues<T extends readonly { readonly value: string }[]>(
+  opts: T,
+): [T[number]['value'], ...T[number]['value'][]] {
+  return opts.map((o) => o.value) as [T[number]['value'], ...T[number]['value'][]];
+}
+
+const detailsFormSchema = z.object({
+  name: z.string().min(2, 'Please enter your name.').max(100, 'Name is too long.'),
+  email: z.string().email('Enter a valid email address.').max(254),
+  companyName: z.string().min(1, 'Company name is required.').max(150, 'Company name is too long.'),
+  phone: z.string().regex(/^[\d\s+\-().]{7,20}$/, 'Enter a valid phone number.').optional().or(z.literal('')),
+  budget: z.enum(toEnumValues(BUDGET_OPTIONS), {
+    required_error: 'Select a budget range.',
+  }),
+  timeline: z.enum(toEnumValues(TIMELINE_OPTIONS), {
+    required_error: 'Select a timeline.',
+  }),
+  currentWebsite: z.string().url('Enter a valid URL (e.g. https://yoursite.com)').optional().or(z.literal('')),
+  improvements: z.array(z.enum(toEnumValues(IMPROVEMENT_OPTIONS))).min(1, 'Select at least one area.'),
+  briefSummary: z.string().max(2000, 'Please keep this under 2,000 characters.').optional(),
+  website_confirm: z.string().max(0).optional(),
+});
+
+type DetailsFormValues = z.infer<typeof detailsFormSchema>;
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -94,10 +100,10 @@ function FieldLabel({
   );
 }
 
-function FieldError({ message }: { message?: string }) {
+function FieldError({ message, id }: { message?: string; id?: string }) {
   if (!message) return null;
   return (
-    <p className="mt-1.5 flex items-center gap-1.5 text-xs text-red-500">
+    <p id={id} className="mt-1.5 flex items-center gap-1.5 text-xs text-red-500">
       <AlertCircle className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
       {message}
     </p>
@@ -117,7 +123,7 @@ export function ContactDetailsForm() {
     handleSubmit,
     control,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<DetailsFormValues>({
     resolver: zodResolver(detailsFormSchema),
     defaultValues: {
@@ -126,8 +132,12 @@ export function ContactDetailsForm() {
   });
 
   const onSubmit = async (data: DetailsFormValues) => {
+    // Re-entry guard
+    if (formState === 'submitting') return;
+
     // Honeypot check — bot filled the hidden field
-    if (data.honeypot) {
+    if (data.website_confirm) {
+      reset();
       setFormState('success');
       return;
     }
@@ -138,6 +148,9 @@ export function ContactDetailsForm() {
     lastSubmitRef.current = now;
 
     setFormState('submitting');
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15_000);
 
     try {
       // Build message — concatenate improvements into briefSummary for API compatibility
@@ -168,13 +181,16 @@ export function ContactDetailsForm() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-      setFormState('success');
       reset();
+      setFormState('success');
     } catch {
+      lastSubmitRef.current = 0;
       setFormState('error');
     }
   };
@@ -199,7 +215,7 @@ export function ContactDetailsForm() {
     );
   }
 
-  const isSubmitting = formState === 'submitting';
+  const isSubmittingState = formState === 'submitting';
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -214,11 +230,12 @@ export function ContactDetailsForm() {
               id="name"
               autoComplete="name"
               placeholder="Jane Smith"
-              disabled={isSubmitting}
+              disabled={isSubmittingState}
               aria-invalid={!!errors.name}
+              aria-describedby={errors.name ? 'name-error' : undefined}
               {...register('name')}
             />
-            <FieldError message={errors.name?.message} />
+            <FieldError id="name-error" message={errors.name?.message} />
           </div>
 
           <div>
@@ -230,11 +247,12 @@ export function ContactDetailsForm() {
               type="email"
               autoComplete="email"
               placeholder="jane@company.com"
-              disabled={isSubmitting}
+              disabled={isSubmittingState}
               aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? 'email-error' : undefined}
               {...register('email')}
             />
-            <FieldError message={errors.email?.message} />
+            <FieldError id="email-error" message={errors.email?.message} />
           </div>
         </div>
 
@@ -248,11 +266,12 @@ export function ContactDetailsForm() {
               id="companyName"
               autoComplete="organization"
               placeholder="Acme Inc."
-              disabled={isSubmitting}
+              disabled={isSubmittingState}
               aria-invalid={!!errors.companyName}
+              aria-describedby={errors.companyName ? 'company-error' : undefined}
               {...register('companyName')}
             />
-            <FieldError message={errors.companyName?.message} />
+            <FieldError id="company-error" message={errors.companyName?.message} />
           </div>
 
           <div>
@@ -262,7 +281,7 @@ export function ContactDetailsForm() {
               type="tel"
               autoComplete="tel"
               placeholder="(201) 555-0100"
-              disabled={isSubmitting}
+              disabled={isSubmittingState}
               {...register('phone')}
             />
           </div>
@@ -276,9 +295,12 @@ export function ContactDetailsForm() {
                 <Select
                   value={field.value}
                   onValueChange={field.onChange}
-                  disabled={isSubmitting}
+                  disabled={isSubmittingState}
                 >
-                  <SelectTrigger aria-invalid={!!errors.budget}>
+                  <SelectTrigger
+                    aria-invalid={!!errors.budget}
+                    aria-describedby={errors.budget ? 'budget-error' : undefined}
+                  >
                     <SelectValue placeholder="Select a range" />
                   </SelectTrigger>
                   <SelectContent>
@@ -291,7 +313,7 @@ export function ContactDetailsForm() {
                 </Select>
               )}
             />
-            <FieldError message={errors.budget?.message} />
+            <FieldError id="budget-error" message={errors.budget?.message} />
           </div>
         </div>
 
@@ -306,9 +328,12 @@ export function ContactDetailsForm() {
                 <Select
                   value={field.value}
                   onValueChange={field.onChange}
-                  disabled={isSubmitting}
+                  disabled={isSubmittingState}
                 >
-                  <SelectTrigger aria-invalid={!!errors.timeline}>
+                  <SelectTrigger
+                    aria-invalid={!!errors.timeline}
+                    aria-describedby={errors.timeline ? 'timeline-error' : undefined}
+                  >
                     <SelectValue placeholder="Select a timeline" />
                   </SelectTrigger>
                   <SelectContent>
@@ -321,7 +346,7 @@ export function ContactDetailsForm() {
                 </Select>
               )}
             />
-            <FieldError message={errors.timeline?.message} />
+            <FieldError id="timeline-error" message={errors.timeline?.message} />
           </div>
 
           <div>
@@ -330,7 +355,7 @@ export function ContactDetailsForm() {
               id="currentWebsite"
               type="url"
               placeholder="https://yoursite.com"
-              disabled={isSubmitting}
+              disabled={isSubmittingState}
               {...register('currentWebsite')}
             />
           </div>
@@ -354,13 +379,13 @@ export function ContactDetailsForm() {
                 className={cn(
                   'flex cursor-pointer items-start gap-3 rounded-lg border p-3 text-sm transition-colors',
                   'border-[var(--pv-border)] hover:border-[var(--pv-primary)] hover:bg-[color-mix(in_srgb,var(--pv-primary)_4%,transparent)]',
-                  isSubmitting && 'pointer-events-none opacity-60',
+                  isSubmittingState && 'pointer-events-none opacity-60',
                 )}
               >
                 <input
                   type="checkbox"
                   value={opt.value}
-                  disabled={isSubmitting}
+                  disabled={isSubmittingState}
                   className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--pv-primary)]"
                   {...register('improvements')}
                 />
@@ -368,7 +393,7 @@ export function ContactDetailsForm() {
               </label>
             ))}
           </div>
-          <FieldError message={errors.improvements?.message} />
+          <FieldError id="improvements-error" message={errors.improvements?.root?.message ?? errors.improvements?.message} />
         </div>
 
         {/* Brief summary textarea */}
@@ -377,18 +402,21 @@ export function ContactDetailsForm() {
           <Textarea
             id="briefSummary"
             placeholder="Tell us about your business, what you're trying to achieve, and what success would look like."
-            disabled={isSubmitting}
+            disabled={isSubmittingState}
             {...register('briefSummary')}
           />
         </div>
 
-        {/* Honeypot — visually hidden from real users */}
-        <div className="hidden" aria-hidden="true">
-          <input tabIndex={-1} autoComplete="off" {...register('honeypot')} />
+        {/* Honeypot — off-screen, hidden from real users */}
+        <div
+          style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none' }}
+          aria-hidden="true"
+        >
+          <input tabIndex={-1} autoComplete="off" {...register('website_confirm')} />
         </div>
 
         {/* Error message */}
-        {formState === 'error' && (
+        {formState === 'error' && !isSubmitting && (
           <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/40 dark:bg-red-950/30 dark:text-red-400">
             <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
             <span>
@@ -406,8 +434,8 @@ export function ContactDetailsForm() {
 
         {/* Submit */}
         <div className="flex justify-end">
-          <Button type="submit" disabled={isSubmitting} size="lg">
-            {isSubmitting ? (
+          <Button type="submit" disabled={isSubmittingState} size="lg">
+            {isSubmittingState ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
                 Sending&hellip;
