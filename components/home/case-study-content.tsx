@@ -12,7 +12,7 @@ import {
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
-import type { CaseStudy } from '@/data/homepage';
+import type { CaseStudy } from '@/data/case-studies';
 
 const iconMap: Record<string, LucideIcon> = {
   alertCircle: AlertCircle,
@@ -45,21 +45,21 @@ export function CaseStudyContent({ study, animationKey }: CaseStudyContentProps)
             <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] shadow-sm">
               <Building2 className="h-3.5 w-3.5 text-[var(--pv-primary)]" aria-hidden />
             </span>
-            <span className="font-medium text-[var(--pv-text)]">{study.client.name}</span>
+            <span className="font-medium text-[var(--pv-text)]">{study.name}</span>
           </span>
 
           <span className="inline-flex items-center gap-2">
             <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] shadow-sm">
               <Wrench className="h-3.5 w-3.5 text-[var(--pv-primary)]" aria-hidden />
             </span>
-            <span className="text-[var(--pv-text-muted)]">{study.client.industry}</span>
+            <span className="text-[var(--pv-text-muted)]">{study.industry}</span>
           </span>
 
           <span className="inline-flex items-center gap-2">
             <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] shadow-sm">
               <MapPin className="h-3.5 w-3.5 text-[var(--pv-primary)]" aria-hidden />
             </span>
-            <span className="text-[var(--pv-text-muted)]">{study.client.location}</span>
+            <span className="text-[var(--pv-text-muted)]">{study.location}</span>
           </span>
         </div>
 
@@ -79,7 +79,7 @@ export function CaseStudyContent({ study, animationKey }: CaseStudyContentProps)
 
           return (
             <MotionItem
-              key={`${study.client.name}-${item.issue}`}
+              key={`${study.name}-${item.issue}`}
               delay={index * ITEM_STAGGER_INCREMENT}
             >
               <Card className="group flex h-full flex-col border-[var(--pv-border)] bg-[var(--pv-bg)] transition-transform duration-200 hover:-translate-y-1 hover:shadow-pv">

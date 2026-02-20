@@ -15,11 +15,13 @@
 - Removed UX/UI Design entry from city-level structured data schema (lib/structured-data.ts)
 - Added FAQ section to the homepage with 6 common questions for top-of-funnel visitors evaluating PixelVerse
 - Added FAQ sections to the Web Design & Development and SEO service pages with service-specific questions
+- Centralized all case study data (Jones Pressure Washing, 360 Degree Care, Domani) into a single data file so adding a new case study only requires one entry
 
 ## Notes for internal team
 
 - PVS-386, PVS-387, PVS-388 completed (epic PVS-385)
 - PVS-390, PVS-391, PVS-392, PVS-393, PVS-394, PVS-395 completed (epic PVS-389)
+- PVS-397 completed: data/case-studies.ts created, homepage.ts and project-showcase-section.tsx migrated to consume from it
 - Files: components/ui/navbar.tsx, components/contact/ContactForm.tsx, next.config.js, data/faq-content.ts, components/faq/faq-list-section.tsx, components/faq/faq-intro-section.tsx, components/faq/faq-closing-cta.tsx, app/faq/page.tsx, data/local-service-pages.ts, data/about.ts, components/services/services-core-section.tsx, app/services/ux-ui-design/ (deleted), data/homepage-faq.ts, components/home/home-faq-section.tsx, app/page.tsx, data/web-development-content.ts, data/seo-content.ts, app/services/web-development/page.tsx, app/services/seo/page.tsx
 
 ## Changed URLs

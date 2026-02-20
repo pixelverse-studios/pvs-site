@@ -5,6 +5,8 @@
 // All components consume from this single source of truth
 
 import { validateHomepageHero } from '@/lib/validation/homepage';
+import { caseStudies as allCaseStudies } from '@/data/case-studies';
+export type { CaseStudy } from '@/data/case-studies';
 
 // ----------------------------------------------------------------------------
 // Type Definitions
@@ -33,25 +35,6 @@ export interface WhySection {
   };
 }
 
-export interface CaseStudy {
-  title: string;
-  client: {
-    name: string;
-    industry: string;
-    location: string;
-  };
-  problem: string;
-  solution: string;
-  issues: Array<{
-    icon?: string;
-    issue: string;
-    resolution: string;
-  }>;
-  outcome: {
-    metric: string;
-    description: string;
-  };
-}
 
 export interface InsightBeat {
   label: string;
@@ -138,82 +121,7 @@ export const whySection: WhySection = {
   },
 };
 
-export const caseStudies: CaseStudy[] = [
-  {
-    title: 'How we helped a pressure washing company build search visibility across two counties',
-    client: {
-      name: 'Jones Pressure Washing',
-      industry: 'Home Services',
-      location: 'Bergen & Essex County, NJ',
-    },
-    problem:
-      'Jones Pressure Washing had a strong local reputation built on word-of-mouth, but no structured online presence. Their previous site was a basic template with no service-specific pages, no city targeting, and no SEO architecture. Homeowners searching for pressure washing, soft washing, or holiday lighting in Bergen and Essex County had no way to find them online.',
-    solution:
-      'We built a custom site with dedicated service pages for each offering — pressure washing, soft washing, and holiday lighting — paired with city-level landing pages targeting key towns across Bergen and Essex County.',
-    issues: [
-      {
-        icon: 'fileText',
-        issue: 'Single-page site with no search visibility',
-        resolution:
-          'Built dedicated service pages and city-level landing pages across Bergen and Essex County, giving Google 14 indexable entry points instead of one',
-      },
-      {
-        icon: 'zap',
-        issue: 'No presence in seasonal service searches',
-        resolution:
-          'Created targeted holiday lighting pages for Essex and Bergen County — now pulling 950+ impressions for seasonal keywords and driving the site\'s highest-converting traffic',
-      },
-      {
-        icon: 'alertCircle',
-        issue: 'No local search footprint beyond direct name searches',
-        resolution:
-          'Structured service and city pages are now surfacing for 299 unique search queries, expanding visibility well beyond branded searches',
-      },
-    ],
-    outcome: {
-      metric: '5,200+ search impressions and 299 indexed queries within 6 months',
-      description:
-        'From a standing start, service-specific pages are pulling targeted impressions across two counties. Holiday lighting pages alone account for nearly 1,000 impressions, and the site architecture is building compounding visibility with each passing month.',
-    },
-  },
-  {
-    title: 'How we helped a home care agency build a digital presence that matched their reputation',
-    client: {
-      name: '360 Degree Care',
-      industry: 'Home Healthcare',
-      location: 'Ridgewood, NJ',
-    },
-    problem:
-      '360 Degree Care spent years operating under a franchise brand. When they went independent, they had a strong local reputation — 4.8 stars on Google, 80% caregiver retention, CHAP certification — but no online presence of their own. Families searching for home care in Bergen County had no way to find them.',
-    solution:
-      'We built a custom site on a new domain with dedicated service pages, city-level landing pages, and SEO architecture designed to build organic visibility from a standing start.',
-    issues: [
-      {
-        icon: 'fileText',
-        issue: 'No independent online presence',
-        resolution:
-          'Built a custom site on a new domain with structured data, schema markup, and SEO architecture designed to index quickly and rank for local care searches',
-      },
-      {
-        icon: 'zap',
-        issue: 'Six services with no dedicated search visibility',
-        resolution:
-          'Created individual service pages with city-level landing pages — each structured to rank independently for queries like "personal care Bergen County" and "companion care Englewood"',
-      },
-      {
-        icon: 'alertCircle',
-        issue: 'Strong reputation invisible to searchers',
-        resolution:
-          'Surfaced trust signals throughout — Google reviews, CHAP certification, team credentials — so credibility shows up before the first phone call',
-      },
-    ],
-    outcome: {
-      metric: '8,500+ search impressions and 270 indexed queries within 6 months',
-      description:
-        'From a standing start on a new domain, individual service pages are now pulling hundreds of impressions for high-intent local searches. The site architecture is building organic visibility exactly as designed — and it\'s still climbing.',
-    },
-  },
-];
+export const caseStudies = allCaseStudies.filter((cs) => cs.featured);
 
 export const insightSection: InsightSection = {
   heading: "Most Website Problems Aren't Isolated",
