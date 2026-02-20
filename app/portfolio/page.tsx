@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 
 import { PortfolioClosingCtaSection } from '@/components/portfolio/portfolio-closing-cta';
 import { PortfolioIntroSection } from '@/components/portfolio/portfolio-intro-section';
-import { PortfolioTrustSection } from '@/components/portfolio/trust-section';
 import { ProjectShowcaseSection } from '@/components/portfolio/project-showcase-section';
 import { createPageMetadata } from '@/lib/metadata';
 
