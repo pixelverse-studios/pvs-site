@@ -34,6 +34,7 @@ export interface WebDevContentData {
     bulletPoints: string[];
     closing: string;
   };
+  faq: Array<{ question: string; answer: string }>;
   finalCta: {
     title: string;
     description: string;
@@ -109,6 +110,33 @@ export const webDevelopmentContent: WebDevContentData = {
     closing:
       'The result is a site that reflects the business accurately and supports its next stage of growth.',
   },
+  faq: [
+    {
+      question: "What's actually included in a website build?",
+      answer:
+        'Planning and site structure, design direction, full development, review milestones, and thorough testing before launch. The scope varies by project, but the process is always structured and transparent — you’ll know what’s included before anything moves forward.',
+    },
+    {
+      question: 'Do you handle copy and content writing?',
+      answer:
+        'Content direction is part of our planning phase — we help structure what needs to be communicated and where. Full copywriting can be scoped in depending on the project, or we can work with content you provide.',
+    },
+    {
+      question: 'Can you rebuild just part of a site instead of the whole thing?',
+      answer:
+        'Yes, when the foundation is sound. If specific sections are outdated, unclear, or underperforming, targeted improvements are often more practical than a full rebuild. We assess this during the initial evaluation.',
+    },
+    {
+      question: 'What do you need from us to get started?',
+      answer:
+        'Mostly your time and context. We need to understand how your business operates, what the site needs to support, and any constraints around timeline or technology. The planning phase is collaborative — we guide the process, but you know your business best.',
+    },
+    {
+      question: 'Will the site be easy to update ourselves after launch?',
+      answer:
+        "That’s part of how we plan the build. We design for maintainability from the start, and provide documentation and training at handoff so you’re not dependent on us for routine updates.",
+    },
+  ],
   finalCta: {
     title: 'Let\u2019s Talk It Through',
     description:

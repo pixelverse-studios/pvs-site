@@ -33,6 +33,7 @@ export interface SeoContentData {
     bulletPoints: string[];
     closing: string;
   };
+  faq: Array<{ question: string; answer: string }>;
   finalCta: {
     title: string;
     description: string;
@@ -104,6 +105,33 @@ export const seoContent: SeoContentData = {
     closing:
       'The goal isn\u2019t short-term spikes. It\u2019s a site that consistently supports steady local visibility and informed decision-making over time.',
   },
+  faq: [
+    {
+      question: "What's actually included in your optimization work?",
+      answer:
+        "Typically: reorganizing service and location pages to match local search intent, refining how clearly the site communicates what\u2019s offered, addressing technical performance issues, and strengthening your Google Business Profile presence. Scope is determined by what\u2019s actually limiting performance.",
+    },
+    {
+      question: 'Do you work on Google Business Profile as part of this?',
+      answer:
+        "Yes. GBP is a significant factor in local search visibility, and we address it as part of the optimization work \u2014 not as a separate add-on.",
+    },
+    {
+      question: 'How do you measure whether the work is succeeding?',
+      answer:
+        "Through search visibility metrics (impressions, indexed queries, ranking positions), engagement signals (time on page, bounce patterns), and ultimately whether more of the right visitors are taking action. We track what\u2019s meaningful, not just what looks good.",
+    },
+    {
+      question: "Can you do SEO on a site you didn't build?",
+      answer:
+        "Yes. Most of our optimization work is on existing sites built elsewhere. As long as the site has a solid enough foundation, we can improve how it performs locally without needing to rebuild.",
+    },
+    {
+      question: 'Is this a one-time project or ongoing work?',
+      answer:
+        "Local SEO is most effective as an ongoing effort \u2014 search visibility builds over time and needs maintenance as competitors and algorithms shift. We\u2019re upfront about what\u2019s realistic from a one-time engagement vs. what benefits from continued attention.",
+    },
+  ],
   finalCta: {
     title: 'Let\u2019s Talk It Through',
     description:
