@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { Container } from '@/components/ui/container';
+import { ContactDetailsForm } from './contact-details-form';
 import { ContactPathSelector, type ContactPath } from './contact-path-selector';
 
 export function ContactPageClient() {
@@ -17,11 +18,7 @@ export function ContactPageClient() {
 
           {/* Form slot */}
           <div className="rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-8 md:p-12">
-            {activePath === 'details' && (
-              <div className="text-center text-[var(--pv-text-muted)]">
-                <p className="font-medium">Details form coming soon</p>
-              </div>
-            )}
+            {activePath === 'details' && <ContactDetailsForm />}
             {activePath === 'call' && (
               <div className="text-center text-[var(--pv-text-muted)]">
                 <p className="font-medium">Calendly embed coming soon</p>
