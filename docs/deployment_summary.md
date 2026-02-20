@@ -30,6 +30,7 @@
 - Individual case study pages now return a proper 404 at the framework level for unknown URLs, rather than attempting a dynamic render
 - Removed the old contact page and all 10 location-specific contact variants (e.g. /contact/fort-lee) — these now redirect to /contact
 - Removed the old /audit page — now redirects to /contact
+- Rebuilt the /contact page with a new design: a clear hero and a 3-path selector so visitors can choose how they'd like to reach out (share details, schedule a call, or request a website review)
 
 ## Notes for internal team
 
@@ -40,6 +41,7 @@
 - PVS-399 completed: individual case study pages at /portfolio/[slug] with hero, problem, solution, issues grid, testimonial, and CTA sections
 - PVS-399 case study layout redesigned: two-column hero, numbered narrative sections, editorial issue rows, generous testimonial treatment
 - PVS-402 completed: deleted app/contact/, app/audit/, components/contact/, components/audit/, data/contact-contexts.ts; updated next.config.js redirects
+- PVS-403 completed: new app/contact/page.tsx, components/contact/contact-hero.tsx, contact-path-selector.tsx, contact-page-client.tsx
 - Files: components/ui/navbar.tsx, components/contact/ContactForm.tsx, next.config.js, data/faq-content.ts, components/faq/faq-list-section.tsx, components/faq/faq-intro-section.tsx, components/faq/faq-closing-cta.tsx, app/faq/page.tsx, data/local-service-pages.ts, data/about.ts, components/services/services-core-section.tsx, app/services/ux-ui-design/ (deleted), data/homepage-faq.ts, components/home/home-faq-section.tsx, app/page.tsx, data/web-development-content.ts, data/seo-content.ts, app/services/web-development/page.tsx, app/services/seo/page.tsx, components/portfolio/project-showcase-section.tsx, components/portfolio/portfolio-intro-section.tsx, components/portfolio/portfolio-closing-cta.tsx, components/portfolio/trust-section.tsx (deleted), app/portfolio/page.tsx, app/contact/ (deleted), app/audit/ (deleted), components/contact/ (deleted), components/audit/ (deleted), data/contact-contexts.ts (deleted), next.config.js, app/layout.tsx, components/layout-wrapper.tsx
 
 ## Changed URLs
