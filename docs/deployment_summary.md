@@ -28,6 +28,8 @@
 - Fixed case study pages to show the client screenshot (instead of the company logo) when shared on social media
 - Fixed keyboard accessibility on the dark theme picker and layout widgets — focus indicators now visible for keyboard users
 - Individual case study pages now return a proper 404 at the framework level for unknown URLs, rather than attempting a dynamic render
+- Removed the old contact page and all 10 location-specific contact variants (e.g. /contact/fort-lee) — these now redirect to /contact
+- Removed the old /audit page — now redirects to /contact
 
 ## Notes for internal team
 
@@ -37,7 +39,8 @@
 - PVS-398 completed: portfolio index redesigned with editorial case study panels, intro/CTA copy refreshed, unused trust-section.tsx removed
 - PVS-399 completed: individual case study pages at /portfolio/[slug] with hero, problem, solution, issues grid, testimonial, and CTA sections
 - PVS-399 case study layout redesigned: two-column hero, numbered narrative sections, editorial issue rows, generous testimonial treatment
-- Files: components/ui/navbar.tsx, components/contact/ContactForm.tsx, next.config.js, data/faq-content.ts, components/faq/faq-list-section.tsx, components/faq/faq-intro-section.tsx, components/faq/faq-closing-cta.tsx, app/faq/page.tsx, data/local-service-pages.ts, data/about.ts, components/services/services-core-section.tsx, app/services/ux-ui-design/ (deleted), data/homepage-faq.ts, components/home/home-faq-section.tsx, app/page.tsx, data/web-development-content.ts, data/seo-content.ts, app/services/web-development/page.tsx, app/services/seo/page.tsx, components/portfolio/project-showcase-section.tsx, components/portfolio/portfolio-intro-section.tsx, components/portfolio/portfolio-closing-cta.tsx, components/portfolio/trust-section.tsx (deleted), app/portfolio/page.tsx
+- PVS-402 completed: deleted app/contact/, app/audit/, components/contact/, components/audit/, data/contact-contexts.ts; updated next.config.js redirects
+- Files: components/ui/navbar.tsx, components/contact/ContactForm.tsx, next.config.js, data/faq-content.ts, components/faq/faq-list-section.tsx, components/faq/faq-intro-section.tsx, components/faq/faq-closing-cta.tsx, app/faq/page.tsx, data/local-service-pages.ts, data/about.ts, components/services/services-core-section.tsx, app/services/ux-ui-design/ (deleted), data/homepage-faq.ts, components/home/home-faq-section.tsx, app/page.tsx, data/web-development-content.ts, data/seo-content.ts, app/services/web-development/page.tsx, app/services/seo/page.tsx, components/portfolio/project-showcase-section.tsx, components/portfolio/portfolio-intro-section.tsx, components/portfolio/portfolio-closing-cta.tsx, components/portfolio/trust-section.tsx (deleted), app/portfolio/page.tsx, app/contact/ (deleted), app/audit/ (deleted), components/contact/ (deleted), components/audit/ (deleted), data/contact-contexts.ts (deleted), next.config.js, app/layout.tsx, components/layout-wrapper.tsx
 
 ## Changed URLs
 
@@ -57,3 +60,15 @@
 - https://www.pixelversestudios.io/portfolio/jones-pressure-washing
 - https://www.pixelversestudios.io/portfolio/360-degree-care
 - https://www.pixelversestudios.io/portfolio/domani
+- https://www.pixelversestudios.io/audit
+- https://www.pixelversestudios.io/contact/bergen-county
+- https://www.pixelversestudios.io/contact/fort-lee
+- https://www.pixelversestudios.io/contact/cliffside-park
+- https://www.pixelversestudios.io/contact/river-vale
+- https://www.pixelversestudios.io/contact/hackensack
+- https://www.pixelversestudios.io/contact/paramus
+- https://www.pixelversestudios.io/contact/teaneck
+- https://www.pixelversestudios.io/contact/fair-lawn
+- https://www.pixelversestudios.io/contact/englewood
+- https://www.pixelversestudios.io/contact/bergenfield
+- https://www.pixelversestudios.io/contact/ridgewood
