@@ -5,10 +5,11 @@ import { useState } from 'react';
 import { Container } from '@/components/ui/container';
 import { ContactDetailsForm } from './contact-details-form';
 import { ContactPathSelector, type ContactPath } from './contact-path-selector';
+import { ContactReviewForm } from './contact-review-form';
 import { ContactStrategyCall } from './contact-strategy-call';
 
-export function ContactPageClient() {
-  const [activePath, setActivePath] = useState<ContactPath>('details');
+export function ContactPageClient({ defaultPath = 'details' }: { defaultPath?: ContactPath }) {
+  const [activePath, setActivePath] = useState<ContactPath>(defaultPath);
 
   return (
     <section className="bg-[var(--pv-bg)] py-16 md:py-24">
@@ -21,11 +22,7 @@ export function ContactPageClient() {
           <div className="rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-8 md:p-12">
             {activePath === 'details' && <ContactDetailsForm />}
             {activePath === 'call' && <ContactStrategyCall />}
-            {activePath === 'review' && (
-              <div className="text-center text-[var(--pv-text-muted)]">
-                <p className="font-medium">Website review form coming soon</p>
-              </div>
-            )}
+            {activePath === 'review' && <ContactReviewForm />}
           </div>
         </div>
       </Container>

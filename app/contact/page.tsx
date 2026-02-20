@@ -18,11 +18,23 @@ export const metadata: Metadata = createPageMetadata({
   ],
 });
 
-export default function ContactPage() {
+const VALID_PATHS = ['details', 'call', 'review'] as const;
+type ContactPath = (typeof VALID_PATHS)[number];
+
+type PageProps = {
+  searchParams: Promise<{ path?: string }>;
+};
+
+export default async function ContactPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const defaultPath: ContactPath = VALID_PATHS.includes(params.path as ContactPath)
+    ? (params.path as ContactPath)
+    : 'details';
+
   return (
     <main>
       <ContactHero />
-      <ContactPageClient />
+      <ContactPageClient defaultPath={defaultPath} />
     </main>
   );
 }

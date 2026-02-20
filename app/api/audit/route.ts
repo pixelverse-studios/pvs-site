@@ -17,8 +17,9 @@ const auditRequestSchema = z.object({
       return trimmed.length >= 7 && trimmed.length <= 30;
     }, 'Phone number must be between 7 and 30 characters'),
   specifics: z
-    .string()
+    .union([z.string(), z.array(z.string())])
     .optional()
+    .transform((val) => (Array.isArray(val) ? val.join(', ') : val))
     .refine((value) => {
       if (!value) return true;
       const trimmed = value.trim();

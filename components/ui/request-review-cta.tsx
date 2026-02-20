@@ -12,7 +12,7 @@ interface RequestReviewCtaProps {
 export function RequestReviewCta({
   variant = 'cta',
   className,
-  href = '/contact',
+  href = '/contact?path=review',
 }: RequestReviewCtaProps) {
   return (
     <Button asChild variant={variant} className={cn(className)}>
