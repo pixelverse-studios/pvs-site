@@ -18,12 +18,15 @@ export function ContactPageClient({ defaultPath = 'details' }: { defaultPath?: C
           {/* Path selector */}
           <ContactPathSelector activePath={activePath} onSelect={setActivePath} />
 
-          {/* Form slot */}
-          <div className="rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-8 md:p-12">
-            {activePath === 'details' && <ContactDetailsForm />}
-            {activePath === 'call' && <ContactStrategyCall />}
-            {activePath === 'review' && <ContactReviewForm />}
-          </div>
+          {/* Form slot — Calendly has its own card styling, so skip wrapper for 'call' */}
+          {activePath === 'call' ? (
+            <ContactStrategyCall />
+          ) : (
+            <div className="rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-8 md:p-12">
+              {activePath === 'details' && <ContactDetailsForm />}
+              {activePath === 'review' && <ContactReviewForm />}
+            </div>
+          )}
         </div>
       </Container>
     </section>
