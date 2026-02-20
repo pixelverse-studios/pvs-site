@@ -1,4 +1,5 @@
 import type { CTA } from './service-paths';
+import type { FaqItem } from '@/data/faq-content';
 
 export interface SeoContentData {
   hero: {
@@ -33,7 +34,7 @@ export interface SeoContentData {
     bulletPoints: string[];
     closing: string;
   };
-  faq: Array<{ question: string; answer: string }>;
+  faq: FaqItem[];
   finalCta: {
     title: string;
     description: string;

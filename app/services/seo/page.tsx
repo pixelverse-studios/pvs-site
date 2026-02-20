@@ -8,8 +8,8 @@ import {
   ServiceHero,
   ServiceNarrativeSection,
   ServiceCta,
+  ServiceFAQ,
 } from '@/components/services/individual';
-import { ServiceFAQ } from '@/components/services/individual/service-faq';
 import { Container } from '@/components/ui/container';
 import { StructuredData } from '@/components/ui/structured-data';
 import { seoContent } from '@/data/seo-content';
