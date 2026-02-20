@@ -2,7 +2,6 @@
 
 import {
   AlertCircle,
-  ChevronDown,
   Building2,
   FileText,
   MapPin,
@@ -93,13 +92,12 @@ export function CaseStudyContent({ study, animationKey }: CaseStudyContentProps)
                   </div>
                 </CardHeader>
                 <CardContent className="flex-1 space-y-3 pt-0">
-                  <div
-                    className="flex flex-col items-start gap-1 text-xs font-semibold uppercase tracking-wider text-[var(--pv-primary)]"
+                  <span
+                    className="text-xs font-semibold uppercase tracking-wider text-[var(--pv-primary)]"
                     aria-hidden
                   >
-                    <span>What we did</span>
-                    <ChevronDown className="h-3.5 w-3.5" />
-                  </div>
+                    What we did
+                  </span>
                   <CardDescription className="leading-relaxed text-[var(--pv-text-muted)]">
                     {item.resolution}
                   </CardDescription>

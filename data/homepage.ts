@@ -116,7 +116,7 @@ const rawHomepageHero = {
     href: '/contact',
   },
   secondaryCta: {
-    label: 'Request a Free Website Audit',
+    label: 'Request a Website Review',
     href: '/audit',
   },
 };

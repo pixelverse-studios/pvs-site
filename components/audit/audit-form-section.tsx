@@ -15,7 +15,7 @@ export function AuditFormSection() {
       <Container className="grid gap-10 lg:grid-cols-[0.9fr,1.1fr] lg:items-start">
         <div className="space-y-6">
           <SectionHeader
-            eyebrow="Request Your Free Website Audit"
+            eyebrow="Request a Website Review"
             title="Tell us where to look and we’ll take it from there."
             description="Fill out the audit form and our team will review your website within 2-3 business days. You’ll receive a personalized summary highlighting what’s working and where improvements can make a difference."
           />
