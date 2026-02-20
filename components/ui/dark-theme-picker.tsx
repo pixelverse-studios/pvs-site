@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 
 const STORAGE_KEY = 'pv-dark-variant';
+const ACCENT_STORAGE_KEY = 'pv-dark-accent';
+const MINIMIZED_STORAGE_KEY = 'pv-dark-picker-minimized';
 
 const VARIANTS = [
   {
@@ -48,19 +50,62 @@ const VARIANTS = [
   },
 ] as const;
 
+const ACCENTS = [
+  {
+    id: 0,
+    name: 'Original',
+    description: 'Full-strength brand blue',
+    color: '#3f00e9',
+    color2: '#c947ff',
+  },
+  {
+    id: 1,
+    name: 'Electric',
+    description: 'Vivid, high contrast',
+    color: '#7c4dff',
+    color2: '#d060ff',
+  },
+  {
+    id: 2,
+    name: 'Soft',
+    description: 'Balanced, approachable',
+    color: '#9575f5',
+    color2: '#cc6aff',
+  },
+  {
+    id: 3,
+    name: 'Muted',
+    description: 'Gentle lavender',
+    color: '#b09cf8',
+    color2: '#d47aff',
+  },
+] as const;
+
 type VariantId = (typeof VARIANTS)[number]['id'];
+type AccentId = (typeof ACCENTS)[number]['id'];
 
 export function DarkThemePicker() {
   const { resolvedTheme } = useTheme();
   const [active, setActive] = useState<VariantId>(0);
+  const [activeAccent, setActiveAccent] = useState<AccentId>(1);
+  const [minimized, setMinimized] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const saved = parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10) as VariantId;
-    const valid = VARIANTS.find((v) => v.id === saved)?.id ?? 0;
-    applyVariant(valid);
-    setActive(valid);
+
+    const savedVariant = parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10) as VariantId;
+    const validVariant = VARIANTS.find((v) => v.id === savedVariant)?.id ?? 0;
+    applyVariant(validVariant);
+    setActive(validVariant);
+
+    const savedAccent = parseInt(localStorage.getItem(ACCENT_STORAGE_KEY) ?? '1', 10) as AccentId;
+    const validAccent = ACCENTS.find((a) => a.id === savedAccent)?.id ?? 1;
+    applyAccent(validAccent);
+    setActiveAccent(validAccent);
+
+    const savedMinimized = localStorage.getItem(MINIMIZED_STORAGE_KEY) === 'true';
+    setMinimized(savedMinimized);
   }, []);
 
   function applyVariant(id: VariantId) {
@@ -68,13 +113,57 @@ export function DarkThemePicker() {
     localStorage.setItem(STORAGE_KEY, String(id));
   }
 
+  function applyAccent(id: AccentId) {
+    document.documentElement.setAttribute('data-dark-accent', String(id));
+    localStorage.setItem(ACCENT_STORAGE_KEY, String(id));
+  }
+
   function select(id: VariantId) {
     setActive(id);
     applyVariant(id);
   }
 
+  function selectAccent(id: AccentId) {
+    setActiveAccent(id);
+    applyAccent(id);
+  }
+
+  function toggleMinimized() {
+    const next = !minimized;
+    setMinimized(next);
+    localStorage.setItem(MINIMIZED_STORAGE_KEY, String(next));
+  }
+
   if (!mounted || resolvedTheme !== 'dark') return null;
 
+  const currentAccent = ACCENTS[activeAccent];
+
+  // ── Minimized pill ──────────────────────────────────────────────────
+  if (minimized) {
+    return (
+      <div className="fixed bottom-6 right-6 z-50 select-none">
+        <button
+          onClick={toggleMinimized}
+          aria-label="Open dark theme picker"
+          className="flex h-9 w-9 items-center justify-center rounded-full transition-transform duration-200 hover:scale-110 active:scale-95"
+          style={{
+            background: `linear-gradient(135deg, ${currentAccent.color}, ${currentAccent.color2})`,
+            boxShadow: `0 0 0 2px rgba(255,255,255,0.1), 0 8px 20px -4px ${currentAccent.color}70`,
+          }}
+        >
+          {/* Palette dot pattern */}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.9)" />
+            <circle cx="11" cy="5" r="2" fill="rgba(255,255,255,0.6)" />
+            <circle cx="5" cy="11" r="2" fill="rgba(255,255,255,0.6)" />
+            <circle cx="11" cy="11" r="2" fill="rgba(255,255,255,0.3)" />
+          </svg>
+        </button>
+      </div>
+    );
+  }
+
+  // ── Expanded widget ─────────────────────────────────────────────────
   return (
     <div
       role="group"
@@ -91,15 +180,28 @@ export function DarkThemePicker() {
           boxShadow: '0 24px 48px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)',
         }}
       >
-        {/* Header */}
-        <p
-          className="mb-3 text-center text-[0.625rem] font-semibold uppercase tracking-[0.2em]"
-          style={{ color: 'rgba(255,255,255,0.3)' }}
-        >
-          Dark Theme
-        </p>
+        {/* Header row: label + minimize button */}
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <p
+            className="text-[0.625rem] font-semibold uppercase tracking-[0.2em]"
+            style={{ color: 'rgba(255,255,255,0.3)' }}
+          >
+            Dark Theme
+          </p>
+          <button
+            onClick={toggleMinimized}
+            aria-label="Minimize dark theme picker"
+            className="flex h-4 w-4 items-center justify-center rounded transition-opacity duration-150 hover:opacity-100"
+            style={{ color: 'rgba(255,255,255,0.3)', outline: 'none' }}
+          >
+            {/* Minus icon */}
+            <svg width="10" height="2" viewBox="0 0 10 2" fill="currentColor" aria-hidden="true">
+              <rect width="10" height="2" rx="1" />
+            </svg>
+          </button>
+        </div>
 
-        {/* Swatches */}
+        {/* Theme swatches */}
         <div className="flex gap-2.5">
           {VARIANTS.map((variant) => {
             const isActive = active === variant.id;
@@ -112,43 +214,37 @@ export function DarkThemePicker() {
                 className="group flex flex-col items-center gap-1.5 transition-all duration-200"
                 style={{ outline: 'none' }}
               >
-                {/* Swatch preview card */}
                 <div
                   className="relative h-14 w-12 overflow-hidden rounded-xl transition-all duration-200"
                   style={{
                     background: variant.bg,
                     border: isActive
-                      ? '2px solid #3f00e9'
+                      ? `2px solid ${currentAccent.color}`
                       : `2px solid ${variant.border}`,
                     transform: isActive ? 'scale(1.08)' : 'scale(1)',
                     boxShadow: isActive
-                      ? '0 0 0 3px rgba(63,0,233,0.25), 0 8px 20px -4px rgba(0,0,0,0.5)'
+                      ? `0 0 0 3px ${currentAccent.color}40, 0 8px 20px -4px rgba(0,0,0,0.5)`
                       : '0 4px 12px -4px rgba(0,0,0,0.4)',
                   }}
                 >
-                  {/* Surface stripe */}
                   <div
                     className="absolute bottom-0 left-0 right-0 h-5"
                     style={{ background: variant.surface }}
                   />
-                  {/* Gradient accent dot */}
                   <div
                     className="absolute left-1/2 top-2.5 h-2 w-2 -translate-x-1/2 rounded-full"
                     style={{
-                      background: 'linear-gradient(135deg, #3f00e9, #c947ff)',
+                      background: `linear-gradient(135deg, ${currentAccent.color}, ${currentAccent.color2})`,
                       opacity: isActive ? 1 : 0.5,
                     }}
                   />
-                  {/* Active indicator */}
                   {isActive && (
                     <div
                       className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full"
-                      style={{ background: '#3f00e9' }}
+                      style={{ background: currentAccent.color }}
                     />
                   )}
                 </div>
-
-                {/* Label */}
                 <span
                   className="text-[0.6875rem] font-medium transition-colors duration-200"
                   style={{
@@ -156,6 +252,62 @@ export function DarkThemePicker() {
                   }}
                 >
                   {variant.name}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Divider */}
+        <div
+          className="my-3 h-px"
+          style={{ background: 'rgba(255,255,255,0.06)' }}
+          aria-hidden="true"
+        />
+
+        {/* Accent row */}
+        <p
+          className="mb-3 text-center text-[0.625rem] font-semibold uppercase tracking-[0.2em]"
+          style={{ color: 'rgba(255,255,255,0.3)' }}
+        >
+          Accent
+        </p>
+
+        <div className="flex justify-center gap-4">
+          {ACCENTS.map((accent) => {
+            const isActive = activeAccent === accent.id;
+            return (
+              <button
+                key={accent.id}
+                onClick={() => selectAccent(accent.id)}
+                aria-pressed={isActive}
+                aria-label={`Accent: ${accent.name} — ${accent.description}`}
+                className="flex flex-col items-center gap-1.5 transition-all duration-200"
+                style={{ outline: 'none' }}
+              >
+                <div
+                  className="relative rounded-full transition-all duration-200"
+                  style={{
+                    width: 28,
+                    height: 28,
+                    background: `linear-gradient(135deg, ${accent.color}, ${accent.color2})`,
+                    border: isActive
+                      ? '2px solid rgba(255,255,255,0.7)'
+                      : '2px solid rgba(255,255,255,0.12)',
+                    transform: isActive ? 'scale(1.15)' : 'scale(1)',
+                    boxShadow: isActive
+                      ? `0 0 0 3px ${accent.color}35, 0 4px 12px -2px ${accent.color}60`
+                      : 'none',
+                    opacity: isActive ? 1 : 0.55,
+                  }}
+                />
+                <span
+                  className="text-[0.6rem] font-medium uppercase tracking-[0.1em] transition-colors duration-200"
+                  style={{
+                    color: isActive ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.3)',
+                  }}
+                >
+                  {accent.name}
                 </span>
               </button>
             );
