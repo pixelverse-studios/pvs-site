@@ -55,12 +55,12 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value:
               "default-src 'self'; " +
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://js.sentry-cdn.com; " +
-              "style-src 'self' 'unsafe-inline'; " +
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://js.sentry-cdn.com https://assets.calendly.com; " +
+              "style-src 'self' 'unsafe-inline' https://assets.calendly.com; " +
               "img-src 'self' data: https: blob:; " +
               "font-src 'self' data:; " +
-              "connect-src 'self' https://www.google-analytics.com https://*.sentry.io https://*.supabase.co; " +
-              "frame-src 'self'; " +
+              "connect-src 'self' https://www.google-analytics.com https://*.sentry.io https://*.supabase.co https://calendly.com https://*.calendly.com; " +
+              "frame-src 'self' https://calendly.com; " +
               "object-src 'none'; " +
               "base-uri 'self'; " +
               "form-action 'self'; " +
