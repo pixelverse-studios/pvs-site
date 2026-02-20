@@ -70,7 +70,7 @@ export function ProjectShowcaseSection() {
                           className="mt-0.5 h-4 w-4 flex-shrink-0 text-[var(--pv-primary)]"
                           aria-hidden="true"
                         />
-                        <span className="flex-1">{item.issue}</span>
+                        <span className="flex-1">{item.resolution}</span>
                       </li>
                     ))}
                   </ul>
@@ -82,7 +82,7 @@ export function ProjectShowcaseSection() {
                   <a
                     href={project.url}
                     className="flex items-center gap-2 dark:text-pv-text dark:hover:text-pv-primary2"
-                    target="__blank"
+                    target="_blank"
                     rel="noopener noreferrer"
                   >
                     View live site <ArrowRight size={18} />

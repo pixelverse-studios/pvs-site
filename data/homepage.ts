@@ -6,7 +6,6 @@
 
 import { validateHomepageHero } from '@/lib/validation/homepage';
 import { caseStudies as allCaseStudies } from '@/data/case-studies';
-export type { CaseStudy } from '@/data/case-studies';
 
 // ----------------------------------------------------------------------------
 // Type Definitions

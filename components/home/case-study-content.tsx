@@ -3,7 +3,9 @@
 import {
   AlertCircle,
   Building2,
+  Eye,
   FileText,
+  LayoutGrid,
   MapPin,
   Wrench,
   Zap,
@@ -16,8 +18,10 @@ import type { CaseStudy } from '@/data/case-studies';
 
 const iconMap: Record<string, LucideIcon> = {
   alertCircle: AlertCircle,
-  zap: Zap,
+  eye: Eye,
   fileText: FileText,
+  layoutGrid: LayoutGrid,
+  zap: Zap,
 };
 
 const ITEM_STAGGER_INCREMENT = 0.08;

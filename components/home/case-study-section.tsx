@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { motion } from 'framer-motion';
-import { Building2, Heart, Wrench } from 'lucide-react';
+import { Box, Building2, Heart, Wrench } from 'lucide-react';
 
 import { caseStudies } from '@/data/homepage';
 
@@ -13,6 +13,7 @@ import { Container } from './container';
 const industryIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   'Home Services': Wrench,
   'Home Healthcare': Heart,
+  'Productivity SaaS': Box,
 };
 
 export function CaseStudySection() {

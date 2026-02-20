@@ -5,6 +5,8 @@
 // To add a new case study: add a new entry to the `caseStudies` array.
 // The homepage filters by `featured: true`.
 
+export type CaseStudyService = 'web-development' | 'seo';
+
 export interface CaseStudyIssue {
   icon: string;
   issue: string;
@@ -26,11 +28,11 @@ export interface CaseStudy {
   summary: string;
   problem: string;
   solution: string;
-  issues: CaseStudyIssue[];
+  issues: [CaseStudyIssue, CaseStudyIssue, CaseStudyIssue];
   outcome: CaseStudyOutcome;
   img: string;
   url: string;
-  services: string[];
+  services: CaseStudyService[];
   testimonial?: {
     quote: string;
     name: string;
