@@ -28,6 +28,9 @@
 /* ── Dark Mode Variant 0: Slate (default) ─────────────────────────── */
 .dark {
   color-scheme: dark;
+  --pv-primary: #7c4dff;
+  --pv-primary-2: #d060ff;
+  --pv-gradient: linear-gradient(90deg, #7c4dff, #d060ff);
   --pv-bg: #0e0e14;
   --pv-surface: #18182a;
   --pv-text: #e4e4ef;
@@ -93,6 +96,26 @@
   --pv-overlay-strong: rgba(16, 10, 22, 0.90);
   --pv-overlay-soft: rgba(24, 16, 34, 0.68);
   --pv-overlay-glow: rgba(70, 35, 90, 0.40);
+}
+
+/* ── Dark Mode Accent Overrides ────────────────────────────────────── */
+/* Accent 0 — Original: the full-strength brand blue */
+.dark[data-dark-accent="0"] {
+  --pv-primary: #3f00e9;
+  --pv-primary-2: #c947ff;
+  --pv-gradient: linear-gradient(90deg, #3f00e9, #c947ff);
+}
+/* Accent 2 — Soft: balanced, approachable */
+.dark[data-dark-accent="2"] {
+  --pv-primary: #9575f5;
+  --pv-primary-2: #cc6aff;
+  --pv-gradient: linear-gradient(90deg, #9575f5, #cc6aff);
+}
+/* Accent 3 — Muted: near-lavender, gentle */
+.dark[data-dark-accent="3"] {
+  --pv-primary: #b09cf8;
+  --pv-primary-2: #d47aff;
+  --pv-gradient: linear-gradient(90deg, #b09cf8, #d47aff);
 }
 
 html {
