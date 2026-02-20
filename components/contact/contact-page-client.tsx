@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Container } from '@/components/ui/container';
 import { ContactDetailsForm } from './contact-details-form';
 import { ContactPathSelector, type ContactPath } from './contact-path-selector';
+import { ContactStrategyCall } from './contact-strategy-call';
 
 export function ContactPageClient() {
   const [activePath, setActivePath] = useState<ContactPath>('details');
@@ -19,11 +20,7 @@ export function ContactPageClient() {
           {/* Form slot */}
           <div className="rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-8 md:p-12">
             {activePath === 'details' && <ContactDetailsForm />}
-            {activePath === 'call' && (
-              <div className="text-center text-[var(--pv-text-muted)]">
-                <p className="font-medium">Calendly embed coming soon</p>
-              </div>
-            )}
+            {activePath === 'call' && <ContactStrategyCall />}
             {activePath === 'review' && (
               <div className="text-center text-[var(--pv-text-muted)]">
                 <p className="font-medium">Website review form coming soon</p>
