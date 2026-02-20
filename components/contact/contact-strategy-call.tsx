@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState } from 'react';
 import { AlertCircle, Calendar, Loader2 } from 'lucide-react';
+import { useTheme } from 'next-themes';
 import Script from 'next/script';
 
 // Extend window with Calendly global
@@ -18,6 +19,18 @@ declare global {
 
 // Build-time constant — set NEXT_PUBLIC_CALENDLY_URL at build time to activate the embed
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL;
+
+// ─── Theme-aware URL builder ──────────────────────────────────────────────────
+
+// Strip any existing color/theme params Calendly may have baked into the URL,
+// then inject params that match the site's current light/dark theme.
+function buildThemedUrl(baseUrl: string, isDark: boolean): string {
+  const url = new URL(baseUrl.split('?')[0]); // strip any existing query params
+  url.searchParams.set('background_color', isDark ? '0e0e14' : 'ffffff');
+  url.searchParams.set('text_color', isDark ? 'e4e4ef' : '111111');
+  url.searchParams.set('primary_color', isDark ? '7c4dff' : '3f00e9');
+  return url.toString();
+}
 
 // ─── Placeholder (no URL configured) ─────────────────────────────────────────
 
@@ -83,16 +96,27 @@ export function ContactStrategyCall() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
+  // resolvedTheme handles 'system' preference — falls back to light if unresolved
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
+
+  // Keep a ref to the themed URL so initWidget reads the current value at call
+  // time without needing to recreate the memoized callback on theme changes.
+  const themedUrlRef = useRef('');
+  if (CALENDLY_URL) {
+    themedUrlRef.current = buildThemedUrl(CALENDLY_URL, isDark);
+  }
+
   // Called by onReady — fires on every mount (first load AND remounts after tab switch)
   const initWidget = useCallback(() => {
-    if (embedRef.current && window.Calendly && CALENDLY_URL) {
+    if (embedRef.current && window.Calendly && themedUrlRef.current) {
       window.Calendly.initInlineWidget({
-        url: CALENDLY_URL,
+        url: themedUrlRef.current,
         parentElement: embedRef.current,
       });
       setIsLoaded(true);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!hasUrl) return (
     <div className="space-y-6">

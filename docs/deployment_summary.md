@@ -34,6 +34,7 @@
 - Added a "Start with the Details" form to the contact page so visitors can share their business name, budget, timeline, and what they need help with before we respond
 - Added a "Schedule a Strategy Call" section to the contact page with a Calendly embed (shows a styled placeholder until the Calendly URL is configured)
 - Hardened the contact details form with improved input validation, better error handling, and accessibility improvements for screen readers
+- The "Schedule a Strategy Call" Calendly widget now matches the site's color scheme in both light and dark mode
 - Added a "Request a Website Review" form to the contact page — visitors can enter their name, email, and website URL, optionally check what they want reviewed (mobile, SEO, speed, etc.), and submit for a free audit
 - Updated the "Request a Website Review" button used throughout the site to land visitors directly on the review form instead of the default contact page
 - The contact page now supports direct linking to any of its three forms via URL (?path=details, ?path=call, ?path=review)
