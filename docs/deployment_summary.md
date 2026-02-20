@@ -13,12 +13,13 @@
 - Updated FAQ page title, meta description, and search keywords to reflect the broader question set
 - Removed the UX/UI Design service from the website (page, city pages, and all navigation references)
 - Removed UX/UI Design entry from city-level structured data schema (lib/structured-data.ts)
+- Added FAQ section to the homepage with 6 common questions for top-of-funnel visitors evaluating PixelVerse
 
 ## Notes for internal team
 
 - PVS-386, PVS-387, PVS-388 completed (epic PVS-385)
-- PVS-390, PVS-391, PVS-392, PVS-393 completed (epic PVS-389)
-- Files: components/ui/navbar.tsx, components/contact/ContactForm.tsx, next.config.js, data/faq-content.ts, components/faq/faq-list-section.tsx, components/faq/faq-intro-section.tsx, components/faq/faq-closing-cta.tsx, app/faq/page.tsx, data/local-service-pages.ts, data/about.ts, components/services/services-core-section.tsx, app/services/ux-ui-design/ (deleted)
+- PVS-390, PVS-391, PVS-392, PVS-393, PVS-394 completed (epic PVS-389)
+- Files: components/ui/navbar.tsx, components/contact/ContactForm.tsx, next.config.js, data/faq-content.ts, components/faq/faq-list-section.tsx, components/faq/faq-intro-section.tsx, components/faq/faq-closing-cta.tsx, app/faq/page.tsx, data/local-service-pages.ts, data/about.ts, components/services/services-core-section.tsx, app/services/ux-ui-design/ (deleted), data/homepage-faq.ts, components/home/home-faq-section.tsx, app/page.tsx
 
 ## Changed URLs
 
@@ -31,3 +32,4 @@
 - https://www.pixelversestudios.io/services/ux-ui-design/fort-lee
 - https://www.pixelversestudios.io/services/ux-ui-design/englewood
 - https://www.pixelversestudios.io/about
+- https://www.pixelversestudios.io/
