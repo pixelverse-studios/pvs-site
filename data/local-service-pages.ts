@@ -11,7 +11,7 @@
  */
 
 // Service type definitions
-export type ServiceType = 'web-development' | 'ux-ui-design' | 'seo';
+export type ServiceType = 'web-development' | 'seo';
 
 export interface ServiceDefinition {
   slug: ServiceType;
@@ -27,13 +27,6 @@ export const serviceDefinitions: Record<ServiceType, ServiceDefinition> = {
     shortName: 'Web Dev',
     description:
       'Custom-coded, performance-focused websites built to convert visitors into customers.',
-  },
-  'ux-ui-design': {
-    slug: 'ux-ui-design',
-    name: 'UX/UI Design',
-    shortName: 'UX/UI',
-    description:
-      'Strategic design that balances aesthetics with usability to drive conversions.',
   },
   seo: {
     slug: 'seo',
@@ -348,137 +341,7 @@ export const localServicePages: LocalServicePageDefinition[] = [
       { slug: 'englewood', city: 'Englewood' },
       { slug: 'hackensack', city: 'Hackensack' },
     ],
-    relatedServices: ['ux-ui-design', 'seo'],
-  },
-
-  // Fort Lee - UX/UI Design
-  {
-    serviceSlug: 'ux-ui-design',
-    citySlug: 'fort-lee',
-    metadata: {
-      title: 'UX/UI Design Fort Lee NJ | User Experience Agency',
-      description:
-        'UX/UI design services for Fort Lee businesses. Conversion-focused interfaces that turn visitors into clients. Serving professional services and hospitality brands near the George Washington Bridge.',
-      keywords: [
-        'UX design Fort Lee NJ',
-        'UI design Fort Lee',
-        'user experience Fort Lee',
-        'Fort Lee web design agency',
-        'conversion design Fort Lee NJ',
-      ],
-    },
-    hero: {
-      eyebrow: 'UX/UI Design in Fort Lee, NJ',
-      heading: 'User experiences designed for Fort Lee\'s discerning clientele.',
-      description:
-        'Fort Lee residents living in Hudson Lights and The Modern expect digital experiences that match the premium services they seek. Template designs signal "budget option" to these sophisticated users. We craft strategic UX/UI that guides visitors toward action—booking consultations, scheduling appointments, making reservations—with interfaces as polished as the services you provide.',
-      bullets: [
-        'Conversion-focused design that turns Fort Lee visitors into paying clients',
-        'Premium aesthetics that match the expectations of GWB corridor professionals',
-        'Mobile-first interfaces optimized for on-the-go research and booking',
-      ],
-      stat: {
-        value: '47%',
-        label: 'average improvement in conversion rates after UX redesign',
-      },
-    },
-    content: {
-      intro: {
-        heading: 'Design that converts Fort Lee\'s demanding audience',
-        body: 'The professionals and families living in Fort Lee\'s luxury developments research thoroughly before committing to a service provider. They compare your digital presence against Manhattan competitors and local alternatives. Strategic UX/UI design creates the trust, clarity, and ease-of-action that transforms these careful researchers into loyal clients—without the confusion and friction that sends them elsewhere.',
-      },
-      features: [
-        {
-          title: 'Conversion Architecture',
-          description:
-            'Every element strategically placed to guide users toward your primary business goals—consultations, bookings, and inquiries.',
-          localAngle:
-            'Designed for Fort Lee service businesses where a single conversion can mean thousands in revenue.',
-        },
-        {
-          title: 'Trust-Building Design',
-          description:
-            'Visual hierarchy, social proof placement, and credibility signals that establish authority at first glance.',
-          localAngle:
-            'Essential for Fort Lee law firms and medical practices competing against established Manhattan competitors.',
-        },
-        {
-          title: 'Intuitive Navigation',
-          description:
-            'Clear information architecture that helps visitors find what they need without frustration or confusion.',
-          localAngle:
-            'Fort Lee commuters have limited time—your site needs to answer their questions instantly.',
-        },
-        {
-          title: 'Mobile Experience Design',
-          description:
-            'Touch-optimized interfaces with appropriate tap targets, readable typography, and streamlined mobile flows.',
-          localAngle:
-            'Most Fort Lee service research happens on phones during commutes and lunch breaks.',
-        },
-        {
-          title: 'Accessibility Standards',
-          description:
-            'WCAG-compliant designs that ensure your site works for all users, regardless of ability.',
-          localAngle:
-            'Required for Fort Lee medical practices and recommended for all professional services.',
-        },
-        {
-          title: 'Brand-Aligned Aesthetics',
-          description:
-            'Visual design that reinforces your positioning—premium, approachable, authoritative, or innovative.',
-          localAngle:
-            'Match the sophistication Fort Lee residents expect from their professional service providers.',
-        },
-      ],
-    },
-    proof: {
-      headline: 'Fort Lee businesses convert more with strategic design.',
-      body: 'We\'ve redesigned interfaces for Fort Lee professional services that were losing potential clients to confusing navigation, weak calls-to-action, and dated aesthetics. The impact is measurable: more consultation requests, more appointment bookings, and higher-quality leads from visitors who trust what they see. Good design isn\'t just pretty—it\'s profitable.',
-      stat: {
-        value: '3.2x',
-        label: 'increase in consultation requests after UX optimization',
-      },
-    },
-    faq: [
-      {
-        question: 'What\'s the difference between UX and UI design?',
-        answer:
-          'UX (user experience) design focuses on how your site works—the flow, structure, and ease of completing tasks. UI (user interface) design focuses on how it looks—colors, typography, and visual elements. Both are essential for converting Fort Lee visitors into clients, and we handle both as an integrated process.',
-      },
-      {
-        question: 'How do you approach UX design for Fort Lee service businesses?',
-        answer:
-          'We start with your business goals and your ideal Fort Lee client. We map the journey from first visit to conversion, identify friction points, and design interfaces that make taking action easy and natural. Every element earns its place by contributing to conversions.',
-      },
-      {
-        question: 'Can you redesign my existing site without rebuilding everything?',
-        answer:
-          'Sometimes. If your current platform supports the improvements needed, we can redesign the interface while preserving your existing infrastructure. Often, though, template platform limitations make a fresh build more effective and cost-efficient for Fort Lee businesses.',
-      },
-      {
-        question: 'How do you measure UX/UI success?',
-        answer:
-          'We track conversion rates, bounce rates, time-on-page, and user flow completion. For Fort Lee service businesses, the ultimate metric is qualified leads and booked appointments. We set up analytics to measure what matters to your business.',
-      },
-      {
-        question: 'Do you provide UX/UI design for mobile apps?',
-        answer:
-          'Our primary focus is web-based interfaces, but we design responsive experiences that work beautifully across all devices. If you need a dedicated mobile app, we can recommend trusted partners or discuss whether a progressive web app might serve your Fort Lee business better.',
-      },
-    ],
-    cta: {
-      headline: 'Ready to convert more Fort Lee visitors?',
-      body: 'Let\'s review your current user experience and identify the changes that will drive more consultations, bookings, and revenue.',
-      primaryLabel: 'Get UX/UI Consultation',
-      secondaryLabel: 'See Our Portfolio',
-      secondaryHref: '/portfolio',
-    },
-    relatedCities: [
-      { slug: 'englewood', city: 'Englewood' },
-      { slug: 'hackensack', city: 'Hackensack' },
-    ],
-    relatedServices: ['web-development', 'seo'],
+    relatedServices: ['seo'],
   },
 
   // Fort Lee - SEO Services
@@ -608,7 +471,7 @@ export const localServicePages: LocalServicePageDefinition[] = [
       { slug: 'englewood', city: 'Englewood' },
       { slug: 'hackensack', city: 'Hackensack' },
     ],
-    relatedServices: ['web-development', 'ux-ui-design'],
+    relatedServices: ['web-development'],
   },
 
   // ==========================================================================
@@ -742,137 +605,7 @@ export const localServicePages: LocalServicePageDefinition[] = [
       { slug: 'fort-lee', city: 'Fort Lee' },
       { slug: 'hackensack', city: 'Hackensack' },
     ],
-    relatedServices: ['ux-ui-design', 'seo'],
-  },
-
-  // Englewood - UX/UI Design
-  {
-    serviceSlug: 'ux-ui-design',
-    citySlug: 'englewood',
-    metadata: {
-      title: 'UX/UI Design Englewood NJ | User Experience Agency',
-      description:
-        'UX/UI design for Englewood businesses. Conversion-focused interfaces for healthcare, luxury retail, and corporate brands. Premium design for discerning clients.',
-      keywords: [
-        'UX design Englewood NJ',
-        'UI design Englewood',
-        'user experience Englewood',
-        'Englewood web design agency',
-        'conversion design Englewood NJ',
-      ],
-    },
-    hero: {
-      eyebrow: 'UX/UI Design in Englewood, NJ',
-      heading: "User experiences designed for Englewood's premium market.",
-      description:
-        "Englewood's affluent residents and healthcare seekers expect digital experiences that match the quality of services they're seeking. East Hill homeowners comparing medical specialists, Palisade Avenue shoppers researching boutiques, and executives evaluating corporate partners all judge your business by its digital presence. We craft strategic UX/UI that builds trust, guides action, and converts discerning visitors into clients.",
-      bullets: [
-        'Conversion-focused design that turns Englewood visitors into clients',
-        'Healthcare UX optimized for patient journeys and appointment booking',
-        'Premium aesthetics that match Palisade Avenue and East Hill expectations',
-      ],
-      stat: {
-        value: '51%',
-        label: 'average improvement in conversion rates after UX redesign',
-      },
-    },
-    content: {
-      intro: {
-        heading: "Design that converts Englewood's demanding audience",
-        body: "The professionals, families, and healthcare seekers in Englewood research thoroughly before choosing a service provider. They compare your digital presence against NYC competitors and premium local alternatives. Strategic UX/UI design creates the trust, clarity, and ease-of-action that transforms careful researchers into loyal clients—whether they're booking a specialist appointment, purchasing from a boutique, or engaging corporate services.",
-      },
-      features: [
-        {
-          title: 'Healthcare UX Design',
-          description:
-            'Patient-centered interfaces that simplify appointment booking, provider research, and health information access.',
-          localAngle:
-            'Designed for medical practices, specialists, and wellness providers serving the Englewood Hospital community.',
-        },
-        {
-          title: 'Conversion Architecture',
-          description:
-            'Every element strategically placed to guide users toward your primary business goals—consultations, bookings, and purchases.',
-          localAngle:
-            'Built for Englewood service businesses where a single conversion can mean thousands in revenue.',
-        },
-        {
-          title: 'Trust-Building Design',
-          description:
-            'Visual hierarchy, social proof placement, and credibility signals that establish authority at first glance.',
-          localAngle:
-            'Essential for Englewood healthcare providers and professional services competing against Manhattan alternatives.',
-        },
-        {
-          title: 'Luxury Retail Interfaces',
-          description:
-            'E-commerce experiences that showcase products beautifully while making purchasing effortless.',
-          localAngle:
-            'Help Palisade Avenue boutiques deliver the online shopping experience their clientele expects.',
-        },
-        {
-          title: 'Mobile Experience Design',
-          description:
-            'Touch-optimized interfaces with appropriate tap targets, readable typography, and streamlined mobile flows.',
-          localAngle:
-            'Most Englewood service research happens on phones—your site needs to convert on every device.',
-        },
-        {
-          title: 'Accessibility Standards',
-          description:
-            'WCAG-compliant designs that ensure your site works for all users, regardless of ability.',
-          localAngle:
-            'Required for Englewood healthcare websites and recommended for all professional services.',
-        },
-      ],
-    },
-    proof: {
-      headline: 'Englewood businesses convert more with strategic design.',
-      body: "We've redesigned interfaces for Englewood healthcare providers that were losing patients to confusing appointment flows, retailers missing sales due to clunky checkout processes, and professional services losing leads to weak calls-to-action. The impact is measurable: more appointments booked, more purchases completed, and higher-quality leads from visitors who trust what they see.",
-      stat: {
-        value: '2.8x',
-        label: 'increase in appointment bookings after UX optimization',
-      },
-    },
-    faq: [
-      {
-        question: "What's the difference between UX and UI design?",
-        answer:
-          "UX (user experience) design focuses on how your site works—the flow, structure, and ease of completing tasks like booking appointments or making purchases. UI (user interface) design focuses on how it looks—colors, typography, and visual elements. Both are essential for converting Englewood's discerning visitors into clients.",
-      },
-      {
-        question: 'How do you approach UX design for Englewood healthcare providers?',
-        answer:
-          "We start with the patient journey—from initial search to appointment booking to follow-up care. We map every touchpoint, identify friction points, and design interfaces that make finding providers, understanding services, and taking action easy. Englewood patients expect the same quality online that they receive in person.",
-      },
-      {
-        question: 'Can you redesign my site without rebuilding everything?',
-        answer:
-          "Sometimes. If your current platform supports the improvements needed, we can redesign the interface while preserving your existing infrastructure. Often, though, template platform limitations make a fresh build more effective for Englewood businesses seeking premium results.",
-      },
-      {
-        question: 'How do you measure UX/UI success?',
-        answer:
-          'We track conversion rates, bounce rates, time-on-page, and user flow completion. For Englewood healthcare providers, we measure appointment requests and patient inquiries. For retail, we track cart completion and average order value. We set up analytics to measure what matters to your business.',
-      },
-      {
-        question: 'Do you design for e-commerce businesses in Englewood?',
-        answer:
-          'Yes. We design e-commerce experiences for Palisade Avenue retailers and specialty shops looking to expand their reach online. Our interfaces balance beautiful product presentation with streamlined checkout flows that reduce cart abandonment.',
-      },
-    ],
-    cta: {
-      headline: 'Ready to convert more Englewood visitors?',
-      body: "Let's review your current user experience and identify the changes that will drive more appointments, sales, and revenue.",
-      primaryLabel: 'Get UX/UI Consultation',
-      secondaryLabel: 'See Our Portfolio',
-      secondaryHref: '/portfolio',
-    },
-    relatedCities: [
-      { slug: 'fort-lee', city: 'Fort Lee' },
-      { slug: 'hackensack', city: 'Hackensack' },
-    ],
-    relatedServices: ['web-development', 'seo'],
+    relatedServices: ['seo'],
   },
 
   // Englewood - SEO Services
@@ -1002,7 +735,7 @@ export const localServicePages: LocalServicePageDefinition[] = [
       { slug: 'fort-lee', city: 'Fort Lee' },
       { slug: 'hackensack', city: 'Hackensack' },
     ],
-    relatedServices: ['web-development', 'ux-ui-design'],
+    relatedServices: ['web-development'],
   },
 ];
 

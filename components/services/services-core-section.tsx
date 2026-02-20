@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, BarChart3, Layers, MonitorSmartphone, Search, Wrench } from 'lucide-react';
+import { ArrowRight, BarChart3, MonitorSmartphone, Search, Wrench } from 'lucide-react';
 
 import { Container } from '@/components/ui/container';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,14 +14,6 @@ const primaryServices = [
     body: 'Every build starts with a bespoke component system aligned to your brand, so design intent travels smoothly from Figma to production without compromises.',
     tags: ['Strategy + Build', 'Performance'],
     href: '/services/web-development',
-  },
-  {
-    icon: Layers,
-    title: 'UX & UI Design',
-    description: 'Intuitive, user-friendly experiences that keep visitors engaged.',
-    body: 'We map flows against user goals, layer in conversion-focused copy, and validate the journey with prototypes before a line of code ships.',
-    tags: ['Journey Mapping', 'Conversion Copy'],
-    href: '/services/ux-ui-design',
   },
   {
     icon: Search,

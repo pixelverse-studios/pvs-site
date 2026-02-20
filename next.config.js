@@ -110,6 +110,16 @@ const nextConfig = {
         destination: '/contact',
         permanent: true,
       },
+      {
+        source: '/services/ux-ui-design',
+        destination: '/services',
+        permanent: true,
+      },
+      {
+        source: '/services/ux-ui-design/:city',
+        destination: '/services',
+        permanent: true,
+      },
       ...contactContextRedirects,
     ];
   },
