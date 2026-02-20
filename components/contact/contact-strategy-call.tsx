@@ -131,8 +131,8 @@ export function ContactStrategyCall() {
       <div
         role="region"
         aria-label="Calendly scheduling widget"
-        className="relative w-full overflow-hidden rounded-xl"
-        style={{ minHeight: '700px' }}
+        className="relative w-full"
+        style={{ minHeight: '900px' }}
       >
         {/* Loading state — shown until widget initialises */}
         {!isLoaded && !hasError && (
@@ -147,7 +147,7 @@ export function ContactStrategyCall() {
         {hasError ? (
           <CalendlyError />
         ) : (
-          <div ref={embedRef} className="w-full" style={{ minHeight: '700px' }} />
+          <div ref={embedRef} className="w-full" style={{ minHeight: '900px' }} />
         )}
       </div>
 
