@@ -10,26 +10,28 @@ import {
 } from '@/components/ui/accordion';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
-import { SectionHeader } from '@/components/ui/section-header';
 import { homepageFaq } from '@/data/homepage-faq';
 
 export function HomeFaqSection() {
   return (
-    <section
-      className="border-b border-[var(--pv-border)] bg-[var(--pv-surface)]/40"
-      aria-labelledby="home-faq-heading"
-    >
+    <section className="border-b border-[var(--pv-border)] bg-[var(--pv-surface)]/40">
       <Container className="py-16 md:py-24">
         <MotionSection as="div" className="mx-auto max-w-4xl space-y-10">
           <MotionItem>
-            <SectionHeader
-              id="home-faq-heading"
-              eyebrow="Common Questions"
-              title="Questions we get asked most"
-              description="If you\u2019re evaluating whether PixelVerse is the right fit, these usually cover it."
-              align="center"
-              className="mx-auto max-w-2xl"
-            />
+            <div className="mx-auto max-w-2xl space-y-4 text-center">
+              <span className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-1 text-xs uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
+                Common Questions
+              </span>
+              <h2
+                id="home-faq-heading"
+                className="text-balance font-heading text-[2.25rem] leading-[2.75rem] tracking-tight md:text-[2.5rem] md:leading-[3rem]"
+              >
+                Questions we get asked most
+              </h2>
+              <p className="text-lg text-[var(--pv-text-muted)]">
+                If you&apos;re evaluating whether PixelVerse is the right fit, these usually cover it.
+              </p>
+            </div>
           </MotionItem>
 
           <MotionItem delay={0.1}>

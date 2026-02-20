@@ -1,13 +1,10 @@
-export interface HomeFaqItem {
-  question: string;
-  answer: string;
-}
+import type { FaqItem } from '@/data/faq-content';
 
-export const homepageFaq: HomeFaqItem[] = [
+export const homepageFaq: FaqItem[] = [
   {
     question: 'What does PixelVerse actually do?',
     answer:
-      'We plan, design, and build websites for small-to-mid-size businesses — and help existing sites show up better locally. Every engagement starts with understanding what\u2019s limiting the business before we recommend a direction.',
+      'We plan, design, and build websites for small-to-mid-size businesses \u2014 and help existing sites show up better locally. Every engagement starts with understanding what\u2019s limiting the business before we recommend a direction.',
   },
   {
     question: 'How do I know if my website is part of the problem?',
