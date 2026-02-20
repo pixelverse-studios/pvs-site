@@ -13,6 +13,7 @@ type CreatePageMetadataArgs = {
   description: string;
   path: string;
   keywords?: string[];
+  ogImage?: { url: string; width: number; height: number; alt: string };
 };
 
 // Ensures consistent SEO metadata, canonical URLs, and social sharing tags per route.
@@ -21,8 +22,15 @@ export function createPageMetadata({
   description,
   path,
   keywords = [],
+  ogImage,
 }: CreatePageMetadataArgs): Metadata {
   const canonicalUrl = new URL(path, siteUrl).toString();
+  const resolvedOgImage = ogImage ?? {
+    url: defaultOgImage,
+    width: 1200,
+    height: 630,
+    alt: 'PixelVerse Studios brand mark',
+  };
 
   return {
     title,
@@ -38,20 +46,13 @@ export function createPageMetadata({
       siteName,
       locale: 'en_US',
       type: 'website',
-      images: [
-        {
-          url: defaultOgImage,
-          width: 1200,
-          height: 630,
-          alt: 'PixelVerse Studios brand mark',
-        },
-      ],
+      images: [resolvedOgImage],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [defaultOgImage],
+      images: [resolvedOgImage.url],
     },
   };
 }

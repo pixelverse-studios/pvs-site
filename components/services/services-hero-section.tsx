@@ -11,9 +11,6 @@ export function ServicesHeroSection({
   description,
 }: ServicesHeroSectionProps) {
   const headingId = 'services-hero-title';
-  const paragraphs = (description || '')
-    .split('\n\n')
-    .filter(Boolean);
 
   return (
     <section
@@ -21,7 +18,7 @@ export function ServicesHeroSection({
       aria-labelledby={headingId}
     >
       <Container className="text-center">
-        <MotionSection as="div" className="mx-auto max-w-2xl space-y-6">
+        <MotionSection as="div" className="mx-auto max-w-3xl space-y-6">
           <MotionItem>
             <h1
               id={headingId}
@@ -30,14 +27,11 @@ export function ServicesHeroSection({
               {title}
             </h1>
           </MotionItem>
-
-          {paragraphs.map((paragraph, idx) => (
-            <MotionItem key={`paragraph-${idx}`} delay={0.08 + idx * 0.06}>
-              <p className="text-pretty text-lg text-[var(--pv-text-muted)] md:text-xl">
-                {paragraph}
-              </p>
-            </MotionItem>
-          ))}
+          <MotionItem delay={0.08}>
+            <p className="mx-auto max-w-2xl text-pretty text-lg text-[var(--pv-text-muted)] md:text-xl">
+              {description}
+            </p>
+          </MotionItem>
         </MotionSection>
       </Container>
     </section>

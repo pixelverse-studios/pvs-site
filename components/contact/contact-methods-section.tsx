@@ -1,13 +1,12 @@
 'use client';
 
-import Link from 'next/link';
 import { Mail, MapPin, Phone, Send, Sparkles } from 'lucide-react';
 
 import { ContactForm } from '@/components/contact/ContactForm';
 import { ContactInfoCard } from '@/components/contact/contact-info-card';
 import { Container } from '@/components/ui/container';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { RequestReviewCta } from '@/components/ui/request-review-cta';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
 export function ContactMethodsSection() {
@@ -72,9 +71,7 @@ export function ContactMethodsSection() {
               title="Website Audit"
               description="Have a website but not sure how it's performing or what could be improved? We'll provide a personalized review of your site's design, usability, and growth opportunities."
             >
-              <Button asChild variant="ctaGhost" className="w-full">
-                <Link href="/audit">Request Free Audit</Link>
-              </Button>
+              <RequestReviewCta variant="ctaGhost" className="w-full" />
             </ContactInfoCard>
           </MotionItem>
           <MotionItem triggerOnViewport={false}>

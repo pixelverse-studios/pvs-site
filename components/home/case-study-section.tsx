@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { motion } from 'framer-motion';
-import { Building2, Heart, Wrench } from 'lucide-react';
+import { Box, Building2, Heart, Wrench } from 'lucide-react';
 
 import { caseStudies } from '@/data/homepage';
 
@@ -13,6 +13,7 @@ import { Container } from './container';
 const industryIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   'Home Services': Wrench,
   'Home Healthcare': Heart,
+  'Productivity SaaS': Box,
 };
 
 export function CaseStudySection() {
@@ -47,11 +48,11 @@ export function CaseStudySection() {
               >
                 {caseStudies.map((cs, index) => {
                   const isActive = activeIndex === index;
-                  const IndustryIcon = industryIconMap[cs.client.industry] || Building2;
+                  const IndustryIcon = industryIconMap[cs.industry] || Building2;
 
                   return (
                     <button
-                      key={cs.client.name}
+                      key={cs.name}
                       role="tab"
                       aria-selected={isActive}
                       aria-controls="case-study-panel"
@@ -90,10 +91,10 @@ export function CaseStudySection() {
                             isActive ? 'text-[var(--pv-text)]' : 'text-[var(--pv-text-muted)]'
                           }`}
                         >
-                          {cs.client.name}
+                          {cs.name}
                         </p>
                         <p className="mt-0.5 text-xs text-[var(--pv-text-muted)]">
-                          {cs.client.industry} &middot; {cs.client.location}
+                          {cs.industry} &middot; {cs.location}
                         </p>
                       </div>
                     </button>
