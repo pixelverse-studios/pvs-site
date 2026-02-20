@@ -25,6 +25,9 @@
 - Added accent color selector to the dark theme widget — choose from Electric (vivid), Soft (balanced), or Muted (gentle lavender) to control how prominent the purple accent appears across the site
 - Added minimize/expand toggle to the dark theme picker widget — collapses to a small gradient pill when not in use
 - Redesigned individual case study page narrative section with three switchable layout options (Beside, Spread, Layered) for evaluating the best image placement approach
+- Fixed case study pages to show the client screenshot (instead of the company logo) when shared on social media
+- Fixed keyboard accessibility on the dark theme picker and layout widgets — focus indicators now visible for keyboard users
+- Individual case study pages now return a proper 404 at the framework level for unknown URLs, rather than attempting a dynamic render
 
 ## Notes for internal team
 

@@ -109,7 +109,6 @@ function LayoutPicker({
                 aria-label={`Layout: ${layout.label}`}
                 className="flex flex-col items-center gap-1.5 rounded-xl px-3 py-2.5 transition-all duration-200"
                 style={{
-                  outline: 'none',
                   background: isActive ? 'rgba(124,77,255,0.2)' : 'transparent',
                   border: isActive ? '1px solid rgba(124,77,255,0.5)' : '1px solid transparent',
                   color: isActive ? '#7c4dff' : 'rgba(255,255,255,0.35)',
@@ -173,13 +172,15 @@ function StudyImage({
 function NarrativeBeside({ study }: { study: CaseStudy }) {
   return (
     <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-16">
-      {/* Image — sticky on desktop */}
-      <MotionItem className="lg:w-[46%] lg:sticky lg:top-24 lg:shrink-0">
-        <StudyImage
-          study={study}
-          sizes="(max-width: 1024px) 100vw, (max-width: 1536px) 46vw, 640px"
-        />
-      </MotionItem>
+      {/* Sticky wrapper — non-animated so position:sticky isn't broken by transforms */}
+      <div className="lg:w-[46%] lg:sticky lg:top-24 lg:shrink-0">
+        <MotionItem>
+          <StudyImage
+            study={study}
+            sizes="(max-width: 1024px) 100vw, (max-width: 1536px) 46vw, 640px"
+          />
+        </MotionItem>
+      </div>
 
       {/* Numbered narrative */}
       <div className="flex flex-col gap-14 lg:flex-1">
@@ -191,9 +192,9 @@ function NarrativeBeside({ study }: { study: CaseStudy }) {
             >
               01
             </span>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
               The Challenge
-            </p>
+            </h2>
           </div>
           <p className="text-xl leading-[1.8] text-[var(--pv-text-muted)]">{study.problem}</p>
         </MotionItem>
@@ -208,9 +209,9 @@ function NarrativeBeside({ study }: { study: CaseStudy }) {
             >
               02
             </span>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
               Our Approach
-            </p>
+            </h2>
           </div>
           <p className="text-xl leading-[1.8] text-[var(--pv-text-muted)]">{study.solution}</p>
         </MotionItem>
@@ -237,9 +238,9 @@ function NarrativeSpread({ study }: { study: CaseStudy }) {
             >
               01
             </span>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
               The Challenge
-            </p>
+            </h2>
           </div>
           <p className="text-lg leading-[1.8] text-[var(--pv-text-muted)]">{study.problem}</p>
         </MotionItem>
@@ -252,9 +253,9 @@ function NarrativeSpread({ study }: { study: CaseStudy }) {
             >
               02
             </span>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
               Our Approach
-            </p>
+            </h2>
           </div>
           <p className="text-lg leading-[1.8] text-[var(--pv-text-muted)]">{study.solution}</p>
         </MotionItem>
@@ -345,8 +346,10 @@ export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
                     </Link>
                   </li>
                   <li aria-hidden="true">/</li>
-                  <li className="text-[var(--pv-text)]" aria-current="page">
-                    {study.name}
+                  <li>
+                    <span className="text-[var(--pv-text)]" aria-current="page">
+                      {study.name}
+                    </span>
                   </li>
                 </ol>
               </nav>
@@ -374,6 +377,9 @@ export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
                 </p>
                 <p className="mt-1.5 text-xl font-semibold leading-snug text-[var(--pv-text)]">
                   {study.outcome.metric}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--pv-text-muted)]">
+                  {study.outcome.description}
                 </p>
               </div>
             </MotionItem>
@@ -416,9 +422,9 @@ export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
         <Container className="max-w-5xl">
           <MotionSection as="div" className="space-y-12">
             <MotionItem>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
+              <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
                 What We Addressed
-              </p>
+              </h2>
             </MotionItem>
 
             <div className="divide-y divide-[var(--pv-border)]">
@@ -430,7 +436,7 @@ export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
                 const Icon = IconComponent || AlertCircle;
 
                 return (
-                  <MotionItem key={item.issue} delay={index * 0.08}>
+                  <MotionItem key={item.issue}>
                     <div className="grid gap-6 py-10 md:grid-cols-[1fr_1.5fr] md:gap-16">
                       {/* Left: icon + issue */}
                       <div className="flex items-start gap-4">
@@ -444,10 +450,7 @@ export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
 
                       {/* Right: resolution */}
                       <div className="space-y-2">
-                        <span
-                          className="block text-xs font-semibold uppercase tracking-wider text-[var(--pv-primary)]"
-                          aria-hidden="true"
-                        >
+                        <span className="block text-xs font-semibold uppercase tracking-wider text-[var(--pv-primary)]">
                           What we did
                         </span>
                         <p className="leading-relaxed text-[var(--pv-text-muted)]">
@@ -507,7 +510,7 @@ export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
             {nextStudy && (
               <Link
                 href={`/portfolio/${nextStudy.slug}`}
-                className="inline-flex items-center gap-2 text-sm font-medium text-[var(--pv-primary)] transition-colors hover:text-pv-primary2"
+                className="inline-flex items-center gap-2 text-sm font-medium text-[var(--pv-primary)] transition-colors hover:opacity-80"
                 aria-label={`Next case study: ${nextStudy.name}`}
               >
                 Next: {nextStudy.name}
@@ -543,8 +546,10 @@ export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
         </Container>
       </section>
 
-      {/* ── Layout picker (dev tool) ──────────────────────────── */}
-      <LayoutPicker active={layout} onSelect={setLayout} />
+      {/* ── Layout picker (dev only) ─────────────────────────── */}
+      {process.env.NODE_ENV === 'development' && (
+        <LayoutPicker active={layout} onSelect={setLayout} />
+      )}
     </main>
   );
 }

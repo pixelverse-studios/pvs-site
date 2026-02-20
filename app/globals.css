@@ -105,12 +105,6 @@
   --pv-primary-2: #c947ff;
   --pv-gradient: linear-gradient(90deg, #3f00e9, #c947ff);
 }
-/* Accent 1 — Electric: vivid, high-contrast (recommended for dark) */
-.dark[data-dark-accent="1"] {
-  --pv-primary: #7c4dff;
-  --pv-primary-2: #d060ff;
-  --pv-gradient: linear-gradient(90deg, #7c4dff, #d060ff);
-}
 /* Accent 2 — Soft: balanced, approachable */
 .dark[data-dark-accent="2"] {
   --pv-primary: #9575f5;

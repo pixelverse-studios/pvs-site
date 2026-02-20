@@ -9,6 +9,8 @@ import { createCaseStudyBreadcrumbSchema, createCaseStudySchema } from '@/lib/st
 
 type Params = { slug: string };
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return caseStudies.map((cs) => ({ slug: cs.slug }));
 }
@@ -31,18 +33,24 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
       'web design case study',
       'PixelVerse Studios portfolio',
     ],
+    ogImage: {
+      url: `https://www.pixelversestudios.io${study.img}`,
+      width: 1200,
+      height: 630,
+      alt: `${study.name} website — built by PixelVerse Studios`,
+    },
   });
 }
 
 export default function CaseStudyPage({ params }: { params: Params }) {
-  const studyIndex = caseStudies.findIndex((cs) => cs.slug === params.slug);
+  const study = caseStudies.find((cs) => cs.slug === params.slug);
 
-  if (studyIndex === -1) {
+  if (!study) {
     notFound();
   }
 
-  const study = caseStudies[studyIndex];
-  const nextStudy = caseStudies[studyIndex + 1] ?? null;
+  const currentIndex = caseStudies.indexOf(study);
+  const nextStudy = caseStudies[currentIndex + 1] ?? null;
 
   const articleSchema = createCaseStudySchema({
     slug: study.slug,

@@ -389,10 +389,10 @@ export function createCaseStudySchema({
 }) {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: title,
+    '@type': 'CreativeWork',
+    name: title,
     description,
-    author: {
+    creator: {
       '@type': 'Organization',
       name: 'PixelVerse Studios',
       url: siteUrl,

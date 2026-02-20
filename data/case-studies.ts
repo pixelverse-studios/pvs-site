@@ -36,7 +36,7 @@ export interface CaseStudy {
   testimonial?: {
     quote: string;
     name: string;
-    role: string;
+    role?: string;
   };
 }
 

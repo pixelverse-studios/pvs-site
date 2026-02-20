@@ -94,13 +94,13 @@ export function DarkThemePicker() {
   useEffect(() => {
     setMounted(true);
 
-    const savedVariant = parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10) as VariantId;
-    const validVariant = VARIANTS.find((v) => v.id === savedVariant)?.id ?? 0;
+    const savedVariant = parseInt(localStorage.getItem(STORAGE_KEY) ?? '0', 10);
+    const validVariant = (VARIANTS.find((v) => v.id === savedVariant)?.id ?? 0) as VariantId;
     applyVariant(validVariant);
     setActive(validVariant);
 
-    const savedAccent = parseInt(localStorage.getItem(ACCENT_STORAGE_KEY) ?? '1', 10) as AccentId;
-    const validAccent = ACCENTS.find((a) => a.id === savedAccent)?.id ?? 1;
+    const savedAccent = parseInt(localStorage.getItem(ACCENT_STORAGE_KEY) ?? '1', 10);
+    const validAccent = (ACCENTS.find((a) => a.id === savedAccent)?.id ?? 1) as AccentId;
     applyAccent(validAccent);
     setActiveAccent(validAccent);
 
@@ -191,8 +191,8 @@ export function DarkThemePicker() {
           <button
             onClick={toggleMinimized}
             aria-label="Minimize dark theme picker"
-            className="flex h-4 w-4 items-center justify-center rounded transition-opacity duration-150 hover:opacity-100"
-            style={{ color: 'rgba(255,255,255,0.3)', outline: 'none' }}
+            className="flex h-6 w-6 items-center justify-center rounded transition-opacity duration-150 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+            style={{ color: 'rgba(255,255,255,0.3)' }}
           >
             {/* Minus icon */}
             <svg width="10" height="2" viewBox="0 0 10 2" fill="currentColor" aria-hidden="true">
@@ -211,8 +211,7 @@ export function DarkThemePicker() {
                 onClick={() => select(variant.id)}
                 aria-pressed={isActive}
                 aria-label={`${variant.name}: ${variant.description}`}
-                className="group flex flex-col items-center gap-1.5 transition-all duration-200"
-                style={{ outline: 'none' }}
+                className="group flex flex-col items-center gap-1.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:rounded-lg"
               >
                 <div
                   className="relative h-14 w-12 overflow-hidden rounded-xl transition-all duration-200"
@@ -282,8 +281,7 @@ export function DarkThemePicker() {
                 onClick={() => selectAccent(accent.id)}
                 aria-pressed={isActive}
                 aria-label={`Accent: ${accent.name} — ${accent.description}`}
-                className="flex flex-col items-center gap-1.5 transition-all duration-200"
-                style={{ outline: 'none' }}
+                className="flex flex-col items-center gap-1.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:rounded-full"
               >
                 <div
                   className="relative rounded-full transition-all duration-200"
