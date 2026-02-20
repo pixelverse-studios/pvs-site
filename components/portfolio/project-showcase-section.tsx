@@ -10,60 +10,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
+import { caseStudies } from '@/data/case-studies';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 
 const projectAccentGradients = [
   'bg-[radial-gradient(circle_at_top_left,var(--pv-primary)/0.35,transparent_65%)]',
   'bg-[radial-gradient(circle_at_top,var(--pv-primary-2)/0.35,transparent_70%)]',
   'bg-[radial-gradient(circle_at_bottom_right,var(--pv-primary)/0.3,transparent_60%)]',
-];
-
-const projects = [
-  {
-    name: 'Jones Pressure Washing',
-    industry: 'Home Services',
-    summary: [
-      'Rebuilt a local brand’s online experience to increase trust, clarity, and ease of booking.',
-      'From competitor research to content strategy and launch, we focused on measurable results and lasting usability.',
-    ],
-    highlights: [
-      'Modernized the brand’s website for better usability and lead generation.',
-      'Simplified service structure and copy to improve clarity and local SEO.',
-      'New design makes booking easier, leading to more online inquiries.',
-    ],
-    url: 'https://www.jonespressurewashingnj.com',
-    img: '/projects/JPW.png',
-  },
-  {
-    name: '360 Degree Care',
-    industry: 'Healthcare',
-    summary: [
-      'Built a new home health care website to foster trust, clarity, and emotional connection for families seeking care.',
-      'Delivered a scalable, SEO-optimized build focused on accessibility, engagement, and measurable growth in site performance.',
-    ],
-    highlights: [
-      'Designed a calm, trustworthy visual identity to connect with families.',
-      'Structured content for clarity, readability, and improved user navigation.',
-      'Boosted search visibility and engagement through on-page SEO strategy.',
-    ],
-    url: 'https://www.360degreecare.net',
-    img: '/projects/360.png',
-  },
-  {
-    name: 'Domani',
-    industry: 'Productivity SaaS',
-    summary: [
-      'Created an easy-to-use productivity app that helps users plan tomorrow, tonight.',
-      'Focused on intuitive flow, minimal design, and a distraction-free experience that encourages daily consistency.',
-    ],
-    highlights: [
-      'Applied behavioral science and UX research to encourage consistent nightly planning habits.',
-      'Simplified the planning process to help users focus on priorities, not overwhelm.',
-      'Designed a visually calm interface that supports focus and reduces decision fatigue.',
-    ],
-    url: 'https://www.domani-app.com',
-    img: '/projects/Domani1.png',
-  },
 ];
 
 export function ProjectShowcaseSection() {
@@ -84,9 +37,9 @@ export function ProjectShowcaseSection() {
           </MotionItem>
         </MotionSection>
         <MotionSection as="div" className="grid gap-6 md:grid-cols-3" delay={0.12}>
-          {projects.map((project, index) => (
+          {caseStudies.map((project, index) => (
             <MotionItem
-              key={project.name}
+              key={project.slug}
               delay={index * 0.08}
               triggerOnViewport={false}
               className="h-full"
@@ -107,21 +60,17 @@ export function ProjectShowcaseSection() {
                 </div>
                 <CardHeader className="mb-5 flex-1 space-y-3">
                   <CardTitle>{project.name}</CardTitle>
-                  <div className="space-y-2">
-                    {project.summary.map((paragraph) => (
-                      <CardDescription key={paragraph}>{paragraph}</CardDescription>
-                    ))}
-                  </div>
+                  <CardDescription>{project.summary}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-4 text-sm text-[var(--pv-text-muted)]">
                   <ul className="space-y-2">
-                    {project.highlights.map((highlight) => (
-                      <li key={highlight} className="flex items-start gap-3 text-left">
+                    {project.issues.map((item) => (
+                      <li key={item.issue} className="flex items-start gap-3 text-left">
                         <CheckCircle2
                           className="mt-0.5 h-4 w-4 flex-shrink-0 text-[var(--pv-primary)]"
                           aria-hidden="true"
                         />
-                        <span className="flex-1">{highlight}</span>
+                        <span className="flex-1">{item.resolution}</span>
                       </li>
                     ))}
                   </ul>
@@ -133,7 +82,8 @@ export function ProjectShowcaseSection() {
                   <a
                     href={project.url}
                     className="flex items-center gap-2 dark:text-pv-text dark:hover:text-pv-primary2"
-                    target="__blank"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     View live site <ArrowRight size={18} />
                   </a>
