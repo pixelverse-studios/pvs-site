@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { AlertCircle, Calendar, Loader2 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import Script from 'next/script';
@@ -107,14 +107,36 @@ export function ContactStrategyCall() {
     themedUrlRef.current = buildThemedUrl(CALENDLY_URL, isDark);
   }
 
-  // Called by onReady — fires on every mount (first load AND remounts after tab switch)
+  // Calendly creates the iframe with height:0 and sends `calendly.page_height`
+  // postMessages as the booking UI renders. We listen here and apply the height
+  // directly to the iframe so it expands to show the full calendar content.
+  useEffect(() => {
+    if (!hasUrl) return;
+
+    function handleMessage(e: MessageEvent) {
+      if (e.data?.event === 'calendly.page_height' && embedRef.current) {
+        const iframe = embedRef.current.querySelector('iframe');
+        const height = e.data?.payload?.height as string | undefined;
+        if (iframe && height) {
+          iframe.style.height = height;
+          setIsLoaded(true);
+        }
+      }
+    }
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [hasUrl]);
+
+  // Called by onReady — fires on every mount (first load AND remounts after tab switch).
+  // Does NOT set isLoaded — we wait for the page_height message instead so the
+  // loading spinner stays visible until the calendar content is actually sized.
   const initWidget = useCallback(() => {
     if (embedRef.current && window.Calendly && themedUrlRef.current) {
       window.Calendly.initInlineWidget({
         url: themedUrlRef.current,
         parentElement: embedRef.current,
       });
-      setIsLoaded(true);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -127,14 +149,15 @@ export function ContactStrategyCall() {
 
   return (
     <div className="space-y-6">
-      {/* Calendly embed area */}
+      {/* Calendly embed area — outer div holds the loading spinner via min-height;
+          inner embedRef div is unsized so the iframe can dictate its own height */}
       <div
         role="region"
         aria-label="Calendly scheduling widget"
         className="relative w-full"
-        style={{ minHeight: '900px' }}
+        style={{ minHeight: isLoaded ? undefined : '630px' }}
       >
-        {/* Loading state — shown until widget initialises */}
+        {/* Loading spinner — visible until first page_height message arrives */}
         {!isLoaded && !hasError && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex flex-col items-center gap-3 text-[var(--pv-text-muted)]">
@@ -147,7 +170,7 @@ export function ContactStrategyCall() {
         {hasError ? (
           <CalendlyError />
         ) : (
-          <div ref={embedRef} className="w-full" style={{ minHeight: '900px' }} />
+          <div ref={embedRef} className="w-full" />
         )}
       </div>
 
