@@ -154,7 +154,7 @@ export function ContactStrategyCall() {
       <div
         role="region"
         aria-label="Calendly scheduling widget"
-        className="relative w-full"
+        className="relative w-full bg-[var(--pv-bg)]"
         style={{ minHeight: isLoaded ? undefined : '630px' }}
       >
         {/* Loading spinner — visible until first page_height message arrives */}
@@ -170,7 +170,7 @@ export function ContactStrategyCall() {
         {hasError ? (
           <CalendlyError />
         ) : (
-          <div ref={embedRef} className="w-full" />
+          <div ref={embedRef} className="w-full bg-[var(--pv-bg)]" />
         )}
       </div>
 
