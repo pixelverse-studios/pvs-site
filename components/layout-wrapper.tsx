@@ -3,16 +3,15 @@
 import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 
-import { Footer } from '@/components/ui/footer';
+import { FooterLayoutPicker } from '@/components/ui/footer-layout-picker';
 import { Navbar, type NavItem } from '@/components/ui/navbar';
 
 interface LayoutWrapperProps {
   children: ReactNode;
   navItems: NavItem[];
-  localContactLinks?: Array<{ label: string; href: string }>;
 }
 
-export function LayoutWrapper({ children, navItems, localContactLinks = [] }: LayoutWrapperProps) {
+export function LayoutWrapper({ children, navItems }: LayoutWrapperProps) {
   const pathname = usePathname();
 
   // Pages that should not have navbar/footer (auth pages and dashboard)
@@ -30,9 +29,8 @@ export function LayoutWrapper({ children, navItems, localContactLinks = [] }: La
     <div className="flex min-h-screen flex-col">
       <Navbar items={navItems} cta={{ label: 'Get Started', href: '/contact' }} />
       <div className="flex-1">{children}</div>
-      <Footer
+      <FooterLayoutPicker
         links={navItems}
-        localContactLinks={localContactLinks}
         cta={{ label: 'Get in touch with us', href: '/contact' }}
       />
     </div>
