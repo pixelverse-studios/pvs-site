@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import { ContactHero } from '@/components/contact/contact-hero';
+import { ContactInfoSection } from '@/components/contact/contact-info-section';
 import { ContactPageClient } from '@/components/contact/contact-page-client';
 import { createPageMetadata } from '@/lib/metadata';
 
@@ -35,6 +36,7 @@ export default async function ContactPage({ searchParams }: PageProps) {
     <main>
       <ContactHero />
       <ContactPageClient defaultPath={defaultPath} />
+      <ContactInfoSection />
     </main>
   );
 }
