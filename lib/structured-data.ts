@@ -244,11 +244,6 @@ export function createCityServicesSchema(slug: string, city: string, state: stri
       type: 'Local SEO',
       description: `Local SEO optimization for ${city} businesses. Google Business Profile setup, local citations, schema markup, and content strategy.`,
     },
-    {
-      name: `UX/UI Design in ${city}, ${state}`,
-      type: 'UX UI Design',
-      description: `User experience and interface design for ${city} service brands. Conversion-optimized layouts and intuitive navigation.`,
-    },
   ];
 
   return services.map((service) =>
@@ -374,5 +369,59 @@ export function createLocalServiceBreadcrumbSchema(
     { name: 'Services', path: '/services' },
     { name: serviceName, path: `/services/${serviceSlug}` },
     { name: city, path: `/services/${serviceSlug}/${citySlug}` },
+  ]);
+}
+
+/**
+ * Creates Article schema for individual case study pages
+ * Home > Portfolio > [Case Study Name]
+ */
+export function createCaseStudySchema({
+  slug,
+  title,
+  description,
+  clientName,
+}: {
+  slug: string;
+  title: string;
+  description: string;
+  clientName: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: title,
+    description,
+    creator: {
+      '@type': 'Organization',
+      name: 'PixelVerse Studios',
+      url: siteUrl,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'PixelVerse Studios',
+      url: siteUrl,
+      logo: { '@type': 'ImageObject', url: lightModeLogo },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${siteUrl}/portfolio/${slug}`,
+    },
+    about: {
+      '@type': 'Organization',
+      name: clientName,
+    },
+  };
+}
+
+/**
+ * Creates BreadcrumbList schema for case study detail pages
+ * Home > Portfolio > [Case Study Name]
+ */
+export function createCaseStudyBreadcrumbSchema(clientName: string, slug: string) {
+  return createBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Portfolio', path: '/portfolio' },
+    { name: clientName, path: `/portfolio/${slug}` },
   ]);
 }

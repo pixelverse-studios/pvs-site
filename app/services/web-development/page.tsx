@@ -8,6 +8,7 @@ import {
   ServiceHero,
   ServiceNarrativeSection,
   ServiceCta,
+  ServiceFAQ,
 } from '@/components/services/individual';
 import { Container } from '@/components/ui/container';
 import { StructuredData } from '@/components/ui/structured-data';
@@ -44,6 +45,7 @@ export default function WebDevelopmentPage() {
     howWePlan,
     designAndDevelopment,
     whatToExpect,
+    faq,
     finalCta,
   } = webDevelopmentContent;
 
@@ -124,7 +126,13 @@ export default function WebDevelopmentPage() {
         background="bg"
       />
 
-      {/* 7. Final CTA */}
+      {/* 7. FAQ */}
+      <ServiceFAQ
+        faqs={faq}
+        schemaId="web-development-faq-schema"
+      />
+
+      {/* 8. Final CTA */}
       <ServiceCta
         heading={finalCta.title}
         description={finalCta.description}

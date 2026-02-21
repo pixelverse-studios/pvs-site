@@ -1,33 +1,40 @@
 import type { Metadata } from 'next';
 
-import { ContactClosingCtaSection } from '@/components/contact/contact-closing-cta';
-import { ContactHeroSection } from '@/components/contact/contact-hero-section';
-// import { ContactIntroSection } from '@/components/contact/contact-intro-section';
-import { ContactMethodsSection } from '@/components/contact/contact-methods-section';
-import { ContactTrustSection } from '@/components/contact/contact-trust-section';
+import { ContactHero } from '@/components/contact/contact-hero';
+import { ContactPageClient } from '@/components/contact/contact-page-client';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Contact Us | Book a Strategy Call | PixelVerse Studios',
+  title: 'Contact Us | PixelVerse Studios',
   description:
-    'Contact PixelVerse Studios to discuss custom web design, development, and local SEO. Book a strategy call or share project details to get started.',
+    'Reach out to PixelVerse Studios. Share project details, schedule a strategy call, or request a free website review — choose the path that fits your situation.',
   path: '/contact',
   keywords: [
-    'contact PixelVerse Studios',
-    'web design consultation',
-    'schedule SEO call',
-    'custom website inquiry',
-    'Bergen County digital agency',
+    'contact pixelverse studios',
+    'web design consultation nj',
+    'schedule strategy call',
+    'free website review',
+    'web design quote',
   ],
 });
 
-export default function ContactPage() {
+const VALID_PATHS = ['details', 'call', 'review'] as const;
+type ContactPath = (typeof VALID_PATHS)[number];
+
+type PageProps = {
+  searchParams: Promise<{ path?: string }>;
+};
+
+export default async function ContactPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const defaultPath: ContactPath = VALID_PATHS.includes(params.path as ContactPath)
+    ? (params.path as ContactPath)
+    : 'details';
+
   return (
     <main>
-      <ContactHeroSection />
-      <ContactMethodsSection />
-      <ContactTrustSection />
-      <ContactClosingCtaSection />
+      <ContactHero />
+      <ContactPageClient defaultPath={defaultPath} />
     </main>
   );
 }

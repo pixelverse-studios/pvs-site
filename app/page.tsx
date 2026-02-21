@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 
 import { HomepageClient } from '@/components/home/homepage-client';
+import { StructuredData } from '@/components/ui/structured-data';
+import { homepageFaq } from '@/data/homepage-faq';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
@@ -17,6 +19,24 @@ export const metadata: Metadata = createPageMetadata({
   ],
 });
 
+const homeFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: homepageFaq.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+
 export default function Home() {
-  return <HomepageClient />;
+  return (
+    <>
+      <StructuredData id="home-faq-schema" data={homeFaqSchema} />
+      <HomepageClient />
+    </>
+  );
 }

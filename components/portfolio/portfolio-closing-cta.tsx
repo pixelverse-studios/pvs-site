@@ -11,16 +11,17 @@ export function PortfolioClosingCtaSection() {
         <MotionSection as="div" className="space-y-8">
           <MotionItem className="space-y-5">
             <h2 className="text-3xl font-semibold md:text-4xl">
-              Seen enough? Let&apos;s talk about what we can create together.
+              See something that resonates?
             </h2>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
-              We&apos;ll walk through your goals, identify the most impactful opportunities, and
-              build a roadmap that aligns every deliverable to measurable outcomes.
+              If you&apos;re wondering whether something similar could work for your business,
+              the right next step is a conversation — not a proposal. We&apos;ll look at where
+              you are and figure out what actually makes sense.
             </p>
           </MotionItem>
           <MotionItem delay={0.08} className="flex justify-center">
             <Button asChild size="lg" variant="cta">
-              <Link href="/contact">Contact Us to Start Your Project</Link>
+              <Link href="/contact">Start the Conversation</Link>
             </Button>
           </MotionItem>
         </MotionSection>

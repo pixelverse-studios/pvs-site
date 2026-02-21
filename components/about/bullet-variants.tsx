@@ -7,7 +7,6 @@ import {
   Code,
   Compass,
   LayoutGrid,
-  Palette,
   Search,
   ShieldCheck,
   TrendingUp,
@@ -27,7 +26,6 @@ const iconMap = {
   clipboardList: ClipboardList,
   shieldCheck: ShieldCheck,
   trendingUp: TrendingUp,
-  palette: Palette,
   code: Code,
   barChart: BarChart3,
 } as const;
@@ -166,20 +164,26 @@ function InlineVariant({ bulletPoints }: BulletVariantsProps) {
 
 // =============================================================================
 // Variant C: Connected — disciplines linked by a horizontal gradient bridge
-// Assumes exactly 3 items in a 3-column grid layout
+// Adapts column count to the number of bullet points (2 or 3 supported)
 // =============================================================================
 function ConnectedVariant({ bulletPoints, background }: BulletVariantsProps) {
+  const count = bulletPoints.length;
+  // Gradient bridge spans between the first and last icon centres.
+  // Icon centre sits at (1 / (2 * count)) of the container width from each edge.
+  const bridgeOffset = `calc(100% / ${2 * count})`;
+  const gridCols = count === 2 ? 'sm:grid-cols-2' : 'sm:grid-cols-3';
+
   return (
     <MotionSection as="div" className="mx-auto max-w-4xl" delay={0.12}>
       <div className="relative">
         {/* Horizontal gradient bridge connecting all nodes (desktop only) */}
         <div
-          className="absolute left-[calc(100%/6)] right-[calc(100%/6)] top-[28px] hidden h-px md:block"
-          style={{ background: 'var(--pv-gradient)' }}
+          className="absolute top-[28px] hidden h-px md:block"
+          style={{ background: 'var(--pv-gradient)', left: bridgeOffset, right: bridgeOffset }}
           aria-hidden="true"
         />
 
-        <div className="grid gap-10 sm:grid-cols-3 sm:gap-6">
+        <div className={`grid gap-10 sm:gap-6 ${gridCols}`}>
           {bulletPoints.map((point, i) => {
             const iconColor = getIconColor(i, bulletPoints.length);
             const IconComponent = point.icon ? iconMap[point.icon] : null;

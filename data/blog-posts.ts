@@ -357,7 +357,7 @@ const blogPosts: BlogPost[] = [
       {
         type: 'paragraph',
         content:
-          'Ready to see what your project would cost? Visit our packages page for detailed pricing or contact us for a custom quote based on your specific needs.',
+          'Ready to see what your project would cost? Contact us for a custom quote based on your specific needs.',
       },
       {
         type: 'heading',

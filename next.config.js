@@ -55,12 +55,12 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value:
               "default-src 'self'; " +
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://js.sentry-cdn.com; " +
-              "style-src 'self' 'unsafe-inline'; " +
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://js.sentry-cdn.com https://assets.calendly.com; " +
+              "style-src 'self' 'unsafe-inline' https://assets.calendly.com; " +
               "img-src 'self' data: https: blob:; " +
               "font-src 'self' data:; " +
-              "connect-src 'self' https://www.google-analytics.com https://*.sentry.io https://*.supabase.co; " +
-              "frame-src 'self'; " +
+              "connect-src 'self' https://www.google-analytics.com https://*.sentry.io https://*.supabase.co https://calendly.com https://*.calendly.com https://maps.googleapis.com https://maps.gstatic.com; " +
+              "frame-src 'self' https://calendly.com https://www.google.com/maps; " +
               "object-src 'none'; " +
               "base-uri 'self'; " +
               "form-action 'self'; " +
@@ -72,25 +72,23 @@ const nextConfig = {
     ];
   },
   async redirects() {
-    const contactContextSlugs = [
+    const legacyContactSlugs = [
       'bergen-county',
       'fort-lee',
       'cliffside-park',
       'river-vale',
       'hackensack',
       'paramus',
+      'teaneck',
+      'fair-lawn',
+      'englewood',
+      'bergenfield',
+      'ridgewood',
     ];
 
-    const contactContextRedirects = contactContextSlugs.map((slug) => ({
-      source: '/contact',
-      has: [
-        {
-          type: 'query',
-          key: 'context',
-          value: slug,
-        },
-      ],
-      destination: `/contact/${slug}`,
+    const contactSlugRedirects = legacyContactSlugs.map((slug) => ({
+      source: `/contact/${slug}`,
+      destination: '/contact',
       permanent: true,
     }));
 
@@ -102,10 +100,30 @@ const nextConfig = {
       },
       {
         source: '/pricing',
-        destination: '/packages',
+        destination: '/contact',
         permanent: true,
       },
-      ...contactContextRedirects,
+      {
+        source: '/packages',
+        destination: '/contact',
+        permanent: true,
+      },
+      {
+        source: '/services/ux-ui-design',
+        destination: '/services',
+        permanent: true,
+      },
+      {
+        source: '/services/ux-ui-design/:city',
+        destination: '/services',
+        permanent: true,
+      },
+      {
+        source: '/audit',
+        destination: '/contact',
+        permanent: true,
+      },
+      ...contactSlugRedirects,
     ];
   },
 };

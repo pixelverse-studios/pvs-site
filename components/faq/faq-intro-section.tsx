@@ -13,13 +13,14 @@ export function FaqIntroSection() {
           </MotionItem>
           <MotionItem delay={0.08}>
             <h1 className="text-4xl font-semibold leading-[3rem] md:text-5xl md:leading-[3.5rem]">
-              Our most common questions
+              Common questions, honest answers
             </h1>
           </MotionItem>
           <MotionItem delay={0.16}>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
-              Choosing the right partner for your website is a big decision. These FAQs explain why
-              our custom approach makes all the difference.
+              Most people come in with questions before they&apos;re ready to talk. These cover what
+              we do, how we work, and what to expect — so you can decide if it&apos;s worth a
+              conversation.
             </p>
           </MotionItem>
         </MotionSection>

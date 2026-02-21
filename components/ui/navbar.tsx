@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { LucideIcon } from 'lucide-react';
 import {
-  Box,
   ChevronDown,
   Code2,
   Folder,
@@ -56,7 +55,6 @@ const DARK_LOGO_URL = sharedMetadata.logo.dark;
 const mobileNavIcons: Record<string, LucideIcon> = {
   About: Info,
   Services: Sparkles,
-  Packages: Box,
   Portfolio: Folder,
   Blog: PenSquare,
   FAQ: HelpCircle,

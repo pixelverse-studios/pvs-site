@@ -13,13 +13,13 @@ export function PortfolioIntroSection() {
           </MotionItem>
           <MotionItem delay={0.08}>
             <h1 className="text-4xl font-semibold leading-[3rem] md:text-5xl md:leading-[3.5rem]">
-              Every project tells a story
+              Work built around real business goals
             </h1>
           </MotionItem>
           <MotionItem delay={0.16}>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
-              Every project tells a story - about growth, trust, and digital transformation. Explore
-              the work we’ve done and see how we help businesses like yours succeed online.
+              Each project started the same way: with a conversation about what wasn&apos;t working
+              and why. What came next depended on the business, not a template.
             </p>
           </MotionItem>
         </MotionSection>
