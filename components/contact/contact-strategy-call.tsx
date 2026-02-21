@@ -1,31 +1,19 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { AlertCircle, Calendar, Loader2 } from 'lucide-react';
+import { useState } from 'react';
+import { Calendar, CalendarCheck, X } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import Script from 'next/script';
 
-// Extend window with Calendly global
-declare global {
-  interface Window {
-    Calendly?: {
-      initInlineWidget: (options: {
-        url: string;
-        parentElement: HTMLElement;
-      }) => void;
-    };
-  }
-}
+import { Button } from '@/components/ui/button';
 
-// Build-time constant — set NEXT_PUBLIC_CALENDLY_URL at build time to activate the embed
+// Build-time constant — set NEXT_PUBLIC_CALENDLY_URL at build time to activate the widget
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL;
 
-// ─── Theme-aware URL builder ──────────────────────────────────────────────────
-
-// Strip any existing color/theme params Calendly may have baked into the URL,
-// then inject params that match the site's current light/dark theme.
+// Inject theme-aware color params. Without embed_type in the URL, Calendly
+// treats the iframe src as a direct-visit and applies background_color to the
+// document body — the same behavior seen when opening the URL in a browser tab.
 function buildThemedUrl(baseUrl: string, isDark: boolean): string {
-  const url = new URL(baseUrl.split('?')[0]); // strip any existing query params
+  const url = new URL(baseUrl.split('?')[0]);
   url.searchParams.set('background_color', isDark ? '0e0e14' : 'ffffff');
   url.searchParams.set('text_color', isDark ? 'e4e4ef' : '111111');
   url.searchParams.set('primary_color', isDark ? '7c4dff' : '3f00e9');
@@ -36,54 +24,32 @@ function buildThemedUrl(baseUrl: string, isDark: boolean): string {
 
 function CalendlyPlaceholder() {
   return (
-    <div
-      role="status"
-      aria-label="Online scheduling temporarily unavailable"
-      className="flex min-h-[400px] flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-[var(--pv-border)] bg-[var(--pv-bg)] p-12 text-center"
-    >
-      <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--pv-primary)_10%,transparent)]">
-        <Calendar className="h-8 w-8 text-[var(--pv-primary)]" aria-hidden="true" />
-      </span>
-      <div className="space-y-1.5">
-        <p className="font-heading text-base font-semibold text-[var(--pv-text)]">
-          Online Scheduling Coming Soon
-        </p>
-        <p className="text-sm text-[var(--pv-text-muted)]">
-          Scheduling isn&rsquo;t available here yet — use the form below or email us at{' '}
-          <a
-            href="mailto:hello@pixelversestudios.io"
-            className="font-medium text-[var(--pv-primary)] underline underline-offset-2"
-          >
-            hello@pixelversestudios.io
-          </a>{' '}
-          to set up a call.
-        </p>
+    <div className="space-y-6">
+      <div
+        role="status"
+        aria-label="Online scheduling temporarily unavailable"
+        className="flex min-h-[300px] flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-[var(--pv-border)] bg-[var(--pv-bg)] p-12 text-center"
+      >
+        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--pv-primary)_10%,transparent)]">
+          <Calendar className="h-8 w-8 text-[var(--pv-primary)]" aria-hidden="true" />
+        </span>
+        <div className="space-y-1.5">
+          <p className="font-heading text-base font-semibold text-[var(--pv-text)]">
+            Online Scheduling Coming Soon
+          </p>
+          <p className="text-sm text-[var(--pv-text-muted)]">
+            Scheduling isn&rsquo;t available here yet — email us at{' '}
+            <a
+              href="mailto:hello@pixelversestudios.io"
+              className="font-medium text-[var(--pv-primary)] underline underline-offset-2"
+            >
+              hello@pixelversestudios.io
+            </a>{' '}
+            to set up a call.
+          </p>
+        </div>
       </div>
-    </div>
-  );
-}
-
-// ─── Error fallback ───────────────────────────────────────────────────────────
-
-function CalendlyError() {
-  return (
-    <div className="flex min-h-[200px] flex-col items-center justify-center gap-3 rounded-xl border border-red-200 bg-red-50 p-8 text-center dark:border-red-900/40 dark:bg-red-950/30">
-      <AlertCircle className="h-8 w-8 text-red-500" aria-hidden="true" />
-      <div className="space-y-1">
-        <p className="font-medium text-red-700 dark:text-red-400">
-          Couldn&rsquo;t load the scheduling widget
-        </p>
-        <p className="text-sm text-red-600 dark:text-red-500">
-          Email us at{' '}
-          <a
-            href="mailto:hello@pixelversestudios.io"
-            className="font-medium underline underline-offset-2"
-          >
-            hello@pixelversestudios.io
-          </a>{' '}
-          to book a call instead.
-        </p>
-      </div>
+      <DescriptionCard />
     </div>
   );
 }
@@ -91,99 +57,94 @@ function CalendlyError() {
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export function ContactStrategyCall() {
-  const hasUrl = Boolean(CALENDLY_URL);
-  const embedRef = useRef<HTMLDivElement>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [hasError, setHasError] = useState(false);
-
-  // resolvedTheme handles 'system' preference — falls back to light if unresolved
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Keep a ref to the themed URL so initWidget reads the current value at call
-  // time without needing to recreate the memoized callback on theme changes.
-  const themedUrlRef = useRef('');
-  if (CALENDLY_URL) {
-    themedUrlRef.current = buildThemedUrl(CALENDLY_URL, isDark);
-  }
+  if (!CALENDLY_URL) return <CalendlyPlaceholder />;
 
-  // Calendly creates the iframe with height:0 and sends `calendly.page_height`
-  // postMessages as the booking UI renders. We listen here and apply the height
-  // directly to the iframe so it expands to show the full calendar content.
-  useEffect(() => {
-    if (!hasUrl) return;
-
-    function handleMessage(e: MessageEvent) {
-      if (e.data?.event === 'calendly.page_height' && embedRef.current) {
-        const iframe = embedRef.current.querySelector('iframe');
-        const height = e.data?.payload?.height as string | undefined;
-        if (iframe && height) {
-          iframe.style.height = height;
-          setIsLoaded(true);
-        }
-      }
-    }
-
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, [hasUrl]);
-
-  // Called by onReady — fires on every mount (first load AND remounts after tab switch).
-  // Does NOT set isLoaded — we wait for the page_height message instead so the
-  // loading spinner stays visible until the calendar content is actually sized.
-  const initWidget = useCallback(() => {
-    if (embedRef.current && window.Calendly && themedUrlRef.current) {
-      window.Calendly.initInlineWidget({
-        url: themedUrlRef.current,
-        parentElement: embedRef.current,
-      });
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  if (!hasUrl) return (
-    <div className="space-y-6">
-      <CalendlyPlaceholder />
-      <DescriptionCard />
-    </div>
-  );
+  const themedUrl = buildThemedUrl(CALENDLY_URL, isDark);
+  const bgColor = isDark ? '#0e0e14' : '#ffffff';
 
   return (
-    <div className="space-y-6">
-      {/* Calendly embed area — outer div holds the loading spinner via min-height;
-          inner embedRef div is unsized so the iframe can dictate its own height */}
-      <div
-        role="region"
-        aria-label="Calendly scheduling widget"
-        className="relative w-full bg-[var(--pv-bg)]"
-        style={{ minHeight: isLoaded ? undefined : '630px' }}
-      >
-        {/* Loading spinner — visible until first page_height message arrives */}
-        {!isLoaded && !hasError && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="flex flex-col items-center gap-3 text-[var(--pv-text-muted)]">
-              <Loader2 className="h-8 w-8 animate-spin text-[var(--pv-primary)]" aria-hidden="true" />
-              <span className="text-sm">Loading calendar&hellip;</span>
-            </div>
-          </div>
-        )}
+    <>
+      <div className="space-y-6">
+        {/* CTA card */}
+        <div className="flex flex-col items-center gap-6 rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)] px-8 py-14 text-center">
+          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--pv-primary)_10%,transparent)]">
+            <CalendarCheck className="h-8 w-8 text-[var(--pv-primary)]" aria-hidden="true" />
+          </span>
 
-        {hasError ? (
-          <CalendlyError />
-        ) : (
-          <div ref={embedRef} className="w-full bg-[var(--pv-bg)]" />
-        )}
+          <div className="space-y-2">
+            <h3 className="font-heading text-xl font-semibold text-[var(--pv-text)]">
+              Book a 30-Minute Discovery Call
+            </h3>
+            <p className="max-w-sm text-sm leading-relaxed text-[var(--pv-text-muted)]">
+              Pick a time that works for you. We&rsquo;ll talk through your goals and figure out
+              whether working together makes sense.
+            </p>
+          </div>
+
+          <Button
+            variant="cta"
+            size="lg"
+            onClick={() => setIsOpen(true)}
+            aria-label="Open scheduling calendar"
+          >
+            <Calendar className="mr-2 h-4 w-4" aria-hidden="true" />
+            Choose a Time
+          </Button>
+        </div>
+
+        <DescriptionCard />
       </div>
 
-      <Script
-        id="calendly-widget"
-        src="https://assets.calendly.com/assets/external/widget.js"
-        strategy="afterInteractive"
-        onReady={initWidget}
-        onError={() => setHasError(true)}
-      />
+      {/* ── Custom modal ── */}
+      {isOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Schedule a strategy call"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+        >
+          {/* Backdrop — click to close */}
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setIsOpen(false)}
+            aria-hidden="true"
+          />
 
-      <DescriptionCard />
-    </div>
+          {/* Modal container — we own this, so background is always correct */}
+          <div
+            className="relative z-10 w-full max-w-[1000px] overflow-hidden rounded-2xl shadow-2xl"
+            style={{
+              height: 'min(90svh, 700px)',
+              backgroundColor: bgColor,
+            }}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setIsOpen(false)}
+              aria-label="Close scheduling modal"
+              className="absolute right-3 top-3 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-black/20 text-white transition-colors hover:bg-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+            >
+              <X className="h-4 w-4" aria-hidden="true" />
+            </button>
+
+            {/* Plain iframe — no embed_type param means Calendly renders as a full
+                page visit and correctly applies background_color to the document body */}
+            <iframe
+              src={themedUrl}
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              title="Schedule a Strategy Call — Calendly"
+              style={{ backgroundColor: bgColor, colorScheme: isDark ? 'dark' : 'light' }}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -197,8 +158,8 @@ function DescriptionCard() {
       </h3>
       <p className="text-sm leading-relaxed text-[var(--pv-text-muted)]">
         This call is designed to better understand your goals, your current situation, and what
-        you&rsquo;re working toward. We&rsquo;ll use the time to determine whether working
-        together makes sense and what the right next step would be.
+        you&rsquo;re working toward. We&rsquo;ll use the time to determine whether working together
+        makes sense and what the right next step would be.
       </p>
     </div>
   );
