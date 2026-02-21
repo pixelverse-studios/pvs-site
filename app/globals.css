@@ -379,18 +379,14 @@ html {
   }
 }
 
-/* ── Calendly widget theming ──────────────────────────────────────────────── */
-/* The UA default iframe background is white. We override it on the iframe
-   element itself so the gap between the Calendly card and the iframe boundary
-   matches the page theme. Applies to both the inline widget and any popups. */
-.dark .calendly-inline-widget iframe,
-.dark .calendly-overlay iframe {
+/* ── Calendly popup overlay ───────────────────────────────────────────────── */
+/* Match the popup modal container background to the dark theme */
+.dark .calendly-overlay .calendly-popup {
   background-color: #0e0e14;
-  color-scheme: dark;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
 }
-.calendly-inline-widget iframe,
-.calendly-overlay iframe {
-  background-color: #ffffff;
+.dark .calendly-overlay .calendly-close-overlay {
+  background: rgba(0, 0, 0, 0.7);
 }
 
 @media (prefers-reduced-motion: reduce) {
