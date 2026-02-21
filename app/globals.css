@@ -379,18 +379,18 @@ html {
   }
 }
 
-/* ── Calendly popup widget dark mode ─────────────────────────────────────── */
-/* The popup container divs (.calendly-overlay, .calendly-popup) live in our
-   DOM so we can target them directly. The white comes from the iframe element's
-   UA default background showing at the card's rounded corners. We override it
-   here so the gap between the card edges and the rectangular iframe boundary
-   matches the dark theme instead of defaulting to white. */
-.dark .calendly-overlay .calendly-popup {
-  background-color: #0e0e14;
-}
+/* ── Calendly widget theming ──────────────────────────────────────────────── */
+/* The UA default iframe background is white. We override it on the iframe
+   element itself so the gap between the Calendly card and the iframe boundary
+   matches the page theme. Applies to both the inline widget and any popups. */
+.dark .calendly-inline-widget iframe,
 .dark .calendly-overlay iframe {
   background-color: #0e0e14;
   color-scheme: dark;
+}
+.calendly-inline-widget iframe,
+.calendly-overlay iframe {
+  background-color: #ffffff;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -70,13 +70,17 @@ export function ContactStrategyCall() {
     primaryColor: isDark ? '7c4dff' : '3f00e9',
   };
 
+  const bgColor = isDark ? '#0e0e14' : '#ffffff';
+
   return (
     <div className="space-y-6">
-      <InlineWidget
-        url={CALENDLY_URL}
-        pageSettings={pageSettings}
-        styles={{ minHeight: '700px' }}
-      />
+      <div style={{ backgroundColor: bgColor, borderRadius: '12px', overflow: 'hidden' }}>
+        <InlineWidget
+          url={CALENDLY_URL}
+          pageSettings={pageSettings}
+          styles={{ minHeight: '700px', backgroundColor: bgColor }}
+        />
+      </div>
       <DescriptionCard />
     </div>
   );
