@@ -1,13 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
 
 import { Footer, type FooterProps } from './footer';
 
 const STORAGE_KEY = 'pvs_footer_layout';
 type Layout = 'a' | 'b' | 'c' | 'd';
 
-const LAYOUTS: { id: Layout; label: string; description: string; preview: React.ReactNode }[] = [
+const VALID_LAYOUTS: Layout[] = ['a', 'b', 'c', 'd'];
+
+const LAYOUTS: { id: Layout; label: string; description: string; preview: ReactNode }[] = [
   {
     id: 'a',
     label: 'A',
@@ -16,7 +19,9 @@ const LAYOUTS: { id: Layout; label: string; description: string; preview: React.
       <span className="flex w-full flex-col gap-0.5 p-1">
         <span className="h-2 w-full rounded-sm bg-[var(--pv-border)]" />
         <span className="flex flex-1 gap-0.5">
-          {[...Array(4)].map((_, i) => <span key={i} className="flex-1 rounded-sm bg-[var(--pv-border)]" />)}
+          {Array.from({ length: 4 }).map((_, i) => (
+            <span key={i} className="flex-1 rounded-sm bg-[var(--pv-border)]" />
+          ))}
         </span>
       </span>
     ),
@@ -51,7 +56,9 @@ const LAYOUTS: { id: Layout; label: string; description: string; preview: React.
         </span>
         <span className="h-2.5 w-full rounded-sm bg-[var(--pv-border)]" />
         <span className="flex gap-1">
-          {[...Array(4)].map((_, i) => <span key={i} className="flex-1 h-1 rounded-sm bg-[var(--pv-border)]" />)}
+          {Array.from({ length: 4 }).map((_, i) => (
+            <span key={i} className="h-1 flex-1 rounded-sm bg-[var(--pv-border)]" />
+          ))}
         </span>
         <span className="h-1 w-full rounded-sm bg-[var(--pv-border)] opacity-50" />
       </span>
@@ -63,11 +70,11 @@ const LAYOUTS: { id: Layout; label: string; description: string; preview: React.
     description: 'Card Trio',
     preview: (
       <span className="flex w-full flex-col gap-0.5 p-1">
-        <span className="flex items-center justify-between mb-0.5">
+        <span className="mb-0.5 flex items-center justify-between">
           <span className="h-1 w-1/3 rounded-sm bg-[var(--pv-border)]" />
           <span className="h-1 w-1/4 rounded-sm bg-[var(--pv-primary)] opacity-60" />
         </span>
-        <span className="flex gap-0.5 flex-1">
+        <span className="flex flex-1 gap-0.5">
           <span className="flex flex-1 flex-col gap-0.5 rounded-sm border border-[var(--pv-border)] p-0.5">
             <span className="h-2 w-full rounded-sm bg-[var(--pv-border)]" />
             <span className="h-1 w-3/4 rounded-sm bg-[var(--pv-border)] opacity-50" />
@@ -79,8 +86,10 @@ const LAYOUTS: { id: Layout; label: string; description: string; preview: React.
           </span>
           <span className="flex flex-1 flex-col gap-0.5 rounded-sm border border-[var(--pv-border)] p-0.5">
             <span className="h-1 w-full rounded-sm bg-[var(--pv-border)]" />
-            <span className="flex gap-0.5 mt-0.5">
-              {[...Array(3)].map((_, i) => <span key={i} className="h-1.5 w-1.5 rounded-full bg-[var(--pv-border)]" />)}
+            <span className="mt-0.5 flex gap-0.5">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <span key={i} className="h-1.5 w-1.5 rounded-full bg-[var(--pv-border)]" />
+              ))}
             </span>
           </span>
         </span>
@@ -92,11 +101,40 @@ const LAYOUTS: { id: Layout; label: string; description: string; preview: React.
 
 function LayoutPicker({ current, onChange }: { current: Layout; onChange: (l: Layout) => void }) {
   const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Click-outside and Escape key dismiss
+  useEffect(() => {
+    if (!open) return;
+
+    function handlePointerDown(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [open]);
 
   return (
-    <div className="relative">
+    <div ref={ref} className="relative">
       {open && (
-        <div className="absolute bottom-full right-0 mb-2 w-52 rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)] p-2 shadow-xl">
+        <div
+          id="footer-layout-menu"
+          role="listbox"
+          aria-label="Footer layout options"
+          className="absolute bottom-full right-0 mb-2 w-52 rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)] p-2 shadow-xl"
+        >
           <p className="px-2 pb-1.5 pt-1 text-[0.6rem] font-semibold uppercase tracking-[0.15em] text-[var(--pv-text-muted)]">
             Footer Layout
           </p>
@@ -104,6 +142,8 @@ function LayoutPicker({ current, onChange }: { current: Layout; onChange: (l: La
             {LAYOUTS.map((l) => (
               <button
                 key={l.id}
+                role="option"
+                aria-selected={current === l.id}
                 onClick={() => { onChange(l.id); setOpen(false); }}
                 className={[
                   'flex items-center gap-2.5 rounded-lg p-2 text-left transition-colors',
@@ -131,6 +171,9 @@ function LayoutPicker({ current, onChange }: { current: Layout; onChange: (l: La
 
       <button
         onClick={() => setOpen((o) => !o)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls="footer-layout-menu"
         title="Switch footer layout"
         className={[
           'flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold shadow-sm transition-all',
@@ -153,20 +196,29 @@ export function FooterLayoutPicker(props: Omit<FooterProps, 'layout'>) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as Layout | null;
-    if (stored && ['a', 'b', 'c', 'd'].includes(stored)) setLayout(stored);
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored && (VALID_LAYOUTS as string[]).includes(stored)) {
+      setLayout(stored as Layout);
+    }
     setMounted(true);
   }, []);
 
-  const handleChange = (l: Layout) => {
+  const handleChange = useCallback((l: Layout) => {
     setLayout(l);
     localStorage.setItem(STORAGE_KEY, l);
-  };
+  }, []);
 
-  if (!mounted) return <Footer layout="a" {...props} />;
+  // Reserve height to reduce CLS for returning users whose stored layout differs from default
+  if (!mounted) {
+    return (
+      <div style={{ minHeight: '320px' }}>
+        <Footer layout="a" {...props} />
+      </div>
+    );
+  }
 
   return (
-    <div className="relative">
+    <div className="relative" style={{ minHeight: '320px' }}>
       <div className="absolute bottom-4 right-4 z-50 md:right-6">
         <LayoutPicker current={layout} onChange={handleChange} />
       </div>

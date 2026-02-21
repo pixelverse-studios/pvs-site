@@ -59,8 +59,8 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline' https://assets.calendly.com; " +
               "img-src 'self' data: https: blob:; " +
               "font-src 'self' data:; " +
-              "connect-src 'self' https://www.google-analytics.com https://*.sentry.io https://*.supabase.co https://calendly.com https://*.calendly.com; " +
-              "frame-src 'self' https://calendly.com https://www.google.com; " +
+              "connect-src 'self' https://www.google-analytics.com https://*.sentry.io https://*.supabase.co https://calendly.com https://*.calendly.com https://maps.googleapis.com https://maps.gstatic.com; " +
+              "frame-src 'self' https://calendly.com https://www.google.com/maps; " +
               "object-src 'none'; " +
               "base-uri 'self'; " +
               "form-action 'self'; " +

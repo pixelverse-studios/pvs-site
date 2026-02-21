@@ -39,6 +39,10 @@
 - Updated the "Request a Website Review" button used throughout the site to land visitors directly on the review form instead of the default contact page
 - The contact page now supports direct linking to any of its three forms via URL (?path=details, ?path=call, ?path=review)
 
+- Added Google Maps embed to the website footer so visitors can see our office location from any page
+- Redesigned the footer with 4 distinct layout options (Panoramic, Split Panel, Stacked Strips, Card Trio) — a floating widget lets you switch between them and remembers your choice
+- Removed the standalone Contact Information section from the contact page (the map and office details now live in the footer)
+
 ## Notes for internal team
 
 - PVS-386, PVS-387, PVS-388 completed (epic PVS-385)
@@ -52,6 +56,7 @@
 - PVS-404 completed: components/contact/contact-details-form.tsx
 - PVS-405 completed: components/contact/contact-strategy-call.tsx — Calendly inline widget via next/script lazyOnload, placeholder when NEXT_PUBLIC_CALENDLY_URL unset, wired into contact-page-client.tsx — react-hook-form + zod, 9-field layout (2-col/3-col/2-col/checkboxes/textarea), honeypot, 5s throttle, success/error/loading states, wired into contact-page-client.tsx
 - PVS-406 completed: components/contact/contact-review-form.tsx (react-hook-form + zod, 4-field layout, checkbox specifics, honeypot, 5s throttle, success/error/loading states); app/api/audit/route.ts updated to accept specifics as string or array; RequestReviewCta default href → /contact?path=review; app/contact/page.tsx adds searchParams support; ContactPageClient adds defaultPath prop
+- PVS-356 completed (footer/map): Added Google Maps embed to footer as full-width strip; added `https://www.google.com` to CSP frame-src; redesigned footer with 4 layout variants (A: Panoramic, B: Split Panel, C: Stacked Strips, D: Card Trio); built footer-layout-picker.tsx client component with localStorage persistence and floating pill widget; removed ContactInfoSection from contact page; components/contact/contact-info-section.tsx deleted
 - PVS-356 completed: Replaced Calendly popup widget JS with a custom React modal + plain iframe; the iframe URL omits embed_type so Calendly applies background_color to the document body (matching dark/light theme correctly); modal has backdrop, close button, and inline backgroundColor matching resolved theme
 - PVS-351 hardening pass on contact-details-form.tsx: added `as const` to IMPROVEMENT_OPTIONS; derived z.enum values from constants via toEnumValues(); added .max() to name/companyName/email, URL validation to currentWebsite, phone regex; fixed reset()/setFormState order; added AbortController 15s fetch timeout; added re-entry guard and throttle reset on catch; hid error banner while re-submitting; added aria-describedby + FieldError id wiring for all validated fields; renamed honeypot field to website_confirm; replaced hidden div with off-screen absolute positioning
 - Files: components/ui/navbar.tsx, components/contact/ContactForm.tsx, next.config.js, data/faq-content.ts, components/faq/faq-list-section.tsx, components/faq/faq-intro-section.tsx, components/faq/faq-closing-cta.tsx, app/faq/page.tsx, data/local-service-pages.ts, data/about.ts, components/services/services-core-section.tsx, app/services/ux-ui-design/ (deleted), data/homepage-faq.ts, components/home/home-faq-section.tsx, app/page.tsx, data/web-development-content.ts, data/seo-content.ts, app/services/web-development/page.tsx, app/services/seo/page.tsx, components/portfolio/project-showcase-section.tsx, components/portfolio/portfolio-intro-section.tsx, components/portfolio/portfolio-closing-cta.tsx, components/portfolio/trust-section.tsx (deleted), app/portfolio/page.tsx, app/contact/ (deleted), app/audit/ (deleted), components/contact/ (deleted), components/audit/ (deleted), data/contact-contexts.ts (deleted), next.config.js, app/layout.tsx, components/layout-wrapper.tsx, components/contact/contact-details-form.tsx
@@ -74,6 +79,7 @@
 - https://www.pixelversestudios.io/portfolio/jones-pressure-washing
 - https://www.pixelversestudios.io/portfolio/360-degree-care
 - https://www.pixelversestudios.io/portfolio/domani
+- https://www.pixelversestudios.io/contact
 - https://www.pixelversestudios.io/audit
 - https://www.pixelversestudios.io/contact/bergen-county
 - https://www.pixelversestudios.io/contact/fort-lee

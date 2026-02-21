@@ -14,13 +14,31 @@ export interface FooterLink {
 
 export interface FooterProps extends React.HTMLAttributes<HTMLElement> {
   links?: FooterLink[];
-  localContactLinks?: FooterLink[];
   cta?: { label: string; href: string };
   layout?: 'a' | 'b' | 'c' | 'd';
 }
 
+// Address-based embed — no Place ID required, always resolves correctly
 const MAP_SRC =
-  'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3019.8!2d-73.9876!3d40.8215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2f7a1d4e5f6a7%3A0x1234567890abcdef!2s79%20Edgewater%20Rd%2C%20Cliffside%20Park%2C%20NJ%2007010!5e0!3m2!1sen!2sus!4v1234567890';
+  'https://www.google.com/maps?q=79+Edgewater+Road,+Cliffside+Park,+NJ+07010&output=embed&z=16';
+
+const CURRENT_YEAR = new Date().getFullYear();
+
+const CONTACT = {
+  address: '79 Edgewater Road, Cliffside Park, NJ 07010',
+  phone: { href: 'tel:+12016381769', label: '(201) 638-1769' },
+  email: { href: 'mailto:info@pixelversestudios.io', label: 'info@pixelversestudios.io' },
+} as const;
+
+// Shared className constants to avoid repetition across layouts
+const eyebrowCls =
+  'text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-[var(--pv-primary)]';
+const eyebrowSmCls =
+  'text-[0.6rem] font-semibold uppercase tracking-[0.15em] text-[var(--pv-primary)]';
+const navLinkCls =
+  'text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]';
+const navLinkXsCls =
+  'text-xs text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]';
 
 const MapIframe = ({ height, className }: { height: number; className?: string }) => (
   <iframe
@@ -28,10 +46,9 @@ const MapIframe = ({ height, className }: { height: number; className?: string }
     width="100%"
     height={height}
     style={{ border: 0 }}
-    allowFullScreen={false}
     loading="lazy"
-    referrerPolicy="no-referrer-when-downgrade"
-    title="PixelVerse Studios location"
+    referrerPolicy="strict-origin"
+    title="PixelVerse Studios location — 79 Edgewater Rd, Cliffside Park NJ"
     className={cn('grayscale transition-all duration-500 hover:grayscale-0', className)}
   />
 );
@@ -52,7 +69,7 @@ function FooterLayoutA({ links = [], cta, className, ...props }: FooterProps) {
       <div className="mx-auto max-w-7xl px-6 py-10 md:px-8">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4 md:gap-8">
           <div className="space-y-3">
-            <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-[var(--pv-primary)]">Studio</p>
+            <p className={eyebrowCls}>Studio</p>
             <Link href="/" className="block text-lg font-semibold text-[var(--pv-text)] transition-colors hover:text-[var(--pv-primary)]">
               PixelVerse Studios
             </Link>
@@ -60,15 +77,15 @@ function FooterLayoutA({ links = [], cta, className, ...props }: FooterProps) {
               Building websites that work. Designed for people, built to grow.
             </p>
             <small className="block text-xs text-[var(--pv-text-muted)]">
-              © {new Date().getFullYear()} PixelVerse Studios
+              © {CURRENT_YEAR} PixelVerse Studios
             </small>
           </div>
 
           <div className="space-y-3">
-            <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-[var(--pv-primary)]">Navigate</p>
+            <p className={eyebrowCls}>Navigate</p>
             <nav className="flex flex-col gap-2">
               {links.map((link) => (
-                <Link key={link.href} href={link.href} className="text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]">
+                <Link key={link.href} href={link.href} className={navLinkCls}>
                   {link.label}
                 </Link>
               ))}
@@ -76,25 +93,25 @@ function FooterLayoutA({ links = [], cta, className, ...props }: FooterProps) {
           </div>
 
           <div className="space-y-3">
-            <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-[var(--pv-primary)]">Reach Us</p>
+            <p className={eyebrowCls}>Reach Us</p>
             <div className="flex flex-col gap-2.5">
               <address className="flex items-start gap-2 text-sm not-italic text-[var(--pv-text-muted)]">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
                 <span>79 Edgewater Road,<br />Cliffside Park, NJ 07010</span>
               </address>
-              <a href="tel:+12016381769" className="flex items-center gap-2 text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]">
+              <a href={CONTACT.phone.href} className={cn('flex items-center gap-2', navLinkCls)}>
                 <Phone className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
-                (201) 638-1769
+                {CONTACT.phone.label}
               </a>
-              <a href="mailto:info@pixelversestudios.io" className="flex items-center gap-2 text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]">
+              <a href={CONTACT.email.href} className={cn('flex items-center gap-2', navLinkCls)}>
                 <Mail className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
-                info@pixelversestudios.io
+                {CONTACT.email.label}
               </a>
             </div>
           </div>
 
           <div className="space-y-4">
-            <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-[var(--pv-primary)]">Connect</p>
+            <p className={eyebrowCls}>Connect</p>
             <SocialLinks iconClassName="bg-[var(--pv-bg)]" />
             {cta && (
               <Button asChild variant="cta" className="w-full">
@@ -114,7 +131,7 @@ function FooterLayoutA({ links = [], cta, className, ...props }: FooterProps) {
 function FooterLayoutB({ links = [], cta, className, ...props }: FooterProps) {
   return (
     <footer
-      className={cn('overflow-hidden border-t border-[var(--pv-border)] bg-[var(--pv-surface)]/70 backdrop-blur', className)}
+      className={cn('border-t border-[var(--pv-border)] bg-[var(--pv-surface)]/70 backdrop-blur', className)}
       {...props}
     >
       <div className="mx-auto max-w-7xl">
@@ -124,18 +141,18 @@ function FooterLayoutB({ links = [], cta, className, ...props }: FooterProps) {
               <MapIframe height={220} />
             </div>
             <div className="flex flex-col gap-3 px-6 py-6">
-              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-[var(--pv-primary)]">Find Us</p>
+              <p className={eyebrowCls}>Find Us</p>
               <address className="flex items-start gap-2 text-sm not-italic text-[var(--pv-text-muted)]">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
-                <span>79 Edgewater Road, Cliffside Park, NJ 07010</span>
+                <span>{CONTACT.address}</span>
               </address>
-              <a href="tel:+12016381769" className="flex items-center gap-2 text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]">
+              <a href={CONTACT.phone.href} className={cn('flex items-center gap-2', navLinkCls)}>
                 <Phone className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
-                (201) 638-1769
+                {CONTACT.phone.label}
               </a>
-              <a href="mailto:info@pixelversestudios.io" className="flex items-center gap-2 text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]">
+              <a href={CONTACT.email.href} className={cn('flex items-center gap-2', navLinkCls)}>
                 <Mail className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
-                info@pixelversestudios.io
+                {CONTACT.email.label}
               </a>
             </div>
           </div>
@@ -152,7 +169,7 @@ function FooterLayoutB({ links = [], cta, className, ...props }: FooterProps) {
               </div>
               <nav className="grid grid-cols-2 gap-x-8 gap-y-2">
                 {links.map((link) => (
-                  <Link key={link.href} href={link.href} className="text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]">
+                  <Link key={link.href} href={link.href} className={navLinkCls}>
                     {link.label}
                   </Link>
                 ))}
@@ -161,12 +178,12 @@ function FooterLayoutB({ links = [], cta, className, ...props }: FooterProps) {
             <div className="h-px bg-[var(--pv-border)]" />
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="space-y-2">
-                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-[var(--pv-primary)]">Follow PixelVerse</p>
+                <p className={eyebrowCls}>Follow PixelVerse</p>
                 <SocialLinks iconClassName="bg-[var(--pv-bg)]" />
               </div>
               <div className="flex flex-col items-start gap-3 sm:items-end">
                 {cta && <Button asChild variant="cta"><Link href={cta.href}>{cta.label}</Link></Button>}
-                <small className="text-xs text-[var(--pv-text-muted)]">© {new Date().getFullYear()} PixelVerse Studios. All rights reserved.</small>
+                <small className="text-xs text-[var(--pv-text-muted)]">© {CURRENT_YEAR} PixelVerse Studios. All rights reserved.</small>
               </div>
             </div>
           </div>
@@ -213,7 +230,7 @@ function FooterLayoutC({ links = [], cta, className, ...props }: FooterProps) {
       {/* Strip 3: Nav links spread across full width */}
       <div className="border-b border-[var(--pv-border)]">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
-          <nav className="flex flex-wrap items-center gap-x-0 divide-x divide-[var(--pv-border)]">
+          <nav className="flex flex-wrap items-center divide-x divide-[var(--pv-border)]">
             {links.map((link) => (
               <Link
                 key={link.href}
@@ -233,20 +250,20 @@ function FooterLayoutC({ links = [], cta, className, ...props }: FooterProps) {
           <address className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs not-italic text-[var(--pv-text-muted)]">
             <span className="flex items-center gap-1.5">
               <MapPin className="h-3.5 w-3.5 text-[var(--pv-primary)]" aria-hidden />
-              79 Edgewater Road, Cliffside Park, NJ 07010
+              {CONTACT.address}
             </span>
-            <a href="tel:+12016381769" className="flex items-center gap-1.5 transition-colors hover:text-[var(--pv-primary)]">
+            <a href={CONTACT.phone.href} className="flex items-center gap-1.5 transition-colors hover:text-[var(--pv-primary)]">
               <Phone className="h-3.5 w-3.5 text-[var(--pv-primary)]" aria-hidden />
-              (201) 638-1769
+              {CONTACT.phone.label}
             </a>
-            <a href="mailto:info@pixelversestudios.io" className="flex items-center gap-1.5 transition-colors hover:text-[var(--pv-primary)]">
+            <a href={CONTACT.email.href} className="flex items-center gap-1.5 transition-colors hover:text-[var(--pv-primary)]">
               <Mail className="h-3.5 w-3.5 text-[var(--pv-primary)]" aria-hidden />
-              info@pixelversestudios.io
+              {CONTACT.email.label}
             </a>
           </address>
           <div className="flex items-center gap-4">
             <SocialLinks iconClassName="bg-[var(--pv-bg)] !h-7 !w-7 !text-xs" />
-            <small className="text-xs text-[var(--pv-text-muted)]">© {new Date().getFullYear()}</small>
+            <small className="text-xs text-[var(--pv-text-muted)]">© {CURRENT_YEAR}</small>
           </div>
         </div>
       </div>
@@ -285,10 +302,10 @@ function FooterLayoutD({ links = [], cta, className, ...props }: FooterProps) {
               <MapIframe height={140} />
             </div>
             <div className="flex flex-col gap-2 p-4">
-              <p className="text-[0.6rem] font-semibold uppercase tracking-[0.15em] text-[var(--pv-primary)]">Find Us</p>
+              <p className={eyebrowSmCls}>Find Us</p>
               <address className="flex items-start gap-2 text-sm not-italic text-[var(--pv-text-muted)]">
                 <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--pv-primary)]" aria-hidden />
-                <span className="leading-snug">79 Edgewater Road, Cliffside Park, NJ 07010</span>
+                <span className="leading-snug">{CONTACT.address}</span>
               </address>
             </div>
           </div>
@@ -296,14 +313,14 @@ function FooterLayoutD({ links = [], cta, className, ...props }: FooterProps) {
           {/* Card 2: Get In Touch */}
           <div className="flex flex-col justify-between rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)] p-4">
             <div className="space-y-3">
-              <p className="text-[0.6rem] font-semibold uppercase tracking-[0.15em] text-[var(--pv-primary)]">Get In Touch</p>
-              <a href="tel:+12016381769" className="flex items-center gap-2 text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]">
+              <p className={eyebrowSmCls}>Get In Touch</p>
+              <a href={CONTACT.phone.href} className={cn('flex items-center gap-2', navLinkCls)}>
                 <Phone className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
-                (201) 638-1769
+                {CONTACT.phone.label}
               </a>
-              <a href="mailto:info@pixelversestudios.io" className="flex items-center gap-2 text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]">
+              <a href={CONTACT.email.href} className={cn('flex items-center gap-2', navLinkCls)}>
                 <Mail className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
-                info@pixelversestudios.io
+                {CONTACT.email.label}
               </a>
             </div>
             <p className="mt-4 text-xs text-[var(--pv-text-muted)]">
@@ -314,7 +331,7 @@ function FooterLayoutD({ links = [], cta, className, ...props }: FooterProps) {
           {/* Card 3: Follow */}
           <div className="flex flex-col justify-between rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)] p-4">
             <div className="space-y-3">
-              <p className="text-[0.6rem] font-semibold uppercase tracking-[0.15em] text-[var(--pv-primary)]">Follow PixelVerse</p>
+              <p className={eyebrowSmCls}>Follow PixelVerse</p>
               <p className="text-sm text-[var(--pv-text-muted)]">
                 Building websites that work. Designed for people, built to grow.
               </p>
@@ -327,13 +344,13 @@ function FooterLayoutD({ links = [], cta, className, ...props }: FooterProps) {
         <div className="mt-6 flex flex-col gap-3 border-t border-[var(--pv-border)] pt-4 sm:flex-row sm:items-center sm:justify-between">
           <nav className="flex flex-wrap gap-x-4 gap-y-1">
             {links.map((link) => (
-              <Link key={link.href} href={link.href} className="text-xs text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]">
+              <Link key={link.href} href={link.href} className={navLinkXsCls}>
                 {link.label}
               </Link>
             ))}
           </nav>
           <small className="text-xs text-[var(--pv-text-muted)]">
-            © {new Date().getFullYear()} PixelVerse Studios. All rights reserved.
+            © {CURRENT_YEAR} PixelVerse Studios. All rights reserved.
           </small>
         </div>
       </div>
@@ -343,9 +360,14 @@ function FooterLayoutD({ links = [], cta, className, ...props }: FooterProps) {
 
 // ─── Export ───────────────────────────────────────────────────────────────────
 
+const LAYOUT_COMPONENTS: Record<NonNullable<FooterProps['layout']>, React.FC<FooterProps>> = {
+  a: FooterLayoutA,
+  b: FooterLayoutB,
+  c: FooterLayoutC,
+  d: FooterLayoutD,
+};
+
 export function Footer({ layout = 'a', ...props }: FooterProps) {
-  if (layout === 'b') return <FooterLayoutB {...props} />;
-  if (layout === 'c') return <FooterLayoutC {...props} />;
-  if (layout === 'd') return <FooterLayoutD {...props} />;
-  return <FooterLayoutA {...props} />;
+  const Component = LAYOUT_COMPONENTS[layout] ?? FooterLayoutA;
+  return <Component {...props} />;
 }
