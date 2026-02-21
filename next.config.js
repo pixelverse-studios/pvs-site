@@ -60,7 +60,7 @@ const nextConfig = {
               "img-src 'self' data: https: blob:; " +
               "font-src 'self' data:; " +
               "connect-src 'self' https://www.google-analytics.com https://*.sentry.io https://*.supabase.co https://calendly.com https://*.calendly.com; " +
-              "frame-src 'self' https://calendly.com; " +
+              "frame-src 'self' https://calendly.com https://www.google.com; " +
               "object-src 'none'; " +
               "base-uri 'self'; " +
               "form-action 'self'; " +
