@@ -27,6 +27,7 @@ const SPECIFICS_OPTIONS = [
 const reviewFormSchema = z.object({
   name: z.string().min(1, 'Name is required.').max(100, 'Name is too long.'),
   email: z.string().email('Enter a valid email address.').max(254),
+  phone_number: z.string().regex(/^[\d\s+\-().]{7,20}$/, 'Enter a valid phone number.').optional().or(z.literal('')),
   websiteUrl: websiteUrlSchema,
   specifics: z.array(z.string()).optional(),
   website_confirm: z.string().max(0).optional(),
@@ -115,6 +116,7 @@ export function ContactReviewForm() {
       const payload = {
         name: data.name,
         email: data.email,
+        phone_number: data.phone_number ?? '',
         websiteUrl: data.websiteUrl,
         specifics: data.specifics ?? [],
         honeypot: data.website_confirm ?? '',
@@ -197,6 +199,20 @@ export function ContactReviewForm() {
             />
             <FieldError id="review-email-error" message={errors.email?.message} />
           </div>
+        </div>
+
+        {/* Phone — optional */}
+        <div>
+          <FieldLabel htmlFor="review-phone">Phone Number</FieldLabel>
+          <Input
+            id="review-phone"
+            type="tel"
+            autoComplete="tel"
+            placeholder="(201) 555-0100"
+            disabled={isSubmittingState}
+            {...register('phone_number')}
+          />
+          <FieldError id="review-phone-error" message={errors.phone_number?.message} />
         </div>
 
         {/* Website URL — full width */}
