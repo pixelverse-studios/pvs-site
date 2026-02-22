@@ -47,6 +47,13 @@ const IMPROVEMENT_OPTIONS = [
   { label: 'Not sure yet', value: 'unsure' },
 ] as const;
 
+const INTERESTED_IN_OPTIONS = [
+  { label: 'Web Design & Development', value: 'web-design' },
+  { label: 'SEO', value: 'seo' },
+  { label: 'Both', value: 'both' },
+  { label: 'Not sure yet', value: 'unsure' },
+] as const;
+
 // ─── Schema ──────────────────────────────────────────────────────────────────
 
 function toEnumValues<T extends readonly { readonly value: string }[]>(
@@ -68,6 +75,7 @@ const detailsFormSchema = z.object({
   }),
   currentWebsite: z.string().url('Enter a valid URL (e.g. https://yoursite.com)').optional().or(z.literal('')),
   improvements: z.array(z.enum(toEnumValues(IMPROVEMENT_OPTIONS))).min(1, 'Select at least one area.'),
+  interestedIn: z.array(z.enum(toEnumValues(INTERESTED_IN_OPTIONS))).optional(),
   briefSummary: z.string().max(2000, 'Please keep this under 2,000 characters.').optional(),
   website_confirm: z.string().max(0).optional(),
 });
@@ -128,6 +136,7 @@ export function ContactDetailsForm() {
     resolver: zodResolver(detailsFormSchema),
     defaultValues: {
       improvements: [],
+      interestedIn: [],
     },
   });
 
@@ -153,28 +162,17 @@ export function ContactDetailsForm() {
     const timeoutId = setTimeout(() => controller.abort(), 15_000);
 
     try {
-      // Build message — concatenate improvements into briefSummary for API compatibility
-      const improvementsText = data.improvements
-        .map((v) => IMPROVEMENT_OPTIONS.find((o) => o.value === v)?.label ?? v)
-        .join(', ');
-
-      const message = [
-        data.briefSummary,
-        `Areas to improve: ${improvementsText}`,
-      ]
-        .filter(Boolean)
-        .join('\n\n');
-
       const payload = {
         name: data.name,
         email: data.email,
-        companyName: data.companyName,
+        company_name: data.companyName,
         phone: data.phone ?? '',
         budget: data.budget,
         timeline: data.timeline,
-        currentWebsite: data.currentWebsite ?? '',
+        current_website: data.currentWebsite ?? '',
         improvements: data.improvements,
-        message,
+        interested_in: data.interestedIn ?? [],
+        brief_summary: data.briefSummary ?? '',
       };
 
       const res = await fetch(`${getApiBaseUrl()}/api/leads`, {
@@ -358,6 +356,37 @@ export function ContactDetailsForm() {
               disabled={isSubmittingState}
               {...register('currentWebsite')}
             />
+          </div>
+        </div>
+
+        {/* Interested in checkboxes */}
+        <div>
+          <p className="mb-3 text-sm font-medium text-[var(--pv-text)]">
+            What are you interested in?{' '}
+            <span className="ml-1 font-normal text-[var(--pv-text-muted)]">
+              (Select all that apply)
+            </span>
+          </p>
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+            {INTERESTED_IN_OPTIONS.map((opt) => (
+              <label
+                key={opt.value}
+                className={cn(
+                  'flex cursor-pointer items-start gap-3 rounded-lg border p-3 text-sm transition-colors',
+                  'border-[var(--pv-border)] hover:border-[var(--pv-primary)] hover:bg-[color-mix(in_srgb,var(--pv-primary)_4%,transparent)]',
+                  isSubmittingState && 'pointer-events-none opacity-60',
+                )}
+              >
+                <input
+                  type="checkbox"
+                  value={opt.value}
+                  disabled={isSubmittingState}
+                  className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--pv-primary)]"
+                  {...register('interestedIn')}
+                />
+                <span className="text-[var(--pv-text)]">{opt.label}</span>
+              </label>
+            ))}
           </div>
         </div>
 

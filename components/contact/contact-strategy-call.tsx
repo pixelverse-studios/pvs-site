@@ -58,8 +58,10 @@ export function ContactStrategyCall() {
 
   useCalendlyEventListener({
     onEventScheduled: (e) => {
-      const event_uri = e.data.payload.event.uri;
-      const invitee_uri = e.data.payload.invitee.uri;
+      const event_uri = e.data?.payload?.event?.uri;
+      const invitee_uri = e.data?.payload?.invitee?.uri;
+
+      if (!event_uri || !invitee_uri) return;
 
       fetch(`${API_BASE_URL}/api/webhooks/calendly`, {
         method: 'POST',

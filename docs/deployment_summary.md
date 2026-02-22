@@ -45,6 +45,11 @@
 - Switched the Calendly scheduler on the contact page from a custom modal to an inline calendar so visitors can book directly on the page without opening a popup
 - Replaced the inline Calendly calendar embed with a popup — visitors now click "Pick a time that works" to open the scheduler in an overlay, which avoids the white background issue in dark mode and uses less page space
 
+- Fixed the contact details form to send field names the server expects (was sending camelCase, server wanted snake_case)
+- Added "What are you interested in?" checkboxes to the contact details form (Web Design, SEO, Both, Not sure yet)
+- Added an optional phone number field to the website review request form
+- Fixed the Calendly webhook handler to safely handle missing event data instead of crashing
+
 ## Notes for internal team
 
 - PVS-386, PVS-387, PVS-388 completed (epic PVS-385)
@@ -64,6 +69,8 @@
 - Migrated contact-strategy-call.tsx from custom iframe modal to react-calendly InlineWidget; added useCalendlyEventListener to fire a fire-and-forget POST to /api/webhooks/calendly on event scheduled; pageSettings prop used for theme colors instead of URL params; removed useState modal, buildThemedUrl, Button CTA card, X icon, Calendar/CalendarCheck icons
 - Switched Calendly from InlineWidget to openPopupWidget; button triggers popup overlay; white background in dark mode is no longer an issue since the popup has its own backdrop; useCalendlyEventListener webhook retained; replaced blank inline embed area with a content card (description, 3 bullet points, CTA button)
 - Files: components/ui/navbar.tsx, components/contact/ContactForm.tsx, next.config.js, data/faq-content.ts, components/faq/faq-list-section.tsx, components/faq/faq-intro-section.tsx, components/faq/faq-closing-cta.tsx, app/faq/page.tsx, data/local-service-pages.ts, data/about.ts, components/services/services-core-section.tsx, app/services/ux-ui-design/ (deleted), data/homepage-faq.ts, components/home/home-faq-section.tsx, app/page.tsx, data/web-development-content.ts, data/seo-content.ts, app/services/web-development/page.tsx, app/services/seo/page.tsx, components/portfolio/project-showcase-section.tsx, components/portfolio/portfolio-intro-section.tsx, components/portfolio/portfolio-closing-cta.tsx, components/portfolio/trust-section.tsx (deleted), app/portfolio/page.tsx, app/contact/ (deleted), app/audit/ (deleted), components/contact/ (deleted), components/audit/ (deleted), data/contact-contexts.ts (deleted), next.config.js, app/layout.tsx, components/layout-wrapper.tsx, components/contact/contact-details-form.tsx, components/contact/contact-strategy-call.tsx
+
+- PVS-423 completed: contact-details-form.tsx payload renamed to snake_case (company_name, current_website, brief_summary), added interested_in field + UI checkboxes; contact-review-form.tsx added phone_number field; contact-strategy-call.tsx Calendly webhook null-guarded
 
 ## Changed URLs
 
