@@ -31,7 +31,7 @@ export const servicesPageData: ServicesPageData = {
   hero: {
     title: 'Choosing the Right Path for Your Website',
     description:
-      "Most website decisions aren't simple — whether you're building something new or trying to get more out of what you already have. Our role is to help determine the right path first, then execute it with clarity and intention.",
+      "Most website decisions aren't simple. It's not always obvious which direction makes sense next.\n\nSome are building their first real website. Others are trying to get more out of what they already have.\n\nOur role is to help determine the right path first, then execute it with clarity and intention.",
   },
   clarificationCta: {
     title: 'Not Sure Which Direction Fits?',
