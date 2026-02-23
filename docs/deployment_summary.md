@@ -59,6 +59,7 @@
 - Hardened the website review API to correctly store and include the "Other" detail field and phone number submitted from the review form
 - Fixed a bug where the "Other" detail text was always sent in the review form payload even when "Other" was not selected
 - Fixed the contact details form to send the company name field under the correct name the server expects
+- Fixed a browser security policy error that was silently blocking form submissions from reaching the backend server — contact forms now connect correctly
 
 ## Notes for internal team
 
@@ -66,6 +67,7 @@
 - Files: data/service-paths.ts, components/services/services-clarification-cta-section.tsx, app/contact/page.tsx, components/contact/contact-details-form.tsx, components/contact/contact-review-form.tsx, lib/utils/phone.ts (new)
 - Security hardening: added HTML escaping to audit email body (app/api/audit/route.ts), added server-side allowlist for specifics values, fixed phone_number schema key mismatch, added other_detail field to server schema and DB insert
 - Bug fixes: NotesField and StatusSelector in prospect drawer now reset state when switching between prospects; formatDate moved to module scope in prospects-table; services CTA ternary simplified; company_name payload key fixed in contact-details-form
+- CSP fix: added https://pvs-server-62hx7.ondigitalocean.app to connect-src in next.config.js so fetch calls to the backend are no longer blocked
 
 - PVS-386, PVS-387, PVS-388 completed (epic PVS-385)
 - PVS-390, PVS-391, PVS-392, PVS-393, PVS-394, PVS-395 completed (epic PVS-389)
