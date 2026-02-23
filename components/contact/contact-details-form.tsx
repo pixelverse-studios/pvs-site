@@ -19,6 +19,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { getApiBaseUrl } from '@/lib/api-config';
 import { cn } from '@/lib/utils';
 import { formatPhone, stripPhone } from '@/lib/utils/phone';
+import { normalizeWebsiteUrl, websiteUrlSchema } from '@/lib/validation/url';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -73,7 +74,7 @@ const detailsFormSchema = z.object({
   timeline: z.enum(toEnumValues(TIMELINE_OPTIONS), {
     required_error: 'Select a timeline.',
   }),
-  currentWebsite: z.string().url('Enter a valid URL (e.g. https://yoursite.com)').optional().or(z.literal('')),
+  currentWebsite: websiteUrlSchema.optional().or(z.literal('')),
   improvements: z.array(z.enum(toEnumValues(IMPROVEMENT_OPTIONS))).min(1, 'Select at least one area.'),
   interestedIn: z.array(z.enum(['web-design', 'seo', 'unsure'])).min(1).optional(),
   briefSummary: z.string().max(2000, 'Please keep this under 2,000 characters.').optional(),
@@ -213,11 +214,11 @@ export function ContactDetailsForm() {
       const payload = {
         name: data.name,
         email: data.email,
-        company_name: data.companyName,
+        companyName: data.companyName,
         phone: stripPhone(data.phone),
         budget: data.budget,
         timeline: data.timeline,
-        current_website: data.currentWebsite ?? '',
+        current_website: normalizeWebsiteUrl(data.currentWebsite ?? ''),
         improvements: data.improvements,
         ...(data.interestedIn && data.interestedIn.length > 0 ? { interestedIn: data.interestedIn } : {}),
         brief_summary: data.briefSummary ?? '',
@@ -403,10 +404,13 @@ export function ContactDetailsForm() {
             <Input
               id="currentWebsite"
               type="url"
-              placeholder="https://yoursite.com"
+              placeholder="www.yoursite.com"
               disabled={isSubmittingState}
+              aria-invalid={!!errors.currentWebsite}
+              aria-describedby={errors.currentWebsite ? 'currentWebsite-error' : undefined}
               {...register('currentWebsite')}
             />
+            <FieldError id="currentWebsite-error" message={errors.currentWebsite?.message} />
           </div>
         </div>
 

@@ -55,7 +55,7 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value:
               "default-src 'self'; " +
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://js.sentry-cdn.com https://assets.calendly.com; " +
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://js.sentry-cdn.com https://assets.calendly.com https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com; " +
               "style-src 'self' 'unsafe-inline' https://assets.calendly.com; " +
               "img-src 'self' data: https: blob:; " +
               "font-src 'self' data:; " +

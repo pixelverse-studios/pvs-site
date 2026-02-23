@@ -68,6 +68,7 @@
 - Redesigned the "What are you interested in?" selector on the contact form — replaced checkbox cards with compact pill toggle buttons that highlight when selected, removing wasted space
 - Updated "What are you interested in?" on the contact form to support multi-select: Web Design and SEO can each be selected independently, selecting both auto-highlights the "Both" pill, and "Not sure yet" clears all other selections
 - Fixed a subtle navigation bar jitter when opening the budget dropdown on the contact form
+- Locked the footer to the Split Panel layout (map + contact details on the left, brand/nav/social on the right) — removed the layout switcher widget
 
 ## Notes for internal team
 
