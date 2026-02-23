@@ -10,21 +10,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { getApiBaseUrl } from '@/lib/api-config';
 import { cn } from '@/lib/utils';
+import { formatPhone, stripPhone } from '@/lib/utils/phone';
 import { websiteUrlSchema } from '@/lib/validation/url';
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-function formatPhone(value: string): string {
-  const digits = value.replace(/\D/g, '').slice(0, 10);
-  if (digits.length === 0) return '';
-  if (digits.length <= 3) return `(${digits}`;
-  if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
-  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
-}
-
-function stripPhone(value?: string): string {
-  return (value ?? '').replace(/\D/g, '');
-}
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -151,8 +138,8 @@ export function ContactReviewForm() {
         email: data.email,
         phone_number: stripPhone(data.phone_number),
         websiteUrl: data.websiteUrl,
+        other_detail: (data.specifics ?? []).includes('other') ? (data.other_detail ?? '') : undefined,
         specifics: (data.specifics ?? []).filter((v) => v !== 'other'),
-        other_detail: data.other_detail ?? '',
         honeypot: data.website_confirm ?? '',
       };
 

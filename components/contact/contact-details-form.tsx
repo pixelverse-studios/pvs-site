@@ -179,7 +179,7 @@ export function ContactDetailsForm() {
       const payload = {
         name: data.name,
         email: data.email,
-        companyName: data.companyName,
+        company_name: data.companyName,
         phone: stripPhone(data.phone),
         budget: data.budget,
         timeline: data.timeline,

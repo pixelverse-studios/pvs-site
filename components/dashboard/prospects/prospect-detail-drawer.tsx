@@ -91,6 +91,11 @@ function StatusSelector({ current, prospectId, onUpdate }: StatusSelectorProps) 
   const [saved, setSaved] = useState(false);
   const [updateError, setUpdateError] = useState(false);
 
+  useEffect(() => {
+    setSaved(false);
+    setUpdateError(false);
+  }, [current, prospectId]);
+
   const handleChange = async (newStatus: ProspectStatus) => {
     if (newStatus === current) return;
     setUpdateError(false);
@@ -158,6 +163,12 @@ function NotesField({ prospectId, initialNotes }: NotesFieldProps) {
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    clearTimeout(debounceRef.current);
+    setNotes(initialNotes ?? '');
+    setSaveError(false);
+  }, [initialNotes, prospectId]);
 
   const save = async (value: string) => {
     setSaving(true);

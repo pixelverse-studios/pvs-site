@@ -57,13 +57,15 @@ export function ServicesClarificationCtaSection({
               <Button asChild variant="cta">
                 <Link href={primaryCta.href}>{primaryCta.label}</Link>
               </Button>
-              {secondaryCta && secondaryCta.isReviewCta ? (
-                <RequestReviewCta variant="ctaGhost" />
-              ) : secondaryCta ? (
-                <Button asChild variant="ctaGhost">
-                  <Link href={secondaryCta.href}>{secondaryCta.label}</Link>
-                </Button>
-              ) : null}
+              {secondaryCta && (
+                secondaryCta.isReviewCta ? (
+                  <RequestReviewCta variant="ctaGhost" />
+                ) : (
+                  <Button asChild variant="ctaGhost">
+                    <Link href={secondaryCta.href}>{secondaryCta.label}</Link>
+                  </Button>
+                )
+              )}
             </div>
           </MotionItem>
         </MotionSection>
