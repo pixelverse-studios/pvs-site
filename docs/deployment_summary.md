@@ -59,6 +59,7 @@
 - Hardened the website review API to correctly store and include the "Other" detail field and phone number submitted from the review form
 - Fixed a bug where the "Other" detail text was always sent in the review form payload even when "Other" was not selected
 - Fixed the contact details form to send the company name field under the correct name the server expects
+- The homepage hero badge now shows the live Google rating and review count pulled directly from Google — updates automatically every 24 hours once the API key is configured
 
 ## Notes for internal team
 
