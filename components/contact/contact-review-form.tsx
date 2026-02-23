@@ -10,17 +10,19 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { getApiBaseUrl } from '@/lib/api-config';
 import { cn } from '@/lib/utils';
+import { formatPhone, stripPhone } from '@/lib/utils/phone';
 import { websiteUrlSchema } from '@/lib/validation/url';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-const SPECIFICS_OPTIONS = [
+const CORE_SPECIFICS = [
   { label: 'Mobile performance', value: 'mobile-performance' },
   { label: 'SEO & search visibility', value: 'seo-visibility' },
   { label: 'Traffic but no calls', value: 'traffic-no-calls' },
   { label: 'Page speed / technical issues', value: 'page-speed' },
-  { label: 'Other', value: 'other' },
 ] as const;
+
+const ALL_CORE_VALUES = CORE_SPECIFICS.map((o) => o.value) as string[];
 
 // ─── Schema ──────────────────────────────────────────────────────────────────
 
@@ -29,7 +31,8 @@ const reviewFormSchema = z.object({
   email: z.string().email('Enter a valid email address.').max(254),
   phone_number: z.string().regex(/^[\d\s+\-().]{7,20}$/, 'Enter a valid phone number.').optional().or(z.literal('')),
   websiteUrl: websiteUrlSchema,
-  specifics: z.array(z.string()).optional(),
+  specifics: z.array(z.string().max(100)).max(10).optional(),
+  other_detail: z.string().max(500).optional(),
   website_confirm: z.string().max(0).optional(),
 });
 
@@ -83,6 +86,8 @@ export function ContactReviewForm() {
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<ReviewFormValues>({
     resolver: zodResolver(reviewFormSchema),
@@ -90,6 +95,21 @@ export function ContactReviewForm() {
       specifics: [],
     },
   });
+
+  const watchedSpecifics = watch('specifics') ?? [];
+  const isAllSelected =
+    ALL_CORE_VALUES.every((v) => watchedSpecifics.includes(v)) &&
+    !watchedSpecifics.includes('other');
+  const isOtherSelected = watchedSpecifics.includes('other');
+
+  function handleAllChange(checked: boolean) {
+    const current = watchedSpecifics;
+    if (checked) {
+      setValue('specifics', Array.from(new Set([...ALL_CORE_VALUES, ...current])), { shouldValidate: true });
+    } else {
+      setValue('specifics', current.filter((v) => !ALL_CORE_VALUES.includes(v)), { shouldValidate: true });
+    }
+  }
 
   const onSubmit = async (data: ReviewFormValues) => {
     // Re-entry guard
@@ -116,9 +136,10 @@ export function ContactReviewForm() {
       const payload = {
         name: data.name,
         email: data.email,
-        phone_number: data.phone_number ?? '',
+        phone_number: stripPhone(data.phone_number),
         websiteUrl: data.websiteUrl,
-        specifics: data.specifics ?? [],
+        other_detail: (data.specifics ?? []).includes('other') ? (data.other_detail ?? '') : undefined,
+        specifics: (data.specifics ?? []).filter((v) => v !== 'other'),
         honeypot: data.website_confirm ?? '',
       };
 
@@ -128,7 +149,6 @@ export function ContactReviewForm() {
         body: JSON.stringify(payload),
         signal: controller.signal,
       });
-      clearTimeout(timeoutId);
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
@@ -137,6 +157,8 @@ export function ContactReviewForm() {
     } catch {
       lastSubmitRef.current = 0;
       setFormState('error');
+    } finally {
+      clearTimeout(timeoutId);
     }
   };
 
@@ -201,35 +223,37 @@ export function ContactReviewForm() {
           </div>
         </div>
 
-        {/* Phone — optional */}
-        <div>
-          <FieldLabel htmlFor="review-phone">Phone Number</FieldLabel>
-          <Input
-            id="review-phone"
-            type="tel"
-            autoComplete="tel"
-            placeholder="(201) 555-0100"
-            disabled={isSubmittingState}
-            {...register('phone_number')}
-          />
-          <FieldError id="review-phone-error" message={errors.phone_number?.message} />
-        </div>
+        {/* Row 2: website URL / phone */}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div>
+            <FieldLabel htmlFor="review-websiteUrl" required>
+              Your Website URL
+            </FieldLabel>
+            <Input
+              id="review-websiteUrl"
+              type="url"
+              placeholder="www.yoursite.com"
+              disabled={isSubmittingState}
+              aria-invalid={!!errors.websiteUrl}
+              aria-describedby={errors.websiteUrl ? 'review-websiteUrl-error' : undefined}
+              {...register('websiteUrl')}
+            />
+            <FieldError id="review-websiteUrl-error" message={errors.websiteUrl?.message} />
+          </div>
 
-        {/* Website URL — full width */}
-        <div>
-          <FieldLabel htmlFor="review-websiteUrl" required>
-            Your Website URL
-          </FieldLabel>
-          <Input
-            id="review-websiteUrl"
-            type="url"
-            placeholder="www.yoursite.com"
-            disabled={isSubmittingState}
-            aria-invalid={!!errors.websiteUrl}
-            aria-describedby={errors.websiteUrl ? 'review-websiteUrl-error' : undefined}
-            {...register('websiteUrl')}
-          />
-          <FieldError id="review-websiteUrl-error" message={errors.websiteUrl?.message} />
+          <div>
+            <FieldLabel htmlFor="review-phone">Phone Number</FieldLabel>
+            <Input
+              id="review-phone"
+              type="tel"
+              autoComplete="tel"
+              placeholder="(201) 555-0100"
+              disabled={isSubmittingState}
+              {...register('phone_number')}
+              onChange={(e) => setValue('phone_number', formatPhone(e.target.value), { shouldValidate: true })}
+            />
+            <FieldError id="review-phone-error" message={errors.phone_number?.message} />
+          </div>
         </div>
 
         {/* Specifics checkboxes */}
@@ -240,8 +264,9 @@ export function ContactReviewForm() {
           <p className="mb-3 text-xs text-[var(--pv-text-muted)]">
             (We&rsquo;ll audit everything — this just helps us prioritize)
           </p>
+          {/* 2-col grid for the 4 core options */}
           <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-            {SPECIFICS_OPTIONS.map((opt) => (
+            {CORE_SPECIFICS.map((opt) => (
               <label
                 key={opt.value}
                 className={cn(
@@ -261,6 +286,58 @@ export function ContactReviewForm() {
               </label>
             ))}
           </div>
+
+          {/* All of the above — full width */}
+          <label
+            className={cn(
+              'mt-2.5 flex cursor-pointer items-start gap-3 rounded-lg border p-3 text-sm transition-colors',
+              'border-[var(--pv-border)] hover:border-[var(--pv-primary)] hover:bg-[color-mix(in_srgb,var(--pv-primary)_4%,transparent)]',
+              isAllSelected && 'border-[var(--pv-primary)] bg-[color-mix(in_srgb,var(--pv-primary)_4%,transparent)]',
+              isSubmittingState && 'pointer-events-none opacity-60',
+            )}
+          >
+            <input
+              type="checkbox"
+              checked={isAllSelected}
+              disabled={isSubmittingState}
+              className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--pv-primary)]"
+              onChange={(e) => handleAllChange(e.target.checked)}
+            />
+            <span className="text-[var(--pv-text)]">All of the above</span>
+          </label>
+
+          {/* Other — full width with optional detail input */}
+          <div
+            className={cn(
+              'mt-2.5 rounded-lg border transition-colors',
+              'border-[var(--pv-border)]',
+              isOtherSelected && 'border-[var(--pv-primary)]',
+              isSubmittingState && 'pointer-events-none opacity-60',
+            )}
+          >
+            <label className="flex cursor-pointer items-start gap-3 p-3 text-sm">
+              <input
+                type="checkbox"
+                value="other"
+                disabled={isSubmittingState}
+                className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--pv-primary)]"
+                {...register('specifics')}
+              />
+              <span className="text-[var(--pv-text)]">Other</span>
+            </label>
+
+            {isOtherSelected && (
+              <div className="border-t border-[var(--pv-border)] px-3 pb-3 pt-2.5">
+                <input
+                  type="text"
+                  placeholder="Tell us what you'd like us to look at…"
+                  disabled={isSubmittingState}
+                  className="w-full rounded-md border border-[var(--pv-border)] bg-[var(--pv-bg)] px-3 py-2 text-sm text-[var(--pv-text)] placeholder:text-[var(--pv-text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--pv-primary)] focus:ring-offset-1 focus:ring-offset-[var(--pv-bg)]"
+                  {...register('other_detail')}
+                />
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Honeypot — off-screen, hidden from real users */}
@@ -278,10 +355,10 @@ export function ContactReviewForm() {
             <span>
               Something went wrong. Please try again or reach us directly at{' '}
               <a
-                href="mailto:hello@pixelversestudios.io"
+                href="mailto:info@pixelversestudios.io"
                 className="font-medium underline underline-offset-2"
               >
-                hello@pixelversestudios.io
+                info@pixelversestudios.io
               </a>
               .
             </span>

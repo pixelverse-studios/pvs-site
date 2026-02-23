@@ -49,8 +49,23 @@
 - Added "What are you interested in?" checkboxes to the contact details form (Web Design, SEO, Both, Not sure yet)
 - Added an optional phone number field to the website review request form
 - Fixed the Calendly webhook handler to safely handle missing event data instead of crashing
+- Fixed the "What are you interested in?" question on the contact form to be single-select — only one option can be chosen at a time (Web Design & Development, SEO, Both, or Not sure yet)
+- The "Start the Conversation" submit button on the contact form is now disabled until all required fields are filled in (name, email, business name, budget, timeline, and at least one improvement area)
+- Improved button hover effect across the site — buttons now lift slightly and deepen on hover for clearer feedback
+- Fixed "Request a Website Review" buttons across the site — they now correctly land visitors on the review form instead of the generic contact page
+- Added "All of the above" option to the website review form's specifics checkboxes — selecting it checks all four audit areas at once
+- Added free-text input to the "Other" option on the review form so visitors can describe what they'd like reviewed
+- Moved website URL and phone number fields into a two-column row on the review form for a cleaner layout
+- Hardened the website review API to correctly store and include the "Other" detail field and phone number submitted from the review form
+- Fixed a bug where the "Other" detail text was always sent in the review form payload even when "Other" was not selected
+- Fixed the contact details form to send the company name field under the correct name the server expects
 
 ## Notes for internal team
+
+- Code quality refactors (no user-facing changes): added `isReviewCta` type discriminator to CTA interface in data/service-paths.ts; replaced label string-match in services-clarification-cta-section.tsx; removed duplicate ContactPath type in app/contact/page.tsx (now imported from contact-path-selector); extracted formatPhone/stripPhone to shared lib/utils/phone.ts and updated both contact form files to import from there
+- Files: data/service-paths.ts, components/services/services-clarification-cta-section.tsx, app/contact/page.tsx, components/contact/contact-details-form.tsx, components/contact/contact-review-form.tsx, lib/utils/phone.ts (new)
+- Security hardening: added HTML escaping to audit email body (app/api/audit/route.ts), added server-side allowlist for specifics values, fixed phone_number schema key mismatch, added other_detail field to server schema and DB insert
+- Bug fixes: NotesField and StatusSelector in prospect drawer now reset state when switching between prospects; formatDate moved to module scope in prospects-table; services CTA ternary simplified; company_name payload key fixed in contact-details-form
 
 - PVS-386, PVS-387, PVS-388 completed (epic PVS-385)
 - PVS-390, PVS-391, PVS-392, PVS-393, PVS-394, PVS-395 completed (epic PVS-389)
@@ -71,6 +86,24 @@
 - Files: components/ui/navbar.tsx, components/contact/ContactForm.tsx, next.config.js, data/faq-content.ts, components/faq/faq-list-section.tsx, components/faq/faq-intro-section.tsx, components/faq/faq-closing-cta.tsx, app/faq/page.tsx, data/local-service-pages.ts, data/about.ts, components/services/services-core-section.tsx, app/services/ux-ui-design/ (deleted), data/homepage-faq.ts, components/home/home-faq-section.tsx, app/page.tsx, data/web-development-content.ts, data/seo-content.ts, app/services/web-development/page.tsx, app/services/seo/page.tsx, components/portfolio/project-showcase-section.tsx, components/portfolio/portfolio-intro-section.tsx, components/portfolio/portfolio-closing-cta.tsx, components/portfolio/trust-section.tsx (deleted), app/portfolio/page.tsx, app/contact/ (deleted), app/audit/ (deleted), components/contact/ (deleted), components/audit/ (deleted), data/contact-contexts.ts (deleted), next.config.js, app/layout.tsx, components/layout-wrapper.tsx, components/contact/contact-details-form.tsx, components/contact/contact-strategy-call.tsx
 
 - PVS-423 completed: contact-details-form.tsx payload renamed to snake_case (company_name, current_website, brief_summary), added interested_in field + UI checkboxes; contact-review-form.tsx added phone_number field; contact-strategy-call.tsx Calendly webhook null-guarded
+- DEV-80 completed: Added Prospects dashboard at /dashboard/prospects — shows summary stats (total leads, by source), paginated table with source/status filters, and a slide-out detail panel per prospect; sidebar updated with Prospects nav link; status updates and internal notes save automatically via PATCH API
+- PVS-356 review form polish: "All of the above" specifics checkbox, Other free-text detail field, website/phone 2-col row, fixed all Request a Website Review CTA hrefs (homepage + services), swapped services-clarification-cta to use RequestReviewCta component
+
+- Audit API route hardening: added other_detail field to Zod schema and DB insert; renamed phoneNumber → phone_number in schema (snake_case alignment with form payload); added escapeHtml() helper and applied to all user-submitted strings in email body; added server-side VALID_SPECIFICS allowlist filter so only known values (mobile-performance, seo-visibility, traffic-no-calls, page-speed) reach the DB and email
+- Files: app/api/audit/route.ts
+
+- Dashboard prospects code quality pass: moved formatDate/formatRelative to module scope in prospect-detail-drawer.tsx; added error state (updateError) to StatusSelector with visible feedback message; added error state (saveError) to NotesField with visible feedback message; added other_detail field render in AuditRequest section; added error? prop to ProspectsStatsBar with banner display; passed statsError to ProspectsStatsBar in prospects-page-client.tsx; wrapped handleSourceChange, handleStatusChange, handleSelectProspect, handleCloseDrawer, handleStatusUpdate in useCallback; added other_detail?: string to AuditRequest interface in types.ts
+- Files: components/dashboard/prospects/prospect-detail-drawer.tsx, components/dashboard/prospects/prospects-stats-bar.tsx, components/dashboard/prospects/prospects-page-client.tsx, components/dashboard/prospects/types.ts
+
+- Fixed Rules of Hooks violation in contact-details-form.tsx: moved watch() and isFormReady above the success early-return guard
+- Fixed clearTimeout leak in contact-details-form.tsx: moved clearTimeout into a finally block so it runs on error/abort paths too
+- Fixed clearTimeout leak in contact-review-form.tsx: same finally block fix
+- contact-review-form.tsx: 'other' value is now stripped from the specifics array before the API payload is built (other_detail carries the free-text separately)
+- contact-review-form.tsx: Zod schema for specifics tightened to z.array(z.string().max(100)).max(10)
+- Files: components/contact/contact-details-form.tsx, components/contact/contact-review-form.tsx
+
+- Fixed stale state bugs in prospect-detail-drawer.tsx: NotesField textarea now syncs to new prospect when drawer switches (clears in-flight debounce + resets notes/saveError via useEffect on initialNotes/prospectId); StatusSelector saved checkmark and error flag now reset immediately when prospect changes (useEffect on current/prospectId)
+- Files: components/dashboard/prospects/prospect-detail-drawer.tsx
 
 ## Changed URLs
 
