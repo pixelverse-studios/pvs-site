@@ -95,30 +95,30 @@ export function ProspectsPageClient() {
   }, [fetchProspects]);
 
   // ── Reset page on filter change ─────────────────────────────────────────────
-  const handleSourceChange = (v: SourceFilter) => {
+  const handleSourceChange = useCallback((v: SourceFilter) => {
     setSourceFilter(v);
     setPage(1);
-  };
+  }, []);
 
-  const handleStatusChange = (v: StatusFilter) => {
+  const handleStatusChange = useCallback((v: StatusFilter) => {
     setStatusFilter(v);
     setPage(1);
-  };
+  }, []);
 
   // ── Open drawer with row data; then load full detail ────────────────────────
-  const handleSelectProspect = (prospect: Prospect) => {
+  const handleSelectProspect = useCallback((prospect: Prospect) => {
     setSelectedProspect(prospect);
     setDrawerOpen(true);
     fetchDetail(prospect.id);
-  };
+  }, [fetchDetail]);
 
-  const handleCloseDrawer = () => {
+  const handleCloseDrawer = useCallback(() => {
     setDrawerOpen(false);
     setTimeout(() => setSelectedProspect(null), 300);
-  };
+  }, []);
 
   // ── Optimistic status update ─────────────────────────────────────────────────
-  const handleStatusUpdate = (id: string, newStatus: ProspectStatus) => {
+  const handleStatusUpdate = useCallback((id: string, newStatus: ProspectStatus) => {
     setProspects((prev) =>
       prev.map((p) => (p.id === id ? { ...p, status: newStatus } : p)),
     );
@@ -127,7 +127,7 @@ export function ProspectsPageClient() {
     }
     // Refresh stats to reflect new status distribution
     fetchStats();
-  };
+  }, [fetchStats, selectedProspect?.id]);
 
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
@@ -157,7 +157,7 @@ export function ProspectsPageClient() {
       </div>
 
       {/* Stats */}
-      <ProspectsStatsBar stats={stats} loading={statsLoading} />
+      <ProspectsStatsBar stats={stats} loading={statsLoading} error={statsError} />
 
       {/* Error state for table */}
       {tableError && !tableLoading && (

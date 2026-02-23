@@ -6,7 +6,7 @@ export interface LeadSubmission {
   company_name?: string;
   current_website?: string;
   brief_summary?: string;
-  interested_in?: string[];
+  interested_in?: string;
   phone_number?: string;
   submitted_at: string;
 }
@@ -15,6 +15,7 @@ export interface AuditRequest {
   id: string;
   website_url: string;
   specifics?: string[];
+  other_detail?: string;
   phone_number?: string;
   submitted_at: string;
 }

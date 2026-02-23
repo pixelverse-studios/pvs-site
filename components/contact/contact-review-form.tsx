@@ -44,7 +44,7 @@ const reviewFormSchema = z.object({
   email: z.string().email('Enter a valid email address.').max(254),
   phone_number: z.string().regex(/^[\d\s+\-().]{7,20}$/, 'Enter a valid phone number.').optional().or(z.literal('')),
   websiteUrl: websiteUrlSchema,
-  specifics: z.array(z.string()).optional(),
+  specifics: z.array(z.string().max(100)).max(10).optional(),
   other_detail: z.string().max(500).optional(),
   website_confirm: z.string().max(0).optional(),
 });
@@ -118,7 +118,7 @@ export function ContactReviewForm() {
   function handleAllChange(checked: boolean) {
     const current = watchedSpecifics;
     if (checked) {
-      setValue('specifics', [...new Set([...ALL_CORE_VALUES, ...current])], { shouldValidate: true });
+      setValue('specifics', Array.from(new Set([...ALL_CORE_VALUES, ...current])), { shouldValidate: true });
     } else {
       setValue('specifics', current.filter((v) => !ALL_CORE_VALUES.includes(v)), { shouldValidate: true });
     }
@@ -151,7 +151,7 @@ export function ContactReviewForm() {
         email: data.email,
         phone_number: stripPhone(data.phone_number),
         websiteUrl: data.websiteUrl,
-        specifics: data.specifics ?? [],
+        specifics: (data.specifics ?? []).filter((v) => v !== 'other'),
         other_detail: data.other_detail ?? '',
         honeypot: data.website_confirm ?? '',
       };
@@ -162,7 +162,6 @@ export function ContactReviewForm() {
         body: JSON.stringify(payload),
         signal: controller.signal,
       });
-      clearTimeout(timeoutId);
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
@@ -171,6 +170,8 @@ export function ContactReviewForm() {
     } catch {
       lastSubmitRef.current = 0;
       setFormState('error');
+    } finally {
+      clearTimeout(timeoutId);
     }
   };
 

@@ -59,6 +59,9 @@
 
 ## Notes for internal team
 
+- Code quality refactors (no user-facing changes): added `isReviewCta` type discriminator to CTA interface in data/service-paths.ts; replaced label string-match in services-clarification-cta-section.tsx; removed duplicate ContactPath type in app/contact/page.tsx (now imported from contact-path-selector); extracted formatPhone/stripPhone to shared lib/utils/phone.ts and updated both contact form files to import from there
+- Files: data/service-paths.ts, components/services/services-clarification-cta-section.tsx, app/contact/page.tsx, components/contact/contact-details-form.tsx, components/contact/contact-review-form.tsx, lib/utils/phone.ts (new)
+
 - PVS-386, PVS-387, PVS-388 completed (epic PVS-385)
 - PVS-390, PVS-391, PVS-392, PVS-393, PVS-394, PVS-395 completed (epic PVS-389)
 - PVS-397 completed: data/case-studies.ts created, homepage.ts and project-showcase-section.tsx migrated to consume from it
@@ -112,3 +115,16 @@
 - https://www.pixelversestudios.io/contact/englewood
 - https://www.pixelversestudios.io/contact/bergenfield
 - https://www.pixelversestudios.io/contact/ridgewood
+
+
+## Notes for internal team
+
+- Dashboard prospects code quality pass: moved formatDate/formatRelative to module scope in prospect-detail-drawer.tsx; added error state (updateError) to StatusSelector with visible feedback message; added error state (saveError) to NotesField with visible feedback message; added other_detail field render in AuditRequest section; added error? prop to ProspectsStatsBar with banner display; passed statsError to ProspectsStatsBar in prospects-page-client.tsx; wrapped handleSourceChange, handleStatusChange, handleSelectProspect, handleCloseDrawer, handleStatusUpdate in useCallback; added other_detail?: string to AuditRequest interface in types.ts
+- Files: components/dashboard/prospects/prospect-detail-drawer.tsx, components/dashboard/prospects/prospects-stats-bar.tsx, components/dashboard/prospects/prospects-page-client.tsx, components/dashboard/prospects/types.ts
+
+- Fixed Rules of Hooks violation in contact-details-form.tsx: moved watch() and isFormReady above the success early-return guard
+- Fixed clearTimeout leak in contact-details-form.tsx: moved clearTimeout into a finally block so it runs on error/abort paths too
+- Fixed clearTimeout leak in contact-review-form.tsx: same finally block fix
+- contact-review-form.tsx: 'other' value is now stripped from the specifics array before the API payload is built (other_detail carries the free-text separately)
+- contact-review-form.tsx: Zod schema for specifics tightened to z.array(z.string().max(100)).max(10)
+- Files: components/contact/contact-details-form.tsx, components/contact/contact-review-form.tsx

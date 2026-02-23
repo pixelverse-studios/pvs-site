@@ -7,9 +7,10 @@ import type { ProspectStats } from './types';
 interface ProspectsStatsBarProps {
   stats: ProspectStats | null;
   loading: boolean;
+  error?: boolean;
 }
 
-export function ProspectsStatsBar({ stats, loading }: ProspectsStatsBarProps) {
+export function ProspectsStatsBar({ stats, loading, error }: ProspectsStatsBarProps) {
   if (loading) {
     return (
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -29,7 +30,11 @@ export function ProspectsStatsBar({ stats, loading }: ProspectsStatsBarProps) {
   const calendlyCall = stats?.by_source?.calendly_call ?? 0;
 
   return (
-    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+    <div>
+      {error && (
+        <p className="mb-4 text-sm text-red-500">Could not load stats — showing cached data.</p>
+      )}
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
       <StatCard
         title="Total Prospects"
         value={total}
@@ -58,6 +63,7 @@ export function ProspectsStatsBar({ stats, loading }: ProspectsStatsBarProps) {
         iconName="activity"
         accentColor="#10b981"
       />
+      </div>
     </div>
   );
 }

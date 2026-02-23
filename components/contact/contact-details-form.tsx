@@ -18,20 +18,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { getApiBaseUrl } from '@/lib/api-config';
 import { cn } from '@/lib/utils';
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-function formatPhone(value: string): string {
-  const digits = value.replace(/\D/g, '').slice(0, 10);
-  if (digits.length === 0) return '';
-  if (digits.length <= 3) return `(${digits}`;
-  if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
-  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
-}
-
-function stripPhone(value?: string): string {
-  return (value ?? '').replace(/\D/g, '');
-}
+import { formatPhone, stripPhone } from '@/lib/utils/phone';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -156,6 +143,17 @@ export function ContactDetailsForm() {
     },
   });
 
+  const [watchedName, watchedEmail, watchedCompany, watchedBudget, watchedTimeline, watchedImprovements] =
+    watch(['name', 'email', 'companyName', 'budget', 'timeline', 'improvements']);
+
+  const isFormReady =
+    !!(watchedName?.trim()) &&
+    !!(watchedEmail?.trim()) &&
+    !!(watchedCompany?.trim()) &&
+    !!watchedBudget &&
+    !!watchedTimeline &&
+    (watchedImprovements?.length ?? 0) > 0;
+
   const onSubmit = async (data: DetailsFormValues) => {
     // Re-entry guard
     if (formState === 'submitting') return;
@@ -197,7 +195,6 @@ export function ContactDetailsForm() {
         body: JSON.stringify(payload),
         signal: controller.signal,
       });
-      clearTimeout(timeoutId);
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
@@ -206,6 +203,8 @@ export function ContactDetailsForm() {
     } catch {
       lastSubmitRef.current = 0;
       setFormState('error');
+    } finally {
+      clearTimeout(timeoutId);
     }
   };
 
@@ -230,17 +229,6 @@ export function ContactDetailsForm() {
   }
 
   const isSubmittingState = formState === 'submitting';
-
-  const [watchedName, watchedEmail, watchedCompany, watchedBudget, watchedTimeline, watchedImprovements] =
-    watch(['name', 'email', 'companyName', 'budget', 'timeline', 'improvements']);
-
-  const isFormReady =
-    !!(watchedName?.trim()) &&
-    !!(watchedEmail?.trim()) &&
-    !!(watchedCompany?.trim()) &&
-    !!watchedBudget &&
-    !!watchedTimeline &&
-    (watchedImprovements?.length ?? 0) > 0;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>

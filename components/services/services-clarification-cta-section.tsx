@@ -57,7 +57,7 @@ export function ServicesClarificationCtaSection({
               <Button asChild variant="cta">
                 <Link href={primaryCta.href}>{primaryCta.label}</Link>
               </Button>
-              {secondaryCta && secondaryCta.label === 'Request a Website Review' ? (
+              {secondaryCta && secondaryCta.isReviewCta ? (
                 <RequestReviewCta variant="ctaGhost" />
               ) : secondaryCta ? (
                 <Button asChild variant="ctaGhost">

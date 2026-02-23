@@ -89,9 +89,11 @@ interface StatusSelectorProps {
 function StatusSelector({ current, prospectId, onUpdate }: StatusSelectorProps) {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [updateError, setUpdateError] = useState(false);
 
   const handleChange = async (newStatus: ProspectStatus) => {
     if (newStatus === current) return;
+    setUpdateError(false);
     setSaving(true);
     try {
       const res = await fetch(`${getApiBaseUrl()}/api/prospects/${prospectId}`, {
@@ -104,7 +106,7 @@ function StatusSelector({ current, prospectId, onUpdate }: StatusSelectorProps) 
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
     } catch {
-      // status update failed silently — user can retry
+      setUpdateError(true);
     } finally {
       setSaving(false);
     }
@@ -113,27 +115,32 @@ function StatusSelector({ current, prospectId, onUpdate }: StatusSelectorProps) 
   const c = STATUS_COLORS[current];
 
   return (
-    <div className="flex items-center gap-2">
-      <select
-        value={current}
-        onChange={(e) => handleChange(e.target.value as ProspectStatus)}
-        disabled={saving}
-        className={cn(
-          'rounded-full border px-3 py-1 text-xs font-medium outline-none transition-colors disabled:opacity-50',
-          c.bg,
-          c.text,
-          c.border,
-        )}
-        aria-label="Update prospect status"
-      >
-        {(Object.keys(STATUS_LABELS) as ProspectStatus[]).map((s) => (
-          <option key={s} value={s}>
-            {STATUS_LABELS[s]}
-          </option>
-        ))}
-      </select>
-      {saving && <Loader2 className="h-3.5 w-3.5 animate-spin text-[var(--pv-text-muted)]" />}
-      {saved && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />}
+    <div>
+      <div className="flex items-center gap-2">
+        <select
+          value={current}
+          onChange={(e) => handleChange(e.target.value as ProspectStatus)}
+          disabled={saving}
+          className={cn(
+            'rounded-full border px-3 py-1 text-xs font-medium outline-none transition-colors disabled:opacity-50',
+            c.bg,
+            c.text,
+            c.border,
+          )}
+          aria-label="Update prospect status"
+        >
+          {(Object.keys(STATUS_LABELS) as ProspectStatus[]).map((s) => (
+            <option key={s} value={s}>
+              {STATUS_LABELS[s]}
+            </option>
+          ))}
+        </select>
+        {saving && <Loader2 className="h-3.5 w-3.5 animate-spin text-[var(--pv-text-muted)]" />}
+        {saved && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />}
+      </div>
+      {updateError && (
+        <p className="mt-1 text-xs text-red-500">Failed to save — please try again.</p>
+      )}
     </div>
   );
 }
@@ -149,6 +156,7 @@ function NotesField({ prospectId, initialNotes }: NotesFieldProps) {
   const [notes, setNotes] = useState(initialNotes);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>();
 
   const save = async (value: string) => {
@@ -163,7 +171,7 @@ function NotesField({ prospectId, initialNotes }: NotesFieldProps) {
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
     } catch {
-      // notes save failed silently
+      setSaveError(true);
     } finally {
       setSaving(false);
     }
@@ -172,6 +180,7 @@ function NotesField({ prospectId, initialNotes }: NotesFieldProps) {
   const handleChange = (value: string) => {
     setNotes(value);
     setSaved(false);
+    setSaveError(false);
     clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => save(value), 1000);
   };
@@ -191,6 +200,9 @@ function NotesField({ prospectId, initialNotes }: NotesFieldProps) {
             <CheckCircle2 className="h-3 w-3" /> Saved
           </span>
         )}
+        {saveError && !saving && (
+          <span className="ml-auto text-xs text-red-500">Failed to save</span>
+        )}
       </div>
       <textarea
         value={notes}
@@ -201,6 +213,42 @@ function NotesField({ prospectId, initialNotes }: NotesFieldProps) {
       />
     </div>
   );
+}
+
+// ─── Date formatting helpers ──────────────────────────────────────────────────
+
+function formatDate(str?: string) {
+  if (!str) return '—';
+  try {
+    return new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    }).format(new Date(str));
+  } catch {
+    return '—';
+  }
+}
+
+function formatRelative(str?: string) {
+  if (!str) return '—';
+  try {
+    const diff = Date.now() - new Date(str).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return `${mins} minute${mins !== 1 ? 's' : ''} ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs} hour${hrs !== 1 ? 's' : ''} ago`;
+    const days = Math.floor(hrs / 24);
+    if (days < 30) return `${days} day${days !== 1 ? 's' : ''} ago`;
+    const months = Math.floor(days / 30);
+    if (months < 12) return `${months} month${months !== 1 ? 's' : ''} ago`;
+    return `${Math.floor(months / 12)} year${Math.floor(months / 12) !== 1 ? 's' : ''} ago`;
+  } catch {
+    return '—';
+  }
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
@@ -218,40 +266,6 @@ export function ProspectDetailDrawer({
   onClose,
   onStatusUpdate,
 }: ProspectDetailDrawerProps) {
-  const formatDate = (str?: string) => {
-    if (!str) return '—';
-    try {
-      return new Intl.DateTimeFormat('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
-      }).format(new Date(str));
-    } catch {
-      return '—';
-    }
-  };
-
-  const formatRelative = (str?: string) => {
-    if (!str) return '—';
-    try {
-      const diff = Date.now() - new Date(str).getTime();
-      const mins = Math.floor(diff / 60000);
-      if (mins < 1) return 'just now';
-      if (mins < 60) return `${mins} minute${mins !== 1 ? 's' : ''} ago`;
-      const hrs = Math.floor(mins / 60);
-      if (hrs < 24) return `${hrs} hour${hrs !== 1 ? 's' : ''} ago`;
-      const days = Math.floor(hrs / 24);
-      if (days < 30) return `${days} day${days !== 1 ? 's' : ''} ago`;
-      const months = Math.floor(days / 30);
-      if (months < 12) return `${months} month${months !== 1 ? 's' : ''} ago`;
-      return `${Math.floor(months / 12)} year${Math.floor(months / 12) !== 1 ? 's' : ''} ago`;
-    } catch {
-      return '—';
-    }
-  };
-
   if (!prospect) return null;
 
   const sourceIcon =
@@ -344,6 +358,11 @@ export function ProspectDetailDrawer({
                 </div>
                 <Field label="Phone" value={prospect.audit_request.phone_number} />
                 <Field label="Focus Areas" value={prospect.audit_request.specifics} />
+                {prospect.audit_request.other_detail && (
+                  <div className="sm:col-span-2">
+                    <Field label="Other detail" value={prospect.audit_request.other_detail} />
+                  </div>
+                )}
                 <div className="sm:col-span-2">
                   <p className="text-xs text-[var(--pv-text-muted)]">Submitted</p>
                   <p className="text-sm text-[var(--pv-text)]">
