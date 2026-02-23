@@ -60,6 +60,7 @@
 - Fixed a bug where the "Other" detail text was always sent in the review form payload even when "Other" was not selected
 - Fixed the contact details form to send the company name field under the correct name the server expects
 - Fixed a browser security policy error that was silently blocking form submissions from reaching the backend server — contact forms now connect correctly
+- Fixed the website review form to accept URLs without "https://" — entering "www.domain.com" now submits correctly
 
 ## Notes for internal team
 
