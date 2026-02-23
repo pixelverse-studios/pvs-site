@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
@@ -51,7 +51,6 @@ const IMPROVEMENT_OPTIONS = [
 const INTERESTED_IN_OPTIONS = [
   { label: 'Web Design & Development', value: 'web-design' },
   { label: 'SEO', value: 'seo' },
-  { label: 'Both', value: 'both' },
   { label: 'Not sure yet', value: 'unsure' },
 ] as const;
 
@@ -76,7 +75,7 @@ const detailsFormSchema = z.object({
   }),
   currentWebsite: z.string().url('Enter a valid URL (e.g. https://yoursite.com)').optional().or(z.literal('')),
   improvements: z.array(z.enum(toEnumValues(IMPROVEMENT_OPTIONS))).min(1, 'Select at least one area.'),
-  interestedIn: z.enum(toEnumValues(INTERESTED_IN_OPTIONS)).optional(),
+  interestedIn: z.array(z.enum(['web-design', 'seo', 'unsure'])).min(1).optional(),
   briefSummary: z.string().max(2000, 'Please keep this under 2,000 characters.').optional(),
   website_confirm: z.string().max(0).optional(),
 });
@@ -126,6 +125,7 @@ type FormState = 'idle' | 'submitting' | 'success' | 'error';
 export function ContactDetailsForm() {
   const [formState, setFormState] = useState<FormState>('idle');
   const lastSubmitRef = useRef<number>(0);
+  const [interestedInSelections, setInterestedInSelections] = useState<Set<string>>(new Set());
 
   const {
     register,
@@ -145,6 +145,40 @@ export function ContactDetailsForm() {
 
   const [watchedName, watchedEmail, watchedCompany, watchedBudget, watchedTimeline, watchedImprovements] =
     watch(['name', 'email', 'companyName', 'budget', 'timeline', 'improvements']);
+
+  // Derive which cards are highlighted from the multi-select state
+  const isWebSelected = interestedInSelections.has('web-design');
+  const isSeoSelected = interestedInSelections.has('seo');
+  const isUnsureSelected = interestedInSelections.has('unsure');
+
+  function handleInterestedInClick(value: string) {
+    setInterestedInSelections((prev) => {
+      const next = new Set(prev);
+      if (value === 'unsure') {
+        if (next.has('unsure')) {
+          next.delete('unsure');
+        } else {
+          next.clear();
+          next.add('unsure');
+        }
+      } else {
+        // web-design or seo — deselect unsure if active
+        next.delete('unsure');
+        if (next.has(value)) {
+          next.delete(value);
+        } else {
+          next.add(value);
+        }
+      }
+      return next;
+    });
+  }
+
+  // Sync UI selections → form field (array, omit if empty)
+  useEffect(() => {
+    const arr = Array.from(interestedInSelections) as DetailsFormValues['interestedIn'];
+    setValue('interestedIn', arr && arr.length > 0 ? arr : undefined, { shouldValidate: true });
+  }, [interestedInSelections, setValue]);
 
   const isFormReady =
     !!(watchedName?.trim()) &&
@@ -185,7 +219,7 @@ export function ContactDetailsForm() {
         timeline: data.timeline,
         current_website: data.currentWebsite ?? '',
         improvements: data.improvements,
-        interested_in: data.interestedIn ?? '',
+        ...(data.interestedIn && data.interestedIn.length > 0 ? { interestedIn: data.interestedIn } : {}),
         brief_summary: data.briefSummary ?? '',
       };
 
@@ -199,6 +233,7 @@ export function ContactDetailsForm() {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
       reset();
+      setInterestedInSelections(new Set());
       setFormState('success');
     } catch {
       lastSubmitRef.current = 0;
@@ -375,30 +410,36 @@ export function ContactDetailsForm() {
           </div>
         </div>
 
-        {/* Interested in — single select radios */}
+        {/* Interested in — multi-select boxy cards */}
         <div>
           <p className="mb-3 text-sm font-medium text-[var(--pv-text)]">
-            What are you interested in?
+            What are you interested in?{' '}
+            <span className="font-normal text-[var(--pv-text-muted)]">(Select all that apply)</span>
           </p>
-          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-            {INTERESTED_IN_OPTIONS.map((opt) => (
-              <label
-                key={opt.value}
+          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+            {(
+              [
+                { label: 'Web Design & Development', value: 'web-design', active: isWebSelected },
+                { label: 'SEO', value: 'seo', active: isSeoSelected },
+                { label: 'Not sure yet', value: 'unsure', active: isUnsureSelected },
+              ] as const
+            ).map(({ label, value, active }) => (
+              <button
+                key={value}
+                type="button"
+                disabled={isSubmittingState}
+                onClick={() => handleInterestedInClick(value)}
+                aria-pressed={active}
                 className={cn(
-                  'flex cursor-pointer items-start gap-3 rounded-lg border p-3 text-sm transition-colors',
-                  'border-[var(--pv-border)] hover:border-[var(--pv-primary)] hover:bg-[color-mix(in_srgb,var(--pv-primary)_4%,transparent)]',
+                  'cursor-pointer rounded-lg border p-3 text-left text-sm transition-colors',
+                  active
+                    ? 'border-[var(--pv-primary)] bg-[color-mix(in_srgb,var(--pv-primary)_4%,transparent)] text-[var(--pv-text)]'
+                    : 'border-[var(--pv-border)] text-[var(--pv-text)] hover:border-[var(--pv-primary)] hover:bg-[color-mix(in_srgb,var(--pv-primary)_4%,transparent)]',
                   isSubmittingState && 'pointer-events-none opacity-60',
                 )}
               >
-                <input
-                  type="radio"
-                  value={opt.value}
-                  disabled={isSubmittingState}
-                  className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--pv-primary)]"
-                  {...register('interestedIn')}
-                />
-                <span className="text-[var(--pv-text)]">{opt.label}</span>
-              </label>
+                {label}
+              </button>
             ))}
           </div>
         </div>

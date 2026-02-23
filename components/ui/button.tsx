@@ -12,7 +12,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-pv hover:opacity-90 hover:-translate-y-0.5 hover:shadow-lg',
+          'bg-[linear-gradient(90deg,var(--pv-primary-cta),var(--pv-primary-cta-2))] text-white shadow-pv hover:opacity-90 hover:-translate-y-0.5 hover:shadow-lg',
         secondary:
           'border border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)] hover:border-[var(--pv-primary)] hover:text-[var(--pv-primary)]',
         outline:
@@ -21,7 +21,7 @@ const buttonVariants = cva(
           'border border-transparent bg-transparent text-[var(--pv-text)] hover:border-[var(--pv-border)] hover:bg-[var(--pv-surface)]',
         destructive: 'bg-red-600 text-white shadow-sm hover:bg-red-700 focus-visible:ring-red-500',
         link: 'rounded-none text-[var(--pv-primary)] underline-offset-4 hover:underline focus-visible:rounded-sm',
-        cta: "relative isolate overflow-hidden rounded-pv border border-transparent bg-[var(--pv-primary)] px-6 py-3 text-base font-semibold text-white shadow-[0_20px_38px_-18px_rgba(63,0,233,0.6)] transition-all duration-300 hover:-translate-y-0.5 hover:text-white focus-visible:ring-offset-[var(--pv-bg)] before:absolute before:inset-[-20%] before:-z-10 before:scale-95 before:rounded-[inherit] before:bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] before:opacity-0 before:transition before:duration-500 before:content-[''] hover:before:scale-100 hover:before:opacity-100 after:absolute after:inset-[-120%] after:-z-20 after:bg-[radial-gradient(circle,var(--pv-primary-2)_0%,transparent_60%)] after:opacity-0 after:transition-opacity after:duration-500 after:content-[''] hover:after:opacity-60",
+        cta: "relative isolate overflow-hidden rounded-pv border border-transparent bg-[var(--pv-primary-cta)] px-6 py-3 text-base font-semibold text-white shadow-[0_20px_38px_-18px_rgba(124,77,255,0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:text-white focus-visible:ring-offset-[var(--pv-bg)] before:absolute before:inset-[-20%] before:-z-10 before:scale-95 before:rounded-[inherit] before:bg-[linear-gradient(90deg,var(--pv-primary-cta),var(--pv-primary-cta-2))] before:opacity-0 before:transition before:duration-500 before:content-[''] hover:before:scale-100 hover:before:opacity-100 after:absolute after:inset-[-120%] after:-z-20 after:bg-[radial-gradient(circle,var(--pv-primary-cta-2)_0%,transparent_60%)] after:opacity-0 after:transition-opacity after:duration-500 after:content-[''] hover:after:opacity-60",
         ctaGhost:
           "relative isolate overflow-hidden rounded-pv border border-[rgba(63,0,233,0.15)] bg-[rgba(63,0,233,0.04)] px-6 py-3 text-base font-semibold text-[var(--pv-primary)] shadow-[0_2px_8px_rgba(63,0,233,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[rgba(63,0,233,0.3)] hover:bg-[rgba(63,0,233,0.08)] hover:text-[var(--pv-primary)] hover:shadow-[0_8px_24px_rgba(63,0,233,0.12)] focus-visible:ring-offset-[var(--pv-bg)] active:translate-y-0 dark:border-white/[0.12] dark:bg-white/[0.06] dark:text-white/90 dark:shadow-[0_2px_8px_rgba(255,255,255,0.04)] dark:hover:border-white/[0.25] dark:hover:bg-white/[0.1] dark:hover:text-white dark:hover:shadow-[0_8px_24px_rgba(255,255,255,0.08)]",
       },

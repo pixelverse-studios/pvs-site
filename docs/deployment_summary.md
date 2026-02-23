@@ -61,6 +61,13 @@
 - Fixed the contact details form to send the company name field under the correct name the server expects
 - Fixed a browser security policy error that was silently blocking form submissions from reaching the backend server — contact forms now connect correctly
 - Fixed the website review form to accept URLs without "https://" — entering "www.domain.com" now submits correctly
+- The homepage hero badge now shows the live Google rating and review count pulled directly from Google — updates automatically every 24 hours once the API key is configured
+- The About page now shows the Google Reviews section with live rating and review count from Google Business Profile (was previously hidden due to a stale Place ID — now correctly shows 5.0 stars and 7 reviews)
+- Locked the dark theme to a single Ink (true black) design — removed the theme and accent picker widget entirely
+- In dark mode, general accents, numbers, and hover states now use a softer purple tone for better readability, while primary buttons and CTAs use a brighter electric purple for clear visual hierarchy
+- Redesigned the "What are you interested in?" selector on the contact form — replaced checkbox cards with compact pill toggle buttons that highlight when selected, removing wasted space
+- Updated "What are you interested in?" on the contact form to support multi-select: Web Design and SEO can each be selected independently, selecting both auto-highlights the "Both" pill, and "Not sure yet" clears all other selections
+- Fixed a subtle navigation bar jitter when opening the budget dropdown on the contact form
 
 ## Notes for internal team
 
@@ -69,6 +76,9 @@
 - Security hardening: added HTML escaping to audit email body (app/api/audit/route.ts), added server-side allowlist for specifics values, fixed phone_number schema key mismatch, added other_detail field to server schema and DB insert
 - Bug fixes: NotesField and StatusSelector in prospect drawer now reset state when switching between prospects; formatDate moved to module scope in prospects-table; services CTA ternary simplified; company_name payload key fixed in contact-details-form
 - CSP fix: added https://pvs-server-62hx7.ondigitalocean.app to connect-src in next.config.js so fetch calls to the backend are no longer blocked
+- DEV-81 completed: removed dead Next.js audit route (app/api/audit/route.ts deleted) — now that pvs-server /api/audit is live, the Next.js fallback is no longer needed
+- DEV-68 completed: about page Google Reviews section wired to live Places API; fixed stale Place ID (ChIJP9TTk → ChIJ0yATFP2) that was causing 404 — both homepage badge and about page now return real data
+- Files: lib/api/google-places.ts, app/about/page.tsx
 
 - PVS-386, PVS-387, PVS-388 completed (epic PVS-385)
 - PVS-390, PVS-391, PVS-392, PVS-393, PVS-394, PVS-395 completed (epic PVS-389)
