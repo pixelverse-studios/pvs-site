@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
+import { RequestReviewCta } from '@/components/ui/request-review-cta';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import type { CTA } from '@/data/service-paths';
 
@@ -56,11 +57,13 @@ export function ServicesClarificationCtaSection({
               <Button asChild variant="cta">
                 <Link href={primaryCta.href}>{primaryCta.label}</Link>
               </Button>
-              {secondaryCta && (
+              {secondaryCta && secondaryCta.label === 'Request a Website Review' ? (
+                <RequestReviewCta variant="ctaGhost" />
+              ) : secondaryCta ? (
                 <Button asChild variant="ctaGhost">
                   <Link href={secondaryCta.href}>{secondaryCta.label}</Link>
                 </Button>
-              )}
+              ) : null}
             </div>
           </MotionItem>
         </MotionSection>

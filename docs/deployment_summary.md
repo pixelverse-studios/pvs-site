@@ -52,6 +52,10 @@
 - Fixed the "What are you interested in?" question on the contact form to be single-select — only one option can be chosen at a time (Web Design & Development, SEO, Both, or Not sure yet)
 - The "Start the Conversation" submit button on the contact form is now disabled until all required fields are filled in (name, email, business name, budget, timeline, and at least one improvement area)
 - Improved button hover effect across the site — buttons now lift slightly and deepen on hover for clearer feedback
+- Fixed "Request a Website Review" buttons across the site — they now correctly land visitors on the review form instead of the generic contact page
+- Added "All of the above" option to the website review form's specifics checkboxes — selecting it checks all four audit areas at once
+- Added free-text input to the "Other" option on the review form so visitors can describe what they'd like reviewed
+- Moved website URL and phone number fields into a two-column row on the review form for a cleaner layout
 
 ## Notes for internal team
 
@@ -75,6 +79,7 @@
 
 - PVS-423 completed: contact-details-form.tsx payload renamed to snake_case (company_name, current_website, brief_summary), added interested_in field + UI checkboxes; contact-review-form.tsx added phone_number field; contact-strategy-call.tsx Calendly webhook null-guarded
 - DEV-80 completed: Added Prospects dashboard at /dashboard/prospects — shows summary stats (total leads, by source), paginated table with source/status filters, and a slide-out detail panel per prospect; sidebar updated with Prospects nav link; status updates and internal notes save automatically via PATCH API
+- PVS-356 review form polish: "All of the above" specifics checkbox, Other free-text detail field, website/phone 2-col row, fixed all Request a Website Review CTA hrefs (homepage + services), swapped services-clarification-cta to use RequestReviewCta component
 
 ## Changed URLs
 
