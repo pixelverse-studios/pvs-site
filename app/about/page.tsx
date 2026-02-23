@@ -25,6 +25,8 @@ export const metadata: Metadata = createPageMetadata({
   ],
 });
 
+export const revalidate = 86400;
+
 export default async function AboutPage() {
   const googleRating = await getGoogleRatingData();
 
@@ -80,7 +82,11 @@ export default async function AboutPage() {
       {/* 8. Google Reviews (auto-hides when reviewCount is 0) */}
       <AboutGoogleReviewsSection
         title="Rated on Google"
-        reviews={{ ...aboutContent.googleReviews, ...googleRating }}
+        reviews={{
+          ...aboutContent.googleReviews,
+          rating: googleRating.rating,
+          reviewCount: googleRating.reviewCount,
+        }}
         background="surface"
       />
 
