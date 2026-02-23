@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { HomepageClient } from '@/components/home/homepage-client';
 import { StructuredData } from '@/components/ui/structured-data';
 import { homepageFaq } from '@/data/homepage-faq';
+import { getGoogleRatingBadge } from '@/lib/api/google-places';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
@@ -32,11 +33,13 @@ const homeFaqSchema = {
   })),
 };
 
-export default function Home() {
+export default async function Home() {
+  const badge = await getGoogleRatingBadge();
+
   return (
     <>
       <StructuredData id="home-faq-schema" data={homeFaqSchema} />
-      <HomepageClient />
+      <HomepageClient badge={badge} />
     </>
   );
 }

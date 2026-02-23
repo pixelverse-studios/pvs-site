@@ -34,7 +34,7 @@ const floatingIcons = [
   { Icon: Smartphone, className: 'hero-float-icon hero-float-10 right-[9%] top-[82%]' },
 ];
 
-export function HeroSection() {
+export function HeroSection({ badge }: { badge?: string }) {
   return (
     <section className="hero-aurora relative overflow-hidden">
       {/* Base gradient */}
@@ -74,7 +74,7 @@ export function HeroSection() {
             <div className="badge-shimmer inline-flex items-center gap-2.5 rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)]/70 px-4 py-2 shadow-[0_1px_3px_rgba(0,0,0,0.04)] backdrop-blur-md dark:border-white/[0.08] dark:bg-white/[0.04] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--pv-primary)] shadow-[0_0_8px_2px_var(--pv-primary)] dark:bg-[var(--pv-primary-2)] dark:shadow-[0_0_8px_2px_var(--pv-primary-2)]" />
               <span className="text-xs font-medium tracking-wide text-[var(--pv-text-muted)]">
-                {homepageHero.badge}
+                {badge ?? homepageHero.badge}
               </span>
             </div>
           </MotionItem>

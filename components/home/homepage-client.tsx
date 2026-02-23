@@ -10,10 +10,10 @@ import { ServicesSection } from '@/components/home/services-section';
 import { TestimonialCarousel } from '@/components/home/testimonial-carousel';
 import { WhySection } from '@/components/home/why-section';
 
-export function HomepageClient() {
+export function HomepageClient({ badge }: { badge?: string }) {
   return (
     <main>
-      <HeroSection />
+      <HeroSection badge={badge} />
       <WhySection />
       <CaseStudySection />
       <InsightSection />
