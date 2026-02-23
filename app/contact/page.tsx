@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 
 import { ContactHero } from '@/components/contact/contact-hero';
 import { ContactPageClient } from '@/components/contact/contact-page-client';
+import type { ContactPath } from '@/components/contact/contact-path-selector';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
@@ -18,8 +19,7 @@ export const metadata: Metadata = createPageMetadata({
   ],
 });
 
-const VALID_PATHS = ['details', 'call', 'review'] as const;
-type ContactPath = (typeof VALID_PATHS)[number];
+const VALID_PATHS = ['details', 'call', 'review'] as const satisfies readonly ContactPath[];
 
 type PageProps = {
   searchParams: Promise<{ path?: string }>;

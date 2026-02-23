@@ -1,6 +1,7 @@
 export interface CTA {
   label: string;
   href: string;
+  isReviewCta?: boolean;
 }
 
 export type ServicePathIconKey = 'code' | 'search';
@@ -43,7 +44,8 @@ export const servicesPageData: ServicesPageData = {
     },
     secondaryCta: {
       label: 'Request a Website Review',
-      href: '/contact?ref=audit',
+      href: '/contact?path=review',
+      isReviewCta: true,
     },
   },
 };

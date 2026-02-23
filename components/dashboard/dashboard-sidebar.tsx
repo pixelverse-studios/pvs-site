@@ -17,6 +17,7 @@ import {
   Sparkles,
   ListTodo,
   Smartphone,
+  UserSearch,
 } from 'lucide-react';
 import { useSidebar } from './sidebar-context';
 
@@ -55,6 +56,12 @@ const navSections: NavSection[] = [
         icon: ListTodo,
         available: true,
       },
+      {
+        label: 'Prospects',
+        href: '/dashboard/prospects',
+        icon: UserSearch,
+        available: true,
+      },
     ],
   },
   {
@@ -75,12 +82,6 @@ const navSections: NavSection[] = [
         label: 'Projects',
         href: '/dashboard/projects',
         icon: FolderKanban,
-        available: false,
-      },
-      {
-        label: 'Leads',
-        href: '/dashboard/leads',
-        icon: TrendingUp,
         available: false,
       },
       {
