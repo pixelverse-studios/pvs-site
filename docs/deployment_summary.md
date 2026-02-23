@@ -66,6 +66,7 @@
 - Files: data/service-paths.ts, components/services/services-clarification-cta-section.tsx, app/contact/page.tsx, components/contact/contact-details-form.tsx, components/contact/contact-review-form.tsx, lib/utils/phone.ts (new)
 - Security hardening: added HTML escaping to audit email body (app/api/audit/route.ts), added server-side allowlist for specifics values, fixed phone_number schema key mismatch, added other_detail field to server schema and DB insert
 - Bug fixes: NotesField and StatusSelector in prospect drawer now reset state when switching between prospects; formatDate moved to module scope in prospects-table; services CTA ternary simplified; company_name payload key fixed in contact-details-form
+- DEV-81 completed: removed dead Next.js audit route (app/api/audit/route.ts deleted) — now that pvs-server /api/audit is live, the Next.js fallback is no longer needed
 
 - PVS-386, PVS-387, PVS-388 completed (epic PVS-385)
 - PVS-390, PVS-391, PVS-392, PVS-393, PVS-394, PVS-395 completed (epic PVS-389)
