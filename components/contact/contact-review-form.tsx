@@ -12,6 +12,20 @@ import { getApiBaseUrl } from '@/lib/api-config';
 import { cn } from '@/lib/utils';
 import { websiteUrlSchema } from '@/lib/validation/url';
 
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+function formatPhone(value: string): string {
+  const digits = value.replace(/\D/g, '').slice(0, 10);
+  if (digits.length === 0) return '';
+  if (digits.length <= 3) return `(${digits}`;
+  if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+}
+
+function stripPhone(value?: string): string {
+  return (value ?? '').replace(/\D/g, '');
+}
+
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const SPECIFICS_OPTIONS = [
@@ -83,6 +97,7 @@ export function ContactReviewForm() {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<ReviewFormValues>({
     resolver: zodResolver(reviewFormSchema),
@@ -116,7 +131,7 @@ export function ContactReviewForm() {
       const payload = {
         name: data.name,
         email: data.email,
-        phone_number: data.phone_number ?? '',
+        phone_number: stripPhone(data.phone_number),
         websiteUrl: data.websiteUrl,
         specifics: data.specifics ?? [],
         honeypot: data.website_confirm ?? '',
@@ -211,6 +226,7 @@ export function ContactReviewForm() {
             placeholder="(201) 555-0100"
             disabled={isSubmittingState}
             {...register('phone_number')}
+            onChange={(e) => setValue('phone_number', formatPhone(e.target.value), { shouldValidate: true })}
           />
           <FieldError id="review-phone-error" message={errors.phone_number?.message} />
         </div>
@@ -278,10 +294,10 @@ export function ContactReviewForm() {
             <span>
               Something went wrong. Please try again or reach us directly at{' '}
               <a
-                href="mailto:hello@pixelversestudios.io"
+                href="mailto:info@pixelversestudios.io"
                 className="font-medium underline underline-offset-2"
               >
-                hello@pixelversestudios.io
+                info@pixelversestudios.io
               </a>
               .
             </span>

@@ -33,10 +33,10 @@ function CalendlyPlaceholder() {
         <p className="text-sm text-[var(--pv-text-muted)]">
           Scheduling isn&rsquo;t available here yet — email us at{' '}
           <a
-            href="mailto:hello@pixelversestudios.io"
+            href="mailto:info@pixelversestudios.io"
             className="font-medium text-[var(--pv-primary)] underline underline-offset-2"
           >
-            hello@pixelversestudios.io
+            info@pixelversestudios.io
           </a>{' '}
           to set up a call.
         </p>

@@ -49,6 +49,9 @@
 - Added "What are you interested in?" checkboxes to the contact details form (Web Design, SEO, Both, Not sure yet)
 - Added an optional phone number field to the website review request form
 - Fixed the Calendly webhook handler to safely handle missing event data instead of crashing
+- Fixed the "What are you interested in?" question on the contact form to be single-select — only one option can be chosen at a time (Web Design & Development, SEO, Both, or Not sure yet)
+- The "Start the Conversation" submit button on the contact form is now disabled until all required fields are filled in (name, email, business name, budget, timeline, and at least one improvement area)
+- Improved button hover effect across the site — buttons now lift slightly and deepen on hover for clearer feedback
 
 ## Notes for internal team
 

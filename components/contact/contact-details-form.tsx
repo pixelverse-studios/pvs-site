@@ -19,6 +19,20 @@ import { Textarea } from '@/components/ui/textarea';
 import { getApiBaseUrl } from '@/lib/api-config';
 import { cn } from '@/lib/utils';
 
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+function formatPhone(value: string): string {
+  const digits = value.replace(/\D/g, '').slice(0, 10);
+  if (digits.length === 0) return '';
+  if (digits.length <= 3) return `(${digits}`;
+  if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+}
+
+function stripPhone(value?: string): string {
+  return (value ?? '').replace(/\D/g, '');
+}
+
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const BUDGET_OPTIONS = [
@@ -75,7 +89,7 @@ const detailsFormSchema = z.object({
   }),
   currentWebsite: z.string().url('Enter a valid URL (e.g. https://yoursite.com)').optional().or(z.literal('')),
   improvements: z.array(z.enum(toEnumValues(IMPROVEMENT_OPTIONS))).min(1, 'Select at least one area.'),
-  interestedIn: z.array(z.enum(toEnumValues(INTERESTED_IN_OPTIONS))).optional(),
+  interestedIn: z.enum(toEnumValues(INTERESTED_IN_OPTIONS)).optional(),
   briefSummary: z.string().max(2000, 'Please keep this under 2,000 characters.').optional(),
   website_confirm: z.string().max(0).optional(),
 });
@@ -131,12 +145,14 @@ export function ContactDetailsForm() {
     handleSubmit,
     control,
     reset,
+    watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<DetailsFormValues>({
     resolver: zodResolver(detailsFormSchema),
     defaultValues: {
       improvements: [],
-      interestedIn: [],
+      interestedIn: undefined,
     },
   });
 
@@ -165,13 +181,13 @@ export function ContactDetailsForm() {
       const payload = {
         name: data.name,
         email: data.email,
-        company_name: data.companyName,
-        phone: data.phone ?? '',
+        companyName: data.companyName,
+        phone: stripPhone(data.phone),
         budget: data.budget,
         timeline: data.timeline,
         current_website: data.currentWebsite ?? '',
         improvements: data.improvements,
-        interested_in: data.interestedIn ?? [],
+        interested_in: data.interestedIn ?? '',
         brief_summary: data.briefSummary ?? '',
       };
 
@@ -214,6 +230,17 @@ export function ContactDetailsForm() {
   }
 
   const isSubmittingState = formState === 'submitting';
+
+  const [watchedName, watchedEmail, watchedCompany, watchedBudget, watchedTimeline, watchedImprovements] =
+    watch(['name', 'email', 'companyName', 'budget', 'timeline', 'improvements']);
+
+  const isFormReady =
+    !!(watchedName?.trim()) &&
+    !!(watchedEmail?.trim()) &&
+    !!(watchedCompany?.trim()) &&
+    !!watchedBudget &&
+    !!watchedTimeline &&
+    (watchedImprovements?.length ?? 0) > 0;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -281,6 +308,7 @@ export function ContactDetailsForm() {
               placeholder="(201) 555-0100"
               disabled={isSubmittingState}
               {...register('phone')}
+              onChange={(e) => setValue('phone', formatPhone(e.target.value), { shouldValidate: true })}
             />
           </div>
 
@@ -359,13 +387,10 @@ export function ContactDetailsForm() {
           </div>
         </div>
 
-        {/* Interested in checkboxes */}
+        {/* Interested in — single select radios */}
         <div>
           <p className="mb-3 text-sm font-medium text-[var(--pv-text)]">
-            What are you interested in?{' '}
-            <span className="ml-1 font-normal text-[var(--pv-text-muted)]">
-              (Select all that apply)
-            </span>
+            What are you interested in?
           </p>
           <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
             {INTERESTED_IN_OPTIONS.map((opt) => (
@@ -378,7 +403,7 @@ export function ContactDetailsForm() {
                 )}
               >
                 <input
-                  type="checkbox"
+                  type="radio"
                   value={opt.value}
                   disabled={isSubmittingState}
                   className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--pv-primary)]"
@@ -451,10 +476,10 @@ export function ContactDetailsForm() {
             <span>
               Something went wrong. Please try again or reach us directly at{' '}
               <a
-                href="mailto:hello@pixelversestudios.io"
+                href="mailto:info@pixelversestudios.io"
                 className="font-medium underline underline-offset-2"
               >
-                hello@pixelversestudios.io
+                info@pixelversestudios.io
               </a>
               .
             </span>
@@ -463,7 +488,7 @@ export function ContactDetailsForm() {
 
         {/* Submit */}
         <div className="flex justify-end">
-          <Button type="submit" disabled={isSubmittingState} size="lg">
+          <Button type="submit" disabled={isSubmittingState || !isFormReady} size="lg">
             {isSubmittingState ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
