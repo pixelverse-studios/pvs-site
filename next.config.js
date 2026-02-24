@@ -22,6 +22,12 @@ const nextConfig = {
     const isDev = process.env.NODE_ENV === 'development';
     const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+    if (!isDev && !apiUrl) {
+      console.warn(
+        '[CSP] WARNING: NEXT_PUBLIC_API_BASE_URL is not set — backend API calls will be blocked by CSP in production',
+      );
+    }
+
     const csp = {
       'default-src': ["'self'"],
       'script-src': [
@@ -48,12 +54,13 @@ const nextConfig = {
         apiUrl,
         isDev && 'http://localhost:5001',
       ].filter(Boolean),
-      'frame-src': ["'self'", 'https://*.calendly.com', 'https://www.google.com/maps'],
+      // Note: *.calendly.com does NOT cover the apex domain per CSP spec — both are required
+      'frame-src': ["'self'", 'https://calendly.com', 'https://*.calendly.com', 'https://www.google.com/maps'],
       'object-src': ["'none'"],
       'base-uri': ["'self'"],
       'form-action': ["'self'"],
       'frame-ancestors': ["'self'"],
-      'upgrade-insecure-requests': [],
+      'upgrade-insecure-requests': [], // empty array → bare directive, no sources
     };
 
     const cspHeader = Object.entries(csp)
