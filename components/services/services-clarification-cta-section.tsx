@@ -24,10 +24,14 @@ export function ServicesClarificationCtaSection({
 
   return (
     <section
-      className="bg-[var(--pv-surface)] py-16 md:py-24 dark:bg-[#0d1230]"
+      className="relative overflow-hidden bg-[var(--pv-surface)] py-16 md:py-24 dark:bg-[var(--pv-gradient)] dark:text-white"
       aria-labelledby={headingId}
     >
-      <Container>
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 hidden dark:block dark:bg-[radial-gradient(circle_at_20%_10%,rgba(255,255,255,0.22),transparent_55%),radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.16),transparent_50%)]"
+      />
+      <Container className="relative">
         <MotionSection
           as="div"
           className="mx-auto max-w-3xl space-y-6 text-center"
@@ -46,7 +50,7 @@ export function ServicesClarificationCtaSection({
 
           {paragraphs.map((paragraph, idx) => (
             <MotionItem key={`paragraph-${idx}`} delay={0.08 + idx * 0.06}>
-              <p className="text-pretty text-lg text-[var(--pv-text-muted)] md:text-xl">
+              <p className="text-pretty text-lg text-[var(--pv-text-muted)] md:text-xl dark:text-white/85">
                 {paragraph}
               </p>
             </MotionItem>
