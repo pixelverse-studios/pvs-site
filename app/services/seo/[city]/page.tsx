@@ -46,8 +46,9 @@ export const dynamicParams = false;
 /**
  * Generate metadata for the page
  */
-export function generateMetadata({ params }: { params: PageParams }): Metadata {
-  const page = getLocalServicePage(SERVICE_SLUG, params.city);
+export async function generateMetadata({ params }: { params: Promise<PageParams> }): Promise<Metadata> {
+  const { city } = await params;
+  const page = getLocalServicePage(SERVICE_SLUG, city);
 
   if (!page) {
     return {};
@@ -56,13 +57,13 @@ export function generateMetadata({ params }: { params: PageParams }): Metadata {
   return createPageMetadata({
     title: page.metadata.title,
     description: page.metadata.description,
-    path: `/services/${SERVICE_SLUG}/${params.city}`,
+    path: `/services/${SERVICE_SLUG}/${city}`,
     keywords: page.metadata.keywords,
   });
 }
 
-export default function SeoCityPage({ params }: { params: PageParams }) {
-  const { city: citySlug } = params;
+export default async function SeoCityPage({ params }: { params: Promise<PageParams> }) {
+  const { city: citySlug } = await params;
 
   // Validate city is supported
   if (!isSupportedCity(citySlug)) {

@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-import dynamic from 'next/dynamic';
 import { Inter, Poppins } from 'next/font/google';
 import { Suspense } from 'react';
 import type { ReactNode } from 'react';
 
 import './globals.css';
+import { CampaignTrackerClient } from '@/components/campaign-tracker-client';
 import { LayoutWrapper } from '@/components/layout-wrapper';
 import { SiteBehaviourScript } from '@/components/sitebehaviour-script';
 import { ThemeProvider } from '@/components/theme-provider';
@@ -122,17 +122,6 @@ const navItems = [
   { label: 'FAQ', href: '/faq' },
 ];
 
-const CampaignTracker = dynamic(
-  () =>
-    import('@/components/campaign-tracker').then((module) => ({
-      default: module.CampaignTracker,
-    })),
-  {
-    ssr: false,
-    loading: () => null,
-  },
-);
-
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -145,7 +134,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
         <ThemeProvider disableTransitionOnChange>
           <Suspense fallback={null}>
-            <CampaignTracker />
+            <CampaignTrackerClient />
           </Suspense>
           <LayoutWrapper navItems={navItems}>
             {children}

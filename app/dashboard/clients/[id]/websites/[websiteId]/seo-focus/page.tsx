@@ -21,8 +21,9 @@ export const metadata = {
 export default async function SeoFocusPage({
   params,
 }: {
-  params: { id: string; websiteId: string };
+  params: Promise<{ id: string; websiteId: string }>;
 }) {
+  const { id, websiteId } = await params;
   const supabase = await createSupabaseClient();
   const {
     data: { user },
@@ -35,14 +36,14 @@ export default async function SeoFocusPage({
   // Fetch client from API (which includes websites with seo_focus)
   let client: Client;
   try {
-    client = await getClient(params.id);
+    client = await getClient(id);
   } catch (error) {
     console.error('Error fetching client:', error);
     notFound();
   }
 
   // Find the specific website
-  const website = client.websites?.find((w) => w.id === params.websiteId);
+  const website = client.websites?.find((w) => w.id === websiteId);
   if (!website) {
     notFound();
   }
@@ -79,7 +80,7 @@ export default async function SeoFocusPage({
       <Container className="max-w-6xl space-y-8">
         {/* Back Link */}
         <Link
-          href={`/dashboard/clients/${params.id}`}
+          href={`/dashboard/clients/${id}`}
           className="inline-flex items-center gap-2 text-sm font-medium text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-text)]"
         >
           <ArrowLeft className="h-4 w-4" />
