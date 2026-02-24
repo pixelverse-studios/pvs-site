@@ -107,6 +107,15 @@
 - Fixed stale state bugs in prospect-detail-drawer.tsx: NotesField textarea now syncs to new prospect when drawer switches (clears in-flight debounce + resets notes/saveError via useEffect on initialNotes/prospectId); StatusSelector saved checkmark and error flag now reset immediately when prospect changes (useEffect on current/prospectId)
 - Files: components/dashboard/prospects/prospect-detail-drawer.tsx
 
+- Replaced all 9 homepage testimonials (3 previous + 6 placeholders) with 5 real client quotes from Sara (Rising Tide Aquatics), Jennifer (Iffers Pictures), Kyle (Jones Pressure Washing NJ), Alli (Going Gold Choreography), and Chris (Gladstone Wealth Partners)
+- Made the numbered watermark on About page approach cards more prominent on hover — number now clearly visible with a purple glow effect when hovering a card
+- DEV-69 completed: data/homepage.ts testimonials array replaced
+
+## Notes for internal team
+
+- DEV-69 completed: replaced testimonials array in data/homepage.ts with 5 real client entries; removed all placeholder "Client Name" entries
+- Hover effect update in components/about/bullet-variants.tsx: CardsVariant number opacity raised to 0.65 on hover (was 0.08) with drop-shadow glow via group-hover Tailwind arbitrary value
+
 ## Changed URLs
 
 - https://www.pixelversestudios.io/contact
@@ -138,3 +147,5 @@
 - https://www.pixelversestudios.io/contact/englewood
 - https://www.pixelversestudios.io/contact/bergenfield
 - https://www.pixelversestudios.io/contact/ridgewood
+- https://www.pixelversestudios.io/
+- https://www.pixelversestudios.io/about

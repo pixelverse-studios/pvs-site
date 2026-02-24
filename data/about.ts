@@ -172,27 +172,24 @@ export const aboutContent: AboutContentData = {
   testimonials: [
     {
       quote:
-        'Working with PixelVerse felt different from other agencies we\'ve tried. They took the time to understand our business before proposing anything. The result was a website that actually reflects what we do and helps people take the next step.',
-      author: 'Client Name',
+        'They started by asking a lot of questions before touching anything. How do clients find you, what makes someone actually call, what do you need the site to do. It felt like they cared about getting it right before jumping into anything.',
+      author: 'Chris',
+      authorTitle: 'Owner & Asset Manager',
+      business: 'Gladstone Wealth Partners',
+    },
+    {
+      quote:
+        'Every dollar mattered for us. Instead of pushing the full package, they helped us think through what we actually needed and where to start. That kind of honesty made a big difference early on.',
+      author: 'Sara',
       authorTitle: 'Owner',
-      business: 'Business Name',
-      location: 'Bergen County, NJ',
+      business: 'Rising Tide Aquatics',
     },
     {
       quote:
-        'We came in thinking we needed a full redesign, but after the initial conversation they helped us see that targeted improvements would get better results faster. That honesty saved us time and money, and the outcomes speak for themselves.',
-      author: 'Client Name',
-      authorTitle: 'Founder',
-      business: 'Business Name',
-      location: 'Bergen County, NJ',
-    },
-    {
-      quote:
-        'What stood out most was how connected everything felt. The design, the development, the SEO work — it all moved together instead of feeling like separate projects. Our site finally works the way we always wanted it to.',
-      author: 'Client Name',
-      authorTitle: 'Managing Director',
-      business: 'Business Name',
-      location: 'Bergen County, NJ',
+        'They treated the website and the SEO as one thing, not two separate projects. The site was built to rank from the start and the SEO built on that. Made a big difference in how fast things picked up.',
+      author: 'Kyle',
+      authorTitle: 'Owner',
+      business: 'Jones Pressure Washing NJ',
     },
   ],
 
