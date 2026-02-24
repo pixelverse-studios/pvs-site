@@ -5,7 +5,7 @@
 // To add a new case study: add a new entry to the `caseStudies` array.
 // The homepage filters by `featured: true`.
 
-export type CaseStudyService = 'web-development' | 'seo';
+export type CaseStudyService = 'web-development' | 'seo' | 'mobile-app';
 
 export interface CaseStudyIssue {
   icon: string;
@@ -139,7 +139,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'domani',
-    featured: false,
+    featured: true,
     name: 'Domani',
     industry: 'Productivity SaaS',
     location: 'Remote',
@@ -171,12 +171,12 @@ export const caseStudies: CaseStudy[] = [
       },
     ],
     outcome: {
-      metric: 'Distraction-free UX with measurable habit-forming design',
+      metric: '76 early-access users across iOS and Android',
       description:
-        "The app's minimal interface and behavioral design patterns encourage consistent nightly use. Users report the planning process feels effortless rather than like another task to complete.",
+        'The nightly planning flow was designed to stay under two minutes — light enough to become a real habit. Early users consistently highlight the plan lock feature and streak tracker as the elements that keep them coming back.',
     },
     img: '/projects/Domani1.png',
     url: 'https://www.domani-app.com',
-    services: ['web-development'],
+    services: ['mobile-app'],
   },
 ];
