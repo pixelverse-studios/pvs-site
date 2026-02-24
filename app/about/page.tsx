@@ -7,6 +7,7 @@ import { AboutNarrativeSection } from '@/components/about/about-narrative-sectio
 import { AboutTestimonialsSection } from '@/components/about/about-testimonials-section';
 import { TeamSection } from '@/components/about/team-section';
 import { aboutContent } from '@/data/about';
+import { getGoogleRatingData } from '@/lib/api/google-places';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
@@ -24,7 +25,11 @@ export const metadata: Metadata = createPageMetadata({
   ],
 });
 
-export default function AboutPage() {
+export const revalidate = 86400;
+
+export default async function AboutPage() {
+  const googleRating = await getGoogleRatingData();
+
   return (
     <main>
       {/* 1. Hero */}
@@ -77,7 +82,11 @@ export default function AboutPage() {
       {/* 8. Google Reviews (auto-hides when reviewCount is 0) */}
       <AboutGoogleReviewsSection
         title="Rated on Google"
-        reviews={aboutContent.googleReviews}
+        reviews={{
+          ...aboutContent.googleReviews,
+          rating: googleRating.rating,
+          reviewCount: googleRating.reviewCount,
+        }}
         background="surface"
       />
 

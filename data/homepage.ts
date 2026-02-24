@@ -188,75 +188,38 @@ export const processSection: ProcessSection = {
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "PixelVerse didn't just build us a website—they built us a system. We can update content ourselves, add new service pages, and track what's actually driving calls. Best investment we've made in our marketing.",
-    name: 'Michael Chen',
+      "I had zero website experience going in and expected to feel lost the whole time. They walked me through every decision without making me feel like I was asking dumb questions. I actually love what we ended up with.",
+    name: 'Jennifer',
+    role: 'Owner & Photographer',
+    company: 'Iffers Pictures',
+  },
+  {
+    quote:
+      "I really just wanted a simple landing page to start. They showed me what a full site with service pages and SEO could do and I had no idea how much I was missing. We went bigger and it was worth it. The phone actually rings now.",
+    name: 'Kyle',
     role: 'Owner',
-    company: '360 Degree Care',
-    location: 'Teaneck, NJ',
+    company: 'Jones Pressure Washing NJ',
   },
   {
     quote:
-      "Our old site looked modern but converted terribly. PixelVerse rebuilt it from scratch with actual strategy behind every section. Now we're ranking for local searches and booking 2-3 jobs a week from the website alone.",
-    name: 'David Jones',
-    role: 'Founder',
-    company: 'Jones Pressure Washing',
-    location: 'Bergen County, NJ',
+      "We had people coming to the site but almost nobody was booking. They figured out what was turning people away and fixed it. Within a few months our bookings more than doubled.",
+    name: 'Alli',
+    role: 'Owner',
+    company: 'Going Gold Choreography',
   },
   {
     quote:
-      "The difference between PixelVerse and other agencies? They actually explain what they're doing and why. No jargon, no upselling—just smart recommendations and execution that works.",
-    name: 'Lisa Domani',
-    role: 'CEO',
-    company: 'Domani Consulting',
-    location: 'Fort Lee, NJ',
+      "Honestly more organized than anything I've worked with before. Clear timelines, quick responses, and they'd flag things before I even had to ask. At some point it just stopped feeling like a typical vendor thing.",
+    name: 'Chris',
+    role: 'Owner & Asset Manager',
+    company: 'Gladstone Wealth Partners',
   },
   {
     quote:
-      'Placeholder testimonial — real client feedback coming soon. This will highlight how PixelVerse helped transform their online presence and drive measurable business results.',
-    name: 'Client Name',
-    role: 'Role',
-    company: 'Company Name',
-    location: 'Location, NJ',
-  },
-  {
-    quote:
-      'Placeholder testimonial — real client feedback coming soon. This will showcase the strategic approach and attention to detail that sets PixelVerse apart from template-based agencies.',
-    name: 'Client Name',
-    role: 'Role',
-    company: 'Company Name',
-    location: 'Location, NJ',
-  },
-  {
-    quote:
-      'Placeholder testimonial — real client feedback coming soon. This will demonstrate the long-term partnership value and ongoing support that clients receive after launch.',
-    name: 'Client Name',
-    role: 'Role',
-    company: 'Company Name',
-    location: 'Location, NJ',
-  },
-  {
-    quote:
-      'Placeholder testimonial — real client feedback coming soon. This will feature how PixelVerse identified and solved specific business challenges through smart web design.',
-    name: 'Client Name',
-    role: 'Role',
-    company: 'Company Name',
-    location: 'Location, NJ',
-  },
-  {
-    quote:
-      'Placeholder testimonial — real client feedback coming soon. This will highlight the collaborative process and how the team made the entire experience seamless and stress-free.',
-    name: 'Client Name',
-    role: 'Role',
-    company: 'Company Name',
-    location: 'Location, NJ',
-  },
-  {
-    quote:
-      'Placeholder testimonial — real client feedback coming soon. This will focus on the ROI and tangible business growth that resulted from the website redesign.',
-    name: 'Client Name',
-    role: 'Role',
-    company: 'Company Name',
-    location: 'Location, NJ',
+      "We were brand new and needed people to take us seriously from day one. They got that right away and built something professional and welcoming from the start. For a new non-profit that kind of credibility matters more than people realize.",
+    name: 'Sara',
+    role: 'Owner',
+    company: 'Rising Tide Aquatics',
   },
 ];
 

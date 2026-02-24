@@ -69,6 +69,11 @@
 - Updated "What are you interested in?" on the contact form to support multi-select: Web Design and SEO can each be selected independently, selecting both auto-highlights the "Both" pill, and "Not sure yet" clears all other selections
 - Fixed a subtle navigation bar jitter when opening the budget dropdown on the contact form
 - Locked the footer to the Split Panel layout (map + contact details on the left, brand/nav/social on the right) — removed the layout switcher widget
+- Replaced all 9 homepage testimonials (3 real + 6 placeholders) with 5 real client quotes from Jennifer (Iffers Pictures), Kyle (Jones Pressure Washing NJ), Alli (Going Gold Choreography), Chris (Gladstone Wealth Partners), and Sara (Rising Tide Aquatics)
+- Replaced the 3 placeholder testimonials on the About page with real quotes from Chris, Sara, and Kyle
+- Made the numbered watermark on About page approach cards more prominent on hover — number now clearly visible with a purple glow effect when hovering a card
+- Added Domani productivity app to the homepage portfolio showcase — now featured alongside Jones Pressure Washing and 360 Degree Care
+- Updated Domani case study with real production data: 76 early-access users across iOS and Android, and concrete details about the plan lock and streak tracker features driving consistent usage
 
 ## Notes for internal team
 
@@ -78,7 +83,7 @@
 - Bug fixes: NotesField and StatusSelector in prospect drawer now reset state when switching between prospects; formatDate moved to module scope in prospects-table; services CTA ternary simplified; company_name payload key fixed in contact-details-form
 - CSP fix: added https://pvs-server-62hx7.ondigitalocean.app to connect-src in next.config.js so fetch calls to the backend are no longer blocked
 - DEV-81 completed: removed dead Next.js audit route (app/api/audit/route.ts deleted) — now that pvs-server /api/audit is live, the Next.js fallback is no longer needed
-- DEV-68 completed: about page Google Reviews section wired to live Places API; fixed stale Place ID (ChIJP9TTk → ChIJ0yATFP2) that was causing 404 — both homepage badge and about page now return real data
+- DEV-68 completed: about page Google Reviews section wired to live Places API; fixed stale Place ID (ChIJP9TTk → ChIJP9TTk-nyGIgRJLhBiKpq0Nw) that was causing 404 — both homepage badge and about page now return real data
 - Files: lib/api/google-places.ts, app/about/page.tsx
 
 - PVS-386, PVS-387, PVS-388 completed (epic PVS-385)
@@ -119,6 +124,12 @@
 - Fixed stale state bugs in prospect-detail-drawer.tsx: NotesField textarea now syncs to new prospect when drawer switches (clears in-flight debounce + resets notes/saveError via useEffect on initialNotes/prospectId); StatusSelector saved checkmark and error flag now reset immediately when prospect changes (useEffect on current/prospectId)
 - Files: components/dashboard/prospects/prospect-detail-drawer.tsx
 
+- DEV-69 completed: replaced testimonials array in data/homepage.ts with 5 real client entries; removed all placeholder entries
+- DEV-71 completed: replaced 3 placeholder testimonials in data/about.ts with real quotes from Chris (Gladstone Wealth Partners), Sara (Rising Tide Aquatics), Kyle (Jones Pressure Washing NJ)
+- DEV-73 completed: Domani case study updated — outcome metric set to "76 early-access users across iOS and Android", service type corrected to mobile-app, featured flag set to true so it appears on the homepage showcase; CaseStudyService type extended to include mobile-app
+- Hover effect update in components/about/bullet-variants.tsx: CardsVariant number opacity raised to 0.65 on hover (was 0.08) with drop-shadow glow via group-hover Tailwind arbitrary value
+- Files: data/homepage.ts, data/about.ts, data/case-studies.ts, components/about/bullet-variants.tsx
+
 ## Changed URLs
 
 - https://www.pixelversestudios.io/contact
@@ -137,7 +148,6 @@
 - https://www.pixelversestudios.io/portfolio/jones-pressure-washing
 - https://www.pixelversestudios.io/portfolio/360-degree-care
 - https://www.pixelversestudios.io/portfolio/domani
-- https://www.pixelversestudios.io/contact
 - https://www.pixelversestudios.io/audit
 - https://www.pixelversestudios.io/contact/bergen-county
 - https://www.pixelversestudios.io/contact/fort-lee
