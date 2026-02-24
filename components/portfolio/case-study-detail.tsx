@@ -546,11 +546,8 @@ export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
         </Container>
       </section>
 
-      {/* ── Layout picker (dev + staging only) ───────────────── */}
-      {(process.env.NODE_ENV === 'development' ||
-        process.env.NEXT_PUBLIC_APP_ENV === 'staging') && (
-        <LayoutPicker active={layout} onSelect={setLayout} />
-      )}
+      {/* ── Layout picker ─────────────────────────────────────── */}
+      <LayoutPicker active={layout} onSelect={setLayout} />
     </main>
   );
 }
