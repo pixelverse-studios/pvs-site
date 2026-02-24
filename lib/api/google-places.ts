@@ -1,4 +1,4 @@
-const PLACE_ID = 'ChIJP9TTk-nyGIgRJLhBiKpq0Nw';
+const PLACE_ID = 'ChIJ0yATFP2_hAURJJ-CH55gpKE';
 const FALLBACK_BADGE = '⭐ 5.0 on Google • 5-Star Rated';
 
 interface PlacesResponse {
