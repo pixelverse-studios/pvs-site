@@ -355,7 +355,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                           'dark:hover:bg-white/8 dark:hover:text-white dark:hover:shadow-[0_8px_24px_-8px_rgba(120,70,255,0.4)]',
                           'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-all after:duration-250 group-hover:after:border-[rgba(63,0,233,0.2)] dark:group-hover:after:border-[rgba(159,166,221,0.25)]',
                           isActive &&
-                            'bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)] after:scale-100 after:border-transparent hover:translate-y-0 hover:text-white hover:shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)]',
+                            'bg-[var(--pv-primary)] text-white shadow-[0_12px_28px_-10px_rgba(63,0,233,0.45)] after:scale-100 after:border-transparent hover:translate-y-0 hover:text-white hover:shadow-[0_12px_28px_-10px_rgba(63,0,233,0.45)]',
                         )}
                       >
                         {item.label}
@@ -428,7 +428,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                       'dark:hover:bg-white/8 dark:hover:text-white dark:hover:shadow-[0_8px_24px_-8px_rgba(120,70,255,0.4)]',
                       'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-all after:duration-250 hover:after:border-[rgba(63,0,233,0.2)] dark:hover:after:border-[rgba(159,166,221,0.25)]',
                       isActive &&
-                        'bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)] after:scale-100 after:border-transparent hover:translate-y-0 hover:text-white hover:shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)]',
+                        'bg-[var(--pv-primary)] text-white shadow-[0_12px_28px_-10px_rgba(63,0,233,0.45)] after:scale-100 after:border-transparent hover:translate-y-0 hover:text-white hover:shadow-[0_12px_28px_-10px_rgba(63,0,233,0.45)]',
                     )}
                   >
                     {item.label}
