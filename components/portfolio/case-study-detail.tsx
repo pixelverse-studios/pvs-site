@@ -142,16 +142,15 @@ function StudyImage({
   return (
     <div className={className}>
       <div className="overflow-hidden rounded-2xl border border-[var(--pv-border)] shadow-sm">
-        <div className="relative aspect-[16/10] w-full bg-[var(--pv-surface)]">
-          <Image
-            src={study.img}
-            alt={`${study.name} website screenshot`}
-            fill
-            priority
-            sizes={sizes}
-            className="object-cover object-top"
-          />
-        </div>
+        <Image
+          src={study.img}
+          alt={`${study.name} website screenshot`}
+          width={0}
+          height={0}
+          sizes={sizes}
+          priority
+          style={{ width: '100%', height: 'auto', display: 'block' }}
+        />
       </div>
       <a
         href={study.url}
