@@ -133,17 +133,6 @@ const CampaignTracker = dynamic(
   },
 );
 
-const MixpanelProvider = dynamic(
-  () =>
-    import('@/components/mixpanel-provider').then((module) => ({
-      default: module.MixpanelProvider,
-    })),
-  {
-    ssr: false,
-    loading: () => null,
-  },
-);
-
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -157,7 +146,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ThemeProvider disableTransitionOnChange>
           <Suspense fallback={null}>
             <CampaignTracker />
-            <MixpanelProvider />
           </Suspense>
           <LayoutWrapper navItems={navItems}>
             {children}
