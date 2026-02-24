@@ -19,54 +19,71 @@ const nextConfig = {
     ],
   },
   async headers() {
+    const isDev = process.env.NODE_ENV === 'development';
+    const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    if (!isDev && !apiUrl) {
+      console.warn(
+        '[CSP] WARNING: NEXT_PUBLIC_API_BASE_URL is not set — backend API calls will be blocked by CSP in production',
+      );
+    }
+
+    const csp = {
+      'default-src': ["'self'"],
+      'script-src': [
+        "'self'",
+        "'unsafe-eval'",
+        "'unsafe-inline'",
+        'https://cdn.jsdelivr.net',
+        'https://www.googletagmanager.com',
+        'https://js.sentry-cdn.com',
+        'https://assets.calendly.com',
+        'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com',
+      ],
+      'style-src': ["'self'", "'unsafe-inline'", 'https://assets.calendly.com'],
+      'img-src': ["'self'", 'data:', 'https:', 'blob:'],
+      'font-src': ["'self'", 'data:'],
+      'connect-src': [
+        "'self'",
+        'https://www.google-analytics.com',
+        'https://*.sentry.io',
+        'https://*.supabase.co',
+        'https://*.calendly.com',
+        'https://maps.googleapis.com',
+        'https://maps.gstatic.com',
+        apiUrl,
+        isDev && 'http://localhost:5001',
+      ].filter(Boolean),
+      // Note: *.calendly.com does NOT cover the apex domain per CSP spec — both are required
+      'frame-src': ["'self'", 'https://calendly.com', 'https://*.calendly.com', 'https://www.google.com/maps'],
+      'object-src': ["'none'"],
+      'base-uri': ["'self'"],
+      'form-action': ["'self'"],
+      'frame-ancestors': ["'self'"],
+      'upgrade-insecure-requests': [], // empty array → bare directive, no sources
+    };
+
+    const cspHeader = Object.entries(csp)
+      .map(([directive, sources]) =>
+        sources.length ? `${directive} ${sources.join(' ')}` : directive,
+      )
+      .join('; ');
+
     return [
       {
         source: '/:path*',
         headers: [
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on',
-          },
+          { key: 'X-DNS-Prefetch-Control', value: 'on' },
           {
             key: 'Strict-Transport-Security',
             value: 'max-age=63072000; includeSubDomains; preload',
           },
-          {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()',
-          },
-          {
-            key: 'Content-Security-Policy',
-            value:
-              "default-src 'self'; " +
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://js.sentry-cdn.com https://assets.calendly.com; " +
-              "style-src 'self' 'unsafe-inline' https://assets.calendly.com; " +
-              "img-src 'self' data: https: blob:; " +
-              "font-src 'self' data:; " +
-              `connect-src 'self' https://www.google-analytics.com https://*.sentry.io https://*.supabase.co https://calendly.com https://*.calendly.com https://maps.googleapis.com https://maps.gstatic.com${process.env.NODE_ENV === 'development' ? ' http://localhost:5001' : ''}; ` +
-              "frame-src 'self' https://calendly.com https://www.google.com/maps; " +
-              "object-src 'none'; " +
-              "base-uri 'self'; " +
-              "form-action 'self'; " +
-              "frame-ancestors 'self'; " +
-              "upgrade-insecure-requests;",
-          },
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'X-XSS-Protection', value: '1; mode=block' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+          { key: 'Content-Security-Policy', value: cspHeader },
         ],
       },
     ];
