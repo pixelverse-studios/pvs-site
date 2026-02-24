@@ -82,7 +82,7 @@ function CardsVariant({ bulletPoints, background }: BulletVariantsProps) {
               {/* Oversized watermark number */}
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute -right-2 -top-4 select-none font-heading text-[7rem] font-bold leading-none opacity-[0.04] transition-opacity duration-300 group-hover:opacity-[0.08]"
+                className="pointer-events-none absolute -right-2 -top-4 select-none font-heading text-[7rem] font-bold leading-none opacity-[0.07] transition-all duration-300 group-hover:scale-105 group-hover:opacity-[0.65] group-hover:[filter:drop-shadow(0_0_24px_rgba(201,71,255,0.5))]"
                 style={{
                   background: 'var(--pv-gradient)',
                   WebkitBackgroundClip: 'text',
