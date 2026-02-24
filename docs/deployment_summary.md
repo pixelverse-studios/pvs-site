@@ -156,3 +156,22 @@
 - https://www.pixelversestudios.io/contact/ridgewood
 - https://www.pixelversestudios.io/
 - https://www.pixelversestudios.io/about
+- Removed the 10 city-specific service pages (e.g. /services/fort-lee) and the Bergen County service page — these now redirect permanently to /services
+
+## Notes for internal team
+
+- DEV-112 redirect follow-up: added legacyServiceCitySlugs array + serviceCitySlugRedirects spread to next.config.js redirects(); also added explicit /services/bergen-county → /services redirect; covers all 10 city slugs (fort-lee, englewood, hackensack, paramus, ridgewood, teaneck, fair-lawn, bergenfield, cliffside-park, river-vale) deleted on this branch
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/services/fort-lee
+- https://www.pixelversestudios.io/services/englewood
+- https://www.pixelversestudios.io/services/hackensack
+- https://www.pixelversestudios.io/services/paramus
+- https://www.pixelversestudios.io/services/ridgewood
+- https://www.pixelversestudios.io/services/teaneck
+- https://www.pixelversestudios.io/services/fair-lawn
+- https://www.pixelversestudios.io/services/bergenfield
+- https://www.pixelversestudios.io/services/cliffside-park
+- https://www.pixelversestudios.io/services/river-vale
+- https://www.pixelversestudios.io/services/bergen-county

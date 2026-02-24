@@ -108,6 +108,24 @@ const nextConfig = {
       destination: '/contact',
       permanent: true,
     }));
+    const legacyServiceCitySlugs = [
+      'fort-lee',
+      'englewood',
+      'hackensack',
+      'paramus',
+      'ridgewood',
+      'teaneck',
+      'fair-lawn',
+      'bergenfield',
+      'cliffside-park',
+      'river-vale',
+    ];
+
+    const serviceCitySlugRedirects = legacyServiceCitySlugs.map((slug) => ({
+      source: `/services/${slug}`,
+      destination: '/services',
+      permanent: true,
+    }));
 
     return [
       {
@@ -135,6 +153,12 @@ const nextConfig = {
         destination: '/services',
         permanent: true,
       },
+      {
+        source: '/services/bergen-county',
+        destination: '/services',
+        permanent: true,
+      },
+      ...serviceCitySlugRedirects,
       {
         source: '/audit',
         destination: '/contact',
