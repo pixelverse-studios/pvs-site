@@ -3,6 +3,7 @@
 import Script from 'next/script';
 import { usePathname } from 'next/navigation';
 
+import { useNonce } from '@/components/nonce-provider';
 import { isTrackingExcludedRoute } from '@/lib/tracking-config';
 
 interface SiteBehaviourScriptProps {
@@ -15,6 +16,7 @@ interface SiteBehaviourScriptProps {
  */
 export function SiteBehaviourScript({ bootstrapScript }: SiteBehaviourScriptProps) {
   const pathname = usePathname();
+  const nonce = useNonce();
 
   if (isTrackingExcludedRoute(pathname)) {
     return null;
@@ -24,6 +26,7 @@ export function SiteBehaviourScript({ bootstrapScript }: SiteBehaviourScriptProp
     <Script
       id="sitebehaviour-tracking"
       strategy="afterInteractive"
+      nonce={nonce}
       dangerouslySetInnerHTML={{ __html: bootstrapScript }}
     />
   );

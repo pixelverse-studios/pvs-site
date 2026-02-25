@@ -112,6 +112,7 @@
 - DEV-69 completed: data/homepage.ts testimonials array replaced
 
 - Upgraded the website framework from Next.js 14 to Next.js 15 to patch two security vulnerabilities (HTTP Request Deserialization DoS and Image Optimizer DoS)
+- Hardened the website Content Security Policy to block unsafe inline script and style execution (removes 'unsafe-inline' from script-src and style-src, replacing it with per-request cryptographic nonces)
 
 ## Notes for internal team
 
@@ -122,6 +123,13 @@
 - Updated async params pattern on 6 pages: app/blog/[slug]/page.tsx, app/portfolio/[slug]/page.tsx, app/services/seo/[city]/page.tsx, app/services/web-development/[city]/page.tsx, app/dashboard/clients/[id]/websites/[websiteId]/page.tsx, app/dashboard/clients/[id]/websites/[websiteId]/seo-focus/page.tsx, app/dashboard/deployments/[id]/page.tsx
 - Created components/campaign-tracker-client.tsx client wrapper to comply with Next.js 15's stricter ssr:false enforcement in Server Components
 - Also deleted legacy app/services/[city]/page.tsx and app/services/bergen-county/page.tsx on this branch (these were already decided for removal; redirects already in next.config.js)
+
+- DEV-111 completed: nonce-based CSP implemented; 'unsafe-inline' removed from both script-src and style-src
+- Moved CSP header generation from next.config.js static headers to middleware.ts (required for per-request nonces)
+- Middleware now runs on all routes (was /dashboard/:path* only) — Supabase auth check still gated to protected paths only
+- Added components/nonce-provider.tsx (NonceProvider + useNonce hook) so client components get the nonce via React context
+- Updated components/ui/structured-data.tsx and components/sitebehaviour-script.tsx to call useNonce()
+- app/layout.tsx made async to read x-nonce from next/headers; wraps tree in NonceProvider
 
 ## Changed URLs
 

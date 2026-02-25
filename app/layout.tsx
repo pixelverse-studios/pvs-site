@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
+import { headers } from 'next/headers';
 import { Suspense } from 'react';
 import type { ReactNode } from 'react';
 
 import './globals.css';
 import { CampaignTrackerClient } from '@/components/campaign-tracker-client';
 import { LayoutWrapper } from '@/components/layout-wrapper';
+import { NonceProvider } from '@/components/nonce-provider';
 import { SiteBehaviourScript } from '@/components/sitebehaviour-script';
 import { ThemeProvider } from '@/components/theme-provider';
 import { DarkThemePicker } from '@/components/ui/dark-theme-picker';
@@ -122,25 +124,29 @@ const navItems = [
   { label: 'FAQ', href: '/faq' },
 ];
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const nonce = (await headers()).get('x-nonce') ?? undefined;
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${headingFont.variable} ${bodyFont.variable} min-h-screen bg-[var(--pv-bg)] font-body text-[var(--pv-text)] antialiased transition-colors duration-300`}
       >
-        {enableSiteBehaviourTracking && siteBehaviourBootstrap ? (
-          <SiteBehaviourScript bootstrapScript={siteBehaviourBootstrap} />
-        ) : null}
-        <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
-        <ThemeProvider disableTransitionOnChange>
-          <Suspense fallback={null}>
-            <CampaignTrackerClient />
-          </Suspense>
-          <LayoutWrapper navItems={navItems}>
-            {children}
-          </LayoutWrapper>
-          <DarkThemePicker />
-        </ThemeProvider>
+        <NonceProvider nonce={nonce}>
+          {enableSiteBehaviourTracking && siteBehaviourBootstrap ? (
+            <SiteBehaviourScript bootstrapScript={siteBehaviourBootstrap} />
+          ) : null}
+          <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
+          <ThemeProvider disableTransitionOnChange>
+            <Suspense fallback={null}>
+              <CampaignTrackerClient />
+            </Suspense>
+            <LayoutWrapper navItems={navItems}>
+              {children}
+            </LayoutWrapper>
+            <DarkThemePicker />
+          </ThemeProvider>
+        </NonceProvider>
       </body>
     </html>
   );
