@@ -21,7 +21,7 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon"
       type="button"
-      aria-label={`Switch to ${isDark ? 'light' : 'dark'} theme`}
+      aria-label={mounted ? `Switch to ${isDark ? 'light' : 'dark'} theme` : 'Toggle theme'}
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       className="dark:bg-[var(--pv-surface)]/90 border border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)] transition-transform duration-300 hover:-translate-y-0.5 hover:border-[var(--pv-primary)] hover:text-[var(--pv-primary)]"
     >
