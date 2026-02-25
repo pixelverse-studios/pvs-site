@@ -113,6 +113,7 @@
 
 - Upgraded the website framework from Next.js 14 to Next.js 15 to patch two security vulnerabilities (HTTP Request Deserialization DoS and Image Optimizer DoS)
 - Hardened the website Content Security Policy to block unsafe inline script and style execution (removes 'unsafe-inline' from script-src and style-src, replacing it with per-request cryptographic nonces)
+- Patched three security vulnerabilities in build tooling dependencies (glob command injection, minimatch ReDoS x2)
 
 ## Notes for internal team
 
@@ -124,6 +125,7 @@
 - Created components/campaign-tracker-client.tsx client wrapper to comply with Next.js 15's stricter ssr:false enforcement in Server Components
 - Also deleted legacy app/services/[city]/page.tsx and app/services/bergen-county/page.tsx on this branch (these were already decided for removal; redirects already in next.config.js)
 
+- DEV-131 completed: npm audit fix resolved glob (GHSA-5j98-mcp5-4vw2, high) and minimatch (GHSA-3ppc-4f35-3m26, high x2) vulnerabilities; 0 vulnerabilities remaining
 - DEV-111 completed: nonce-based CSP implemented; 'unsafe-inline' removed from both script-src and style-src
 - Moved CSP header generation from next.config.js static headers to middleware.ts (required for per-request nonces)
 - Middleware now runs on all routes (was /dashboard/:path* only) — Supabase auth check still gated to protected paths only
