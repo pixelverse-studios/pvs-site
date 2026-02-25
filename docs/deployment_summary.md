@@ -205,3 +205,18 @@
 - https://www.pixelversestudios.io/services/web-development/englewood
 - https://www.pixelversestudios.io/services/seo/fort-lee
 - https://www.pixelversestudios.io/services/seo/englewood
+
+## Latest deploy summary
+
+- Updated homepage FAQ section with 8 questions optimized for both search visibility and conversion — adds pricing, timeline, redesign vs. rebuild, and process FAQs that prospects actively search for
+
+## Notes for internal team
+
+- DEV-335 completed: data/homepage-faq.ts updated — 6 FAQs → 8
+- Removed: "What does PixelVerse actually do?" and "What's the difference between your two services?" (no search value)
+- Added: redesign vs scratch, cost in NJ ($3,500–$12,000 range), build timeline (8–12 weeks), what happens after contact
+- FAQPage JSON-LD on app/page.tsx auto-regenerates from homepageFaq array — schema updated automatically
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/
