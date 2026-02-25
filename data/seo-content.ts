@@ -1,5 +1,5 @@
 import type { CTA } from './service-paths';
-import type { FaqItem } from '@/data/faq-content';
+import type { FaqItem } from '@/data/faq-types';
 
 export interface SeoContentData {
   hero: {

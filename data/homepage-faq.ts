@@ -1,4 +1,4 @@
-import type { FaqItem } from '@/data/faq-content';
+import type { FaqItem } from '@/data/faq-types';
 
 export const homepageFaq: FaqItem[] = [
   {

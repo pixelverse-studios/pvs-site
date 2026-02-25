@@ -251,3 +251,19 @@
 ## Changed URLs
 
 - https://www.pixelversestudios.io/services/seo
+
+## Latest deploy summary
+
+- FAQ page now shows the same questions as the homepage and service pages, keeping everything in sync automatically
+
+## Notes for internal team
+
+- DEV-336 completed: /faq page now aggregates from homepageFaq, webDevelopmentContent.faq, seoContent.faq
+- data/faq-content.ts deleted — 17 standalone questions removed
+- FaqItem interface moved to data/faq-types.ts; imports updated across homepage-faq.ts, seo-content.ts, web-development-content.ts
+- FaqListSection now accepts sections prop instead of importing data directly; link rendering added to match other FAQ components
+- FAQPage schema on /faq flattens all items from all 3 sections
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/faq
