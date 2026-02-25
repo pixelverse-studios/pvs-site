@@ -1,5 +1,8 @@
 'use client';
 
+import Link from 'next/link';
+import { MoveRight } from 'lucide-react';
+
 import { Container } from '@/components/ui/container';
 import { SectionHeader } from '@/components/ui/section-header';
 import {
@@ -14,6 +17,7 @@ import { StructuredData } from '@/components/ui/structured-data';
 export interface FAQItem {
   question: string;
   answer: string;
+  link?: { label: string; href: string };
 }
 
 export interface ServiceFAQProps {
@@ -73,7 +77,18 @@ export function ServiceFAQ({
                   <MotionItem key={faq.question} delay={index * 0.04} triggerOnViewport={false}>
                     <AccordionItem value={`faq-${index + 1}`}>
                       <AccordionTrigger>{faq.question}</AccordionTrigger>
-                      <AccordionContent>{faq.answer}</AccordionContent>
+                      <AccordionContent>
+                        <p>{faq.answer}</p>
+                        {faq.link && (
+                          <Link
+                            href={faq.link.href}
+                            className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--pv-primary)] hover:underline"
+                          >
+                            {faq.link.label}
+                            <MoveRight className="h-3.5 w-3.5" />
+                          </Link>
+                        )}
+                      </AccordionContent>
                     </AccordionItem>
                   </MotionItem>
                 ))}

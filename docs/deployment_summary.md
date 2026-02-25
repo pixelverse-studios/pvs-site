@@ -220,3 +220,19 @@
 ## Changed URLs
 
 - https://www.pixelversestudios.io/
+
+## Latest deploy summary
+
+- Updated Web Design & Development service page FAQs with pricing and timeline questions that prospects actively search for
+
+## Notes for internal team
+
+- DEV-337 completed: data/web-development-content.ts faq array updated — 5 FAQs → 6
+- Removed "What do you need from us to get started?" (no search value, covered by homepage process FAQ)
+- Added "How much does a custom website cost?" ($3,500–$12,000 range) and "How long does it take to build a website?" (8–12 weeks with phase breakdown)
+- Pricing/timeline answers consistent with homepage FAQ
+- ServiceFAQ component auto-regenerates FAQPage schema
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/services/web-development

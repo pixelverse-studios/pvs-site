@@ -14,7 +14,8 @@ export const homepageFaq: FaqItem[] = [
   {
     question: 'How much does a custom website typically cost in New Jersey?',
     answer:
-      'Most custom website projects for small-to-mid-size businesses in New Jersey range from $3,500 to $12,000, depending on scope, complexity, and how much content work is involved. We don\u2019t offer pre-packaged pricing \u2014 we scope based on what your business actually needs, so you\u2019re not paying for things that won\u2019t move the needle.',
+      'Most custom website projects for small-to-mid-size businesses in New Jersey fall in the $3,000\u2013$10,000+ range. Scope, number of pages, integrations, and content work all affect the final number. We don\u2019t price from a menu \u2014 we scope each project based on what your business actually needs.',
+    link: { label: 'Share your project details', href: '/contact?path=details' },
   },
   {
     question: 'How long does it take to build a custom website?',

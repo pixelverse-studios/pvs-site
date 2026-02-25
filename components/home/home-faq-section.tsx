@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, MoveRight } from 'lucide-react';
 
 import {
   Accordion,
@@ -40,7 +40,18 @@ export function HomeFaqSection() {
                 {homepageFaq.map((faq, index) => (
                   <AccordionItem key={faq.question} value={`home-faq-${index}`}>
                     <AccordionTrigger>{faq.question}</AccordionTrigger>
-                    <AccordionContent>{faq.answer}</AccordionContent>
+                    <AccordionContent>
+                      <p>{faq.answer}</p>
+                      {faq.link && (
+                        <Link
+                          href={faq.link.href}
+                          className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--pv-primary)] hover:underline"
+                        >
+                          {faq.link.label}
+                          <MoveRight className="h-3.5 w-3.5" />
+                        </Link>
+                      )}
+                    </AccordionContent>
                   </AccordionItem>
                 ))}
               </Accordion>
