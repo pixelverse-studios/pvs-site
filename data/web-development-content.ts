@@ -1,5 +1,5 @@
 import type { CTA } from './service-paths';
-import type { FaqItem } from '@/data/faq-content';
+import type { FaqItem } from '@/data/faq-types';
 
 export interface WebDevContentData {
   hero: {
@@ -113,14 +113,25 @@ export const webDevelopmentContent: WebDevContentData = {
   },
   faq: [
     {
+      question: 'How much does a custom website cost?',
+      answer:
+        'Most custom website projects for small-to-mid-size businesses fall in the $3,000\u2013$10,000+ range, depending on scope, number of pages, integrations, and content work involved. We scope every project individually \u2014 you\u2019re not paying for a package built around someone else\u2019s needs.',
+      link: { label: 'Share your project details', href: '/contact?path=details' },
+    },
+    {
+      question: 'How long does it take to build a website?',
+      answer:
+        'Most builds run 8\u201312 weeks from kickoff to launch. Discovery and planning take 1\u20132 weeks, design takes 2\u20133 weeks, development runs 4\u20136 weeks, and the final week covers QA and launch. Timeline depends on project complexity and how quickly feedback comes back \u2014 we\u2019ll give you a realistic schedule before anything starts.',
+    },
+    {
       question: "What's actually included in a website build?",
       answer:
-        'Planning and site structure, design direction, full development, review milestones, and thorough testing before launch. The scope varies by project, but the process is always structured and transparent — you’ll know what’s included before anything moves forward.',
+        "Planning and site structure, design direction, full development, review milestones, and thorough testing before launch. The scope varies by project, but the process is always structured and transparent \u2014 you\u2019ll know what\u2019s included before anything moves forward.",
     },
     {
       question: 'Do you handle copy and content writing?',
       answer:
-        'Content direction is part of our planning phase — we help structure what needs to be communicated and where. Full copywriting can be scoped in depending on the project, or we can work with content you provide.',
+        'Content direction is part of our planning phase \u2014 we help structure what needs to be communicated and where. Full copywriting can be scoped in depending on the project, or we can work with content you provide.',
     },
     {
       question: 'Can you rebuild just part of a site instead of the whole thing?',
@@ -128,14 +139,9 @@ export const webDevelopmentContent: WebDevContentData = {
         'Yes, when the foundation is sound. If specific sections are outdated, unclear, or underperforming, targeted improvements are often more practical than a full rebuild. We assess this during the initial evaluation.',
     },
     {
-      question: 'What do you need from us to get started?',
-      answer:
-        'Mostly your time and context. We need to understand how your business operates, what the site needs to support, and any constraints around timeline or technology. The planning phase is collaborative — we guide the process, but you know your business best.',
-    },
-    {
       question: 'Will the site be easy to update ourselves after launch?',
       answer:
-        "That’s part of how we plan the build. We design for maintainability from the start, and provide documentation and training at handoff so you’re not dependent on us for routine updates.",
+        "That\u2019s part of how we plan the build. We design for maintainability from the start, and provide documentation and training at handoff so you\u2019re not dependent on us for routine updates.",
     },
   ],
   finalCta: {

@@ -205,3 +205,65 @@
 - https://www.pixelversestudios.io/services/web-development/englewood
 - https://www.pixelversestudios.io/services/seo/fort-lee
 - https://www.pixelversestudios.io/services/seo/englewood
+
+## Latest deploy summary
+
+- Updated homepage FAQ section with 8 questions optimized for both search visibility and conversion — adds pricing, timeline, redesign vs. rebuild, and process FAQs that prospects actively search for
+
+## Notes for internal team
+
+- DEV-335 completed: data/homepage-faq.ts updated — 6 FAQs → 8
+- Removed: "What does PixelVerse actually do?" and "What's the difference between your two services?" (no search value)
+- Added: redesign vs scratch, cost in NJ ($3,500–$12,000 range), build timeline (8–12 weeks), what happens after contact
+- FAQPage JSON-LD on app/page.tsx auto-regenerates from homepageFaq array — schema updated automatically
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/
+
+## Latest deploy summary
+
+- Updated Web Design & Development service page FAQs with pricing and timeline questions that prospects actively search for
+
+## Notes for internal team
+
+- DEV-337 completed: data/web-development-content.ts faq array updated — 5 FAQs → 6
+- Removed "What do you need from us to get started?" (no search value, covered by homepage process FAQ)
+- Added "How much does a custom website cost?" ($3,500–$12,000 range) and "How long does it take to build a website?" (8–12 weeks with phase breakdown)
+- Pricing/timeline answers consistent with homepage FAQ
+- ServiceFAQ component auto-regenerates FAQPage schema
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/services/web-development
+
+## Latest deploy summary
+
+- Updated SEO service page FAQs with pricing and timeline questions prospects search for most
+
+## Notes for internal team
+
+- DEV-338 completed: data/seo-content.ts faq array updated — 5 FAQs → 8
+- Dropped "How do you measure whether the work is succeeding?" (weakest conversion value, covered by the evaluation section)
+- Added "How much does local SEO cost?" ($1,500–$5,000+ range) with contact link, "How long does SEO take to show results?" (3–6 months, honest framing), "Do you guarantee search rankings?" (trust-building no), and "How do I know if I need SEO or a new website?" (decision-stage question)
+- FAQPage schema auto-regenerates from ServiceFAQ component
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/services/seo
+
+## Latest deploy summary
+
+- FAQ page now shows the same questions as the homepage and service pages, keeping everything in sync automatically
+
+## Notes for internal team
+
+- DEV-336 completed: /faq page now aggregates from homepageFaq, webDevelopmentContent.faq, seoContent.faq
+- data/faq-content.ts deleted — 17 standalone questions removed
+- FaqItem interface moved to data/faq-types.ts; imports updated across homepage-faq.ts, seo-content.ts, web-development-content.ts
+- FaqListSection now accepts sections prop instead of importing data directly; link rendering added to match other FAQ components
+- FAQPage schema on /faq flattens all items from all 3 sections
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/faq
