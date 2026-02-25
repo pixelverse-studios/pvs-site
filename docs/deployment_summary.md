@@ -236,3 +236,18 @@
 ## Changed URLs
 
 - https://www.pixelversestudios.io/services/web-development
+
+## Latest deploy summary
+
+- Updated SEO service page FAQs with pricing and timeline questions prospects search for most
+
+## Notes for internal team
+
+- DEV-338 completed: data/seo-content.ts faq array updated — 5 FAQs → 8
+- Dropped "How do you measure whether the work is succeeding?" (weakest conversion value, covered by the evaluation section)
+- Added "How much does local SEO cost?" ($1,500–$5,000+ range) with contact link, "How long does SEO take to show results?" (3–6 months, honest framing), "Do you guarantee search rankings?" (trust-building no), and "How do I know if I need SEO or a new website?" (decision-stage question)
+- FAQPage schema auto-regenerates from ServiceFAQ component
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/services/seo
