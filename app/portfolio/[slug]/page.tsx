@@ -15,8 +15,9 @@ export function generateStaticParams() {
   return caseStudies.map((cs) => ({ slug: cs.slug }));
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
-  const study = caseStudies.find((cs) => cs.slug === params.slug);
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+  const { slug } = await params;
+  const study = caseStudies.find((cs) => cs.slug === slug);
 
   if (!study) {
     return {};
@@ -42,8 +43,9 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   });
 }
 
-export default function CaseStudyPage({ params }: { params: Params }) {
-  const study = caseStudies.find((cs) => cs.slug === params.slug);
+export default async function CaseStudyPage({ params }: { params: Promise<Params> }) {
+  const { slug } = await params;
+  const study = caseStudies.find((cs) => cs.slug === slug);
 
   if (!study) {
     notFound();

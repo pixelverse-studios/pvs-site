@@ -111,10 +111,17 @@
 - Made the numbered watermark on About page approach cards more prominent on hover — number now clearly visible with a purple glow effect when hovering a card
 - DEV-69 completed: data/homepage.ts testimonials array replaced
 
+- Upgraded the website framework from Next.js 14 to Next.js 15 to patch two security vulnerabilities (HTTP Request Deserialization DoS and Image Optimizer DoS)
+
 ## Notes for internal team
 
 - DEV-69 completed: replaced testimonials array in data/homepage.ts with 5 real client entries; removed all placeholder "Client Name" entries
 - Hover effect update in components/about/bullet-variants.tsx: CardsVariant number opacity raised to 0.65 on hover (was 0.08) with drop-shadow glow via group-hover Tailwind arbitrary value
+
+- DEV-112 completed: upgraded Next.js from 14.2.35 → 15.5.12 to remediate CVE-2025-56166 (CVSS 7.5) and CVE-2025-56165 (CVSS 5.9)
+- Updated async params pattern on 6 pages: app/blog/[slug]/page.tsx, app/portfolio/[slug]/page.tsx, app/services/seo/[city]/page.tsx, app/services/web-development/[city]/page.tsx, app/dashboard/clients/[id]/websites/[websiteId]/page.tsx, app/dashboard/clients/[id]/websites/[websiteId]/seo-focus/page.tsx, app/dashboard/deployments/[id]/page.tsx
+- Created components/campaign-tracker-client.tsx client wrapper to comply with Next.js 15's stricter ssr:false enforcement in Server Components
+- Also deleted legacy app/services/[city]/page.tsx and app/services/bergen-county/page.tsx on this branch (these were already decided for removal; redirects already in next.config.js)
 
 ## Changed URLs
 
@@ -149,3 +156,22 @@
 - https://www.pixelversestudios.io/contact/ridgewood
 - https://www.pixelversestudios.io/
 - https://www.pixelversestudios.io/about
+- Removed the 10 city-specific service pages (e.g. /services/fort-lee) and the Bergen County service page — these now redirect permanently to /services
+
+## Notes for internal team
+
+- DEV-112 redirect follow-up: added legacyServiceCitySlugs array + serviceCitySlugRedirects spread to next.config.js redirects(); also added explicit /services/bergen-county → /services redirect; covers all 10 city slugs (fort-lee, englewood, hackensack, paramus, ridgewood, teaneck, fair-lawn, bergenfield, cliffside-park, river-vale) deleted on this branch
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/services/fort-lee
+- https://www.pixelversestudios.io/services/englewood
+- https://www.pixelversestudios.io/services/hackensack
+- https://www.pixelversestudios.io/services/paramus
+- https://www.pixelversestudios.io/services/ridgewood
+- https://www.pixelversestudios.io/services/teaneck
+- https://www.pixelversestudios.io/services/fair-lawn
+- https://www.pixelversestudios.io/services/bergenfield
+- https://www.pixelversestudios.io/services/cliffside-park
+- https://www.pixelversestudios.io/services/river-vale
+- https://www.pixelversestudios.io/services/bergen-county

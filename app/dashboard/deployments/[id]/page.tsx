@@ -9,7 +9,8 @@ export const metadata = {
   description: 'View deployment details and indexing status',
 };
 
-export default async function DeploymentDetailPage({ params }: { params: { id: string } }) {
+export default async function DeploymentDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   // Check authentication
   const supabase = await createClient();
   const {
@@ -24,7 +25,7 @@ export default async function DeploymentDetailPage({ params }: { params: { id: s
   let deployment: DeploymentDetail;
 
   try {
-    deployment = await getDeployment(params.id);
+    deployment = await getDeployment(id);
   } catch (error) {
     console.error('Error fetching deployment:', error);
     notFound();
