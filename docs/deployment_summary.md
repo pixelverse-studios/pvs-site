@@ -185,3 +185,23 @@
 - https://www.pixelversestudios.io/services/cliffside-park
 - https://www.pixelversestudios.io/services/river-vale
 - https://www.pixelversestudios.io/services/bergen-county
+
+## Latest deploy summary
+
+- Removed old city-specific service pages and local service pages (e.g. /services/fort-lee, /services/web-development/englewood) — these are being replaced by the new service pages
+- Old city and local service URLs now redirect permanently to the main service pages
+- Removed dead URLs from the XML sitemap so search engines no longer crawl pages that don't exist
+
+## Notes for internal team
+
+- DEV-339 completed: deleted app/services/web-development/[city]/, app/services/seo/[city]/, components/services/city/, components/services/local/, data/services-city-pages.ts, data/local-service-pages.ts, data/bergen-county-page.ts
+- Added redirects to next.config.js: /services/web-development/:city → /services/web-development, /services/seo/:city → /services/seo
+- Removed additionalPaths from next-sitemap.config.js (was injecting dead city/contact URLs into sitemap)
+- TypeScript clean, no broken imports
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/services/web-development/fort-lee
+- https://www.pixelversestudios.io/services/web-development/englewood
+- https://www.pixelversestudios.io/services/seo/fort-lee
+- https://www.pixelversestudios.io/services/seo/englewood

@@ -231,20 +231,20 @@ These power FAQ pages, blog posts, and featured snippet opportunities:
 
 ### Monthly Tracking Table
 
-| Keyword                             | Dec 2025 | Jan 2026 | Feb 2026 | Mar 2026 | Notes                     |
-| ----------------------------------- | -------- | -------- | -------- | -------- | ------------------------- |
-| web design Fort Lee NJ              | ~10      | NR       | -        | -        | Target: Top 5             |
-| local SEO agency Englewood NJ       | ~12      | 10.6     | -        | -        | Target: Top 5 ✅ Progress |
-| local SEO agency Teaneck NJ         | N/A      | 11.4     | -        | -        | New ranking!              |
-| SEO agency Englewood NJ             | N/A      | 11.1     | -        | -        | New ranking!              |
-| SEO agency Teaneck NJ               | N/A      | 13.8     | -        | -        | New ranking!              |
-| SEO company Bergen County           | N/A      | 32.0     | -        | -        | 32 impressions, 0 clicks  |
-| web design Hackensack NJ            | N/A      | NR       | -        | -        | Target: Top 20            |
-| web design Paramus NJ               | N/A      | NR       | -        | -        | Target: Top 20            |
-| web design Ridgewood NJ             | N/A      | NR       | -        | -        | Target: Top 20            |
-| Bergen County web design agency     | N/A      | NR       | -        | -        |                           |
-| law firm website design Fort Lee NJ | N/A      | NR       | -        | -        | Quick win target          |
-| medical practice website design NJ  | N/A      | NR       | -        | -        | Quick win target          |
+| Keyword                             | Dec 2025 | Jan 2026 | Feb 2026 | Mar 2026 | Notes                                      |
+| ----------------------------------- | -------- | -------- | -------- | -------- | ------------------------------------------ |
+| web design Fort Lee NJ              | ~10      | NR       | NR       | -        | Target: Top 5; dropped after restructure   |
+| local SEO agency Englewood NJ       | ~12      | 10.6     | ?        | -        | Target: Top 5; no Feb data (no rank tool)  |
+| local SEO agency Teaneck NJ         | N/A      | 11.4     | ?        | -        | No Feb data available                      |
+| SEO agency Englewood NJ             | N/A      | 11.1     | ?        | -        | No Feb data available                      |
+| SEO agency Teaneck NJ               | N/A      | 13.8     | ?        | -        | No Feb data available                      |
+| SEO company Bergen County           | N/A      | 32.0     | ?        | -        | Avg position 15.6 across all queries       |
+| web design Hackensack NJ            | N/A      | NR       | ?        | -        | Target: Top 20                             |
+| web design Paramus NJ               | N/A      | NR       | ?        | -        | Target: Top 20                             |
+| web design Ridgewood NJ             | N/A      | NR       | ?        | -        | Target: Top 20                             |
+| Bergen County web design agency     | N/A      | NR       | ?        | -        | /packages removed — update target page     |
+| law firm website design Fort Lee NJ | N/A      | NR       | ?        | -        | Quick win target                           |
+| medical practice website design NJ  | N/A      | NR       | ?        | -        | Quick win target                           |
 
 ### GSC Query Performance (Jan 2026 - 28 days)
 
@@ -258,9 +258,29 @@ These power FAQ pages, blog posts, and featured snippet opportunities:
 | local seo agency englewood nj  | 0      | 5           | 0%    | 10.6         |
 | seo agency teaneck nj          | 0      | 4           | 0%    | 13.75        |
 
+### GSC Query Performance (Feb 2026 - 28 days)
+
+> ⚠️ **Site restructure in progress** — packages page removed, services redesigned, repositioned to custom solutions. Rankings in flux.
+
+| Metric           | Jan 2026 | Feb 2026 | Change  |
+| ---------------- | -------- | -------- | ------- |
+| Total Impressions | 206      | 178      | -14%    |
+| Total Clicks      | 13       | 9        | -31%    |
+| Overall CTR       | 6.3%     | 5.1%     | -1.2pp  |
+| Avg Position      | ~12      | 15.6     | -3.6    |
+| Indexed Pages     | 42       | 36       | -6 pages |
+| Crawl Errors      | 13       | **51**   | ⚠️ +38  |
+
+**Note:** No per-keyword ranking data for Feb. Use rank tracker for next audit.
+
+### Keyword Target Page Updates (Post-Restructure)
+
+- **"affordable web design Bergen County NJ"** — `/packages` page removed. New target: `/services`
+- All city pages remain at `/services/[city]`
+
 ### Data Sources
 
-- Google Search Console (primary) - Last export: 2026-01-20
+- Google Search Console (primary) - Last export: 2026-02-24
 - Manual position checks
 - Third-party rank trackers (optional)
 
@@ -297,5 +317,5 @@ These power FAQ pages, blog posts, and featured snippet opportunities:
 
 ---
 
-_Last Updated: 2026-01-20_
-_Next Review: 2026-02-20_
+_Last Updated: 2026-02-24_
+_Next Review: 2026-03-24_

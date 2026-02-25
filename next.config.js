@@ -110,6 +110,16 @@ const nextConfig = {
       },
       ...serviceCitySlugRedirects,
       {
+        source: '/services/web-development/:city',
+        destination: '/services/web-development',
+        permanent: true,
+      },
+      {
+        source: '/services/seo/:city',
+        destination: '/services/seo',
+        permanent: true,
+      },
+      {
         source: '/audit',
         destination: '/contact',
         permanent: true,
