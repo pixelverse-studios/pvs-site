@@ -43,6 +43,91 @@ Record every SEO change with:
 
 ## 2026 Changes
 
+### 2026-02-24 - Full SEO Audit
+
+**Type:** Full Audit
+**Overall Score:** 81/100 (B+) — up from 78/100 (+3)
+
+**Scores by Category:**
+
+| Category      | Score  | vs Last | Grade | Notes                                                    |
+| ------------- | ------ | ------- | ----- | -------------------------------------------------------- |
+| Technical SEO | 79/100 | -9      | B     | Crawl errors spiked 13→51 from site restructure         |
+| On-Page SEO   | 94/100 | +4      | A     | Redesign improved metadata and schema coverage           |
+| Content       | 70/100 | -2      | C     | No new blog posts since Jan 20; new positioning needs content |
+| Local SEO     | 76/100 | +11     | B     | GBP now verified with 7 reviews at 5.0 ⭐               |
+
+**GSC Performance Snapshot (Last 28 days - Feb 2026):**
+
+| Metric          | Jan 2026 | Feb 2026 | Change |
+| --------------- | -------- | -------- | ------ |
+| Impressions     | 206      | 178      | -14%   |
+| Clicks          | 13       | 9        | -31%   |
+| CTR             | 6.3%     | 5.1%     | -1.2pp |
+| Avg Position    | ~12      | 15.6     | worse  |
+| Indexed Pages   | 42       | 36       | -6     |
+| Crawl Errors    | 13       | **51**   | ⚠️ +38 |
+
+**GBP Performance (Last 28 days - Feb 2026):**
+
+| Metric              | Previous  | Feb 2026 | Notes              |
+| ------------------- | --------- | -------- | ------------------ |
+| Profile Views       | 109/6wks  | 124      | ✅ Improving       |
+| Search Appearances  | <50       | <50      | Stable             |
+| Direction Requests  | N/A       | 33       | ✅ Strong signal   |
+| Phone Calls         | N/A       | 0        | ⚠️ Zero calls      |
+| Website Clicks      | N/A       | 4        | ⚠️ Very low        |
+| Reviews             | 0         | **7**    | ✅ Up from 0!      |
+| Avg Rating          | N/A       | **5.0**  | ✅ Perfect         |
+
+**Context: Major Site Restructure (Feb 2026)**
+
+- Entire website redesigned and repositioned
+- `/packages` page removed (was targeting "affordable web design" keywords)
+- Services section redesigned — custom solutions, no template packages
+- New positioning: premium custom work, not price-competitive templates
+- This restructure explains: crawl error spike, avg position decline, fewer indexed pages
+
+**Key Findings:**
+
+1. **⚠️ CRITICAL: 51 crawl errors** — Removed pages generating 404s; need 301 redirects immediately
+2. **Rankings in flux** — Position 15.6 avg (was 12); expected temporary decline post-restructure
+3. **GBP is now active** — 7 reviews at 5.0, 33 direction requests; profile driving real signals
+4. **On-page quality improved** — Redesign raised on-page score from 90→94
+5. **Packages keyword orphaned** — "affordable web design Bergen County NJ" lost its target page
+6. **No rank tracking tool** — Cannot track per-keyword positions; operating blind
+
+**Issues Identified:**
+
+- [Critical] 51 crawl errors — up from 13 (site restructure 404s)
+- [Critical] No 301 redirects for removed pages (packages, old service paths)
+- [Warning] Avg position regressed 12→15.6 (expected post-restructure but monitor closely)
+- [Warning] 0 phone calls from GBP despite 124 profile views
+- [Warning] No new blog content since Jan 20 (35+ days gap)
+- [Warning] New "custom solutions" positioning has no supporting blog content yet
+- [Info] No rank tracking tool — per-keyword data unavailable
+
+**Actions Recommended:**
+
+1. [ ] **Fix 51 crawl errors** — Audit removed pages and add 301 redirects in next.config.js
+2. [ ] **Set up rank tracking** — Google Search Console position tracking or free tool (e.g., Ahrefs free, Semrush trial)
+3. [ ] **Write content for new positioning** — "Why we don't use templates" / "Custom vs template websites" — directly addresses rebrand
+4. [ ] **Publish drafts** — 11 blog posts sitting in draft; push at least 2 live
+5. [ ] **Activate GBP** — Post weekly, add 10+ photos, respond to all 7 reviews
+6. [ ] **Submit to directories** — Still 0 citations; Clutch, DesignRush, UpCity minimum
+7. [ ] **Redirect /packages keyword** — "affordable web design Bergen County NJ" target page gone; update keyword doc target to /services
+
+**Checklist Progress:** 63% complete (+1% since last audit — GBP verified milestone hit)
+
+**Files Updated:**
+
+- docs/seo/SEO-KEYWORDS.md — Added Feb 2026 GSC aggregate data, updated tracking table
+- docs/seo/SEO-CHECKLIST.md — Fixed GBP verified status, added crawl error action, updated analytics items
+- docs/seo/SEO-CHANGELOG.md — Added this audit entry
+- docs/seo/SEO-SCOPE.md — Updated KPI table with current metrics
+
+---
+
 ### 2026-01-20 - Full SEO Audit
 
 **Type:** Full Audit
