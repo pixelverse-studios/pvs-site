@@ -27,7 +27,7 @@ const faqSections = [
   { heading: 'General', items: homepageFaq },
   { heading: 'Web Design & Development', items: webDevelopmentContent.faq },
   { heading: 'SEO & Local Optimization', items: seoContent.faq },
-];
+].filter((section) => section.items.length > 0);
 
 // FAQPage schema for rich snippets in search results
 const faqSchema = {

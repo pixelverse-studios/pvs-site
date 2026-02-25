@@ -13,12 +13,7 @@ import {
 } from '@/components/ui/accordion';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import { StructuredData } from '@/components/ui/structured-data';
-
-export interface FAQItem {
-  question: string;
-  answer: string;
-  link?: { label: string; href: string };
-}
+import type { FaqItem } from '@/data/faq-types';
 
 export interface ServiceFAQProps {
   /** Optional section heading (default: "Frequently Asked Questions") */
@@ -26,7 +21,7 @@ export interface ServiceFAQProps {
   /** Optional description below the heading */
   description?: string;
   /** Array of FAQ items */
-  faqs: FAQItem[];
+  faqs: FaqItem[];
   /** Whether to generate FAQPage JSON-LD schema (default: true) */
   generateSchema?: boolean;
   /** Optional ID for the schema script element */
