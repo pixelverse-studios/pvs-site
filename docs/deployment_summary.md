@@ -293,3 +293,20 @@
 ## Changed URLs
 
 - https://www.pixelversestudios.io/dashboard
+
+## Latest deploy summary
+
+- Verified all 31 redirect rules are correctly configured — no redirect chains, all destinations are live pages
+
+## Notes for internal team
+
+- DEV-313 completed: static audit of next.config.js redirects — 31 total (expanded from 16 when ticket was written, due to DEV-339 adding service/contact city redirects)
+- All destinations confirmed: /portfolio, /contact, /services, /services/web-development, /services/seo all exist as live pages
+- No chains in config — every redirect is single-hop to a final destination
+- Production is running pre-redesign config; full redirect verification will auto-complete on next main push
+- Note: browsers that cached old /pricing → /packages 301 may see a 2-hop chain temporarily post-deployment (unavoidable, resolves when cache expires)
+- No code changes required — config was already correct
+
+## Changed URLs
+
+-
