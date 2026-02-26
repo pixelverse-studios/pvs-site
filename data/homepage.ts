@@ -71,6 +71,7 @@ export interface Testimonial {
   role?: string;
   company: string;
   location?: string;
+  location?: string;
 }
 
 export interface FinalCta {
@@ -90,7 +91,7 @@ const rawHomepageHero = {
   badge: '⭐ 5.0 on Google • XX Reviews',
   headline: 'Web Design & Development for Growing Businesses',
   subheadline: [
-    'We help businesses understand what their website actually needs, then design and build the right solution, thoughtfully, strategically, and with intention.',
+    'We help New Jersey businesses understand what their website actually needs, then design and build the right solution, thoughtfully, strategically, and with intention.',
     "The goal isn't just to have a website. It's to support how the business actually operates and grows.",
   ],
   primaryCta: {
@@ -192,6 +193,7 @@ export const testimonials: Testimonial[] = [
     name: 'Jennifer',
     role: 'Owner & Photographer',
     company: 'Iffers Pictures',
+    location: 'Cliffside Park, NJ',
   },
   {
     quote:
@@ -199,6 +201,7 @@ export const testimonials: Testimonial[] = [
     name: 'Kyle',
     role: 'Owner',
     company: 'Jones Pressure Washing NJ',
+    location: 'Bloomfield, NJ',
   },
   {
     quote:
@@ -206,6 +209,7 @@ export const testimonials: Testimonial[] = [
     name: 'Alli',
     role: 'Owner',
     company: 'Going Gold Choreography',
+    location: 'Ridgewood, NJ',
   },
   {
     quote:
@@ -213,6 +217,7 @@ export const testimonials: Testimonial[] = [
     name: 'Chris',
     role: 'Owner & Asset Manager',
     company: 'Gladstone Wealth Partners',
+    location: 'Cape May, NJ',
   },
   {
     quote:
@@ -220,6 +225,7 @@ export const testimonials: Testimonial[] = [
     name: 'Sara',
     role: 'Owner',
     company: 'Rising Tide Aquatics',
+    location: 'Tampa, FL',
   },
 ];
 
@@ -227,21 +233,21 @@ export const services: Service[] = [
   {
     title: 'Web Design & Development',
     summary:
-      'Planning, designing, and building websites that are clear, usable, and built to support real business goals.',
+      'Creating custom websites that are user-focused, conversion-optimized, and built to support your business goals. From initial design to development and launch.',
     icon: 'palette',
     href: '/services/web-development',
   },
   {
     title: 'Website Optimization & SEO',
     summary:
-      'Improving existing sites through structure, content, performance, and local search visibility to help the right people find and choose the business.',
+      'Improving search rankings and visibility through site structure, content optimization, performance improvements, and local SEO strategies that help the right customers find your business.',
     icon: 'search',
     href: '/services/seo',
   },
   {
     title: 'Ongoing Support & Iteration',
     summary:
-      'Supporting websites over time as goals evolve, content changes, or new opportunities emerge.',
+      'Providing ongoing website maintenance, security updates, and support as your business evolves, ensuring your site continues performing at its best.',
     icon: 'lifebuoy',
     href: '/contact',
   },

@@ -13,7 +13,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { DarkThemePicker } from '@/components/ui/dark-theme-picker';
 import { StructuredData } from '@/components/ui/structured-data';
 import { sharedMetadata } from '@/lib/metadata';
-import { localBusinessSchema } from '@/lib/structured-data';
+import { localBusinessSchema, websiteSchema } from '@/lib/structured-data';
 
 const headingFont = Poppins({
   subsets: ['latin'],
@@ -45,13 +45,13 @@ export const metadata: Metadata = {
     template: `%s | ${siteName}`,
   },
   description:
-    'PixelVerse Studios crafts custom-coded marketing websites with UX-first design, blazing performance, and SEO foundations that drive conversions.',
+    'PixelVerse Studios builds custom websites and SEO strategies for New Jersey businesses. Focused on real outcomes — sites that rank, convert, and scale.',
   keywords: [
     'PixelVerse Studios',
-    'custom web design',
-    'Next.js development agency',
-    'Bergen County SEO',
-    'UX-first websites',
+    'custom web design New Jersey',
+    'web design Bergen County',
+    'SEO services NJ',
+    'conversion-focused websites',
   ],
   authors: [{ name: 'PixelVerse Studios' }],
   creator: 'PixelVerse Studios',
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${siteName} | Custom Web Design & SEO`,
     description:
-      'PixelVerse Studios crafts custom-coded marketing websites with UX-first design, blazing performance, and SEO foundations that drive conversions.',
+      'PixelVerse Studios builds custom websites and SEO strategies for New Jersey businesses. Focused on real outcomes — sites that rank, convert, and scale.',
     url: siteUrl,
     siteName,
     locale: 'en_US',
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: `${siteName} | Custom Web Design & SEO`,
     description:
-      'PixelVerse Studios crafts custom-coded marketing websites with UX-first design, blazing performance, and SEO foundations that drive conversions.',
+      'PixelVerse Studios builds custom websites and SEO strategies for New Jersey businesses. Focused on real outcomes — sites that rank, convert, and scale.',
     images: [defaultOgImage],
   },
   icons: {
@@ -137,6 +137,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             <SiteBehaviourScript bootstrapScript={siteBehaviourBootstrap} />
           ) : null}
           <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
+          <StructuredData id="pixelverse-website" data={websiteSchema} />
           <ThemeProvider disableTransitionOnChange>
             <Suspense fallback={null}>
               <CampaignTrackerClient />
