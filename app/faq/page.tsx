@@ -10,9 +10,9 @@ import { webDevelopmentContent } from '@/data/web-development-content';
 import { seoContent } from '@/data/seo-content';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'FAQ | Web Design, SEO & Working With Us',
+  title: 'Frequently Asked Questions | Pixelverse Studios',
   description:
-    'Answers to common questions about web design, local SEO, our process, and working with PixelVerse Studios — so you can decide if it\'s worth a conversation.',
+    'Common questions about our web design, development, and SEO services answered. Learn about our process, pricing, timelines, and what to expect working with us.',
   path: '/faq',
   keywords: [
     'PixelVerse Studios FAQ',

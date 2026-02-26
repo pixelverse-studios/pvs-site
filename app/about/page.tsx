@@ -11,9 +11,9 @@ import { getGoogleRatingData } from '@/lib/api/google-places';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'About Us — Partnership-Driven Web Design & Development | PixelVerse Studios',
+  title: 'About Pixelverse Studios | NJ Web Design Agency',
   description:
-    'PixelVerse Studios partners with businesses using a system-thinking, clarity-first approach to web design, development, and optimization.',
+    'New Jersey web design and SEO agency. We build custom, user-focused websites for growing businesses. Learn about our approach and process.',
   path: '/about',
   keywords: [
     'partnership approach web development',
