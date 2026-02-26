@@ -10,7 +10,6 @@ import { LayoutWrapper } from '@/components/layout-wrapper';
 import { NonceProvider } from '@/components/nonce-provider';
 import { SiteBehaviourScript } from '@/components/sitebehaviour-script';
 import { ThemeProvider } from '@/components/theme-provider';
-import { DarkThemePicker } from '@/components/ui/dark-theme-picker';
 import { StructuredData } from '@/components/ui/structured-data';
 import { sharedMetadata } from '@/lib/metadata';
 import { localBusinessSchema, websiteSchema } from '@/lib/structured-data';
@@ -145,7 +144,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             <LayoutWrapper navItems={navItems}>
               {children}
             </LayoutWrapper>
-            <DarkThemePicker />
           </ThemeProvider>
         </NonceProvider>
       </body>

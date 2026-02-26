@@ -27,7 +27,6 @@ import { cn } from '@/lib/utils';
 
 import { AuthDashboardLink } from './auth-dashboard-link';
 import { Button } from './button';
-import { ThemeToggle } from './theme-toggle';
 
 export interface NavItemChild {
   label: string;
@@ -461,7 +460,6 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                 <Menu className="h-5 w-5" aria-hidden="true" />
               </Button>
             )}
-            <ThemeToggle />
           </div>
         </div>
       </header>
