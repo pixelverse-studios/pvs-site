@@ -71,7 +71,6 @@ export interface Testimonial {
   role?: string;
   company: string;
   location?: string;
-  location?: string;
 }
 
 export interface FinalCta {

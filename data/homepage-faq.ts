@@ -10,6 +10,7 @@ export const homepageFaq: FaqItem[] = [
     question: 'Should I redesign my website or start from scratch?',
     answer:
       'It depends on what\u2019s actually broken. If the structure, messaging, and user flow are fundamentally off, a rebuild usually delivers better results than patching an existing site. If the foundation is solid but the look is dated or certain pages are underperforming, a focused redesign can be enough. We diagnose this in the first conversation \u2014 no assumptions going in.',
+    link: { label: 'See how we approach web design & development', href: '/services/web-development' },
   },
   {
     question: 'How much does a custom website typically cost in New Jersey?',
@@ -41,5 +42,6 @@ export const homepageFaq: FaqItem[] = [
     question: 'Do you only work with businesses in New Jersey?',
     answer:
       'Our primary focus is Bergen County and the surrounding area, but we work with businesses outside NJ when the fit is right. Location has no impact on what we can deliver.',
+    link: { label: 'See our services', href: '/services' },
   },
 ];
