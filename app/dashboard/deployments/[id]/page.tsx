@@ -7,6 +7,7 @@ import type { DeploymentDetail } from '@/lib/types/deployment';
 export const metadata = {
   title: 'Deployment Details | Dashboard | PixelVerse Studios',
   description: 'View deployment details and indexing status',
+  robots: { index: false, follow: false },
 };
 
 export default async function DeploymentDetailPage({ params }: { params: Promise<{ id: string }> }) {

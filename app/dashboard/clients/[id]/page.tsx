@@ -11,6 +11,7 @@ import { getClient } from '@/lib/api/clients';
 export const metadata = {
   title: 'Client Details | Dashboard | PixelVerse Studios',
   description: 'View and manage client websites',
+  robots: { index: false, follow: false },
 };
 
 interface PageProps {

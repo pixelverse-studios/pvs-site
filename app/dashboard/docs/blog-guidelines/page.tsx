@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: 'Blog Guidelines | Documentation | PixelVerse Studios',
   description:
     'Standards for creating SEO-optimized, engaging blog content that drives organic traffic and conversions.',
+  robots: { index: false, follow: false },
 };
 
 const tocItems = [

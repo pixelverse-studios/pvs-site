@@ -280,3 +280,16 @@
 ## Changed URLs
 
 - https://www.pixelversestudios.io/sitemap.xml
+
+## Latest deploy summary
+
+- Added explicit noindex tags to all 15 internal dashboard pages so Google never indexes them — these pages are for internal use only
+
+## Notes for internal team
+
+- DEV-312 completed: added `robots: { index: false, follow: false }` to metadata export in all 15 dashboard page.tsx files
+- Pages covered: /dashboard, /dashboard/agenda, /dashboard/clients, /dashboard/clients/[id], /dashboard/clients/[id]/websites/[websiteId], /dashboard/clients/[id]/websites/[websiteId]/seo-focus, /dashboard/deployments/[id], /dashboard/docs, /dashboard/docs/blog-guidelines, /dashboard/docs/seo-checklist, /dashboard/domani, /dashboard/domani/feedback, /dashboard/domani/users, /dashboard/domani/waitlist, /dashboard/prospects
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/dashboard
