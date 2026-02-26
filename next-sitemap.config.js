@@ -7,6 +7,22 @@ module.exports = {
   sitemapSize: 7000,
   changefreq: 'weekly',
   priority: 0.7,
+  exclude: [
+    '/contact/bergen-county',
+    '/contact/fort-lee',
+    '/contact/englewood',
+    '/contact/hackensack',
+    '/contact/paramus',
+    '/contact/ridgewood',
+    '/contact/teaneck',
+    '/contact/fair-lawn',
+    '/contact/bergenfield',
+    '/contact/cliffside-park',
+    '/contact/river-vale',
+    '/audit',
+    '/dashboard',
+    '/dashboard/*',
+  ],
   transform: async (config, path) => {
     const isHome = path === '/';
     const loc = `${siteUrl}${isHome ? '' : path}`;
