@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: 'SEO Checklist | Documentation | PixelVerse Studios',
   description:
     'Comprehensive hyper-local SEO checklist prioritized by impact on local search rankings.',
+  robots: { index: false, follow: false },
 };
 
 const tocItems = [

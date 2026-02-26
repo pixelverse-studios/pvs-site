@@ -6,6 +6,7 @@ import { AgendaPageClient } from './components/agenda-page-client';
 export const metadata = {
   title: 'Agenda | Dashboard | PixelVerse Studios',
   description: 'Manage your focus items and priorities',
+  robots: { index: false, follow: false },
 };
 
 export default async function AgendaPage() {
