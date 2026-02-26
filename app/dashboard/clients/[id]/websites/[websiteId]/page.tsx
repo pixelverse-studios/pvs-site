@@ -7,6 +7,7 @@ import type { Client } from '@/lib/types/client';
 export const metadata = {
   title: 'Website Details | Dashboard | PixelVerse Studios',
   description: 'View website analytics and information',
+  robots: { index: false, follow: false },
 };
 
 export default async function WebsiteDetailPage({

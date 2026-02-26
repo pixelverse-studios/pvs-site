@@ -6,6 +6,7 @@ import { UsersPageClient } from './components/users-page-client';
 export const metadata = {
   title: 'Users | Domani | Dashboard | PixelVerse Studios',
   description: 'View active Domani app users',
+  robots: { index: false, follow: false },
 };
 
 export default async function UsersPage() {

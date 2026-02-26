@@ -8,6 +8,7 @@ import { OverviewPageClient } from './components/overview-page-client';
 export const metadata = {
   title: 'Domani | Dashboard | PixelVerse Studios',
   description: 'Overview of Domani app analytics and user data',
+  robots: { index: false, follow: false },
 };
 
 export default async function DomaniOverviewPage() {

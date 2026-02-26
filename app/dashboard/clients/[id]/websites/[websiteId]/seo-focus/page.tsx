@@ -16,6 +16,7 @@ import type { Client, Website } from '@/lib/types/client';
 export const metadata = {
   title: 'SEO Focus | Dashboard | PixelVerse Studios',
   description: 'Track hyper-local SEO progress for this website.',
+  robots: { index: false, follow: false },
 };
 
 export default async function SeoFocusPage({
