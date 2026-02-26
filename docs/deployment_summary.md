@@ -334,6 +334,10 @@
 - Added Google star rating to homepage structured data — search engines can now display the star rating directly in search results
 - Added structured data for the two core services (Web Design and SEO) to the homepage so Google can better understand and categorize what we offer
 - Added WebSite structured data across all pages for improved brand presence in Google search results
+- Updated meta titles and descriptions for 7 additional pages (services hub, web design, SEO, about, portfolio, blog, FAQ) — all optimized for character limits and NJ local search visibility
+- Updated H1 and intro copy on Web Design & Development and Local SEO service pages to include "New Jersey" for geographic targeting
+- Updated two H2 headings on each service page to better reflect the actual service content and improve search alignment
+- Added BreadcrumbList structured data to the Web Design & Development and Local SEO service pages — enables breadcrumb display in search results
 
 ## Notes for internal team
 
@@ -343,7 +347,17 @@
 - lib/structured-data.ts: added websiteSchema, createLocalBusinessSchemaWithRating(), createHomepageServiceSchemas()
 - app/layout.tsx: added <StructuredData id="pixelverse-website"> render (global)
 - app/page.tsx: fetches getGoogleRatingData() in parallel with badge; renders LocalBusiness+AggregateRating (conditionally), two Service schemas
+- seo-optimization branch — additional page meta updates: app/services/page.tsx, app/services/web-development/page.tsx, app/services/seo/page.tsx, app/about/page.tsx, app/portfolio/page.tsx, app/blog/page.tsx, app/faq/page.tsx
+- data/web-development-content.ts, data/seo-content.ts: H1/H2/intro copy updated for NJ geographic targeting
+- BreadcrumbList schema added to /services/web-development and /services/seo via createBreadcrumbSchema() helper
 
 ## Changed URLs
 
 - https://www.pixelversestudios.io/
+- https://www.pixelversestudios.io/services
+- https://www.pixelversestudios.io/services/web-development
+- https://www.pixelversestudios.io/services/seo
+- https://www.pixelversestudios.io/about
+- https://www.pixelversestudios.io/portfolio
+- https://www.pixelversestudios.io/blog
+- https://www.pixelversestudios.io/faq
