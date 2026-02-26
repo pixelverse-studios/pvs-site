@@ -166,7 +166,6 @@
 - https://www.pixelversestudios.io/contact/ridgewood
 - https://www.pixelversestudios.io/
 - https://www.pixelversestudios.io/about
-- Removed the 10 city-specific service pages (e.g. /services/fort-lee) and the Bergen County service page — these now redirect permanently to /services
 
 ## Notes for internal team
 
