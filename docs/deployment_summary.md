@@ -267,3 +267,16 @@
 ## Changed URLs
 
 - https://www.pixelversestudios.io/faq
+
+## Latest deploy summary
+
+- Removed 12 orphaned redirect URLs from the XML sitemap so Google stops crawling pages that don't exist (contact city pages, /audit) — also excluded dashboard routes as a precaution
+
+## Notes for internal team
+
+- DEV-311 completed: added `exclude` array to next-sitemap.config.js covering all 11 /contact/city-slug paths, /audit, /dashboard, /dashboard/*
+- Sitemap will regenerate cleanly on next deployment build — stale public/sitemap-0.xml still reflects previous build
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/sitemap.xml
