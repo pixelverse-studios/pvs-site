@@ -44,9 +44,9 @@ export interface SeoContentData {
 
 export const seoContent: SeoContentData = {
   hero: {
-    title: 'Local Website Optimization & SEO',
+    title: 'Local SEO for New Jersey Businesses',
     description:
-      'For businesses with an existing website that need to be found by the right people in the right places.\n\nWe focus on improving local visibility, clarity, and performance by identifying what\u2019s holding a site back and addressing the issues that actually affect search presence and customer decisions.',
+      'For New Jersey businesses with an existing website that need to be found by the right people in the right places.\n\nWe focus on improving local visibility, clarity, and performance by identifying what\u2019s holding a site back and addressing the issues that actually affect search presence and customer decisions.',
     cta: {
       label: 'Discuss Your Situation',
       href: '/contact',
@@ -71,7 +71,7 @@ export const seoContent: SeoContentData = {
       'A site can rank and still underperform if these pieces aren\u2019t working together. Likewise, strong content alone won\u2019t help if local visibility is limited.\n\nLocal SEO works best when it\u2019s treated as part of the website system, not a separate effort.',
   },
   howWeEvaluate: {
-    title: 'How We Evaluate What\u2019s Holding a Site Back',
+    title: 'Our Local SEO Audit & Optimization Process',
     intro:
       'Optimization starts with understanding how the site is currently supporting local visibility and conversions.\n\nWe look at:',
     bulletPoints: [
@@ -93,7 +93,7 @@ export const seoContent: SeoContentData = {
     },
   },
   whatToExpect: {
-    title: 'What You Can Expect From Local Optimization Work',
+    title: "What's Included in Our Local SEO Services",
     intro:
       'When optimization is the right path forward, the work is focused and practical.\n\nThat typically includes:',
     bulletPoints: [

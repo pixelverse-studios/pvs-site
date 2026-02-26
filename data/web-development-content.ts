@@ -45,9 +45,9 @@ export interface WebDevContentData {
 
 export const webDevelopmentContent: WebDevContentData = {
   hero: {
-    title: 'Web Design & Development',
+    title: 'Web Design & Development for New Jersey Businesses',
     description:
-      'For businesses that need a website built from the ground up, or a rebuild when the current site no longer supports how the business operates.\n\nWe plan, design, and develop websites with clear structure and purpose, so the site doesn\u2019t just look polished, but actively supports how the business attracts, explains, and converts.',
+      'For New Jersey businesses that need a website built from the ground up, or a rebuild when the current site no longer supports how the business operates.\n\nWe plan, design, and develop websites with clear structure and purpose, so the site doesn\u2019t just look polished, but actively supports how the business attracts, explains, and converts.',
     cta: {
       label: 'Start the Conversation',
       href: '/contact',
@@ -76,7 +76,7 @@ export const webDevelopmentContent: WebDevContentData = {
     body: 'Most website builds don\u2019t fall short because of poor design. They fall short because the wrong decisions were made early.\n\nStructure gets chosen before services are clearly defined. Visual direction is set before messaging is clarified. Technology is selected without considering how the site will need to evolve.\n\nThe site launches and looks polished, but over time it becomes harder to update, harder to expand, and less effective at guiding visitors toward action.\n\nThat isn\u2019t a design problem. It\u2019s a direction problem.\n\nAnd it starts before a single page is built.',
   },
   howWePlan: {
-    title: 'How We Plan Before We Build',
+    title: 'Our Web Design & Development Process',
     intro:
       'We don\u2019t start with layouts or code.\n\nWe start by clarifying:',
     bulletPoints: [
@@ -99,7 +99,7 @@ export const webDevelopmentContent: WebDevContentData = {
     ],
   },
   whatToExpect: {
-    title: 'What You Can Expect From a Build',
+    title: "What's Included in Our Custom Website Builds",
     intro:
       'When a build moves forward, the process is structured and transparent.\n\nYou can expect:',
     bulletPoints: [
