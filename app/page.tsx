@@ -1,34 +1,61 @@
 import type { Metadata } from 'next';
 
-import { ClosingCtaSection } from '@/components/home/closing-cta-section';
-import { HeroSection } from '@/components/home/hero-section';
-import { PackagesSection } from '@/components/home/packages-section';
-import { ServicesSection } from '@/components/home/services-section';
-import { ValueSection } from '@/components/home/value-section';
+import { HomepageClient } from '@/components/home/homepage-client';
+import { StructuredData } from '@/components/ui/structured-data';
+import { homepageFaq } from '@/data/homepage-faq';
+import { getGoogleRatingBadge, getGoogleRatingData } from '@/lib/api/google-places';
 import { createPageMetadata } from '@/lib/metadata';
+import {
+  createHomepageServiceSchemas,
+  createLocalBusinessSchemaWithRating,
+} from '@/lib/structured-data';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Custom Web Design, Development & Local SEO NJ',
+  title: 'Web Design, Development & SEO Services in New Jersey',
   description:
-    'Custom web design and local SEO services in New Jersey. UX-driven, custom-coded websites built to grow traffic, trust, and conversions.',
+    'Custom web design & SEO focused on real business outcomes. We build high-performing websites for New Jersey businesses that rank, convert, and scale.',
   path: '/',
   keywords: [
-    'PixelVerse Studios',
-    'custom website agency',
-    'Next.js marketing site',
-    'SEO-first web design',
-    'Bergen County web design',
+    'web design New Jersey',
+    'custom website development NJ',
+    'SEO services New Jersey',
+    'conversion-focused web design',
+    'performance-first websites',
   ],
 });
 
-export default function Home() {
+const homeFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: homepageFaq.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+
+export default async function Home() {
+  const [badge, ratingData] = await Promise.all([
+    getGoogleRatingBadge(),
+    getGoogleRatingData(),
+  ]);
+
+  const localBusinessWithRating = createLocalBusinessSchemaWithRating(ratingData);
+  const homepageServiceSchemas = createHomepageServiceSchemas();
+
   return (
-    <main>
-      <HeroSection />
-      <ValueSection />
-      <ServicesSection />
-      <PackagesSection />
-      <ClosingCtaSection />
-    </main>
+    <>
+      <StructuredData id="home-faq-schema" data={homeFaqSchema} />
+      {localBusinessWithRating && (
+        <StructuredData id="home-local-business-rating" data={localBusinessWithRating} />
+      )}
+      {homepageServiceSchemas.map((schema) => (
+        <StructuredData key={schema['@id']} id={schema['@id']} data={schema} />
+      ))}
+      <HomepageClient badge={badge} />
+    </>
   );
 }

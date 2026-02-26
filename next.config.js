@@ -18,26 +18,62 @@ const nextConfig = {
       },
     ],
   },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          // CSP is set dynamically in middleware.ts with per-request nonces
+          { key: 'X-DNS-Prefetch-Control', value: 'on' },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload',
+          },
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'X-XSS-Protection', value: '1; mode=block' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+        ],
+      },
+    ];
+  },
   async redirects() {
-    const contactContextSlugs = [
+    const legacyContactSlugs = [
       'bergen-county',
       'fort-lee',
       'cliffside-park',
       'river-vale',
       'hackensack',
       'paramus',
+      'teaneck',
+      'fair-lawn',
+      'englewood',
+      'bergenfield',
+      'ridgewood',
     ];
 
-    const contactContextRedirects = contactContextSlugs.map((slug) => ({
-      source: '/contact',
-      has: [
-        {
-          type: 'query',
-          key: 'context',
-          value: slug,
-        },
-      ],
-      destination: `/contact/${slug}`,
+    const contactSlugRedirects = legacyContactSlugs.map((slug) => ({
+      source: `/contact/${slug}`,
+      destination: '/contact',
+      permanent: true,
+    }));
+    const legacyServiceCitySlugs = [
+      'fort-lee',
+      'englewood',
+      'hackensack',
+      'paramus',
+      'ridgewood',
+      'teaneck',
+      'fair-lawn',
+      'bergenfield',
+      'cliffside-park',
+      'river-vale',
+    ];
+
+    const serviceCitySlugRedirects = legacyServiceCitySlugs.map((slug) => ({
+      source: `/services/${slug}`,
+      destination: '/services',
       permanent: true,
     }));
 
@@ -49,10 +85,46 @@ const nextConfig = {
       },
       {
         source: '/pricing',
-        destination: '/packages',
+        destination: '/contact',
         permanent: true,
       },
-      ...contactContextRedirects,
+      {
+        source: '/packages',
+        destination: '/contact',
+        permanent: true,
+      },
+      {
+        source: '/services/ux-ui-design',
+        destination: '/services',
+        permanent: true,
+      },
+      {
+        source: '/services/ux-ui-design/:city',
+        destination: '/services',
+        permanent: true,
+      },
+      {
+        source: '/services/bergen-county',
+        destination: '/services',
+        permanent: true,
+      },
+      ...serviceCitySlugRedirects,
+      {
+        source: '/services/web-development/:city',
+        destination: '/services/web-development',
+        permanent: true,
+      },
+      {
+        source: '/services/seo/:city',
+        destination: '/services/seo',
+        permanent: true,
+      },
+      {
+        source: '/audit',
+        destination: '/contact',
+        permanent: true,
+      },
+      ...contactSlugRedirects,
     ];
   },
 };
@@ -68,8 +140,12 @@ module.exports = withSentryConfig(nextConfig, {
   // Upload source maps for better stack traces
   widenClientFileUpload: true,
 
-  // Automatically tree-shake Sentry logger statements
-  disableLogger: true,
+  // Automatically tree-shake Sentry debug logging statements
+  webpack: {
+    treeshake: {
+      removeDebugLogging: true,
+    },
+  },
 
   // Hide source maps from browsers in production
   hideSourceMaps: true,

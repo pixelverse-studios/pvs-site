@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { LucideIcon } from 'lucide-react';
 import {
-  Box,
   ChevronDown,
   Code2,
   Folder,
@@ -13,7 +12,7 @@ import {
   Info,
   LayoutDashboard,
   Menu,
-  Palette,
+
   PenSquare,
   Search,
   Sparkles,
@@ -56,14 +55,12 @@ const DARK_LOGO_URL = sharedMetadata.logo.dark;
 const mobileNavIcons: Record<string, LucideIcon> = {
   About: Info,
   Services: Sparkles,
-  Packages: Box,
   Portfolio: Folder,
   Blog: PenSquare,
   FAQ: HelpCircle,
   Dashboard: LayoutDashboard,
-  'Web Development': Code2,
-  'UX/UI Design': Palette,
-  SEO: Search,
+  'Web Design & Development': Code2,
+  'Optimization & SEO': Search,
 };
 
 export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
@@ -71,7 +68,6 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = React.useState(false);
-  const [expandedMobileItem, setExpandedMobileItem] = React.useState<string | null>(null);
   const mobileCloseButtonRef = React.useRef<HTMLButtonElement | null>(null);
   const [portalElement, setPortalElement] = React.useState<HTMLElement | null>(null);
 
@@ -146,10 +142,6 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
   const iconActiveClass = isDarkMode
     ? 'border-white/40 bg-white/20 text-white'
     : 'border-[rgba(63,0,233,0.55)] bg-[rgba(63,0,233,0.12)] text-[var(--pv-primary)]';
-
-  const toggleMobileExpand = (label: string) => {
-    setExpandedMobileItem((prev) => (prev === label ? null : label));
-  };
 
   const mobileNavPortal =
     isMobileNavOpen && portalElement
@@ -227,60 +219,39 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                       (item.href !== '/' && pathname.startsWith(`${item.href}/`));
                     const Icon = mobileNavIcons[item.label] ?? Sparkles;
                     const hasChildren = item.children && item.children.length > 0;
-                    const isExpanded = expandedMobileItem === item.label;
 
                     return (
                       <div key={item.href}>
-                        <div className="flex items-center">
-                          <Link
-                            href={item.href}
-                            aria-current={isActive ? 'page' : undefined}
-                            onClick={() => setIsMobileNavOpen(false)}
+                        <Link
+                          href={item.href}
+                          aria-current={isActive ? 'page' : undefined}
+                          aria-haspopup={hasChildren ? 'true' : undefined}
+                          onClick={() => setIsMobileNavOpen(false)}
+                          className={cn(
+                            navItemBaseClass,
+                            navItemThemeClass,
+                            navItemHoverBgClass,
+                            isActive && navItemActiveClass,
+                          )}
+                        >
+                          <span
                             className={cn(
-                              navItemBaseClass,
-                              navItemThemeClass,
-                              navItemHoverBgClass,
-                              isActive && navItemActiveClass,
-                              'flex-1',
+                              iconBaseClass,
+                              iconThemeClass,
+                              isActive && iconActiveClass,
                             )}
                           >
-                            <span
-                              className={cn(
-                                iconBaseClass,
-                                iconThemeClass,
-                                isActive && iconActiveClass,
-                              )}
-                            >
-                              <Icon className="h-4 w-4" aria-hidden="true" />
-                            </span>
-                            <span className="flex-1">{item.label}</span>
-                          </Link>
-                          {hasChildren && (
-                            <button
-                              type="button"
-                              onClick={() => toggleMobileExpand(item.label)}
-                              className={cn(
-                                'mr-2 inline-flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-200',
-                                isDarkMode
-                                  ? 'text-white/60 hover:bg-white/10 hover:text-white'
-                                  : 'text-[var(--pv-text-muted)] hover:bg-[rgba(63,0,233,0.08)] hover:text-[var(--pv-primary)]',
-                              )}
-                              aria-label={isExpanded ? 'Collapse submenu' : 'Expand submenu'}
-                              aria-expanded={isExpanded}
-                            >
-                              <ChevronDown
-                                className={cn(
-                                  'h-4 w-4 transition-transform duration-200',
-                                  isExpanded && 'rotate-180',
-                                )}
-                                aria-hidden="true"
-                              />
-                            </button>
-                          )}
-                        </div>
-                        {/* Mobile submenu */}
-                        {hasChildren && isExpanded && (
-                          <div className="ml-14 mt-1 flex flex-col gap-1 border-l-2 border-[var(--pv-border)] pl-4 dark:border-white/10">
+                            <Icon className="h-4 w-4" aria-hidden="true" />
+                          </span>
+                          <span className="flex-1">{item.label}</span>
+                        </Link>
+                        {/* Mobile submenu — always visible */}
+                        {hasChildren && (
+                          <div
+                            role="group"
+                            aria-label={item.label}
+                            className="ml-14 mt-1 flex flex-col gap-1 border-l-2 border-[var(--pv-border)] pl-4 dark:border-white/10"
+                          >
                             {item.children!.map((child) => {
                               const childIsActive = pathname === child.href;
                               const ChildIcon = mobileNavIcons[child.label] ?? Sparkles;
@@ -378,12 +349,13 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                         href={item.href}
                         aria-current={isActive ? 'page' : undefined}
                         className={cn(
-                          'relative inline-flex items-center gap-1 rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-200 ease-out',
-                          'text-[var(--pv-text-muted)] hover:text-[var(--pv-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
-                          'hover:bg-white/85 hover:shadow-[0_18px_40px_-28px_rgba(63,0,233,0.25)] dark:hover:bg-white/10',
-                          'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-[border,transform] after:duration-200 group-hover:after:scale-105 group-hover:after:border-[rgba(63,0,233,0.35)] dark:group-hover:after:border-[rgba(159,166,221,0.35)]',
+                          'relative inline-flex items-center gap-1 rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-250 ease-out',
+                          'text-[var(--pv-text-muted)] hover:text-[var(--pv-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
+                          'hover:-translate-y-[1px] hover:bg-[rgba(63,0,233,0.06)] hover:shadow-[0_8px_24px_-8px_rgba(63,0,233,0.3)]',
+                          'dark:hover:bg-white/8 dark:hover:text-white dark:hover:shadow-[0_8px_24px_-8px_rgba(120,70,255,0.4)]',
+                          'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-all after:duration-250 group-hover:after:border-[rgba(63,0,233,0.2)] dark:group-hover:after:border-[rgba(159,166,221,0.25)]',
                           isActive &&
-                            'bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)] after:scale-100 after:border-transparent hover:text-white',
+                            'bg-[var(--pv-primary-2)] text-white shadow-[0_12px_28px_-10px_rgba(201,71,255,0.4)] after:scale-100 after:border-transparent hover:translate-y-0 hover:text-white hover:shadow-[0_12px_28px_-10px_rgba(201,71,255,0.4)]',
                         )}
                       >
                         {item.label}
@@ -450,12 +422,13 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                     href={item.href}
                     aria-current={isActive ? 'page' : undefined}
                     className={cn(
-                      'group relative inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-200 ease-out',
-                      'text-[var(--pv-text-muted)] hover:text-[var(--pv-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
-                      'hover:bg-white/85 hover:shadow-[0_18px_40px_-28px_rgba(63,0,233,0.25)] dark:hover:bg-white/10',
-                      'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-[border,transform] after:duration-200 group-hover:after:scale-105 group-hover:after:border-[rgba(63,0,233,0.35)] dark:group-hover:after:border-[rgba(159,166,221,0.35)]',
+                      'group relative inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-250 ease-out',
+                      'text-[var(--pv-text-muted)] hover:text-[var(--pv-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
+                      'hover:-translate-y-[1px] hover:bg-[rgba(63,0,233,0.06)] hover:shadow-[0_8px_24px_-8px_rgba(63,0,233,0.3)]',
+                      'dark:hover:bg-white/8 dark:hover:text-white dark:hover:shadow-[0_8px_24px_-8px_rgba(120,70,255,0.4)]',
+                      'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-all after:duration-250 hover:after:border-[rgba(63,0,233,0.2)] dark:hover:after:border-[rgba(159,166,221,0.25)]',
                       isActive &&
-                        'bg-[linear-gradient(90deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_22px_44px_-28px_rgba(63,0,233,0.75)] after:scale-100 after:border-transparent hover:text-white',
+                        'bg-[var(--pv-primary-2)] text-white shadow-[0_12px_28px_-10px_rgba(201,71,255,0.4)] after:scale-100 after:border-transparent hover:translate-y-0 hover:text-white hover:shadow-[0_12px_28px_-10px_rgba(201,71,255,0.4)]',
                     )}
                   >
                     {item.label}

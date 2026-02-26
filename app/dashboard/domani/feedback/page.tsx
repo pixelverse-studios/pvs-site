@@ -6,6 +6,7 @@ import { FeedbackPageClient } from './components/feedback-page-client';
 export const metadata = {
   title: 'Feedback | Domani | Dashboard | PixelVerse Studios',
   description: 'Manage feedback and support requests from Domani app users',
+  robots: { index: false, follow: false },
 };
 
 export default async function FeedbackPage() {

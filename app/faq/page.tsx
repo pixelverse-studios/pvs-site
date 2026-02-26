@@ -2,44 +2,62 @@ import type { Metadata } from 'next';
 
 import { FaqClosingCtaSection } from '@/components/faq/faq-closing-cta';
 import { FaqIntroSection } from '@/components/faq/faq-intro-section';
-import { FaqListSection, faqs } from '@/components/faq/faq-list-section';
+import { FaqListSection } from '@/components/faq/faq-list-section';
 import { StructuredData } from '@/components/ui/structured-data';
+import { createBreadcrumbSchema } from '@/lib/structured-data';
 import { createPageMetadata } from '@/lib/metadata';
+import { homepageFaq } from '@/data/homepage-faq';
+import { webDevelopmentContent } from '@/data/web-development-content';
+import { seoContent } from '@/data/seo-content';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'FAQ | Web Design & SEO Questions',
+  title: 'Frequently Asked Questions | Pixelverse Studios NJ',
   description:
-    'Get answers about PixelVerse processes—custom development, UX-first design, SEO retainers, timelines, and collaboration workflows.',
+    'Common questions about our web design, development, and SEO services answered. Learn about our process, pricing, timelines, and what to expect working with us.',
   path: '/faq',
   keywords: [
     'PixelVerse Studios FAQ',
     'web design questions',
-    'SEO process answers',
-    'custom website process',
-    'UX-first development FAQ',
+    'local SEO questions',
+    'website build process',
+    'working with a web agency',
   ],
 });
+
+const breadcrumbSchema = createBreadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: 'FAQ', path: '/faq' },
+]);
+
+const faqSections = [
+  { heading: 'General', items: homepageFaq },
+  { heading: 'Web Design & Development', items: webDevelopmentContent.faq },
+  { heading: 'SEO & Local Optimization', items: seoContent.faq },
+].filter((section) => section.items.length > 0);
 
 // FAQPage schema for rich snippets in search results
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: faqs.map((faq) => ({
-    '@type': 'Question',
-    name: faq.question,
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: faq.answer,
-    },
-  })),
+  mainEntity: faqSections.flatMap((section) =>
+    section.items.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  ),
 };
 
 export default function FaqPage() {
   return (
     <main>
+      <StructuredData id="pixelverse-faq-breadcrumb-schema" data={breadcrumbSchema} />
       <StructuredData id="pixelverse-faq-schema" data={faqSchema} />
       <FaqIntroSection />
-      <FaqListSection />
+      <FaqListSection sections={faqSections} />
       <FaqClosingCtaSection />
     </main>
   );

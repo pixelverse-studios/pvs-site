@@ -1,17 +1,19 @@
 import type { Metadata } from 'next';
-import dynamic from 'next/dynamic';
 import { Inter, Poppins } from 'next/font/google';
+import { headers } from 'next/headers';
 import { Suspense } from 'react';
 import type { ReactNode } from 'react';
 
 import './globals.css';
+import { CampaignTrackerClient } from '@/components/campaign-tracker-client';
 import { LayoutWrapper } from '@/components/layout-wrapper';
+import { NonceProvider } from '@/components/nonce-provider';
 import { SiteBehaviourScript } from '@/components/sitebehaviour-script';
 import { ThemeProvider } from '@/components/theme-provider';
+import { DarkThemePicker } from '@/components/ui/dark-theme-picker';
 import { StructuredData } from '@/components/ui/structured-data';
 import { sharedMetadata } from '@/lib/metadata';
-import { getContactContexts } from '@/data/contact-contexts';
-import { localBusinessSchema } from '@/lib/structured-data';
+import { localBusinessSchema, websiteSchema } from '@/lib/structured-data';
 
 const headingFont = Poppins({
   subsets: ['latin'],
@@ -43,13 +45,13 @@ export const metadata: Metadata = {
     template: `%s | ${siteName}`,
   },
   description:
-    'PixelVerse Studios crafts custom-coded marketing websites with UX-first design, blazing performance, and SEO foundations that drive conversions.',
+    'PixelVerse Studios builds custom websites and SEO strategies for New Jersey businesses. Focused on real outcomes — sites that rank, convert, and scale.',
   keywords: [
     'PixelVerse Studios',
-    'custom web design',
-    'Next.js development agency',
-    'Bergen County SEO',
-    'UX-first websites',
+    'custom web design New Jersey',
+    'web design Bergen County',
+    'SEO services NJ',
+    'conversion-focused websites',
   ],
   authors: [{ name: 'PixelVerse Studios' }],
   creator: 'PixelVerse Studios',
@@ -60,7 +62,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${siteName} | Custom Web Design & SEO`,
     description:
-      'PixelVerse Studios crafts custom-coded marketing websites with UX-first design, blazing performance, and SEO foundations that drive conversions.',
+      'PixelVerse Studios builds custom websites and SEO strategies for New Jersey businesses. Focused on real outcomes — sites that rank, convert, and scale.',
     url: siteUrl,
     siteName,
     locale: 'en_US',
@@ -78,7 +80,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: `${siteName} | Custom Web Design & SEO`,
     description:
-      'PixelVerse Studios crafts custom-coded marketing websites with UX-first design, blazing performance, and SEO foundations that drive conversions.',
+      'PixelVerse Studios builds custom websites and SEO strategies for New Jersey businesses. Focused on real outcomes — sites that rank, convert, and scale.',
     images: [defaultOgImage],
   },
   icons: {
@@ -106,87 +108,46 @@ const navItems = [
     href: '/services',
     children: [
       {
-        label: 'Web Development',
+        label: 'Web Design & Development',
         href: '/services/web-development',
-        description: 'Custom-coded websites built for performance',
+        description: 'Custom-coded websites built from the ground up',
       },
       {
-        label: 'UX/UI Design',
-        href: '/services/ux-ui-design',
-        description: 'Strategic design that drives conversions',
-      },
-      {
-        label: 'SEO',
+        label: 'Optimization & SEO',
         href: '/services/seo',
-        description: 'Search optimization for lasting visibility',
+        description: 'Local visibility and search performance',
       },
     ],
   },
-  { label: 'Packages', href: '/packages' },
   { label: 'Portfolio', href: '/portfolio' },
   { label: 'Blog', href: '/blog' },
   { label: 'FAQ', href: '/faq' },
 ];
 
-const contactContexts = getContactContexts();
-const bergenCountyContact = contactContexts.find((context) => context.slug === 'bergen-county');
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const nonce = (await headers()).get('x-nonce') ?? undefined;
 
-const localContactLinks = [
-  ...(bergenCountyContact
-    ? [
-        {
-          label: `${bergenCountyContact.locationLabel} contact`,
-          href: `/contact/${bergenCountyContact.slug}`,
-        },
-      ]
-    : []),
-  {
-    label: 'View all Bergen locations',
-    href: '/services/bergen-county',
-  },
-];
-
-const CampaignTracker = dynamic(
-  () =>
-    import('@/components/campaign-tracker').then((module) => ({
-      default: module.CampaignTracker,
-    })),
-  {
-    ssr: false,
-    loading: () => null,
-  },
-);
-
-const MixpanelProvider = dynamic(
-  () =>
-    import('@/components/mixpanel-provider').then((module) => ({
-      default: module.MixpanelProvider,
-    })),
-  {
-    ssr: false,
-    loading: () => null,
-  },
-);
-
-export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${headingFont.variable} ${bodyFont.variable} min-h-screen bg-[var(--pv-bg)] font-body text-[var(--pv-text)] antialiased transition-colors duration-300`}
       >
-        {enableSiteBehaviourTracking && siteBehaviourBootstrap ? (
-          <SiteBehaviourScript bootstrapScript={siteBehaviourBootstrap} />
-        ) : null}
-        <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
-        <ThemeProvider disableTransitionOnChange>
-          <Suspense fallback={null}>
-            <CampaignTracker />
-            <MixpanelProvider />
-          </Suspense>
-          <LayoutWrapper navItems={navItems} localContactLinks={localContactLinks}>
-            {children}
-          </LayoutWrapper>
-        </ThemeProvider>
+        <NonceProvider nonce={nonce}>
+          {enableSiteBehaviourTracking && siteBehaviourBootstrap ? (
+            <SiteBehaviourScript bootstrapScript={siteBehaviourBootstrap} />
+          ) : null}
+          <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
+          <StructuredData id="pixelverse-website" data={websiteSchema} />
+          <ThemeProvider disableTransitionOnChange>
+            <Suspense fallback={null}>
+              <CampaignTrackerClient />
+            </Suspense>
+            <LayoutWrapper navItems={navItems}>
+              {children}
+            </LayoutWrapper>
+            <DarkThemePicker />
+          </ThemeProvider>
+        </NonceProvider>
       </body>
     </html>
   );

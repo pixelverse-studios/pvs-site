@@ -23,33 +23,99 @@
   --pv-radius: 1rem;
   --pv-radius-sm: 0.5rem;
   --pv-radius-lg: 1.5rem;
-
-  /* Sale/Promo Colors */
-  --pv-sale: #ff3366;
-  --pv-sale-dark: #e6194b;
-  --pv-sale-glow: rgba(255, 51, 102, 0.4);
-  --pv-gold: #d4a853;
-  --pv-gold-dark: #b8923f;
-  --pv-gold-glow: rgba(212, 168, 83, 0.35);
 }
 
+/* ── Dark Mode Variant 0: Slate (default) ─────────────────────────── */
 .dark {
   color-scheme: dark;
-  --pv-bg: #04031a;
-  --pv-surface: #111539;
-  --pv-text: #f4f6ff;
-  --pv-text-muted: #9fa6dd;
-  --pv-border: #262d62;
-  --pv-shadow: 0 38px 92px -46px rgba(12, 14, 52, 0.8);
-  --pv-overlay-strong: rgba(6, 7, 30, 0.88);
-  --pv-overlay-soft: rgba(24, 26, 72, 0.68);
-  --pv-overlay-glow: rgba(34, 36, 108, 0.5);
+  --pv-primary: #7c4dff;
+  --pv-primary-2: #d060ff;
+  --pv-gradient: linear-gradient(90deg, #7c4dff, #d060ff);
+  --pv-bg: #0e0e14;
+  --pv-surface: #18182a;
+  --pv-text: #e4e4ef;
+  --pv-text-muted: #888ca4;
+  --pv-border: #252540;
+  --pv-shadow: 0 38px 92px -46px rgba(8, 8, 18, 0.75);
+  --pv-overlay-strong: rgba(10, 10, 20, 0.88);
+  --pv-overlay-soft: rgba(18, 18, 36, 0.65);
+  --pv-overlay-glow: rgba(32, 32, 90, 0.40);
+}
 
-  /* Sale/Promo Colors (Dark Mode) */
-  --pv-sale: #ff4d7a;
-  --pv-sale-dark: #ff3366;
-  --pv-gold: #e8b85d;
-  --pv-gold-dark: #d4a853;
+/* ── Dark Mode Variant 1: Dusk (warm charcoal) ─────────────────────── */
+/* Brand purple against warm dark — complementary, editorial, not "dev tool" */
+.dark[data-dark-variant="1"] {
+  --pv-bg: #141110;
+  --pv-surface: #1e1b18;
+  --pv-text: #ede9e3;
+  --pv-text-muted: #9a9288;
+  --pv-border: #2e2926;
+  --pv-shadow: 0 38px 92px -46px rgba(10, 8, 6, 0.75);
+  --pv-overlay-strong: rgba(16, 12, 10, 0.88);
+  --pv-overlay-soft: rgba(22, 18, 14, 0.65);
+  --pv-overlay-glow: rgba(80, 45, 20, 0.35);
+}
+
+/* ── Dark Mode Variant 2: Ink (pure neutral) ───────────────────────── */
+/* Near-true black — brand primaries become the ONLY color in the UI  */
+.dark[data-dark-variant="2"] {
+  --pv-bg: #111111;
+  --pv-surface: #1a1a1a;
+  --pv-text: #f0f0f0;
+  --pv-text-muted: #888888;
+  --pv-border: #2a2a2a;
+  --pv-shadow: 0 38px 92px -46px rgba(0, 0, 0, 0.80);
+  --pv-overlay-strong: rgba(10, 10, 10, 0.90);
+  --pv-overlay-soft: rgba(16, 16, 16, 0.68);
+  --pv-overlay-glow: rgba(40, 40, 40, 0.50);
+}
+
+/* ── Dark Mode Variant 3: Violet (soft indigo-purple) ──────────────── */
+/* Deeper purple character than Slate — richer indigo without the harshness */
+.dark[data-dark-variant="3"] {
+  --pv-bg: #11101e;
+  --pv-surface: #1b1933;
+  --pv-text: #e2dff4;
+  --pv-text-muted: #9090bc;
+  --pv-border: #252347;
+  --pv-shadow: 0 38px 92px -46px rgba(6, 5, 20, 0.80);
+  --pv-overlay-strong: rgba(12, 10, 28, 0.90);
+  --pv-overlay-soft: rgba(20, 18, 44, 0.68);
+  --pv-overlay-glow: rgba(45, 35, 110, 0.45);
+}
+
+/* ── Dark Mode Variant 4: Plum (warm violet-purple) ────────────────── */
+/* Where Slate goes cool and Violet goes indigo, Plum leans warm red-purple */
+.dark[data-dark-variant="4"] {
+  --pv-bg: #130f18;
+  --pv-surface: #1f1828;
+  --pv-text: #ece4f0;
+  --pv-text-muted: #9c8eb2;
+  --pv-border: #2e2240;
+  --pv-shadow: 0 38px 92px -46px rgba(10, 6, 16, 0.80);
+  --pv-overlay-strong: rgba(16, 10, 22, 0.90);
+  --pv-overlay-soft: rgba(24, 16, 34, 0.68);
+  --pv-overlay-glow: rgba(70, 35, 90, 0.40);
+}
+
+/* ── Dark Mode Accent Overrides ────────────────────────────────────── */
+/* Accent 0 — Original: the full-strength brand blue */
+.dark[data-dark-accent="0"] {
+  --pv-primary: #3f00e9;
+  --pv-primary-2: #c947ff;
+  --pv-gradient: linear-gradient(90deg, #3f00e9, #c947ff);
+}
+/* Accent 2 — Soft: balanced, approachable */
+.dark[data-dark-accent="2"] {
+  --pv-primary: #9575f5;
+  --pv-primary-2: #cc6aff;
+  --pv-gradient: linear-gradient(90deg, #9575f5, #cc6aff);
+}
+/* Accent 3 — Muted: near-lavender, gentle */
+.dark[data-dark-accent="3"] {
+  --pv-primary: #b09cf8;
+  --pv-primary-2: #d47aff;
+  --pv-gradient: linear-gradient(90deg, #b09cf8, #d47aff);
 }
 
 html {
@@ -123,8 +189,210 @@ html {
   }
 }
 
+/* ----------------------------------------------------------------
+   Hero Variant Effects
+   ---------------------------------------------------------------- */
+@layer components {
+  /* Shimmer sweep — light travels across surface on hover */
+  .btn-shimmer {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .btn-shimmer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25) 50%, transparent);
+    transform: translateX(-200%);
+    transition: transform 700ms ease-in-out;
+    will-change: transform;
+  }
+
+  .btn-shimmer:hover::before {
+    transform: translateX(200%);
+  }
+
+  /* Glow pulse — blurred shadow pulses behind element on hover */
+  .btn-glow-pulse {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .btn-glow-pulse::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background: inherit;
+    border-radius: inherit;
+    opacity: 0;
+    filter: blur(20px);
+    z-index: -1;
+    transition: opacity 300ms ease;
+    will-change: opacity;
+  }
+
+  .btn-glow-pulse:hover::after {
+    opacity: 0.55;
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes glow-pulse {
+    0%,
+    100% {
+      opacity: 0.4;
+      filter: blur(20px);
+    }
+    50% {
+      opacity: 0.7;
+      filter: blur(26px);
+    }
+  }
+
+  /* Film grain overlay — SVG noise texture */
+  .grain-overlay {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .grain-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Hero aurora container — contains paint to this section */
+  .hero-aurora {
+    contain: layout paint;
+  }
+
+  /* Headline text shadow — gives letterforms lift off the background */
+  .hero-headline {
+    filter: drop-shadow(0 2px 20px rgba(63, 0, 233, 0.12));
+  }
+
+  .dark .hero-headline {
+    filter: drop-shadow(0 2px 30px rgba(201, 71, 255, 0.2));
+  }
+
+  /* Spotlight variable — warm brand glow behind content */
+  :root {
+    --pv-hero-spotlight: rgba(63, 0, 233, 0.08);
+  }
+
+  .dark {
+    --pv-hero-spotlight: rgba(100, 55, 220, 0.12);
+  }
+  .dark[data-dark-variant="1"] {
+    --pv-hero-spotlight: rgba(140, 55, 255, 0.09);
+  }
+  .dark[data-dark-variant="2"] {
+    --pv-hero-spotlight: rgba(63, 0, 233, 0.07);
+  }
+  .dark[data-dark-variant="3"] {
+    --pv-hero-spotlight: rgba(80, 40, 240, 0.14);
+  }
+  .dark[data-dark-variant="4"] {
+    --pv-hero-spotlight: rgba(120, 40, 200, 0.11);
+  }
+
+  /* Floating hero icons — contextual design/dev icons that drift gently.
+     Positioned absolutely within the hero, hidden on mobile.
+     Each icon gets a unique float timing via staggered animation-delay. */
+  .hero-float-icon {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    color: var(--pv-primary);
+    opacity: 0.12;
+    pointer-events: none;
+    animation: hero-icon-float 8s ease-in-out infinite;
+  }
+
+  .dark .hero-float-icon {
+    color: var(--pv-primary-2);
+    opacity: 0.18;
+  }
+
+  /* Larger screens get bigger icons spread wider */
+  @media (min-width: 1280px) {
+    .hero-float-icon {
+      width: 38px;
+      height: 38px;
+    }
+  }
+
+  /* Staggered delays + varied durations for organic feel */
+  .hero-float-1 { animation-duration: 7s; animation-delay: 0s; }
+  .hero-float-2 { animation-duration: 9s; animation-delay: -2s; }
+  .hero-float-3 { animation-duration: 8s; animation-delay: -4s; }
+  .hero-float-4 { animation-duration: 10s; animation-delay: -1s; }
+  .hero-float-5 { animation-duration: 7.5s; animation-delay: -3s; }
+  .hero-float-6 { animation-duration: 8.5s; animation-delay: -1.5s; }
+  .hero-float-7 { animation-duration: 9.5s; animation-delay: -3.5s; }
+  .hero-float-8 { animation-duration: 7s; animation-delay: -5s; }
+  .hero-float-9 { animation-duration: 10.5s; animation-delay: -2.5s; }
+  .hero-float-10 { animation-duration: 8s; animation-delay: -4.5s; }
+
+  /* Gentle vertical bob with a subtle horizontal sway */
+  @keyframes hero-icon-float {
+    0%, 100% {
+      transform: translateY(0) translateX(0) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-12px) translateX(4px) rotate(3deg);
+    }
+    50% {
+      transform: translateY(-6px) translateX(-3px) rotate(-2deg);
+    }
+    75% {
+      transform: translateY(-14px) translateX(2px) rotate(1deg);
+    }
+  }
+
+  /* Dot pattern background */
+  .dot-pattern {
+    background-image: radial-gradient(circle, var(--pv-border) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Shimmer badge — light sweeps across every 4s */
+  .badge-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .badge-shimmer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2) 50%, transparent);
+    transform: translateX(-200%);
+    animation: shimmer 4s ease-in-out infinite;
+    will-change: transform;
+  }
+}
+
+/* ── Calendly popup overlay ───────────────────────────────────────────────── */
+/* Match the popup modal container background to the dark theme */
+.dark .calendly-overlay .calendly-popup {
+  background-color: #0e0e14;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+}
+.dark .calendly-overlay .calendly-close-overlay {
+  background: rgba(0, 0, 0, 0.7);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

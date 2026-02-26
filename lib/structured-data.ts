@@ -244,11 +244,6 @@ export function createCityServicesSchema(slug: string, city: string, state: stri
       type: 'Local SEO',
       description: `Local SEO optimization for ${city} businesses. Google Business Profile setup, local citations, schema markup, and content strategy.`,
     },
-    {
-      name: `UX/UI Design in ${city}, ${state}`,
-      type: 'UX UI Design',
-      description: `User experience and interface design for ${city} service brands. Conversion-optimized layouts and intuitive navigation.`,
-    },
   ];
 
   return services.map((service) =>
@@ -375,4 +370,138 @@ export function createLocalServiceBreadcrumbSchema(
     { name: serviceName, path: `/services/${serviceSlug}` },
     { name: city, path: `/services/${serviceSlug}/${citySlug}` },
   ]);
+}
+
+/**
+ * Creates Article schema for individual case study pages
+ * Home > Portfolio > [Case Study Name]
+ */
+export function createCaseStudySchema({
+  slug,
+  title,
+  description,
+  clientName,
+}: {
+  slug: string;
+  title: string;
+  description: string;
+  clientName: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: title,
+    description,
+    creator: {
+      '@type': 'Organization',
+      name: 'PixelVerse Studios',
+      url: siteUrl,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'PixelVerse Studios',
+      url: siteUrl,
+      logo: { '@type': 'ImageObject', url: lightModeLogo },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${siteUrl}/portfolio/${slug}`,
+    },
+    about: {
+      '@type': 'Organization',
+      name: clientName,
+    },
+  };
+}
+
+/**
+ * Creates BreadcrumbList schema for case study detail pages
+ * Home > Portfolio > [Case Study Name]
+ */
+export function createCaseStudyBreadcrumbSchema(clientName: string, slug: string) {
+  return createBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Portfolio', path: '/portfolio' },
+    { name: clientName, path: `/portfolio/${slug}` },
+  ]);
+}
+
+// WebSite schema for global SERP presence
+export const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${siteUrl}/#website`,
+  url: siteUrl,
+  name: 'PixelVerse Studios',
+  description:
+    'Custom web design & SEO focused on real business outcomes. We build high-performing websites for New Jersey businesses that rank, convert, and scale.',
+  publisher: {
+    '@type': 'Organization',
+    '@id': `${siteUrl}/#organization`,
+    name: 'PixelVerse Studios',
+  },
+};
+
+// Extends localBusinessSchema with live AggregateRating data
+export function createLocalBusinessSchemaWithRating(ratingData: {
+  rating: number;
+  reviewCount: number;
+} | null) {
+  if (!ratingData || ratingData.reviewCount === 0) return null;
+  return {
+    ...localBusinessSchema,
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: ratingData.rating.toFixed(1),
+      reviewCount: ratingData.reviewCount,
+      bestRating: '5',
+      worstRating: '1',
+    },
+  };
+}
+
+// Service schemas for homepage — describes the two core offerings
+export function createHomepageServiceSchemas() {
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      '@id': `${siteUrl}/#service-web-design`,
+      name: 'Web Design & Development',
+      serviceType: 'Web Design',
+      description:
+        'Custom websites that are user-focused, conversion-optimized, and built to support your business goals. From initial design to development and launch.',
+      url: `${siteUrl}/services/web-development`,
+      provider: {
+        '@type': 'ProfessionalService',
+        '@id': `${siteUrl}/#organization`,
+        name: 'PixelVerse Studios',
+        url: siteUrl,
+      },
+      areaServed: {
+        '@type': 'AdministrativeArea',
+        name: 'Bergen County, NJ',
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      '@id': `${siteUrl}/#service-seo`,
+      name: 'Website Optimization & SEO',
+      serviceType: 'SEO',
+      description:
+        'Improving search rankings and visibility through site structure, content optimization, performance improvements, and local SEO strategies that help the right customers find your business.',
+      url: `${siteUrl}/services/seo`,
+      provider: {
+        '@type': 'ProfessionalService',
+        '@id': `${siteUrl}/#organization`,
+        name: 'PixelVerse Studios',
+        url: siteUrl,
+      },
+      areaServed: {
+        '@type': 'AdministrativeArea',
+        name: 'Bergen County, NJ',
+      },
+    },
+  ];
 }
