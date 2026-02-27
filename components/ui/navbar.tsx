@@ -24,6 +24,7 @@ import { createPortal } from 'react-dom';
 
 import { sharedMetadata } from '@/lib/metadata';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from './theme-toggle';
 
 import { AuthDashboardLink } from './auth-dashboard-link';
 import { Button } from './button';
@@ -460,6 +461,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                 <Menu className="h-5 w-5" aria-hidden="true" />
               </Button>
             )}
+            <ThemeToggle />
           </div>
         </div>
       </header>
