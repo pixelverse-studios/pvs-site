@@ -27,7 +27,10 @@ const FALLBACK_RATING_DATA: GoogleRatingData = { rating: 5.0, reviewCount: 0 };
  *
  * Result is cached for 24 hours via Next.js fetch cache (same as rating data).
  */
-async function resolvePlaceId(apiKey: string): Promise<string | null> {
+async function resolvePlaceId(): Promise<string | null> {
+  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+  if (!apiKey) return null;
+
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 5000);
 
@@ -59,7 +62,7 @@ async function fetchPlacesData(): Promise<PlacesResponse | null> {
   const apiKey = process.env.GOOGLE_PLACES_API_KEY;
   if (!apiKey) return null;
 
-  const placeId = await resolvePlaceId(apiKey);
+  const placeId = await resolvePlaceId();
   if (!placeId) return null;
 
   const controller = new AbortController();
