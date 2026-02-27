@@ -68,8 +68,10 @@ export function AboutTestimonialsSection({
                       <p className="text-sm text-[var(--pv-text-muted)]">
                         {testimonial.authorTitle && `${testimonial.authorTitle}, `}
                         {testimonial.business}
-                        {testimonial.location && ` — ${testimonial.location}`}
                       </p>
+                      {testimonial.location && (
+                        <p className="text-sm text-[var(--pv-text-muted)]">{testimonial.location}</p>
+                      )}
                     </footer>
                   </Card>
                 </article>
