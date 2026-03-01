@@ -9,9 +9,7 @@
     "lint": "next lint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "type-check": "tsc --noEmit",
-    "sitemap": "next-sitemap",
-    "postbuild": "npm run sitemap"
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",

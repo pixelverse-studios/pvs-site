@@ -1,4 +1,4 @@
-const siteUrl = 'https://pixelversestudios.io';
+const siteUrl = 'https://www.pixelversestudios.io';
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
