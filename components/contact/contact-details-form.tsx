@@ -216,9 +216,9 @@ export function ContactDetailsForm() {
           <CheckCircle2 className="h-7 w-7 text-[var(--pv-primary)]" />
         </span>
         <div className="space-y-2">
-          <h3 className="font-heading text-xl font-semibold text-[var(--pv-text)]">
+          <h2 className="font-heading text-xl font-semibold text-[var(--pv-text)]">
             We&rsquo;ve received your details
-          </h3>
+          </h2>
           <p className="max-w-sm text-sm text-[var(--pv-text-muted)]">
             We review every submission personally and will follow up within 1–2 business days with
             honest thoughts on what makes sense for your situation.

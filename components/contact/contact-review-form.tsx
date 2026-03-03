@@ -170,9 +170,9 @@ export function ContactReviewForm() {
           <CheckCircle2 className="h-7 w-7 text-[var(--pv-primary)]" />
         </span>
         <div className="space-y-2">
-          <h3 className="font-heading text-xl font-semibold text-[var(--pv-text)]">
+          <h2 className="font-heading text-xl font-semibold text-[var(--pv-text)]">
             We&rsquo;ve received your request
-          </h3>
+          </h2>
           <p className="max-w-sm text-sm text-[var(--pv-text-muted)]">
             We&rsquo;ll take a look at your site and follow up within 1–2 business days with honest
             feedback on what we find.
