@@ -99,7 +99,7 @@ const rawHomepageHero = {
   },
   secondaryCta: {
     label: 'Request a Website Review',
-    href: '/contact?path=review',
+    href: '/contact/review',
   },
 };
 

@@ -116,7 +116,7 @@ export const webDevelopmentContent: WebDevContentData = {
       question: 'How much does a custom website cost?',
       answer:
         'Most custom website projects for small-to-mid-size businesses fall in the $3,000\u2013$10,000+ range, depending on scope, number of pages, integrations, and content work involved. We scope every project individually \u2014 you\u2019re not paying for a package built around someone else\u2019s needs.',
-      link: { label: 'Share your project details', href: '/contact?path=details' },
+      link: { label: 'Share your project details', href: '/contact/details' },
     },
     {
       question: 'How long does it take to build a website?',

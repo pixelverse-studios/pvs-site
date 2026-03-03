@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 
 import { ContactHero } from '@/components/contact/contact-hero';
 import { ContactPageClient } from '@/components/contact/contact-page-client';
-import type { ContactPath } from '@/components/contact/contact-path-selector';
 import { createBreadcrumbSchema } from '@/lib/structured-data';
 import { StructuredData } from '@/components/ui/structured-data';
 import { createPageMetadata } from '@/lib/metadata';
@@ -35,24 +34,13 @@ const contactPageSchema = {
   url: 'https://www.pixelversestudios.io/contact',
 };
 
-const VALID_PATHS = ['details', 'call', 'review'] as const satisfies readonly ContactPath[];
-
-type PageProps = {
-  searchParams: Promise<{ path?: string }>;
-};
-
-export default async function ContactPage({ searchParams }: PageProps) {
-  const params = await searchParams;
-  const defaultPath: ContactPath = VALID_PATHS.includes(params.path as ContactPath)
-    ? (params.path as ContactPath)
-    : 'details';
-
+export default function ContactPage() {
   return (
     <main>
       <StructuredData id="contact-breadcrumb-schema" data={breadcrumbSchema} />
       <StructuredData id="contact-page-schema" data={contactPageSchema} />
       <ContactHero />
-      <ContactPageClient defaultPath={defaultPath} />
+      <ContactPageClient defaultPath="details" />
     </main>
   );
 }

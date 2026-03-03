@@ -1,3 +1,6 @@
+/contact?path=review   /contact/review   301!
+/contact?path=details   /contact/details   301!
+/contact?path=call   /contact/call   301!
 /works   /portfolio   301!
 /pricing   /packages   301!
 /contact?context=bergen-county   /contact/bergen-county   301!

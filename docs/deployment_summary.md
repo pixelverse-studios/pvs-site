@@ -9,6 +9,11 @@
 - Shortened web development service page title tag for better search display
 - Shortened all 8 blog meta descriptions to under 160 characters for better SERP snippets
 - Fixed heading hierarchy on contact page for better SEO and accessibility
+- Converted all contact page tabs to clean URL routes (/contact/details, /contact/call, /contact/review)
+- Tab selector now uses navigation links instead of JavaScript state switching
+- Each contact path has its own page with dedicated metadata and breadcrumb schema
+- All old query string URLs (?path=review, ?path=details, ?path=call) now 301 redirect to clean URLs
+- "Book a strategy call" CTA on blog pages now links directly to /contact/call
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -23,6 +28,12 @@
 - File: `data/blog-posts.ts`
 - DEV-415: Changed H3→H2 in contact form success states and strategy call header to fix H1→H3 skip
 - Files: `components/contact/contact-details-form.tsx`, `contact-review-form.tsx`, `contact-strategy-call.tsx`
+- DEV-417: Converted contact page from query-param tabs to route-based navigation
+- New files: `app/contact/details/page.tsx`, `app/contact/call/page.tsx`, `app/contact/review/page.tsx`
+- Each route has unique metadata, keywords, and breadcrumb schema
+- Converted `ContactPathSelector` from `<button>` + React state to `<Link>` navigation
+- Updated internal links: `data/homepage.ts`, `data/service-paths.ts`, `components/ui/request-review-cta.tsx`, `data/web-development-content.ts`, `data/homepage-faq.ts`, `components/blog/blog-cta-section.tsx`
+- Added 301 redirects for all 3 old query string patterns in `next.config.js` and `public/_redirects`
 
 ## Changed URLs
 - https://www.pixelversestudios.io
@@ -36,3 +47,6 @@
 - https://www.pixelversestudios.io/blog/how-much-does-a-website-cost-new-jersey
 - https://www.pixelversestudios.io/blog/ux-vs-ui-precision-for-service-brands
 - https://www.pixelversestudios.io/contact
+- https://www.pixelversestudios.io/contact/details
+- https://www.pixelversestudios.io/contact/call
+- https://www.pixelversestudios.io/contact/review
