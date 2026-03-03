@@ -27,6 +27,8 @@ function buildCsp(nonce: string, isDev: boolean, apiUrl: string | undefined): st
       'https://*.calendly.com',
       'https://maps.googleapis.com',
       'https://maps.gstatic.com',
+      'https://*.sitebehaviour.com',
+      'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com',
       ...(apiUrl ? [apiUrl] : []),
       ...(isDev && apiUrl !== 'http://localhost:5001' ? ['http://localhost:5001'] : []),
     ],
