@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Calendar, Clock, MessageSquare, Target } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { PopupButton, useCalendlyEventListener } from 'react-calendly';
@@ -31,13 +32,13 @@ function CalendlyPlaceholder() {
           Online Scheduling Coming Soon
         </p>
         <p className="text-sm text-[var(--pv-text-muted)]">
-          Scheduling isn&rsquo;t available here yet — email us at{' '}
-          <a
-            href="mailto:info@pixelversestudios.io"
+          Scheduling isn&rsquo;t available here yet —{' '}
+          <Link
+            href="/contact/details"
             className="font-medium text-[var(--pv-primary)] underline underline-offset-2"
           >
-            info@pixelversestudios.io
-          </a>{' '}
+            send us a message
+          </Link>{' '}
           to set up a call.
         </p>
       </div>

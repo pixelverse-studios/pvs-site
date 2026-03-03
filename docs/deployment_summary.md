@@ -31,6 +31,9 @@
 - Hero section now renders instantly without waiting for JavaScript to load
 - Deferred analytics tracking script to load after page is fully interactive
 - Below-fold homepage sections now load on demand instead of all at once
+- Removed plain text email addresses from all public-facing pages to prevent scraper harvesting
+- Footer email links now route to the contact form instead of exposing the address
+- Contact form error messages and strategy call fallback updated to link to contact page
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -71,6 +74,11 @@
 - Hero and WhySection imported eagerly; 7 below-fold sections use `dynamic()` imports for code-splitting
 - Deleted unused `components/home/homepage-client.tsx`
 - Homepage first-load JS: 267 kB → 262 kB; page-specific JS: 21.5 kB → 16.2 kB
+- DEV-403: Removed plain text `info@pixelversestudios.io` from all user-visible pages
+- Footer: changed `mailto:` link + plain text email to `/contact/details` link with "Email Us" label across all 4 layouts
+- Contact forms: replaced email in error messages with "/contact/details" link in `contact-details-form.tsx` and `contact-review-form.tsx`
+- Strategy call: replaced email in Calendly fallback with "/contact/details" link in `contact-strategy-call.tsx`
+- Structured data emails in `lib/structured-data.ts` intentionally kept — Google expects email in LocalBusiness schema
 
 ## Changed URLs
 - https://www.pixelversestudios.io

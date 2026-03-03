@@ -27,7 +27,7 @@ const CURRENT_YEAR = new Date().getFullYear();
 const CONTACT = {
   address: '79 Edgewater Road, Cliffside Park, NJ 07010',
   phone: { href: 'tel:+12016381769', label: '(201) 638-1769' },
-  email: { href: 'mailto:info@pixelversestudios.io', label: 'info@pixelversestudios.io' },
+  email: { href: '/contact/details', label: 'Email Us' },
 } as const;
 
 // Shared className constants to avoid repetition across layouts
@@ -103,10 +103,10 @@ function FooterLayoutA({ links = [], cta, className, ...props }: FooterProps) {
                 <Phone className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
                 {CONTACT.phone.label}
               </a>
-              <a href={CONTACT.email.href} className={cn('flex items-center gap-2', navLinkCls)}>
+              <Link href={CONTACT.email.href} className={cn('flex items-center gap-2', navLinkCls)}>
                 <Mail className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
                 {CONTACT.email.label}
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -150,10 +150,10 @@ function FooterLayoutB({ links = [], cta, className, ...props }: FooterProps) {
                 <Phone className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
                 {CONTACT.phone.label}
               </a>
-              <a href={CONTACT.email.href} className={cn('flex items-center gap-2', navLinkCls)}>
+              <Link href={CONTACT.email.href} className={cn('flex items-center gap-2', navLinkCls)}>
                 <Mail className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
                 {CONTACT.email.label}
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -256,10 +256,10 @@ function FooterLayoutC({ links = [], cta, className, ...props }: FooterProps) {
               <Phone className="h-3.5 w-3.5 text-[var(--pv-primary)]" aria-hidden />
               {CONTACT.phone.label}
             </a>
-            <a href={CONTACT.email.href} className="flex items-center gap-1.5 transition-colors hover:text-[var(--pv-primary)]">
+            <Link href={CONTACT.email.href} className="flex items-center gap-1.5 transition-colors hover:text-[var(--pv-primary)]">
               <Mail className="h-3.5 w-3.5 text-[var(--pv-primary)]" aria-hidden />
               {CONTACT.email.label}
-            </a>
+            </Link>
           </address>
           <div className="flex items-center gap-4">
             <SocialLinks iconClassName="bg-[var(--pv-bg)] !h-7 !w-7 !text-xs" />
@@ -318,10 +318,10 @@ function FooterLayoutD({ links = [], cta, className, ...props }: FooterProps) {
                 <Phone className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
                 {CONTACT.phone.label}
               </a>
-              <a href={CONTACT.email.href} className={cn('flex items-center gap-2', navLinkCls)}>
+              <Link href={CONTACT.email.href} className={cn('flex items-center gap-2', navLinkCls)}>
                 <Mail className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
                 {CONTACT.email.label}
-              </a>
+              </Link>
             </div>
             <p className="mt-4 text-xs text-[var(--pv-text-muted)]">
               Response within 24 hours.<br />Mon – Fri, 9am – 6pm EST
