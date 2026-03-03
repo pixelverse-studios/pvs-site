@@ -50,7 +50,7 @@ export const webDevelopmentContent: WebDevContentData = {
       'For New Jersey businesses that need a website built from the ground up, or a rebuild when the current site no longer supports how the business operates.\n\nWe plan, design, and develop websites with clear structure and purpose, so the site doesn\u2019t just look polished, but actively supports how the business attracts, explains, and converts.',
     cta: {
       label: 'Start the Conversation',
-      href: '/contact',
+      href: '/contact/details',
     },
   },
   whenNewWebsite: {
@@ -150,7 +150,7 @@ export const webDevelopmentContent: WebDevContentData = {
       'If you\u2019re considering a new website, or unsure whether your current one still fits, the next step is a conversation.\n\nWe\u2019ll review your situation and determine what actually makes sense before anything moves forward.',
     cta: {
       label: 'Discuss Your Project',
-      href: '/contact',
+      href: '/contact/details',
     },
   },
 };

@@ -49,7 +49,7 @@ export const seoContent: SeoContentData = {
       'For New Jersey businesses with an existing website that need to be found by the right people in the right places.\n\nWe focus on improving local visibility, clarity, and performance by identifying what\u2019s holding a site back and addressing the issues that actually affect search presence and customer decisions.',
     cta: {
       label: 'Discuss Your Situation',
-      href: '/contact',
+      href: '/contact/details',
     },
   },
   whyBusinessesLook: {
@@ -111,7 +111,7 @@ export const seoContent: SeoContentData = {
       question: 'How much does local SEO cost?',
       answer:
         'Local SEO engagements vary based on what the site actually needs. Most projects for small-to-mid-size businesses fall in the $1,500\u2013$5,000+ range for an initial optimization engagement, with ongoing work structured separately depending on scope. We evaluate first and scope based on what will move the needle \u2014 not a fixed package.',
-      link: { label: 'Share your situation', href: '/contact' },
+      link: { label: 'Share your situation', href: '/contact/details' },
     },
     {
       question: 'How long does SEO take to show results?',
@@ -155,7 +155,7 @@ export const seoContent: SeoContentData = {
       'If your website exists but isn\u2019t delivering the local visibility or inquiries you expect, the next step is clarity.\n\nWe\u2019ll review your current situation, identify what\u2019s actually limiting performance, and determine whether focused optimization is the right move.',
     cta: {
       label: 'Discuss Your Situation',
-      href: '/contact',
+      href: '/contact/details',
     },
   },
 };

@@ -40,7 +40,7 @@ export const servicesPageData: ServicesPageData = {
       "That's exactly what the initial conversation is for.\n\nWe'll look at your current situation, clarify what's actually limiting progress, and recommend the right next step before anything moves forward.",
     primaryCta: {
       label: 'Start the Conversation',
-      href: '/contact',
+      href: '/contact/details',
     },
     secondaryCta: {
       label: 'Request a Website Review',

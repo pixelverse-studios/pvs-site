@@ -22,7 +22,7 @@ export function FaqClosingCtaSection() {
           </MotionItem>
           <MotionItem delay={0.08}>
             <Button asChild size="lg" variant="cta" className="w-full md:w-auto">
-              <Link href="/contact">Start the Conversation</Link>
+              <Link href="/contact/details">Start the Conversation</Link>
             </Button>
           </MotionItem>
         </MotionSection>

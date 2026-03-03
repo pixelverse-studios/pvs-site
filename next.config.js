@@ -55,7 +55,7 @@ const nextConfig = {
 
     const contactSlugRedirects = legacyContactSlugs.map((slug) => ({
       source: `/contact/${slug}`,
-      destination: '/contact',
+      destination: '/contact/details',
       permanent: true,
     }));
     const legacyServiceCitySlugs = [
@@ -85,12 +85,12 @@ const nextConfig = {
       },
       {
         source: '/pricing',
-        destination: '/contact',
+        destination: '/contact/details',
         permanent: true,
       },
       {
         source: '/packages',
-        destination: '/contact',
+        destination: '/contact/details',
         permanent: true,
       },
       {
@@ -121,7 +121,7 @@ const nextConfig = {
       },
       {
         source: '/audit',
-        destination: '/contact',
+        destination: '/contact/review',
         permanent: true,
       },
       ...contactSlugRedirects,
@@ -141,6 +141,11 @@ const nextConfig = {
         source: '/contact',
         has: [{ type: 'query', key: 'path', value: 'call' }],
         destination: '/contact/call',
+        permanent: true,
+      },
+      {
+        source: '/contact',
+        destination: '/contact/details',
         permanent: true,
       },
     ];

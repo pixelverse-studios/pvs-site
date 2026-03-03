@@ -1,4 +1,6 @@
-import Link from 'next/link';
+'use client';
+
+import { useCallback } from 'react';
 import { Calendar, FileText, Search } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -43,9 +45,18 @@ const paths: PathOption[] = [
 
 interface ContactPathSelectorProps {
   activePath: ContactPath;
+  onSelect: (path: ContactPath) => void;
 }
 
-export function ContactPathSelector({ activePath }: ContactPathSelectorProps) {
+export function ContactPathSelector({ activePath, onSelect }: ContactPathSelectorProps) {
+  const handleSelect = useCallback(
+    (path: PathOption) => {
+      onSelect(path.id);
+      window.history.replaceState(null, '', path.href);
+    },
+    [onSelect],
+  );
+
   return (
     <div>
       <div className="mb-6 text-center">
@@ -63,10 +74,11 @@ export function ContactPathSelector({ activePath }: ContactPathSelectorProps) {
           const isActive = activePath === path.id;
 
           return (
-            <Link
+            <button
               key={path.id}
-              href={path.href}
-              aria-current={isActive ? 'page' : undefined}
+              type="button"
+              onClick={() => handleSelect(path)}
+              aria-pressed={isActive}
               className={cn(
                 'group flex flex-col items-start gap-4 rounded-2xl border p-6 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
                 isActive
@@ -112,7 +124,7 @@ export function ContactPathSelector({ activePath }: ContactPathSelectorProps) {
                 )}
                 aria-hidden="true"
               />
-            </Link>
+            </button>
           );
         })}
       </div>

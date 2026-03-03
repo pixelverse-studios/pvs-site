@@ -14,6 +14,9 @@
 - Each contact path has its own page with dedicated metadata and breadcrumb schema
 - All old query string URLs (?path=review, ?path=details, ?path=call) now 301 redirect to clean URLs
 - "Book a strategy call" CTA on blog pages now links directly to /contact/call
+- /contact now redirects to /contact/details — all internal links updated to avoid redirect chains
+- /audit now redirects to /contact/review instead of /contact
+- Updated sitemap to list the 3 specific contact routes instead of the generic /contact URL
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
