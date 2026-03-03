@@ -15,7 +15,7 @@ import { StructuredData } from '@/components/ui/structured-data';
 import { webDevelopmentContent } from '@/data/web-development-content';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Custom Web Design & Development | New Jersey | Pixelverse',
+  title: 'Web Design & Development in New Jersey | Pixelverse',
   description:
     'Professional web design and development in New Jersey. From planning to launch, we build custom websites that are clear, usable, and support business goals.',
   path: '/services/web-development',
