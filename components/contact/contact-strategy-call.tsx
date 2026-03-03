@@ -88,9 +88,9 @@ export function ContactStrategyCall() {
         <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--pv-text-muted)]">
           Strategy Call
         </p>
-        <h3 className="mt-1 font-heading text-xl font-semibold text-[var(--pv-text)]">
+        <h2 className="mt-1 font-heading text-xl font-semibold text-[var(--pv-text)]">
           Let&rsquo;s talk about your project
-        </h3>
+        </h2>
       </div>
 
       {/* Body */}
