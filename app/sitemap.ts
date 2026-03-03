@@ -1,7 +1,6 @@
 import { MetadataRoute } from 'next'
 import { getBlogPosts } from '@/data/blog-posts'
 import { caseStudies } from '@/data/case-studies'
-import { priorityCities, phase2Cities } from '@/data/seo-focus'
 
 const BASE_URL = 'https://www.pixelversestudios.io'
 
@@ -71,8 +70,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
-  const allCities = [...priorityCities, ...phase2Cities]
-
   const blogPages: MetadataRoute.Sitemap = getBlogPosts().map(post => ({
     url: `${BASE_URL}/blog/${post.slug}`,
     lastModified: now,
@@ -87,33 +84,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
-  const cityServicePages: MetadataRoute.Sitemap = allCities.flatMap(
-    city => [
-      {
-        url: `${BASE_URL}/services/${city.slug}`,
-        lastModified: now,
-        changeFrequency: 'weekly' as const,
-        priority: 0.8,
-      },
-      {
-        url: `${BASE_URL}/services/seo/${city.slug}`,
-        lastModified: now,
-        changeFrequency: 'weekly' as const,
-        priority: 0.7,
-      },
-      {
-        url: `${BASE_URL}/services/web-development/${city.slug}`,
-        lastModified: now,
-        changeFrequency: 'weekly' as const,
-        priority: 0.7,
-      },
-    ]
-  )
-
   return [
     ...staticPages,
     ...blogPages,
     ...portfolioPages,
-    ...cityServicePages,
   ]
 }
