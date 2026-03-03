@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import {
   Code2,
@@ -14,7 +12,6 @@ import {
   Sparkles,
 } from 'lucide-react';
 
-import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import { homepageHero } from '@/data/homepage';
 
 import { Container } from './container';
@@ -63,33 +60,28 @@ export function HeroSection({ badge }: { badge?: string }) {
       </div>
 
       <Container className="relative pb-32 pt-52 sm:pt-56 md:pb-44 md:pt-64">
-        <MotionSection
-          as="div"
-          className="mx-auto flex max-w-3xl flex-col items-center gap-8 text-center"
-          triggerOnViewport={false}
-          motionProps={{ initial: 'hidden', animate: 'visible' }}
-        >
+        <div className="mx-auto flex max-w-3xl flex-col items-center gap-8 text-center">
           {/* Badge */}
-          <MotionItem triggerOnViewport={false}>
+          <div className="hero-enter hero-enter-1">
             <div className="badge-shimmer inline-flex items-center gap-2.5 rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)]/70 px-4 py-2 shadow-[0_1px_3px_rgba(0,0,0,0.04)] backdrop-blur-md dark:border-white/[0.08] dark:bg-white/[0.04] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--pv-primary)] shadow-[0_0_8px_2px_var(--pv-primary)] dark:bg-[var(--pv-primary-2)] dark:shadow-[0_0_8px_2px_var(--pv-primary-2)]" />
               <span className="text-xs font-medium tracking-wide text-[var(--pv-text-muted)]">
                 {badge ?? homepageHero.badge}
               </span>
             </div>
-          </MotionItem>
+          </div>
 
           {/* Headline */}
-          <MotionItem delay={0.08} className="space-y-2" triggerOnViewport={false}>
+          <div className="hero-enter hero-enter-2 space-y-2">
             <h1 className="hero-headline font-heading text-4xl font-semibold leading-[1.08] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-[4.25rem]">
               <span className="bg-[linear-gradient(145deg,var(--pv-primary)_0%,#6d28d9_40%,var(--pv-primary-2)_100%)] bg-clip-text text-transparent dark:bg-[linear-gradient(145deg,#ffffff_0%,#c4b5fd_35%,var(--pv-primary-2)_75%,#f0abfc_100%)]">
                 {homepageHero.headline}
               </span>
             </h1>
-          </MotionItem>
+          </div>
 
           {/* Subheadlines */}
-          <MotionItem delay={0.14} className="max-w-xl space-y-3" triggerOnViewport={false}>
+          <div className="hero-enter hero-enter-3 max-w-xl space-y-3">
             {homepageHero.subheadline.map((line, i) => (
               <p
                 key={i}
@@ -98,10 +90,10 @@ export function HeroSection({ badge }: { badge?: string }) {
                 {line}
               </p>
             ))}
-          </MotionItem>
+          </div>
 
           {/* CTAs */}
-          <MotionItem delay={0.2} triggerOnViewport={false}>
+          <div className="hero-enter hero-enter-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
               <Link
                 href={homepageHero.primaryCta.href}
@@ -117,8 +109,8 @@ export function HeroSection({ badge }: { badge?: string }) {
                 {homepageHero.secondaryCta.label}
               </Link>
             </div>
-          </MotionItem>
-        </MotionSection>
+          </div>
+        </div>
       </Container>
 
       {/* Bottom fade */}

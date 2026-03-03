@@ -25,7 +25,7 @@ export function SiteBehaviourScript({ bootstrapScript }: SiteBehaviourScriptProp
   return (
     <Script
       id="sitebehaviour-tracking"
-      strategy="afterInteractive"
+      strategy="lazyOnload"
       nonce={nonce}
       dangerouslySetInnerHTML={{ __html: bootstrapScript }}
     />

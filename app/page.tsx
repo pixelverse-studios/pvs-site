@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 
-import { HomepageClient } from '@/components/home/homepage-client';
+import { HeroSection } from '@/components/home/hero-section';
+import { WhySection } from '@/components/home/why-section';
 import { StructuredData } from '@/components/ui/structured-data';
 import { homepageFaq } from '@/data/homepage-faq';
 import { getGoogleRatingBadge, getGoogleRatingData } from '@/lib/api/google-places';
@@ -9,6 +11,28 @@ import {
   createHomepageServiceSchemas,
   createLocalBusinessSchemaWithRating,
 } from '@/lib/structured-data';
+
+const CaseStudySection = dynamic(
+  () => import('@/components/home/case-study-section').then((m) => m.CaseStudySection),
+);
+const InsightSection = dynamic(
+  () => import('@/components/home/insight-section').then((m) => m.InsightSection),
+);
+const ProcessSection = dynamic(
+  () => import('@/components/home/process-section').then((m) => m.ProcessSection),
+);
+const TestimonialCarousel = dynamic(
+  () => import('@/components/home/testimonial-carousel').then((m) => m.TestimonialCarousel),
+);
+const HomeFaqSection = dynamic(
+  () => import('@/components/home/home-faq-section').then((m) => m.HomeFaqSection),
+);
+const ServicesSection = dynamic(
+  () => import('@/components/home/services-section').then((m) => m.ServicesSection),
+);
+const FinalCtaSection = dynamic(
+  () => import('@/components/home/final-cta-section').then((m) => m.FinalCtaSection),
+);
 
 export const metadata: Metadata = createPageMetadata({
   title: 'Web Design, Development & SEO Services in New Jersey',
@@ -55,7 +79,17 @@ export default async function Home() {
       {homepageServiceSchemas.map((schema) => (
         <StructuredData key={schema['@id']} id={schema['@id']} data={schema} />
       ))}
-      <HomepageClient badge={badge} />
+      <main>
+        <HeroSection badge={badge} />
+        <WhySection />
+        <CaseStudySection />
+        <InsightSection />
+        <ProcessSection />
+        <TestimonialCarousel />
+        <HomeFaqSection />
+        <ServicesSection />
+        <FinalCtaSection />
+      </main>
     </>
   );
 }

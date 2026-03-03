@@ -272,6 +272,37 @@ html {
     contain: layout paint;
   }
 
+  /* Hero entrance animations — CSS-only so content is in the HTML for LCP,
+     but elements still get a polished fade-up on load. */
+  @keyframes hero-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-enter {
+    animation: hero-fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .hero-enter-1 { animation-delay: 0.05s; }
+  .hero-enter-2 { animation-delay: 0.15s; }
+  .hero-enter-3 { animation-delay: 0.25s; }
+  .hero-enter-4 { animation-delay: 0.35s; }
+
+  /* Users who prefer reduced motion skip the entrance animation */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-enter {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   /* Headline text shadow — gives letterforms lift off the background */
   .hero-headline {
     filter: drop-shadow(0 2px 20px rgba(63, 0, 233, 0.12));
