@@ -21,6 +21,12 @@
 - Removed 9 redundant redirect rules from Netlify config that were already handled by Next.js server-side redirects
 - Moved ContactPage structured data schema from dead /contact page into /contact/details (the canonical entry point)
 - Removed dead /contact page code that was unreachable behind a catch-all redirect
+- Expanded text content on 7 pages flagged by SEOptimer for "Page Text Content Too Short"
+- Portfolio landing page now includes approach narrative and project selection context
+- Services overview page has expanded hero description and deeper service path explanations
+- Contact page hero now explains the three contact paths and sets response time expectations
+- All 3 portfolio case studies expanded with deeper problem context, solution details, and outcome metrics
+- FAQ intro section expanded with section navigation context
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -46,6 +52,13 @@
 - Moved `contactPageSchema` (ContactPage structured data) from `app/contact/page.tsx` to `app/contact/details/page.tsx`, updated URL to `/contact/details`
 - Updated breadcrumb parent from `/contact` to `/contact/details` in details page
 - Deleted `app/contact/page.tsx` — dead code behind catch-all redirect in `next.config.js`
+- DEV-418: Expanded thin content on 7 pages flagged by SEOptimer
+- Portfolio intro: added 2 paragraphs (~120 words) to `components/portfolio/portfolio-intro-section.tsx`
+- Services hero: expanded description from 3 to 4 paragraphs in `data/service-paths.ts`
+- Services path cards: expanded description and body for both web-dev and SEO cards in `data/service-paths.ts`
+- Contact hero: added 2 paragraphs (path explanation + response time) to `components/contact/contact-hero.tsx`
+- Case studies: expanded problem, solution, and outcome.description for all 3 entries in `data/case-studies.ts`
+- FAQ intro: added section navigation paragraph to `components/faq/faq-intro-section.tsx`
 
 ## Changed URLs
 - https://www.pixelversestudios.io
@@ -62,3 +75,9 @@
 - https://www.pixelversestudios.io/contact/details
 - https://www.pixelversestudios.io/contact/call
 - https://www.pixelversestudios.io/contact/review
+- https://www.pixelversestudios.io/portfolio
+- https://www.pixelversestudios.io/portfolio/jones-pressure-washing
+- https://www.pixelversestudios.io/portfolio/360-degree-care
+- https://www.pixelversestudios.io/portfolio/domani
+- https://www.pixelversestudios.io/services
+- https://www.pixelversestudios.io/faq
