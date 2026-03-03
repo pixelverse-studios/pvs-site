@@ -27,6 +27,10 @@
 - Contact page hero now explains the three contact paths and sets response time expectations
 - All 3 portfolio case studies expanded with deeper problem context, solution details, and outcome metrics
 - FAQ intro section expanded with section navigation context
+- Optimized homepage loading performance for better mobile PageSpeed scores
+- Hero section now renders instantly without waiting for JavaScript to load
+- Deferred analytics tracking script to load after page is fully interactive
+- Below-fold homepage sections now load on demand instead of all at once
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -59,6 +63,14 @@
 - Contact hero: added 2 paragraphs (path explanation + response time) to `components/contact/contact-hero.tsx`
 - Case studies: expanded problem, solution, and outcome.description for all 3 entries in `data/case-studies.ts`
 - FAQ intro: added section navigation paragraph to `components/faq/faq-intro-section.tsx`
+- DEV-401: Mobile PageSpeed optimization — target is score ≥85, LCP <2.5s
+- Converted hero section from client component (framer-motion animations) to server component (plain HTML)
+- Hero content was hidden at `opacity: 0` until JS hydrated and animated in — now renders immediately in initial HTML
+- Changed SiteBehaviour script strategy from `afterInteractive` to `lazyOnload` — defers until after page idle
+- Restructured `app/page.tsx`: removed `HomepageClient` wrapper that bundled all 9 sections as client JS
+- Hero and WhySection imported eagerly; 7 below-fold sections use `dynamic()` imports for code-splitting
+- Deleted unused `components/home/homepage-client.tsx`
+- Homepage first-load JS: 267 kB → 262 kB; page-specific JS: 21.5 kB → 16.2 kB
 
 ## Changed URLs
 - https://www.pixelversestudios.io
