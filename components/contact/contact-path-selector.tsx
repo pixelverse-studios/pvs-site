@@ -52,7 +52,6 @@ export function ContactPathSelector({ activePath, onSelect }: ContactPathSelecto
   const handleSelect = useCallback(
     (path: PathOption) => {
       onSelect(path.id);
-      window.history.replaceState(null, '', path.href);
     },
     [onSelect],
   );
