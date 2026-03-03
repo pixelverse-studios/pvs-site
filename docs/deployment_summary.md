@@ -7,6 +7,7 @@
 - Visitor heatmaps and session recordings should resume immediately after deploy
 - Shortened 6 blog post title tags for better search result display (all now under 60 characters)
 - Shortened web development service page title tag for better search display
+- Shortened all 8 blog meta descriptions to under 160 characters for better SERP snippets
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -17,6 +18,8 @@
 - File: `data/blog-posts.ts` — 6 titles trimmed to <=60 characters while preserving primary keywords
 - DEV-413: Shortened web-development page title from 64 to 51 chars
 - File: `app/services/web-development/page.tsx`
+- DEV-414: Shortened all 8 blog excerpts (used as meta descriptions) to <=160 chars
+- File: `data/blog-posts.ts`
 
 ## Changed URLs
 - https://www.pixelversestudios.io
@@ -27,3 +30,5 @@
 - https://www.pixelversestudios.io/blog/analytics-retainer-reporting-clients-actually-read
 - https://www.pixelversestudios.io/blog/custom-development-vs-website-builders
 - https://www.pixelversestudios.io/services/web-development
+- https://www.pixelversestudios.io/blog/how-much-does-a-website-cost-new-jersey
+- https://www.pixelversestudios.io/blog/ux-vs-ui-precision-for-service-brands
