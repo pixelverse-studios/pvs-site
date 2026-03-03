@@ -339,7 +339,7 @@ export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
             </MotionItem>
             <MotionItem delay={0.08}>
               <Link
-                href="/contact"
+                href="/contact/details"
                 className="inline-flex items-center gap-2 rounded-full bg-[image:var(--pv-gradient)] px-8 py-3 font-medium text-white shadow-[0_8px_24px_-8px_rgba(63,0,233,0.5)] transition-opacity hover:opacity-90"
               >
                 Start the Conversation

@@ -95,11 +95,11 @@ const rawHomepageHero = {
   ],
   primaryCta: {
     label: 'Get Started',
-    href: '/contact',
+    href: '/contact/details',
   },
   secondaryCta: {
     label: 'Request a Website Review',
-    href: '/contact?path=review',
+    href: '/contact/review',
   },
 };
 
@@ -116,7 +116,7 @@ export const whySection: WhySection = {
   ],
   cta: {
     label: 'Discuss Your Situation',
-    href: '/contact',
+    href: '/contact/details',
   },
 };
 
@@ -248,7 +248,7 @@ export const services: Service[] = [
     summary:
       'Providing ongoing website maintenance, security updates, and support as your business evolves, ensuring your site continues performing at its best.',
     icon: 'lifebuoy',
-    href: '/contact',
+    href: '/contact/details',
   },
 ];
 
@@ -258,6 +258,6 @@ export const finalCta: FinalCta = {
     "If you're unsure what your website needs, or whether you need one at all, the next step is a conversation.\nWe'll look at what's getting in the way and determine what kind of work actually makes sense.",
   cta: {
     label: 'Start the Conversation',
-    href: '/contact',
+    href: '/contact/details',
   },
 };
