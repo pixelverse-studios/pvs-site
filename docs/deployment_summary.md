@@ -34,6 +34,8 @@
 - Removed plain text email addresses from all public-facing pages to prevent scraper harvesting
 - Footer email links now route to the contact form instead of exposing the address
 - Contact form error messages and strategy call fallback updated to link to contact page
+- Google Maps embed in footer now lazy-loads when scrolled into view instead of loading on page start
+- Map still fully interactive — just deferred until the footer is near the viewport
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -79,6 +81,10 @@
 - Contact forms: replaced email in error messages with "/contact/details" link in `contact-details-form.tsx` and `contact-review-form.tsx`
 - Strategy call: replaced email in Calendly fallback with "/contact/details" link in `contact-strategy-call.tsx`
 - Structured data emails in `lib/structured-data.ts` intentionally kept — Google expects email in LocalBusiness schema
+- DEV-404: Lazy-loaded Google Maps iframe in footer via IntersectionObserver
+- Extracted `LazyMap` client component (`components/ui/lazy-map.tsx`) — renders iframe only when within 200px of viewport
+- Replaced inline `MapIframe` in `components/ui/footer.tsx` with `LazyMap` across all 4 layouts
+- Map embed preserved for local SEO signals; loading deferred to avoid initial page load impact
 
 ## Changed URLs
 - https://www.pixelversestudios.io

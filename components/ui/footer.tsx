@@ -5,6 +5,7 @@ import { Mail, MapPin, Phone } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 import { Button } from './button';
+import { LazyMap } from './lazy-map';
 import { SocialLinks } from './social-links';
 
 export interface FooterLink {
@@ -17,10 +18,6 @@ export interface FooterProps extends React.HTMLAttributes<HTMLElement> {
   cta?: { label: string; href: string };
   layout?: 'a' | 'b' | 'c' | 'd';
 }
-
-// Address-based embed — no Place ID required, always resolves correctly
-const MAP_SRC =
-  'https://www.google.com/maps?q=79+Edgewater+Road,+Cliffside+Park,+NJ+07010&output=embed&z=16';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -40,18 +37,6 @@ const navLinkCls =
 const navLinkXsCls =
   'text-xs text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]';
 
-const MapIframe = ({ height, className }: { height: number; className?: string }) => (
-  <iframe
-    src={MAP_SRC}
-    width="100%"
-    height={height}
-    style={{ border: 0 }}
-    loading="lazy"
-    referrerPolicy="strict-origin"
-    title="PixelVerse Studios location — 79 Edgewater Rd, Cliffside Park NJ"
-    className={cn('grayscale transition-all duration-500 hover:grayscale-0', className)}
-  />
-);
 
 // ─── Layout A: Panoramic ──────────────────────────────────────────────────────
 // Full-width map strip on top, clean 4-column grid below
@@ -63,7 +48,7 @@ function FooterLayoutA({ links = [], cta, className, ...props }: FooterProps) {
       {...props}
     >
       <div className="h-[180px] w-full overflow-hidden border-b border-[var(--pv-border)]">
-        <MapIframe height={180} />
+        <LazyMap height={180} />
       </div>
 
       <div className="mx-auto max-w-7xl px-6 py-10 md:px-8">
@@ -138,7 +123,7 @@ function FooterLayoutB({ links = [], cta, className, ...props }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr]">
           <div className="relative flex flex-col border-b border-[var(--pv-border)] md:border-b-0 md:border-r">
             <div className="h-[220px] w-full overflow-hidden">
-              <MapIframe height={220} />
+              <LazyMap height={220} />
             </div>
             <div className="flex flex-col gap-3 px-6 py-6">
               <p className={eyebrowCls}>Find Us</p>
@@ -224,7 +209,7 @@ function FooterLayoutC({ links = [], cta, className, ...props }: FooterProps) {
 
       {/* Strip 2: Map band */}
       <div className="h-[150px] w-full overflow-hidden border-b border-[var(--pv-border)]">
-        <MapIframe height={150} />
+        <LazyMap height={150} />
       </div>
 
       {/* Strip 3: Nav links spread across full width */}
@@ -299,7 +284,7 @@ function FooterLayoutD({ links = [], cta, className, ...props }: FooterProps) {
           {/* Card 1: Find Us — map embedded */}
           <div className="overflow-hidden rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)]">
             <div className="h-[140px] w-full overflow-hidden">
-              <MapIframe height={140} />
+              <LazyMap height={140} />
             </div>
             <div className="flex flex-col gap-2 p-4">
               <p className={eyebrowSmCls}>Find Us</p>
