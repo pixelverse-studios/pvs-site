@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
@@ -355,12 +354,12 @@ export function ContactReviewForm() {
             <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
             <span>
               Something went wrong. Please try again or{' '}
-              <Link
-                href="/contact/details"
+              <a
+                href="mailto:info@pixelversestudios.io"
                 className="font-medium underline underline-offset-2"
               >
-                reach us directly
-              </Link>
+                email us directly
+              </a>
               .
             </span>
           </div>

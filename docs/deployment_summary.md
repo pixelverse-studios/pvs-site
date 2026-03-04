@@ -39,6 +39,8 @@
 - Removed all static inline styles from homepage components — converted to CSS utility classes
 - No visual changes — purely a code quality improvement for cleaner, more maintainable markup
 - Added llms.txt file so AI tools and language models can understand the site's content and services
+- Contact form error messages now link to email instead of reloading the same page — provides a real alternative if the form fails
+- Optimized homepage code by removing unnecessary deferred loading on 4 sections that didn't need it
 - Fixed SPF email authentication record that had invalid syntax (was causing audit failures)
 - Added DMARC email security record to prevent email spoofing and improve deliverability
 
@@ -101,6 +103,9 @@
 - DEV-407: Created `public/llms.txt` following the llms.txt standard (llmstxt.org)
 - Structured with H1 title, blockquote summary, and H2 sections for Services, Portfolio, Company Info, Contact, and Optional (blog posts)
 - All URLs point to live production pages; blog posts listed in Optional section for shorter-context LLM reads
+- PR review suggestions: replaced self-referential error fallback links with `mailto:info@pixelversestudios.io` in both contact forms
+- Removed unused `Link` import from `contact-details-form.tsx` and `contact-review-form.tsx`
+- Converted 4 server components (`ProcessSection`, `HomeFaqSection`, `ServicesSection`, `FinalCtaSection`) from `dynamic()` to static imports — dynamic imports on server components provide no code-splitting benefit
 
 ## Changed URLs
 - https://www.pixelversestudios.io
