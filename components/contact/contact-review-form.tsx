@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 import { getApiBaseUrl } from '@/lib/api-config';
 import { cn } from '@/lib/utils';
 import { formatPhone, stripPhone } from '@/lib/utils/phone';
-import { websiteUrlSchema } from '@/lib/validation/url';
+import { normalizeWebsiteUrl, websiteUrlSchema } from '@/lib/validation/url';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -137,7 +137,7 @@ export function ContactReviewForm() {
         name: data.name,
         email: data.email,
         phone_number: stripPhone(data.phone_number),
-        websiteUrl: data.websiteUrl,
+        websiteUrl: normalizeWebsiteUrl(data.websiteUrl),
         other_detail: (data.specifics ?? []).includes('other') ? (data.other_detail ?? '') : undefined,
         specifics: (data.specifics ?? []).filter((v) => v !== 'other'),
         honeypot: data.website_confirm ?? '',

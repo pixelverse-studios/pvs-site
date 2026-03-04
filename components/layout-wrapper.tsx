@@ -30,7 +30,6 @@ export function LayoutWrapper({ children, navItems }: LayoutWrapperProps) {
       <Navbar items={navItems} cta={{ label: 'Get Started', href: '/contact/details' }} />
       <div className="flex-1">{children}</div>
       <Footer
-        layout="b"
         links={navItems}
         cta={{ label: 'Get in touch with us', href: '/contact/details' }}
       />
