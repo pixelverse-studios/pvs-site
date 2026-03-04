@@ -36,6 +36,8 @@
 - Contact form error messages and strategy call fallback updated to link to contact page
 - Google Maps embed in footer now lazy-loads when scrolled into view instead of loading on page start
 - Map still fully interactive — just deferred until the footer is near the viewport
+- Removed all static inline styles from homepage components — converted to CSS utility classes
+- No visual changes — purely a code quality improvement for cleaner, more maintainable markup
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -85,6 +87,11 @@
 - Extracted `LazyMap` client component (`components/ui/lazy-map.tsx`) — renders iframe only when within 200px of viewport
 - Replaced inline `MapIframe` in `components/ui/footer.tsx` with `LazyMap` across all 4 layouts
 - Map embed preserved for local SEO signals; loading deferred to avoid initial page load impact
+- DEV-405: Removed static inline styles from 6 homepage components
+- Converted 10 `style={{ background: 'var(--pv-gradient)' }}` to `bg-[image:var(--pv-gradient)]` Tailwind class
+- Replaced scrollbar-hiding inline style + JSX `<style>` tag with reusable `no-scrollbar` utility class in `globals.css`
+- Files: `services-section.tsx`, `testimonial-carousel.tsx`, `insight-section.tsx`, `why-section.tsx`, `case-study-section.tsx`, `final-cta-section.tsx`
+- 2 dynamic inline styles in `insight-section.tsx` kept as documented exceptions (runtime-computed Framer Motion values)
 
 ## Changed URLs
 - https://www.pixelversestudios.io

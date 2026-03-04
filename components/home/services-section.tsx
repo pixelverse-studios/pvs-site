@@ -21,8 +21,7 @@ export function ServicesSection() {
           {/* Header */}
           <MotionItem className="mx-auto max-w-2xl text-center">
             <div
-              className="mx-auto mb-6 h-1 w-12 rounded-full"
-              style={{ background: 'var(--pv-gradient)' }}
+              className="mx-auto mb-6 h-1 w-12 rounded-full bg-[image:var(--pv-gradient)]"
               aria-hidden
             />
             <h2 className="font-heading text-[2rem] leading-[2.5rem] tracking-[-0.02em] text-[var(--pv-text)] md:text-[2.5rem] md:leading-[3rem]">
@@ -49,15 +48,13 @@ export function ServicesSection() {
                     <div className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg md:p-8">
                       {/* Gradient top accent */}
                       <div
-                        className="absolute left-0 right-0 top-0 h-[2px]"
-                        style={{ background: 'var(--pv-gradient)' }}
+                        className="absolute left-0 right-0 top-0 h-[2px] bg-[image:var(--pv-gradient)]"
                         aria-hidden
                       />
 
                       {/* Icon */}
                       <div
-                        className="mb-5 flex h-10 w-10 items-center justify-center rounded-full text-white"
-                        style={{ background: 'var(--pv-gradient)' }}
+                        className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-[image:var(--pv-gradient)] text-white"
                       >
                         <Icon className="h-5 w-5" aria-hidden="true" />
                       </div>
