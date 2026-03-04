@@ -23,7 +23,6 @@ export const metadata: Metadata = createPageMetadata({
 const breadcrumbSchema = createBreadcrumbSchema([
   { name: 'Home', path: '/' },
   { name: 'Contact', path: '/contact/details' },
-  { name: 'Project Details', path: '/contact/details' },
 ]);
 
 const contactPageSchema = {

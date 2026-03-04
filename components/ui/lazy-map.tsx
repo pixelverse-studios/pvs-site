@@ -42,7 +42,7 @@ export function LazyMap({ height, className }: LazyMapProps) {
           width="100%"
           height={height}
           style={{ border: 0 }}
-          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin"
+          sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-same-origin"
           referrerPolicy="strict-origin"
           title="PixelVerse Studios location — 79 Edgewater Rd, Cliffside Park NJ"
           className={cn('grayscale transition-all duration-500 hover:grayscale-0', className)}
