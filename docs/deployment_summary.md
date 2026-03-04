@@ -38,6 +38,7 @@
 - Map still fully interactive — just deferred until the footer is near the viewport
 - Removed all static inline styles from homepage components — converted to CSS utility classes
 - No visual changes — purely a code quality improvement for cleaner, more maintainable markup
+- Added llms.txt file so AI tools and language models can understand the site's content and services
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -92,6 +93,9 @@
 - Replaced scrollbar-hiding inline style + JSX `<style>` tag with reusable `no-scrollbar` utility class in `globals.css`
 - Files: `services-section.tsx`, `testimonial-carousel.tsx`, `insight-section.tsx`, `why-section.tsx`, `case-study-section.tsx`, `final-cta-section.tsx`
 - 2 dynamic inline styles in `insight-section.tsx` kept as documented exceptions (runtime-computed Framer Motion values)
+- DEV-407: Created `public/llms.txt` following the llms.txt standard (llmstxt.org)
+- Structured with H1 title, blockquote summary, and H2 sections for Services, Portfolio, Company Info, Contact, and Optional (blog posts)
+- All URLs point to live production pages; blog posts listed in Optional section for shorter-context LLM reads
 
 ## Changed URLs
 - https://www.pixelversestudios.io
@@ -114,3 +118,4 @@
 - https://www.pixelversestudios.io/portfolio/domani
 - https://www.pixelversestudios.io/services
 - https://www.pixelversestudios.io/faq
+- https://www.pixelversestudios.io/llms.txt
