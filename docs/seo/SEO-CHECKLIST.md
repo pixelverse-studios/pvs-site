@@ -1,7 +1,7 @@
 # SEO Implementation Checklist
 
-> Progress: 34/55 Complete (62%)
-> Last Updated: 2026-01-20
+> Progress: 36/57 Complete (63%)
+> Last Updated: 2026-02-24
 
 ---
 
@@ -37,6 +37,7 @@
 - [ ] No unintended noindex pages
 - [ ] 404 pages properly handled
 - [x] Old URLs redirected (301s for /works, /pricing)
+- [ ] **NEW: Fix 51 crawl errors from site restructure** (removed /packages, service page changes) ⚠️ CRITICAL
 
 ---
 
@@ -124,7 +125,7 @@
 
 ### Google Business Profile
 
-- [ ] GBP claimed and verified (**BLOCKED** - awaiting verification)
+- [x] GBP claimed and verified (✅ confirmed - 7 reviews now active)
 - [ ] Accurate NAP (Name, Address, Phone)
 - [ ] Business description optimized
 - [ ] All services listed
@@ -132,7 +133,7 @@
 - [ ] Service area coverage defined
 - [ ] Q&A section seeded with FAQs
 - [ ] Weekly GBP posts
-- [ ] 10+ reviews acquired
+- [ ] 10+ reviews acquired (current: 7 ⭐⭐⭐⭐⭐)
 - [ ] Reply to all reviews
 
 ### Local Citations (Directories)
@@ -201,8 +202,10 @@
 - [x] SiteBehaviour analytics active
 - [x] Production-only guard (no local/staging tracking)
 - [x] Campaign attribution tracking (src= parameter)
-- [ ] Google Analytics 4 (if using)
-- [ ] Google Tag Manager (if using)
+- [x] Mixpanel removed (DEV-299 - Feb 2026)
+- [x] SiteBehaviour CSP violation fixed (DEV-299 - Feb 2026)
+- [ ] Google Analytics 4 (not implemented)
+- [ ] Google Tag Manager (not implemented)
 
 ### Search Console
 
@@ -223,13 +226,16 @@
 
 ## Quick Reference: Next Actions
 
-### This Week (Priority) - Updated 2026-01-20
+### This Week (Priority) - Updated 2026-02-24
 
-1. [ ] **Fix redirect issues** - 13 pages with redirect problems in GSC (CRITICAL)
-2. [ ] **Investigate "crawled - not indexed"** - 2 pages need attention
+1. [ ] **Fix 51 crawl errors** - GSC shows errors spiked from 13→51 after site restructure (CRITICAL)
+   - Identify which removed pages (packages, old service paths) are causing 404s
+   - Add proper 301 redirects for all removed pages
+2. [ ] **Monitor rankings** - Avg position dropped 12→15.6 due to restructure; expect recovery in 4-6 weeks
 3. [ ] Submit to 5 directories (Clutch, DesignRush, UpCity, Yelp, BBB)
 4. [ ] Add noindex to dashboard/auth pages for defense-in-depth
 5. [ ] Capture Lighthouse baseline (mobile + desktop)
+6. [ ] **Set up rank tracking tool** — no per-keyword data available this audit cycle
 
 ### This Month
 
@@ -266,5 +272,5 @@
 
 ---
 
-_Last Updated: 2026-01-20_
-_Next Review: 2026-01-27_
+_Last Updated: 2026-02-24_
+_Next Review: 2026-03-24_

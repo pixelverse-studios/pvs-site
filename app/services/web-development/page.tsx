@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Code2 } from 'lucide-react';
 
 import { createPageMetadata } from '@/lib/metadata';
-import { createServiceSchema } from '@/lib/structured-data';
+import { createBreadcrumbSchema, createServiceSchema } from '@/lib/structured-data';
 import {
   ServiceHero,
   ServiceNarrativeSection,
@@ -15,9 +15,9 @@ import { StructuredData } from '@/components/ui/structured-data';
 import { webDevelopmentContent } from '@/data/web-development-content';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Web Design & Development Services NJ | Custom Websites',
+  title: 'Custom Web Design & Development | New Jersey | Pixelverse',
   description:
-    'Custom web design and development for NJ businesses. We plan, design, and build websites that support how your business actually operates.',
+    'Professional web design and development in New Jersey. From planning to launch, we build custom websites that are clear, usable, and support business goals.',
   path: '/services/web-development',
   keywords: [
     'web design and development',
@@ -28,6 +28,12 @@ export const metadata: Metadata = createPageMetadata({
     'business website design',
   ],
 });
+
+const breadcrumbSchema = createBreadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: 'Services', path: '/services' },
+  { name: 'Web Design & Development', path: '/services/web-development' },
+]);
 
 const serviceSchema = createServiceSchema({
   name: 'Web Design & Development Services',
@@ -51,6 +57,7 @@ export default function WebDevelopmentPage() {
 
   return (
     <main>
+      <StructuredData data={breadcrumbSchema} id="web-development-breadcrumb-schema" />
       <StructuredData data={serviceSchema} id="web-development-service-schema" />
 
       {/* 1. Hero */}

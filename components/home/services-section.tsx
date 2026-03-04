@@ -26,7 +26,7 @@ export function ServicesSection() {
               aria-hidden
             />
             <h2 className="font-heading text-[2rem] leading-[2.5rem] tracking-[-0.02em] text-[var(--pv-text)] md:text-[2.5rem] md:leading-[3rem]">
-              What We Work On
+              Web Design, Development & SEO Services
             </h2>
           </MotionItem>
 

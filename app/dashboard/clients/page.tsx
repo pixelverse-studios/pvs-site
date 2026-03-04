@@ -8,6 +8,7 @@ import type { Project, WebsiteProject } from '@/lib/types/project';
 export const metadata = {
   title: 'Clients | Dashboard | PixelVerse Studios',
   description: 'Manage your clients',
+  robots: { index: false, follow: false },
 };
 
 const DEFAULT_LIMIT = 20;

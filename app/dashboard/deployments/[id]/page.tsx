@@ -7,9 +7,11 @@ import type { DeploymentDetail } from '@/lib/types/deployment';
 export const metadata = {
   title: 'Deployment Details | Dashboard | PixelVerse Studios',
   description: 'View deployment details and indexing status',
+  robots: { index: false, follow: false },
 };
 
-export default async function DeploymentDetailPage({ params }: { params: { id: string } }) {
+export default async function DeploymentDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   // Check authentication
   const supabase = await createClient();
   const {
@@ -24,7 +26,7 @@ export default async function DeploymentDetailPage({ params }: { params: { id: s
   let deployment: DeploymentDetail;
 
   try {
-    deployment = await getDeployment(params.id);
+    deployment = await getDeployment(id);
   } catch (error) {
     console.error('Error fetching deployment:', error);
     notFound();

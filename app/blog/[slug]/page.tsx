@@ -26,8 +26,9 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
-  const post = getBlogPostBySlug(params.slug);
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getBlogPostBySlug(slug);
 
   if (!post) {
     return {};
@@ -91,8 +92,9 @@ function renderContent(block: BlogPost['content'][number], index: number) {
   }
 }
 
-export default function BlogPostPage({ params }: { params: Params }) {
-  const post = getBlogPostBySlug(params.slug);
+export default async function BlogPostPage({ params }: { params: Promise<Params> }) {
+  const { slug } = await params;
+  const post = getBlogPostBySlug(slug);
 
   if (!post) {
     notFound();

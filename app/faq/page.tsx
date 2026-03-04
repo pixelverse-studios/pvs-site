@@ -3,14 +3,17 @@ import type { Metadata } from 'next';
 import { FaqClosingCtaSection } from '@/components/faq/faq-closing-cta';
 import { FaqIntroSection } from '@/components/faq/faq-intro-section';
 import { FaqListSection } from '@/components/faq/faq-list-section';
-import { faqContent } from '@/data/faq-content';
 import { StructuredData } from '@/components/ui/structured-data';
+import { createBreadcrumbSchema } from '@/lib/structured-data';
 import { createPageMetadata } from '@/lib/metadata';
+import { homepageFaq } from '@/data/homepage-faq';
+import { webDevelopmentContent } from '@/data/web-development-content';
+import { seoContent } from '@/data/seo-content';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'FAQ | Web Design, SEO & Working With Us',
+  title: 'Frequently Asked Questions | Pixelverse Studios NJ',
   description:
-    'Answers to common questions about web design, local SEO, our process, and working with PixelVerse Studios — so you can decide if it\'s worth a conversation.',
+    'Common questions about our web design, development, and SEO services answered. Learn about our process, pricing, timelines, and what to expect working with us.',
   path: '/faq',
   keywords: [
     'PixelVerse Studios FAQ',
@@ -21,12 +24,23 @@ export const metadata: Metadata = createPageMetadata({
   ],
 });
 
+const breadcrumbSchema = createBreadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: 'FAQ', path: '/faq' },
+]);
+
+const faqSections = [
+  { heading: 'General', items: homepageFaq },
+  { heading: 'Web Design & Development', items: webDevelopmentContent.faq },
+  { heading: 'SEO & Local Optimization', items: seoContent.faq },
+].filter((section) => section.items.length > 0);
+
 // FAQPage schema for rich snippets in search results
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: faqContent.flatMap((category) =>
-    category.items.map((faq) => ({
+  mainEntity: faqSections.flatMap((section) =>
+    section.items.map((faq) => ({
       '@type': 'Question',
       name: faq.question,
       acceptedAnswer: {
@@ -40,9 +54,10 @@ const faqSchema = {
 export default function FaqPage() {
   return (
     <main>
+      <StructuredData id="pixelverse-faq-breadcrumb-schema" data={breadcrumbSchema} />
       <StructuredData id="pixelverse-faq-schema" data={faqSchema} />
       <FaqIntroSection />
-      <FaqListSection />
+      <FaqListSection sections={faqSections} />
       <FaqClosingCtaSection />
     </main>
   );

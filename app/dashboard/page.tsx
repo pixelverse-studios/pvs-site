@@ -13,6 +13,7 @@ import type { ClientListItem as ClientData } from '@/lib/types/client';
 export const metadata = {
   title: 'Dashboard | PixelVerse Studios',
   description: 'Your PixelVerse Studios dashboard',
+  robots: { index: false, follow: false },
 };
 
 export default async function DashboardPage() {

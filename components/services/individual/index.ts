@@ -11,7 +11,7 @@ export { ServiceProcess } from './service-process';
 export type { ServiceProcessProps, ProcessStep } from './service-process';
 
 export { ServiceFAQ } from './service-faq';
-export type { ServiceFAQProps, FAQItem } from './service-faq';
+export type { ServiceFAQProps } from './service-faq';
 
 export { ServiceCta } from './service-cta';
 export type { ServiceCtaProps } from './service-cta';

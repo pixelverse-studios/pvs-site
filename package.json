@@ -9,9 +9,7 @@
     "lint": "next lint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "type-check": "tsc --noEmit",
-    "sitemap": "next-sitemap",
-    "postbuild": "npm run sitemap"
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
@@ -34,8 +32,8 @@
     "clsx": "^2.1.0",
     "framer-motion": "^11.2.10",
     "lucide-react": "^0.321.0",
-    "next": "14.2.35",
-    "next-themes": "^0.2.1",
+    "next": "15.5.12",
+    "next-themes": "^0.3.0",
     "react": "18.2.0",
     "react-calendly": "^4.4.0",
     "react-dom": "18.2.0",
@@ -44,6 +42,10 @@
     "tailwind-merge": "^2.2.1",
     "zod": "^3.23.8"
   },
+  "overrides": {
+    "glob": ">=10.5.0",
+    "minimatch": ">=3.1.3"
+  },
   "devDependencies": {
     "@types/node": "24.7.0",
     "@types/react": "^18.2.21",
@@ -51,7 +53,7 @@
     "autoprefixer": "^10.4.16",
     "baseline-browser-mapping": "^2.9.11",
     "eslint": "^8.56.0",
-    "eslint-config-next": "^14.1.0",
+    "eslint-config-next": "^15.0.0",
     "eslint-config-prettier": "^9.1.0",
     "next-sitemap": "^4.2.3",
     "postcss": "^8.4.31",

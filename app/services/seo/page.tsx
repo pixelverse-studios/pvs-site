@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Search } from 'lucide-react';
 
 import { createPageMetadata } from '@/lib/metadata';
-import { createServiceSchema } from '@/lib/structured-data';
+import { createBreadcrumbSchema, createServiceSchema } from '@/lib/structured-data';
 import {
   ServiceHero,
   ServiceNarrativeSection,
@@ -15,9 +15,9 @@ import { StructuredData } from '@/components/ui/structured-data';
 import { seoContent } from '@/data/seo-content';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Local Website Optimization & SEO | PixelVerse Studios',
+  title: 'Local SEO Services New Jersey | Pixelverse Studios',
   description:
-    "Improve local visibility, clarity, and performance by identifying what's holding your site back and addressing issues affecting search presence.",
+    'Local SEO and website optimization services for New Jersey businesses. We improve search visibility and rankings to help the right customers find you.',
   path: '/services/seo',
   keywords: [
     'local SEO',
@@ -28,6 +28,12 @@ export const metadata: Metadata = createPageMetadata({
     'website performance optimization',
   ],
 });
+
+const breadcrumbSchema = createBreadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: 'Services', path: '/services' },
+  { name: 'Local SEO', path: '/services/seo' },
+]);
 
 const serviceSchema = createServiceSchema({
   name: 'Local Website Optimization & SEO',
@@ -51,6 +57,7 @@ export default function SEOServicesPage() {
 
   return (
     <main>
+      <StructuredData data={breadcrumbSchema} id="seo-breadcrumb-schema" />
       <StructuredData data={serviceSchema} id="seo-services-service-schema" />
 
       {/* 1. Hero */}

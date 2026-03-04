@@ -23,6 +23,11 @@ export function ContactHero() {
               understanding your goals and identifying what will make the biggest difference.
             </p>
           </MotionItem>
+          <MotionItem delay={0.16}>
+            <p className="text-sm text-[var(--pv-text-muted)]">
+              Based in Bergen County, NJ &mdash; serving businesses across New Jersey.
+            </p>
+          </MotionItem>
         </MotionSection>
       </Container>
     </section>

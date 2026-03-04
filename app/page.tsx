@@ -3,19 +3,23 @@ import type { Metadata } from 'next';
 import { HomepageClient } from '@/components/home/homepage-client';
 import { StructuredData } from '@/components/ui/structured-data';
 import { homepageFaq } from '@/data/homepage-faq';
-import { getGoogleRatingBadge } from '@/lib/api/google-places';
+import { getGoogleRatingBadge, getGoogleRatingData } from '@/lib/api/google-places';
 import { createPageMetadata } from '@/lib/metadata';
+import {
+  createHomepageServiceSchemas,
+  createLocalBusinessSchemaWithRating,
+} from '@/lib/structured-data';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Intentional Web Design & Development | PixelVerse Studios',
+  title: 'Web Design, Development & SEO Services in New Jersey',
   description:
-    'We build custom websites with purpose. No templates. Every project starts with your goals and ends with a site that actually works for your business.',
+    'Custom web design & SEO focused on real business outcomes. We build high-performing websites for New Jersey businesses that rank, convert, and scale.',
   path: '/',
   keywords: [
-    'intentional web design',
-    'custom website development',
+    'web design New Jersey',
+    'custom website development NJ',
+    'SEO services New Jersey',
     'conversion-focused web design',
-    'user journey mapping',
     'performance-first websites',
   ],
 });
@@ -34,11 +38,23 @@ const homeFaqSchema = {
 };
 
 export default async function Home() {
-  const badge = await getGoogleRatingBadge();
+  const [badge, ratingData] = await Promise.all([
+    getGoogleRatingBadge(),
+    getGoogleRatingData(),
+  ]);
+
+  const localBusinessWithRating = createLocalBusinessSchemaWithRating(ratingData);
+  const homepageServiceSchemas = createHomepageServiceSchemas();
 
   return (
     <>
       <StructuredData id="home-faq-schema" data={homeFaqSchema} />
+      {localBusinessWithRating && (
+        <StructuredData id="home-local-business-rating" data={localBusinessWithRating} />
+      )}
+      {homepageServiceSchemas.map((schema) => (
+        <StructuredData key={schema['@id']} id={schema['@id']} data={schema} />
+      ))}
       <HomepageClient badge={badge} />
     </>
   );

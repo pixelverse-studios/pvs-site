@@ -6,6 +6,7 @@ import { DocCard } from './components/doc-card';
 export const metadata: Metadata = {
   title: 'Documentation | Dashboard | PixelVerse Studios',
   description: 'Reference guides and documentation for SEO, content, and development standards.',
+  robots: { index: false, follow: false },
 };
 
 const docs = [

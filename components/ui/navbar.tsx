@@ -24,10 +24,10 @@ import { createPortal } from 'react-dom';
 
 import { sharedMetadata } from '@/lib/metadata';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from './theme-toggle';
 
 import { AuthDashboardLink } from './auth-dashboard-link';
 import { Button } from './button';
-import { ThemeToggle } from './theme-toggle';
 
 export interface NavItemChild {
   label: string;

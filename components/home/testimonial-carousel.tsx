@@ -48,6 +48,11 @@ function TestimonialCard({ testimonial }: { testimonial: (typeof testimonials)[n
                 ? `${testimonial.role} at ${testimonial.company}`
                 : testimonial.role || testimonial.company}
             </p>
+            {testimonial.location && (
+              <p className="mt-0.5 text-xs text-[var(--pv-text-muted)] opacity-70">
+                {testimonial.location}
+              </p>
+            )}
           </div>
         </div>
       </footer>

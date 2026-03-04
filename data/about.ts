@@ -176,13 +176,15 @@ export const aboutContent: AboutContentData = {
       author: 'Chris',
       authorTitle: 'Owner & Asset Manager',
       business: 'Gladstone Wealth Partners',
+      location: 'Cape May, NJ',
     },
     {
       quote:
-        'Every dollar mattered for us. Instead of pushing the full package, they helped us think through what we actually needed and where to start. That kind of honesty made a big difference early on.',
-      author: 'Sara',
-      authorTitle: 'Owner',
-      business: 'Rising Tide Aquatics',
+        'I had zero website experience going in and expected to feel lost the whole time. They walked me through every decision without making me feel like I was asking dumb questions. I actually love what we ended up with.',
+      author: 'Jennifer',
+      authorTitle: 'Owner & Photographer',
+      business: 'Iffers Pictures',
+      location: 'Cliffside Park, NJ',
     },
     {
       quote:
@@ -190,6 +192,7 @@ export const aboutContent: AboutContentData = {
       author: 'Kyle',
       authorTitle: 'Owner',
       business: 'Jones Pressure Washing NJ',
+      location: 'Bloomfield, NJ',
     },
   ],
 
