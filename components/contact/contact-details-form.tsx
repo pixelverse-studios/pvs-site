@@ -252,9 +252,9 @@ export function ContactDetailsForm() {
           <CheckCircle2 className="h-7 w-7 text-[var(--pv-primary)]" />
         </span>
         <div className="space-y-2">
-          <h3 className="font-heading text-xl font-semibold text-[var(--pv-text)]">
+          <h2 className="font-heading text-xl font-semibold text-[var(--pv-text)]">
             We&rsquo;ve received your details
-          </h3>
+          </h2>
           <p className="max-w-sm text-sm text-[var(--pv-text-muted)]">
             We review every submission personally and will follow up within 1–2 business days with
             honest thoughts on what makes sense for your situation.
@@ -507,12 +507,12 @@ export function ContactDetailsForm() {
           <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/40 dark:bg-red-950/30 dark:text-red-400">
             <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
             <span>
-              Something went wrong. Please try again or reach us directly at{' '}
+              Something went wrong. Please try again or{' '}
               <a
                 href="mailto:info@pixelversestudios.io"
                 className="font-medium underline underline-offset-2"
               >
-                info@pixelversestudios.io
+                email us directly
               </a>
               .
             </span>

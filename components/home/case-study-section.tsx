@@ -67,8 +67,7 @@ export function CaseStudySection() {
                       {isActive && (
                         <motion.div
                           layoutId="caseStudySidebarBorder"
-                          className="absolute bottom-3 left-0 top-3 w-[3px] rounded-full"
-                          style={{ background: 'var(--pv-gradient)' }}
+                          className="absolute bottom-3 left-0 top-3 w-[3px] rounded-full bg-[image:var(--pv-gradient)]"
                           transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
                         />
                       )}

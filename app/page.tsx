@@ -1,6 +1,12 @@
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 
-import { HomepageClient } from '@/components/home/homepage-client';
+import { HeroSection } from '@/components/home/hero-section';
+import { FinalCtaSection } from '@/components/home/final-cta-section';
+import { HomeFaqSection } from '@/components/home/home-faq-section';
+import { ProcessSection } from '@/components/home/process-section';
+import { ServicesSection } from '@/components/home/services-section';
+import { WhySection } from '@/components/home/why-section';
 import { StructuredData } from '@/components/ui/structured-data';
 import { homepageFaq } from '@/data/homepage-faq';
 import { getGoogleRatingBadge, getGoogleRatingData } from '@/lib/api/google-places';
@@ -9,6 +15,17 @@ import {
   createHomepageServiceSchemas,
   createLocalBusinessSchemaWithRating,
 } from '@/lib/structured-data';
+
+// Client components — dynamic imports for code-splitting
+const CaseStudySection = dynamic(
+  () => import('@/components/home/case-study-section').then((m) => m.CaseStudySection),
+);
+const InsightSection = dynamic(
+  () => import('@/components/home/insight-section').then((m) => m.InsightSection),
+);
+const TestimonialCarousel = dynamic(
+  () => import('@/components/home/testimonial-carousel').then((m) => m.TestimonialCarousel),
+);
 
 export const metadata: Metadata = createPageMetadata({
   title: 'Web Design, Development & SEO Services in New Jersey',
@@ -55,7 +72,17 @@ export default async function Home() {
       {homepageServiceSchemas.map((schema) => (
         <StructuredData key={schema['@id']} id={schema['@id']} data={schema} />
       ))}
-      <HomepageClient badge={badge} />
+      <main>
+        <HeroSection badge={badge} />
+        <WhySection />
+        <CaseStudySection />
+        <InsightSection />
+        <ProcessSection />
+        <TestimonialCarousel />
+        <HomeFaqSection />
+        <ServicesSection />
+        <FinalCtaSection />
+      </main>
     </>
   );
 }

@@ -45,7 +45,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
-      url: `${BASE_URL}/contact`,
+      url: `${BASE_URL}/contact/details`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/contact/call`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/contact/review`,
       lastModified: now,
       changeFrequency: 'weekly',
       priority: 0.7,

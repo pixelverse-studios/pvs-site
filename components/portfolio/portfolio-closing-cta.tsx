@@ -21,7 +21,7 @@ export function PortfolioClosingCtaSection() {
           </MotionItem>
           <MotionItem delay={0.08} className="flex justify-center">
             <Button asChild size="lg" variant="cta">
-              <Link href="/contact">Start the Conversation</Link>
+              <Link href="/contact/details">Start the Conversation</Link>
             </Button>
           </MotionItem>
         </MotionSection>

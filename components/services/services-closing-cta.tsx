@@ -9,7 +9,7 @@ interface ServicesClosingCtaSectionProps {
 }
 
 export function ServicesClosingCtaSection({
-  contactHref = '/contact',
+  contactHref = '/contact/details',
 }: ServicesClosingCtaSectionProps = {}) {
   return (
     <section className="py-16 md:py-24">

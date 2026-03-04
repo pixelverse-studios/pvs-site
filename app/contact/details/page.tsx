@@ -2,28 +2,27 @@ import type { Metadata } from 'next';
 
 import { ContactHero } from '@/components/contact/contact-hero';
 import { ContactPageClient } from '@/components/contact/contact-page-client';
-import type { ContactPath } from '@/components/contact/contact-path-selector';
 import { createBreadcrumbSchema } from '@/lib/structured-data';
 import { StructuredData } from '@/components/ui/structured-data';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Contact a NJ Web Design Agency | Pixelverse Studios',
+  title: 'Share Your Project Details | Pixelverse Studios',
   description:
-    'Ready to start your project? Get in touch with Pixelverse Studios. We\'ll discuss your goals and help you determine the right path forward.',
-  path: '/contact',
+    'Tell us about your business and what you\'re working toward. We\'ll review your situation and respond with a clear recommendation.',
+  path: '/contact/details',
   keywords: [
     'contact pixelverse studios',
     'web design consultation nj',
-    'schedule strategy call',
-    'free website review',
+    'project inquiry',
     'web design quote',
+    'get started',
   ],
 });
 
 const breadcrumbSchema = createBreadcrumbSchema([
   { name: 'Home', path: '/' },
-  { name: 'Contact', path: '/contact' },
+  { name: 'Contact', path: '/contact/details' },
 ]);
 
 const contactPageSchema = {
@@ -32,27 +31,16 @@ const contactPageSchema = {
   name: 'Contact Pixelverse Studios',
   description:
     'Get in touch with Pixelverse Studios — a New Jersey web design and local SEO agency serving Bergen County businesses.',
-  url: 'https://www.pixelversestudios.io/contact',
+  url: 'https://www.pixelversestudios.io/contact/details',
 };
 
-const VALID_PATHS = ['details', 'call', 'review'] as const satisfies readonly ContactPath[];
-
-type PageProps = {
-  searchParams: Promise<{ path?: string }>;
-};
-
-export default async function ContactPage({ searchParams }: PageProps) {
-  const params = await searchParams;
-  const defaultPath: ContactPath = VALID_PATHS.includes(params.path as ContactPath)
-    ? (params.path as ContactPath)
-    : 'details';
-
+export default function ContactDetailsPage() {
   return (
     <main>
-      <StructuredData id="contact-breadcrumb-schema" data={breadcrumbSchema} />
+      <StructuredData id="contact-details-breadcrumb-schema" data={breadcrumbSchema} />
       <StructuredData id="contact-page-schema" data={contactPageSchema} />
       <ContactHero />
-      <ContactPageClient defaultPath={defaultPath} />
+      <ContactPageClient defaultPath="details" />
     </main>
   );
 }

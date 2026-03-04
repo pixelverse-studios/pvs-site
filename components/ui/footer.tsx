@@ -5,6 +5,7 @@ import { Mail, MapPin, Phone } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 import { Button } from './button';
+import { LazyMap } from './lazy-map';
 import { SocialLinks } from './social-links';
 
 export interface FooterLink {
@@ -17,16 +18,12 @@ export interface FooterProps extends React.HTMLAttributes<HTMLElement> {
   cta?: { label: string; href: string };
 }
 
-// Address-based embed — no Place ID required, always resolves correctly
-const MAP_SRC =
-  'https://www.google.com/maps?q=79+Edgewater+Road,+Cliffside+Park,+NJ+07010&output=embed&z=16';
-
 const CURRENT_YEAR = new Date().getFullYear();
 
 const CONTACT = {
   address: '79 Edgewater Road, Cliffside Park, NJ 07010',
   phone: { href: 'tel:+12016381769', label: '(201) 638-1769' },
-  email: { href: 'mailto:info@pixelversestudios.io', label: 'info@pixelversestudios.io' },
+  email: { href: '/contact/details', label: 'Email Us' },
 } as const;
 
 const eyebrowCls =
@@ -34,18 +31,6 @@ const eyebrowCls =
 const navLinkCls =
   'text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]';
 
-const MapIframe = ({ height, className }: { height: number; className?: string }) => (
-  <iframe
-    src={MAP_SRC}
-    width="100%"
-    height={height}
-    style={{ border: 0 }}
-    loading="lazy"
-    referrerPolicy="strict-origin"
-    title="PixelVerse Studios location — 79 Edgewater Rd, Cliffside Park NJ"
-    className={cn('grayscale transition-all duration-500 hover:grayscale-0', className)}
-  />
-);
 
 // ─── Layout: Split Panel ──────────────────────────────────────────────────────
 // Left: tall map + contact details. Right: brand, nav, social, CTA.
@@ -60,7 +45,7 @@ export function Footer({ links = [], cta, className, ...props }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr]">
           <div className="relative flex flex-col border-b border-[var(--pv-border)] md:border-b-0 md:border-r">
             <div className="h-[220px] w-full overflow-hidden">
-              <MapIframe height={220} />
+              <LazyMap height={220} />
             </div>
             <div className="flex flex-col gap-3 px-6 py-6">
               <p className={eyebrowCls}>Find Us</p>
@@ -72,10 +57,10 @@ export function Footer({ links = [], cta, className, ...props }: FooterProps) {
                 <Phone className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
                 {CONTACT.phone.label}
               </a>
-              <a href={CONTACT.email.href} className={cn('flex items-center gap-2', navLinkCls)}>
+              <Link href={CONTACT.email.href} className={cn('flex items-center gap-2', navLinkCls)}>
                 <Mail className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
                 {CONTACT.email.label}
-              </a>
+              </Link>
             </div>
           </div>
 

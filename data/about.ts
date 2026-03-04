@@ -214,7 +214,7 @@ export const aboutContent: AboutContentData = {
       'If you\'re questioning whether your website is doing what it should, or you\'re starting from scratch and want to make thoughtful decisions from the beginning, the next step is a conversation.\n\nThat conversation is used to understand your goals, current situation, and what kind of work makes sense before committing to anything.',
     cta: {
       label: 'Talk Through Your Situation',
-      href: '/contact',
+      href: '/contact/details',
     },
   },
 };

@@ -76,8 +76,7 @@ export function InsightSection() {
             <MotionSection as="div">
               <MotionItem>
                 <div
-                  className="mb-8 h-1 w-12 rounded-full"
-                  style={{ background: 'var(--pv-gradient)' }}
+                  className="mb-8 h-1 w-12 rounded-full bg-[image:var(--pv-gradient)]"
                   aria-hidden
                 />
               </MotionItem>
@@ -98,8 +97,7 @@ export function InsightSection() {
             <div className="relative space-y-8">
               {/* Single continuous gradient line behind all beats */}
               <motion.div
-                className="absolute left-[4.5px] top-[3px] bottom-[3px] w-px"
-                style={{ background: 'var(--pv-gradient)' }}
+                className="absolute left-[4.5px] top-[3px] bottom-[3px] w-px bg-[image:var(--pv-gradient)]"
                 initial={{ scaleY: 0 }}
                 animate={beatsInView ? { scaleY: 1 } : { scaleY: 0 }}
                 transition={{ duration: 1.2, ease: 'easeOut' }}
