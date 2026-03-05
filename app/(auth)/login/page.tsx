@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { LoginForm } from '@/components/auth/login-form';
 
 export const metadata = {
-  title: 'Login | PixelVerse Studios',
+  title: 'Login',
   description: 'Sign in to access your PixelVerse Studios dashboard',
   robots: { index: false, follow: false },
 };

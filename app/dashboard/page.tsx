@@ -11,7 +11,7 @@ import { getClients } from '@/lib/api/clients';
 import type { ClientListItem as ClientData } from '@/lib/types/client';
 
 export const metadata = {
-  title: 'Dashboard | PixelVerse Studios',
+  title: 'Dashboard',
   description: 'Your PixelVerse Studios dashboard',
   robots: { index: false, follow: false },
 };

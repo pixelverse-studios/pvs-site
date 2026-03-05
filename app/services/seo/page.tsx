@@ -15,7 +15,7 @@ import { StructuredData } from '@/components/ui/structured-data';
 import { seoContent } from '@/data/seo-content';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Local SEO Services New Jersey | Pixelverse Studios',
+  title: 'Local SEO Services | New Jersey',
   description:
     'Local SEO and website optimization services for New Jersey businesses. We improve search visibility and rankings to help the right customers find you.',
   path: '/services/seo',

@@ -4,7 +4,7 @@ import { Container } from '@/components/ui/container';
 import { ProspectsPageClient } from '@/components/dashboard/prospects/prospects-page-client';
 
 export const metadata = {
-  title: 'Prospects | Dashboard | PixelVerse Studios',
+  title: 'Prospects | Dashboard',
   description: 'Track inbound leads from contact forms and Calendly bookings',
   robots: { index: false, follow: false },
 };

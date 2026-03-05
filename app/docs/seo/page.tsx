@@ -46,7 +46,7 @@ function formatDateIsoToMdY(dateString: string) {
 }
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'SEO Updates Log | PixelVerse Studios',
+  title: 'SEO Updates Log',
   description:
     'Reference log of recent SEO updates, affected URLs, and indexing actions for PixelVerse Studios.',
   path: '/docs/seo',
