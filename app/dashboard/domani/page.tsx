@@ -6,7 +6,7 @@ import { getDomaniUsers } from '@/lib/api/domani-users';
 import { OverviewPageClient } from './components/overview-page-client';
 
 export const metadata = {
-  title: 'Domani | Dashboard | PixelVerse Studios',
+  title: 'Domani | Dashboard',
   description: 'Overview of Domani app analytics and user data',
   robots: { index: false, follow: false },
 };

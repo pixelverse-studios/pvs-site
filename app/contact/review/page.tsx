@@ -7,7 +7,7 @@ import { StructuredData } from '@/components/ui/structured-data';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Request a Free Website Review | Pixelverse Studios',
+  title: 'Request a Free Website Review',
   description:
     'Get a free, honest review of your current website. We\'ll evaluate performance, SEO, and user experience — then share what we find.',
   path: '/contact/review',

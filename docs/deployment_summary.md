@@ -46,6 +46,9 @@
 - Fixed contact page tab switching — clicking between "Share Details", "Schedule a Call", and "Request a Review" now updates the browser URL
 - Browser back/forward buttons now work correctly when navigating between contact tabs
 - Fixed old contact URLs with query strings (/contact?path=review, /contact?path=call) now correctly redirect to the right page
+- Removed duplicate brand name from all page titles — "PixelVerse Studios" was appearing twice in browser tabs and search results
+- All 29 page titles cleaned up so the brand name only appears once (via the site-wide suffix)
+- Public page titles now prioritize keywords over brand repetition for better SEO
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -115,6 +118,10 @@
 - Updated all 3 contact route pages to use the simplified `<ContactPageClient />` without props
 - DEV-426: Removed `/contact /contact/details 301!` from Netlify `_redirects` — the force flag was intercepting requests before Next.js could evaluate query-param-specific redirects
 - Next.js `redirects()` in `next.config.js` already handles all `/contact` routing including `?path=review`, `?path=call`, `?path=details`
+- DEV-427: Removed "Pixelverse Studios" / "PixelVerse Studios" / "Pixelverse" from page-level `metadata.title` on all 29 pages
+- Root layout template `%s | PixelVerse Studios` handles branding automatically — page titles should only contain descriptive text
+- 14 public pages + 15 dashboard/auth pages fixed
+- Some titles restructured for better keyword placement (e.g., "Services | Pixelverse Studios" → "Web Design & SEO Services | New Jersey")
 
 ## Changed URLs
 - https://www.pixelversestudios.io
@@ -138,3 +145,8 @@
 - https://www.pixelversestudios.io/services
 - https://www.pixelversestudios.io/faq
 - https://www.pixelversestudios.io/llms.txt
+- https://www.pixelversestudios.io/about
+- https://www.pixelversestudios.io/blog
+- https://www.pixelversestudios.io/docs/seo
+- https://www.pixelversestudios.io/services/seo
+- https://www.pixelversestudios.io/styleguide

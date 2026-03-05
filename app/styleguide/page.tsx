@@ -25,7 +25,7 @@ import { OverlaysDemo } from '@/components/styleguide/overlays-demo';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Styleguide | PixelVerse Studios',
+  title: 'Styleguide',
   description:
     'Explore PixelVerse Studios design system tokens, UI primitives, and theming guidelines for consistent product experiences.',
   path: '/styleguide',

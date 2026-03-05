@@ -6,7 +6,7 @@ import { getClients, getAllClientsWithWebsites } from '@/lib/api/clients';
 import type { Project, WebsiteProject } from '@/lib/types/project';
 
 export const metadata = {
-  title: 'Clients | Dashboard | PixelVerse Studios',
+  title: 'Clients | Dashboard',
   description: 'Manage your clients',
   robots: { index: false, follow: false },
 };
