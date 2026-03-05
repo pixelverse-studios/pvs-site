@@ -54,6 +54,15 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* Prevent layout shift when Radix UI portals lock body scroll.
+   scrollbar-gutter: stable on html already reserves scrollbar space;
+   react-remove-scroll's inline padding-right compensation double-counts it. */
+@supports (scrollbar-gutter: stable) {
+  body {
+    padding-right: 0px !important;
+  }
+}
+
 @layer base {
   * {
     border-color: var(--pv-border);

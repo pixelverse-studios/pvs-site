@@ -50,6 +50,7 @@
 - All 29 page titles cleaned up so the brand name only appears once (via the site-wide suffix)
 - Public page titles now prioritize keywords over brand repetition for better SEO
 - Blog hero secondary CTA now links to "Book a strategy call" (/contact/call) instead of Bergen County SEO plan
+- Fixed layout shift on contact form when opening dropdown menus — page content no longer nudges sideways
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -126,6 +127,10 @@
 - DEV-428: Changed blog hero secondary CTA from `/services/bergen-county` to `/contact/call` with "Book a strategy call" text
 - File: `components/blog/blog-hero-section.tsx`
 - Blog CTA section (`blog-cta-section.tsx`) was already correct — no changes needed there
+- DEV-429: Fixed dropdown nudge on contact details form caused by double scrollbar compensation
+- Root cause: `scrollbar-gutter: stable` on `<html>` already reserves scrollbar space, but Radix UI's `react-remove-scroll` adds inline `padding-right` to `<body>` when Select portals open — double-counting the reserved space
+- Fix: Added `body { padding-right: 0px !important }` inside `@supports (scrollbar-gutter: stable)` guard in `globals.css`
+- The `@supports` guard ensures browsers without `scrollbar-gutter` still get the default scroll-lock compensation
 
 ## Changed URLs
 - https://www.pixelversestudios.io
