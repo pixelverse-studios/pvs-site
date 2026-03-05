@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Calendar, FileText, Search } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -43,18 +44,16 @@ const paths: PathOption[] = [
   },
 ];
 
-interface ContactPathSelectorProps {
-  activePath: ContactPath;
-  onSelect: (path: ContactPath) => void;
+/** Derive active path from the current URL pathname. */
+export function useContactPath(): ContactPath {
+  const pathname = usePathname();
+  if (pathname.startsWith('/contact/call')) return 'call';
+  if (pathname.startsWith('/contact/review')) return 'review';
+  return 'details';
 }
 
-export function ContactPathSelector({ activePath, onSelect }: ContactPathSelectorProps) {
-  const handleSelect = useCallback(
-    (path: PathOption) => {
-      onSelect(path.id);
-    },
-    [onSelect],
-  );
+export function ContactPathSelector() {
+  const activePath = useContactPath();
 
   return (
     <div>
@@ -73,11 +72,10 @@ export function ContactPathSelector({ activePath, onSelect }: ContactPathSelecto
           const isActive = activePath === path.id;
 
           return (
-            <button
+            <Link
               key={path.id}
-              type="button"
-              onClick={() => handleSelect(path)}
-              aria-pressed={isActive}
+              href={path.href}
+              aria-current={isActive ? 'page' : undefined}
               className={cn(
                 'group flex flex-col items-start gap-4 rounded-2xl border p-6 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
                 isActive
@@ -123,7 +121,7 @@ export function ContactPathSelector({ activePath, onSelect }: ContactPathSelecto
                 )}
                 aria-hidden="true"
               />
-            </button>
+            </Link>
           );
         })}
       </div>

@@ -40,7 +40,7 @@ export default function ContactDetailsPage() {
       <StructuredData id="contact-details-breadcrumb-schema" data={breadcrumbSchema} />
       <StructuredData id="contact-page-schema" data={contactPageSchema} />
       <ContactHero />
-      <ContactPageClient defaultPath="details" />
+      <ContactPageClient />
     </main>
   );
 }

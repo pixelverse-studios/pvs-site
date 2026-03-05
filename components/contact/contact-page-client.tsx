@@ -1,22 +1,20 @@
 'use client';
 
-import { useState } from 'react';
-
 import { Container } from '@/components/ui/container';
 import { ContactDetailsForm } from './contact-details-form';
-import { ContactPathSelector, type ContactPath } from './contact-path-selector';
+import { ContactPathSelector, useContactPath } from './contact-path-selector';
 import { ContactReviewForm } from './contact-review-form';
 import { ContactStrategyCall } from './contact-strategy-call';
 
-export function ContactPageClient({ defaultPath = 'details' }: { defaultPath?: ContactPath }) {
-  const [activePath, setActivePath] = useState<ContactPath>(defaultPath);
+export function ContactPageClient() {
+  const activePath = useContactPath();
 
   return (
     <section className="bg-[var(--pv-bg)] py-16 md:py-24">
       <Container>
         <div className="mx-auto max-w-5xl space-y-12">
           {/* Path selector */}
-          <ContactPathSelector activePath={activePath} onSelect={setActivePath} />
+          <ContactPathSelector />
 
           {/* Form slot — Calendly has its own card styling, so skip wrapper for 'call' */}
           {activePath === 'call' ? (
