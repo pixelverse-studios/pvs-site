@@ -49,6 +49,7 @@
 - Removed duplicate brand name from all page titles — "PixelVerse Studios" was appearing twice in browser tabs and search results
 - All 29 page titles cleaned up so the brand name only appears once (via the site-wide suffix)
 - Public page titles now prioritize keywords over brand repetition for better SEO
+- Blog hero secondary CTA now links to "Book a strategy call" (/contact/call) instead of Bergen County SEO plan
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -122,6 +123,9 @@
 - Root layout template `%s | PixelVerse Studios` handles branding automatically — page titles should only contain descriptive text
 - 14 public pages + 15 dashboard/auth pages fixed
 - Some titles restructured for better keyword placement (e.g., "Services | Pixelverse Studios" → "Web Design & SEO Services | New Jersey")
+- DEV-428: Changed blog hero secondary CTA from `/services/bergen-county` to `/contact/call` with "Book a strategy call" text
+- File: `components/blog/blog-hero-section.tsx`
+- Blog CTA section (`blog-cta-section.tsx`) was already correct — no changes needed there
 
 ## Changed URLs
 - https://www.pixelversestudios.io
@@ -150,3 +154,4 @@
 - https://www.pixelversestudios.io/docs/seo
 - https://www.pixelversestudios.io/services/seo
 - https://www.pixelversestudios.io/styleguide
+- https://www.pixelversestudios.io/blog
