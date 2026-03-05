@@ -31,7 +31,7 @@ export default function ContactCallPage() {
     <main>
       <StructuredData id="contact-call-breadcrumb-schema" data={breadcrumbSchema} />
       <ContactHero />
-      <ContactPageClient defaultPath="call" />
+      <ContactPageClient />
     </main>
   );
 }

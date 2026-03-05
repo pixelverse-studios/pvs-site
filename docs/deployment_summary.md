@@ -43,6 +43,8 @@
 - Optimized homepage code by removing unnecessary deferred loading on 4 sections that didn't need it
 - Fixed SPF email authentication record that had invalid syntax (was causing audit failures)
 - Added DMARC email security record to prevent email spoofing and improve deliverability
+- Fixed contact page tab switching — clicking between "Share Details", "Schedule a Call", and "Request a Review" now updates the browser URL
+- Browser back/forward buttons now work correctly when navigating between contact tabs
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -106,6 +108,10 @@
 - PR review suggestions: replaced self-referential error fallback links with `mailto:info@pixelversestudios.io` in both contact forms
 - Removed unused `Link` import from `contact-details-form.tsx` and `contact-review-form.tsx`
 - Converted 4 server components (`ProcessSection`, `HomeFaqSection`, `ServicesSection`, `FinalCtaSection`) from `dynamic()` to static imports — dynamic imports on server components provide no code-splitting benefit
+- DEV-425: Converted `ContactPathSelector` from `<button>` with React state to `<Link>` with URL-derived active state
+- Added `useContactPath()` hook that reads `usePathname()` to determine active tab
+- Removed `defaultPath` prop from `ContactPageClient` — active path now comes from the URL automatically
+- Updated all 3 contact route pages to use the simplified `<ContactPageClient />` without props
 
 ## Changed URLs
 - https://www.pixelversestudios.io

@@ -31,7 +31,7 @@ export default function ContactReviewPage() {
     <main>
       <StructuredData id="contact-review-breadcrumb-schema" data={breadcrumbSchema} />
       <ContactHero />
-      <ContactPageClient defaultPath="review" />
+      <ContactPageClient />
     </main>
   );
 }
