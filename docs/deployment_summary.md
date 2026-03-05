@@ -45,6 +45,7 @@
 - Added DMARC email security record to prevent email spoofing and improve deliverability
 - Fixed contact page tab switching — clicking between "Share Details", "Schedule a Call", and "Request a Review" now updates the browser URL
 - Browser back/forward buttons now work correctly when navigating between contact tabs
+- Fixed old contact URLs with query strings (/contact?path=review, /contact?path=call) now correctly redirect to the right page
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -112,6 +113,8 @@
 - Added `useContactPath()` hook that reads `usePathname()` to determine active tab
 - Removed `defaultPath` prop from `ContactPageClient` — active path now comes from the URL automatically
 - Updated all 3 contact route pages to use the simplified `<ContactPageClient />` without props
+- DEV-426: Removed `/contact /contact/details 301!` from Netlify `_redirects` — the force flag was intercepting requests before Next.js could evaluate query-param-specific redirects
+- Next.js `redirects()` in `next.config.js` already handles all `/contact` routing including `?path=review`, `?path=call`, `?path=details`
 
 ## Changed URLs
 - https://www.pixelversestudios.io
