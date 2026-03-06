@@ -75,6 +75,7 @@ export function ContactPathSelector() {
             <Link
               key={path.id}
               href={path.href}
+              scroll={false}
               aria-current={isActive ? 'page' : undefined}
               className={cn(
                 'group flex flex-col items-start gap-4 rounded-2xl border p-6 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',

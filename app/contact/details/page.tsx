@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 
-import { ContactHero } from '@/components/contact/contact-hero';
-import { ContactPageClient } from '@/components/contact/contact-page-client';
 import { createBreadcrumbSchema } from '@/lib/structured-data';
 import { StructuredData } from '@/components/ui/structured-data';
 import { createPageMetadata } from '@/lib/metadata';
@@ -36,11 +34,9 @@ const contactPageSchema = {
 
 export default function ContactDetailsPage() {
   return (
-    <main>
+    <>
       <StructuredData id="contact-details-breadcrumb-schema" data={breadcrumbSchema} />
       <StructuredData id="contact-page-schema" data={contactPageSchema} />
-      <ContactHero />
-      <ContactPageClient />
-    </main>
+    </>
   );
 }

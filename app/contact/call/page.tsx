@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 
-import { ContactHero } from '@/components/contact/contact-hero';
-import { ContactPageClient } from '@/components/contact/contact-page-client';
 import { createBreadcrumbSchema } from '@/lib/structured-data';
 import { StructuredData } from '@/components/ui/structured-data';
 import { createPageMetadata } from '@/lib/metadata';
@@ -28,10 +26,6 @@ const breadcrumbSchema = createBreadcrumbSchema([
 
 export default function ContactCallPage() {
   return (
-    <main>
-      <StructuredData id="contact-call-breadcrumb-schema" data={breadcrumbSchema} />
-      <ContactHero />
-      <ContactPageClient />
-    </main>
+    <StructuredData id="contact-call-breadcrumb-schema" data={breadcrumbSchema} />
   );
 }
