@@ -11,7 +11,7 @@ import { webDevelopmentContent } from '@/data/web-development-content';
 import { seoContent } from '@/data/seo-content';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Frequently Asked Questions | Pixelverse Studios NJ',
+  title: 'Frequently Asked Questions | NJ Web Services',
   description:
     'Common questions about our web design, development, and SEO services answered. Learn about our process, pricing, timelines, and what to expect working with us.',
   path: '/faq',

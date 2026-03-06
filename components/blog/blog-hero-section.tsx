@@ -42,7 +42,7 @@ export function BlogHeroSection() {
                 <Link href="#latest">Read the latest posts</Link>
               </Button>
               <Button asChild size="lg" variant="ctaGhost">
-                <Link href="/services/bergen-county">See our Bergen County SEO plan</Link>
+                <Link href="/contact/call">Book a strategy call</Link>
               </Button>
             </div>
           </MotionItem>

@@ -7,7 +7,7 @@ import { ChecklistItemStatic } from '../components/checklist-item';
 import { TableOfContents } from '../components/table-of-contents';
 
 export const metadata: Metadata = {
-  title: 'SEO Checklist | Documentation | PixelVerse Studios',
+  title: 'SEO Checklist | Documentation',
   description:
     'Comprehensive hyper-local SEO checklist prioritized by impact on local search rankings.',
   robots: { index: false, follow: false },

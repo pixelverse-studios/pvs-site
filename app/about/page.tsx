@@ -11,7 +11,7 @@ import { getGoogleRatingData } from '@/lib/api/google-places';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'About Pixelverse Studios | NJ Web Design Agency',
+  title: 'About Us | NJ Web Design Agency',
   description:
     'New Jersey web design and SEO agency. We build custom, user-focused websites for growing businesses. Learn about our approach and process.',
   path: '/about',

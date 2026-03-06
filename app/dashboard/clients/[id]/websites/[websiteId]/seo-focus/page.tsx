@@ -14,7 +14,7 @@ import { getClient } from '@/lib/api/clients';
 import type { Client, Website } from '@/lib/types/client';
 
 export const metadata = {
-  title: 'SEO Focus | Dashboard | PixelVerse Studios',
+  title: 'SEO Focus | Dashboard',
   description: 'Track hyper-local SEO progress for this website.',
   robots: { index: false, follow: false },
 };

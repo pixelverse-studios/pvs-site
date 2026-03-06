@@ -10,7 +10,7 @@ import { StructuredData } from '@/components/ui/structured-data';
 import { createPageMetadata, sharedMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Web Design & SEO Insights | Pixelverse Studios Blog',
+  title: 'Web Design & SEO Insights | Blog',
   description:
     'Expert insights on web design, development, and local SEO for New Jersey businesses. Practical strategies and ideas from the Pixelverse Studios team.',
   path: '/blog',

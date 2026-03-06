@@ -1,13 +1,11 @@
 import type { Metadata } from 'next';
 
-import { ContactHero } from '@/components/contact/contact-hero';
-import { ContactPageClient } from '@/components/contact/contact-page-client';
 import { createBreadcrumbSchema } from '@/lib/structured-data';
 import { StructuredData } from '@/components/ui/structured-data';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Schedule a Strategy Call | Pixelverse Studios',
+  title: 'Schedule a Strategy Call',
   description:
     'Book a 30-minute strategy call with Pixelverse Studios. We\'ll discuss your goals, your current situation, and what the right next step looks like.',
   path: '/contact/call',
@@ -28,10 +26,6 @@ const breadcrumbSchema = createBreadcrumbSchema([
 
 export default function ContactCallPage() {
   return (
-    <main>
-      <StructuredData id="contact-call-breadcrumb-schema" data={breadcrumbSchema} />
-      <ContactHero />
-      <ContactPageClient defaultPath="call" />
-    </main>
+    <StructuredData id="contact-call-breadcrumb-schema" data={breadcrumbSchema} />
   );
 }

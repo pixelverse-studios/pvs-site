@@ -43,6 +43,15 @@
 - Optimized homepage code by removing unnecessary deferred loading on 4 sections that didn't need it
 - Fixed SPF email authentication record that had invalid syntax (was causing audit failures)
 - Added DMARC email security record to prevent email spoofing and improve deliverability
+- Fixed contact page tab switching — clicking between "Share Details", "Schedule a Call", and "Request a Review" now updates the browser URL
+- Browser back/forward buttons now work correctly when navigating between contact tabs
+- Fixed old contact URLs with query strings (/contact?path=review, /contact?path=call) now correctly redirect to the right page
+- Removed duplicate brand name from all page titles — "PixelVerse Studios" was appearing twice in browser tabs and search results
+- All 29 page titles cleaned up so the brand name only appears once (via the site-wide suffix)
+- Public page titles now prioritize keywords over brand repetition for better SEO
+- Blog hero secondary CTA now links to "Book a strategy call" (/contact/call) instead of Bergen County SEO plan
+- Fixed layout shift on contact form when opening dropdown menus — page content no longer nudges sideways
+- Switching between contact form tabs no longer jumps to the top of the page — scroll position is preserved
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -106,6 +115,27 @@
 - PR review suggestions: replaced self-referential error fallback links with `mailto:info@pixelversestudios.io` in both contact forms
 - Removed unused `Link` import from `contact-details-form.tsx` and `contact-review-form.tsx`
 - Converted 4 server components (`ProcessSection`, `HomeFaqSection`, `ServicesSection`, `FinalCtaSection`) from `dynamic()` to static imports — dynamic imports on server components provide no code-splitting benefit
+- DEV-425: Converted `ContactPathSelector` from `<button>` with React state to `<Link>` with URL-derived active state
+- Added `useContactPath()` hook that reads `usePathname()` to determine active tab
+- Removed `defaultPath` prop from `ContactPageClient` — active path now comes from the URL automatically
+- Updated all 3 contact route pages to use the simplified `<ContactPageClient />` without props
+- DEV-426: Removed `/contact /contact/details 301!` from Netlify `_redirects` — the force flag was intercepting requests before Next.js could evaluate query-param-specific redirects
+- Next.js `redirects()` in `next.config.js` already handles all `/contact` routing including `?path=review`, `?path=call`, `?path=details`
+- DEV-427: Removed "Pixelverse Studios" / "PixelVerse Studios" / "Pixelverse" from page-level `metadata.title` on all 29 pages
+- Root layout template `%s | PixelVerse Studios` handles branding automatically — page titles should only contain descriptive text
+- 14 public pages + 15 dashboard/auth pages fixed
+- Some titles restructured for better keyword placement (e.g., "Services | Pixelverse Studios" → "Web Design & SEO Services | New Jersey")
+- DEV-428: Changed blog hero secondary CTA from `/services/bergen-county` to `/contact/call` with "Book a strategy call" text
+- File: `components/blog/blog-hero-section.tsx`
+- Blog CTA section (`blog-cta-section.tsx`) was already correct — no changes needed there
+- DEV-429: Fixed dropdown nudge on contact details form caused by double scrollbar compensation
+- Root cause: `scrollbar-gutter: stable` on `<html>` already reserves scrollbar space, but Radix UI's `react-remove-scroll` adds inline `padding-right` to `<body>` when Select portals open — double-counting the reserved space
+- Fix: Added `body { padding-right: 0px !important }` inside `@supports (scrollbar-gutter: stable)` guard in `globals.css`
+- The `@supports` guard ensures browsers without `scrollbar-gutter` still get the default scroll-lock compensation
+- Created `app/contact/layout.tsx` to share `ContactHero` and `ContactPageClient` across all 3 contact routes
+- Without a shared layout, each tab click caused a full component unmount/remount, which triggered Next.js scroll-to-top regardless of `scroll={false}`
+- Hoisted `<ContactHero>` and `<ContactPageClient>` into the layout so they persist across tab switches
+- Each page.tsx now only exports metadata and structured data — no duplicate component rendering
 
 ## Changed URLs
 - https://www.pixelversestudios.io
@@ -129,3 +159,9 @@
 - https://www.pixelversestudios.io/services
 - https://www.pixelversestudios.io/faq
 - https://www.pixelversestudios.io/llms.txt
+- https://www.pixelversestudios.io/about
+- https://www.pixelversestudios.io/blog
+- https://www.pixelversestudios.io/docs/seo
+- https://www.pixelversestudios.io/services/seo
+- https://www.pixelversestudios.io/styleguide
+- https://www.pixelversestudios.io/blog

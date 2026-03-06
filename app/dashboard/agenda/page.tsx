@@ -4,7 +4,7 @@ import { getAgendaItems } from '@/lib/api/agenda';
 import { AgendaPageClient } from './components/agenda-page-client';
 
 export const metadata = {
-  title: 'Agenda | Dashboard | PixelVerse Studios',
+  title: 'Agenda | Dashboard',
   description: 'Manage your focus items and priorities',
   robots: { index: false, follow: false },
 };

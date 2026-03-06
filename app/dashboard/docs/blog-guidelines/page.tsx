@@ -7,7 +7,7 @@ import { ChecklistItemStatic } from '../components/checklist-item';
 import { TableOfContents } from '../components/table-of-contents';
 
 export const metadata: Metadata = {
-  title: 'Blog Guidelines | Documentation | PixelVerse Studios',
+  title: 'Blog Guidelines | Documentation',
   description:
     'Standards for creating SEO-optimized, engaging blog content that drives organic traffic and conversions.',
   robots: { index: false, follow: false },
