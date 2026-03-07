@@ -9,6 +9,7 @@ const tabs = [
   { label: 'Feedback', href: '/dashboard/domani/feedback' },
   { label: 'Waitlist', href: '/dashboard/domani/waitlist' },
   { label: 'Users', href: '/dashboard/domani/users' },
+  { label: 'Campaigns', href: '/dashboard/domani/campaigns' },
 ];
 
 export function DomaniNav() {
