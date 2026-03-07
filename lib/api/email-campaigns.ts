@@ -63,8 +63,8 @@ export async function getCampaigns(
 ): Promise<CampaignListResponse> {
   const searchParams = new URLSearchParams();
 
-  if (params?.limit) searchParams.set('limit', String(params.limit));
-  if (params?.offset) searchParams.set('offset', String(params.offset));
+  if (params?.limit !== undefined) searchParams.set('limit', String(params.limit));
+  if (params?.offset !== undefined) searchParams.set('offset', String(params.offset));
 
   const res = await fetch(
     `${getApiBaseUrl()}/api/domani/email-campaigns?${searchParams}`,
