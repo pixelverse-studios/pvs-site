@@ -195,7 +195,11 @@ export function RecipientSelector({
             <tbody>
               {filteredUsers.map((user) => {
                 const isSelected = selectedIds.has(user.id);
-                const tierConfig = TIER_COLORS[user.tier];
+                const tierConfig = TIER_COLORS[user.tier] ?? {
+                  label: user.tier || 'Unknown',
+                  color: 'text-gray-600 dark:text-gray-400',
+                  bgColor: 'bg-gray-100 dark:bg-gray-800/50',
+                };
                 return (
                   <tr
                     key={user.id}
