@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { Search, Loader2, Check } from 'lucide-react';
+import { Search, Loader2, Check, AlertTriangle, RotateCcw } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -34,24 +34,37 @@ export function RecipientSelector({
   const [search, setSearch] = useState('');
   const [cohortFilter, setCohortFilter] = useState<SignupCohort | 'all'>('all');
   const [isLoading, setIsLoading] = useState(false);
+  const [fetchError, setFetchError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const pageSize = 50;
   const isInitialMount = useRef(true);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const fetchUsers = useCallback(async (pageNum: number) => {
+    abortControllerRef.current?.abort();
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     setIsLoading(true);
+    setFetchError(null);
     try {
       const response = await getDomaniUsers({
         limit: pageSize,
         offset: (pageNum - 1) * pageSize,
         include_deleted: false,
       });
-      setUsers(response.items);
-      setTotal(response.total);
-    } catch {
-      console.error('Failed to fetch users');
+      if (!controller.signal.aborted) {
+        setUsers(response.items);
+        setTotal(response.total);
+      }
+    } catch (err) {
+      if (!controller.signal.aborted) {
+        setFetchError('Failed to load users. Please try again.');
+      }
     } finally {
-      setIsLoading(false);
+      if (!controller.signal.aborted) {
+        setIsLoading(false);
+      }
     }
   }, []);
 
@@ -61,6 +74,9 @@ export function RecipientSelector({
       return;
     }
     fetchUsers(page);
+    return () => {
+      abortControllerRef.current?.abort();
+    };
   }, [page, fetchUsers]);
 
   const filteredUsers = useMemo(() => {
@@ -87,7 +103,7 @@ export function RecipientSelector({
   const someFilteredSelected =
     filteredUsers.some((u) => selectedIds.has(u.id)) && !allFilteredSelected;
 
-  const toggleAll = () => {
+  const toggleAll = useCallback(() => {
     if (allFilteredSelected) {
       const next = new Set(selectedIds);
       filteredUsers.forEach((u) => next.delete(u.id));
@@ -97,17 +113,20 @@ export function RecipientSelector({
       filteredUsers.forEach((u) => next.add(u.id));
       onSelectionChange(next);
     }
-  };
+  }, [allFilteredSelected, filteredUsers, selectedIds, onSelectionChange]);
 
-  const toggleUser = (id: string) => {
-    const next = new Set(selectedIds);
-    if (next.has(id)) {
-      next.delete(id);
-    } else {
-      next.add(id);
-    }
-    onSelectionChange(next);
-  };
+  const toggleUser = useCallback(
+    (id: string) => {
+      const next = new Set(selectedIds);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      onSelectionChange(next);
+    },
+    [selectedIds, onSelectionChange],
+  );
 
   const totalPages = Math.ceil(total / pageSize);
 
@@ -153,6 +172,31 @@ export function RecipientSelector({
         </div>
       </div>
 
+      {/* Error state */}
+      {fetchError && (
+        <div
+          className="flex items-center justify-between rounded-xl px-4 py-3 text-sm"
+          style={{
+            background: 'rgba(239,68,68,0.06)',
+            color: 'var(--pv-text)',
+          }}
+          role="alert"
+        >
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="h-4 w-4 flex-shrink-0 text-red-500" />
+            <span style={{ color: 'var(--pv-text-muted)' }}>{fetchError}</span>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => fetchUsers(page)}
+          >
+            <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+            Retry
+          </Button>
+        </div>
+      )}
+
       {/* User list */}
       {isLoading ? (
         <div className="flex items-center justify-center py-12">
@@ -161,11 +205,11 @@ export function RecipientSelector({
             Loading users...
           </span>
         </div>
-      ) : filteredUsers.length === 0 ? (
+      ) : filteredUsers.length === 0 && !fetchError ? (
         <div className="py-12 text-center text-sm" style={{ color: 'var(--pv-text-muted)' }}>
           No users found matching your filters.
         </div>
-      ) : (
+      ) : !fetchError ? (
         <div
           className="max-h-[420px] overflow-y-auto rounded-xl"
           style={{ background: 'var(--pv-bg)' }}
@@ -264,7 +308,7 @@ export function RecipientSelector({
             </tbody>
           </table>
         </div>
-      )}
+      ) : null}
 
       {/* Pagination */}
       {totalPages > 1 && (

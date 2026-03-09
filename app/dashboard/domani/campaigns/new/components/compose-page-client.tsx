@@ -27,6 +27,7 @@ interface ComposePageClientProps {
   initialUsers: UserProfile[];
   initialTotal: number;
   senderEmail: string;
+  initialLoadError?: boolean;
 }
 
 interface StatusMessage {
@@ -38,6 +39,7 @@ export function ComposePageClient({
   initialUsers,
   initialTotal,
   senderEmail,
+  initialLoadError = false,
 }: ComposePageClientProps) {
   const router = useRouter();
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
@@ -45,7 +47,11 @@ export function ComposePageClient({
   const [htmlContent, setHtmlContent] = useState('');
   const [isPreviewing, setIsPreviewing] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-  const [status, setStatus] = useState<StatusMessage | null>(null);
+  const [status, setStatus] = useState<StatusMessage | null>(
+    initialLoadError
+      ? { type: 'error', text: 'Failed to load recipients. Please refresh the page.' }
+      : null,
+  );
   const [recipientsOpen, setRecipientsOpen] = useState(true);
   const [contentOpen, setContentOpen] = useState(true);
 
@@ -71,23 +77,27 @@ export function ComposePageClient({
   };
 
   const handleConfirmSend = async () => {
-    const result = await sendCampaign({
-      subject,
-      htmlContent,
-      recipientIds: Array.from(selectedIds),
-      sentBy: senderEmail,
-    });
+    try {
+      const result = await sendCampaign({
+        subject,
+        htmlContent,
+        recipientIds: Array.from(selectedIds),
+        sentBy: senderEmail,
+      });
 
-    setStatus({
-      type: 'success',
-      text: `Campaign sent: ${result.successful} successful, ${result.failed} failed out of ${result.total} recipients.`,
-    });
+      setStatus({
+        type: 'success',
+        text: `Campaign sent: ${result.successful} successful, ${result.failed} failed out of ${result.total} recipients.`,
+      });
 
-    setShowConfirmDialog(false);
+      setShowConfirmDialog(false);
 
-    setTimeout(() => {
-      router.push('/dashboard/domani/campaigns');
-    }, 2000);
+      setTimeout(() => {
+        router.push('/dashboard/domani/campaigns');
+      }, 2000);
+    } catch (err) {
+      throw err;
+    }
   };
 
   const statusBanner = status && (
@@ -285,6 +295,7 @@ export function ComposePageClient({
                     placeholder="e.g. Domani v2.0 is here!"
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
+                    maxLength={200}
                     className="h-11 rounded-xl border-none text-base"
                     style={{
                       background: 'var(--pv-bg)',

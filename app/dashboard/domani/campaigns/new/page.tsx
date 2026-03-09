@@ -17,20 +17,28 @@ export default async function NewCampaignPage() {
 
   if (!user) redirect('/login');
 
-  const { items, total } = await getDomaniUsers({
-    limit: 50,
-    offset: 0,
-    include_deleted: false,
-  }).catch(() => ({
-    items: [],
-    total: 0,
-  }));
+  let items: Awaited<ReturnType<typeof getDomaniUsers>>['items'] = [];
+  let total = 0;
+  let loadError = false;
+
+  try {
+    const response = await getDomaniUsers({
+      limit: 50,
+      offset: 0,
+      include_deleted: false,
+    });
+    items = response.items;
+    total = response.total;
+  } catch {
+    loadError = true;
+  }
 
   return (
     <ComposePageClient
       initialUsers={items}
       initialTotal={total}
       senderEmail={user.email ?? ''}
+      initialLoadError={loadError}
     />
   );
 }

@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Loader2, Send, AlertTriangle } from 'lucide-react';
+import DOMPurify from 'dompurify';
 import {
   Dialog,
   DialogContent,
@@ -32,6 +33,8 @@ export function SendConfirmationDialog({
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const sanitizedHtml = useMemo(() => DOMPurify.sanitize(htmlContent), [htmlContent]);
+
   const handleConfirm = async () => {
     setIsSending(true);
     setError(null);
@@ -39,6 +42,7 @@ export function SendConfirmationDialog({
       await onConfirm();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to send campaign');
+    } finally {
       setIsSending(false);
     }
   };
@@ -83,7 +87,7 @@ export function SendConfirmationDialog({
               borderColor: 'var(--pv-border)',
               background: 'var(--pv-bg)',
             }}
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
+            dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
           />
         </div>
 
