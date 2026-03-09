@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { Search, Loader2, CheckSquare, Square, Users } from 'lucide-react';
+import { Search, Loader2, Check } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -12,8 +12,8 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import type { UserProfile, UserTier } from '@/lib/types/domani-users';
-import { TIER_COLORS } from '@/lib/types/domani-users';
+import type { UserProfile, SignupCohort } from '@/lib/types/domani-users';
+import { COHORT_COLORS } from '@/lib/types/domani-users';
 import { getDomaniUsers } from '@/lib/api/domani-users';
 
 interface RecipientSelectorProps {
@@ -32,7 +32,7 @@ export function RecipientSelector({
   const [users, setUsers] = useState(initialUsers);
   const [total, setTotal] = useState(initialTotal);
   const [search, setSearch] = useState('');
-  const [tierFilter, setTierFilter] = useState<UserTier | 'all'>('all');
+  const [cohortFilter, setCohortFilter] = useState<SignupCohort | 'all'>('all');
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const pageSize = 50;
@@ -63,12 +63,11 @@ export function RecipientSelector({
     fetchUsers(page);
   }, [page, fetchUsers]);
 
-  // Client-side filtering on current page
   const filteredUsers = useMemo(() => {
     let result = users;
 
-    if (tierFilter !== 'all') {
-      result = result.filter((u) => u.tier === tierFilter);
+    if (cohortFilter !== 'all') {
+      result = result.filter((u) => u.signup_cohort === cohortFilter);
     }
 
     if (search.trim()) {
@@ -81,7 +80,24 @@ export function RecipientSelector({
     }
 
     return result;
-  }, [users, tierFilter, search]);
+  }, [users, cohortFilter, search]);
+
+  const allFilteredSelected =
+    filteredUsers.length > 0 && filteredUsers.every((u) => selectedIds.has(u.id));
+  const someFilteredSelected =
+    filteredUsers.some((u) => selectedIds.has(u.id)) && !allFilteredSelected;
+
+  const toggleAll = () => {
+    if (allFilteredSelected) {
+      const next = new Set(selectedIds);
+      filteredUsers.forEach((u) => next.delete(u.id));
+      onSelectionChange(next);
+    } else {
+      const next = new Set(selectedIds);
+      filteredUsers.forEach((u) => next.add(u.id));
+      onSelectionChange(next);
+    }
+  };
 
   const toggleUser = (id: string) => {
     const next = new Set(selectedIds);
@@ -93,23 +109,13 @@ export function RecipientSelector({
     onSelectionChange(next);
   };
 
-  const selectAllFiltered = () => {
-    const next = new Set(selectedIds);
-    filteredUsers.forEach((u) => next.add(u.id));
-    onSelectionChange(next);
-  };
-
-  const deselectAll = () => {
-    onSelectionChange(new Set());
-  };
-
   const totalPages = Math.ceil(total / pageSize);
 
   return (
     <div className="space-y-4">
-      {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="relative flex-1" style={{ minWidth: '200px' }}>
+      {/* Filter bar + count */}
+      <div className="flex items-center gap-3">
+        <div className="relative flex-1" style={{ maxWidth: '320px' }}>
           <Search
             className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2"
             style={{ color: 'var(--pv-text-muted)' }}
@@ -118,43 +124,31 @@ export function RecipientSelector({
             placeholder="Search by name or email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-10"
+            className="h-9 rounded-lg border-none pl-10 text-sm shadow-none"
+            style={{ background: 'var(--pv-bg)', color: 'var(--pv-text)' }}
           />
         </div>
-        <Select value={tierFilter} onValueChange={(v) => setTierFilter(v as UserTier | 'all')}>
-          <SelectTrigger className="w-[140px]">
-            <SelectValue placeholder="All tiers" />
+        <Select value={cohortFilter} onValueChange={(v) => setCohortFilter(v as SignupCohort | 'all')}>
+          <SelectTrigger
+            className="h-9 w-[160px] rounded-lg border-none text-sm shadow-none"
+            style={{ background: 'var(--pv-bg)', color: 'var(--pv-text-muted)' }}
+          >
+            <SelectValue placeholder="All cohorts" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All tiers</SelectItem>
-            <SelectItem value="free">Free</SelectItem>
-            <SelectItem value="premium">Premium</SelectItem>
-            <SelectItem value="lifetime">Lifetime</SelectItem>
+            <SelectItem value="all">All cohorts</SelectItem>
+            <SelectItem value="friends_family">Friends & Family</SelectItem>
+            <SelectItem value="early_adopter">Early Adopter</SelectItem>
+            <SelectItem value="general">General</SelectItem>
           </SelectContent>
         </Select>
-      </div>
 
-      {/* Bulk actions + count */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={selectAllFiltered}>
-            <CheckSquare className="mr-1.5 h-4 w-4" />
-            Select all ({filteredUsers.length})
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={deselectAll}
-            disabled={selectedIds.size === 0}
-          >
-            <Square className="mr-1.5 h-4 w-4" />
-            Deselect all
-          </Button>
-        </div>
-        <div className="flex items-center gap-1.5 text-sm" style={{ color: 'var(--pv-text-muted)' }}>
-          <Users className="h-4 w-4" />
-          <span>
-            <strong style={{ color: 'var(--pv-text)' }}>{selectedIds.size}</strong> of {total} selected
+        <div className="ml-auto flex items-center gap-4">
+          <span className="text-xs" style={{ color: 'var(--pv-text-muted)' }}>
+            {filteredUsers.length} of {total} shown
+          </span>
+          <span className="text-xs" style={{ color: 'var(--pv-text-muted)' }}>
+            <strong style={{ color: 'var(--pv-primary)' }}>{selectedIds.size}</strong> selected
           </span>
         </div>
       </div>
@@ -173,30 +167,52 @@ export function RecipientSelector({
         </div>
       ) : (
         <div
-          className="max-h-[360px] overflow-y-auto rounded-lg border"
-          style={{ borderColor: 'var(--pv-border)' }}
+          className="max-h-[420px] overflow-y-auto rounded-xl"
+          style={{ background: 'var(--pv-bg)' }}
         >
           <table className="w-full">
             <thead>
               <tr
                 className="sticky top-0 text-left text-xs font-medium"
                 style={{
-                  background: 'var(--pv-surface)',
+                  background: 'var(--pv-bg)',
                   color: 'var(--pv-text-muted)',
-                  borderBottom: '1px solid var(--pv-border)',
                 }}
               >
-                <th className="w-10 px-3 py-2.5" />
-                <th className="px-3 py-2.5">Name</th>
-                <th className="px-3 py-2.5">Email</th>
-                <th className="px-3 py-2.5">Tier</th>
+                <th className="w-10 px-4 py-3">
+                  <button
+                    onClick={toggleAll}
+                    className={cn(
+                      'flex h-[18px] w-[18px] items-center justify-center rounded transition-all',
+                      allFilteredSelected
+                        ? 'bg-[var(--pv-primary)] text-white'
+                        : someFilteredSelected
+                          ? 'border-2 border-[var(--pv-primary)]'
+                          : 'border border-[var(--pv-border)] hover:border-[var(--pv-text-muted)]',
+                    )}
+                    title={allFilteredSelected ? 'Deselect all' : 'Select all'}
+                  >
+                    {allFilteredSelected && (
+                      <Check className="h-3 w-3" strokeWidth={3} />
+                    )}
+                    {someFilteredSelected && !allFilteredSelected && (
+                      <div
+                        className="h-0.5 w-2 rounded-full"
+                        style={{ background: 'var(--pv-primary)' }}
+                      />
+                    )}
+                  </button>
+                </th>
+                <th className="px-4 py-3">Name</th>
+                <th className="px-4 py-3">Email</th>
+                <th className="px-4 py-3">Cohort</th>
               </tr>
             </thead>
             <tbody>
               {filteredUsers.map((user) => {
                 const isSelected = selectedIds.has(user.id);
-                const tierConfig = TIER_COLORS[user.tier] ?? {
-                  label: user.tier || 'Unknown',
+                const cohortConfig = COHORT_COLORS[user.signup_cohort] ?? {
+                  label: user.signup_cohort || 'Unknown',
                   color: 'text-gray-600 dark:text-gray-400',
                   bgColor: 'bg-gray-100 dark:bg-gray-800/50',
                 };
@@ -208,47 +224,38 @@ export function RecipientSelector({
                       'cursor-pointer text-sm transition-colors',
                       isSelected
                         ? 'bg-[var(--pv-primary)]/5'
-                        : 'hover:bg-[var(--pv-bg)]',
+                        : 'hover:bg-[var(--pv-surface)]',
                     )}
-                    style={{ borderBottom: '1px solid var(--pv-border)' }}
                   >
-                    <td className="px-3 py-2.5">
+                    <td className="px-4 py-3">
                       <div
                         className={cn(
-                          'flex h-5 w-5 items-center justify-center rounded border transition-colors',
+                          'flex h-[18px] w-[18px] items-center justify-center rounded transition-all',
                           isSelected
-                            ? 'border-[var(--pv-primary)] bg-[var(--pv-primary)] text-white'
-                            : 'border-[var(--pv-border)]',
+                            ? 'bg-[var(--pv-primary)] text-white'
+                            : 'border border-[var(--pv-border)]',
                         )}
                       >
                         {isSelected && (
-                          <svg
-                            className="h-3 w-3"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={3}
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                          </svg>
+                          <Check className="h-3 w-3" strokeWidth={3} />
                         )}
                       </div>
                     </td>
-                    <td className="px-3 py-2.5 font-medium" style={{ color: 'var(--pv-text)' }}>
+                    <td className="px-4 py-3 font-medium" style={{ color: 'var(--pv-text)' }}>
                       {user.full_name || 'No name'}
                     </td>
-                    <td className="px-3 py-2.5" style={{ color: 'var(--pv-text-muted)' }}>
+                    <td className="px-4 py-3" style={{ color: 'var(--pv-text-muted)' }}>
                       {user.email}
                     </td>
-                    <td className="px-3 py-2.5">
+                    <td className="px-4 py-3">
                       <span
                         className={cn(
                           'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium',
-                          tierConfig.color,
-                          tierConfig.bgColor,
+                          cohortConfig.color,
+                          cohortConfig.bgColor,
                         )}
                       >
-                        {tierConfig.label}
+                        {cohortConfig.label}
                       </span>
                     </td>
                   </tr>
@@ -261,7 +268,7 @@ export function RecipientSelector({
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2 pt-2">
+        <div className="flex items-center justify-center gap-2 pt-1">
           <Button
             variant="ghost"
             size="sm"
@@ -270,8 +277,8 @@ export function RecipientSelector({
           >
             Previous
           </Button>
-          <span className="text-sm" style={{ color: 'var(--pv-text-muted)' }}>
-            Page {page} of {totalPages}
+          <span className="text-xs" style={{ color: 'var(--pv-text-muted)' }}>
+            {page} / {totalPages}
           </span>
           <Button
             variant="ghost"

@@ -2,13 +2,24 @@
 
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Eye, Send, CheckCircle2, AlertTriangle, X } from 'lucide-react';
+import {
+  ArrowLeft,
+  Eye,
+  Send,
+  CheckCircle2,
+  AlertTriangle,
+  X,
+  Users,
+  ChevronDown,
+  Mail,
+} from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { RichTextEditor } from '@/components/dashboard/agenda/rich-text-editor';
 import { previewCampaign, sendCampaign } from '@/lib/api/email-campaigns';
 import type { UserProfile } from '@/lib/types/domani-users';
+import { cn } from '@/lib/utils';
 import { RecipientSelector } from './recipient-selector';
 import { SendConfirmationDialog } from './send-confirmation-dialog';
 
@@ -35,6 +46,8 @@ export function ComposePageClient({
   const [isPreviewing, setIsPreviewing] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [status, setStatus] = useState<StatusMessage | null>(null);
+  const [recipientsOpen, setRecipientsOpen] = useState(true);
+  const [contentOpen, setContentOpen] = useState(true);
 
   const isFormValid = subject.trim() !== '' && htmlContent.trim() !== '' && htmlContent !== '<p></p>';
   const canSend = isFormValid && selectedIds.size > 0;
@@ -72,14 +85,40 @@ export function ComposePageClient({
 
     setShowConfirmDialog(false);
 
-    // Redirect to campaign history after short delay
     setTimeout(() => {
       router.push('/dashboard/domani/campaigns');
     }, 2000);
   };
 
+  const statusBanner = status && (
+    <div
+      className={cn(
+        'flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm',
+        status.type === 'success'
+          ? 'bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400'
+          : 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400',
+      )}
+      role="alert"
+    >
+      <div className="flex items-center gap-2">
+        {status.type === 'success' ? (
+          <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
+        ) : (
+          <AlertTriangle className="h-4 w-4 flex-shrink-0" />
+        )}
+        {status.text}
+      </div>
+      <button
+        onClick={dismissStatus}
+        className="flex-shrink-0 rounded p-0.5 transition-colors hover:bg-black/10 dark:hover:bg-white/10"
+      >
+        <X className="h-4 w-4" />
+      </button>
+    </div>
+  );
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Header */}
       <div className="flex items-center gap-4">
         <Link href="/dashboard/domani/campaigns">
@@ -98,125 +137,228 @@ export function ComposePageClient({
         </div>
       </div>
 
-      {/* Status banner */}
-      {status && (
-        <div
-          className={`flex items-center justify-between gap-3 rounded-lg border px-4 py-3 text-sm ${
-            status.type === 'success'
-              ? 'border-green-200 bg-green-50 text-green-700 dark:border-green-900/50 dark:bg-green-900/20 dark:text-green-400'
-              : 'border-red-200 bg-red-50 text-red-700 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-400'
-          }`}
-          role="alert"
-        >
-          <div className="flex items-center gap-2">
-            {status.type === 'success' ? (
-              <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
-            ) : (
-              <AlertTriangle className="h-4 w-4 flex-shrink-0" />
-            )}
-            {status.text}
-          </div>
-          <button
-            onClick={dismissStatus}
-            className="flex-shrink-0 rounded p-0.5 transition-colors hover:bg-black/10 dark:hover:bg-white/10"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-      )}
+      {statusBanner}
 
       {/* Recipients section */}
       <section
-        className="rounded-2xl border p-6"
+        className="rounded-2xl"
         style={{
           background: 'var(--pv-surface)',
-          borderColor: 'var(--pv-border)',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)',
         }}
       >
-        <h2 className="mb-4 text-base font-semibold" style={{ color: 'var(--pv-text)' }}>
-          Recipients
-        </h2>
-        <RecipientSelector
-          initialUsers={initialUsers}
-          initialTotal={initialTotal}
-          selectedIds={selectedIds}
-          onSelectionChange={setSelectedIds}
-        />
+        <button
+          onClick={() => setRecipientsOpen(!recipientsOpen)}
+          className="flex w-full items-center justify-between px-6 py-4 text-left transition-colors hover:opacity-80"
+        >
+          <div className="flex items-center gap-3">
+            <div
+              className="flex h-8 w-8 items-center justify-center rounded-lg"
+              style={{
+                background: 'linear-gradient(135deg, rgba(63,0,233,0.1), rgba(201,71,255,0.06))',
+              }}
+            >
+              <Users className="h-4 w-4" style={{ color: 'var(--pv-primary)' }} />
+            </div>
+            <div className="flex items-center gap-2.5">
+              <h2 className="text-sm font-semibold" style={{ color: 'var(--pv-text)' }}>
+                Recipients
+              </h2>
+              {selectedIds.size > 0 && (
+                <span
+                  className="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-xs font-semibold text-white"
+                  style={{ background: 'var(--pv-primary)' }}
+                >
+                  {selectedIds.size}
+                </span>
+              )}
+              {!recipientsOpen && selectedIds.size > 0 && (
+                <span className="text-xs" style={{ color: 'var(--pv-text-muted)' }}>
+                  {selectedIds.size} recipient{selectedIds.size !== 1 ? 's' : ''} selected
+                </span>
+              )}
+              {!recipientsOpen && selectedIds.size === 0 && (
+                <span className="text-xs" style={{ color: 'var(--pv-text-muted)' }}>
+                  No recipients selected
+                </span>
+              )}
+            </div>
+          </div>
+          <ChevronDown
+            className={cn(
+              'h-4 w-4 transition-transform duration-200',
+              recipientsOpen && 'rotate-180',
+            )}
+            style={{ color: 'var(--pv-text-muted)' }}
+          />
+        </button>
+        <div
+          className="grid transition-all duration-300 ease-in-out"
+          style={{
+            gridTemplateRows: recipientsOpen ? '1fr' : '0fr',
+          }}
+        >
+          <div className="overflow-hidden">
+            <div
+              className="px-6 pb-5"
+              style={{ borderTop: '1px solid var(--pv-border)' }}
+            >
+              <div className="pt-5">
+                <RecipientSelector
+                  initialUsers={initialUsers}
+                  initialTotal={initialTotal}
+                  selectedIds={selectedIds}
+                  onSelectionChange={setSelectedIds}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* Compose section */}
+      {/* Email content section */}
       <section
-        className="rounded-2xl border p-6"
+        className="rounded-2xl"
         style={{
           background: 'var(--pv-surface)',
-          borderColor: 'var(--pv-border)',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)',
         }}
       >
-        <h2 className="mb-4 text-base font-semibold" style={{ color: 'var(--pv-text)' }}>
-          Email Content
-        </h2>
-        <div className="space-y-4">
-          <div className="space-y-1.5">
-            <label
-              htmlFor="subject"
-              className="text-sm font-medium"
-              style={{ color: 'var(--pv-text)' }}
+        <button
+          onClick={() => setContentOpen(!contentOpen)}
+          className="flex w-full items-center justify-between px-6 py-4 text-left transition-colors hover:opacity-80"
+        >
+          <div className="flex items-center gap-3">
+            <div
+              className="flex h-8 w-8 items-center justify-center rounded-lg"
+              style={{
+                background: 'linear-gradient(135deg, rgba(63,0,233,0.1), rgba(201,71,255,0.06))',
+              }}
             >
-              Subject Line
-            </label>
-            <Input
-              id="subject"
-              placeholder="e.g. Domani v2.0 is here!"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-            />
+              <Mail className="h-4 w-4" style={{ color: 'var(--pv-primary)' }} />
+            </div>
+            <div className="flex items-center gap-2.5">
+              <h2 className="text-sm font-semibold" style={{ color: 'var(--pv-text)' }}>
+                Email Content
+              </h2>
+              {!contentOpen && subject.trim() && (
+                <span
+                  className="max-w-[400px] truncate text-xs"
+                  style={{ color: 'var(--pv-text-muted)' }}
+                >
+                  {subject}
+                </span>
+              )}
+            </div>
           </div>
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium" style={{ color: 'var(--pv-text)' }}>
-              Body
-            </label>
-            <RichTextEditor
-              content={htmlContent}
-              onChange={setHtmlContent}
-              placeholder="Write your email content..."
-              minHeight="200px"
-            />
+          <ChevronDown
+            className={cn(
+              'h-4 w-4 transition-transform duration-200',
+              contentOpen && 'rotate-180',
+            )}
+            style={{ color: 'var(--pv-text-muted)' }}
+          />
+        </button>
+        <div
+          className="grid transition-all duration-300 ease-in-out"
+          style={{
+            gridTemplateRows: contentOpen ? '1fr' : '0fr',
+          }}
+        >
+          <div className="overflow-hidden">
+            <div
+              className="space-y-5 px-6 pb-6"
+              style={{ borderTop: '1px solid var(--pv-border)' }}
+            >
+              <div className="pt-5">
+                {/* Subject */}
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="subject"
+                    className="text-sm font-medium"
+                    style={{ color: 'var(--pv-text)' }}
+                  >
+                    Subject Line
+                  </label>
+                  <Input
+                    id="subject"
+                    placeholder="e.g. Domani v2.0 is here!"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    className="h-11 rounded-xl border-none text-base"
+                    style={{
+                      background: 'var(--pv-bg)',
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Body */}
+              <div className="space-y-1.5">
+                <label
+                  className="text-sm font-medium"
+                  style={{ color: 'var(--pv-text)' }}
+                >
+                  Body
+                </label>
+                <div
+                  className="overflow-hidden rounded-xl"
+                  style={{ background: 'var(--pv-bg)' }}
+                >
+                  <RichTextEditor
+                    content={htmlContent}
+                    onChange={setHtmlContent}
+                    placeholder="Write your email content..."
+                    minHeight="280px"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Action bar */}
       <div
-        className="sticky bottom-0 flex items-center justify-end gap-3 rounded-2xl border px-6 py-4"
+        className="sticky bottom-4 flex items-center justify-between gap-3 rounded-2xl px-6 py-4"
         style={{
           background: 'var(--pv-surface)',
-          borderColor: 'var(--pv-border)',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04)',
         }}
       >
-        <Button
-          variant="secondary"
-          onClick={handlePreview}
-          disabled={!isFormValid || isPreviewing}
-        >
-          {isPreviewing ? (
-            <>
-              <Eye className="mr-2 h-4 w-4 animate-pulse" />
-              Sending preview...
-            </>
+        <div className="text-sm" style={{ color: 'var(--pv-text-muted)' }}>
+          {selectedIds.size > 0 ? (
+            <span>
+              <strong style={{ color: 'var(--pv-text)' }}>{selectedIds.size}</strong> recipient
+              {selectedIds.size !== 1 ? 's' : ''} selected
+            </span>
           ) : (
-            <>
-              <Eye className="mr-2 h-4 w-4" />
-              Preview
-            </>
+            <span>No recipients selected</span>
           )}
-        </Button>
-        <Button
-          onClick={() => setShowConfirmDialog(true)}
-          disabled={!canSend}
-        >
-          <Send className="mr-2 h-4 w-4" />
-          Send to {selectedIds.size} recipient{selectedIds.size !== 1 ? 's' : ''}
-        </Button>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="secondary"
+            onClick={handlePreview}
+            disabled={!isFormValid || isPreviewing}
+          >
+            {isPreviewing ? (
+              <>
+                <Eye className="mr-2 h-4 w-4 animate-pulse" />
+                Sending preview...
+              </>
+            ) : (
+              <>
+                <Eye className="mr-2 h-4 w-4" />
+                Preview
+              </>
+            )}
+          </Button>
+          <Button onClick={() => setShowConfirmDialog(true)} disabled={!canSend}>
+            <Send className="mr-2 h-4 w-4" />
+            Send Campaign
+          </Button>
+        </div>
       </div>
 
       {/* Confirmation dialog */}

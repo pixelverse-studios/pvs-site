@@ -75,7 +75,7 @@ export function DashboardHeader({ userName, userEmail, onLogout }: DashboardHead
         WebkitBackdropFilter: 'blur(12px)',
       }}
     >
-      <div className="flex h-16 items-center justify-between px-6 lg:px-8">
+      <div className="flex h-16 items-center justify-between pl-16 pr-6 lg:px-8">
         {/* Left: Breadcrumbs */}
         <nav className="flex items-center gap-2" aria-label="Breadcrumb">
           {breadcrumbs.map((crumb, index) => (
