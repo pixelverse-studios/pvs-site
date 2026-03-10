@@ -40,7 +40,9 @@ interface CampaignsPageClientProps {
 const DEFAULT_PAGE_SIZE = 20;
 
 function formatDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString('en-US', {
+  const d = new Date(dateString);
+  if (isNaN(d.getTime())) return 'Unknown date';
+  return d.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
@@ -113,6 +115,7 @@ export function CampaignsPageClient({
     );
   }, [campaigns, search]);
 
+  const handleCloseDetail = useCallback(() => setSelectedCampaign(null), []);
   const handlePageChange = useCallback((page: number) => setCurrentPage(page), []);
   const handlePageSizeChange = useCallback((size: number) => {
     setPageSize(size);
@@ -387,7 +390,7 @@ export function CampaignsPageClient({
       <CampaignDetailModal
         campaign={selectedCampaign}
         isOpen={selectedCampaign !== null}
-        onClose={() => setSelectedCampaign(null)}
+        onClose={handleCloseDetail}
       />
     </>
   );
