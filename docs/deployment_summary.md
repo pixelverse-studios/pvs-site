@@ -52,7 +52,7 @@
 - Blog hero secondary CTA now links to "Book a strategy call" (/contact/call) instead of Bergen County SEO plan
 - Fixed layout shift on contact form when opening dropdown menus — page content no longer nudges sideways
 - Switching between contact form tabs no longer jumps to the top of the page — scroll position is preserved
-- Fixed persistent dropdown scrollbar nudge — form dropdowns no longer cause the entire page (including footer) to shift left when opened
+- Fixed persistent dropdown scrollbar nudge — form dropdowns no longer cause the page to shift horizontally when opened
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -129,12 +129,11 @@
 - DEV-428: Changed blog hero secondary CTA from `/services/bergen-county` to `/contact/call` with "Book a strategy call" text
 - File: `components/blog/blog-hero-section.tsx`
 - Blog CTA section (`blog-cta-section.tsx`) was already correct — no changes needed there
-- DEV-429: Fixed dropdown nudge on contact details form caused by double scrollbar compensation
-- Root cause: `scrollbar-gutter: stable` on `<html>` already reserves scrollbar space, but Radix UI's `react-remove-scroll` adds inline `padding-right` to `<body>` when Select portals open — double-counting the reserved space
-- Fix: Added `body { padding-right: 0px !important }` inside `@supports (scrollbar-gutter: stable)` guard in `globals.css`
-- The `@supports` guard ensures browsers without `scrollbar-gutter` still get the default scroll-lock compensation
-- DEV-467: Previous body-only fix was incomplete — `react-remove-scroll-bar` also injects `padding-right` and `margin-right` on `<html>` via a dynamic class
-- Extended the `@supports (scrollbar-gutter: stable)` override to target both `html` and `body` with `padding-right: 0px !important` and `margin-right: 0px !important`
+- DEV-429/DEV-467: Fixed dropdown scrollbar nudge on contact form
+- Root cause: Radix UI Select uses `react-remove-scroll` which sets `overflow: hidden` on `<html>` and adds padding/margin compensation. This conflicts with `scrollbar-gutter: stable` — the gutter collapses when overflow becomes hidden (per CSS spec), and the compensation shifts all page content.
+- Previous fix attempts (global CSS overrides) failed because they were always active, creating new conflicts. Global `overflow-y: scroll` fixed the dropdown but shifted all content when any dropdown opened.
+- Fix: moved the scroll-lock neutralization into the Select component itself. A MutationObserver strips the `data-scroll-locked` attribute from `<body>` before the browser paints — without the attribute, the injected CSS rules never match and have zero effect. Observer is scoped to SelectContent lifecycle, so dialogs and modals still get proper scroll locking. `scrollbar-gutter: stable` restored on `<html>`.
+- File: `components/ui/select.tsx` — added `useNeutralizeScrollLock` hook, removed `@supports` block from `globals.css`
 - Created `app/contact/layout.tsx` to share `ContactHero` and `ContactPageClient` across all 3 contact routes
 - Without a shared layout, each tab click caused a full component unmount/remount, which triggered Next.js scroll-to-top regardless of `scroll={false}`
 - Hoisted `<ContactHero>` and `<ContactPageClient>` into the layout so they persist across tab switches

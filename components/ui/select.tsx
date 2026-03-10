@@ -30,39 +30,80 @@ const SelectTrigger = React.forwardRef<
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
+/**
+ * DEV-467: Prevent react-remove-scroll from shifting page layout.
+ *
+ * Radix Select uses react-remove-scroll which adds `data-scroll-locked`
+ * to <body>, triggering injected CSS that sets overflow:hidden and adds
+ * padding/margin compensation. This conflicts with scrollbar-gutter:stable
+ * on <html>, causing a horizontal layout shift.
+ *
+ * Fix: MutationObserver removes the `data-scroll-locked` attribute from
+ * <body> before the browser paints. Without the attribute, the injected
+ * CSS rules don't match and have zero effect. Observer is scoped to
+ * SelectContent lifecycle — dialogs/modals still get proper scroll locking.
+ */
+function useNeutralizeScrollLock() {
+  React.useEffect(() => {
+    const body = document.body;
+
+    const strip = () => {
+      // Only strip if no Dialog/AlertDialog is open — those need scroll locking.
+      if (
+        body.hasAttribute('data-scroll-locked') &&
+        !document.querySelector('[role="dialog"], [role="alertdialog"]')
+      ) {
+        body.removeAttribute('data-scroll-locked');
+      }
+    };
+
+    // Remove if already present (effect may fire after attribute is set)
+    strip();
+
+    const observer = new MutationObserver(strip);
+    observer.observe(body, { attributes: true, attributeFilter: ['data-scroll-locked'] });
+
+    return () => observer.disconnect();
+  }, []);
+}
+
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
->(({ className, children, position = 'popper', ...props }, ref) => (
-  <SelectPrimitive.Portal>
-    <SelectPrimitive.Content
-      ref={ref}
-      className={cn(
-        'relative z-50 min-w-[10rem] overflow-hidden rounded-pv border border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)] shadow-pv data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2',
-        position === 'popper' && 'data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1',
-        className,
-      )}
-      position={position}
-      {...props}
-    >
-      <SelectPrimitive.ScrollUpButton className="flex items-center justify-center bg-[var(--pv-surface)] py-1">
-        <ChevronUp className="h-4 w-4 opacity-70" />
-      </SelectPrimitive.ScrollUpButton>
-      <SelectPrimitive.Viewport
+>(({ className, children, position = 'popper', ...props }, ref) => {
+  useNeutralizeScrollLock();
+
+  return (
+    <SelectPrimitive.Portal>
+      <SelectPrimitive.Content
+        ref={ref}
         className={cn(
-          'p-1',
-          position === 'popper' &&
-            'h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]',
+          'relative z-50 min-w-[10rem] overflow-hidden rounded-pv border border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)] shadow-pv data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2',
+          position === 'popper' && 'data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1',
+          className,
         )}
+        position={position}
+        {...props}
       >
-        {children}
-      </SelectPrimitive.Viewport>
-      <SelectPrimitive.ScrollDownButton className="flex items-center justify-center bg-[var(--pv-surface)] py-1">
-        <ChevronDown className="h-4 w-4 opacity-70" />
-      </SelectPrimitive.ScrollDownButton>
-    </SelectPrimitive.Content>
-  </SelectPrimitive.Portal>
-));
+        <SelectPrimitive.ScrollUpButton className="flex items-center justify-center bg-[var(--pv-surface)] py-1">
+          <ChevronUp className="h-4 w-4 opacity-70" />
+        </SelectPrimitive.ScrollUpButton>
+        <SelectPrimitive.Viewport
+          className={cn(
+            'p-1',
+            position === 'popper' &&
+              'h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]',
+          )}
+        >
+          {children}
+        </SelectPrimitive.Viewport>
+        <SelectPrimitive.ScrollDownButton className="flex items-center justify-center bg-[var(--pv-surface)] py-1">
+          <ChevronDown className="h-4 w-4 opacity-70" />
+        </SelectPrimitive.ScrollDownButton>
+      </SelectPrimitive.Content>
+    </SelectPrimitive.Portal>
+  );
+});
 SelectContent.displayName = SelectPrimitive.Content.displayName;
 
 const SelectItem = React.forwardRef<
