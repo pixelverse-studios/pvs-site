@@ -51,6 +51,8 @@ function buildCsp(nonce: string, isDev: boolean, apiUrl: string | undefined): st
 // DEV-468: Redirect legacy /contact?path= URLs to clean routes.
 // Next.js redirects() preserves query params even with `has` conditions,
 // so we handle these here where we control the exact destination URL.
+// If a new contact route is added, update this map AND the catch-all
+// redirect in next.config.js (/contact → /contact/details).
 const CONTACT_PATH_MAP: Record<string, string> = {
   review: '/contact/review',
   details: '/contact/details',
@@ -61,8 +63,9 @@ export async function middleware(request: NextRequest) {
   // Strip stale ?path= from legacy contact URLs
   if (request.nextUrl.pathname === '/contact') {
     const pathParam = request.nextUrl.searchParams.get('path');
-    if (pathParam && CONTACT_PATH_MAP[pathParam]) {
-      return NextResponse.redirect(new URL(CONTACT_PATH_MAP[pathParam], request.url), 301);
+    if (pathParam) {
+      const destination = CONTACT_PATH_MAP[pathParam] ?? '/contact/details';
+      return NextResponse.redirect(new URL(destination, request.url), 301);
     }
   }
 
