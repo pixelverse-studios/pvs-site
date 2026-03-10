@@ -53,6 +53,7 @@
 - Fixed layout shift on contact form when opening dropdown menus — page content no longer nudges sideways
 - Switching between contact form tabs no longer jumps to the top of the page — scroll position is preserved
 - Fixed persistent dropdown scrollbar nudge — form dropdowns no longer cause the page to shift horizontally when opened
+- Legacy contact URLs with ?path= parameter now redirect to clean URLs without the stale query string
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -138,6 +139,10 @@
 - Without a shared layout, each tab click caused a full component unmount/remount, which triggered Next.js scroll-to-top regardless of `scroll={false}`
 - Hoisted `<ContactHero>` and `<ContactPageClient>` into the layout so they persist across tab switches
 - Each page.tsx now only exports metadata and structured data — no duplicate component rendering
+- DEV-468: Legacy `/contact?path=` redirects moved from `next.config.js` to `middleware.ts`
+- Next.js `redirects()` with `has` conditions preserves query params in the destination URL — no way to strip them
+- Middleware constructs a clean `new URL()` without query params, returning a proper 301
+- Removed 3 `has`-condition redirect rules from `next.config.js`; the catch-all `/contact` → `/contact/details` redirect remains
 
 ## Changed URLs
 - https://www.pixelversestudios.io
