@@ -7,7 +7,6 @@ import type { UserProfile, UsersListResponse, UsersQueryParams } from '@/lib/typ
 export async function getDomaniUsers(params?: UsersQueryParams): Promise<UsersListResponse> {
   const searchParams = new URLSearchParams();
 
-  if (params?.tier) searchParams.set('tier', params.tier);
   if (params?.cohort) searchParams.set('cohort', params.cohort);
   if (params?.include_deleted !== undefined)
     searchParams.set('include_deleted', String(params.include_deleted));

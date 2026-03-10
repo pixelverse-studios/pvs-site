@@ -22,7 +22,6 @@ export function UsersPageClient({ initialItems, initialTotal }: UsersPageClientP
   const [total, setTotal] = useState(initialTotal);
   const [filters, setFilters] = useState<UsersFilters>({
     search: '',
-    tier: 'all',
     cohort: 'all',
     includeDeleted: false,
     dateRange: DEFAULT_DATE_RANGE,
@@ -84,14 +83,9 @@ export function UsersPageClient({ initialItems, initialTotal }: UsersPageClientP
     setCurrentPage(1);
   };
 
-  // Filter items (client-side filtering on current page for tier/cohort)
+  // Filter items (client-side filtering on current page for cohort)
   const filteredItems = useMemo(() => {
     let result = [...items];
-
-    // Tier filter
-    if (filters.tier !== 'all') {
-      result = result.filter((item) => item.tier === filters.tier);
-    }
 
     // Cohort filter
     if (filters.cohort !== 'all') {
@@ -107,7 +101,7 @@ export function UsersPageClient({ initialItems, initialTotal }: UsersPageClientP
     result.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
     return result;
-  }, [items, filters.tier, filters.cohort, filters.includeDeleted]);
+  }, [items, filters.cohort, filters.includeDeleted]);
 
   // Count stats
   const counts = useMemo(

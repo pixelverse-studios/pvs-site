@@ -4,14 +4,30 @@ import { ColumnDef } from '@tanstack/react-table';
 import { UserCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DataTable } from '@/components/ui/data-table';
-import type { UserProfile, UserTier, SignupCohort } from '@/lib/types/domani-users';
-import { TIER_COLORS, COHORT_COLORS, SIGNUP_METHOD_LABELS } from '@/lib/types/domani-users';
+import type { UserProfile, SignupCohort } from '@/lib/types/domani-users';
+import { COHORT_COLORS, SIGNUP_METHOD_LABELS } from '@/lib/types/domani-users';
 
 interface UsersTableProps {
   items: UserProfile[];
   globalFilter?: string;
   onGlobalFilterChange?: (value: string) => void;
 }
+
+const formatRelativeDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+
+  if (diffMins < 1) return 'Just now';
+  if (diffMins < 60) return `${diffMins}m ago`;
+  if (diffHours < 24) return `${diffHours}h ago`;
+  if (diffDays < 7) return `${diffDays}d ago`;
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+};
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -53,25 +69,6 @@ const columns: ColumnDef<UserProfile>[] = [
     ),
   },
   {
-    accessorKey: 'tier',
-    header: 'Tier',
-    cell: ({ row }) => {
-      const tier = row.getValue('tier') as UserTier;
-      const config = TIER_COLORS[tier];
-      return (
-        <span
-          className={cn(
-            'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
-            config?.bgColor,
-            config?.color
-          )}
-        >
-          {config?.label || tier}
-        </span>
-      );
-    },
-  },
-  {
     accessorKey: 'signup_cohort',
     header: 'Cohort',
     cell: ({ row }) => {
@@ -86,6 +83,21 @@ const columns: ColumnDef<UserProfile>[] = [
           )}
         >
           {config?.label || cohort}
+        </span>
+      );
+    },
+  },
+  {
+    accessorKey: 'last_sign_in_at',
+    header: 'Last Active',
+    cell: ({ row }) => {
+      const value = row.getValue('last_sign_in_at') as string | null;
+      if (!value) {
+        return <span className="text-[var(--pv-text-muted)]">Never</span>;
+      }
+      return (
+        <span className="whitespace-nowrap text-[var(--pv-text-muted)]">
+          {formatRelativeDate(value)}
         </span>
       );
     },

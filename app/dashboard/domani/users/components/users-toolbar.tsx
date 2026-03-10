@@ -1,6 +1,6 @@
 'use client';
 
-import { Search, X, RotateCcw, Calendar, Crown, Users, Trash2 } from 'lucide-react';
+import { Search, X, RotateCcw, Calendar, Users, Trash2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -11,11 +11,10 @@ import {
 } from '@/components/ui/select';
 import { DateRangeFilter, type DateRange, getDateRangeLabel } from '@/components/ui/date-range-filter';
 import { cn } from '@/lib/utils';
-import type { UserTier, SignupCohort } from '@/lib/types/domani-users';
+import type { SignupCohort } from '@/lib/types/domani-users';
 
 export interface UsersFilters {
   search: string;
-  tier: UserTier | 'all';
   cohort: SignupCohort | 'all';
   includeDeleted: boolean;
   dateRange: DateRange;
@@ -38,14 +37,12 @@ export function UsersToolbar({ filters, onFiltersChange, counts }: UsersToolbarP
   };
 
   const hasActiveFilters =
-    filters.tier !== 'all' ||
     filters.cohort !== 'all' ||
     filters.includeDeleted ||
     filters.search !== '' ||
     filters.dateRange.preset !== 'all';
 
   const activeFilterCount = [
-    filters.tier !== 'all',
     filters.cohort !== 'all',
     filters.includeDeleted,
     filters.search !== '',
@@ -55,7 +52,6 @@ export function UsersToolbar({ filters, onFiltersChange, counts }: UsersToolbarP
   const clearFilters = () => {
     onFiltersChange({
       search: '',
-      tier: 'all',
       cohort: 'all',
       includeDeleted: false,
       dateRange: DEFAULT_DATE_RANGE,
@@ -129,29 +125,6 @@ export function UsersToolbar({ filters, onFiltersChange, counts }: UsersToolbarP
           {/* Divider */}
           <div className="hidden h-6 w-px bg-[var(--pv-border)] lg:block" />
 
-          {/* Tier Filter */}
-          <Select
-            value={filters.tier}
-            onValueChange={(value) => updateFilter('tier', value as UserTier | 'all')}
-          >
-            <SelectTrigger
-              className={cn(
-                'h-9 w-auto min-w-[110px] gap-2 border-transparent bg-transparent',
-                filters.tier !== 'all' &&
-                  'border-[var(--pv-primary)]/30 bg-[var(--pv-primary)]/10 text-[var(--pv-primary)]'
-              )}
-            >
-              <Crown className="h-4 w-4 shrink-0 opacity-50" />
-              <SelectValue placeholder="Tier" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Tiers</SelectItem>
-              <SelectItem value="free">Free</SelectItem>
-              <SelectItem value="premium">Premium</SelectItem>
-              <SelectItem value="lifetime">Lifetime</SelectItem>
-            </SelectContent>
-          </Select>
-
           {/* Cohort Filter */}
           <Select
             value={filters.cohort}
@@ -224,13 +197,6 @@ export function UsersToolbar({ filters, onFiltersChange, counts }: UsersToolbarP
               label={getDateRangeLabel(filters.dateRange)}
               icon={<Calendar className="h-3 w-3" />}
               onRemove={() => updateFilter('dateRange', DEFAULT_DATE_RANGE)}
-            />
-          )}
-          {filters.tier !== 'all' && (
-            <FilterChip
-              label={filters.tier}
-              icon={<Crown className="h-3 w-3" />}
-              onRemove={() => updateFilter('tier', 'all')}
             />
           )}
           {filters.cohort !== 'all' && (
