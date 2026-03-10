@@ -54,6 +54,7 @@
 - Switching between contact form tabs no longer jumps to the top of the page — scroll position is preserved
 - Fixed persistent dropdown scrollbar nudge — form dropdowns no longer cause the page to shift horizontally when opened
 - Legacy contact URLs with ?path= parameter now redirect to clean URLs without the stale query string
+- Updated strategy call "What to Expect" copy — replaced generic phrasing with cleaner messaging
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -143,6 +144,8 @@
 - Next.js `redirects()` with `has` conditions preserves query params in the destination URL — no way to strip them
 - Middleware constructs a clean `new URL()` without query params, returning a proper 301
 - Removed 3 `has`-condition redirect rules from `next.config.js`; the catch-all `/contact` → `/contact/details` redirect remains
+- DEV-469: Replaced "No fluff, just focused conversation" with "Straight to what matters" in strategy call What to Expect section
+- File: `components/contact/contact-strategy-call.tsx`
 
 ## Changed URLs
 - https://www.pixelversestudios.io
