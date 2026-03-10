@@ -11,8 +11,11 @@ import {
   CheckCircle2,
   XCircle,
   ChevronRight,
+  AlertTriangle,
+  RotateCcw,
 } from 'lucide-react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Pagination } from '@/components/ui/pagination';
@@ -23,11 +26,15 @@ import {
   DELIVERY_STATUS_COLORS,
   TEMPLATE_TYPE_COLORS,
 } from '@/lib/types/email-campaign';
-import { CampaignDetailModal } from './campaign-detail-modal';
+const CampaignDetailModal = dynamic(
+  () => import('./campaign-detail-modal').then((m) => ({ default: m.CampaignDetailModal })),
+  { ssr: false },
+);
 
 interface CampaignsPageClientProps {
   initialCampaigns: Campaign[];
   initialTotal: number;
+  initialLoadError?: boolean;
 }
 
 const DEFAULT_PAGE_SIZE = 20;
@@ -45,6 +52,7 @@ function formatDate(dateString: string) {
 export function CampaignsPageClient({
   initialCampaigns,
   initialTotal,
+  initialLoadError,
 }: CampaignsPageClientProps) {
   const [campaigns, setCampaigns] = useState(initialCampaigns);
   const [total, setTotal] = useState(initialTotal);
@@ -52,20 +60,37 @@ export function CampaignsPageClient({
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(false);
+  const [fetchError, setFetchError] = useState<string | null>(
+    initialLoadError ? 'Failed to load campaigns. Please refresh the page.' : null
+  );
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
   const isInitialMount = useRef(true);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const fetchData = useCallback(async (page: number, size: number) => {
+    abortControllerRef.current?.abort();
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     setIsLoading(true);
+    setFetchError(null);
     try {
       const offset = (page - 1) * size;
       const response = await getCampaignsClient({ limit: size, offset });
-      setCampaigns(response.campaigns);
-      setTotal(response.total);
+      if (!controller.signal.aborted) {
+        setFetchError(null);
+        setCampaigns(response.campaigns);
+        setTotal(response.total);
+      }
     } catch (error) {
-      console.error('Failed to fetch campaigns:', error);
+      if (!controller.signal.aborted) {
+        console.error('Failed to fetch campaigns:', error);
+        setFetchError('Failed to load campaigns. Please try again.');
+      }
     } finally {
-      setIsLoading(false);
+      if (!controller.signal.aborted) {
+        setIsLoading(false);
+      }
     }
   }, []);
 
@@ -75,6 +100,7 @@ export function CampaignsPageClient({
       return;
     }
     fetchData(currentPage, pageSize);
+    return () => { abortControllerRef.current?.abort(); };
   }, [currentPage, pageSize, fetchData]);
 
   const filteredCampaigns = useMemo(() => {
@@ -87,11 +113,11 @@ export function CampaignsPageClient({
     );
   }, [campaigns, search]);
 
-  const handlePageChange = (page: number) => setCurrentPage(page);
-  const handlePageSizeChange = (size: number) => {
+  const handlePageChange = useCallback((page: number) => setCurrentPage(page), []);
+  const handlePageSizeChange = useCallback((size: number) => {
     setPageSize(size);
     setCurrentPage(1);
-  };
+  }, []);
 
   // Empty state
   if (total === 0 && !isLoading) {
@@ -160,7 +186,7 @@ export function CampaignsPageClient({
             style={{ color: 'var(--pv-text-muted)' }}
           />
           <Input
-            placeholder="Search by subject or sender..."
+            placeholder="Filter this page by subject or sender..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="h-9 rounded-lg border-none pl-10 text-sm shadow-none"
@@ -168,6 +194,24 @@ export function CampaignsPageClient({
           />
         </div>
       </div>
+
+      {/* Error banner */}
+      {fetchError && (
+        <div
+          className="mb-4 flex items-center justify-between rounded-xl px-4 py-3 text-sm"
+          style={{ background: 'rgba(239,68,68,0.06)', color: 'var(--pv-text)' }}
+          role="alert"
+        >
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="h-4 w-4 flex-shrink-0 text-red-500" />
+            <span style={{ color: 'var(--pv-text-muted)' }}>{fetchError}</span>
+          </div>
+          <Button variant="ghost" size="sm" onClick={() => fetchData(currentPage, pageSize)}>
+            <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+            Retry
+          </Button>
+        </div>
+      )}
 
       {/* Loading */}
       {isLoading ? (

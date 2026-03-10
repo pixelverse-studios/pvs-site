@@ -15,27 +15,34 @@ export async function GET(request: Request) {
   }
 
   const { searchParams } = new URL(request.url);
-  const limit = searchParams.get('limit') || '20';
-  const offset = searchParams.get('offset') || '0';
+  const limit = Math.min(Math.max(parseInt(searchParams.get('limit') || '20', 10) || 20, 1), 100);
+  const offset = Math.max(parseInt(searchParams.get('offset') || '0', 10) || 0, 0);
 
-  const params = new URLSearchParams({ limit, offset });
+  const params = new URLSearchParams({ limit: String(limit), offset: String(offset) });
 
-  const res = await fetch(
-    `${getApiBaseUrl()}/api/domani/email-campaigns?${params}`,
-    {
-      cache: 'no-store',
-      headers: { 'X-Blast-Secret': BLAST_SECRET },
-    },
-  );
+  try {
+    const res = await fetch(
+      `${getApiBaseUrl()}/api/domani/email-campaigns?${params}`,
+      {
+        cache: 'no-store',
+        headers: { 'X-Blast-Secret': BLAST_SECRET },
+      },
+    );
 
-  const data = await res.json().catch(() => ({}));
+    const data = await res.json().catch(() => ({}));
 
-  if (!res.ok) {
+    if (!res.ok) {
+      return NextResponse.json(
+        { message: data.message || 'Failed to fetch campaigns' },
+        { status: res.status },
+      );
+    }
+
+    return NextResponse.json(data);
+  } catch {
     return NextResponse.json(
-      { message: data.message || 'Failed to fetch campaigns' },
-      { status: res.status },
+      { message: 'Campaign service unavailable' },
+      { status: 502 },
     );
   }
-
-  return NextResponse.json(data);
 }

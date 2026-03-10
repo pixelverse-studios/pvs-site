@@ -92,7 +92,8 @@ export async function getCampaigns(
   );
 
   if (!res.ok) {
-    throw new Error('Failed to fetch campaigns');
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.message || `Campaign API error (${res.status})`);
   }
 
   return res.json();

@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getCampaigns } from '@/lib/api/email-campaigns';
+import type { Campaign } from '@/lib/types/email-campaign';
 import { CampaignsPageClient } from './components/campaigns-page-client';
 
 export const metadata = {
@@ -17,10 +18,17 @@ export default async function CampaignsPage() {
 
   if (!user) redirect('/login');
 
-  const { campaigns, total } = await getCampaigns({ limit: 20, offset: 0 }).catch(() => ({
-    campaigns: [],
-    total: 0,
-  }));
+  let campaigns: Campaign[] = [];
+  let total = 0;
+  let loadError = false;
 
-  return <CampaignsPageClient initialCampaigns={campaigns} initialTotal={total} />;
+  try {
+    const response = await getCampaigns({ limit: 20, offset: 0 });
+    campaigns = response.campaigns;
+    total = response.total;
+  } catch {
+    loadError = true;
+  }
+
+  return <CampaignsPageClient initialCampaigns={campaigns} initialTotal={total} initialLoadError={loadError} />;
 }

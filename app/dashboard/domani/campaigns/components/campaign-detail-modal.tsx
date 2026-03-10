@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import {
   X,
   Calendar,
@@ -25,7 +25,9 @@ interface CampaignDetailModalProps {
 }
 
 function formatDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString('en-US', {
+  const d = new Date(dateString);
+  if (isNaN(d.getTime())) return 'Unknown date';
+  return d.toLocaleDateString('en-US', {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
@@ -42,8 +44,17 @@ export function CampaignDetailModal({
 }: CampaignDetailModalProps) {
   const sanitizedHtml = useMemo(
     () => (campaign ? DOMPurify.sanitize(campaign.html_content || '') : ''),
-    [campaign],
+    [campaign?.html_content],
   );
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen || !campaign) return null;
 
@@ -71,6 +82,9 @@ export function CampaignDetailModal({
       {/* Modal */}
       <div
         className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl border shadow-2xl"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Campaign details: ${campaign.subject}`}
         style={{
           background: 'var(--pv-bg)',
           borderColor: 'var(--pv-border)',
