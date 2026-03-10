@@ -14,11 +14,12 @@ import {
   ChevronRight,
   Menu,
   X,
-  Sparkles,
   ListTodo,
   Smartphone,
   UserSearch,
 } from 'lucide-react';
+import Image from 'next/image';
+import { useTheme } from 'next-themes';
 import { useSidebar } from './sidebar-context';
 
 interface NavItem {
@@ -108,6 +109,11 @@ const navSections: NavSection[] = [
 export function DashboardSidebar() {
   const pathname = usePathname();
   const { isCollapsed, setIsCollapsed, isMobileOpen, setIsMobileOpen } = useSidebar();
+  const { resolvedTheme } = useTheme();
+  const logoSrc =
+    resolvedTheme === 'dark'
+      ? 'https://res.cloudinary.com/pixelverse-studios/image/upload/v1761333954/pvs/logo-white.png'
+      : 'https://res.cloudinary.com/pixelverse-studios/image/upload/v1761333954/pvs/logo-black.png';
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -174,37 +180,16 @@ export function DashboardSidebar() {
           >
             <Link
               href="/"
-              className="group flex items-center gap-3 rounded-lg px-2 py-1.5 transition-all duration-300 hover:bg-[var(--pv-bg)]"
+              className="group flex items-center rounded-lg px-2 py-1.5 transition-all duration-300 hover:opacity-80"
             >
-              {/* Logo icon */}
-              <div
-                className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105"
-                style={{
-                  background: 'linear-gradient(135deg, var(--pv-primary), var(--pv-primary-2))',
-                }}
-              >
-                <Sparkles className="h-4 w-4 text-white" />
-              </div>
-
-              {/* Brand text */}
-              <div
-                className={`flex flex-col transition-all duration-300 ${
-                  !showLabels ? 'w-0 opacity-0' : 'w-auto opacity-100'
-                }`}
-              >
-                <span
-                  className="font-heading text-lg font-bold leading-tight"
-                  style={{ color: 'var(--pv-text)' }}
-                >
-                  PVS
-                </span>
-                <span
-                  className="text-[10px] font-medium uppercase tracking-wider"
-                  style={{ color: 'var(--pv-text-muted)' }}
-                >
-                  Studio
-                </span>
-              </div>
+              <Image
+                src={logoSrc}
+                alt="PixelVerse Studios"
+                width={showLabels ? 140 : 36}
+                height={36}
+                className="h-9 w-auto object-contain transition-all duration-300"
+                unoptimized
+              />
             </Link>
           </div>
 

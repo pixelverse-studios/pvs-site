@@ -7,22 +7,14 @@ import type {
   SendResponse,
 } from '@/lib/types/email-campaign';
 
-const BLAST_SECRET = process.env.NEXT_PUBLIC_BLAST_SECRET ?? '';
-
-function getHeaders(): HeadersInit {
-  return {
-    'Content-Type': 'application/json',
-    'X-Blast-Secret': BLAST_SECRET,
-  };
-}
-
 /**
- * Send a preview email to Phil & Sami for review
+ * Send a preview email to Phil & Sami for review.
+ * Proxied through /api/campaigns/preview to keep BLAST_SECRET server-side.
  */
 export async function previewCampaign(payload: PreviewPayload): Promise<PreviewResponse> {
-  const res = await fetch(`${getApiBaseUrl()}/api/domani/email-campaigns/preview`, {
+  const res = await fetch('/api/campaigns/preview', {
     method: 'POST',
-    headers: getHeaders(),
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
 
@@ -35,12 +27,13 @@ export async function previewCampaign(payload: PreviewPayload): Promise<PreviewR
 }
 
 /**
- * Send campaign to selected recipients
+ * Send campaign to selected recipients.
+ * Proxied through /api/campaigns/send to keep BLAST_SECRET server-side.
  */
 export async function sendCampaign(payload: SendPayload): Promise<SendResponse> {
-  const res = await fetch(`${getApiBaseUrl()}/api/domani/email-campaigns/send`, {
+  const res = await fetch('/api/campaigns/send', {
     method: 'POST',
-    headers: getHeaders(),
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
 
@@ -56,11 +49,13 @@ export async function sendCampaign(payload: SendPayload): Promise<SendResponse> 
 }
 
 /**
- * Fetch campaign history with pagination
+ * Fetch campaign history with pagination.
+ * Called server-side only — uses BLAST_SECRET directly via env var.
  */
 export async function getCampaigns(
   params?: { limit?: number; offset?: number },
 ): Promise<CampaignListResponse> {
+  const BLAST_SECRET = process.env.BLAST_SECRET ?? '';
   const searchParams = new URLSearchParams();
 
   if (params?.limit !== undefined) searchParams.set('limit', String(params.limit));
