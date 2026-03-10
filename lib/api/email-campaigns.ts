@@ -49,6 +49,28 @@ export async function sendCampaign(payload: SendPayload): Promise<SendResponse> 
 }
 
 /**
+ * Fetch campaign history from client-side.
+ * Proxied through /api/campaigns to keep BLAST_SECRET server-side.
+ */
+export async function getCampaignsClient(
+  params?: { limit?: number; offset?: number },
+): Promise<CampaignListResponse> {
+  const searchParams = new URLSearchParams();
+
+  if (params?.limit !== undefined) searchParams.set('limit', String(params.limit));
+  if (params?.offset !== undefined) searchParams.set('offset', String(params.offset));
+
+  const res = await fetch(`/api/campaigns?${searchParams}`);
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error.message || 'Failed to fetch campaigns');
+  }
+
+  return res.json();
+}
+
+/**
  * Fetch campaign history with pagination.
  * Called server-side only — uses BLAST_SECRET directly via env var.
  */
