@@ -83,7 +83,7 @@ export function UsersPageClient({ initialItems, initialTotal }: UsersPageClientP
     setCurrentPage(1);
   };
 
-  // Filter items (client-side filtering on current page for tier/cohort)
+  // Filter items (client-side filtering on current page for cohort)
   const filteredItems = useMemo(() => {
     let result = [...items];
 
