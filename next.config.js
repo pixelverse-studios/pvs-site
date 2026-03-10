@@ -125,24 +125,8 @@ const nextConfig = {
         permanent: true,
       },
       ...contactSlugRedirects,
-      {
-        source: '/contact',
-        has: [{ type: 'query', key: 'path', value: 'review' }],
-        destination: '/contact/review',
-        permanent: true,
-      },
-      {
-        source: '/contact',
-        has: [{ type: 'query', key: 'path', value: 'details' }],
-        destination: '/contact/details',
-        permanent: true,
-      },
-      {
-        source: '/contact',
-        has: [{ type: 'query', key: 'path', value: 'call' }],
-        destination: '/contact/call',
-        permanent: true,
-      },
+      // Legacy /contact?path= redirects moved to middleware.ts (DEV-468)
+      // so the stale query string is stripped from the destination URL.
       {
         source: '/contact',
         destination: '/contact/details',
