@@ -48,7 +48,11 @@ function useNeutralizeScrollLock() {
     const body = document.body;
 
     const strip = () => {
-      if (body.hasAttribute('data-scroll-locked')) {
+      // Only strip if no Dialog/AlertDialog is open — those need scroll locking.
+      if (
+        body.hasAttribute('data-scroll-locked') &&
+        !document.querySelector('[role="dialog"], [role="alertdialog"]')
+      ) {
         body.removeAttribute('data-scroll-locked');
       }
     };
