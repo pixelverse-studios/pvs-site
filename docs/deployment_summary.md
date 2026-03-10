@@ -55,6 +55,7 @@
 - Fixed persistent dropdown scrollbar nudge — form dropdowns no longer cause the page to shift horizontally when opened
 - Legacy contact URLs with ?path= parameter now redirect to clean URLs without the stale query string
 - Updated strategy call "What to Expect" copy — replaced generic phrasing with cleaner messaging
+- Icons in the strategy call info section are now vertically centered with their text
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -145,6 +146,8 @@
 - Middleware constructs a clean `new URL()` without query params, returning a proper 301
 - Removed 3 `has`-condition redirect rules from `next.config.js`; the catch-all `/contact` → `/contact/details` redirect remains
 - DEV-469: Replaced "No fluff, just focused conversation" with "Straight to what matters" in strategy call What to Expect section
+- File: `components/contact/contact-strategy-call.tsx`
+- DEV-470: Changed `items-start` → `items-center` on What to Expect list items, removed `mt-0.5` icon nudge
 - File: `components/contact/contact-strategy-call.tsx`
 
 ## Changed URLs
