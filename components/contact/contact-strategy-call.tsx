@@ -10,7 +10,7 @@ const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL;
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const WHAT_TO_EXPECT = [
-  { icon: Clock, label: '30 minutes', detail: 'No fluff, just focused conversation' },
+  { icon: Clock, label: '30 minutes', detail: 'Straight to what matters' },
   { icon: Target, label: 'Your goals first', detail: 'We listen before we suggest anything' },
   { icon: MessageSquare, label: 'Honest fit check', detail: "We'll tell you if we're not the right match" },
 ];
