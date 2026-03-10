@@ -52,6 +52,7 @@
 - Blog hero secondary CTA now links to "Book a strategy call" (/contact/call) instead of Bergen County SEO plan
 - Fixed layout shift on contact form when opening dropdown menus — page content no longer nudges sideways
 - Switching between contact form tabs no longer jumps to the top of the page — scroll position is preserved
+- Fixed persistent dropdown scrollbar nudge — form dropdowns no longer cause the entire page (including footer) to shift left when opened
 
 ## Notes for internal team
 - DEV-419: Root cause was missing SiteBehaviour domains in CSP `connect-src` directive in `middleware.ts`
@@ -132,6 +133,8 @@
 - Root cause: `scrollbar-gutter: stable` on `<html>` already reserves scrollbar space, but Radix UI's `react-remove-scroll` adds inline `padding-right` to `<body>` when Select portals open — double-counting the reserved space
 - Fix: Added `body { padding-right: 0px !important }` inside `@supports (scrollbar-gutter: stable)` guard in `globals.css`
 - The `@supports` guard ensures browsers without `scrollbar-gutter` still get the default scroll-lock compensation
+- DEV-467: Previous body-only fix was incomplete — `react-remove-scroll-bar` also injects `padding-right` and `margin-right` on `<html>` via a dynamic class
+- Extended the `@supports (scrollbar-gutter: stable)` override to target both `html` and `body` with `padding-right: 0px !important` and `margin-right: 0px !important`
 - Created `app/contact/layout.tsx` to share `ContactHero` and `ContactPageClient` across all 3 contact routes
 - Without a shared layout, each tab click caused a full component unmount/remount, which triggered Next.js scroll-to-top regardless of `scroll={false}`
 - Hoisted `<ContactHero>` and `<ContactPageClient>` into the layout so they persist across tab switches
