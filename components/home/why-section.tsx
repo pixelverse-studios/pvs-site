@@ -18,8 +18,7 @@ export function WhySection() {
           {/* Gradient accent bar */}
           <MotionItem>
             <div
-              className="mb-10 h-1 w-12 rounded-full"
-              style={{ background: 'var(--pv-gradient)' }}
+              className="mb-10 h-1 w-12 rounded-full bg-[image:var(--pv-gradient)]"
               aria-hidden
             />
           </MotionItem>

@@ -7,7 +7,7 @@ import { servicesPageData } from '@/data/service-paths';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Services | Pixelverse Studios',
+  title: 'Web Design & SEO Services | New Jersey',
   description:
     'Web design, development, and local SEO services for New Jersey businesses. Discover our approach and find the right solution for your goals.',
   path: '/services',

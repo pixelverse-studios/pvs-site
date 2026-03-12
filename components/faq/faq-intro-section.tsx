@@ -23,6 +23,14 @@ export function FaqIntroSection() {
               conversation.
             </p>
           </MotionItem>
+          <MotionItem delay={0.24}>
+            <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
+              We&apos;ve organized these into three sections: general questions about working with
+              us, questions specific to web design and development, and questions about local SEO
+              and optimization. If something isn&apos;t covered here, that&apos;s a good reason to
+              reach out directly.
+            </p>
+          </MotionItem>
         </MotionSection>
       </Container>
     </section>

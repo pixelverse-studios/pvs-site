@@ -4,7 +4,7 @@ import { BookOpen, Search, PenTool, Target, MapPin, FileText } from 'lucide-reac
 import { DocCard } from './components/doc-card';
 
 export const metadata: Metadata = {
-  title: 'Documentation | Dashboard | PixelVerse Studios',
+  title: 'Documentation | Dashboard',
   description: 'Reference guides and documentation for SEO, content, and development standards.',
   robots: { index: false, follow: false },
 };

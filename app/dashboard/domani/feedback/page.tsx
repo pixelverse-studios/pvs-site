@@ -4,7 +4,7 @@ import { getFeedbackItems } from '@/lib/api/feedback';
 import { FeedbackPageClient } from './components/feedback-page-client';
 
 export const metadata = {
-  title: 'Feedback | Domani | Dashboard | PixelVerse Studios',
+  title: 'Feedback | Domani | Dashboard',
   description: 'Manage feedback and support requests from Domani app users',
   robots: { index: false, follow: false },
 };

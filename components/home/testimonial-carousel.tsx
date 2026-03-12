@@ -14,8 +14,7 @@ function TestimonialCard({ testimonial }: { testimonial: (typeof testimonials)[n
     <blockquote className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-bg)] p-7 shadow-[0_4px_6px_rgba(63,0,233,0.04),0_16px_40px_-12px_rgba(63,0,233,0.1)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_4px_6px_rgba(63,0,233,0.06),0_24px_48px_-12px_rgba(63,0,233,0.14)] md:p-8">
       {/* Gradient bottom accent */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-[2px]"
-        style={{ background: 'var(--pv-gradient)' }}
+        className="absolute bottom-0 left-0 right-0 h-[2px] bg-[image:var(--pv-gradient)]"
         aria-hidden
       />
 
@@ -33,8 +32,7 @@ function TestimonialCard({ testimonial }: { testimonial: (typeof testimonials)[n
       <footer className="mt-6 border-t border-[var(--pv-border)] pt-5">
         <div className="flex items-center gap-3">
           <div
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-            style={{ background: 'var(--pv-gradient)' }}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[image:var(--pv-gradient)] text-xs font-bold text-white"
           >
             {testimonial.name
               .split(' ')
@@ -117,8 +115,7 @@ export function TestimonialCarousel() {
             <div className="flex items-end justify-between">
               <div className="max-w-2xl">
                 <div
-                  className="mb-6 h-1 w-12 rounded-full"
-                  style={{ background: 'var(--pv-gradient)' }}
+                  className="mb-6 h-1 w-12 rounded-full bg-[image:var(--pv-gradient)]"
                   aria-hidden
                 />
                 <h2 className="font-heading text-[2rem] leading-[2.5rem] tracking-[-0.02em] text-[var(--pv-text)] md:text-[2.5rem] md:leading-[3rem]">
@@ -157,8 +154,7 @@ export function TestimonialCarousel() {
           <MotionItem delay={0.1}>
             <div
               ref={scrollContainerRef}
-              className="-mx-6 flex gap-5 overflow-x-auto scroll-smooth px-6 md:-mx-8 md:px-8"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              className="-mx-6 flex gap-5 overflow-x-auto scroll-smooth px-6 no-scrollbar md:-mx-8 md:px-8"
             >
               {testimonials.map((testimonial, index) => (
                 <div
@@ -195,12 +191,6 @@ export function TestimonialCarousel() {
           </MotionItem>
         </MotionSection>
       </Container>
-
-      <style jsx>{`
-        div[style*='scrollbar-width']::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </section>
   );
 }

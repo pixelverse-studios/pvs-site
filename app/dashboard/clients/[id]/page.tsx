@@ -9,7 +9,7 @@ import { WebsitesList } from './components/websites-list';
 import { getClient } from '@/lib/api/clients';
 
 export const metadata = {
-  title: 'Client Details | Dashboard | PixelVerse Studios',
+  title: 'Client Details | Dashboard',
   description: 'View and manage client websites',
   robots: { index: false, follow: false },
 };

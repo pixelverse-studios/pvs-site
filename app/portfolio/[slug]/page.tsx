@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   }
 
   return createPageMetadata({
-    title: `${study.name} Case Study | PixelVerse Studios`,
+    title: `${study.name} Case Study`,
     description: study.summary,
     path: `/portfolio/${study.slug}`,
     keywords: [

@@ -55,7 +55,7 @@ const nextConfig = {
 
     const contactSlugRedirects = legacyContactSlugs.map((slug) => ({
       source: `/contact/${slug}`,
-      destination: '/contact',
+      destination: '/contact/details',
       permanent: true,
     }));
     const legacyServiceCitySlugs = [
@@ -85,12 +85,12 @@ const nextConfig = {
       },
       {
         source: '/pricing',
-        destination: '/contact',
+        destination: '/contact/details',
         permanent: true,
       },
       {
         source: '/packages',
-        destination: '/contact',
+        destination: '/contact/details',
         permanent: true,
       },
       {
@@ -121,10 +121,17 @@ const nextConfig = {
       },
       {
         source: '/audit',
-        destination: '/contact',
+        destination: '/contact/review',
         permanent: true,
       },
       ...contactSlugRedirects,
+      // Legacy /contact?path= redirects moved to middleware.ts (DEV-468)
+      // so the stale query string is stripped from the destination URL.
+      {
+        source: '/contact',
+        destination: '/contact/details',
+        permanent: true,
+      },
     ];
   },
 };

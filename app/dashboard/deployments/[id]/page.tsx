@@ -5,7 +5,7 @@ import { DeploymentDetailView } from './components/deployment-detail-view';
 import type { DeploymentDetail } from '@/lib/types/deployment';
 
 export const metadata = {
-  title: 'Deployment Details | Dashboard | PixelVerse Studios',
+  title: 'Deployment Details | Dashboard',
   description: 'View deployment details and indexing status',
   robots: { index: false, follow: false },
 };

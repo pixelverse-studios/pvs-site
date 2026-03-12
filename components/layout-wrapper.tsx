@@ -27,12 +27,11 @@ export function LayoutWrapper({ children, navItems }: LayoutWrapperProps) {
   // Regular pages: with navbar and footer
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar items={navItems} cta={{ label: 'Get Started', href: '/contact' }} />
+      <Navbar items={navItems} cta={{ label: 'Get Started', href: '/contact/details' }} />
       <div className="flex-1">{children}</div>
       <Footer
-        layout="b"
         links={navItems}
-        cta={{ label: 'Get in touch with us', href: '/contact' }}
+        cta={{ label: 'Get in touch with us', href: '/contact/details' }}
       />
     </div>
   );

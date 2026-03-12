@@ -5,7 +5,7 @@ import { getClient } from '@/lib/api/clients';
 import type { Client } from '@/lib/types/client';
 
 export const metadata = {
-  title: 'Website Details | Dashboard | PixelVerse Studios',
+  title: 'Website Details | Dashboard',
   description: 'View website analytics and information',
   robots: { index: false, follow: false },
 };

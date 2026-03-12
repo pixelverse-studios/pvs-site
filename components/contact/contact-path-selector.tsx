@@ -1,3 +1,7 @@
+'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Calendar, FileText, Search } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -10,6 +14,7 @@ interface PathOption {
   icon: LucideIcon;
   title: string;
   description: string;
+  href: string;
 }
 
 const paths: PathOption[] = [
@@ -19,6 +24,7 @@ const paths: PathOption[] = [
     title: 'Start with the Details',
     description:
       'Share details about your business and what you\u2019re trying to accomplish. We\u2019ll review your situation and respond with clarity on what makes sense next.',
+    href: '/contact/details',
   },
   {
     id: 'call',
@@ -26,6 +32,7 @@ const paths: PathOption[] = [
     title: 'Schedule a Strategy Call',
     description:
       'If you\u2019d rather talk it through live, schedule a call and we\u2019ll discuss your goals, your current situation, and what would make the biggest difference.',
+    href: '/contact/call',
   },
   {
     id: 'review',
@@ -33,15 +40,21 @@ const paths: PathOption[] = [
     title: 'Request a Website Review',
     description:
       'We\u2019ll review your site\u2019s structure, performance, and visibility, then share practical insights on where improvements could make the biggest impact.',
+    href: '/contact/review',
   },
 ];
 
-interface ContactPathSelectorProps {
-  activePath: ContactPath;
-  onSelect: (path: ContactPath) => void;
+/** Derive active path from the current URL pathname. */
+export function useContactPath(): ContactPath {
+  const pathname = usePathname();
+  if (pathname.startsWith('/contact/call')) return 'call';
+  if (pathname.startsWith('/contact/review')) return 'review';
+  return 'details';
 }
 
-export function ContactPathSelector({ activePath, onSelect }: ContactPathSelectorProps) {
+export function ContactPathSelector() {
+  const activePath = useContactPath();
+
   return (
     <div>
       <div className="mb-6 text-center">
@@ -59,11 +72,11 @@ export function ContactPathSelector({ activePath, onSelect }: ContactPathSelecto
           const isActive = activePath === path.id;
 
           return (
-            <button
+            <Link
               key={path.id}
-              type="button"
-              onClick={() => onSelect(path.id)}
-              aria-pressed={isActive}
+              href={path.href}
+              scroll={false}
+              aria-current={isActive ? 'page' : undefined}
               className={cn(
                 'group flex flex-col items-start gap-4 rounded-2xl border p-6 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
                 isActive
@@ -109,7 +122,7 @@ export function ContactPathSelector({ activePath, onSelect }: ContactPathSelecto
                 )}
                 aria-hidden="true"
               />
-            </button>
+            </Link>
           );
         })}
       </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Calendar, Clock, MessageSquare, Target } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { PopupButton, useCalendlyEventListener } from 'react-calendly';
@@ -9,7 +10,7 @@ const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL;
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const WHAT_TO_EXPECT = [
-  { icon: Clock, label: '30 minutes', detail: 'No fluff, just focused conversation' },
+  { icon: Clock, label: '30 minutes', detail: 'Straight to what matters' },
   { icon: Target, label: 'Your goals first', detail: 'We listen before we suggest anything' },
   { icon: MessageSquare, label: 'Honest fit check', detail: "We'll tell you if we're not the right match" },
 ];
@@ -31,13 +32,13 @@ function CalendlyPlaceholder() {
           Online Scheduling Coming Soon
         </p>
         <p className="text-sm text-[var(--pv-text-muted)]">
-          Scheduling isn&rsquo;t available here yet — email us at{' '}
-          <a
-            href="mailto:info@pixelversestudios.io"
+          Scheduling isn&rsquo;t available here yet —{' '}
+          <Link
+            href="/contact/details"
             className="font-medium text-[var(--pv-primary)] underline underline-offset-2"
           >
-            info@pixelversestudios.io
-          </a>{' '}
+            send us a message
+          </Link>{' '}
           to set up a call.
         </p>
       </div>
@@ -88,9 +89,9 @@ export function ContactStrategyCall() {
         <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--pv-text-muted)]">
           Strategy Call
         </p>
-        <h3 className="mt-1 font-heading text-xl font-semibold text-[var(--pv-text)]">
+        <h2 className="mt-1 font-heading text-xl font-semibold text-[var(--pv-text)]">
           Let&rsquo;s talk about your project
-        </h3>
+        </h2>
       </div>
 
       {/* Body */}
@@ -104,11 +105,11 @@ export function ContactStrategyCall() {
         {/* What to expect */}
         <ul className="mt-6 space-y-3">
           {WHAT_TO_EXPECT.map(({ icon: Icon, label, detail }) => (
-            <li key={label} className="flex items-start gap-3">
-              <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[color-mix(in_srgb,var(--pv-primary)_10%,transparent)]">
+            <li key={label} className="flex items-center gap-3">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[color-mix(in_srgb,var(--pv-primary)_10%,transparent)]">
                 <Icon className="h-3.5 w-3.5 text-[var(--pv-primary)]" aria-hidden="true" />
               </span>
-              <span className="text-sm text-[var(--pv-text)]">
+              <span className="flex flex-wrap items-baseline text-sm text-[var(--pv-text)]">
                 <span className="font-medium">{label}</span>
                 <span className="mx-1.5 text-[var(--pv-text-muted)]">—</span>
                 <span className="text-[var(--pv-text-muted)]">{detail}</span>

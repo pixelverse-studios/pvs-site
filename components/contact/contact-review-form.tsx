@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 import { getApiBaseUrl } from '@/lib/api-config';
 import { cn } from '@/lib/utils';
 import { formatPhone, stripPhone } from '@/lib/utils/phone';
-import { websiteUrlSchema } from '@/lib/validation/url';
+import { normalizeWebsiteUrl, websiteUrlSchema } from '@/lib/validation/url';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -137,7 +137,7 @@ export function ContactReviewForm() {
         name: data.name,
         email: data.email,
         phone_number: stripPhone(data.phone_number),
-        websiteUrl: data.websiteUrl,
+        websiteUrl: normalizeWebsiteUrl(data.websiteUrl),
         other_detail: (data.specifics ?? []).includes('other') ? (data.other_detail ?? '') : undefined,
         specifics: (data.specifics ?? []).filter((v) => v !== 'other'),
         honeypot: data.website_confirm ?? '',
@@ -170,9 +170,9 @@ export function ContactReviewForm() {
           <CheckCircle2 className="h-7 w-7 text-[var(--pv-primary)]" />
         </span>
         <div className="space-y-2">
-          <h3 className="font-heading text-xl font-semibold text-[var(--pv-text)]">
+          <h2 className="font-heading text-xl font-semibold text-[var(--pv-text)]">
             We&rsquo;ve received your request
-          </h3>
+          </h2>
           <p className="max-w-sm text-sm text-[var(--pv-text-muted)]">
             We&rsquo;ll take a look at your site and follow up within 1–2 business days with honest
             feedback on what we find.
@@ -353,12 +353,12 @@ export function ContactReviewForm() {
           <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/40 dark:bg-red-950/30 dark:text-red-400">
             <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
             <span>
-              Something went wrong. Please try again or reach us directly at{' '}
+              Something went wrong. Please try again or{' '}
               <a
                 href="mailto:info@pixelversestudios.io"
                 className="font-medium underline underline-offset-2"
               >
-                info@pixelversestudios.io
+                email us directly
               </a>
               .
             </span>

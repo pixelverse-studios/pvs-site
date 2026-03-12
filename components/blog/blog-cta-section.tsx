@@ -31,7 +31,7 @@ export function BlogCtaSection() {
           </MotionItem>
           <MotionItem className="flex flex-col items-center gap-4 sm:flex-row">
             <Button asChild size="lg" variant="cta">
-              <Link href="/contact">Book a strategy call</Link>
+              <Link href="/contact/call">Book a strategy call</Link>
             </Button>
             <Button
               asChild

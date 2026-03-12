@@ -51,9 +51,9 @@ export const caseStudies: CaseStudy[] = [
     summary:
       "Rebuilt a local brand's online experience to increase trust, clarity, and ease of booking — from competitor research to launch.",
     problem:
-      'Jones Pressure Washing had a strong local reputation built on word-of-mouth, but no structured online presence. Their previous site was a basic template with no service-specific pages, no city targeting, and no SEO architecture. Homeowners searching for pressure washing, soft washing, or holiday lighting in Bergen and Essex County had no way to find them online.',
+      'Jones Pressure Washing had a strong local reputation built on word-of-mouth, but no structured online presence. Their previous site was a basic template with no service-specific pages, no city targeting, and no SEO architecture. Homeowners searching for pressure washing, soft washing, or holiday lighting in Bergen and Essex County had no way to find them online. The business was generating leads almost entirely through referrals and yard signs, leaving an entire channel of high-intent local search traffic untapped.',
     solution:
-      'We built a custom site with dedicated service pages for each offering — pressure washing, soft washing, and holiday lighting — paired with city-level landing pages targeting key towns across Bergen and Essex County.',
+      'We built a custom site with dedicated service pages for each offering — pressure washing, soft washing, and holiday lighting — paired with city-level landing pages targeting key towns across Bergen and Essex County. The architecture was designed from the start to give Google clear signals about what services were offered and where, creating multiple indexable entry points instead of a single generic homepage. We also structured the booking flow to reduce friction, placing clear calls to action on every service page so visitors could request a quote without hunting for contact information.',
     issues: [
       {
         icon: 'fileText',
@@ -77,7 +77,7 @@ export const caseStudies: CaseStudy[] = [
     outcome: {
       metric: '5,200+ search impressions and 299 indexed queries within 6 months',
       description:
-        "From a standing start, service-specific pages are pulling targeted impressions across two counties. Holiday lighting pages alone account for nearly 1,000 impressions, and the site architecture is building compounding visibility with each passing month.",
+        "From a standing start, service-specific pages are pulling targeted impressions across two counties. Holiday lighting pages alone account for nearly 1,000 impressions, and the site architecture is building compounding visibility with each passing month. The site now generates 2\u20133 qualified bookings per week directly from organic search \u2014 a channel that didn\u2019t exist before the rebuild.",
     },
     img: '/projects/JPW.png',
     url: 'https://www.jonespressurewashingnj.com',
@@ -99,9 +99,9 @@ export const caseStudies: CaseStudy[] = [
     summary:
       'Built a new independent web presence for a home care agency going out on their own — structured for trust, clarity, and local search from day one.',
     problem:
-      '360 Degree Care spent years operating under a franchise brand. When they went independent, they had a strong local reputation — 4.8 stars on Google, 80% caregiver retention, CHAP certification — but no online presence of their own. Families searching for home care in Bergen County had no way to find them.',
+      '360 Degree Care spent years operating under a franchise brand. When they went independent, they had a strong local reputation \u2014 4.8 stars on Google, 80% caregiver retention, CHAP certification \u2014 but no online presence of their own. Families searching for home care in Bergen County had no way to find them. Every day without an independent website meant potential clients were finding competitors instead, despite 360 Degree Care having stronger credentials and deeper community roots.',
     solution:
-      'We built a custom site on a new domain with dedicated service pages, city-level landing pages, and SEO architecture designed to build organic visibility from a standing start.',
+      'We built a custom site on a new domain with dedicated service pages, city-level landing pages, and SEO architecture designed to build organic visibility from a standing start. The site was structured around the six core services they offer \u2014 personal care, companion care, homemaker services, respite care, live-in care, and specialized care \u2014 each with its own page optimized for local search intent. Trust signals like their Google rating, CHAP accreditation, and caregiver retention rate were woven throughout the experience so families could evaluate credibility before making a call.',
     issues: [
       {
         icon: 'fileText',
@@ -125,7 +125,7 @@ export const caseStudies: CaseStudy[] = [
     outcome: {
       metric: '8,500+ search impressions and 270 indexed queries within 6 months',
       description:
-        "From a standing start on a new domain, individual service pages are now pulling hundreds of impressions for high-intent local searches. The site architecture is building organic visibility exactly as designed — and it's still climbing.",
+        "From a standing start on a new domain, individual service pages are now pulling hundreds of impressions for high-intent local searches. The site architecture is building organic visibility exactly as designed \u2014 and it\u2019s still climbing. Service-specific pages for personal care and companion care are now ranking for targeted Bergen County queries, and the Google Business Profile integration is driving consistent engagement from families researching local home care options.",
     },
     img: '/projects/360.png',
     url: 'https://www.360degreecare.net',
@@ -147,9 +147,9 @@ export const caseStudies: CaseStudy[] = [
     summary:
       'Created an easy-to-use productivity app that helps users plan tomorrow, tonight — focused on intuitive flow, minimal design, and daily consistency.',
     problem:
-      "Most productivity tools overwhelm users with features that get in the way of actually planning. Domani needed a focused app experience that reduced decision fatigue and encouraged one simple nightly ritual: setting tomorrow's priorities before bed.",
+      "Most productivity tools overwhelm users with features that get in the way of actually planning. Domani needed a focused app experience that reduced decision fatigue and encouraged one simple nightly ritual: setting tomorrow\u2019s priorities before bed. The challenge wasn\u2019t building another task manager \u2014 it was designing an experience intentionally constrained enough that the planning habit itself became effortless. Every existing solution on the market offered too many features, too many options, and too many reasons to stop planning and start organizing instead.",
     solution:
-      'We designed a minimal interface around a single workflow — plan tonight, execute tomorrow. Every design decision was tested against whether it aided or interrupted the planning habit.',
+      'We designed a minimal interface around a single workflow \u2014 plan tonight, execute tomorrow. Every design decision was tested against whether it aided or interrupted the planning habit. The app was built for iOS and Android simultaneously using React Native, with a shared component library that ensured visual consistency across platforms. We focused on reducing the nightly interaction to under two minutes, using behavioral design principles like streaks, plan locking, and progressive disclosure to keep the experience focused without feeling restrictive.',
     issues: [
       {
         icon: 'layoutGrid',
@@ -173,7 +173,7 @@ export const caseStudies: CaseStudy[] = [
     outcome: {
       metric: '76 early-access users across iOS and Android',
       description:
-        'The nightly planning flow was designed to stay under two minutes — light enough to become a real habit. Early users consistently highlight the plan lock feature and streak tracker as the elements that keep them coming back.',
+        'The nightly planning flow was designed to stay under two minutes \u2014 light enough to become a real habit. Early users consistently highlight the plan lock feature and streak tracker as the elements that keep them coming back. Retention patterns show that users who complete the onboarding flow and plan for three consecutive nights are significantly more likely to maintain the habit long-term, validating the behavioral design approach we built the entire experience around.',
     },
     img: '/projects/Domani1.png',
     url: 'https://www.domani-app.com',

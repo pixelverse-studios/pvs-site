@@ -16,8 +16,7 @@ export function FinalCtaSection() {
           {/* Gradient accent */}
           <MotionItem>
             <div
-              className="mx-auto mb-8 h-1 w-12 rounded-full"
-              style={{ background: 'var(--pv-gradient)' }}
+              className="mx-auto mb-8 h-1 w-12 rounded-full bg-[image:var(--pv-gradient)]"
               aria-hidden
             />
           </MotionItem>
