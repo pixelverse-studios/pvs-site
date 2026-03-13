@@ -88,10 +88,10 @@ const columns: ColumnDef<UserProfile>[] = [
     },
   },
   {
-    accessorKey: 'last_sign_in_at',
+    accessorKey: 'last_active_at',
     header: 'Last Active',
     cell: ({ row }) => {
-      const value = row.getValue('last_sign_in_at') as string | null;
+      const value = row.getValue('last_active_at') as string | null;
       if (!value) {
         return <span className="text-[var(--pv-text-muted)]">Never</span>;
       }

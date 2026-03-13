@@ -16,7 +16,7 @@ export interface UserProfile {
   timezone: string;
   created_at: string;
   deleted_at: string | null;
-  last_sign_in_at: string | null;
+  last_active_at: string | null;
 }
 
 // API response type
