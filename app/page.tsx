@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 
+import { CaseStudySection } from '@/components/home/case-study-section';
 import { HeroSection } from '@/components/home/hero-section';
 import { FinalCtaSection } from '@/components/home/final-cta-section';
 import { HomeFaqSection } from '@/components/home/home-faq-section';
+import { InsightSection } from '@/components/home/insight-section';
 import { ProcessSection } from '@/components/home/process-section';
 import { ServicesSection } from '@/components/home/services-section';
 import { WhySection } from '@/components/home/why-section';
@@ -16,13 +18,7 @@ import {
   createLocalBusinessSchemaWithRating,
 } from '@/lib/structured-data';
 
-// Client components — dynamic imports for code-splitting
-const CaseStudySection = dynamic(
-  () => import('@/components/home/case-study-section').then((m) => m.CaseStudySection),
-);
-const InsightSection = dynamic(
-  () => import('@/components/home/insight-section').then((m) => m.InsightSection),
-);
+// Testimonial carousel must stay client (scroll state) — dynamic import for code-splitting
 const TestimonialCarousel = dynamic(
   () => import('@/components/home/testimonial-carousel').then((m) => m.TestimonialCarousel),
 );

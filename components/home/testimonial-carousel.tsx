@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
-import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import { testimonials } from '@/data/homepage';
 
 import { Container } from './container';
@@ -109,87 +108,83 @@ export function TestimonialCarousel() {
       aria-label="Client testimonials"
     >
       <Container className="py-20 md:py-28">
-        <MotionSection as="div" className="space-y-14">
+        <div className="space-y-14">
           {/* Header */}
-          <MotionItem>
-            <div className="flex items-end justify-between">
-              <div className="max-w-2xl">
-                <div
-                  className="mb-6 h-1 w-12 rounded-full bg-[image:var(--pv-gradient)]"
-                  aria-hidden
-                />
-                <h2 className="font-heading text-[2rem] leading-[2.5rem] tracking-[-0.02em] text-[var(--pv-text)] md:text-[2.5rem] md:leading-[3rem]">
-                  What our clients say
-                </h2>
-                <p className="mt-4 text-base text-[var(--pv-text-muted)] md:text-lg">
-                  Real feedback from businesses we&apos;ve helped grow.
-                </p>
-              </div>
-
-              {/* Desktop arrows (top-right) */}
-              {showNavigation && (
-                <div className="hidden gap-2 sm:flex">
-                  <button
-                    onClick={() => scroll('left')}
-                    disabled={!canScrollLeft}
-                    aria-label="Previous testimonials"
-                    className="hover:border-[var(--pv-primary)]/40 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-text-muted)] transition-all duration-200 hover:text-[var(--pv-primary)] disabled:opacity-30 disabled:hover:border-[var(--pv-border)] disabled:hover:text-[var(--pv-text-muted)]"
-                  >
-                    <ChevronLeft size={18} />
-                  </button>
-                  <button
-                    onClick={() => scroll('right')}
-                    disabled={!canScrollRight}
-                    aria-label="Next testimonials"
-                    className="hover:border-[var(--pv-primary)]/40 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-text-muted)] transition-all duration-200 hover:text-[var(--pv-primary)] disabled:opacity-30 disabled:hover:border-[var(--pv-border)] disabled:hover:text-[var(--pv-text-muted)]"
-                  >
-                    <ChevronRight size={18} />
-                  </button>
-                </div>
-              )}
-            </div>
-          </MotionItem>
-
-          {/* Carousel */}
-          <MotionItem delay={0.1}>
-            <div
-              ref={scrollContainerRef}
-              className="-mx-6 flex gap-5 overflow-x-auto scroll-smooth px-6 no-scrollbar md:-mx-8 md:px-8"
-            >
-              {testimonials.map((testimonial, index) => (
-                <div
-                  key={`${testimonial.name}-${testimonial.company}-${index}`}
-                  data-testimonial-card
-                  className="w-[85%] flex-shrink-0 sm:w-[46%] lg:w-[calc(33.333%-14px)]"
-                >
-                  <TestimonialCard testimonial={testimonial} />
-                </div>
-              ))}
+          <div className="flex items-end justify-between">
+            <div className="max-w-2xl">
+              <div
+                className="mb-6 h-1 w-12 rounded-full bg-[image:var(--pv-gradient)]"
+                aria-hidden
+              />
+              <h2 className="font-heading text-[2rem] leading-[2.5rem] tracking-[-0.02em] text-[var(--pv-text)] md:text-[2.5rem] md:leading-[3rem]">
+                What our clients say
+              </h2>
+              <p className="mt-4 text-base text-[var(--pv-text-muted)] md:text-lg">
+                Real feedback from businesses we&apos;ve helped grow.
+              </p>
             </div>
 
-            {/* Mobile arrows (below carousel) */}
+            {/* Desktop arrows (top-right) */}
             {showNavigation && (
-              <div className="mt-8 flex items-center justify-center gap-3 sm:hidden">
+              <div className="hidden gap-2 sm:flex">
                 <button
                   onClick={() => scroll('left')}
                   disabled={!canScrollLeft}
                   aria-label="Previous testimonials"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-text-muted)] transition-all duration-200 hover:text-[var(--pv-primary)] disabled:opacity-30"
+                  className="hover:border-[var(--pv-primary)]/40 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-text-muted)] transition-all duration-200 hover:text-[var(--pv-primary)] disabled:opacity-30 disabled:hover:border-[var(--pv-border)] disabled:hover:text-[var(--pv-text-muted)]"
                 >
-                  <ChevronLeft size={16} />
+                  <ChevronLeft size={18} />
                 </button>
                 <button
                   onClick={() => scroll('right')}
                   disabled={!canScrollRight}
                   aria-label="Next testimonials"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-text-muted)] transition-all duration-200 hover:text-[var(--pv-primary)] disabled:opacity-30"
+                  className="hover:border-[var(--pv-primary)]/40 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-text-muted)] transition-all duration-200 hover:text-[var(--pv-primary)] disabled:opacity-30 disabled:hover:border-[var(--pv-border)] disabled:hover:text-[var(--pv-text-muted)]"
                 >
-                  <ChevronRight size={16} />
+                  <ChevronRight size={18} />
                 </button>
               </div>
             )}
-          </MotionItem>
-        </MotionSection>
+          </div>
+
+          {/* Carousel */}
+          <div
+            ref={scrollContainerRef}
+            className="-mx-6 flex gap-5 overflow-x-auto scroll-smooth px-6 no-scrollbar md:-mx-8 md:px-8"
+          >
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={`${testimonial.name}-${testimonial.company}-${index}`}
+                data-testimonial-card
+                className="w-[85%] flex-shrink-0 sm:w-[46%] lg:w-[calc(33.333%-14px)]"
+              >
+                <TestimonialCard testimonial={testimonial} />
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile arrows (below carousel) */}
+          {showNavigation && (
+            <div className="mt-8 flex items-center justify-center gap-3 sm:hidden">
+              <button
+                onClick={() => scroll('left')}
+                disabled={!canScrollLeft}
+                aria-label="Previous testimonials"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-text-muted)] transition-all duration-200 hover:text-[var(--pv-primary)] disabled:opacity-30"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                onClick={() => scroll('right')}
+                disabled={!canScrollRight}
+                aria-label="Next testimonials"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-text-muted)] transition-all duration-200 hover:text-[var(--pv-primary)] disabled:opacity-30"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          )}
+        </div>
       </Container>
     </section>
   );
