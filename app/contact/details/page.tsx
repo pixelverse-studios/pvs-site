@@ -5,7 +5,7 @@ import { StructuredData } from '@/components/ui/structured-data';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Share Your Project Details',
+  title: 'Share Your Web Design Project Details',
   description:
     'Tell us about your business and what you\'re working toward. We\'ll review your situation and respond with a clear recommendation.',
   path: '/contact/details',
