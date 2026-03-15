@@ -43,6 +43,109 @@ Record every SEO change with:
 
 ## 2026 Changes
 
+### 2026-03-14 - Full SEO Audit
+
+**Type:** Full Audit
+**Overall Score:** 64/100 (D) — down from 81/100 (-17)
+
+**Scores by Category:**
+
+| Category      | Score  | vs Last | Grade | Notes                                                    |
+| ------------- | ------ | ------- | ----- | -------------------------------------------------------- |
+| Technical SEO | 67/100 | -12     | D     | 103 not-indexed pages; www/non-www mismatch; indexed 42→24 |
+| On-Page SEO   | 73/100 | -21     | C     | 7/9 titles under 50 chars; 0% H2 location compliance    |
+| Content       | 55/100 | -15     | F     | 53 days since last publish; 10 drafts sitting idle       |
+| Local SEO     | 55/100 | -21     | F     | All 5 city pages redirect; GBP declining; 0 new reviews |
+
+**GSC Performance Snapshot (Last 28 days - Mar 2026):**
+
+| Metric          | Jan 2026 | Feb 2026 | Mar 2026 | Change (Feb→Mar) |
+| --------------- | -------- | -------- | -------- | ---------------- |
+| Impressions     | 206      | 178      | **129**  | -28%             |
+| Clicks          | 13       | 9        | **8**    | -11%             |
+| CTR             | 6.3%     | 5.1%     | **6.2%** | +1.1pp           |
+| Avg Position    | ~12      | 15.6     | **17**   | -1.4             |
+| Indexed Pages   | 42       | 36       | **24**   | -33%             |
+| Not Indexed     | 29       | —        | **103**  | ⚠️ CRITICAL      |
+
+**GBP Performance (Last 28 days - Mar 2026):**
+
+| Metric              | Feb 2026 | Mar 2026 | Notes              |
+| ------------------- | -------- | -------- | ------------------ |
+| Profile Views       | 124      | **101**  | -19% declining     |
+| Search Appearances  | <50      | **<50**  | Stable             |
+| Direction Requests  | 33       | **30**   | -9%                |
+| Phone Calls         | 0        | **0**    | Zero for 2 months  |
+| Website Clicks      | 4        | **2**    | -50%               |
+| Reviews             | 7        | **7**    | No new reviews     |
+| Avg Rating          | 5.0      | **5.0**  | Stable             |
+
+**Keyword Rankings (Mar 2026 — rank tracker data):**
+
+| Keyword                        | Position | Search Volume | Notes                    |
+| ------------------------------ | -------- | ------------- | ------------------------ |
+| pixelverse studios             | **1**    | Very Low      | Branded ✅               |
+| pixelverse studios nj          | **1**    | Very Low      | Branded ✅               |
+| local seo agency englewood nj  | **9**    | Very Low      | ✅ Best non-branded rank |
+| web design agency nj           | NR       | **880**       | Highest volume — target  |
+| custom web design nj           | NR       | 50            | —                        |
+| local seo services nj          | NR       | 50            | —                        |
+| All other 10 city keywords     | NR       | Very Low      | City pages redirect      |
+
+**Context: Post-Restructure Impact Continues**
+
+- City pages removed during Feb restructure now redirect to /services
+- 103 pages not indexed (up from 29 in Jan) — most critical metric
+- Indexed pages dropped 42→24 (43% loss over 3 months)
+- Avg position worsened 12→17 over 3 months
+- Only 1 non-branded keyword ranks (Englewood at #9, despite redirect)
+
+**Key Findings:**
+
+1. **⚠️ CRITICAL: 103 not-indexed pages** — Up from 29 in Jan. Google is actively deindexing content. Requires immediate GSC investigation.
+2. **⚠️ CRITICAL: www vs non-www mismatch** — metadata.ts uses `https://pixelversestudios.io`, sitemap/robots use `https://www.pixelversestudios.io`. Creates duplicate content signals.
+3. **City pages fully disabled** — All 5 priority city routes redirect to /services. Schema functions, data files, and SEO docs reference pages that don't exist.
+4. **7/9 page titles under 50 chars** — Wasting SERP real estate. Titles range from 23-43 chars (target: 50-60).
+5. **10 draft blog posts unpublished** — 53 days since last publish. Content score dropped to 55.
+6. **GBP declining** — Profile views -19%, website clicks -50%, zero phone calls for 2 months, no new reviews.
+7. **Rank tracker now active** — First audit with per-keyword position data from tracking tool.
+
+**Issues Identified:**
+
+- [Critical] 103 pages not indexed — investigate GSC immediately
+- [Critical] www/non-www domain mismatch across metadata and sitemap
+- [Critical] All 5 city page routes redirect to /services (hyper-local strategy disabled)
+- [Warning] 14/16 target keywords Not Ranking
+- [Warning] Avg position regressed 12→17 over 3 months
+- [Warning] 10 blog posts in draft, 53 days since last publish
+- [Warning] GBP engagement declining across all metrics
+- [Warning] 7/9 page titles under 50 characters
+- [Info] City schema functions have hardcoded addressLocality bug
+- [Info] WebSite schema defined but not rendered on homepage
+- [Info] BergenTownsSection component built but not integrated into homepage
+
+**Actions Recommended:**
+
+1. [ ] **Fix www/non-www mismatch** — Standardize to www in lib/metadata.ts
+2. [ ] **Investigate 103 not-indexed pages** — GSC Pages report, identify reasons
+3. [ ] **Decide city page strategy** — Rebuild or update SEO approach
+4. [ ] **Lengthen 7 page titles** to 50-60 chars with location keywords
+5. [ ] **Publish 3-5 draft blog posts** — Immediate content freshness signal
+6. [ ] **Render WebSite schema** on homepage
+7. [ ] **Activate GBP** — Weekly posts, photos, respond to reviews
+8. [ ] **Submit to directories** — Still 0 citations after 3 audits
+
+**Checklist Progress:** 56% complete (-7% since last audit — city page items reverted to incomplete)
+
+**Files Updated:**
+
+- docs/seo/SEO-KEYWORDS.md — Added Mar 2026 rank tracker data, GSC metrics
+- docs/seo/SEO-CHECKLIST.md — Reverted city page items, updated priorities, new items added
+- docs/seo/SEO-CHANGELOG.md — Added this audit entry
+- docs/seo/SEO-SCOPE.md — KPIs updated with current metrics
+
+---
+
 ### 2026-02-24 - Full SEO Audit
 
 **Type:** Full Audit

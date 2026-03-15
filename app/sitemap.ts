@@ -74,12 +74,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.7,
     },
-    {
-      url: `${BASE_URL}/docs/seo`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.5,
-    },
   ]
 
   const blogPages: MetadataRoute.Sitemap = getBlogPosts().map(post => ({

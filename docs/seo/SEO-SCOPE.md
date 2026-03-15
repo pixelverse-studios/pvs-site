@@ -49,14 +49,14 @@ PixelVerse Studios is a custom-coded web design and local SEO agency based in Be
 
 ### Primary Goals
 
-| Goal                           | Metric         | Jan 2026                     | **Feb 2026 (current)**       | 3-Month Target             | 6-Month Target      |
-| ------------------------------ | -------------- | ---------------------------- | ---------------------------- | -------------------------- | ------------------- |
-| Rank top 5 for priority cities | Position (GSC) | Fort Lee: 10.47, others: 10+ | **Avg 15.6 (restructure)**   | Top 5: Fort Lee, Englewood | Top 5: All 5 cities |
-| Generate leads from organic    | Leads/month    | 0                            | **0**                        | 2-3                        | 5-10                |
-| Build local authority          | GBP reviews    | 0                            | **7 ⭐ (5.0 avg)**           | 10+                        | 25+                 |
-| Increase organic traffic       | Monthly clicks | 13                           | **9 (restructure impact)**   | 20+                        | 50+                 |
-| Crawl health                   | Crawl errors   | 13                           | **⚠️ 51 — fix immediately**  | 0                          | 0                   |
-| Indexed pages                  | GSC index      | 42                           | **36 (pages removed)**       | 45+                        | 50+                 |
+| Goal                           | Metric         | Jan 2026                     | Feb 2026                     | **Mar 2026 (current)**          | 6-Month Target      |
+| ------------------------------ | -------------- | ---------------------------- | ---------------------------- | ------------------------------- | ------------------- |
+| Rank top 5 for priority cities | Position       | Fort Lee: 10.47, others: 10+ | Avg 15.6 (restructure)       | **Englewood: #9; all others NR** | Top 5: All 5 cities |
+| Generate leads from organic    | Leads/month    | 0                            | 0                            | **0**                           | 5-10                |
+| Build local authority          | GBP reviews    | 0                            | 7 (5.0 avg)                  | **7 (5.0 avg) — no new**       | 25+                 |
+| Increase organic traffic       | Monthly clicks | 13                           | 9                            | **8 (-11%)**                    | 50+                 |
+| Crawl health                   | Not indexed    | 29                           | —                            | **⚠️ 103 not indexed**          | 0                   |
+| Indexed pages                  | GSC index      | 42                           | 36                           | **24 (-33%)**                   | 50+                 |
 
 ### Secondary Goals
 
@@ -232,5 +232,5 @@ Each priority city page includes:
 
 ---
 
-_Last Updated: 2026-02-24_
+_Last Updated: 2026-03-14_
 _Owner: Phil & Sami, PixelVerse Studios_
