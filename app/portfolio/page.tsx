@@ -6,7 +6,7 @@ import { ProjectShowcaseSection } from '@/components/portfolio/project-showcase-
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Portfolio & Case Studies',
+  title: 'Web Design Portfolio & Case Studies',
   description:
     "Explore our web design, development, and SEO case studies. See how we've helped New Jersey businesses improve search visibility, conversions, and growth.",
   path: '/portfolio',

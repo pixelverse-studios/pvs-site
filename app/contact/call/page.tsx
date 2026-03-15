@@ -5,7 +5,7 @@ import { StructuredData } from '@/components/ui/structured-data';
 import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Schedule a Strategy Call',
+  title: 'Book a Web Design Strategy Call | NJ',
   description:
     'Book a 30-minute strategy call with Pixelverse Studios. We\'ll discuss your goals, your current situation, and what the right next step looks like.',
   path: '/contact/call',
