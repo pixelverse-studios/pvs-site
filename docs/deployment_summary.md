@@ -9,6 +9,8 @@
 - Added structured data to the services overview page — Google can now better understand the two service offerings
 - Published 5 new blog posts covering Google Business Profile optimization, local SEO checklist, law firm web design, healthcare website compliance, and website pricing
 - Blog now has 13 published posts (up from 8) — first new content in 53 days
+- Reduced Sentry client overhead — disabled performance tracing and session replays on the browser (errors still captured, server-side tracing unchanged)
+- Added Sentry bundle size optimizations to exclude unused Replay sub-modules
 
 ## Notes for internal team
 - DEV-495: Fixed 4 page titles outside the 50-60 SERP character range (composed = raw title + " | PixelVerse Studios" suffix)
@@ -22,6 +24,14 @@
 - Posts: GBP optimization guide, local SEO checklist, law firm web design (Hackensack), healthcare website design (Bergen County), website cost guide (NJ 2026)
 - All excerpts trimmed to under 160 chars for proper SERP display
 - Publish dates set to 2026-03-15
+- DEV-515: Site-wide performance optimization
+- Disabled Sentry client-side tracing (tracesSampleRate: 0.1→0) and replays (0.01/0.1→0/0) — reduces runtime CPU and network overhead
+- Added bundleSizeOptimizations to Sentry webpack config (excludeReplayIframe, excludeReplayShadowDom, excludeReplayWorker, excludeDebugStatements)
+- Investigation found: shared JS bundle is 180kB (React 122kB + framework 54kB) — this is the Next.js baseline, not reducible
+- Sentry adds only ~2kB to shared bundle; the runtime cost (tracing/replays) was the real overhead
+- "Unused JS" flagged by PageSpeed is mostly React framework code loaded globally — standard Next.js tradeoff
+- "Unused CSS" is Tailwind utility classes — standard tradeoff, no per-page CSS splitting available
+- "Avoid multiple page redirects" (0.63s) should be resolved by DEV-493/494 (www redirect fix + Netlify cleanup)
 
 ## Changed URLs
 - https://www.pixelversestudios.io/contact/details
