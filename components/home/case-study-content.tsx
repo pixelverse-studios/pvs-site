@@ -27,9 +27,9 @@ interface CaseStudyContentProps {
 
 export function CaseStudyContent({ study }: CaseStudyContentProps) {
   return (
-    <div className="space-y-12 animate-fade-in">
+    <div className="stagger-children in-view space-y-12">
       {/* Title + Client details + Problem */}
-      <div className="space-y-6">
+      <div className="stagger-item space-y-6">
         <h2
           id="case-study-heading"
           className="max-w-3xl font-heading text-[2.5rem] leading-[3.125rem] text-[var(--pv-text)]"
@@ -67,7 +67,7 @@ export function CaseStudyContent({ study }: CaseStudyContentProps) {
       </div>
 
       {/* Issues grid */}
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="stagger-item grid gap-6 md:grid-cols-3">
         {study.issues.map((item) => {
           const IconComponent = iconMap[item.icon ?? ''];
           const Icon = IconComponent || AlertCircle;
@@ -99,7 +99,7 @@ export function CaseStudyContent({ study }: CaseStudyContentProps) {
       </div>
 
       {/* Outcome */}
-      <div className="rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] p-8 shadow-sm md:p-10">
+      <div className="stagger-item rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] p-8 shadow-sm md:p-10">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-10">
           <div className="shrink-0 space-y-2 md:max-w-sm">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
