@@ -11,6 +11,8 @@
 - Blog now has 13 published posts (up from 8) — first new content in 53 days
 - Reduced Sentry client overhead — disabled performance tracing and session replays on the browser (errors still captured, server-side tracing unchanged)
 - Added Sentry bundle size optimizations to exclude unused Replay sub-modules
+- Optimized homepage loading speed — replaced JavaScript animations with CSS animations on 4 homepage sections
+- Case study and insight sections now render server-side instead of requiring client-side JavaScript to display
 
 ## Notes for internal team
 - DEV-495: Fixed 4 page titles outside the 50-60 SERP character range (composed = raw title + " | PixelVerse Studios" suffix)
@@ -32,6 +34,13 @@
 - "Unused JS" flagged by PageSpeed is mostly React framework code loaded globally — standard Next.js tradeoff
 - "Unused CSS" is Tailwind utility classes — standard tradeoff, no per-page CSS splitting available
 - "Avoid multiple page redirects" (0.63s) should be resolved by DEV-493/494 (www redirect fix + Netlify cleanup)
+- DEV-516: Homepage performance — replaced Framer Motion with CSS animations
+- Converted insight-section and case-study-content from client → server components (zero hydration)
+- Dropped framer-motion import from case-study-section (CSS transition for active tab border)
+- Dropped MotionSection/MotionItem from testimonial-carousel (plain divs)
+- Created lightweight scroll-reveal component (IntersectionObserver, ~40 lines, replaces framer-motion useInView)
+- Added CSS keyframes: slide-in-left, scale-in, grow-y to globals.css
+- Homepage client components reduced from 4 → 3; page-specific JS: 13.2kB → 11.9kB
 
 ## Changed URLs
 - https://www.pixelversestudios.io/contact/details

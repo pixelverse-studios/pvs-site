@@ -1,42 +1,25 @@
-'use client';
-
-import { useRef } from 'react';
-
-import { motion, useInView } from 'framer-motion';
-
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import { insightSection } from '@/data/homepage';
 
 import { Container } from './container';
+import { ScrollReveal } from './scroll-reveal';
 
 const BEAT_COUNT = insightSection.beats.length;
 
 function InsightBeat({ label, text, index }: { label: string; text: string; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
   const isLast = index === BEAT_COUNT - 1;
-
   const gradientProgress = index / (BEAT_COUNT - 1);
   const labelColor = gradientProgress < 0.5 ? 'var(--pv-primary)' : 'var(--pv-primary-2)';
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, x: -8 }}
-      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="relative flex gap-5"
-    >
+    <ScrollReveal className="scroll-fade-left relative flex gap-5" style={{ animationDelay: `${index * 0.1}s` }}>
       {/* Node dot — aligned to the label baseline */}
       <div className="relative flex shrink-0 flex-col items-center pt-[3px]">
-        <motion.div
-          className="h-2.5 w-2.5 rounded-full shadow-[0_0_0_3px_var(--pv-bg),0_0_0_4px_var(--pv-border)]"
+        <div
+          className="scroll-scale h-2.5 w-2.5 rounded-full shadow-[0_0_0_3px_var(--pv-bg),0_0_0_4px_var(--pv-border)]"
           style={{
             background: `color-mix(in srgb, var(--pv-primary) ${(1 - gradientProgress) * 100}%, var(--pv-primary-2))`,
           }}
-          initial={{ scale: 0 }}
-          animate={isInView ? { scale: 1 } : { scale: 0 }}
-          transition={{ duration: 0.3, ease: 'easeOut', delay: 0.15 }}
         />
       </div>
 
@@ -56,14 +39,11 @@ function InsightBeat({ label, text, index }: { label: string; text: string; inde
           {text}
         </p>
       </div>
-    </motion.div>
+    </ScrollReveal>
   );
 }
 
 export function InsightSection() {
-  const beatsRef = useRef<HTMLDivElement>(null);
-  const beatsInView = useInView(beatsRef, { once: true, amount: 0.1 });
-
   return (
     <section
       className="border-b border-[var(--pv-border)] bg-[var(--pv-bg)]"
@@ -93,21 +73,18 @@ export function InsightSection() {
           </div>
 
           {/* Right: Beats with continuous vertical line */}
-          <div className="lg:w-2/3" ref={beatsRef}>
-            <div className="relative space-y-8">
+          <div className="lg:w-2/3">
+            <ScrollReveal className="relative space-y-8" threshold={0.1}>
               {/* Single continuous gradient line behind all beats */}
-              <motion.div
-                className="absolute left-[4.5px] top-[3px] bottom-[3px] w-px bg-[image:var(--pv-gradient)]"
-                initial={{ scaleY: 0 }}
-                animate={beatsInView ? { scaleY: 1 } : { scaleY: 0 }}
-                transition={{ duration: 1.2, ease: 'easeOut' }}
+              <div
+                className="scroll-grow-y absolute left-[4.5px] top-[3px] bottom-[3px] w-px bg-[image:var(--pv-gradient)]"
                 aria-hidden
               />
 
               {insightSection.beats.map((beat, i) => (
                 <InsightBeat key={beat.label} label={beat.label} text={beat.text} index={i} />
               ))}
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </Container>

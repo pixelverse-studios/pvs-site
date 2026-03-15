@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 
-import { motion } from 'framer-motion';
 import { Box, Building2, Heart, Wrench } from 'lucide-react';
 
 import { caseStudies } from '@/data/homepage';
 
 import { CaseStudyContent } from './case-study-content';
 import { Container } from './container';
+import { ScrollReveal } from './scroll-reveal';
 
 const industryIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   'Home Services': Wrench,
@@ -28,7 +28,7 @@ export function CaseStudySection() {
       aria-labelledby="case-study-heading"
     >
       <Container className="py-16 md:py-24">
-        <div className="space-y-12">
+        <ScrollReveal className="scroll-fade-up space-y-12" threshold={0.1}>
           {/* Eyebrow */}
           <div className="flex items-center gap-4">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
@@ -63,14 +63,12 @@ export function CaseStudySection() {
                           : 'bg-transparent opacity-60 hover:opacity-100'
                       }`}
                     >
-                      {/* Sliding gradient left border */}
-                      {isActive && (
-                        <motion.div
-                          layoutId="caseStudySidebarBorder"
-                          className="absolute bottom-3 left-0 top-3 w-[3px] rounded-full bg-[image:var(--pv-gradient)]"
-                          transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
-                        />
-                      )}
+                      {/* Gradient left border — CSS transition instead of layoutId */}
+                      <div
+                        className={`absolute bottom-3 left-0 top-3 w-[3px] rounded-full bg-[image:var(--pv-gradient)] transition-all duration-300 ${
+                          isActive ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0'
+                        }`}
+                      />
 
                       {/* Industry icon */}
                       <div
@@ -109,10 +107,10 @@ export function CaseStudySection() {
               className="min-w-0 flex-1"
               key={activeIndex}
             >
-              <CaseStudyContent study={study} animationKey={activeIndex} />
+              <CaseStudyContent study={study} />
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </Container>
     </section>
   );
