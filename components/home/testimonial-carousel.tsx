@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import { testimonials } from '@/data/homepage';
 
 import { Container } from './container';
+import { ScrollReveal } from './scroll-reveal';
 
 function TestimonialCard({ testimonial }: { testimonial: (typeof testimonials)[number] }) {
   return (
@@ -108,9 +109,9 @@ export function TestimonialCarousel() {
       aria-label="Client testimonials"
     >
       <Container className="py-20 md:py-28">
-        <div className="space-y-14">
+        <ScrollReveal className="stagger-children space-y-14" threshold={0.1}>
           {/* Header */}
-          <div className="flex items-end justify-between">
+          <div className="stagger-item flex items-end justify-between">
             <div className="max-w-2xl">
               <div
                 className="mb-6 h-1 w-12 rounded-full bg-[image:var(--pv-gradient)]"
@@ -150,13 +151,14 @@ export function TestimonialCarousel() {
           {/* Carousel */}
           <div
             ref={scrollContainerRef}
-            className="-mx-6 flex gap-5 overflow-x-auto scroll-smooth px-6 no-scrollbar md:-mx-8 md:px-8"
+            className="stagger-item -mx-6 flex gap-5 overflow-x-auto scroll-smooth px-6 no-scrollbar md:-mx-8 md:px-8"
           >
             {testimonials.map((testimonial, index) => (
               <div
                 key={`${testimonial.name}-${testimonial.company}-${index}`}
                 data-testimonial-card
-                className="w-[85%] flex-shrink-0 sm:w-[46%] lg:w-[calc(33.333%-14px)]"
+                className="scroll-fade-up w-[85%] flex-shrink-0 sm:w-[46%] lg:w-[calc(33.333%-14px)]"
+                style={{ animationDelay: `${0.15 + index * 0.1}s` }}
               >
                 <TestimonialCard testimonial={testimonial} />
               </div>
@@ -184,7 +186,7 @@ export function TestimonialCarousel() {
               </button>
             </div>
           )}
-        </div>
+        </ScrollReveal>
       </Container>
     </section>
   );
