@@ -172,4 +172,12 @@ module.exports = withSentryConfig(nextConfig, {
 
   // Hide source maps from browsers in production
   hideSourceMaps: true,
+
+  // Exclude unused Sentry features from the client bundle
+  bundleSizeOptimizations: {
+    excludeDebugStatements: true,
+    excludeReplayIframe: true,
+    excludeReplayShadowDom: true,
+    excludeReplayWorker: true,
+  },
 });
