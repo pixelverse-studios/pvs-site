@@ -20,8 +20,8 @@ export function ScrollReveal({ children, className, style, threshold = 0.5 }: Sc
       ([entry]) => {
         if (entry.isIntersecting) {
           el.classList.add('in-view');
-          // Also add in-view to scroll-animated children
-          el.querySelectorAll('.scroll-fade-left, .scroll-scale, .scroll-grow-y').forEach((child) =>
+          // Also add in-view to all scroll-animated children
+          el.querySelectorAll('[class*="scroll-"]').forEach((child) =>
             child.classList.add('in-view'),
           );
           observer.unobserve(el);
