@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Container } from '@/components/ui/container';
-import { MotionItem, MotionSection } from '@/components/ui/motion-section';
+import { ScrollReveal } from '@/components/home/scroll-reveal';
 import { servicePaths, type ServicePathIconKey } from '@/data/service-paths';
 
 const iconMap: Record<ServicePathIconKey, LucideIcon> = {
@@ -20,13 +20,13 @@ export function ServicesPathCardsSection() {
   return (
     <section className="bg-[var(--pv-bg)] py-16 md:py-24">
       <Container>
-        <MotionSection as="div">
+        <ScrollReveal className="stagger-children" threshold={0.1}>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            {servicePaths.map((path, idx) => {
+            {servicePaths.map((path) => {
               const Icon = iconMap[path.icon];
 
               return (
-                <MotionItem key={path.id} delay={idx * 0.1}>
+                <div key={path.id} className="stagger-item">
                   <Card className="group flex h-full flex-col overflow-hidden border-[var(--pv-border)] bg-[var(--pv-surface)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--pv-primary)] hover:shadow-[0_24px_50px_-36px_rgba(63,0,233,0.6)]">
                     <CardHeader className="space-y-4">
                       <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-primary)] transition-all duration-300 group-hover:border-[var(--pv-primary)] group-hover:bg-[linear-gradient(135deg,var(--pv-primary),var(--pv-primary-2))] group-hover:text-white">
@@ -55,11 +55,11 @@ export function ServicesPathCardsSection() {
                       </div>
                     </CardContent>
                   </Card>
-                </MotionItem>
+                </div>
               );
             })}
           </div>
-        </MotionSection>
+        </ScrollReveal>
       </Container>
     </section>
   );

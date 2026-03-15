@@ -13,6 +13,8 @@
 - Added Sentry bundle size optimizations to exclude unused Replay sub-modules
 - Optimized homepage loading speed — replaced JavaScript animations with CSS animations on 4 homepage sections
 - Case study and insight sections now render server-side instead of requiring client-side JavaScript to display
+- Optimized service pages loading speed — hero section and path cards now render instantly without waiting for JavaScript
+- Services hub page reduced from 228kB to 192kB (16% lighter)
 
 ## Notes for internal team
 - DEV-495: Fixed 4 page titles outside the 50-60 SERP character range (composed = raw title + " | PixelVerse Studios" suffix)

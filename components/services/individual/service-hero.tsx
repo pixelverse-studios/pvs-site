@@ -3,7 +3,6 @@ import type { LucideIcon } from 'lucide-react';
 
 import { Container } from '@/components/ui/container';
 import { Button } from '@/components/ui/button';
-import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 
 /**
  * CTA link with fully customizable label text.
@@ -79,8 +78,8 @@ export function ServiceHero({
   return (
     <section className="bg-[var(--pv-surface)] pb-16 pt-hero md:pb-24">
       <Container className="max-w-4xl text-center">
-        <MotionSection as="div" className="space-y-6">
-          <MotionItem className="flex items-center justify-center gap-3">
+        <div className="stagger-children in-view space-y-6">
+          <div className="stagger-item flex items-center justify-center gap-3">
             {Icon && (
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--pv-primary),var(--pv-primary-2))] text-white shadow-[0_12px_28px_-12px_rgba(63,0,233,0.7)]">
                 <Icon className="h-5 w-5" aria-hidden="true" />
@@ -89,22 +88,21 @@ export function ServiceHero({
             <span className="text-sm uppercase tracking-[0.3em] text-[var(--pv-text-muted)]">
               {eyebrow}
             </span>
-          </MotionItem>
-          <MotionItem delay={0.08}>
+          </div>
+          <div className="stagger-item">
             <h1 className="font-heading text-4xl font-semibold leading-[3rem] md:text-5xl md:leading-[3.5rem]">
               {title}
             </h1>
-          </MotionItem>
-          <MotionItem delay={0.12} className="space-y-4">
+          </div>
+          <div className="stagger-item space-y-4">
             {description.split('\n\n').filter(Boolean).map((para, idx) => (
               <p key={idx} className="mx-auto max-w-2xl text-lg text-[var(--pv-text-muted)] md:text-xl">
                 {para}
               </p>
             ))}
-          </MotionItem>
-          <MotionItem
-            delay={0.16}
-            className="flex flex-col items-center justify-center gap-4 sm:flex-row"
+          </div>
+          <div
+            className="stagger-item flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
             <Button asChild size="lg" variant="cta" className="w-full sm:w-auto">
               <Link href={primaryCta.href}>{primaryCta.label}</Link>
@@ -114,8 +112,8 @@ export function ServiceHero({
                 <Link href={secondaryCta.href}>{secondaryCta.label}</Link>
               </Button>
             )}
-          </MotionItem>
-        </MotionSection>
+          </div>
+        </div>
       </Container>
     </section>
   );

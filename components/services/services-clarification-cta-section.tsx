@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { RequestReviewCta } from '@/components/ui/request-review-cta';
-import { MotionItem, MotionSection } from '@/components/ui/motion-section';
+import { ScrollReveal } from '@/components/home/scroll-reveal';
 import type { CTA } from '@/data/service-paths';
 
 interface ServicesClarificationCtaSectionProps {
@@ -32,11 +32,11 @@ export function ServicesClarificationCtaSection({
         className="pointer-events-none absolute inset-0 hidden dark:block dark:bg-[radial-gradient(circle_at_20%_10%,rgba(255,255,255,0.22),transparent_55%),radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.16),transparent_50%)]"
       />
       <Container className="relative">
-        <MotionSection
-          as="div"
-          className="mx-auto max-w-3xl space-y-6 text-center"
+        <ScrollReveal
+          className="stagger-children mx-auto max-w-3xl space-y-6 text-center"
+          threshold={0.2}
         >
-          <MotionItem>
+          <div className="stagger-item">
             <div className="space-y-5">
               <div className="mx-auto h-[3px] w-14 rounded-full bg-gradient-to-r from-[var(--pv-primary)] to-[var(--pv-primary-2)]" />
               <h2
@@ -46,17 +46,17 @@ export function ServicesClarificationCtaSection({
                 {title}
               </h2>
             </div>
-          </MotionItem>
+          </div>
 
           {paragraphs.map((paragraph, idx) => (
-            <MotionItem key={`paragraph-${idx}`} delay={0.08 + idx * 0.06}>
+            <div key={`paragraph-${idx}`} className="stagger-item">
               <p className="text-pretty text-lg text-[var(--pv-text-muted)] md:text-xl dark:text-white/85">
                 {paragraph}
               </p>
-            </MotionItem>
+            </div>
           ))}
 
-          <MotionItem delay={0.2}>
+          <div className="stagger-item">
             <div className="flex flex-col items-center gap-4 pt-4 sm:flex-row sm:justify-center">
               <Button asChild variant="cta">
                 <Link href={primaryCta.href}>{primaryCta.label}</Link>
@@ -71,8 +71,8 @@ export function ServicesClarificationCtaSection({
                 )
               )}
             </div>
-          </MotionItem>
-        </MotionSection>
+          </div>
+        </ScrollReveal>
       </Container>
     </section>
   );
