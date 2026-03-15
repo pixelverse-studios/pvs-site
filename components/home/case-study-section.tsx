@@ -8,6 +8,7 @@ import { caseStudies } from '@/data/homepage';
 
 import { CaseStudyContent } from './case-study-content';
 import { Container } from './container';
+import { ScrollReveal } from './scroll-reveal';
 
 const industryIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   'Home Services': Wrench,
@@ -27,7 +28,7 @@ export function CaseStudySection() {
       aria-labelledby="case-study-heading"
     >
       <Container className="py-16 md:py-24">
-        <div className="space-y-12">
+        <ScrollReveal className="scroll-fade-up space-y-12" threshold={0.1}>
           {/* Eyebrow */}
           <div className="flex items-center gap-4">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
@@ -109,7 +110,7 @@ export function CaseStudySection() {
               <CaseStudyContent study={study} />
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </Container>
     </section>
   );
