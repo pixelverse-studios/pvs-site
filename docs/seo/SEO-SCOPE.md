@@ -49,14 +49,14 @@ PixelVerse Studios is a custom-coded web design and local SEO agency based in Be
 
 ### Primary Goals
 
-| Goal                           | Metric         | Jan 2026                     | Feb 2026                     | **Mar 2026 (current)**          | 6-Month Target      |
-| ------------------------------ | -------------- | ---------------------------- | ---------------------------- | ------------------------------- | ------------------- |
-| Rank top 5 for priority cities | Position       | Fort Lee: 10.47, others: 10+ | Avg 15.6 (restructure)       | **Englewood: #9; all others NR** | Top 5: All 5 cities |
-| Generate leads from organic    | Leads/month    | 0                            | 0                            | **0**                           | 5-10                |
-| Build local authority          | GBP reviews    | 0                            | 7 (5.0 avg)                  | **7 (5.0 avg) — no new**       | 25+                 |
-| Increase organic traffic       | Monthly clicks | 13                           | 9                            | **8 (-11%)**                    | 50+                 |
-| Crawl health                   | Not indexed    | 29                           | —                            | **⚠️ 103 not indexed**          | 0                   |
-| Indexed pages                  | GSC index      | 42                           | 36                           | **24 (-33%)**                   | 50+                 |
+| Goal                           | Metric         | Jan 2026                     | Feb 2026                     | Mar 14                          | **Mar 21 (current)**              | 6-Month Target      |
+| ------------------------------ | -------------- | ---------------------------- | ---------------------------- | ------------------------------- | --------------------------------- | ------------------- |
+| Rank top 5 for priority cities | Position       | Fort Lee: 10.47, others: 10+ | Avg 15.6 (restructure)       | Englewood: #9; all others NR    | **Englewood: #9; all others NR**  | Top 5: All 5 cities |
+| Generate leads from organic    | Leads/month    | 0                            | 0                            | 0                               | **0**                             | 5-10                |
+| Build local authority          | GBP reviews    | 0                            | 7 (5.0 avg)                  | 7 (5.0 avg) — no new           | **7 (5.0 avg) — no new**         | 25+                 |
+| Increase organic traffic       | Monthly clicks | 13                           | 9                            | 8 (-11%)                        | **11 (+38%)**                     | 50+                 |
+| Crawl health                   | Not indexed    | 29                           | —                            | 103                             | **65 (-37%)**                     | 0                   |
+| Indexed pages                  | GSC index      | 42                           | 36                           | 24 (-33%)                       | **29 (+21%)**                     | 50+                 |
 
 ### Secondary Goals
 
@@ -232,5 +232,5 @@ Each priority city page includes:
 
 ---
 
-_Last Updated: 2026-03-14_
+_Last Updated: 2026-03-21_
 _Owner: Phil & Sami, PixelVerse Studios_

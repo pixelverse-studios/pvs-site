@@ -1,7 +1,7 @@
 # SEO Implementation Checklist
 
-> Progress: 33/59 Complete (56%) — down from 63% due to city page removal and new items added
-> Last Updated: 2026-03-14
+> Progress: 37/59 Complete (63%) — up from 56% after Phase 1 (DEV-492) completions
+> Last Updated: 2026-03-21
 
 ---
 
@@ -54,7 +54,7 @@
 - [x] Service schema (homepage: 2 services; service pages: 1 each)
 - [x] FAQPage schema (/faq, homepage, /services/seo, /services/web-development)
 - [x] BlogPosting schema (blog posts)
-- [ ] WebSite schema — defined in code but NOT rendered on homepage
+- [x] WebSite schema — ✅ Now rendering on root layout (PR #196)
 - [ ] Fix city schema addressLocality bug (hardcodes Cliffside Park for all cities)
 
 ### Validation
@@ -70,7 +70,7 @@
 
 ### Metadata
 
-- [ ] Unique Title Tags (50-60 chars) — ⚠️ 7/9 main pages under 50 chars (wasting SERP space)
+- [~] Unique Title Tags (50-60 chars) — 4 titles fixed (PR #197), some still need work
 - [x] Meta Descriptions (120-160 chars) — 7/9 within range; /services/seo (161) and /faq (167) slightly over
 - [ ] Keywords in title tags — city pages no longer exist; service pages lack location keywords
 - [x] Keywords in meta descriptions - Service pages include "New Jersey"
@@ -230,31 +230,31 @@
 
 ## Quick Reference: Next Actions
 
-### This Week (Priority) - Updated 2026-03-14
+### This Week (Priority) - Updated 2026-03-21
 
-1. [ ] **CRITICAL: Fix www/non-www domain mismatch** — `lib/metadata.ts` uses `https://pixelversestudios.io`, sitemap/robots use `https://www.pixelversestudios.io`. Standardize to www.
-2. [ ] **CRITICAL: Investigate 103 not-indexed pages** — Indexed pages dropped 42→24 over 3 months. Check GSC "Pages" report for reasons.
-3. [ ] **Decide on city pages** — All 5 priority city routes redirect to /services. Either rebuild or update strategy. Englewood still ranks #9 despite redirect.
-4. [ ] **Lengthen 7 page titles** to 50-60 chars with location keywords (currently 23-43 chars)
+1. [x] ~~**Fix www/non-www domain mismatch**~~ — ✅ Addressed in DEV-492 (redirect chain cleanup)
+2. [x] ~~**Investigate not-indexed pages**~~ — ✅ Recovering: 103→65 not-indexed, 24→29 indexed. Continue monitoring.
+3. [ ] **Decide on city pages** — All 5 priority city routes redirect to /services. DEV-500 scope.
+4. [x] ~~**Lengthen page titles**~~ — ✅ 4 titles fixed to 50-60 char range (PR #197)
 5. [x] **Set up rank tracking tool** — ✅ Done. Per-keyword data now available.
 
-### This Month
+### This Month (DEV-500 Scope)
 
-1. [ ] **Publish 3-5 draft blog posts** — 10 posts ready, 53 days since last publish
-2. [ ] Submit to 5+ directories (Clutch, DesignRush, UpCity, Yelp, BBB) — still 0 citations
-3. [ ] Activate GBP (weekly posts, Q&A seeding, 10+ photos, respond to 7 reviews)
-4. [ ] Render WebSite schema on homepage (function exists, not called)
-5. [ ] Add BreadcrumbList + Service schema to /services hub page
+1. [ ] **Rebuild city pages** — Restore/redesign 5 priority city landing pages with local content
+2. [ ] **Fix city schema addressLocality bug** — Hardcodes Cliffside Park for all cities
+3. [ ] Submit to 5+ directories (Clutch, DesignRush, UpCity, Yelp, BBB) — still 0 citations
+4. [ ] Activate GBP (weekly posts, Q&A seeding, 10+ photos, respond to 7 reviews)
+5. [ ] Add location keywords to H2s and body copy on service pages (0% compliance)
 6. [ ] Add service area statement to homepage/footer
+7. [ ] Publish remaining 5 draft blog posts
 
 ### This Quarter
 
-1. [ ] Resolve city page strategy — rebuild or pivot to different approach
-2. [ ] 10+ GBP reviews (current: 7, no new since last audit)
-3. [ ] 25+ local citations/backlinks (current: 0)
-4. [ ] 5 new blog posts published (current: 8 published, 10 in draft)
-5. [ ] Target "web design agency NJ" (880 monthly searches) — highest volume keyword
-6. [ ] All 5 priority cities in top 10 (currently: only Englewood #9)
+1. [ ] 10+ GBP reviews (current: 7, no new since Feb)
+2. [ ] 25+ local citations/backlinks (current: 0)
+3. [ ] Target "web design agency NJ" (880 monthly searches) — highest volume keyword
+4. [ ] All 5 priority cities in top 10 (currently: only Englewood #9)
+5. [ ] Not-indexed pages → 0 (current: 65, trending down)
 
 ---
 
