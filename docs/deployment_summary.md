@@ -16,6 +16,7 @@
 - Built new area pages infrastructure at /areas/bergen-county/ with city sub-pages for Fort Lee, Englewood, Hackensack, Paramus, and Ridgewood
 - Old /services/[city] URLs now redirect to new /areas/bergen-county/[city] paths
 - Added Bergen County hub page with full SEO content covering services, local market context, city links, and FAQ
+- Added Fort Lee city page with 1,500+ words of local content, FAQ, and structured data schemas
 
 ## Notes for internal team
 
@@ -50,6 +51,10 @@
 - 1,500+ word page with hero, intro, services overview, city grid, local signals, FAQ (5 questions), CTA
 - FAQPage schema, LocalBusiness schema, BreadcrumbList schema
 - Internal links to all 5 city pages and both service pages
+- DEV-348: Added Fort Lee city page at `/areas/bergen-county/fort-lee`
+- 1,500+ word page with intro, web design section, SEO section, local signals, 5-question FAQ, CTA
+- Covers Fort Lee business landscape, Korean community, GW Bridge corridor, Main St / Lemoine Ave
+- LocalBusiness, BreadcrumbList, FAQPage, Service schemas
 
 ## Changed URLs
 
