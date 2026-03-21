@@ -9,6 +9,8 @@
 - Removed internal SEO dashboard page from the public sitemap
 - Added login page to robots.txt block list for defense-in-depth
 
+- Added service area statement listing priority cities (Fort Lee, Englewood, Hackensack, Paramus, Ridgewood) to website footer and homepage
+
 ## Notes for internal team
 
 - DEV-493: Changed `siteUrl` in `lib/metadata.ts` from `https://pixelversestudios.io` to `https://www.pixelversestudios.io`
@@ -21,6 +23,8 @@
 - Added `/login` to robots.txt disallow in `app/robots.ts` and `next-sitemap.config.js`
 - Full analysis documented in `docs/seo/gsc-indexing-audit-2026-03-15.md`
 - Manual action needed: request reindexing for 24 indexed pages via GSC URL Inspection tool
+- DEV-505: Added service area city list to footer contact section and homepage services section
+- Files: `components/ui/footer.tsx`, `components/home/services-section.tsx`
 
 ## Changed URLs
 

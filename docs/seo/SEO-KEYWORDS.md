@@ -1,6 +1,6 @@
 # SEO Keyword Strategy
 
-> Last Updated: 2026-01-20
+> Last Updated: 2026-03-21
 
 ## Keyword Overview
 
@@ -285,16 +285,16 @@ These power FAQ pages, blog posts, and featured snippet opportunities:
 
 ### GSC Performance (Mar 2026 - 28 days)
 
-| Metric           | Jan 2026 | Feb 2026 | Mar 2026 | Change (vs Feb) |
-| ---------------- | -------- | -------- | -------- | --------------- |
-| Total Impressions | 206      | 178      | **129**  | -28%            |
-| Total Clicks      | 13       | 9        | **8**    | -11%            |
-| Overall CTR       | 6.3%     | 5.1%     | **6.2%** | +1.1pp          |
-| Avg Position      | ~12      | 15.6     | **17**   | -1.4            |
-| Indexed Pages     | 42       | 36       | **24**   | -33%            |
-| Not Indexed       | 29       | —        | **103**  | ⚠️ CRITICAL     |
+| Metric           | Jan 2026 | Feb 2026 | Mar 14   | **Mar 21**  | Change (Mar 14→21) |
+| ---------------- | -------- | -------- | -------- | ----------- | ------------------- |
+| Total Impressions | 206      | 178      | 129      | **181**     | **+40%**            |
+| Total Clicks      | 13       | 9        | 8        | **11**      | **+38%**            |
+| Overall CTR       | 6.3%     | 5.1%     | 6.2%     | **6.1%**    | -0.1pp (stable)     |
+| Avg Position      | ~12      | 15.6     | 17       | **17.1**    | stable              |
+| Indexed Pages     | 42       | 36       | 24       | **29**      | **+5 (+21%)**       |
+| Not Indexed       | 29       | —        | 103      | **65**      | **-38 (-37%)**      |
 
-> ⚠️ **103 pages not indexed** — up from 29 in January. Indexed pages dropped from 42 → 24. Investigate GSC for crawl/index reasons immediately.
+> ✅ **Indexing recovery underway** — Not-indexed dropped 103→65 in one week. Indexed pages recovering 24→29. Impressions rebounding to near-January levels. Phase 1 fixes (blog posts, schema, redirects) taking effect.
 
 ### Keyword Target Page Updates (Post-Restructure)
 
