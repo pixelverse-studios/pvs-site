@@ -11,6 +11,8 @@
 
 - Added service area statement listing priority cities (Fort Lee, Englewood, Hackensack, Paramus, Ridgewood) to website footer and homepage
 - Fixed schema bug where all city pages incorrectly showed Cliffside Park as their location instead of the actual target city
+- Added Bergen County and New Jersey location keywords to service page headings and body copy for stronger local SEO signals
+- Updated call-to-action buttons on service pages to reference NJ service area
 
 ## Notes for internal team
 
@@ -29,6 +31,11 @@
 - DEV-502: Fixed `createCityLocalBusinessSchema()` hardcoding `addressLocality: 'Cliffside Park'` for all cities
 - Changed to use dynamic `city` and `state` params; removed `streetAddress` and `postalCode` (SAB model)
 - File: `lib/structured-data.ts`
+- DEV-504: Added location keywords to service page H2s and body copy
+- SEO page: 3/6 H2s now include location keywords (50%), 15 location mentions in body
+- Web dev page: 3/6 H2s now include location keywords (50%), 12 location mentions in body
+- Services overview: updated CTA section with Bergen County/NJ reference
+- Files: `data/seo-content.ts`, `data/web-development-content.ts`, `data/service-paths.ts`
 
 ## Changed URLs
 

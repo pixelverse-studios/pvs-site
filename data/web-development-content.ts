@@ -73,10 +73,10 @@ export const webDevelopmentContent: WebDevContentData = {
   },
   whyBuildsGoWrong: {
     title: 'Why Website Builds Go Wrong',
-    body: 'Most website builds don\u2019t fall short because of poor design. They fall short because the wrong decisions were made early.\n\nStructure gets chosen before services are clearly defined. Visual direction is set before messaging is clarified. Technology is selected without considering how the site will need to evolve.\n\nThe site launches and looks polished, but over time it becomes harder to update, harder to expand, and less effective at guiding visitors toward action.\n\nThat isn\u2019t a design problem. It\u2019s a direction problem.\n\nAnd it starts before a single page is built.',
+    body: 'Most website builds don\u2019t fall short because of poor design. They fall short because the wrong decisions were made early.\n\nStructure gets chosen before services are clearly defined. Visual direction is set before messaging is clarified. Technology is selected without considering how the site will need to evolve.\n\nWe see this often with New Jersey businesses — a site launches looking polished, but it wasn\u2019t built to support local search visibility or serve the specific markets the business operates in, whether that\u2019s Bergen County, Northern NJ, or a single town.\n\nThat isn\u2019t a design problem. It\u2019s a direction problem.\n\nAnd it starts before a single page is built.',
   },
   howWePlan: {
-    title: 'Our Web Design & Development Process',
+    title: 'Our Web Design Process for New Jersey Businesses',
     intro:
       'We don\u2019t start with layouts or code.\n\nWe start by clarifying:',
     bulletPoints: [
@@ -86,7 +86,7 @@ export const webDevelopmentContent: WebDevContentData = {
       'What constraints exist around timeline, budget, and technology',
     ],
     closing:
-      'From there, we define a clear site structure, content direction, and technical approach before any design begins.\n\nThat planning becomes the roadmap for everything that follows. It allows design and development decisions to be made with intention instead of guesswork.',
+      'From there, we define a clear site structure, content direction, and technical approach before any design begins. For Bergen County and NJ businesses, this also includes planning for local search visibility from day one.\n\nThat planning becomes the roadmap for everything that follows. It allows design and development decisions to be made with intention instead of guesswork.',
   },
   designAndDevelopment: {
     title: 'Design and Development Working Together',
@@ -99,7 +99,7 @@ export const webDevelopmentContent: WebDevContentData = {
     ],
   },
   whatToExpect: {
-    title: "What's Included in Our Custom Website Builds",
+    title: "What's Included in Our Custom Website Builds for NJ Businesses",
     intro:
       'When a build moves forward, the process is structured and transparent.\n\nYou can expect:',
     bulletPoints: [
@@ -109,7 +109,7 @@ export const webDevelopmentContent: WebDevContentData = {
       'Thorough testing before launch',
     ],
     closing:
-      'The result is a site that reflects the business accurately and supports its next stage of growth.',
+      'The result is a site that reflects the business accurately, supports its next stage of growth, and is positioned to compete in Bergen County and across New Jersey.',
   },
   faq: [
     {
@@ -149,7 +149,7 @@ export const webDevelopmentContent: WebDevContentData = {
     description:
       'If you\u2019re considering a new website, or unsure whether your current one still fits, the next step is a conversation.\n\nWe\u2019ll review your situation and determine what actually makes sense before anything moves forward.',
     cta: {
-      label: 'Discuss Your Project',
+      label: 'Discuss Your New Jersey Project',
       href: '/contact/details',
     },
   },
