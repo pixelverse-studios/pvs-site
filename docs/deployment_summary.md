@@ -10,6 +10,7 @@
 - Added login page to robots.txt block list for defense-in-depth
 
 - Added service area statement listing priority cities (Fort Lee, Englewood, Hackensack, Paramus, Ridgewood) to website footer and homepage
+- Fixed schema bug where all city pages incorrectly showed Cliffside Park as their location instead of the actual target city
 
 ## Notes for internal team
 
@@ -25,6 +26,9 @@
 - Manual action needed: request reindexing for 24 indexed pages via GSC URL Inspection tool
 - DEV-505: Added service area city list to footer contact section and homepage services section
 - Files: `components/ui/footer.tsx`, `components/home/services-section.tsx`
+- DEV-502: Fixed `createCityLocalBusinessSchema()` hardcoding `addressLocality: 'Cliffside Park'` for all cities
+- Changed to use dynamic `city` and `state` params; removed `streetAddress` and `postalCode` (SAB model)
+- File: `lib/structured-data.ts`
 
 ## Changed URLs
 
@@ -50,3 +54,8 @@
 - https://www.pixelversestudios.io/portfolio/jones-pressure-washing
 - https://www.pixelversestudios.io/portfolio/360-degree-care
 - https://www.pixelversestudios.io/portfolio/domani
+- https://www.pixelversestudios.io/services/fort-lee
+- https://www.pixelversestudios.io/services/englewood
+- https://www.pixelversestudios.io/services/hackensack
+- https://www.pixelversestudios.io/services/paramus
+- https://www.pixelversestudios.io/services/ridgewood
