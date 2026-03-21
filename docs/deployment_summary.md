@@ -15,6 +15,7 @@
 - Updated call-to-action buttons on service pages to reference NJ service area
 - Built new area pages infrastructure at /areas/bergen-county/ with city sub-pages for Fort Lee, Englewood, Hackensack, Paramus, and Ridgewood
 - Old /services/[city] URLs now redirect to new /areas/bergen-county/[city] paths
+- Added Bergen County hub page with full SEO content covering services, local market context, city links, and FAQ
 
 ## Notes for internal team
 
@@ -44,6 +45,11 @@
 - Updated `next.config.js`: priority city redirects now point to `/areas/bergen-county/[city]`
 - Updated `lib/structured-data.ts`: schema functions accept optional `basePath` for `/areas/` URLs
 - Architecture decision: `/areas/[county]/[city]` chosen over `/services/[city]` for scalable county expansion
+- DEV-347: Built Bergen County hub page at `/areas/bergen-county`
+- Expanded `CountyContent` type with intro, services, localSignals, faq, cta fields
+- 1,500+ word page with hero, intro, services overview, city grid, local signals, FAQ (5 questions), CTA
+- FAQPage schema, LocalBusiness schema, BreadcrumbList schema
+- Internal links to all 5 city pages and both service pages
 
 ## Changed URLs
 
