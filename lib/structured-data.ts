@@ -126,10 +126,8 @@ export function createCityLocalBusinessSchema({
     }),
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '79 Edgewater Road',
-      addressLocality: 'Cliffside Park',
-      addressRegion: 'NJ',
-      postalCode: '07010',
+      addressLocality: city,
+      addressRegion: state,
       addressCountry: 'US',
     },
     openingHoursSpecification: {
