@@ -163,13 +163,62 @@ const cities: Record<string, CityPageContent> = {
     hero: {
       title: 'Web Design & Local SEO for Fort Lee, NJ',
       description:
-        'Custom websites and local search optimization for Fort Lee businesses. Based in neighboring Cliffside Park, we understand the Fort Lee market.',
+        'Custom websites and local search optimization for Fort Lee businesses. Based in neighboring Cliffside Park, we understand the Fort Lee market and build websites that help local businesses compete.',
     },
-    intro: '',
-    services: [],
-    localSignals: { heading: '', body: '' },
-    faq: [],
-    primaryKeywords: ['web design Fort Lee NJ', 'Fort Lee website designer', 'SEO agency Fort Lee NJ'],
+    intro:
+      'Fort Lee sits at the New Jersey end of the George Washington Bridge, making it one of Bergen County\'s most visible and commercially active municipalities. The borough is home to a dense concentration of restaurants, medical practices, law firms, real estate agencies, and professional service businesses, many clustered along Main Street, Lemoine Avenue, and the Center Avenue corridor.\n\nFor Fort Lee businesses, the competitive landscape is shaped by proximity to Manhattan. Customers here have high expectations. They research online before making decisions, compare options across the Hudson, and expect websites that reflect the quality of the businesses they represent. A generic template site or an invisible search presence means lost opportunities to competitors who have invested in their online presence.\n\nPixelVerse Studios is based in Cliffside Park, directly adjacent to Fort Lee. We are not a remote agency guessing at your market. We know the Fort Lee business landscape because we are part of it. We shop on Main Street, we drive Lemoine Avenue, and we understand what Fort Lee customers look for when they search for local services. That proximity and familiarity informs every website we build and every SEO strategy we develop for Fort Lee businesses.',
+    services: [
+      {
+        heading: 'Custom Web Design for Fort Lee Businesses',
+        body:
+          'We design and build custom websites for Fort Lee businesses that need a site reflecting the quality of their work. For a Fort Lee law firm, that means a professional, trust-building site with clear practice area pages and intake forms. For a Fort Lee restaurant, it means a fast, mobile-first site with menus, reservations, and location details that rank in local search. For a medical practice near Holy Name Medical Center or along Lemoine Avenue, it means HIPAA-aware design with appointment scheduling and provider profiles.\n\nEvery Fort Lee website project starts with understanding the business, its customers, and how those customers find and evaluate local options. We plan site structure around how Fort Lee residents actually search, design for clarity and conversion, and develop with performance built in. The result is a website that works as hard as the business behind it.',
+      },
+      {
+        heading: 'Local SEO Services for Fort Lee, NJ',
+        body:
+          'If your Fort Lee business has a website but is not showing up when customers search for your services, local SEO is likely the issue. We help Fort Lee businesses improve their local search visibility by restructuring how services and locations are presented on the site, optimizing Google Business Profile presence, addressing technical performance issues, and ensuring the site sends the right signals to search engines.\n\nFor Fort Lee specifically, that means targeting queries like "web design Fort Lee NJ," "Fort Lee restaurants near me," "law firm Fort Lee NJ," and other geo-specific searches that your potential customers are using. We also optimize for the cross-Hudson dynamic that is unique to Fort Lee. Many Fort Lee residents work in Manhattan and search for local services from their phones during commutes. Capturing that mobile search traffic requires fast-loading pages, clear calls to action, and strong map pack presence.',
+      },
+    ],
+    localSignals: {
+      heading: 'Why Fort Lee Is Our Top Priority Market',
+      body:
+        'Fort Lee is the number one priority city in our Bergen County SEO strategy, and for good reason. The borough has a population of approximately 40,000, with a business district that punches well above its weight. The George Washington Bridge brings over 100 million vehicle crossings annually, making Fort Lee one of the most trafficked entry points in the entire New York metropolitan area.\n\nThe commercial corridors along Main Street and Lemoine Avenue host hundreds of businesses, from Korean barbecue restaurants and sushi bars to immigration law firms, dental practices, real estate offices, and tutoring centers. Fort Lee\'s Korean business community is one of the largest in New Jersey, creating a bilingual market with unique search behavior and distinct content needs.\n\nFort Lee also benefits from its proximity to the Palisades Interstate Park, the Hudson River waterfront, and the mixed-use development along the river that has brought new residents and businesses to the area. The combination of density, diversity, and commercial activity makes Fort Lee the highest-ROI market for local SEO in Bergen County.\n\nAs a Cliffside Park-based agency, we are literally next door. We understand the Fort Lee market at a level that remote agencies cannot match. That local depth translates into more relevant content, better keyword targeting, and websites that genuinely resonate with Fort Lee customers.',
+    },
+    faq: [
+      {
+        question: 'Do you work with Fort Lee restaurants and food businesses?',
+        answer:
+          'Yes. Fort Lee has one of the densest restaurant scenes in Bergen County, particularly along Main Street. We build fast, mobile-first websites for Fort Lee restaurants with online menus, reservation integration, and local SEO that targets "restaurants near Fort Lee" and cuisine-specific searches. We also optimize Google Business Profile listings for maximum visibility in the map pack.',
+      },
+      {
+        question: 'How do I rank for "web design Fort Lee NJ" and similar searches?',
+        answer:
+          'Ranking for Fort Lee-specific searches requires a combination of on-page optimization, proper schema markup, a well-structured Google Business Profile, and content that clearly communicates your services in relation to Fort Lee. We build all of these elements into every project. Local SEO improvements typically show measurable results within 3 to 6 months.',
+      },
+      {
+        question: 'Can you build a bilingual website for Fort Lee\'s Korean business community?',
+        answer:
+          'Yes. Fort Lee has a significant Korean-speaking population, and many local businesses serve bilingual customers. We can structure websites to support both English and Korean content, ensuring that both audiences can navigate the site easily and that search engines index content in both languages appropriately.',
+      },
+      {
+        question: 'What does a website cost for a small business in Fort Lee?',
+        answer:
+          'Most custom website projects for Fort Lee small businesses fall in the $3,000 to $10,000 range, depending on the number of pages, design complexity, and content work involved. Local SEO projects typically range from $1,500 to $5,000 for initial optimization. We scope every project based on what the business actually needs.',
+        link: { label: 'Share your project details', href: '/contact/details' },
+      },
+      {
+        question: 'How is PixelVerse Studios connected to Fort Lee?',
+        answer:
+          'We are based in Cliffside Park, NJ, which directly borders Fort Lee. We are not a remote agency learning about your market from a spreadsheet. We live and work in the same community, understand the local business landscape, and bring that familiarity into every project we take on for Fort Lee businesses.',
+      },
+    ],
+    primaryKeywords: [
+      'web design Fort Lee NJ',
+      'Fort Lee website designer',
+      'SEO agency Fort Lee NJ',
+      'small business website Fort Lee',
+      'local SEO Fort Lee NJ',
+    ],
   },
   englewood: {
     slug: 'englewood',
