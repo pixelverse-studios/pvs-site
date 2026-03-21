@@ -232,13 +232,61 @@ const cities: Record<string, CityPageContent> = {
     hero: {
       title: 'Web Design & SEO for Englewood, NJ Businesses',
       description:
-        'Custom websites and local search optimization for Englewood businesses along Palisade Avenue and throughout Bergen County.',
+        'Custom websites and local search optimization for Englewood businesses. From Palisade Avenue boutiques to medical practices near Englewood Hospital, we build sites that help Englewood businesses compete online.',
     },
-    intro: '',
-    services: [],
-    localSignals: { heading: '', body: '' },
-    faq: [],
-    primaryKeywords: ['web design Englewood NJ', 'local SEO agency Englewood NJ', 'Englewood website designer'],
+    intro:
+      'Englewood is one of Bergen County\'s most culturally diverse and commercially vibrant municipalities. The city\'s commercial heart runs along Palisade Avenue, where restaurants, law firms, medical offices, boutique retail, and professional service businesses serve a community of over 28,000 residents. The Van Brunt Street arts district adds a creative dimension that sets Englewood apart from surrounding towns.\n\nEnglewood Hospital & Medical Center is a major economic anchor, drawing patients, visitors, and healthcare professionals from across Northern New Jersey. The hospital\'s presence creates demand for a wide range of supporting businesses, from specialty medical practices and physical therapy clinics to pharmacies and home health services. For these businesses, showing up in local search results is not optional. It is how patients find providers.\n\nBeyond healthcare, Englewood\'s downtown corridor attracts a mix of dining establishments, legal practices, real estate offices, salons, and wellness studios. The city\'s proximity to the George Washington Bridge and its diverse, educated population make it a market where businesses need to present themselves professionally online. Customers in Englewood research before they buy, compare options, and expect websites that match the quality of the businesses they represent.\n\nPixelVerse Studios works with Englewood businesses to build websites and search strategies that reflect the quality of their work and put them in front of the right local audience. We are based in Cliffside Park, just minutes from Englewood, and we bring the local market knowledge that remote agencies lack.',
+    services: [
+      {
+        heading: 'Custom Web Design for Englewood Businesses',
+        body:
+          'We build custom websites for Englewood businesses that go beyond templates. For a Palisade Avenue restaurant, that means a fast, mobile-optimized site with menus, online ordering, and local SEO that captures "restaurants near Englewood" searches. For a medical practice near Englewood Hospital, it means a professional site with provider profiles, appointment scheduling, and content that builds trust with patients researching their options. For a law firm or professional services company, it means a site that establishes authority, communicates specializations clearly, and converts visitors into consultations.\n\nEvery Englewood web design project starts with understanding the specific business, its customer base, and how those customers search for and evaluate local options. We structure the site around real search behavior, design for clarity and conversion, and develop with performance and SEO integrated from the beginning.',
+      },
+      {
+        heading: 'Local SEO Services for Englewood, NJ',
+        body:
+          'If your Englewood business has a website but is not appearing in local search results, the issue is usually how the site is structured and positioned for local discovery. We help Englewood businesses improve their search visibility by optimizing site structure, refining how services and locations are communicated, resolving technical issues that limit indexing, and strengthening Google Business Profile presence.\n\nFor Englewood specifically, we target queries like "web design Englewood NJ," "dentist near Englewood," "Englewood restaurants Palisade Ave," and other geo-specific searches that local customers use. We also address the competitive dynamic where Englewood businesses compete for visibility against neighboring cities like Hackensack, Fort Lee, and Teaneck. Strong local SEO ensures your business shows up when Englewood customers search, not just when broader Bergen County queries surface.',
+      },
+    ],
+    localSignals: {
+      heading: 'Why Englewood Is a Priority Market for Local SEO',
+      body:
+        'Englewood occupies a unique position in Bergen County. It is one of the most culturally diverse municipalities in New Jersey, with a population that includes long-established families, NYC commuters, young professionals, and a significant international community. This diversity creates a rich and varied local economy where businesses serve a wide range of customers with different expectations and search behaviors.\n\nThe Palisade Avenue commercial corridor is the city\'s main business artery, stretching from the Englewood Cliffs border through downtown and connecting to the broader Bergen County commercial network. Van Brunt Street and its surrounding blocks form an arts and culture district that attracts visitors from across the region. Englewood Hospital & Medical Center, one of the largest employers in the city, drives significant foot traffic and creates a healthcare ecosystem that extends into surrounding blocks.\n\nEnglewood also benefits from its position between Fort Lee and Hackensack, two of Bergen County\'s other major commercial centers. Businesses in Englewood can capture search traffic from customers who live in neighboring towns and search for services without specifying a city. A well-optimized Englewood business website can rank for both Englewood-specific queries and broader "near me" searches from the surrounding area.\n\nWe understand these dynamics because we operate in the same market. Our Cliffside Park office puts us within minutes of Englewood, and we bring that proximity into every project we take on for Englewood businesses.',
+    },
+    faq: [
+      {
+        question: 'Do you work with Englewood restaurants and retail businesses?',
+        answer:
+          'Yes. Englewood\'s Palisade Avenue corridor has a strong restaurant and retail scene, and we build websites tailored to those businesses. That includes mobile-first design, online menus and ordering integration, local SEO for "restaurants near Englewood" searches, and Google Business Profile optimization to maximize visibility in the map pack.',
+      },
+      {
+        question: 'Can you help my Englewood medical practice appear in Google Maps?',
+        answer:
+          'Yes. Google Business Profile optimization is a core part of our local SEO work. For Englewood medical practices, we optimize your profile with accurate categories, service descriptions, photos, and review management. Combined with on-site SEO and proper schema markup, this helps your practice appear in the local map pack when patients search for providers near Englewood Hospital and throughout the area.',
+      },
+      {
+        question: 'How long does it take to rank in Englewood search results?',
+        answer:
+          'For local SEO, meaningful movement in search visibility typically takes 3 to 6 months. Technical fixes and Google Business Profile improvements can show impact faster. We set realistic timelines based on the competitive landscape for your specific services in the Englewood market.',
+      },
+      {
+        question: 'What does web design cost for a small business in Englewood, NJ?',
+        answer:
+          'Most custom website projects for Englewood small businesses fall in the $3,000 to $10,000 range depending on scope. Local SEO projects typically start at $1,500 to $5,000. We scope every project based on what the business needs, not a one-size-fits-all package.',
+        link: { label: 'Share your project details', href: '/contact/details' },
+      },
+      {
+        question: 'Do you optimize for "near me" searches in Englewood?',
+        answer:
+          'Yes. "Near me" searches are a major source of local traffic, especially for restaurants, medical practices, and service businesses. We optimize your site structure, Google Business Profile, and local signals so your Englewood business appears when customers search for services in the area, even if they do not type "Englewood" explicitly.',
+      },
+    ],
+    primaryKeywords: [
+      'web design Englewood NJ',
+      'local SEO agency Englewood NJ',
+      'Englewood website designer',
+      'Englewood NJ digital marketing agency',
+    ],
   },
   hackensack: {
     slug: 'hackensack',
