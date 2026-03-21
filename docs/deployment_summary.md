@@ -13,6 +13,8 @@
 - Fixed schema bug where all city pages incorrectly showed Cliffside Park as their location instead of the actual target city
 - Added Bergen County and New Jersey location keywords to service page headings and body copy for stronger local SEO signals
 - Updated call-to-action buttons on service pages to reference NJ service area
+- Built new area pages infrastructure at /areas/bergen-county/ with city sub-pages for Fort Lee, Englewood, Hackensack, Paramus, and Ridgewood
+- Old /services/[city] URLs now redirect to new /areas/bergen-county/[city] paths
 
 ## Notes for internal team
 
@@ -36,6 +38,12 @@
 - Web dev page: 3/6 H2s now include location keywords (50%), 12 location mentions in body
 - Services overview: updated CTA section with Bergen County/NJ reference
 - Files: `data/seo-content.ts`, `data/web-development-content.ts`, `data/service-paths.ts`
+- DEV-346: Built /areas/ routing infrastructure with county/city hierarchy
+- Created `app/areas/[county]/page.tsx` and `app/areas/[county]/[city]/page.tsx` dynamic routes
+- Created `data/area-pages-content.ts` with typed data structure and lookup helpers
+- Updated `next.config.js`: priority city redirects now point to `/areas/bergen-county/[city]`
+- Updated `lib/structured-data.ts`: schema functions accept optional `basePath` for `/areas/` URLs
+- Architecture decision: `/areas/[county]/[city]` chosen over `/services/[city]` for scalable county expansion
 
 ## Changed URLs
 
@@ -66,3 +74,9 @@
 - https://www.pixelversestudios.io/services/hackensack
 - https://www.pixelversestudios.io/services/paramus
 - https://www.pixelversestudios.io/services/ridgewood
+- https://www.pixelversestudios.io/areas/bergen-county
+- https://www.pixelversestudios.io/areas/bergen-county/fort-lee
+- https://www.pixelversestudios.io/areas/bergen-county/englewood
+- https://www.pixelversestudios.io/areas/bergen-county/hackensack
+- https://www.pixelversestudios.io/areas/bergen-county/paramus
+- https://www.pixelversestudios.io/areas/bergen-county/ridgewood
