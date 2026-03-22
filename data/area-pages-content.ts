@@ -300,13 +300,63 @@ const cities: Record<string, CityPageContent> = {
     hero: {
       title: 'Web Design & Local SEO for Hackensack, NJ',
       description:
-        'Custom websites and local search optimization for Hackensack businesses. Serving the county seat and Bergen County\'s largest commercial hub.',
+        'Custom websites and local search optimization for Hackensack businesses. Serving Bergen County\'s largest city, county seat, and commercial center.',
     },
-    intro: '',
-    services: [],
-    localSignals: { heading: '', body: '' },
-    faq: [],
-    primaryKeywords: ['web design Hackensack NJ', 'Hackensack digital agency', 'Hackensack SEO services'],
+    intro:
+      'Hackensack is the seat of Bergen County and its largest city, with a population of over 44,000 and a commercial footprint that extends far beyond its borders. The city serves as the administrative, healthcare, and professional services hub for the entire county. Bergen County government offices, the Bergen County Courthouse, and Hackensack University Medical Center all call this city home, creating a concentrated market of businesses that serve legal, medical, financial, and government-adjacent needs.\n\nThe Main Street commercial corridor runs through the heart of downtown Hackensack, hosting restaurants, retail shops, and professional offices. To the west, Route 17 is one of the busiest retail and auto corridors in Northern New Jersey, lined with dealerships, service businesses, and commercial centers. The ongoing downtown revitalization, including the Main Street redevelopment zone and new mixed-use projects along River Street, is bringing new residents and businesses into the city center.\n\nFor Hackensack businesses, the competitive landscape is defined by density and diversity. Medical practices compete for patients who search from their phones in HUMC waiting rooms. Law firms need to rank when someone searches "lawyer near Bergen County Courthouse." Restaurants and service businesses along Main Street compete with dozens of neighbors for the same local searches.\n\nPixelVerse Studios builds websites and local SEO strategies for Hackensack businesses that need to stand out in this competitive market. Based in Cliffside Park, we are close enough to understand Hackensack\'s commercial dynamics and experienced enough to build digital strategies that deliver results.',
+    services: [
+      {
+        heading: 'Custom Web Design for Hackensack Businesses',
+        body:
+          'We build custom websites for Hackensack businesses across the professional services, healthcare, legal, and retail sectors. For a law firm near the Bergen County Courthouse, that means a site that establishes authority, communicates practice areas clearly, and converts visitors into consultations. For a medical practice in the HUMC corridor, it means a professional site with provider profiles, appointment scheduling, and content that builds patient trust. For a Route 17 service business, it means a fast, mobile-first site that captures search traffic from customers driving the corridor.\n\nEvery Hackensack web design project is planned around the specific business and its local market. We structure sites for how Hackensack customers actually search, design for clarity and conversion, and develop with performance and local SEO built in from day one. No templates, no generic layouts. A Hackensack website should reflect the professionalism and expertise of the business it represents.',
+      },
+      {
+        heading: 'Local SEO Services for Hackensack, NJ',
+        body:
+          'Hackensack businesses often have websites that exist but do not generate the local visibility they should. We help by restructuring how services and locations are presented on the site, optimizing Google Business Profile presence, resolving technical performance issues, and building the local search signals that Google uses to rank businesses in the map pack and organic results.\n\nFor Hackensack specifically, we target queries like "web design Hackensack NJ," "lawyer near Hackensack courthouse," "Hackensack dentist," and other geo-specific searches that local customers use. We also address the county-wide dynamic where Hackensack businesses can capture searches from residents in surrounding towns like Teaneck, Paramus, and Maywood who search for services without specifying a city. Strong local SEO positions your Hackensack business to capture both city-specific and broader Bergen County search traffic.',
+      },
+    ],
+    localSignals: {
+      heading: 'Why Hackensack Is a High-Value Local SEO Market',
+      body:
+        'As the Bergen County seat, Hackensack carries institutional weight that no other municipality in the county can match. The Bergen County Courthouse, county administrative offices, and the Bergen County Jail complex create a permanent demand for legal services, bail bonds, notaries, and related professional businesses. This is not seasonal or trend-dependent. It is structural demand that generates consistent search volume year-round.\n\nHackensack University Medical Center is the city\'s largest employer and one of the most prominent healthcare systems in New Jersey. The hospital and its surrounding medical campus create an ecosystem of specialty practices, physical therapy clinics, pharmacies, medical equipment suppliers, and patient support services. For these businesses, appearing in local search results is directly tied to patient acquisition.\n\nThe Route 17 corridor adds a major retail and automotive dimension. Car dealerships, tire shops, electronics retailers, and service businesses along Route 17 draw customers from across Bergen County and beyond. These businesses compete on both foot traffic and search visibility, making local SEO a critical channel.\n\nDowntown Hackensack is in the midst of a revitalization that is attracting new restaurants, residential developments, and mixed-use projects. The city\'s NJ Transit connection via the Pascack Valley Line brings commuters through daily, and the new development along River Street is changing the commercial profile of downtown. For businesses positioning themselves in this evolving market, a strong web presence is essential to capture the attention of new residents and visitors discovering what Hackensack has to offer.',
+    },
+    faq: [
+      {
+        question: 'Do you work with medical or legal practices in Hackensack?',
+        answer:
+          'Yes. Hackensack has a large concentration of medical practices near HUMC and law firms near the Bergen County Courthouse. We build websites tailored to these sectors, including provider profiles, appointment scheduling, practice area pages, and local SEO that targets healthcare and legal search queries in the Hackensack market.',
+      },
+      {
+        question: 'How does local SEO help my Hackensack business appear in map searches?',
+        answer:
+          'Local SEO improves your visibility in Google\'s map pack by optimizing your Google Business Profile, ensuring your website sends consistent local signals, and building the on-page content and schema markup that Google uses to determine geographic relevance. For Hackensack businesses, this means appearing when customers search for services near downtown, HUMC, Route 17, or the courthouse.',
+      },
+      {
+        question: 'Can you redesign my existing Hackensack business website?',
+        answer:
+          'Yes. Many Hackensack businesses have websites that were built years ago and no longer reflect how the business operates or how customers search. We evaluate the current site, identify what is limiting performance, and either rebuild from scratch or optimize what exists depending on what makes the most sense for the business.',
+        link: { label: 'Request a website review', href: '/contact/review' },
+      },
+      {
+        question: 'What does a website cost for a Hackensack business?',
+        answer:
+          'Most custom website projects for Hackensack small-to-mid-size businesses fall in the $3,000 to $10,000 range. Local SEO projects typically start at $1,500 to $5,000 for an initial engagement. Scope and pricing depend on the specific needs of the business, not a fixed package.',
+        link: { label: 'Share your project details', href: '/contact/details' },
+      },
+      {
+        question: 'Do you serve businesses on Route 17 in Hackensack?',
+        answer:
+          'Yes. Route 17 businesses have unique needs including high mobile search volume from drivers, competition with nearby retail, and the need for fast-loading sites that convert quickly. We build websites and SEO strategies that address these dynamics specifically.',
+      },
+    ],
+    primaryKeywords: [
+      'web design Hackensack NJ',
+      'Hackensack digital agency',
+      'Hackensack SEO services',
+      'Hackensack NJ web designer',
+      'Bergen County web design',
+    ],
   },
   paramus: {
     slug: 'paramus',
