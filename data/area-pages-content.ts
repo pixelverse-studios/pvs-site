@@ -390,13 +390,61 @@ const cities: Record<string, CityPageContent> = {
     hero: {
       title: 'Web Design & Local SEO for Ridgewood, NJ',
       description:
-        'Custom websites and local search optimization for Ridgewood businesses in the Village downtown and surrounding Bergen County.',
+        'Custom websites and local search optimization for Ridgewood businesses. Premium web design for the Village downtown\'s boutiques, restaurants, and professional services.',
     },
-    intro: '',
-    services: [],
-    localSignals: { heading: '', body: '' },
-    faq: [],
-    primaryKeywords: ['web design Ridgewood NJ', 'Ridgewood digital agency', 'Ridgewood NJ SEO services'],
+    intro:
+      'Ridgewood is unlike any other town in Bergen County. Officially incorporated as "The Village of Ridgewood," it has cultivated a walkable, independent downtown that draws visitors and residents from across Northern New Jersey. The commercial corridors along Ridgewood Avenue and East Ridgewood Avenue are lined with independent boutiques, farm-to-table restaurants, specialty food shops, wellness studios, and professional service firms. Van Neste Square anchors the civic heart of the Village, hosting seasonal markets and community events that reinforce the town\'s identity as a place where local businesses thrive.\n\nRidgewood\'s business community is defined by quality. The clientele here is affluent, educated, and discerning. They research before they purchase, compare options carefully, and expect the businesses they patronize to present themselves with the same polish and intentionality that characterizes the Village itself. A generic website or an invisible search presence is a dealbreaker for Ridgewood customers. They equate online presence with business quality.\n\nFor Ridgewood businesses, this creates both an opportunity and a challenge. The opportunity is a customer base that values craft and is willing to pay for quality. The challenge is that every competitor in the Village is playing the same game. Standing out in Ridgewood requires a website that matches the premium aesthetic of the business it represents and a search presence that ensures the right customers find it.\n\nPixelVerse Studios builds websites and local SEO strategies for Ridgewood businesses that understand this dynamic. We are based in Cliffside Park, Bergen County, and we bring local market knowledge combined with the design and technical expertise that Ridgewood businesses demand.',
+    services: [
+      {
+        heading: 'Premium Web Design for Ridgewood Businesses',
+        body:
+          'Ridgewood businesses need websites that match the quality of their work and the expectations of their clientele. We build custom websites for Ridgewood boutiques, restaurants, professional services, and wellness businesses with an emphasis on design quality, user experience, and brand consistency. For a Ridgewood Avenue boutique, that means an editorial-quality design with rich photography, clean typography, and an e-commerce experience that feels curated rather than transactional. For a Village restaurant, it means a site that captures the ambiance of the dining experience with menus, reservations, and imagery that make a visitor want to walk through the door. For a professional services firm, it means a site that communicates authority, expertise, and trust without feeling corporate or impersonal.\n\nEvery Ridgewood project is planned around the specific business and the expectations of its audience. We design with intention, build for performance, and ensure the finished site positions the business as a leader in its category within the Village and surrounding Bergen County communities.',
+      },
+      {
+        heading: 'Local SEO for Ridgewood, NJ Businesses',
+        body:
+          'Ridgewood businesses compete for search visibility not only within the Village but across the affluent Western Bergen County market that includes Wyckoff, Ho-Ho-Kus, Glen Rock, and Midland Park. We help Ridgewood businesses capture this broader audience by optimizing how services and locations are structured on the site, strengthening Google Business Profile presence, and building the local search signals that Google uses to determine relevance and authority.\n\nFor Ridgewood specifically, we target searches like "web design Ridgewood NJ," "best restaurants Ridgewood," "Ridgewood boutiques," and "Ridgewood NJ wellness studio." We also optimize for the broader "near me" searches that residents of surrounding towns use when looking for services in the area. Strong local SEO ensures your Ridgewood business appears not just for Village-specific queries but for the wider Bergen County audience that considers Ridgewood a destination.',
+      },
+    ],
+    localSignals: {
+      heading: 'Why Ridgewood Stands Out in Bergen County',
+      body:
+        'Ridgewood occupies a unique position in Bergen County\'s commercial landscape. While other towns in the county have their strengths, Ridgewood is the only municipality that has built its entire identity around an independent, walkable, premium downtown district. The Village model creates a self-reinforcing cycle: quality businesses attract discerning customers, who in turn attract more quality businesses.\n\nThe Ridgewood Avenue and East Ridgewood Avenue shopping corridors form the commercial backbone, with over 200 independent businesses operating in the downtown area. The Ridgewood Guild, the local business association, actively promotes the Village through events, seasonal programming, and collaborative marketing. This creates a strong community identity that benefits businesses with a visible local presence.\n\nRidgewood\'s NJ Transit station on the Main Bergen Line and Bergen County Line provides direct commuter rail service, bringing NYC professionals into the Village daily. Many of these commuters live in Ridgewood specifically because of its downtown character, and they shop and dine locally. This commuter demographic searches for local services on their phones during commutes and expects to find polished, professional results.\n\nThe surrounding communities of Wyckoff, Ho-Ho-Kus, Glen Rock, and Midland Park extend Ridgewood\'s market reach. Residents of these towns regularly visit Ridgewood for dining, shopping, and professional services. A Ridgewood business with strong local SEO captures not just Village residents but a broader affluent audience across Western Bergen County.\n\nWe understand these dynamics because we work in the same Bergen County market. Our goal is to ensure that Ridgewood businesses have the online presence their quality deserves and the search visibility to reach the full audience available to them.',
+    },
+    faq: [
+      {
+        question: 'Do you work with boutique retail and restaurant businesses in Ridgewood?',
+        answer:
+          'Yes. Ridgewood\'s Village downtown has one of the strongest independent retail and dining scenes in Bergen County. We build websites for Ridgewood boutiques, restaurants, and specialty businesses with an emphasis on premium design, brand consistency, and local SEO that targets both Ridgewood-specific searches and the broader Western Bergen County audience.',
+      },
+      {
+        question: 'How does local SEO help my Ridgewood business attract more foot traffic?',
+        answer:
+          'Local SEO improves your visibility in Google search results and the map pack when potential customers search for businesses like yours near Ridgewood. This includes optimizing your Google Business Profile, ensuring your website communicates your location and services clearly, and building the signals Google uses to rank local businesses. More visibility in local search translates directly to more foot traffic from both Ridgewood residents and visitors from surrounding towns.',
+      },
+      {
+        question: 'Do you design websites that match a high-end Ridgewood brand aesthetic?',
+        answer:
+          'Yes. We understand that Ridgewood businesses serve a clientele that expects premium presentation. We design websites with editorial-quality layouts, refined typography, professional photography integration, and user experiences that feel curated and intentional. The goal is a site that matches the in-person experience of the business.',
+      },
+      {
+        question: 'What does a website cost for a Ridgewood business?',
+        answer:
+          'Most custom website projects for Ridgewood businesses fall in the $3,000 to $10,000 range depending on design complexity, number of pages, and content requirements. Premium design work for boutique and hospitality businesses may fall toward the higher end. We scope every project individually based on the specific needs of the business.',
+        link: { label: 'Share your project details', href: '/contact/details' },
+      },
+      {
+        question: 'Can you help my business reach customers in Wyckoff, Ho-Ho-Kus, and Glen Rock?',
+        answer:
+          'Yes. Ridgewood businesses naturally draw customers from surrounding affluent communities. We optimize your local SEO strategy to capture search traffic not just from Ridgewood but from the broader Western Bergen County market, including Wyckoff, Ho-Ho-Kus, Glen Rock, and Midland Park.',
+      },
+    ],
+    primaryKeywords: [
+      'web design Ridgewood NJ',
+      'Ridgewood digital agency',
+      'Ridgewood NJ web designer',
+      'Ridgewood NJ SEO services',
+    ],
   },
 };
 

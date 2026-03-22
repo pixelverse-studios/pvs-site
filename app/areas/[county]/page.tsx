@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { StructuredData } from '@/components/ui/structured-data';
 import {
@@ -99,18 +100,12 @@ export default async function CountyPage({
                 {content.hero.description}
               </p>
               <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                <Link
-                  href="/contact/details"
-                  className="inline-flex items-center rounded-pv bg-[var(--pv-gradient)] px-6 py-3 font-semibold text-white transition-opacity hover:opacity-90"
-                >
-                  Start Your Bergen County Project
-                </Link>
-                <Link
-                  href="/contact/review"
-                  className="text-sm font-medium text-[var(--pv-primary)] underline-offset-4 hover:underline"
-                >
-                  Request a Website Review
-                </Link>
+                <Button asChild size="lg" variant="cta" className="w-full sm:w-auto">
+                  <Link href="/contact/details">Start Your Bergen County Project</Link>
+                </Button>
+                <Button asChild size="lg" variant="ctaGhost" className="w-full sm:w-auto">
+                  <Link href="/contact/review">Request a Website Review</Link>
+                </Button>
               </div>
             </div>
           </Container>
@@ -270,18 +265,12 @@ export default async function CountyPage({
                 {content.cta.description}
               </p>
               <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                <Link
-                  href="/contact/details"
-                  className="inline-flex items-center rounded-pv bg-[var(--pv-gradient)] px-6 py-3 font-semibold text-white transition-opacity hover:opacity-90"
-                >
-                  Start the Conversation
-                </Link>
-                <Link
-                  href="/contact/review"
-                  className="text-sm font-medium text-[var(--pv-primary)] underline-offset-4 hover:underline"
-                >
-                  Request a Website Review
-                </Link>
+                <Button asChild size="lg" variant="cta" className="w-full sm:w-auto">
+                  <Link href="/contact/details">Start the Conversation</Link>
+                </Button>
+                <Button asChild size="lg" variant="ctaGhost" className="w-full sm:w-auto">
+                  <Link href="/contact/review">Request a Website Review</Link>
+                </Button>
               </div>
             </div>
           </Container>

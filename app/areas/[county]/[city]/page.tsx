@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { StructuredData } from '@/components/ui/structured-data';
 import { getCityContent, getValidCitySlugs } from '@/data/area-pages-content';
@@ -131,18 +132,12 @@ export default async function CityPage({
                 {content.county} and beyond.
               </p>
               <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                <Link
-                  href="/contact/details"
-                  className="inline-flex items-center rounded-pv bg-[var(--pv-gradient)] px-6 py-3 font-semibold text-white transition-opacity hover:opacity-90"
-                >
-                  Start Your {content.city} Project
-                </Link>
-                <Link
-                  href={`/areas/${content.countySlug}`}
-                  className="text-sm font-medium text-[var(--pv-primary)] underline-offset-4 hover:underline"
-                >
-                  View all {content.county} areas
-                </Link>
+                <Button asChild size="lg" variant="cta" className="w-full sm:w-auto">
+                  <Link href="/contact/details">Start Your {content.city} Project</Link>
+                </Button>
+                <Button asChild size="lg" variant="ctaGhost" className="w-full sm:w-auto">
+                  <Link href={`/areas/${content.countySlug}`}>View all {content.county} areas</Link>
+                </Button>
               </div>
             </div>
           </Container>
