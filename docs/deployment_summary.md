@@ -17,6 +17,7 @@
 - Old /services/[city] URLs now redirect to new /areas/bergen-county/[city] paths
 - Added Bergen County hub page with full SEO content covering services, local market context, city links, and FAQ
 - Added Fort Lee city page with 1,500+ words of local content, FAQ, and structured data schemas
+- Added Englewood city page with 1,500+ words covering Palisade Ave corridor, Englewood Hospital, arts district, and local FAQ
 
 ## Notes for internal team
 
@@ -55,6 +56,9 @@
 - 1,500+ word page with intro, web design section, SEO section, local signals, 5-question FAQ, CTA
 - Covers Fort Lee business landscape, Korean community, GW Bridge corridor, Main St / Lemoine Ave
 - LocalBusiness, BreadcrumbList, FAQPage, Service schemas
+- DEV-349: Added Englewood city page at `/areas/bergen-county/englewood`
+- 1,500+ word page covering Palisade Ave, Englewood Hospital, Van Brunt arts district
+- 5-question FAQ, web design and SEO sections, local signals
 
 ## Changed URLs
 
