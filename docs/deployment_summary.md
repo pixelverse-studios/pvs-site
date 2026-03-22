@@ -20,6 +20,7 @@
 - Added Englewood city page with 1,500+ words covering Palisade Ave corridor, Englewood Hospital, arts district, and local FAQ
 - Added Hackensack city page with 1,500+ words covering county seat, HUMC, Bergen County Courthouse, Route 17, and downtown revitalization
 - Added Ridgewood city page with 1,500+ words covering the Village downtown, boutique/premium market, and Western Bergen County reach
+- Added Paramus city page with 1,500+ words covering Route 4/17 corridors, Garden State Plaza, and NJ's busiest retail market
 
 ## Notes for internal team
 
@@ -67,6 +68,9 @@
 - DEV-352: Added Ridgewood city page at `/areas/bergen-county/ridgewood`
 - 1,500+ word page covering Village downtown, Ridgewood Ave/East Ridgewood Ave corridors, Ridgewood Guild
 - 5-question FAQ targeting boutique, foot traffic, premium design, pricing, surrounding towns
+- DEV-351: Added Paramus city page at `/areas/bergen-county/paramus`
+- 1,500+ word page covering Route 4/17, Garden State Plaza, Bergen Town Center, Bergen Community College
+- 5-question FAQ targeting Route 17 retail, GSP restaurant searches, competing with big brands
 
 ## Changed URLs
 
