@@ -19,6 +19,7 @@
 - Added Fort Lee city page with 1,500+ words of local content, FAQ, and structured data schemas
 - Added Englewood city page with 1,500+ words covering Palisade Ave corridor, Englewood Hospital, arts district, and local FAQ
 - Added Hackensack city page with 1,500+ words covering county seat, HUMC, Bergen County Courthouse, Route 17, and downtown revitalization
+- Added Ridgewood city page with 1,500+ words covering the Village downtown, boutique/premium market, and Western Bergen County reach
 
 ## Notes for internal team
 
@@ -63,6 +64,9 @@
 - DEV-350: Added Hackensack city page at `/areas/bergen-county/hackensack`
 - 1,500+ word page covering HUMC, Bergen County Courthouse, Route 17, Main Street, downtown revitalization
 - 5-question FAQ targeting medical, legal, Route 17, and redesign queries
+- DEV-352: Added Ridgewood city page at `/areas/bergen-county/ridgewood`
+- 1,500+ word page covering Village downtown, Ridgewood Ave/East Ridgewood Ave corridors, Ridgewood Guild
+- 5-question FAQ targeting boutique, foot traffic, premium design, pricing, surrounding towns
 
 ## Changed URLs
 
