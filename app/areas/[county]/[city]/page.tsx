@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
+import { MapPin } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
-import { Button } from '@/components/ui/button';
-import { Container } from '@/components/ui/container';
+import { ServiceCta } from '@/components/services/individual/service-cta';
+import { ServiceFAQ } from '@/components/services/individual/service-faq';
+import { ServiceHero } from '@/components/services/individual/service-hero';
+import { ServiceNarrativeSection } from '@/components/services/individual/service-narrative-section';
 import { StructuredData } from '@/components/ui/structured-data';
 import { getCityContent, getValidCitySlugs } from '@/data/area-pages-content';
 import { createPageMetadata } from '@/lib/metadata';
@@ -11,7 +14,6 @@ import {
   createCityLocalBusinessSchema,
   createCityServicesSchema,
 } from '@/lib/structured-data';
-import Link from 'next/link';
 
 type Params = {
   county: string;
@@ -79,69 +81,58 @@ export default async function CityPage({
         <StructuredData key={schema['@id']} id={schema['@id']} data={schema} />
       ))}
       <main>
-        <section className="pt-hero pb-16 md:pb-24">
-          <Container>
-            <div className="mx-auto max-w-3xl text-center">
-              <h1 className="font-heading text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-                {content.hero.title}
-              </h1>
-              <p className="mt-6 text-lg text-[var(--pv-text-muted)]">
-                {content.hero.description}
-              </p>
-            </div>
-          </Container>
-        </section>
+        <ServiceHero
+          eyebrow={`Services in ${content.city}, ${content.state}`}
+          title={content.hero.title}
+          description={content.hero.description}
+          primaryCta={{ label: `Start Your ${content.city} Project`, href: '/contact/details' }}
+          secondaryCta={{ label: `View all ${content.county} areas`, href: `/areas/${content.countySlug}` }}
+          icon={MapPin}
+        />
 
         {content.intro && (
-          <section className="py-16 md:py-24">
-            <Container>
-              <div className="prose prose-lg mx-auto max-w-3xl dark:prose-invert">
-                <p>{content.intro}</p>
-              </div>
-            </Container>
-          </section>
+          <ServiceNarrativeSection
+            eyebrow="Local Market"
+            title={`Why ${content.city} Businesses Choose PixelVerse`}
+            intro={content.intro}
+            layout="text-only"
+            background="bg"
+          />
         )}
 
-        {content.services.length > 0 && (
-          <section className="bg-[var(--pv-surface)] py-16 md:py-24">
-            <Container>
-              <div className="mx-auto max-w-3xl space-y-12">
-                {content.services.map((service) => (
-                  <div key={service.heading}>
-                    <h2 className="font-heading text-2xl font-bold">
-                      {service.heading}
-                    </h2>
-                    <p className="mt-4 text-[var(--pv-text-muted)]">
-                      {service.body}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </Container>
-          </section>
+        {content.services.length > 0 && content.services.map((service, i) => (
+          <ServiceNarrativeSection
+            key={service.heading}
+            eyebrow={i === 0 ? 'Web Design' : 'Local SEO'}
+            title={service.heading}
+            intro={service.body}
+            layout="text-only"
+            background={i % 2 === 0 ? 'surface' : 'bg'}
+          />
+        ))}
+
+        {content.localSignals.heading && (
+          <ServiceNarrativeSection
+            eyebrow="Why This Market"
+            title={content.localSignals.heading}
+            intro={content.localSignals.body}
+            layout="text-only"
+            background={content.services.length % 2 === 0 ? 'surface' : 'bg'}
+          />
         )}
 
-        <section className="py-16 md:py-24">
-          <Container>
-            <div className="mx-auto max-w-xl text-center">
-              <h2 className="font-heading text-2xl font-bold">
-                Ready to Grow Your {content.city} Business?
-              </h2>
-              <p className="mt-4 text-[var(--pv-text-muted)]">
-                Based in Cliffside Park, NJ — serving businesses across{' '}
-                {content.county} and beyond.
-              </p>
-              <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                <Button asChild size="lg" variant="cta" className="w-full sm:w-auto">
-                  <Link href="/contact/details">Start Your {content.city} Project</Link>
-                </Button>
-                <Button asChild size="lg" variant="ctaGhost" className="w-full sm:w-auto">
-                  <Link href={`/areas/${content.countySlug}`}>View all {content.county} areas</Link>
-                </Button>
-              </div>
-            </div>
-          </Container>
-        </section>
+        <ServiceFAQ
+          faqs={content.faq}
+          schemaId={`${content.slug}-faq-schema`}
+        />
+
+        <ServiceCta
+          heading={`Ready to Grow Your ${content.city} Business?`}
+          description={`Based in Cliffside Park, NJ — serving businesses across ${content.county} and beyond. The next step is a conversation about your situation.`}
+          primaryCta={{ label: `Start Your ${content.city} Project`, href: '/contact/details' }}
+          secondaryCta={{ label: `View all ${content.county} areas`, href: `/areas/${content.countySlug}` }}
+          variant="gradient"
+        />
       </main>
     </>
   );
