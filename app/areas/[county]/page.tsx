@@ -1,9 +1,15 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { MapPin } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
-import { Button } from '@/components/ui/button';
+import { ServiceCta } from '@/components/services/individual/service-cta';
+import { ServiceFAQ } from '@/components/services/individual/service-faq';
+import { ServiceHero } from '@/components/services/individual/service-hero';
+import { ServiceNarrativeSection } from '@/components/services/individual/service-narrative-section';
 import { Container } from '@/components/ui/container';
+import { MotionItem, MotionSection } from '@/components/ui/motion-section';
+import { SectionHeader } from '@/components/ui/section-header';
 import { StructuredData } from '@/components/ui/structured-data';
 import {
   getCountyContent,
@@ -67,214 +73,132 @@ export default async function CountyPage({
     basePath: `/areas/${content.slug}`,
   });
 
-  const faqSchema =
-    content.faq.length > 0
-      ? {
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: content.faq.map((item) => ({
-            '@type': 'Question',
-            name: item.question,
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: item.answer,
-            },
-          })),
-        }
-      : null;
-
   return (
     <>
       <StructuredData id="county-breadcrumb" data={breadcrumbSchema} />
       <StructuredData id="county-local-business" data={localBusinessSchema} />
-      {faqSchema && <StructuredData id="county-faq" data={faqSchema} />}
       <main>
-        {/* Hero */}
-        <section className="pt-hero pb-16 md:pb-24">
-          <Container>
-            <div className="mx-auto max-w-3xl text-center">
-              <h1 className="font-heading text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-                {content.hero.title}
-              </h1>
-              <p className="mt-6 text-lg leading-relaxed text-[var(--pv-text-muted)]">
-                {content.hero.description}
-              </p>
-              <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                <Button asChild size="lg" variant="cta" className="w-full sm:w-auto">
-                  <Link href="/contact/details">Start Your Bergen County Project</Link>
-                </Button>
-                <Button asChild size="lg" variant="ctaGhost" className="w-full sm:w-auto">
-                  <Link href="/contact/review">Request a Website Review</Link>
-                </Button>
-              </div>
-            </div>
-          </Container>
-        </section>
+        <ServiceHero
+          eyebrow={`Services in ${content.name}`}
+          title={content.hero.title}
+          description={content.hero.description}
+          primaryCta={{ label: `Start Your ${content.name} Project`, href: '/contact/details' }}
+          secondaryCta={{ label: 'Request a Website Review', href: '/contact/review' }}
+          icon={MapPin}
+        />
 
-        {/* Intro */}
-        <section className="py-16 md:py-24">
-          <Container>
-            <div className="mx-auto max-w-3xl">
-              <h2 className="font-heading text-3xl font-bold">
-                {content.intro.heading}
-              </h2>
-              <div className="mt-8 space-y-6 text-[var(--pv-text-muted)] leading-relaxed">
-                {content.intro.paragraphs.map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
-              </div>
-            </div>
-          </Container>
-        </section>
+        <ServiceNarrativeSection
+          eyebrow="Why Local Matters"
+          title={content.intro.heading}
+          intro={content.intro.paragraphs}
+          layout="text-only"
+          background="bg"
+        />
 
-        {/* Services */}
+        {/* Services — card grid with links to service detail pages */}
         <section className="bg-[var(--pv-surface)] py-16 md:py-24">
           <Container>
-            <div className="mx-auto max-w-3xl">
-              <h2 className="font-heading text-3xl font-bold">
-                {content.services.heading}
-              </h2>
-              <div className="mt-12 space-y-12">
-                {content.services.sections.map((section) => (
-                  <div key={section.title}>
-                    <h3 className="font-heading text-xl font-semibold">
-                      {section.title}
-                    </h3>
-                    <p className="mt-4 leading-relaxed text-[var(--pv-text-muted)]">
-                      {section.body}
-                    </p>
-                  </div>
+            <MotionSection as="div">
+              <MotionItem>
+                <SectionHeader
+                  align="center"
+                  eyebrow="Our Services"
+                  title={content.services.heading}
+                />
+              </MotionItem>
+              <div className="mt-12 grid gap-8 md:grid-cols-2">
+                {content.services.sections.map((section, i) => (
+                  <MotionItem key={section.title} delay={i * 0.1}>
+                    <div className="h-full rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] p-8">
+                      <h3 className="font-heading text-xl font-semibold">
+                        {section.title}
+                      </h3>
+                      <p className="mt-4 text-sm leading-relaxed text-[var(--pv-text-muted)]">
+                        {section.body}
+                      </p>
+                    </div>
+                  </MotionItem>
                 ))}
               </div>
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <Link
-                  href="/services/web-development"
-                  className="text-sm font-semibold text-[var(--pv-primary)] underline-offset-4 hover:underline"
-                >
-                  Learn more about Web Design & Development
-                </Link>
-                <Link
-                  href="/services/seo"
-                  className="text-sm font-semibold text-[var(--pv-primary)] underline-offset-4 hover:underline"
-                >
-                  Learn more about Local SEO Services
-                </Link>
-              </div>
-            </div>
+              <MotionItem>
+                <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
+                  <Link
+                    href="/services/web-development"
+                    className="text-sm font-semibold text-[var(--pv-primary)] underline-offset-4 hover:underline"
+                  >
+                    Learn more about Web Design & Development
+                  </Link>
+                  <Link
+                    href="/services/seo"
+                    className="text-sm font-semibold text-[var(--pv-primary)] underline-offset-4 hover:underline"
+                  >
+                    Learn more about Local SEO Services
+                  </Link>
+                </div>
+              </MotionItem>
+            </MotionSection>
           </Container>
         </section>
 
-        {/* City Grid */}
+        {/* City grid */}
         {cityPages.length > 0 && (
           <section className="py-16 md:py-24">
             <Container>
-              <div className="mx-auto max-w-3xl text-center">
-                <h2 className="font-heading text-3xl font-bold">
-                  Cities We Serve in {content.name}
-                </h2>
-                <p className="mt-4 text-[var(--pv-text-muted)]">
-                  We work with businesses across {content.name}. These are our
-                  priority focus areas where we bring deep local knowledge and
-                  proven results.
-                </p>
-              </div>
-              <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {cityPages.map((city) => (
-                  <Link
-                    key={city.slug}
-                    href={`/areas/${content.slug}/${city.slug}`}
-                    className="group rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] p-6 transition-all hover:-translate-y-0.5 hover:shadow-lg"
-                  >
-                    <h3 className="font-heading text-xl font-semibold group-hover:text-[var(--pv-primary)]">
-                      {city.city}, {city.state}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-[var(--pv-text-muted)]">
-                      {city.hero.description}
-                    </p>
-                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-[var(--pv-primary)]">
-                      View {city.city} services
-                      <span aria-hidden>&rarr;</span>
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </Container>
-          </section>
-        )}
-
-        {/* Local Signals */}
-        <section className="bg-[var(--pv-surface)] py-16 md:py-24">
-          <Container>
-            <div className="mx-auto max-w-3xl">
-              <h2 className="font-heading text-3xl font-bold">
-                {content.localSignals.heading}
-              </h2>
-              <div className="mt-8 space-y-6 leading-relaxed text-[var(--pv-text-muted)]">
-                {content.localSignals.paragraphs.map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
-              </div>
-            </div>
-          </Container>
-        </section>
-
-        {/* FAQ */}
-        {content.faq.length > 0 && (
-          <section className="py-16 md:py-24">
-            <Container>
-              <div className="mx-auto max-w-3xl">
-                <h2 className="font-heading text-3xl font-bold">
-                  Frequently Asked Questions
-                </h2>
-                <dl className="mt-10 space-y-8">
-                  {content.faq.map((item) => (
-                    <div key={item.question}>
-                      <dt className="font-heading text-lg font-semibold">
-                        {item.question}
-                      </dt>
-                      <dd className="mt-3 leading-relaxed text-[var(--pv-text-muted)]">
-                        {item.answer}
-                        {item.link && (
-                          <>
-                            {' '}
-                            <Link
-                              href={item.link.href}
-                              className="font-medium text-[var(--pv-primary)] underline-offset-4 hover:underline"
-                            >
-                              {item.link.label}
-                            </Link>
-                          </>
-                        )}
-                      </dd>
-                    </div>
+              <MotionSection as="div">
+                <MotionItem>
+                  <SectionHeader
+                    align="center"
+                    eyebrow="Areas We Serve"
+                    title={`Cities We Serve in ${content.name}`}
+                    description={`We work with businesses across ${content.name}. These are our priority focus areas where we bring deep local knowledge and proven results.`}
+                  />
+                </MotionItem>
+                <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {cityPages.map((city, i) => (
+                    <MotionItem key={city.slug} delay={i * 0.08}>
+                      <Link
+                        href={`/areas/${content.slug}/${city.slug}`}
+                        className="group flex h-full flex-col rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] p-6 transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                      >
+                        <h3 className="font-heading text-xl font-semibold group-hover:text-[var(--pv-primary)]">
+                          {city.city}, {city.state}
+                        </h3>
+                        <p className="mt-2 flex-1 text-sm leading-relaxed text-[var(--pv-text-muted)]">
+                          {city.hero.description}
+                        </p>
+                        <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-[var(--pv-primary)]">
+                          View {city.city} services
+                          <span aria-hidden>&rarr;</span>
+                        </span>
+                      </Link>
+                    </MotionItem>
                   ))}
-                </dl>
-              </div>
+                </div>
+              </MotionSection>
             </Container>
           </section>
         )}
 
-        {/* CTA */}
-        <section className="bg-[var(--pv-surface)] py-16 md:py-24">
-          <Container>
-            <div className="mx-auto max-w-xl text-center">
-              <h2 className="font-heading text-3xl font-bold">
-                {content.cta.heading}
-              </h2>
-              <p className="mt-4 leading-relaxed text-[var(--pv-text-muted)]">
-                {content.cta.description}
-              </p>
-              <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                <Button asChild size="lg" variant="cta" className="w-full sm:w-auto">
-                  <Link href="/contact/details">Start the Conversation</Link>
-                </Button>
-                <Button asChild size="lg" variant="ctaGhost" className="w-full sm:w-auto">
-                  <Link href="/contact/review">Request a Website Review</Link>
-                </Button>
-              </div>
-            </div>
-          </Container>
-        </section>
+        <ServiceNarrativeSection
+          eyebrow="Local Market"
+          title={content.localSignals.heading}
+          intro={content.localSignals.paragraphs}
+          layout="text-only"
+          background="surface"
+        />
+
+        <ServiceFAQ
+          faqs={content.faq}
+          schemaId="county-faq-schema"
+        />
+
+        <ServiceCta
+          heading={content.cta.heading}
+          description={content.cta.description}
+          primaryCta={{ label: 'Start the Conversation', href: '/contact/details' }}
+          secondaryCta={{ label: 'Request a Website Review', href: '/contact/review' }}
+          variant="gradient"
+        />
       </main>
     </>
   );
