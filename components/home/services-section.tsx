@@ -87,6 +87,10 @@ export function ServicesSection() {
               Each engagement begins with understanding the situation first, not assuming the
               solution.
             </p>
+            <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-[var(--pv-text-muted)]">
+              Proudly serving businesses in Fort Lee, Englewood, Hackensack, Paramus, Ridgewood,
+              and throughout Bergen County, NJ.
+            </p>
           </MotionItem>
         </MotionSection>
       </Container>

@@ -35,9 +35,9 @@ export const servicesPageData: ServicesPageData = {
       "Most website decisions aren't simple. It's not always obvious which direction makes sense next.\n\nSome are building their first real website. Others are trying to get more out of what they already have. Some need better local visibility. Others need a site that actually converts the traffic they're already getting.\n\nWe work with New Jersey businesses to figure out which direction makes sense before any work begins. That means evaluating the current situation honestly — looking at how the site performs, how visitors behave, and where the real gaps are — so the recommendation is based on evidence, not assumptions.\n\nOur role is to help determine the right path first, then execute it with clarity and intention.",
   },
   clarificationCta: {
-    title: 'Not Sure Which Direction Fits?',
+    title: 'Not Sure Which Direction Fits Your Business?',
     description:
-      "That's exactly what the initial conversation is for.\n\nWe'll look at your current situation, clarify what's actually limiting progress, and recommend the right next step before anything moves forward.",
+      "That's exactly what the initial conversation is for.\n\nWe work with businesses across Bergen County and New Jersey to clarify what's actually limiting progress and recommend the right next step before anything moves forward.",
     primaryCta: {
       label: 'Start the Conversation',
       href: '/contact/details',

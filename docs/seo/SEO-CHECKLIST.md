@@ -1,7 +1,7 @@
 # SEO Implementation Checklist
 
-> Progress: 33/59 Complete (56%) — down from 63% due to city page removal and new items added
-> Last Updated: 2026-03-14
+> Progress: 44/59 Complete (75%) — up from 63% after DEV-345 epic (area pages) + DEV-500 work
+> Last Updated: 2026-03-23
 
 ---
 
@@ -38,7 +38,7 @@
 - [ ] 404 pages properly handled
 - [x] Old URLs redirected (301s for /works, /pricing)
 - [ ] **CRITICAL: 103 pages not indexed** — investigate GSC reasons (crawled-not-indexed, redirect loops, noindex). Indexed pages dropped 42→24 over 3 months.
-- [ ] **Fix www vs non-www domain mismatch** — metadata.ts uses non-www, sitemap/robots use www. Standardize to www.
+- [x] **Fix www vs non-www domain mismatch** — ✅ Fixed in DEV-493, standardized to www
 - [ ] Fix 51+ crawl errors from site restructure (removed /packages, service page changes)
 
 ---
@@ -48,14 +48,14 @@
 ### Implemented
 
 - [x] LocalBusiness schema (global — homepage)
-- [ ] Per-city LocalBusiness schema — ⚠️ functions exist but city pages redirect to /services; NOT DEPLOYED
+- [x] Per-city LocalBusiness schema — ✅ Live on all 5 city pages at /areas/bergen-county/[city] (DEV-346–352)
 - [x] Organization schema (ProfessionalService)
 - [x] BreadcrumbList schema (/services/seo, /services/web-development, /faq)
 - [x] Service schema (homepage: 2 services; service pages: 1 each)
 - [x] FAQPage schema (/faq, homepage, /services/seo, /services/web-development)
 - [x] BlogPosting schema (blog posts)
-- [ ] WebSite schema — defined in code but NOT rendered on homepage
-- [ ] Fix city schema addressLocality bug (hardcodes Cliffside Park for all cities)
+- [x] WebSite schema — ✅ Now rendering on root layout (PR #196)
+- [x] Fix city schema addressLocality bug — ✅ Fixed in DEV-502, uses dynamic city/state params
 
 ### Validation
 
@@ -70,9 +70,9 @@
 
 ### Metadata
 
-- [ ] Unique Title Tags (50-60 chars) — ⚠️ 7/9 main pages under 50 chars (wasting SERP space)
+- [x] Unique Title Tags (50-60 chars) — all pages have unique titles; area page titles slightly long (57-68 raw chars) but include brand
 - [x] Meta Descriptions (120-160 chars) — 7/9 within range; /services/seo (161) and /faq (167) slightly over
-- [ ] Keywords in title tags — city pages no longer exist; service pages lack location keywords
+- [x] Keywords in title tags — ✅ All city pages include city name + "NJ"; service pages include "New Jersey" (DEV-504)
 - [x] Keywords in meta descriptions - Service pages include "New Jersey"
 
 ### Content Structure
@@ -82,7 +82,7 @@
 - [x] ALT attributes on images
 - [x] Descriptive, keyword-friendly URLs
 - [x] Internal linking structure (breadcrumbs, footer)
-- [ ] Contextual internal links between city pages (expand)
+- [x] Contextual internal links between city pages — ✅ County hub links to all 5 cities, homepage "Areas We Serve" section links to all cities (DEV-503)
 
 ### Open Graph & Social
 
@@ -230,31 +230,29 @@
 
 ## Quick Reference: Next Actions
 
-### This Week (Priority) - Updated 2026-03-14
+### This Week (Priority) - Updated 2026-03-23
 
-1. [ ] **CRITICAL: Fix www/non-www domain mismatch** — `lib/metadata.ts` uses `https://pixelversestudios.io`, sitemap/robots use `https://www.pixelversestudios.io`. Standardize to www.
-2. [ ] **CRITICAL: Investigate 103 not-indexed pages** — Indexed pages dropped 42→24 over 3 months. Check GSC "Pages" report for reasons.
-3. [ ] **Decide on city pages** — All 5 priority city routes redirect to /services. Either rebuild or update strategy. Englewood still ranks #9 despite redirect.
-4. [ ] **Lengthen 7 page titles** to 50-60 chars with location keywords (currently 23-43 chars)
-5. [x] **Set up rank tracking tool** — ✅ Done. Per-keyword data now available.
+1. [ ] **Add area pages to sitemap.ts** — /areas/bergen-county and /areas/bergen-county/[city] not in sitemap
+2. [ ] **Shorten Bergen County meta description** — 189 chars, needs to be under 160
+3. [ ] **Request indexing for 6 new area pages** via GSC URL Inspection
+4. [ ] **Push dev/audit-remediation to main** — deploy all area pages + SEO fixes to production
+5. [ ] **Respond to all 7 GBP reviews** — still unresponded
 
 ### This Month
 
-1. [ ] **Publish 3-5 draft blog posts** — 10 posts ready, 53 days since last publish
-2. [ ] Submit to 5+ directories (Clutch, DesignRush, UpCity, Yelp, BBB) — still 0 citations
-3. [ ] Activate GBP (weekly posts, Q&A seeding, 10+ photos, respond to 7 reviews)
-4. [ ] Render WebSite schema on homepage (function exists, not called)
-5. [ ] Add BreadcrumbList + Service schema to /services hub page
-6. [ ] Add service area statement to homepage/footer
+1. [ ] Submit to 5+ directories (Clutch, DesignRush, UpCity, Yelp, BBB) — still 0 citations (DEV-506)
+2. [ ] Activate GBP weekly posting cadence (DEV-507)
+3. [ ] Publish 5+ draft blog posts (10 drafts queued)
+4. [ ] Monitor area page indexing — expect 2-4 weeks for Google to crawl
+5. [ ] Add homepage "Areas We Serve" section (DEV-503) — ✅ Done, pending deploy
 
 ### This Quarter
 
-1. [ ] Resolve city page strategy — rebuild or pivot to different approach
-2. [ ] 10+ GBP reviews (current: 7, no new since last audit)
-3. [ ] 25+ local citations/backlinks (current: 0)
-4. [ ] 5 new blog posts published (current: 8 published, 10 in draft)
-5. [ ] Target "web design agency NJ" (880 monthly searches) — highest volume keyword
-6. [ ] All 5 priority cities in top 10 (currently: only Englewood #9)
+1. [ ] 10+ GBP reviews (current: 7, no new since Feb)
+2. [ ] 25+ local citations/backlinks (current: 0)
+3. [ ] All 5 priority cities ranking for primary keyword (currently: all NR, pages not yet indexed)
+4. [ ] Not-indexed pages → 0 (current: 72)
+5. [ ] Fort Lee and Englewood in top 10 within 60 days of area page indexing
 
 ---
 

@@ -43,6 +43,133 @@ Record every SEO change with:
 
 ## 2026 Changes
 
+### 2026-03-23 - Full SEO Audit (Post-Area Pages Build)
+
+**Type:** Full Audit
+**Overall Score:** 84/100 (B) — up from 70/100 (+14)
+
+**Scores by Category:**
+
+| Category | Score | vs Mar 21 | Grade | Notes |
+| --- | --- | --- | --- | --- |
+| Technical SEO | 88/100 | +15 | B+ | Schemas comprehensive, sitemap needs area pages |
+| On-Page SEO | 87/100 | +9 | B+ | Location keywords strong, Bergen County desc too long |
+| Content | 77/100 | +12 | C+ | 6 area pages live, 10 blog drafts queued |
+| Local SEO | 82/100 | +27 | B | City schemas live, NAP perfect, GBP still inactive |
+
+**GSC Performance (Mar 23 vs Mar 21):**
+
+| Metric | Mar 21 | Mar 23 | Change |
+| --- | --- | --- | --- |
+| Impressions | 181 | 181 | — |
+| Clicks | 11 | 10 | -1 |
+| CTR | 6.1% | 5.5% | -0.6% |
+| Avg Position | — | 16.8 | — |
+| Indexed Pages | 29 | 23 | -6 |
+| Not Indexed | 65 | 72 | +7 |
+
+**GBP Performance (Mar 1-23):**
+
+| Metric | Value |
+| --- | --- |
+| Profile Views | 56 |
+| Website Clicks | 1 |
+| Phone Calls | 0 |
+| Reviews | 7 (5.0 avg) |
+
+**Keyword Rankings (SEOptimer, Mar 23):**
+- pixelverse studios: #1 (branded)
+- pixelverse studios nj: #1 (branded)
+- All 14 non-branded keywords: Not Ranking (area pages not yet indexed/deployed)
+
+**Major Work Completed Since Last Audit:**
+- Built `/areas/[county]/[city]` URL architecture (DEV-346)
+- Bergen County hub page with 1,500+ words (DEV-347)
+- 5 priority city pages with 1,500+ words each (DEV-348–352)
+- Design/UX polish pass on all area pages (DEV-561)
+- Homepage "Areas We Serve" section (DEV-503)
+- Schema addressLocality bug fixed (DEV-502)
+- Location keywords added to service page headings/body (DEV-504)
+- Service area statement added to footer/homepage (DEV-505)
+- 9 Linear tickets updated to new /areas/ URL architecture
+
+**Issues Identified:**
+- [Critical] Area pages not in sitemap.ts — crawlers won't discover efficiently
+- [Warning] Bergen County meta description 189 chars (over 160 limit)
+- [Warning] Not-indexed pages increased 65→72 (likely churn from redirects)
+- [Warning] Indexed pages decreased 29→23 (possible redirect consolidation)
+- [Info] Area page titles include brand in raw string (inconsistent with template pattern)
+- [Info] 0 non-branded keywords ranking — expected until area pages are indexed
+
+**Actions Recommended:**
+- [ ] Add area pages to sitemap.ts with priority 0.85
+- [ ] Shorten Bergen County meta description to under 160 chars
+- [ ] Deploy to production (push dev/audit-remediation → main)
+- [ ] Request indexing for 6 area pages via GSC
+- [ ] Respond to all 7 GBP reviews
+- [ ] Begin directory submissions (DEV-506)
+- [ ] Begin GBP posting cadence (DEV-507)
+
+**Checklist Progress:** 75% complete (+12% since Mar 21)
+
+---
+
+### 2026-03-21 - GSC Refresh & Quick Audit
+
+**Type:** Quick Refresh (post-Phase 1 check-in)
+**Overall Score:** 70/100 (C) — up from 64/100 (+6)
+
+**Scores by Category:**
+
+| Category      | Score  | vs Mar 14 | Grade | Notes                                                    |
+| ------------- | ------ | --------- | ----- | -------------------------------------------------------- |
+| Technical SEO | 73/100 | +6        | C     | WebSite schema live, indexed 24→29, not-indexed 103→65   |
+| On-Page SEO   | 78/100 | +5        | B     | 4 page titles fixed, schemas added to /services hub      |
+| Content       | 65/100 | +10       | D     | 5 blog posts published (8→13), 5 drafts remain           |
+| Local SEO     | 55/100 | 0         | F     | No changes — city pages, GBP, directories still pending  |
+
+**GSC Performance (Mar 21 vs Mar 14):**
+
+| Metric          | Mar 14   | Mar 21   | Change         |
+| --------------- | -------- | -------- | -------------- |
+| Impressions     | 129      | **181**  | **+40%**       |
+| Clicks          | 8        | **11**   | **+38%**       |
+| CTR             | 6.2%     | **6.1%** | -0.1pp         |
+| Avg Position    | 17       | **17.1** | stable         |
+| Indexed Pages   | 24       | **29**   | **+5 (+21%)**  |
+| Not Indexed     | 103      | **65**   | **-38 (-37%)** |
+
+**Phase 1 (DEV-492) Work Completed Since Last Audit:**
+
+- WebSite schema now rendering on homepage (was missing)
+- BreadcrumbList + 2 Service schemas added to /services hub page
+- 4 page titles lengthened to 50-60 char SERP range
+- 5 blog posts published (first content in 53 days)
+- Blog excerpts trimmed to <160 chars
+- Framer Motion → CSS animations (homepage + service pages) for LCP improvement
+- Sentry client-side tracing/replays disabled for bundle reduction
+- Services hub page: 228kB → 192kB (16% lighter)
+
+**Key Takeaways:**
+
+1. **Indexing recovery is real** — Not-indexed dropped 37% in one week. Phase 1 fixes working.
+2. **Impressions rebounding** — Nearly back to January levels (181 vs 206). Content freshness signal from blog posts likely contributing.
+3. **Position plateau** — Still at 17.1 avg. Won't improve until city pages return and location content is added (DEV-500 scope).
+4. **Local SEO unchanged** — Score stuck at 55. Needs city pages, GBP activation, and directory submissions to move.
+5. **DEV-492 marked done** — Phase 1 stabilized the foundation. Ready to begin DEV-500 (Phase 2).
+
+**Recommendation:** Begin DEV-500 immediately. Indexing trend is positive, Phase 1 foundation is solid, and city pages need time to build ranking signals.
+
+**Checklist Progress:** 56% complete (unchanged — Phase 1 items were already reflected)
+
+**Files Updated:**
+
+- docs/seo/SEO-KEYWORDS.md — GSC metrics updated with Mar 21 data
+- docs/seo/SEO-SCOPE.md — KPI table updated with Mar 21 column
+- docs/seo/SEO-CHANGELOG.md — Added this refresh entry
+
+---
+
 ### 2026-03-14 - Full SEO Audit
 
 **Type:** Full Audit
