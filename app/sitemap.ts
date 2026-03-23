@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { getValidCountySlugs, getValidCitySlugs } from '@/data/area-pages-content'
 import { getBlogPosts } from '@/data/blog-posts'
 import { caseStudies } from '@/data/case-studies'
 
@@ -74,12 +75,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.7,
     },
-    {
-      url: `${BASE_URL}/docs/seo`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.5,
-    },
   ]
 
   const blogPages: MetadataRoute.Sitemap = getBlogPosts().map(post => ({
@@ -96,8 +91,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
+  const countyPages: MetadataRoute.Sitemap = getValidCountySlugs().map(county => ({
+    url: `${BASE_URL}/areas/${county}`,
+    lastModified: now,
+    changeFrequency: 'weekly' as const,
+    priority: 0.85,
+  }))
+
+  const cityPages: MetadataRoute.Sitemap = getValidCitySlugs().map(({ county, city }) => ({
+    url: `${BASE_URL}/areas/${county}/${city}`,
+    lastModified: now,
+    changeFrequency: 'weekly' as const,
+    priority: 0.9,
+  }))
+
   return [
     ...staticPages,
+    ...countyPages,
+    ...cityPages,
     ...blogPages,
     ...portfolioPages,
   ]

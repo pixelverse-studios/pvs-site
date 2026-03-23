@@ -58,23 +58,30 @@ const nextConfig = {
       destination: '/contact/details',
       permanent: true,
     }));
-    const legacyServiceCitySlugs = [
+    // Priority cities redirect to new /areas/ structure
+    const priorityCityRedirects = [
       'fort-lee',
       'englewood',
       'hackensack',
       'paramus',
       'ridgewood',
+    ].map((slug) => ({
+      source: `/services/${slug}`,
+      destination: `/areas/bergen-county/${slug}`,
+      permanent: true,
+    }));
+
+    // Phase 2 cities still redirect to /services until their area pages are built
+    const phase2CityRedirects = [
       'teaneck',
       'fair-lawn',
       'bergenfield',
       'cliffside-park',
       'river-vale',
-    ];
-
-    const serviceCitySlugRedirects = legacyServiceCitySlugs.map((slug) => ({
+    ].map((slug) => ({
       source: `/services/${slug}`,
       destination: '/services',
-      permanent: true,
+      permanent: false, // temporary until Phase 2 area pages exist
     }));
 
     return [
@@ -105,10 +112,11 @@ const nextConfig = {
       },
       {
         source: '/services/bergen-county',
-        destination: '/services',
+        destination: '/areas/bergen-county',
         permanent: true,
       },
-      ...serviceCitySlugRedirects,
+      ...priorityCityRedirects,
+      ...phase2CityRedirects,
       {
         source: '/services/web-development/:city',
         destination: '/services/web-development',

@@ -61,6 +61,9 @@ export function Footer({ links = [], cta, className, ...props }: FooterProps) {
                 <Mail className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
                 {CONTACT.email.label}
               </Link>
+              <p className="mt-2 text-xs leading-relaxed text-[var(--pv-text-muted)]">
+                Serving Fort Lee, Englewood, Hackensack, Paramus, Ridgewood &amp; Bergen County, NJ
+              </p>
             </div>
           </div>
 

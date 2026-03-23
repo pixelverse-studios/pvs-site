@@ -1,6 +1,6 @@
 # SEO Keyword Strategy
 
-> Last Updated: 2026-01-20
+> Last Updated: 2026-03-21
 
 ## Keyword Overview
 
@@ -233,18 +233,28 @@ These power FAQ pages, blog posts, and featured snippet opportunities:
 
 | Keyword                             | Dec 2025 | Jan 2026 | Feb 2026 | Mar 2026 | Notes                                      |
 | ----------------------------------- | -------- | -------- | -------- | -------- | ------------------------------------------ |
-| web design Fort Lee NJ              | ~10      | NR       | NR       | -        | Target: Top 5; dropped after restructure   |
-| local SEO agency Englewood NJ       | ~12      | 10.6     | ?        | -        | Target: Top 5; no Feb data (no rank tool)  |
-| local SEO agency Teaneck NJ         | N/A      | 11.4     | ?        | -        | No Feb data available                      |
-| SEO agency Englewood NJ             | N/A      | 11.1     | ?        | -        | No Feb data available                      |
-| SEO agency Teaneck NJ               | N/A      | 13.8     | ?        | -        | No Feb data available                      |
-| SEO company Bergen County           | N/A      | 32.0     | ?        | -        | Avg position 15.6 across all queries       |
-| web design Hackensack NJ            | N/A      | NR       | ?        | -        | Target: Top 20                             |
-| web design Paramus NJ               | N/A      | NR       | ?        | -        | Target: Top 20                             |
-| web design Ridgewood NJ             | N/A      | NR       | ?        | -        | Target: Top 20                             |
-| Bergen County web design agency     | N/A      | NR       | ?        | -        | /packages removed — update target page     |
-| law firm website design Fort Lee NJ | N/A      | NR       | ?        | -        | Quick win target                           |
-| medical practice website design NJ  | N/A      | NR       | ?        | -        | Quick win target                           |
+| pixelverse studios                  | N/A      | ~2.4     | ?        | **1**    | Branded; ranking on pixelversestudios.io   |
+| pixelverse studios nj               | N/A      | N/A      | ?        | **1**    | Branded; ranking on pixelversestudios.io   |
+| web design Fort Lee NJ              | ~10      | NR       | NR       | **NR**   | Lost after city page redirect              |
+| local SEO agency Englewood NJ       | ~12      | 10.6     | ?        | **9**    | ✅ Improved! Ranking on /services/englewood |
+| local SEO agency Teaneck NJ         | N/A      | 11.4     | ?        | -        | Not tracked in rank tool                   |
+| SEO agency Englewood NJ             | N/A      | 11.1     | ?        | -        | Not tracked in rank tool                   |
+| SEO agency Teaneck NJ               | N/A      | 13.8     | ?        | -        | Not tracked in rank tool                   |
+| SEO company Bergen County           | N/A      | 32.0     | ?        | -        | Not tracked in rank tool                   |
+| web design Bergen County NJ         | N/A      | N/A      | ?        | **NR**   | Not ranking; very low volume               |
+| custom web design NJ                | N/A      | N/A      | ?        | **NR**   | Not ranking; vol: 50                       |
+| web design agency NJ                | N/A      | N/A      | ?        | **NR**   | Not ranking; vol: 880 — HIGH VALUE         |
+| local SEO services NJ               | N/A      | N/A      | ?        | **NR**   | Not ranking; vol: 50                       |
+| SEO agency Bergen County NJ         | N/A      | N/A      | ?        | **NR**   | Not ranking; very low volume               |
+| web design Hackensack NJ            | N/A      | NR       | ?        | **NR**   | Target: Top 20; city page redirects        |
+| web design Paramus NJ               | N/A      | NR       | ?        | **NR**   | Target: Top 20; city page redirects        |
+| web design Ridgewood NJ             | N/A      | NR       | ?        | **NR**   | Target: Top 20; city page redirects        |
+| Bergen County web design agency     | N/A      | NR       | ?        | **NR**   | /packages removed; city page redirects     |
+| SEO services Hackensack NJ          | N/A      | NR       | ?        | **NR**   | Not ranking; city page redirects           |
+| affordable web design Bergen County | N/A      | NR       | ?        | **NR**   | /packages removed; target page gone        |
+| web design Cliffside Park NJ        | N/A      | N/A      | ?        | **NR**   | Not ranking; very low volume               |
+| law firm website design Fort Lee NJ | N/A      | NR       | ?        | -        | Quick win target; not tracked              |
+| medical practice website design NJ  | N/A      | NR       | ?        | -        | Quick win target; not tracked              |
 
 ### GSC Query Performance (Jan 2026 - 28 days)
 
@@ -273,16 +283,30 @@ These power FAQ pages, blog posts, and featured snippet opportunities:
 
 **Note:** No per-keyword ranking data for Feb. Use rank tracker for next audit.
 
+### GSC Performance (Mar 2026 - 28 days)
+
+| Metric           | Jan 2026 | Feb 2026 | Mar 14   | **Mar 21**  | Change (Mar 14→21) |
+| ---------------- | -------- | -------- | -------- | ----------- | ------------------- |
+| Total Impressions | 206      | 178      | 129      | **181**     | **+40%**            |
+| Total Clicks      | 13       | 9        | 8        | **11**      | **+38%**            |
+| Overall CTR       | 6.3%     | 5.1%     | 6.2%     | **6.1%**    | -0.1pp (stable)     |
+| Avg Position      | ~12      | 15.6     | 17       | **17.1**    | stable              |
+| Indexed Pages     | 42       | 36       | 24       | **29**      | **+5 (+21%)**       |
+| Not Indexed       | 29       | —        | 103      | **65**      | **-38 (-37%)**      |
+
+> ✅ **Indexing recovery underway** — Not-indexed dropped 103→65 in one week. Indexed pages recovering 24→29. Impressions rebounding to near-January levels. Phase 1 fixes (blog posts, schema, redirects) taking effect.
+
 ### Keyword Target Page Updates (Post-Restructure)
 
 - **"affordable web design Bergen County NJ"** — `/packages` page removed. New target: `/services`
-- All city pages remain at `/services/[city]`
+- **All city pages now redirect to `/services`** — URLs like `/services/fort-lee` return 301 to `/services`
+- **"web design agency NJ"** — 880 monthly searches, highest volume tracked keyword. Not ranking. Priority target.
 
 ### Data Sources
 
-- Google Search Console (primary) - Last export: 2026-02-24
+- Google Search Console (primary) - Last export: 2026-03-14
+- Rank tracking tool (active) - Per-keyword data now available
 - Manual position checks
-- Third-party rank trackers (optional)
 
 ---
 
@@ -317,5 +341,5 @@ These power FAQ pages, blog posts, and featured snippet opportunities:
 
 ---
 
-_Last Updated: 2026-02-24_
-_Next Review: 2026-03-24_
+_Last Updated: 2026-03-14_
+_Next Review: 2026-04-14_

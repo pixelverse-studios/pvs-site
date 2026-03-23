@@ -1,7 +1,7 @@
 # SEO Implementation Checklist
 
-> Progress: 36/57 Complete (63%)
-> Last Updated: 2026-02-24
+> Progress: 37/59 Complete (63%) — up from 56% after Phase 1 (DEV-492) completions
+> Last Updated: 2026-03-21
 
 ---
 
@@ -37,7 +37,9 @@
 - [ ] No unintended noindex pages
 - [ ] 404 pages properly handled
 - [x] Old URLs redirected (301s for /works, /pricing)
-- [ ] **NEW: Fix 51 crawl errors from site restructure** (removed /packages, service page changes) ⚠️ CRITICAL
+- [ ] **CRITICAL: 103 pages not indexed** — investigate GSC reasons (crawled-not-indexed, redirect loops, noindex). Indexed pages dropped 42→24 over 3 months.
+- [ ] **Fix www vs non-www domain mismatch** — metadata.ts uses non-www, sitemap/robots use www. Standardize to www.
+- [ ] Fix 51+ crawl errors from site restructure (removed /packages, service page changes)
 
 ---
 
@@ -45,13 +47,15 @@
 
 ### Implemented
 
-- [x] LocalBusiness schema (global)
-- [x] Per-city LocalBusiness schema (all 10 cities)
-- [x] Organization schema
-- [x] BreadcrumbList schema (all city pages)
-- [x] Service schema (3 per city page)
-- [x] FAQPage schema (/faq + city pages)
+- [x] LocalBusiness schema (global — homepage)
+- [ ] Per-city LocalBusiness schema — ⚠️ functions exist but city pages redirect to /services; NOT DEPLOYED
+- [x] Organization schema (ProfessionalService)
+- [x] BreadcrumbList schema (/services/seo, /services/web-development, /faq)
+- [x] Service schema (homepage: 2 services; service pages: 1 each)
+- [x] FAQPage schema (/faq, homepage, /services/seo, /services/web-development)
 - [x] BlogPosting schema (blog posts)
+- [x] WebSite schema — ✅ Now rendering on root layout (PR #196)
+- [ ] Fix city schema addressLocality bug (hardcodes Cliffside Park for all cities)
 
 ### Validation
 
@@ -66,10 +70,10 @@
 
 ### Metadata
 
-- [x] Unique Title Tags (50-60 chars) - All pages
-- [x] Meta Descriptions (120-160 chars) - All pages
-- [x] Keywords in title tags - Priority cities
-- [x] Keywords in meta descriptions - Priority cities
+- [~] Unique Title Tags (50-60 chars) — 4 titles fixed (PR #197), some still need work
+- [x] Meta Descriptions (120-160 chars) — 7/9 within range; /services/seo (161) and /faq (167) slightly over
+- [ ] Keywords in title tags — city pages no longer exist; service pages lack location keywords
+- [x] Keywords in meta descriptions - Service pages include "New Jersey"
 
 ### Content Structure
 
@@ -226,32 +230,31 @@
 
 ## Quick Reference: Next Actions
 
-### This Week (Priority) - Updated 2026-02-24
+### This Week (Priority) - Updated 2026-03-21
 
-1. [ ] **Fix 51 crawl errors** - GSC shows errors spiked from 13→51 after site restructure (CRITICAL)
-   - Identify which removed pages (packages, old service paths) are causing 404s
-   - Add proper 301 redirects for all removed pages
-2. [ ] **Monitor rankings** - Avg position dropped 12→15.6 due to restructure; expect recovery in 4-6 weeks
-3. [ ] Submit to 5 directories (Clutch, DesignRush, UpCity, Yelp, BBB)
-4. [ ] Add noindex to dashboard/auth pages for defense-in-depth
-5. [ ] Capture Lighthouse baseline (mobile + desktop)
-6. [ ] **Set up rank tracking tool** — no per-keyword data available this audit cycle
+1. [x] ~~**Fix www/non-www domain mismatch**~~ — ✅ Addressed in DEV-492 (redirect chain cleanup)
+2. [x] ~~**Investigate not-indexed pages**~~ — ✅ Recovering: 103→65 not-indexed, 24→29 indexed. Continue monitoring.
+3. [ ] **Decide on city pages** — All 5 priority city routes redirect to /services. DEV-500 scope.
+4. [x] ~~**Lengthen page titles**~~ — ✅ 4 titles fixed to 50-60 char range (PR #197)
+5. [x] **Set up rank tracking tool** — ✅ Done. Per-keyword data now available.
 
-### This Month
+### This Month (DEV-500 Scope)
 
-1. [ ] Submit to all 12 directories (0/12 complete)
-2. [ ] Increase GBP activity (weekly posts, Q&A seeding, 10+ photos)
-3. [ ] Create "Website Cost Guide" blog post (high search intent)
-4. [ ] Optimize meta descriptions for Englewood/Teaneck keywords (have impressions, 0 clicks)
-5. [ ] Publish "Template vs. Custom" comparison post
+1. [ ] **Rebuild city pages** — Restore/redesign 5 priority city landing pages with local content
+2. [ ] **Fix city schema addressLocality bug** — Hardcodes Cliffside Park for all cities
+3. [ ] Submit to 5+ directories (Clutch, DesignRush, UpCity, Yelp, BBB) — still 0 citations
+4. [ ] Activate GBP (weekly posts, Q&A seeding, 10+ photos, respond to 7 reviews)
+5. [ ] Add location keywords to H2s and body copy on service pages (0% compliance)
+6. [ ] Add service area statement to homepage/footer
+7. [ ] Publish remaining 5 draft blog posts
 
 ### This Quarter
 
-1. [ ] All 5 priority cities in top 10 positions (currently: Englewood ~10.6)
-2. [ ] 10+ GBP reviews (current: 0)
-3. [ ] 25+ local citations/backlinks (current: 0)
-4. [ ] 5 new blog posts published (current: 10 total)
-5. [ ] Industry + city hybrid pages created
+1. [ ] 10+ GBP reviews (current: 7, no new since Feb)
+2. [ ] 25+ local citations/backlinks (current: 0)
+3. [ ] Target "web design agency NJ" (880 monthly searches) — highest volume keyword
+4. [ ] All 5 priority cities in top 10 (currently: only Englewood #9)
+5. [ ] Not-indexed pages → 0 (current: 65, trending down)
 
 ---
 
@@ -272,5 +275,5 @@
 
 ---
 
-_Last Updated: 2026-02-24_
-_Next Review: 2026-03-24_
+_Last Updated: 2026-03-14_
+_Next Review: 2026-04-14_

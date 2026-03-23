@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/_next/', '/api/', '/dashboard/'],
+      disallow: ['/_next/', '/api/', '/dashboard/', '/login'],
     },
     sitemap: 'https://www.pixelversestudios.io/sitemap.xml',
   }

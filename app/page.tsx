@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 
+import { AreasWeServeSection } from '@/components/home/areas-we-serve-section';
 import { HeroSection } from '@/components/home/hero-section';
 import { FinalCtaSection } from '@/components/home/final-cta-section';
 import { HomeFaqSection } from '@/components/home/home-faq-section';
@@ -79,6 +80,7 @@ export default async function Home() {
         <InsightSection />
         <ProcessSection />
         <TestimonialCarousel />
+        <AreasWeServeSection />
         <HomeFaqSection />
         <ServicesSection />
         <FinalCtaSection />
