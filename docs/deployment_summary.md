@@ -13,6 +13,7 @@
 - Fixed schema bug where all city pages incorrectly showed Cliffside Park as their location instead of the actual target city
 - Added Bergen County and New Jersey location keywords to service page headings and body copy for stronger local SEO signals
 - Updated call-to-action buttons on service pages to reference NJ service area
+- Added "Areas We Serve" section to homepage showcasing 5 Bergen County priority cities with links to area pages
 
 ## Notes for internal team
 
@@ -28,6 +29,10 @@
 - Manual action needed: request reindexing for 24 indexed pages via GSC URL Inspection tool
 - DEV-505: Added service area city list to footer contact section and homepage services section
 - Files: `components/ui/footer.tsx`, `components/home/services-section.tsx`
+- DEV-503: Added "Areas We Serve" homepage section
+- New component: `components/home/areas-we-serve-section.tsx` (server component)
+- 5 priority city cards linking to `/areas/bergen-county/[city]` + Bergen County hub link
+- Placed after TestimonialCarousel, before HomeFaqSection
 - DEV-502: Fixed `createCityLocalBusinessSchema()` hardcoding `addressLocality: 'Cliffside Park'` for all cities
 - Changed to use dynamic `city` and `state` params; removed `streetAddress` and `postalCode` (SAB model)
 - File: `lib/structured-data.ts`
