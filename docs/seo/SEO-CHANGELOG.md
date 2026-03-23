@@ -43,6 +43,77 @@ Record every SEO change with:
 
 ## 2026 Changes
 
+### 2026-03-23 - Full SEO Audit (Post-Area Pages Build)
+
+**Type:** Full Audit
+**Overall Score:** 84/100 (B) — up from 70/100 (+14)
+
+**Scores by Category:**
+
+| Category | Score | vs Mar 21 | Grade | Notes |
+| --- | --- | --- | --- | --- |
+| Technical SEO | 88/100 | +15 | B+ | Schemas comprehensive, sitemap needs area pages |
+| On-Page SEO | 87/100 | +9 | B+ | Location keywords strong, Bergen County desc too long |
+| Content | 77/100 | +12 | C+ | 6 area pages live, 10 blog drafts queued |
+| Local SEO | 82/100 | +27 | B | City schemas live, NAP perfect, GBP still inactive |
+
+**GSC Performance (Mar 23 vs Mar 21):**
+
+| Metric | Mar 21 | Mar 23 | Change |
+| --- | --- | --- | --- |
+| Impressions | 181 | 181 | — |
+| Clicks | 11 | 10 | -1 |
+| CTR | 6.1% | 5.5% | -0.6% |
+| Avg Position | — | 16.8 | — |
+| Indexed Pages | 29 | 23 | -6 |
+| Not Indexed | 65 | 72 | +7 |
+
+**GBP Performance (Mar 1-23):**
+
+| Metric | Value |
+| --- | --- |
+| Profile Views | 56 |
+| Website Clicks | 1 |
+| Phone Calls | 0 |
+| Reviews | 7 (5.0 avg) |
+
+**Keyword Rankings (SEOptimer, Mar 23):**
+- pixelverse studios: #1 (branded)
+- pixelverse studios nj: #1 (branded)
+- All 14 non-branded keywords: Not Ranking (area pages not yet indexed/deployed)
+
+**Major Work Completed Since Last Audit:**
+- Built `/areas/[county]/[city]` URL architecture (DEV-346)
+- Bergen County hub page with 1,500+ words (DEV-347)
+- 5 priority city pages with 1,500+ words each (DEV-348–352)
+- Design/UX polish pass on all area pages (DEV-561)
+- Homepage "Areas We Serve" section (DEV-503)
+- Schema addressLocality bug fixed (DEV-502)
+- Location keywords added to service page headings/body (DEV-504)
+- Service area statement added to footer/homepage (DEV-505)
+- 9 Linear tickets updated to new /areas/ URL architecture
+
+**Issues Identified:**
+- [Critical] Area pages not in sitemap.ts — crawlers won't discover efficiently
+- [Warning] Bergen County meta description 189 chars (over 160 limit)
+- [Warning] Not-indexed pages increased 65→72 (likely churn from redirects)
+- [Warning] Indexed pages decreased 29→23 (possible redirect consolidation)
+- [Info] Area page titles include brand in raw string (inconsistent with template pattern)
+- [Info] 0 non-branded keywords ranking — expected until area pages are indexed
+
+**Actions Recommended:**
+- [ ] Add area pages to sitemap.ts with priority 0.85
+- [ ] Shorten Bergen County meta description to under 160 chars
+- [ ] Deploy to production (push dev/audit-remediation → main)
+- [ ] Request indexing for 6 area pages via GSC
+- [ ] Respond to all 7 GBP reviews
+- [ ] Begin directory submissions (DEV-506)
+- [ ] Begin GBP posting cadence (DEV-507)
+
+**Checklist Progress:** 75% complete (+12% since Mar 21)
+
+---
+
 ### 2026-03-21 - GSC Refresh & Quick Audit
 
 **Type:** Quick Refresh (post-Phase 1 check-in)

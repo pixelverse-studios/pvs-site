@@ -71,9 +71,9 @@ const counties: Record<string, CountyContent> = {
     slug: 'bergen-county',
     name: 'Bergen County',
     state: 'NJ',
-    metaTitle: 'Web Design & SEO Services in Bergen County, NJ | Pixelverse Studios',
+    metaTitle: 'Web Design & SEO Services in Bergen County, NJ',
     metaDescription:
-      'Bergen County web design and local SEO agency. Pixelverse Studios builds custom websites and drives local search results for businesses across Fort Lee, Englewood, Hackensack, Paramus, and Ridgewood.',
+      'Bergen County web design and SEO agency serving Fort Lee, Englewood, Hackensack, Paramus, and Ridgewood. Custom websites that rank and convert.',
     hero: {
       title: 'Web Design & SEO for Bergen County Businesses',
       description:
@@ -157,7 +157,7 @@ const cities: Record<string, CityPageContent> = {
     state: 'NJ',
     county: 'Bergen County',
     countySlug: 'bergen-county',
-    metaTitle: 'Web Design & SEO for Fort Lee, NJ Businesses | Pixelverse Studios',
+    metaTitle: 'Web Design & SEO for Fort Lee, NJ Businesses',
     metaDescription:
       'Fort Lee web design and local SEO services from Pixelverse Studios. We build custom websites that help Fort Lee businesses show up, stand out, and convert.',
     hero: {
@@ -226,7 +226,7 @@ const cities: Record<string, CityPageContent> = {
     state: 'NJ',
     county: 'Bergen County',
     countySlug: 'bergen-county',
-    metaTitle: 'Web Design & SEO Services in Englewood, NJ | Pixelverse Studios',
+    metaTitle: 'Web Design & SEO Services in Englewood, NJ',
     metaDescription:
       'Pixelverse Studios helps Englewood, NJ businesses grow online with custom web design, development, and local SEO. Serving Palisade Ave and beyond.',
     hero: {
@@ -294,7 +294,7 @@ const cities: Record<string, CityPageContent> = {
     state: 'NJ',
     county: 'Bergen County',
     countySlug: 'bergen-county',
-    metaTitle: 'Web Design & SEO in Hackensack, NJ | Pixelverse Studios',
+    metaTitle: 'Web Design & SEO in Hackensack, NJ',
     metaDescription:
       'Pixelverse Studios builds custom websites and local SEO strategies for Hackensack, NJ businesses. From Main Street to Route 17 — we help you rank.',
     hero: {
@@ -364,7 +364,7 @@ const cities: Record<string, CityPageContent> = {
     state: 'NJ',
     county: 'Bergen County',
     countySlug: 'bergen-county',
-    metaTitle: 'Web Design & SEO Services in Paramus, NJ | Pixelverse Studios',
+    metaTitle: 'Web Design & SEO Services in Paramus, NJ',
     metaDescription:
       'Pixelverse Studios creates custom websites and local SEO for Paramus, NJ businesses. Stand out on Route 4, Route 17, and in local search results.',
     hero: {
@@ -432,7 +432,7 @@ const cities: Record<string, CityPageContent> = {
     state: 'NJ',
     county: 'Bergen County',
     countySlug: 'bergen-county',
-    metaTitle: 'Web Design & SEO in Ridgewood, NJ | Pixelverse Studios',
+    metaTitle: 'Web Design & SEO in Ridgewood, NJ',
     metaDescription:
       'Pixelverse Studios builds custom websites and local SEO for Ridgewood, NJ businesses. Serving the Village downtown and surrounding Bergen County.',
     hero: {

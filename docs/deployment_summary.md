@@ -23,6 +23,8 @@
 - Added Ridgewood city page with 1,500+ words covering the Village downtown, boutique/premium market, and Western Bergen County reach
 - Added Paramus city page with 1,500+ words covering Route 4/17 corridors, Garden State Plaza, and NJ's busiest retail market
 - Upgraded area page designs to match service page polish — eyebrows, animated sections, FAQ accordion, gradient CTAs
+- Added all area pages to sitemap for Google crawling
+- Fixed Bergen County meta description that was too long for search results
 
 ## Notes for internal team
 
