@@ -107,35 +107,31 @@ export default async function CountyPage({
                 />
               </MotionItem>
               <div className="mt-12 grid gap-8 md:grid-cols-2">
-                {content.services.sections.map((section, i) => (
-                  <MotionItem key={section.title} delay={i * 0.1}>
-                    <div className="h-full rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] p-8">
-                      <h3 className="font-heading text-xl font-semibold">
-                        {section.title}
-                      </h3>
-                      <p className="mt-4 text-sm leading-relaxed text-[var(--pv-text-muted)]">
-                        {section.body}
-                      </p>
-                    </div>
-                  </MotionItem>
-                ))}
+                {content.services.sections.map((section, i) => {
+                  const serviceLink = i === 0
+                    ? { href: '/services/web-development', label: 'Learn more about Web Design & Development' }
+                    : { href: '/services/seo', label: 'Learn more about Local SEO Services' };
+                  return (
+                    <MotionItem key={section.title} delay={i * 0.1}>
+                      <div className="group flex h-full flex-col rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] p-8 transition-all hover:-translate-y-0.5 hover:shadow-lg">
+                        <h3 className="font-heading text-xl font-semibold">
+                          {section.title}
+                        </h3>
+                        <p className="mt-4 flex-1 text-sm leading-relaxed text-[var(--pv-text-muted)]">
+                          {section.body}
+                        </p>
+                        <Link
+                          href={serviceLink.href}
+                          className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-[var(--pv-primary)] underline-offset-4 hover:underline"
+                        >
+                          {serviceLink.label}
+                          <span aria-hidden>&rarr;</span>
+                        </Link>
+                      </div>
+                    </MotionItem>
+                  );
+                })}
               </div>
-              <MotionItem>
-                <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
-                  <Link
-                    href="/services/web-development"
-                    className="text-sm font-semibold text-[var(--pv-primary)] underline-offset-4 hover:underline"
-                  >
-                    Learn more about Web Design & Development
-                  </Link>
-                  <Link
-                    href="/services/seo"
-                    className="text-sm font-semibold text-[var(--pv-primary)] underline-offset-4 hover:underline"
-                  >
-                    Learn more about Local SEO Services
-                  </Link>
-                </div>
-              </MotionItem>
             </MotionSection>
           </Container>
         </section>
