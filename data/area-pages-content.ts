@@ -230,7 +230,7 @@ const cities: Record<string, CityPageContent> = {
     metaDescription:
       'Pixelverse Studios helps Englewood, NJ businesses grow online with custom web design, development, and local SEO. Serving Palisade Ave and beyond.',
     hero: {
-      title: 'Web Design & SEO for Englewood, NJ Businesses',
+      title: 'Web Design & Local SEO for Englewood, NJ',
       description:
         'Custom websites and local search optimization for Englewood businesses. From Palisade Avenue boutiques to medical practices near Englewood Hospital, we build sites that help Englewood businesses compete online.',
     },
