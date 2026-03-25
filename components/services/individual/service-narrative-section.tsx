@@ -333,7 +333,7 @@ export function ServiceNarrativeSection({
   return (
     <section className={`${bgClass} py-16 md:py-24`} aria-labelledby={headingId}>
       <Container>
-        <MotionSection as="div" className="mx-auto max-w-3xl space-y-6">
+        <MotionSection as="div" className="space-y-6">
           <MotionItem>
             <div className="space-y-4">
               <span aria-hidden="true" className={eyebrowClass}>
