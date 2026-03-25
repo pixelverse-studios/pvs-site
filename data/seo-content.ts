@@ -54,7 +54,7 @@ export const seoContent: SeoContentData = {
   },
   whyBusinessesLook: {
     title: 'Why Businesses Look at Local SEO & Optimization',
-    body: 'Most businesses don\u2019t start by thinking about \u201clocal SEO.\u201d\n\nThey start by noticing that competitors show up more consistently, traffic doesn\u2019t turn into calls or bookings, their Google listing gets views but little engagement, or it\u2019s unclear whether their website is helping people choose them.\n\nIn many cases, the website exists and content is live. The issue isn\u2019t effort. It\u2019s whether the site is structured and positioned to support local discovery and decision-making.',
+    body: 'Most businesses don\u2019t start by thinking about \u201clocal SEO.\u201d\n\nThey start by noticing that competitors show up more consistently, traffic doesn\u2019t turn into calls or bookings, their Google listing gets views but little engagement, or it\u2019s unclear whether their website is helping people choose them.\n\nFor Bergen County businesses especially, local search competition is high. A business in Fort Lee or Hackensack may have a solid website, but if it isn\u2019t structured to compete in their specific market, it won\u2019t show up where it matters.\n\nIn many cases, the website exists and content is live. The issue isn\u2019t effort. It\u2019s whether the site is structured and positioned to support local discovery and decision-making.',
   },
   whyNotJustRankings: {
     title: 'Why Local SEO Isn\u2019t Just About Rankings',
@@ -71,7 +71,7 @@ export const seoContent: SeoContentData = {
       'A site can rank and still underperform if these pieces aren\u2019t working together. Likewise, strong content alone won\u2019t help if local visibility is limited.\n\nLocal SEO works best when it\u2019s treated as part of the website system, not a separate effort.',
   },
   howWeEvaluate: {
-    title: 'Our Local SEO Audit & Optimization Process',
+    title: 'Our Local SEO Audit & Optimization Process for New Jersey Businesses',
     intro:
       'Optimization starts with understanding how the site is currently supporting local visibility and conversions.\n\nWe look at:',
     bulletPoints: [
@@ -82,7 +82,7 @@ export const seoContent: SeoContentData = {
       'How visitors move through the site and where friction appears',
     ],
     closing:
-      'The goal isn\u2019t to apply tactics blindly. It\u2019s to identify which factors are limiting performance and where focused changes will have the greatest impact.\n\nThat evaluation determines what happens next.',
+      'For New Jersey businesses, this also means evaluating how well the site supports local search in specific markets — whether that\u2019s Bergen County, Northern NJ, or individual cities like Englewood or Paramus.\n\nThe goal isn\u2019t to apply tactics blindly. It\u2019s to identify which factors are limiting performance and where focused changes will have the greatest impact.\n\nThat evaluation determines what happens next.',
   },
   whenOptimizationIsRight: {
     title: 'When Local Optimization Is the Right Move (and When It\u2019s Not)',
@@ -93,7 +93,7 @@ export const seoContent: SeoContentData = {
     },
   },
   whatToExpect: {
-    title: "What's Included in Our Local SEO Services",
+    title: "What's Included in Our Local SEO Services for Bergen County",
     intro:
       'When optimization is the right path forward, the work is focused and practical.\n\nThat typically includes:',
     bulletPoints: [
@@ -104,7 +104,7 @@ export const seoContent: SeoContentData = {
       'Clarifying next steps so visibility translates into real inquiries',
     ],
     closing:
-      'The goal isn\u2019t short-term spikes. It\u2019s a site that consistently supports steady local visibility and informed decision-making over time.',
+      'The goal isn\u2019t short-term spikes. It\u2019s a site that consistently supports steady local visibility and informed decision-making over time — whether you\u2019re serving Bergen County, Northern New Jersey, or beyond.',
   },
   faq: [
     {
@@ -154,7 +154,7 @@ export const seoContent: SeoContentData = {
     description:
       'If your website exists but isn\u2019t delivering the local visibility or inquiries you expect, the next step is clarity.\n\nWe\u2019ll review your current situation, identify what\u2019s actually limiting performance, and determine whether focused optimization is the right move.',
     cta: {
-      label: 'Discuss Your Situation',
+      label: 'Talk to Our NJ Team',
       href: '/contact/details',
     },
   },

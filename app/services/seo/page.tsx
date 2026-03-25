@@ -62,7 +62,7 @@ export default function SEOServicesPage() {
 
       {/* 1. Hero */}
       <ServiceHero
-        eyebrow={hero.title}
+        eyebrow="Local SEO & Optimization"
         title={hero.title}
         description={hero.description}
         primaryCta={hero.cta}

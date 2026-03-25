@@ -62,7 +62,7 @@ export default function WebDevelopmentPage() {
 
       {/* 1. Hero */}
       <ServiceHero
-        eyebrow={hero.title}
+        eyebrow="Web Design & Development"
         title={hero.title}
         description={hero.description}
         primaryCta={hero.cta}

@@ -86,6 +86,7 @@ export interface CitySchemaParams {
   city: string;
   state: string;
   description?: string;
+  basePath?: string; // e.g. '/areas/bergen-county/fort-lee' — defaults to '/services/${slug}'
 }
 
 export function createCityLocalBusinessSchema({
@@ -93,17 +94,19 @@ export function createCityLocalBusinessSchema({
   city,
   state,
   description,
+  basePath,
 }: CitySchemaParams) {
   const coords = cityCoordinates[slug];
+  const pagePath = basePath || `/services/${slug}`;
   const defaultDescription = `Custom web design and local SEO services for ${city}, ${state} businesses. PixelVerse Studios delivers conversion-focused websites and marketing for Bergen County service brands.`;
 
   return {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
-    '@id': `${siteUrl}/services/${slug}/#local-business`,
+    '@id': `${siteUrl}${pagePath}/#local-business`,
     name: `PixelVerse Studios - ${city} Web Design & SEO`,
     description: description || defaultDescription,
-    url: `${siteUrl}/services/${slug}`,
+    url: `${siteUrl}${pagePath}`,
     email: 'info@pixelversestudios.io',
     telephone: '+1-201-638-1769',
     image: lightModeLogo,
@@ -126,10 +129,8 @@ export function createCityLocalBusinessSchema({
     }),
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '79 Edgewater Road',
-      addressLocality: 'Cliffside Park',
-      addressRegion: 'NJ',
-      postalCode: '07010',
+      addressLocality: city,
+      addressRegion: state,
       addressCountry: 'US',
     },
     openingHoursSpecification: {
@@ -161,6 +162,7 @@ export interface ServiceSchemaParams {
   state: string;
   slug: string;
   description: string;
+  basePath?: string;
 }
 
 export function createCityServiceSchema({
@@ -170,19 +172,21 @@ export function createCityServiceSchema({
   state,
   slug,
   description,
+  basePath,
 }: ServiceSchemaParams) {
+  const pagePath = basePath || `/services/${slug}`;
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    '@id': `${siteUrl}/services/${slug}/#service-${(serviceType || 'service').toLowerCase().replace(/\s+/g, '-')}`,
+    '@id': `${siteUrl}${pagePath}/#service-${(serviceType || 'service').toLowerCase().replace(/\s+/g, '-')}`,
     name: serviceName,
     serviceType: serviceType,
     description: description,
     provider: {
       '@type': 'ProfessionalService',
-      '@id': `${siteUrl}/services/${slug}/#local-business`,
+      '@id': `${siteUrl}${pagePath}/#local-business`,
       name: `PixelVerse Studios - ${city}`,
-      url: `${siteUrl}/services/${slug}`,
+      url: `${siteUrl}${pagePath}`,
     },
     areaServed: {
       '@type': 'City',
@@ -192,7 +196,7 @@ export function createCityServiceSchema({
         name: state,
       },
     },
-    url: `${siteUrl}/services/${slug}`,
+    url: `${siteUrl}${pagePath}`,
   };
 }
 
@@ -232,7 +236,7 @@ export function createServiceSchema({
 }
 
 // Bundled services schema for city pages (combines multiple services)
-export function createCityServicesSchema(slug: string, city: string, state: string) {
+export function createCityServicesSchema(slug: string, city: string, state: string, basePath?: string) {
   const services = [
     {
       name: `Web Design in ${city}, ${state}`,
@@ -254,6 +258,7 @@ export function createCityServicesSchema(slug: string, city: string, state: stri
       state,
       slug,
       description: service.description,
+      basePath,
     }),
   );
 }
