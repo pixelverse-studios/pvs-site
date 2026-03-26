@@ -16,13 +16,27 @@ import {
   AlertTriangle,
   Target,
   Globe,
+  Check,
+  X,
 } from 'lucide-react';
 import type { SeoOverviewResponse, SeoOverviewWebsite } from '@/lib/api/seo';
 
 type SortField = 'website_title' | 'seo_score' | 'checklist_pct' | 'keywords_tracked' | 'last_audit_date';
 type SortDirection = 'asc' | 'desc';
-type AuditFilter = 'all' | 'audited' | 'overdue' | 'unaudited';
-type ProjectFilter = 'all' | 'active' | 'in-progress' | 'inactive';
+type AuditTag = 'audited' | 'overdue' | 'unaudited';
+type ProjectTag = 'active' | 'in-progress' | 'inactive';
+
+const PROJECT_OPTIONS: { value: ProjectTag; label: string }[] = [
+  { value: 'active', label: 'Active' },
+  { value: 'in-progress', label: 'In Progress' },
+  { value: 'inactive', label: 'Inactive' },
+];
+
+const AUDIT_OPTIONS: { value: AuditTag; label: string }[] = [
+  { value: 'audited', label: 'Audited' },
+  { value: 'overdue', label: 'Overdue' },
+  { value: 'unaudited', label: 'Unaudited' },
+];
 
 function SortIcon({
   field,
@@ -88,9 +102,26 @@ interface SeoOverviewPageClientProps {
 
 export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [auditFilter, setAuditFilter] = useState<AuditFilter>('all');
-  const [projectFilter, setProjectFilter] = useState<ProjectFilter>('active');
+  const [auditTags, setAuditTags] = useState<Set<AuditTag>>(new Set());
+  const [projectTags, setProjectTags] = useState<Set<ProjectTag>>(() => new Set<ProjectTag>(['active']));
   const [sortField, setSortField] = useState<SortField>('seo_score');
+
+  const toggleTag = <T extends string>(set: Set<T>, setFn: (s: Set<T>) => void, tag: T) => {
+    const next = new Set(set);
+    if (next.has(tag)) {
+      next.delete(tag);
+    } else {
+      next.add(tag);
+    }
+    setFn(next);
+  };
+
+  const activeFilterCount = auditTags.size + projectTags.size;
+
+  const clearAllFilters = () => {
+    setAuditTags(new Set());
+    setProjectTags(new Set());
+  };
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
 
   const handleSort = (field: SortField) => {
@@ -126,34 +157,22 @@ export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
       );
     }
 
-    if (projectFilter !== 'all') {
+    if (projectTags.size > 0) {
       result = result.filter((w) => {
         const status = (w.project_status || '').toLowerCase();
-        switch (projectFilter) {
-          case 'active':
-            return ['deployed', 'maintenance'].includes(status);
-          case 'in-progress':
-            return ['planning', 'development', 'review', 'qa', 'staging'].includes(status);
-          case 'inactive':
-            return ['archived', 'lost', 'on_hold'].includes(status);
-          default:
-            return true;
-        }
+        if (projectTags.has('active') && ['deployed', 'maintenance'].includes(status)) return true;
+        if (projectTags.has('in-progress') && ['planning', 'development', 'review', 'qa', 'staging'].includes(status)) return true;
+        if (projectTags.has('inactive') && ['archived', 'lost', 'on_hold'].includes(status)) return true;
+        return false;
       });
     }
 
-    if (auditFilter !== 'all') {
+    if (auditTags.size > 0) {
       result = result.filter((w) => {
-        switch (auditFilter) {
-          case 'audited':
-            return w.seo_score !== null;
-          case 'overdue':
-            return isOverdue(w.next_audit_due);
-          case 'unaudited':
-            return w.seo_score === null;
-          default:
-            return true;
-        }
+        if (auditTags.has('audited') && w.seo_score !== null) return true;
+        if (auditTags.has('overdue') && isOverdue(w.next_audit_due)) return true;
+        if (auditTags.has('unaudited') && w.seo_score === null) return true;
+        return false;
       });
     }
 
@@ -182,7 +201,7 @@ export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
     });
 
     return result;
-  }, [data.websites, searchQuery, auditFilter, projectFilter, sortField, sortDirection]);
+  }, [data.websites, searchQuery, auditTags, projectTags, sortField, sortDirection]);
 
   if (data.websites.length === 0) {
     return (
@@ -252,86 +271,84 @@ export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
         />
       </div>
 
-      {/* Search and Filter */}
-      <Card>
-        <CardContent className="py-6">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="relative w-full sm:w-96">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--pv-text-muted)]" />
-              <Input
-                type="text"
-                placeholder="Search by website, client, or domain..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
-            </div>
+      {/* Search and Filters */}
+      <div className="space-y-3">
+        {/* Search row */}
+        <div className="flex items-center gap-3">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--pv-text-muted)]" />
+            <Input
+              type="text"
+              placeholder="Search by website, client, or domain..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
           </div>
+          {activeFilterCount > 0 && (
+            <button
+              onClick={clearAllFilters}
+              className="flex items-center gap-1 rounded-lg px-3 py-2 text-xs font-medium text-[var(--pv-text-muted)] transition-colors hover:bg-[var(--pv-surface)] hover:text-[var(--pv-text)]"
+            >
+              <X className="h-3 w-3" />
+              Clear filters
+            </button>
+          )}
+        </div>
 
-          {/* Filter rows */}
-          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
-                Status
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {(
-                  [
-                    ['all', 'All'],
-                    ['active', 'Active'],
-                    ['in-progress', 'In Progress'],
-                    ['inactive', 'Inactive'],
-                  ] as const
-                ).map(([value, label]) => (
-                  <button
-                    key={value}
-                    onClick={() => setProjectFilter(value)}
-                    className={`rounded-pv-sm px-3 py-1.5 text-xs font-medium transition-colors ${
-                      projectFilter === value
-                        ? 'bg-[var(--pv-primary)] text-white'
-                        : 'bg-[var(--pv-surface)] text-[var(--pv-text-muted)] hover:bg-[var(--pv-border)]'
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
+        {/* Filter chips — single compact row */}
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span className="mr-1 text-[11px] font-semibold uppercase tracking-widest text-[var(--pv-text-muted)]">
+            Status
+          </span>
+          {PROJECT_OPTIONS.map(({ value, label }) => {
+            const selected = projectTags.has(value);
+            return (
+              <button
+                key={value}
+                onClick={() => toggleTag(projectTags, setProjectTags, value)}
+                className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-medium transition-all"
+                style={{
+                  background: selected ? 'var(--pv-primary)' : 'transparent',
+                  borderColor: selected ? 'var(--pv-primary)' : 'var(--pv-border)',
+                  color: selected ? 'white' : 'var(--pv-text-muted)',
+                }}
+              >
+                {selected && <Check className="h-2.5 w-2.5" />}
+                {label}
+              </button>
+            );
+          })}
 
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
-                Audit
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {(
-                  [
-                    ['all', 'All'],
-                    ['audited', 'Audited'],
-                    ['overdue', 'Overdue'],
-                    ['unaudited', 'Unaudited'],
-                  ] as const
-                ).map(([value, label]) => (
-                  <button
-                    key={value}
-                    onClick={() => setAuditFilter(value)}
-                    className={`rounded-pv-sm px-3 py-1.5 text-xs font-medium transition-colors ${
-                      auditFilter === value
-                        ? 'bg-[var(--pv-primary)] text-white'
-                        : 'bg-[var(--pv-surface)] text-[var(--pv-text-muted)] hover:bg-[var(--pv-border)]'
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
+          <span className="ml-2 mr-1 h-4 w-px bg-[var(--pv-border)]" />
 
-          <div className="mt-3 text-sm text-[var(--pv-text-muted)]">
-            Showing {filteredAndSorted.length} of {data.websites.length} websites
-          </div>
-        </CardContent>
-      </Card>
+          <span className="mr-1 text-[11px] font-semibold uppercase tracking-widest text-[var(--pv-text-muted)]">
+            Audit
+          </span>
+          {AUDIT_OPTIONS.map(({ value, label }) => {
+            const selected = auditTags.has(value);
+            return (
+              <button
+                key={value}
+                onClick={() => toggleTag(auditTags, setAuditTags, value)}
+                className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-medium transition-all"
+                style={{
+                  background: selected ? 'var(--pv-primary)' : 'transparent',
+                  borderColor: selected ? 'var(--pv-primary)' : 'var(--pv-border)',
+                  color: selected ? 'white' : 'var(--pv-text-muted)',
+                }}
+              >
+                {selected && <Check className="h-2.5 w-2.5" />}
+                {label}
+              </button>
+            );
+          })}
+
+          <span className="ml-auto text-xs text-[var(--pv-text-muted)]">
+            {filteredAndSorted.length} of {data.websites.length}
+          </span>
+        </div>
+      </div>
 
       {/* Results */}
       {filteredAndSorted.length === 0 ? (
