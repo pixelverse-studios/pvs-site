@@ -463,3 +463,21 @@
 ## Changed URLs
 
 - https://www.pixelversestudios.io/dashboard/clients/*/websites/*/seo-focus
+
+## Latest deploy summary
+
+- Added a per-website SEO detail page accessible directly from the SEO Health overview table
+- Clicking any website row on the SEO Health page now navigates to a dedicated detail view showing score, checklist, keywords, audit history, competitors, and score trend
+- Each website's SEO detail page is accessible at /dashboard/seo/[websiteId]
+
+## Notes for internal team
+
+- DEV-607 completed: created app/dashboard/seo/[websiteId]/page.tsx
+- Updated seo-overview-page-client.tsx to link rows to /dashboard/seo/[websiteId] instead of the nested seo-focus path
+- Removed client_id dependency for navigation — links now use website_id only
+- Page consumes getWebsiteSeo() and getWebsiteSeoAudits() from lib/api/seo.ts
+- Added to epic DEV-595
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/dashboard/seo

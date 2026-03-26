@@ -349,9 +349,7 @@ export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
 
 function WebsiteRow({ website }: { website: SeoOverviewWebsite }) {
   const overdue = isOverdue(website.next_audit_due);
-  const detailHref = website.client_id
-    ? `/dashboard/clients/${website.client_id}/websites/${website.website_id}/seo-focus`
-    : '#';
+  const detailHref = `/dashboard/seo/${website.website_id}`;
 
   return (
     <tr className="group transition-colors hover:bg-[var(--pv-surface)]">
@@ -420,9 +418,7 @@ function WebsiteRow({ website }: { website: SeoOverviewWebsite }) {
 }
 
 function WebsiteCard({ website }: { website: SeoOverviewWebsite }) {
-  const detailHref = website.client_id
-    ? `/dashboard/clients/${website.client_id}/websites/${website.website_id}/seo-focus`
-    : '#';
+  const detailHref = `/dashboard/seo/${website.website_id}`;
 
   return (
     <Card className="overflow-hidden">
