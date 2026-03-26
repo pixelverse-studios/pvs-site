@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -16,12 +16,27 @@ import {
   AlertTriangle,
   Target,
   Globe,
+  Check,
+  X,
 } from 'lucide-react';
 import type { SeoOverviewResponse, SeoOverviewWebsite } from '@/lib/api/seo';
 
 type SortField = 'website_title' | 'seo_score' | 'checklist_pct' | 'keywords_tracked' | 'last_audit_date';
 type SortDirection = 'asc' | 'desc';
-type StatusFilter = 'all' | 'audited' | 'overdue' | 'unaudited';
+type AuditTag = 'audited' | 'overdue' | 'unaudited';
+type ProjectTag = 'active' | 'in-progress' | 'inactive';
+
+const PROJECT_OPTIONS: { value: ProjectTag; label: string }[] = [
+  { value: 'active', label: 'Active' },
+  { value: 'in-progress', label: 'In Progress' },
+  { value: 'inactive', label: 'Inactive' },
+];
+
+const AUDIT_OPTIONS: { value: AuditTag; label: string }[] = [
+  { value: 'audited', label: 'Audited' },
+  { value: 'overdue', label: 'Overdue' },
+  { value: 'unaudited', label: 'Unaudited' },
+];
 
 function SortIcon({
   field,
@@ -85,10 +100,77 @@ interface SeoOverviewPageClientProps {
   data: SeoOverviewResponse;
 }
 
+const STORAGE_KEY = 'pvs-seo-overview-filters';
+
+const VALID_PROJECT_TAGS = new Set<string>(['active', 'in-progress', 'inactive']);
+const VALID_AUDIT_TAGS = new Set<string>(['audited', 'overdue', 'unaudited']);
+
+function loadFilters(): { project: ProjectTag[]; audit: AuditTag[] } | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || !Array.isArray(parsed.project) || !Array.isArray(parsed.audit)) return null;
+    return {
+      project: parsed.project.filter((v: string) => VALID_PROJECT_TAGS.has(v)),
+      audit: parsed.audit.filter((v: string) => VALID_AUDIT_TAGS.has(v)),
+    };
+  } catch {
+    return null;
+  }
+}
+
+function saveFilters(project: Set<ProjectTag>, audit: Set<AuditTag>) {
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ project: Array.from(project), audit: Array.from(audit) }),
+    );
+  } catch {
+    // localStorage unavailable
+  }
+}
+
 export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+  const [auditTags, setAuditTags] = useState<Set<AuditTag>>(new Set());
+  const [projectTags, setProjectTags] = useState<Set<ProjectTag>>(() => new Set<ProjectTag>(['active']));
   const [sortField, setSortField] = useState<SortField>('seo_score');
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  // Hydrate from localStorage on mount
+  useEffect(() => {
+    const saved = loadFilters();
+    if (saved) {
+      setProjectTags(new Set<ProjectTag>(saved.project));
+      setAuditTags(new Set<AuditTag>(saved.audit));
+    }
+    setIsHydrated(true);
+  }, []);
+
+  // Persist to localStorage on change (after hydration)
+  useEffect(() => {
+    if (isHydrated) {
+      saveFilters(projectTags, auditTags);
+    }
+  }, [projectTags, auditTags, isHydrated]);
+
+  const toggleTag = useCallback(<T extends string>(set: Set<T>, setFn: (s: Set<T>) => void, tag: T) => {
+    const next = new Set(set);
+    if (next.has(tag)) {
+      next.delete(tag);
+    } else {
+      next.add(tag);
+    }
+    setFn(next);
+  }, []);
+
+  const activeFilterCount = auditTags.size + projectTags.size;
+
+  const clearAllFilters = useCallback(() => {
+    setAuditTags(new Set());
+    setProjectTags(new Set());
+  }, []);
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
 
   const handleSort = (field: SortField) => {
@@ -124,18 +206,22 @@ export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
       );
     }
 
-    if (statusFilter !== 'all') {
+    if (projectTags.size > 0) {
       result = result.filter((w) => {
-        switch (statusFilter) {
-          case 'audited':
-            return w.seo_score !== null;
-          case 'overdue':
-            return isOverdue(w.next_audit_due);
-          case 'unaudited':
-            return w.seo_score === null;
-          default:
-            return true;
-        }
+        const status = (w.project_status || '').toLowerCase();
+        if (projectTags.has('active') && ['deployed', 'maintenance'].includes(status)) return true;
+        if (projectTags.has('in-progress') && ['planning', 'development', 'review', 'qa', 'staging'].includes(status)) return true;
+        if (projectTags.has('inactive') && ['archived', 'lost', 'on_hold'].includes(status)) return true;
+        return false;
+      });
+    }
+
+    if (auditTags.size > 0) {
+      result = result.filter((w) => {
+        if (auditTags.has('audited') && w.seo_score !== null) return true;
+        if (auditTags.has('overdue') && isOverdue(w.next_audit_due)) return true;
+        if (auditTags.has('unaudited') && w.seo_score === null) return true;
+        return false;
       });
     }
 
@@ -164,7 +250,7 @@ export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
     });
 
     return result;
-  }, [data.websites, searchQuery, statusFilter, sortField, sortDirection]);
+  }, [data.websites, searchQuery, auditTags, projectTags, sortField, sortDirection]);
 
   if (data.websites.length === 0) {
     return (
@@ -234,48 +320,84 @@ export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
         />
       </div>
 
-      {/* Search and Filter */}
-      <Card>
-        <CardContent className="py-6">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="relative w-full sm:w-96">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--pv-text-muted)]" />
-              <Input
-                type="text"
-                placeholder="Search by website, client, or domain..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {(
-                [
-                  ['all', 'All'],
-                  ['audited', 'Audited'],
-                  ['overdue', 'Overdue'],
-                  ['unaudited', 'Unaudited'],
-                ] as const
-              ).map(([value, label]) => (
-                <button
-                  key={value}
-                  onClick={() => setStatusFilter(value)}
-                  className={`rounded-pv-sm px-4 py-2 text-sm font-medium transition-colors ${
-                    statusFilter === value
-                      ? 'bg-[var(--pv-primary)] text-white'
-                      : 'bg-[var(--pv-surface)] text-[var(--pv-text-muted)] hover:bg-[var(--pv-border)]'
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
+      {/* Search and Filters */}
+      <div className="space-y-3">
+        {/* Search row */}
+        <div className="flex items-center gap-3">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--pv-text-muted)]" />
+            <Input
+              type="text"
+              placeholder="Search by website, client, or domain..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
           </div>
-          <div className="mt-4 text-sm text-[var(--pv-text-muted)]">
-            Showing {filteredAndSorted.length} of {data.websites.length} websites
-          </div>
-        </CardContent>
-      </Card>
+          {activeFilterCount > 0 && (
+            <button
+              onClick={clearAllFilters}
+              className="flex items-center gap-1 rounded-lg px-3 py-2 text-xs font-medium text-[var(--pv-text-muted)] transition-colors hover:bg-[var(--pv-surface)] hover:text-[var(--pv-text)]"
+            >
+              <X className="h-3 w-3" />
+              Clear filters
+            </button>
+          )}
+        </div>
+
+        {/* Filter chips — single compact row */}
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span className="mr-1 text-[11px] font-semibold uppercase tracking-widest text-[var(--pv-text-muted)]">
+            Status
+          </span>
+          {PROJECT_OPTIONS.map(({ value, label }) => {
+            const selected = projectTags.has(value);
+            return (
+              <button
+                key={value}
+                onClick={() => toggleTag(projectTags, setProjectTags, value)}
+                className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-medium transition-all"
+                style={{
+                  background: selected ? 'var(--pv-primary)' : 'transparent',
+                  borderColor: selected ? 'var(--pv-primary)' : 'var(--pv-border)',
+                  color: selected ? 'white' : 'var(--pv-text-muted)',
+                }}
+              >
+                {selected && <Check className="h-2.5 w-2.5" />}
+                {label}
+              </button>
+            );
+          })}
+
+          <span className="ml-2 mr-1 h-4 w-px bg-[var(--pv-border)]" />
+
+          <span className="mr-1 text-[11px] font-semibold uppercase tracking-widest text-[var(--pv-text-muted)]">
+            Audit
+          </span>
+          {AUDIT_OPTIONS.map(({ value, label }) => {
+            const selected = auditTags.has(value);
+            return (
+              <button
+                key={value}
+                onClick={() => toggleTag(auditTags, setAuditTags, value)}
+                className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-medium transition-all"
+                style={{
+                  background: selected ? 'var(--pv-primary)' : 'transparent',
+                  borderColor: selected ? 'var(--pv-primary)' : 'var(--pv-border)',
+                  color: selected ? 'white' : 'var(--pv-text-muted)',
+                }}
+              >
+                {selected && <Check className="h-2.5 w-2.5" />}
+                {label}
+              </button>
+            );
+          })}
+
+          <span className="ml-auto text-xs text-[var(--pv-text-muted)]">
+            {filteredAndSorted.length} of {data.websites.length}
+          </span>
+        </div>
+      </div>
 
       {/* Results */}
       {filteredAndSorted.length === 0 ? (
@@ -349,9 +471,7 @@ export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
 
 function WebsiteRow({ website }: { website: SeoOverviewWebsite }) {
   const overdue = isOverdue(website.next_audit_due);
-  const detailHref = website.client_id
-    ? `/dashboard/clients/${website.client_id}/websites/${website.website_id}/seo-focus`
-    : '#';
+  const detailHref = `/dashboard/seo/${website.website_id}`;
 
   return (
     <tr className="group transition-colors hover:bg-[var(--pv-surface)]">
@@ -420,9 +540,7 @@ function WebsiteRow({ website }: { website: SeoOverviewWebsite }) {
 }
 
 function WebsiteCard({ website }: { website: SeoOverviewWebsite }) {
-  const detailHref = website.client_id
-    ? `/dashboard/clients/${website.client_id}/websites/${website.website_id}/seo-focus`
-    : '#';
+  const detailHref = `/dashboard/seo/${website.website_id}`;
 
   return (
     <Card className="overflow-hidden">

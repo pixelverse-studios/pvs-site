@@ -1,6 +1,6 @@
-import { redirect, notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { createClient as createSupabaseClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/server';
 import { Container } from '@/components/ui/container';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -13,15 +13,7 @@ import {
   Target,
   Calendar,
 } from 'lucide-react';
-import {
-  type SeoFocus,
-  type SeoCity,
-  emptySeoFocus,
-  getPositionDisplay,
-} from '@/lib/types/seo-focus';
-import { getClient } from '@/lib/api/clients';
 import { getWebsiteSeo, getWebsiteSeoAudits } from '@/lib/api/seo';
-import type { Client } from '@/lib/types/client';
 import type {
   WebsiteSeoResponse,
   AuditHistoryResponse,
@@ -30,18 +22,18 @@ import type {
 } from '@/lib/api/seo';
 
 export const metadata = {
-  title: 'SEO Focus | Dashboard | PixelVerse Studios',
-  description: 'Track hyper-local SEO progress for this website.',
+  title: 'SEO Detail | Dashboard | PixelVerse Studios',
+  description: 'Detailed SEO health data for a website.',
   robots: { index: false, follow: false },
 };
 
-export default async function SeoFocusPage({
+export default async function SeoDetailPage({
   params,
 }: {
-  params: Promise<{ id: string; websiteId: string }>;
+  params: Promise<{ websiteId: string }>;
 }) {
-  const { id, websiteId } = await params;
-  const supabase = await createSupabaseClient();
+  const { websiteId } = await params;
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -50,80 +42,41 @@ export default async function SeoFocusPage({
     redirect('/login');
   }
 
-  let client: Client;
-  try {
-    client = await getClient(id);
-  } catch (error) {
-    console.error('Error fetching client:', error);
-    notFound();
-  }
-
-  const website = client.websites?.find((w) => w.id === websiteId);
-  if (!website) {
-    notFound();
-  }
-
-  // Fetch SEO API data in parallel with seo_focus parsing
   const [seoData, auditHistory] = await Promise.all([
     getWebsiteSeo(websiteId).catch(() => null as WebsiteSeoResponse | null),
-    getWebsiteSeoAudits(websiteId, { limit: 10 }).catch(
+    getWebsiteSeoAudits(websiteId, { limit: 12 }).catch(
       () => null as AuditHistoryResponse | null,
     ),
   ]);
 
-  // Parse legacy seo_focus data for city cards
-  let seoFocus: SeoFocus = emptySeoFocus;
-  if (website.seo_focus) {
-    try {
-      const parsed =
-        typeof website.seo_focus === 'string' ? JSON.parse(website.seo_focus) : website.seo_focus;
-      seoFocus = {
-        strategy: parsed.strategy || undefined,
-        goal: parsed.goal || undefined,
-        primaryCities: parsed.primaryCities || parsed.primary_cities || [],
-        secondaryCities: parsed.secondaryCities || parsed.secondary_cities || [],
-        countyKeywords: parsed.countyKeywords || parsed.county_keywords || [],
-        lastUpdated: parsed.lastUpdated || parsed.last_updated || undefined,
-      };
-    } catch (e) {
-      console.error('Failed to parse seo_focus:', e);
-    }
-  }
-
-  const clientName = [client.firstname, client.lastname].filter(Boolean).join(' ') || 'Client';
   const audit = seoData?.latest_audit;
   const hasAuditData = audit !== null && audit !== undefined;
-  const hasCityData =
-    (seoFocus.primaryCities?.length || 0) > 0 || (seoFocus.secondaryCities?.length || 0) > 0;
+
+  // Website name not available from SEO endpoints — audit data is the focus here
 
   return (
     <main className="pb-16 pt-8 md:pb-24">
       <Container className="max-w-6xl space-y-8">
         {/* Back Link */}
         <Link
-          href={`/dashboard/clients/${id}`}
+          href="/dashboard/seo"
           className="inline-flex items-center gap-2 text-sm font-medium text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-text)]"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to {clientName}
+          Back to SEO Health
         </Link>
 
         {/* Header */}
-        <header className="space-y-4">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <div className="inline-flex rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
-                SEO Dashboard
-              </div>
-              <h1 className="mt-3 text-3xl font-bold md:text-4xl">{website.title}</h1>
-              <p className="mt-2 text-[var(--pv-text-muted)]">
-                SEO health and keyword tracking for {website.domain}
-              </p>
+        <header className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div className="inline-flex rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
+              SEO Detail
             </div>
-            {hasAuditData && (
-              <ScoreBadgeLarge score={audit.score} grade={audit.grade} />
-            )}
+            <h1 className="mt-3 text-3xl font-bold md:text-4xl" style={{ color: 'var(--pv-text)' }}>
+              {hasAuditData ? (audit.summary ? audit.summary.split('.')[0] : 'SEO Health') : 'SEO Health'}
+            </h1>
           </div>
+          {hasAuditData && <ScoreBadgeLarge score={audit.score} grade={audit.grade} />}
         </header>
 
         {/* Overview Cards */}
@@ -183,6 +136,28 @@ export default async function SeoFocusPage({
           </div>
         )}
 
+        {/* Audit Summary */}
+        {hasAuditData && audit.summary && (
+          <Card>
+            <CardContent className="p-5">
+              <h2 className="mb-2 text-sm font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
+                Audit Summary
+              </h2>
+              <p className="text-[var(--pv-text)]">{audit.summary}</p>
+              <p className="mt-2 text-xs text-[var(--pv-text-muted)]">
+                Audited on{' '}
+                {new Date(audit.audit_date).toLocaleDateString('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}{' '}
+                by {audit.auditor} — {audit.findings_count} finding
+                {audit.findings_count !== 1 ? 's' : ''}
+              </p>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Checklist Breakdown */}
         {hasAuditData && audit.checklist.length > 0 && (
           <section className="space-y-4">
@@ -199,7 +174,7 @@ export default async function SeoFocusPage({
           </section>
         )}
 
-        {/* Keywords from API */}
+        {/* Keywords */}
         {seoData && seoData.keywords.items.length > 0 && (
           <section className="space-y-4">
             <h2 className="text-xl font-semibold text-[var(--pv-text)]">Keyword Rankings</h2>
@@ -356,32 +331,32 @@ export default async function SeoFocusPage({
                   {(() => {
                     const maxScore = Math.max(...seoData.trend.scores);
                     return seoData.trend.scores.map((score, i) => {
-                      const heightPct = maxScore > 0 ? (score / maxScore) * 100 : 0;
-                      const color =
-                        score >= 80 ? '#22c55e' : score >= 60 ? '#f59e0b' : '#ef4444';
-                      return (
+                    const heightPct = maxScore > 0 ? (score / maxScore) * 100 : 0;
+                    const color =
+                      score >= 80 ? '#22c55e' : score >= 60 ? '#f59e0b' : '#ef4444';
+                    return (
+                      <div
+                        key={`${seoData.trend.dates[i]}-${i}`}
+                        className="flex flex-1 flex-col items-center gap-1"
+                      >
+                        <span className="text-xs font-medium text-[var(--pv-text)]">{score}</span>
                         <div
-                          key={`${seoData.trend.dates[i]}-${i}`}
-                          className="flex flex-1 flex-col items-center gap-1"
-                        >
-                          <span className="text-xs font-medium text-[var(--pv-text)]">{score}</span>
-                          <div
-                            className="w-full rounded-t-md transition-all"
-                            style={{
-                              height: `${heightPct}%`,
-                              minHeight: '4px',
-                              background: color,
-                              opacity: 0.8,
-                            }}
-                          />
-                          <span className="text-[10px] text-[var(--pv-text-muted)]">
-                            {new Date(seoData.trend.dates[i]).toLocaleDateString('en-US', {
-                              month: 'short',
-                            })}
-                          </span>
-                        </div>
-                      );
-                    });
+                          className="w-full rounded-t-md transition-all"
+                          style={{
+                            height: `${heightPct}%`,
+                            minHeight: '4px',
+                            background: color,
+                            opacity: 0.8,
+                          }}
+                        />
+                        <span className="text-[10px] text-[var(--pv-text-muted)]">
+                          {new Date(seoData.trend.dates[i]).toLocaleDateString('en-US', {
+                            month: 'short',
+                          })}
+                        </span>
+                      </div>
+                    );
+                  });
                   })()}
                 </div>
               </CardContent>
@@ -389,96 +364,23 @@ export default async function SeoFocusPage({
           </section>
         )}
 
-        {/* Legacy City Cards (from seo_focus JSONB) */}
-        {hasCityData && (
-          <>
-            {/* Strategy Summary */}
-            {seoFocus.goal && (
-              <section className="rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-5">
-                <div className="from-[var(--pv-primary)]/10 via-[var(--pv-primary)]/5 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[var(--pv-border)] bg-gradient-to-r to-transparent p-4">
-                  <div className="space-y-1">
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
-                      Local SEO Strategy
-                    </p>
-                    <h2 className="text-lg font-semibold text-[var(--pv-text)] md:text-xl">
-                      {seoFocus.goal}
-                    </h2>
-                    {seoFocus.strategy && (
-                      <p className="text-sm text-[var(--pv-text-muted)]">{seoFocus.strategy}</p>
-                    )}
-                  </div>
-                </div>
-              </section>
-            )}
-
-            {/* Primary Focus Cities */}
-            {seoFocus.primaryCities?.length > 0 && (
-              <section className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold text-[var(--pv-text)]">
-                    Priority City Targets
-                  </h2>
-                  <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                    Active
-                  </span>
-                </div>
-                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                  {seoFocus.primaryCities.map((city) => (
-                    <CityCard key={city.slug} city={city} />
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Secondary Cities */}
-            {seoFocus.secondaryCities?.length > 0 && (
-              <section className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold text-[var(--pv-text)]">Upcoming Focus</h2>
-                  <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-600 dark:text-amber-400">
-                    Pending
-                  </span>
-                </div>
-                <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
-                  {seoFocus.secondaryCities.map((city) => (
-                    <div
-                      key={city.slug}
-                      className="rounded-lg border border-[var(--pv-border)] bg-[var(--pv-surface)] p-3 opacity-60"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-semibold text-[var(--pv-text-muted)]">
-                          #{city.rank}
-                        </span>
-                        {city.currentPosition && (
-                          <span className="font-mono text-[10px] text-[var(--pv-text-muted)]">
-                            Pos {Math.round(city.currentPosition)}
-                          </span>
-                        )}
-                      </div>
-                      <h3 className="mt-1 text-sm font-medium text-[var(--pv-text)]">
-                        {city.city}
-                      </h3>
-                      {city.population && (
-                        <p className="text-[10px] text-[var(--pv-text-muted)]">{city.population}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-          </>
-        )}
-
-        {/* Empty State — no audit data AND no city data */}
-        {!hasAuditData && !hasCityData && (
+        {/* Empty State */}
+        {!hasAuditData && (
           <section className="rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-8 text-center">
             <div className="mx-auto max-w-md space-y-4">
               <BarChart3 className="mx-auto h-12 w-12 text-[var(--pv-text-muted)]" />
-              <h2 className="text-xl font-semibold text-[var(--pv-text)]">No SEO Data</h2>
+              <h2 className="text-xl font-semibold text-[var(--pv-text)]">No Audit Data</h2>
               <p className="text-[var(--pv-text-muted)]">
-                No audit data or SEO focus tracking has been configured for this website yet. Run an
-                SEO audit to start tracking health metrics.
+                No SEO audits have been run for this website yet. Run an audit to start tracking
+                health metrics.
               </p>
+              <Link
+                href="/dashboard/seo"
+                className="inline-flex items-center gap-2 text-sm font-medium text-[var(--pv-primary)] transition-colors hover:underline"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to SEO overview
+              </Link>
             </div>
           </section>
         )}
@@ -600,14 +502,17 @@ function KeywordRow({ keyword: kw }: { keyword: KeywordRecord }) {
 }
 
 function TrendBadge({ trend }: { trend: KeywordRecord['trend'] }) {
-  const config: Record<string, { color: string; label: string; Icon: typeof TrendingUp | typeof TrendingDown | typeof Minus }> = {
+  const config: Record<
+    KeywordRecord['trend'],
+    { color: string; label: string; Icon: typeof TrendingUp }
+  > = {
     up: { color: '#22c55e', label: 'Up', Icon: TrendingUp },
     down: { color: '#ef4444', label: 'Down', Icon: TrendingDown },
     stable: { color: '#6b7280', label: 'Stable', Icon: Minus },
     new: { color: '#3b82f6', label: 'New', Icon: TrendingUp },
     lost: { color: '#ef4444', label: 'Lost', Icon: TrendingDown },
   };
-  const c = config[trend] || config.stable;
+  const c = config[trend];
   const Icon = c.Icon;
   return (
     <span
@@ -617,79 +522,5 @@ function TrendBadge({ trend }: { trend: KeywordRecord['trend'] }) {
       <Icon className="h-3 w-3" />
       {c.label}
     </span>
-  );
-}
-
-function getPriorityBorderColor(priority: 'high' | 'medium' | 'low'): string {
-  switch (priority) {
-    case 'high':
-      return 'border-l-red-500';
-    case 'medium':
-      return 'border-l-amber-500';
-    case 'low':
-      return 'border-l-slate-400';
-  }
-}
-
-function CityCard({ city }: { city: SeoCity }) {
-  const sortedKeywords = [...(city.targetKeywords || [])].sort((a, b) => {
-    const priorityOrder = { high: 0, medium: 1, low: 2 };
-    return priorityOrder[a.priority] - priorityOrder[b.priority];
-  });
-
-  return (
-    <article className="hover:border-[var(--pv-primary)]/30 group relative rounded-xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-4 transition-all hover:shadow-lg">
-      <div className="absolute -left-2.5 -top-2.5 flex h-7 w-7 items-center justify-center rounded-full bg-[var(--pv-primary)] text-xs font-bold text-white shadow-md">
-        {city.rank}
-      </div>
-      <div className="space-y-3">
-        <div className="flex items-start justify-between pt-1">
-          <div>
-            <h3 className="text-lg font-bold text-[var(--pv-text)]">
-              {city.city}, {city.state}
-            </h3>
-            {city.population && (
-              <p className="text-xs text-[var(--pv-text-muted)]">{city.population}</p>
-            )}
-          </div>
-          <div className="text-right">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
-              Position
-            </p>
-            <p className="font-mono text-lg font-bold text-[var(--pv-text)]">
-              {getPositionDisplay(city.currentPosition)}
-            </p>
-          </div>
-        </div>
-        {city.whyPriority && (
-          <p className="text-xs text-[var(--pv-text-muted)]">{city.whyPriority}</p>
-        )}
-        {sortedKeywords.length > 0 && (
-          <div className="space-y-2 border-t border-[var(--pv-border)] pt-3">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
-              Target Keywords ({sortedKeywords.length})
-            </p>
-            <div className="space-y-1.5">
-              {sortedKeywords.map((kw) => (
-                <div
-                  key={kw.keyword}
-                  className={`flex items-center justify-between rounded-md border-l-2 bg-[var(--pv-bg)] px-2.5 py-1.5 ${getPriorityBorderColor(kw.priority)}`}
-                >
-                  <span className="text-xs text-[var(--pv-text)]">{kw.keyword}</span>
-                  <div className="ml-2 flex items-center gap-1.5 whitespace-nowrap">
-                    <span className="font-mono text-xs font-semibold text-[var(--pv-text)]">
-                      {kw.currentPosition ? `#${Math.round(kw.currentPosition)}` : '—'}
-                    </span>
-                    <span className="font-mono text-[10px] text-[var(--pv-text-muted)]">
-                      → #{kw.targetPosition}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </article>
   );
 }
