@@ -16,6 +16,8 @@ import {
   Target,
   Calendar,
   ArrowRight,
+  Globe,
+  ExternalLink,
 } from 'lucide-react';
 import { SeoDrawer } from './seo-drawer';
 import type {
@@ -32,9 +34,11 @@ type DrawerView = null | 'keywords' | 'checklist' | 'audits' | 'competitors' | '
 interface SeoDetailClientProps {
   seoData: WebsiteSeoResponse | null;
   auditHistory: AuditHistoryResponse | null;
+  websiteTitle: string | null;
+  websiteDomain: string | null;
 }
 
-export function SeoDetailClient({ seoData, auditHistory }: SeoDetailClientProps) {
+export function SeoDetailClient({ seoData, auditHistory, websiteTitle, websiteDomain }: SeoDetailClientProps) {
   const [drawer, setDrawer] = useState<DrawerView>(null);
 
   const audit = seoData?.latest_audit;
@@ -54,16 +58,23 @@ export function SeoDetailClient({ seoData, auditHistory }: SeoDetailClientProps)
       {/* Header */}
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <div className="inline-flex rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--pv-text-muted)]">
-            SEO Detail
-          </div>
-          <h1 className="mt-3 text-3xl font-bold md:text-4xl" style={{ color: 'var(--pv-text)' }}>
-            {hasAuditData
-              ? audit.summary
-                ? audit.summary.split('.')[0]
-                : 'SEO Health'
-              : 'SEO Health'}
+          <h1 className="text-3xl font-bold md:text-4xl" style={{ color: 'var(--pv-text)' }}>
+            {websiteTitle || 'SEO Health'}
           </h1>
+          {websiteDomain && (
+            <div className="mt-2 flex items-center gap-3">
+              <a
+                href={`https://${websiteDomain}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm text-[var(--pv-primary)] transition-colors hover:underline"
+              >
+                <Globe className="h-4 w-4" />
+                {websiteDomain}
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
+          )}
         </div>
         {hasAuditData && <ScoreBadgeLarge score={audit.score} grade={audit.grade} />}
       </header>
