@@ -495,6 +495,18 @@
 - Impact colors: positive=green dot, negative=red dot, neutral=gray dot
 - Section hidden when changelog array is empty
 
+## Latest deploy summary
+
+- Added target URL column to keyword rankings tables showing which page each keyword targets
+- Competitor analysis tables now show shared keyword pills below each competitor when overlap data exists
+
+## Notes for internal team
+
+- DEV-611 completed: updated keyword table and competitor table in both app/dashboard/seo/[websiteId]/page.tsx and seo-focus/page.tsx
+- Target URL column hidden below xl breakpoint, shows as a monospace code badge
+- CompetitorRow component renders overlap_keywords as inline pills below the main row when present
+- Both fields were already in the API types — this is purely a rendering change
+
 ## Changed URLs
 
 - https://www.pixelversestudios.io/dashboard/seo
