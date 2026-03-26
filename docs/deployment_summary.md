@@ -361,3 +361,20 @@
 - https://www.pixelversestudios.io/portfolio
 - https://www.pixelversestudios.io/blog
 - https://www.pixelversestudios.io/faq
+
+## Latest deploy summary
+
+- Added a new Websites overview page to the internal dashboard showing all managed websites across all clients in one table
+- Added a Websites link to the dashboard sidebar navigation
+
+## Notes for internal team
+
+- DEV-600 completed: created app/dashboard/websites/page.tsx (server component) and app/dashboard/websites/components/websites-page-client.tsx (client component)
+- Table shows website name, client, domain, status, and deploy count (last 30 days) with search, status filters, and sortable columns
+- Desktop table + mobile card responsive layout, follows existing ClientsTable patterns
+- Added Globe icon + Websites nav item to components/dashboard/dashboard-sidebar.tsx
+- Part of epic DEV-595 (dashboard redesign with SEO health integration)
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/dashboard/websites
