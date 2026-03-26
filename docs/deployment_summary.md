@@ -378,3 +378,20 @@
 ## Changed URLs
 
 - https://www.pixelversestudios.io/dashboard/websites
+
+## Latest deploy summary
+
+- Added a new Deployments overview page to the internal dashboard showing all recent deployments across all websites in one table
+- Added a Deployments link to the dashboard sidebar navigation
+
+## Notes for internal team
+
+- DEV-601 completed: created app/dashboard/deployments/page.tsx (server component) and app/dashboard/deployments/components/deployments-page-client.tsx (client component)
+- Table shows date, website, client, summary, and indexing status with search, status filters (Pending/Requested/Indexed), and sortable columns
+- Desktop table + mobile card responsive layout
+- Added Rocket icon + Deployments nav item to components/dashboard/dashboard-sidebar.tsx
+- Part of epic DEV-595 (dashboard redesign with SEO health integration)
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/dashboard/deployments

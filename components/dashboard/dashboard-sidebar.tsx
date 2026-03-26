@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Users,
   Globe,
+  Rocket,
   FolderKanban,
   TrendingUp,
   FileText,
@@ -55,6 +56,12 @@ const navSections: NavSection[] = [
         label: 'Websites',
         href: '/dashboard/websites',
         icon: Globe,
+        available: true,
+      },
+      {
+        label: 'Deployments',
+        href: '/dashboard/deployments',
+        icon: Rocket,
         available: true,
       },
       {
