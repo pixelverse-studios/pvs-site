@@ -438,3 +438,28 @@
 ## Changed URLs
 
 - https://www.pixelversestudios.io/dashboard/seo
+
+## Latest deploy summary
+
+- Upgraded the per-website SEO Focus page with full audit data from the database API
+- Added overview cards showing SEO score, checklist progress, keyword rankings, and next audit date
+- Added checklist progress bars broken down by category (Technical, On-Page, Content, Local)
+- Added keyword rankings table with position, previous position, trend, volume, and target city
+- Added audit history table showing all past audits with scores and findings
+- Added competitor analysis table showing domain authority and keyword overlap
+- Added score trend bar chart showing score progression across audits
+- Existing city target cards and local SEO strategy sections retained
+
+## Notes for internal team
+
+- DEV-603 completed: upgraded app/dashboard/clients/[id]/websites/[websiteId]/seo-focus/page.tsx
+- Added getWebsiteSeo() and getWebsiteSeoAudits() functions to lib/api/seo.ts with full type definitions
+- New types: WebsiteSeoResponse, AuditHistoryResponse, ChecklistItem, ChangelogEntry, KeywordRecord, CompetitorRecord
+- Page fetches from GET /api/websites/:websiteId/seo and GET /api/websites/:websiteId/seo/audits in parallel
+- Legacy seo_focus JSONB data (city cards) still rendered below API data sections
+- Graceful degradation: each section only renders if API data exists; empty state shown when no audit data AND no city data
+- Last ticket in epic DEV-595 (dashboard redesign with SEO health integration)
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/dashboard/clients/*/websites/*/seo-focus
