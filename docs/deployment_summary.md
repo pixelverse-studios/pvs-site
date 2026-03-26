@@ -507,6 +507,20 @@
 - CompetitorRow component renders overlap_keywords as inline pills below the main row when present
 - Both fields were already in the API types — this is purely a rendering change
 
+## Latest deploy summary
+
+- Checklist sections on SEO detail pages are now expandable — click a category to see individual checklist items with pass/fail/partial status icons
+- Categories without item-level data still show the progress bar only (backward compatible)
+
+## Notes for internal team
+
+- DEV-612 completed: updated ChecklistBar component in both app/dashboard/seo/[websiteId]/page.tsx and seo-focus/page.tsx
+- Uses native HTML details/summary for zero-JS expand/collapse in server components
+- Status icons: green checkmark (complete), amber warning (partial), red X (incomplete)
+- Completed items shown in muted text, incomplete items in normal text
+- Chevron rotates on expand via group-open:rotate-90 Tailwind class
+- Keyword table already shows all keywords (handled in DEV-607 API rename)
+
 ## Changed URLs
 
 - https://www.pixelversestudios.io/dashboard/seo

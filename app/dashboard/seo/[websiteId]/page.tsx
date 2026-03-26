@@ -10,6 +10,9 @@ import {
   Minus,
   BarChart3,
   CheckCircle2,
+  XCircle,
+  AlertTriangle,
+  ChevronRight,
   Target,
   Calendar,
 } from 'lucide-react';
@@ -529,8 +532,10 @@ function ChangelogRow({ entry, isLast }: { entry: ChangelogEntry; isLast: boolea
 
 function ChecklistBar({ item }: { item: ChecklistItem }) {
   const color = item.pct >= 80 ? '#22c55e' : item.pct >= 50 ? '#f59e0b' : '#ef4444';
-  return (
-    <div className="space-y-1.5">
+  const hasItems = item.items && item.items.length > 0;
+
+  const barContent = (
+    <>
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium text-[var(--pv-text)]">{item.category}</span>
         <span className="text-sm text-[var(--pv-text-muted)]">
@@ -543,7 +548,55 @@ function ChecklistBar({ item }: { item: ChecklistItem }) {
           style={{ width: `${item.pct}%`, background: color }}
         />
       </div>
-    </div>
+    </>
+  );
+
+  if (!hasItems) {
+    return <div className="space-y-1.5">{barContent}</div>;
+  }
+
+  return (
+    <details className="group">
+      <summary className="cursor-pointer list-none space-y-1.5 [&::-webkit-details-marker]:hidden">
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium text-[var(--pv-text)]">
+            <ChevronRight className="mr-1 inline h-3.5 w-3.5 text-[var(--pv-text-muted)] transition-transform group-open:rotate-90" />
+            {item.category}
+          </span>
+          <span className="text-sm text-[var(--pv-text-muted)]">
+            {item.completed}/{item.total} ({item.pct}%)
+          </span>
+        </div>
+        <div className="h-2 overflow-hidden rounded-full bg-[var(--pv-border)]">
+          <div
+            className="h-full rounded-full transition-all"
+            style={{ width: `${item.pct}%`, background: color }}
+          />
+        </div>
+      </summary>
+      <div className="mt-2 space-y-1 pl-5">
+        {(item.items || []).map((detail) => (
+          <div key={detail.name} className="flex items-center gap-2 text-sm">
+            {detail.status === 'complete' ? (
+              <CheckCircle2 className="h-3.5 w-3.5 flex-shrink-0 text-emerald-500" />
+            ) : detail.status === 'partial' ? (
+              <AlertTriangle className="h-3.5 w-3.5 flex-shrink-0 text-amber-500" />
+            ) : (
+              <XCircle className="h-3.5 w-3.5 flex-shrink-0 text-red-400" />
+            )}
+            <span
+              className={
+                detail.status === 'complete'
+                  ? 'text-[var(--pv-text-muted)]'
+                  : 'text-[var(--pv-text)]'
+              }
+            >
+              {detail.name}
+            </span>
+          </div>
+        ))}
+      </div>
+    </details>
   );
 }
 
