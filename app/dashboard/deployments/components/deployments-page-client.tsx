@@ -10,7 +10,7 @@ import {
   INDEXING_STATUS_COLORS,
   formatDeploymentDateTime,
 } from '@/lib/types/deployment';
-import type { IndexingStatus, DeploymentStatus } from '@/lib/types/deployment';
+import type { IndexingStatus } from '@/lib/types/deployment';
 import type { FlattenedDeployment } from '../page';
 
 type SortField = 'created_at' | 'website_title' | 'client_name' | 'indexing_status';
@@ -34,7 +34,7 @@ function SortIcon({
   );
 }
 
-function IndexingBadge({ status }: { status: DeploymentStatus }) {
+function IndexingBadge({ status }: { status: IndexingStatus }) {
   const label = INDEXING_STATUS_LABELS[status] || status;
   const color = INDEXING_STATUS_COLORS[status] || '#6b7280';
 

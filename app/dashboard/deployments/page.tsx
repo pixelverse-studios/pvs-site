@@ -38,7 +38,7 @@ function flattenDeployments(clients: ClientListItem[]): FlattenedDeployment[] {
         client_id: client.client_id,
         client_name: clientName,
         deploy_summary: deployment.deploy_summary,
-        indexing_status: deployment.indexing_status as IndexingStatus,
+        indexing_status: deployment.indexing_status,
         created_at: deployment.created_at,
       });
     }
