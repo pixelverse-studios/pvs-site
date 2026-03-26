@@ -395,3 +395,25 @@
 ## Changed URLs
 
 - https://www.pixelversestudios.io/dashboard/deployments
+
+## Latest deploy summary
+
+- Redesigned the dashboard landing page with clickable stat widgets that link to Clients, Websites, Deployments, and SEO Health pages
+- Added an SEO Health overview table to the dashboard showing all websites with their audit score, checklist progress, keyword rankings, and last audit date
+- Replaced the "Pending Items" stat card with "SEO Health" showing count of audited sites
+- Removed the empty Recent Activity section and Recent Clients list to reduce clutter
+
+## Notes for internal team
+
+- DEV-599 completed: redesigned app/dashboard/page.tsx
+- StatCard component (components/dashboard/stat-card.tsx) now supports an `href` prop for clickable navigation via Next.js Link
+- Created lib/api/seo.ts with getSeoOverview() function and SeoOverviewResponse/SeoOverviewWebsite types
+- SEO overview table fetches from GET /api/seo/overview (server-side)
+- Websites without audit data show dashes in all SEO columns
+- Score badges color-coded: green (80+), amber (60-79), red (<60)
+- Trend indicators show +/- delta with up/down icons
+- Part of epic DEV-595 (dashboard redesign with SEO health integration)
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/dashboard
