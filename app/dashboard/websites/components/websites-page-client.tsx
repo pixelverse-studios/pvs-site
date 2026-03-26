@@ -12,14 +12,30 @@ import {
   ArrowUp,
   ArrowDown,
 } from 'lucide-react';
-import { STATUS_LABELS, STATUS_COLORS } from '@/lib/types/project';
+import { STATUS_LABELS, STATUS_COLORS, formatRelativeTime } from '@/lib/types/project';
 import type { ProjectStatus } from '@/lib/types/project';
-import { formatRelativeTime } from '@/lib/types/project';
 import type { FlattenedWebsite } from '../page';
 
 type SortField = 'website_title' | 'client_name' | 'status' | 'recent_deploy_count' | 'domain';
 type SortDirection = 'asc' | 'desc';
-type StatusFilter = 'all' | 'active' | 'deployed' | 'development' | 'other';
+type StatusFilter = 'all' | 'active' | 'development' | 'other';
+
+function SortIcon({
+  field,
+  sortField,
+  sortDirection,
+}: {
+  field: SortField;
+  sortField: SortField;
+  sortDirection: SortDirection;
+}) {
+  if (sortField !== field) return <ArrowUpDown className="h-3.5 w-3.5 opacity-40" />;
+  return sortDirection === 'asc' ? (
+    <ArrowUp className="h-3.5 w-3.5" />
+  ) : (
+    <ArrowDown className="h-3.5 w-3.5" />
+  );
+}
 
 interface WebsitesPageClientProps {
   websites: FlattenedWebsite[];
@@ -60,8 +76,6 @@ export function WebsitesPageClient({ websites }: WebsitesPageClientProps) {
         switch (statusFilter) {
           case 'active':
             return ['deployed', 'maintenance'].includes(w.status);
-          case 'deployed':
-            return w.status === 'deployed';
           case 'development':
             return ['planning', 'development', 'review', 'qa', 'staging'].includes(w.status);
           case 'other':
@@ -97,15 +111,6 @@ export function WebsitesPageClient({ websites }: WebsitesPageClientProps) {
 
     return result;
   }, [websites, searchQuery, statusFilter, sortField, sortDirection]);
-
-  const SortIcon = ({ field }: { field: SortField }) => {
-    if (sortField !== field) return <ArrowUpDown className="h-3.5 w-3.5 opacity-40" />;
-    return sortDirection === 'asc' ? (
-      <ArrowUp className="h-3.5 w-3.5" />
-    ) : (
-      <ArrowDown className="h-3.5 w-3.5" />
-    );
-  };
 
   if (websites.length === 0) {
     return (
@@ -215,7 +220,7 @@ export function WebsitesPageClient({ websites }: WebsitesPageClientProps) {
                           onClick={() => handleSort('website_title')}
                           className="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wider text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-text)]"
                         >
-                          Website <SortIcon field="website_title" />
+                          Website <SortIcon field="website_title" sortField={sortField} sortDirection={sortDirection} />
                         </button>
                       </th>
                       <th className="px-6 py-4 text-left">
@@ -223,7 +228,7 @@ export function WebsitesPageClient({ websites }: WebsitesPageClientProps) {
                           onClick={() => handleSort('client_name')}
                           className="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wider text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-text)]"
                         >
-                          Client <SortIcon field="client_name" />
+                          Client <SortIcon field="client_name" sortField={sortField} sortDirection={sortDirection} />
                         </button>
                       </th>
                       <th className="px-6 py-4 text-left">
@@ -231,7 +236,7 @@ export function WebsitesPageClient({ websites }: WebsitesPageClientProps) {
                           onClick={() => handleSort('domain')}
                           className="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wider text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-text)]"
                         >
-                          Domain <SortIcon field="domain" />
+                          Domain <SortIcon field="domain" sortField={sortField} sortDirection={sortDirection} />
                         </button>
                       </th>
                       <th className="px-6 py-4 text-left">
@@ -239,7 +244,7 @@ export function WebsitesPageClient({ websites }: WebsitesPageClientProps) {
                           onClick={() => handleSort('status')}
                           className="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wider text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-text)]"
                         >
-                          Status <SortIcon field="status" />
+                          Status <SortIcon field="status" sortField={sortField} sortDirection={sortDirection} />
                         </button>
                       </th>
                       <th className="px-6 py-4 text-right">
@@ -247,7 +252,7 @@ export function WebsitesPageClient({ websites }: WebsitesPageClientProps) {
                           onClick={() => handleSort('recent_deploy_count')}
                           className="ml-auto flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wider text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-text)]"
                         >
-                          Deploys (30d) <SortIcon field="recent_deploy_count" />
+                          Deploys (30d) <SortIcon field="recent_deploy_count" sortField={sortField} sortDirection={sortDirection} />
                         </button>
                       </th>
                     </tr>
@@ -290,7 +295,7 @@ export function WebsitesPageClient({ websites }: WebsitesPageClientProps) {
                           )}
                         </td>
                         <td className="px-6 py-4">
-                          <StatusBadge status={website.status as ProjectStatus} />
+                          <StatusBadge status={website.status} />
                         </td>
                         <td className="px-6 py-4 text-right">
                           <div className="text-sm">
@@ -324,7 +329,7 @@ export function WebsitesPageClient({ websites }: WebsitesPageClientProps) {
                     >
                       {website.website_title}
                     </Link>
-                    <StatusBadge status={website.status as ProjectStatus} />
+                    <StatusBadge status={website.status} />
                   </div>
 
                   <div className="space-y-2 border-t border-[var(--pv-border)] pt-3">

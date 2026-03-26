@@ -2,8 +2,10 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { Container } from '@/components/ui/container';
 import { getClients } from '@/lib/api/clients';
+import { getClientDisplayName } from '@/lib/types/client';
 import { WebsitesPageClient } from './components/websites-page-client';
 import type { ClientListItem } from '@/lib/types/client';
+import type { ProjectStatus } from '@/lib/types/project';
 
 export const metadata = {
   title: 'Websites | Dashboard | PixelVerse Studios',
@@ -15,11 +17,10 @@ export interface FlattenedWebsite {
   website_id: string;
   website_title: string;
   domain: string;
-  status: string;
+  status: ProjectStatus;
   priority: number;
   client_id: string;
   client_name: string;
-  client_active: boolean | null;
   recent_deploy_count: number;
   last_deploy_date: string | null;
 }
@@ -28,16 +29,20 @@ function flattenWebsites(clients: ClientListItem[]): FlattenedWebsite[] {
   const websites: FlattenedWebsite[] = [];
 
   for (const client of clients) {
-    const clientName =
-      client.company_name ||
-      [client.firstname, client.lastname].filter(Boolean).join(' ') ||
-      'Unknown';
+    const clientName = getClientDisplayName(client);
 
     for (const website of client.websites) {
-      // Find deployments for this specific website
       const websiteDeployments = client.recent_deployments.filter(
         (d) => d.website_id === website.website_id,
       );
+
+      // Find most recent deploy date via reduce (O(n) vs sort's O(n log n))
+      const lastDeployDate =
+        websiteDeployments.length > 0
+          ? websiteDeployments.reduce((latest, d) =>
+              new Date(d.created_at).getTime() > new Date(latest.created_at).getTime() ? d : latest,
+            ).created_at
+          : null;
 
       websites.push({
         website_id: website.website_id,
@@ -47,14 +52,8 @@ function flattenWebsites(clients: ClientListItem[]): FlattenedWebsite[] {
         priority: website.priority,
         client_id: client.client_id,
         client_name: clientName,
-        client_active: client.client_active,
         recent_deploy_count: websiteDeployments.length,
-        last_deploy_date:
-          websiteDeployments.length > 0
-            ? websiteDeployments.sort(
-                (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-              )[0].created_at
-            : null,
+        last_deploy_date: lastDeployDate,
       });
     }
   }
