@@ -4,7 +4,7 @@ import { Container } from '@/components/ui/container';
 import { StatCard } from '@/components/dashboard/stat-card';
 import { DashboardCard } from '@/components/dashboard/dashboard-card';
 import { AgendaWidgetWrapper } from '@/components/dashboard/agenda-widget-wrapper';
-import { getActiveAgendaItems, getPendingAgendaCount } from '@/lib/api/agenda';
+import { getActiveAgendaItems } from '@/lib/api/agenda';
 import { getClients } from '@/lib/api/clients';
 import { getSeoOverview } from '@/lib/api/seo';
 import type { ClientListItem as ClientData } from '@/lib/types/client';
@@ -27,10 +27,9 @@ export default async function DashboardPage() {
     redirect('/login');
   }
 
-  const [clientsResponse, agendaData, pendingCount, seoOverview] = await Promise.all([
+  const [clientsResponse, agendaData, seoOverview] = await Promise.all([
     getClients().catch(() => ({ clients: [] as ClientData[], total: 0, limit: 50, offset: 0 })),
     getActiveAgendaItems(8).catch(() => ({ items: [], total: 0 })),
-    getPendingAgendaCount().catch(() => 0),
     getSeoOverview().catch(() => ({ total: 0, websites: [] }) as SeoOverviewResponse),
   ]);
 
