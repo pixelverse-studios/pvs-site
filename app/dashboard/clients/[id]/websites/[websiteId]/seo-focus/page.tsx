@@ -192,6 +192,7 @@ export default async function SeoFocusPage({
               <CardContent className="p-5">
                 <div className="space-y-0">
                   {audit.changelog
+                    .slice()
                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                     .map((entry, i) => (
                       <ChangelogRow
@@ -586,22 +587,22 @@ const CATEGORY_COLORS: Record<string, string> = {
   backlinks: '#10b981',
 };
 
-const IMPACT_CONFIG: Record<string, { color: string; label: string }> = {
-  positive: { color: '#22c55e', label: 'Positive' },
-  negative: { color: '#ef4444', label: 'Negative' },
-  neutral: { color: '#6b7280', label: 'Neutral' },
+const IMPACT_COLORS: Record<string, string> = {
+  positive: '#22c55e',
+  negative: '#ef4444',
+  neutral: '#6b7280',
 };
 
 function ChangelogRow({ entry, isLast }: { entry: ChangelogEntry; isLast: boolean }) {
   const catColor = CATEGORY_COLORS[(entry.category || '').toLowerCase()] || '#6b7280';
-  const impact = IMPACT_CONFIG[(entry.impact || '').toLowerCase()] || IMPACT_CONFIG.neutral;
+  const impactColor = IMPACT_COLORS[(entry.impact || '').toLowerCase()] || IMPACT_COLORS.neutral;
 
   return (
     <div className="flex gap-3">
       <div className="flex flex-col items-center">
         <div
           className="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
-          style={{ background: impact.color }}
+          style={{ background: impactColor }}
         />
         {!isLast && <div className="w-px flex-1 bg-[var(--pv-border)]" />}
       </div>
