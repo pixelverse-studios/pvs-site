@@ -75,7 +75,7 @@ export function SeoDrawer({ open, onClose, title, children }: SeoDrawerProps) {
       {/* Backdrop */}
       {open && (
         <div
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
+          className="fixed inset-0 z-[70] bg-black/40 backdrop-blur-sm transition-opacity duration-300"
           onClick={onClose}
           aria-hidden="true"
         />
@@ -88,7 +88,7 @@ export function SeoDrawer({ open, onClose, title, children }: SeoDrawerProps) {
         aria-modal="true"
         aria-labelledby="seo-drawer-title"
         onKeyDown={handleKeyDown}
-        className={`fixed right-0 top-0 z-50 flex h-full w-full max-w-2xl flex-col border-l transition-transform duration-300 ease-out ${
+        className={`fixed right-0 top-0 z-[80] flex h-full w-full max-w-2xl flex-col border-l transition-transform duration-300 ease-out ${
           open ? 'translate-x-0' : 'translate-x-full'
         }`}
         style={{
