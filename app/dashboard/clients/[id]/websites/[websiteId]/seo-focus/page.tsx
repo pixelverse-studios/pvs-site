@@ -28,6 +28,7 @@ import type {
   ChecklistItem,
   ChangelogEntry,
   KeywordRecord,
+  CompetitorRecord,
 } from '@/lib/api/seo';
 
 export const metadata = {
@@ -250,6 +251,9 @@ export default async function SeoFocusPage({
                       <th className="hidden px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[var(--pv-text-muted)] lg:table-cell">
                         City
                       </th>
+                      <th className="hidden px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[var(--pv-text-muted)] xl:table-cell">
+                        Target
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[var(--pv-border)]">
@@ -345,23 +349,7 @@ export default async function SeoFocusPage({
                   </thead>
                   <tbody className="divide-y divide-[var(--pv-border)]">
                     {seoData.competitors.map((comp) => (
-                      <tr
-                        key={comp.competitor_domain}
-                        className="transition-colors hover:bg-[var(--pv-surface)]"
-                      >
-                        <td className="px-4 py-3 font-medium text-[var(--pv-text)]">
-                          {comp.competitor_domain}
-                        </td>
-                        <td className="px-4 py-3 text-center text-[var(--pv-text)]">
-                          {comp.da_score !== null ? comp.da_score : '—'}
-                        </td>
-                        <td className="px-4 py-3 text-center text-[var(--pv-text)]">
-                          {comp.keyword_overlap !== null ? comp.keyword_overlap : '—'}
-                        </td>
-                        <td className="hidden px-4 py-3 text-[var(--pv-text-muted)] md:table-cell">
-                          {comp.notes || '—'}
-                        </td>
-                      </tr>
+                      <CompetitorRow key={comp.competitor_domain} competitor={comp} />
                     ))}
                   </tbody>
                 </table>
@@ -671,7 +659,59 @@ function KeywordRow({ keyword: kw }: { keyword: KeywordRecord }) {
       <td className="hidden px-4 py-3 text-[var(--pv-text-muted)] lg:table-cell">
         {kw.target_city || '—'}
       </td>
+      <td className="hidden px-4 py-3 xl:table-cell">
+        {kw.target_url ? (
+          <span className="rounded bg-[var(--pv-surface)] px-2 py-0.5 font-mono text-xs text-[var(--pv-text-muted)]">
+            {kw.target_url}
+          </span>
+        ) : (
+          <span className="text-xs text-[var(--pv-text-muted)]">—</span>
+        )}
+      </td>
     </tr>
+  );
+}
+
+function CompetitorRow({ competitor: comp }: { competitor: CompetitorRecord }) {
+  const hasOverlap = comp.overlap_keywords && comp.overlap_keywords.length > 0;
+
+  return (
+    <>
+      <tr className="transition-colors hover:bg-[var(--pv-surface)]">
+        <td className="px-4 py-3 font-medium text-[var(--pv-text)]">
+          {comp.competitor_domain}
+        </td>
+        <td className="px-4 py-3 text-center text-[var(--pv-text)]">
+          {comp.da_score !== null ? comp.da_score : '—'}
+        </td>
+        <td className="px-4 py-3 text-center text-[var(--pv-text)]">
+          {comp.keyword_overlap !== null ? comp.keyword_overlap : '—'}
+        </td>
+        <td className="hidden px-4 py-3 text-[var(--pv-text-muted)] md:table-cell">
+          {comp.notes || '—'}
+        </td>
+      </tr>
+      {hasOverlap && (
+        <tr className="bg-[var(--pv-bg)]">
+          <td colSpan={4} className="px-4 pb-3 pt-0">
+            <div className="flex flex-wrap gap-1.5">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
+                Shared keywords:
+              </span>
+              {comp.overlap_keywords.map((kw) => (
+                <span
+                  key={kw}
+                  className="rounded-full bg-[var(--pv-surface)] px-2 py-0.5 text-[10px] text-[var(--pv-text-muted)]"
+                  style={{ border: '1px solid var(--pv-border)' }}
+                >
+                  {kw}
+                </span>
+              ))}
+            </div>
+          </td>
+        </tr>
+      )}
+    </>
   );
 }
 
