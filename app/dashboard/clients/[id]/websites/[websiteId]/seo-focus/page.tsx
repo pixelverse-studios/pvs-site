@@ -18,7 +18,6 @@ import {
   type SeoCity,
   emptySeoFocus,
   getPositionDisplay,
-  getPriorityColor,
 } from '@/lib/types/seo-focus';
 import { getClient } from '@/lib/api/clients';
 import { getWebsiteSeo, getWebsiteSeoAudits } from '@/lib/api/seo';
@@ -28,7 +27,6 @@ import type {
   AuditHistoryResponse,
   ChecklistItem,
   KeywordRecord,
-  CompetitorRecord,
 } from '@/lib/api/seo';
 
 export const metadata = {
@@ -599,7 +597,7 @@ function KeywordRow({ keyword: kw }: { keyword: KeywordRecord }) {
   );
 }
 
-function TrendBadge({ trend }: { trend: string }) {
+function TrendBadge({ trend }: { trend: KeywordRecord['trend'] }) {
   const config: Record<string, { color: string; label: string; Icon: typeof TrendingUp | typeof TrendingDown | typeof Minus }> = {
     up: { color: '#22c55e', label: 'Up', Icon: TrendingUp },
     down: { color: '#ef4444', label: 'Down', Icon: TrendingDown },
