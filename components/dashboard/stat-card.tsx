@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import {
   TrendingUp,
@@ -40,6 +41,7 @@ interface StatCardProps {
   };
   accentColor?: string;
   className?: string;
+  href?: string;
   onClick?: () => void;
 }
 
@@ -51,23 +53,25 @@ export function StatCard({
   trend,
   accentColor = 'var(--pv-primary)',
   className,
+  href,
   onClick,
 }: StatCardProps) {
   const Icon = iconMap[iconName];
-  return (
-    <div
-      className={cn(
-        'group relative overflow-hidden rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-6 transition-all duration-300',
-        'hover:border-[var(--pv-primary)]/30 hover:-translate-y-0.5 hover:shadow-lg',
-        onClick && 'cursor-pointer',
-        className,
-      )}
-      onClick={onClick}
-      style={{
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-      }}
-    >
+
+  const cardClassName = cn(
+    'group relative overflow-hidden rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-6 transition-all duration-300',
+    'hover:border-[var(--pv-primary)]/30 hover:-translate-y-0.5 hover:shadow-lg',
+    (href || onClick) && 'cursor-pointer',
+    className,
+  );
+
+  const cardStyle = {
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+  };
+
+  const cardContent = (
+    <>
       {/* Subtle glow effect on hover */}
       <div
         className="absolute -inset-1 -z-10 rounded-2xl opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-20"
@@ -133,6 +137,20 @@ export function StatCard({
         className="absolute bottom-0 left-0 h-0.5 w-0 transition-all duration-500 group-hover:w-full"
         style={{ background: `linear-gradient(90deg, ${accentColor}, transparent)` }}
       />
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link href={href} className={cardClassName} style={cardStyle}>
+        {cardContent}
+      </Link>
+    );
+  }
+
+  return (
+    <div className={cardClassName} onClick={onClick} style={cardStyle}>
+      {cardContent}
     </div>
   );
 }

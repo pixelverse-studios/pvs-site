@@ -6,6 +6,8 @@ import { useEffect } from 'react';
 import {
   LayoutDashboard,
   Users,
+  Globe,
+  Rocket,
   FolderKanban,
   TrendingUp,
   FileText,
@@ -49,6 +51,24 @@ const navSections: NavSection[] = [
         label: 'Clients',
         href: '/dashboard/clients',
         icon: Users,
+        available: true,
+      },
+      {
+        label: 'Websites',
+        href: '/dashboard/websites',
+        icon: Globe,
+        available: true,
+      },
+      {
+        label: 'Deployments',
+        href: '/dashboard/deployments',
+        icon: Rocket,
+        available: true,
+      },
+      {
+        label: 'SEO Health',
+        href: '/dashboard/seo',
+        icon: TrendingUp,
         available: true,
       },
       {
