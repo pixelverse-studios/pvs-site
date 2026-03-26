@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { X } from 'lucide-react';
 
 interface SeoDrawerProps {
@@ -11,6 +11,9 @@ interface SeoDrawerProps {
 }
 
 export function SeoDrawer({ open, onClose, title, children }: SeoDrawerProps) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
   // Lock body scroll when open
   useEffect(() => {
     if (open) {
@@ -21,6 +24,15 @@ export function SeoDrawer({ open, onClose, title, children }: SeoDrawerProps) {
     return () => {
       document.body.style.overflow = '';
     };
+  }, [open]);
+
+  // Auto-focus close button on open
+  useEffect(() => {
+    if (open) {
+      // Small delay to let the slide animation start before focusing
+      const timer = setTimeout(() => closeButtonRef.current?.focus(), 100);
+      return () => clearTimeout(timer);
+    }
   }, [open]);
 
   // Close on Escape
@@ -34,18 +46,48 @@ export function SeoDrawer({ open, onClose, title, children }: SeoDrawerProps) {
     }
   }, [open, onClose]);
 
+  // Trap focus inside the drawer
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key !== 'Tab' || !panelRef.current) return;
+
+      const focusable = panelRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    },
+    [],
+  );
+
   return (
     <>
       {/* Backdrop */}
-      <div
-        className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${
-          open ? 'opacity-100' : 'pointer-events-none opacity-0'
-        }`}
-        onClick={onClose}
-      />
+      {open && (
+        <div
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
+          onClick={onClose}
+          aria-hidden="true"
+        />
+      )}
 
       {/* Drawer panel */}
       <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="seo-drawer-title"
+        onKeyDown={handleKeyDown}
         className={`fixed right-0 top-0 z-50 flex h-full w-full max-w-2xl flex-col border-l transition-transform duration-300 ease-out ${
           open ? 'translate-x-0' : 'translate-x-full'
         }`}
@@ -59,13 +101,19 @@ export function SeoDrawer({ open, onClose, title, children }: SeoDrawerProps) {
           className="flex items-center justify-between border-b px-6 py-4"
           style={{ borderColor: 'var(--pv-border)' }}
         >
-          <h2 className="text-lg font-semibold" style={{ color: 'var(--pv-text)' }}>
+          <h2
+            id="seo-drawer-title"
+            className="text-lg font-semibold"
+            style={{ color: 'var(--pv-text)' }}
+          >
             {title}
           </h2>
           <button
+            ref={closeButtonRef}
             onClick={onClose}
             className="rounded-lg p-2 transition-colors hover:bg-[var(--pv-surface)]"
             style={{ color: 'var(--pv-text-muted)' }}
+            aria-label="Close drawer"
           >
             <X className="h-5 w-5" />
           </button>

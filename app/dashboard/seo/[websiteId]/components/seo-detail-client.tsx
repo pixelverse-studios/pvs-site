@@ -16,8 +16,6 @@ import {
   Target,
   Calendar,
   ArrowRight,
-  Clock,
-  Shield,
 } from 'lucide-react';
 import { SeoDrawer } from './seo-drawer';
 import type {
