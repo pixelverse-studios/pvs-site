@@ -102,11 +102,19 @@ interface SeoOverviewPageClientProps {
 
 const STORAGE_KEY = 'pvs-seo-overview-filters';
 
+const VALID_PROJECT_TAGS = new Set<string>(['active', 'in-progress', 'inactive']);
+const VALID_AUDIT_TAGS = new Set<string>(['audited', 'overdue', 'unaudited']);
+
 function loadFilters(): { project: ProjectTag[]; audit: AuditTag[] } | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    if (!parsed || !Array.isArray(parsed.project) || !Array.isArray(parsed.audit)) return null;
+    return {
+      project: parsed.project.filter((v: string) => VALID_PROJECT_TAGS.has(v)),
+      audit: parsed.audit.filter((v: string) => VALID_AUDIT_TAGS.has(v)),
+    };
   } catch {
     return null;
   }

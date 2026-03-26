@@ -328,8 +328,9 @@ export default async function SeoDetailPage({
             <Card>
               <CardContent className="p-5">
                 <div className="flex items-end gap-2" style={{ height: '120px' }}>
-                  {seoData.trend.scores.map((score, i) => {
+                  {(() => {
                     const maxScore = Math.max(...seoData.trend.scores);
+                    return seoData.trend.scores.map((score, i) => {
                     const heightPct = maxScore > 0 ? (score / maxScore) * 100 : 0;
                     const color =
                       score >= 80 ? '#22c55e' : score >= 60 ? '#f59e0b' : '#ef4444';
@@ -355,7 +356,8 @@ export default async function SeoDetailPage({
                         </span>
                       </div>
                     );
-                  })}
+                  });
+                  })()}
                 </div>
               </CardContent>
             </Card>

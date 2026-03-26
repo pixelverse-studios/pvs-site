@@ -353,34 +353,36 @@ export default async function SeoFocusPage({
             <Card>
               <CardContent className="p-5">
                 <div className="flex items-end gap-2" style={{ height: '120px' }}>
-                  {seoData.trend.scores.map((score, i) => {
+                  {(() => {
                     const maxScore = Math.max(...seoData.trend.scores);
-                    const heightPct = maxScore > 0 ? (score / maxScore) * 100 : 0;
-                    const color =
-                      score >= 80 ? '#22c55e' : score >= 60 ? '#f59e0b' : '#ef4444';
-                    return (
-                      <div
-                        key={seoData.trend.dates[i]}
-                        className="flex flex-1 flex-col items-center gap-1"
-                      >
-                        <span className="text-xs font-medium text-[var(--pv-text)]">{score}</span>
+                    return seoData.trend.scores.map((score, i) => {
+                      const heightPct = maxScore > 0 ? (score / maxScore) * 100 : 0;
+                      const color =
+                        score >= 80 ? '#22c55e' : score >= 60 ? '#f59e0b' : '#ef4444';
+                      return (
                         <div
-                          className="w-full rounded-t-md transition-all"
-                          style={{
-                            height: `${heightPct}%`,
-                            minHeight: '4px',
-                            background: color,
-                            opacity: 0.8,
-                          }}
-                        />
-                        <span className="text-[10px] text-[var(--pv-text-muted)]">
-                          {new Date(seoData.trend.dates[i]).toLocaleDateString('en-US', {
-                            month: 'short',
-                          })}
-                        </span>
-                      </div>
-                    );
-                  })}
+                          key={`${seoData.trend.dates[i]}-${i}`}
+                          className="flex flex-1 flex-col items-center gap-1"
+                        >
+                          <span className="text-xs font-medium text-[var(--pv-text)]">{score}</span>
+                          <div
+                            className="w-full rounded-t-md transition-all"
+                            style={{
+                              height: `${heightPct}%`,
+                              minHeight: '4px',
+                              background: color,
+                              opacity: 0.8,
+                            }}
+                          />
+                          <span className="text-[10px] text-[var(--pv-text-muted)]">
+                            {new Date(seoData.trend.dates[i]).toLocaleDateString('en-US', {
+                              month: 'short',
+                            })}
+                          </span>
+                        </div>
+                      );
+                    });
+                  })()}
                 </div>
               </CardContent>
             </Card>
