@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 
 interface SeoDrawerProps {
@@ -13,6 +14,12 @@ interface SeoDrawerProps {
 export function SeoDrawer({ open, onClose, title, children }: SeoDrawerProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Wait for client mount before rendering portal
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Lock body scroll when open
   useEffect(() => {
@@ -29,7 +36,6 @@ export function SeoDrawer({ open, onClose, title, children }: SeoDrawerProps) {
   // Auto-focus close button on open
   useEffect(() => {
     if (open) {
-      // Small delay to let the slide animation start before focusing
       const timer = setTimeout(() => closeButtonRef.current?.focus(), 100);
       return () => clearTimeout(timer);
     }
@@ -70,12 +76,14 @@ export function SeoDrawer({ open, onClose, title, children }: SeoDrawerProps) {
     [],
   );
 
-  return (
+  if (!mounted) return null;
+
+  const drawerContent = (
     <>
       {/* Backdrop */}
       {open && (
         <div
-          className="fixed inset-0 z-[70] bg-black/40 backdrop-blur-sm transition-opacity duration-300"
+          className="fixed inset-0 z-[9998] bg-black/40 backdrop-blur-sm"
           onClick={onClose}
           aria-hidden="true"
         />
@@ -88,7 +96,7 @@ export function SeoDrawer({ open, onClose, title, children }: SeoDrawerProps) {
         aria-modal="true"
         aria-labelledby="seo-drawer-title"
         onKeyDown={handleKeyDown}
-        className={`fixed right-0 top-0 z-[80] flex h-full w-full max-w-2xl flex-col border-l transition-transform duration-300 ease-out ${
+        className={`fixed right-0 top-0 z-[9999] flex h-full w-full max-w-2xl flex-col border-l transition-transform duration-300 ease-out ${
           open ? 'translate-x-0' : 'translate-x-full'
         }`}
         style={{
@@ -126,4 +134,6 @@ export function SeoDrawer({ open, onClose, title, children }: SeoDrawerProps) {
       </div>
     </>
   );
+
+  return createPortal(drawerContent, document.body);
 }
