@@ -4,7 +4,7 @@ export interface SeoOverviewWebsite {
   website_id: string;
   website_title: string;
   domain: string;
-  client_id: string;
+  client_id: string | null;
   client_name: string;
   project_status: string;
   seo_score: number | null;

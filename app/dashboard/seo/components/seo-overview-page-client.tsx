@@ -96,7 +96,7 @@ export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
       setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
     } else {
       setSortField(field);
-      setSortDirection(field === 'last_audit_date' ? 'desc' : 'desc');
+      setSortDirection(field === 'website_title' ? 'asc' : 'desc');
     }
   };
 
