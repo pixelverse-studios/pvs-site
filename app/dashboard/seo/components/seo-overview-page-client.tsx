@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -100,13 +100,54 @@ interface SeoOverviewPageClientProps {
   data: SeoOverviewResponse;
 }
 
+const STORAGE_KEY = 'pvs-seo-overview-filters';
+
+function loadFilters(): { project: ProjectTag[]; audit: AuditTag[] } | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function saveFilters(project: Set<ProjectTag>, audit: Set<AuditTag>) {
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ project: Array.from(project), audit: Array.from(audit) }),
+    );
+  } catch {
+    // localStorage unavailable
+  }
+}
+
 export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [auditTags, setAuditTags] = useState<Set<AuditTag>>(new Set());
   const [projectTags, setProjectTags] = useState<Set<ProjectTag>>(() => new Set<ProjectTag>(['active']));
   const [sortField, setSortField] = useState<SortField>('seo_score');
+  const [isHydrated, setIsHydrated] = useState(false);
 
-  const toggleTag = <T extends string>(set: Set<T>, setFn: (s: Set<T>) => void, tag: T) => {
+  // Hydrate from localStorage on mount
+  useEffect(() => {
+    const saved = loadFilters();
+    if (saved) {
+      setProjectTags(new Set<ProjectTag>(saved.project));
+      setAuditTags(new Set<AuditTag>(saved.audit));
+    }
+    setIsHydrated(true);
+  }, []);
+
+  // Persist to localStorage on change (after hydration)
+  useEffect(() => {
+    if (isHydrated) {
+      saveFilters(projectTags, auditTags);
+    }
+  }, [projectTags, auditTags, isHydrated]);
+
+  const toggleTag = useCallback(<T extends string>(set: Set<T>, setFn: (s: Set<T>) => void, tag: T) => {
     const next = new Set(set);
     if (next.has(tag)) {
       next.delete(tag);
@@ -114,14 +155,14 @@ export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
       next.add(tag);
     }
     setFn(next);
-  };
+  }, []);
 
   const activeFilterCount = auditTags.size + projectTags.size;
 
-  const clearAllFilters = () => {
+  const clearAllFilters = useCallback(() => {
     setAuditTags(new Set());
     setProjectTags(new Set());
-  };
+  }, []);
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
 
   const handleSort = (field: SortField) => {
