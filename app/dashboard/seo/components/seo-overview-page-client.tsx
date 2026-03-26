@@ -21,7 +21,8 @@ import type { SeoOverviewResponse, SeoOverviewWebsite } from '@/lib/api/seo';
 
 type SortField = 'website_title' | 'seo_score' | 'checklist_pct' | 'keywords_tracked' | 'last_audit_date';
 type SortDirection = 'asc' | 'desc';
-type StatusFilter = 'all' | 'audited' | 'overdue' | 'unaudited';
+type AuditFilter = 'all' | 'audited' | 'overdue' | 'unaudited';
+type ProjectFilter = 'all' | 'active' | 'in-progress' | 'inactive';
 
 function SortIcon({
   field,
@@ -87,7 +88,8 @@ interface SeoOverviewPageClientProps {
 
 export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+  const [auditFilter, setAuditFilter] = useState<AuditFilter>('all');
+  const [projectFilter, setProjectFilter] = useState<ProjectFilter>('active');
   const [sortField, setSortField] = useState<SortField>('seo_score');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
 
@@ -124,9 +126,25 @@ export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
       );
     }
 
-    if (statusFilter !== 'all') {
+    if (projectFilter !== 'all') {
       result = result.filter((w) => {
-        switch (statusFilter) {
+        const status = (w.project_status || '').toLowerCase();
+        switch (projectFilter) {
+          case 'active':
+            return ['deployed', 'maintenance'].includes(status);
+          case 'in-progress':
+            return ['planning', 'development', 'review', 'qa', 'staging'].includes(status);
+          case 'inactive':
+            return ['archived', 'lost', 'on_hold'].includes(status);
+          default:
+            return true;
+        }
+      });
+    }
+
+    if (auditFilter !== 'all') {
+      result = result.filter((w) => {
+        switch (auditFilter) {
           case 'audited':
             return w.seo_score !== null;
           case 'overdue':
@@ -164,7 +182,7 @@ export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
     });
 
     return result;
-  }, [data.websites, searchQuery, statusFilter, sortField, sortDirection]);
+  }, [data.websites, searchQuery, auditFilter, projectFilter, sortField, sortDirection]);
 
   if (data.websites.length === 0) {
     return (
@@ -248,30 +266,68 @@ export function SeoOverviewPageClient({ data }: SeoOverviewPageClientProps) {
                 className="pl-10"
               />
             </div>
-            <div className="flex flex-wrap gap-2">
-              {(
-                [
-                  ['all', 'All'],
-                  ['audited', 'Audited'],
-                  ['overdue', 'Overdue'],
-                  ['unaudited', 'Unaudited'],
-                ] as const
-              ).map(([value, label]) => (
-                <button
-                  key={value}
-                  onClick={() => setStatusFilter(value)}
-                  className={`rounded-pv-sm px-4 py-2 text-sm font-medium transition-colors ${
-                    statusFilter === value
-                      ? 'bg-[var(--pv-primary)] text-white'
-                      : 'bg-[var(--pv-surface)] text-[var(--pv-text-muted)] hover:bg-[var(--pv-border)]'
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
+          </div>
+
+          {/* Filter rows */}
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
+                Status
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {(
+                  [
+                    ['all', 'All'],
+                    ['active', 'Active'],
+                    ['in-progress', 'In Progress'],
+                    ['inactive', 'Inactive'],
+                  ] as const
+                ).map(([value, label]) => (
+                  <button
+                    key={value}
+                    onClick={() => setProjectFilter(value)}
+                    className={`rounded-pv-sm px-3 py-1.5 text-xs font-medium transition-colors ${
+                      projectFilter === value
+                        ? 'bg-[var(--pv-primary)] text-white'
+                        : 'bg-[var(--pv-surface)] text-[var(--pv-text-muted)] hover:bg-[var(--pv-border)]'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold uppercase tracking-wider text-[var(--pv-text-muted)]">
+                Audit
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {(
+                  [
+                    ['all', 'All'],
+                    ['audited', 'Audited'],
+                    ['overdue', 'Overdue'],
+                    ['unaudited', 'Unaudited'],
+                  ] as const
+                ).map(([value, label]) => (
+                  <button
+                    key={value}
+                    onClick={() => setAuditFilter(value)}
+                    className={`rounded-pv-sm px-3 py-1.5 text-xs font-medium transition-colors ${
+                      auditFilter === value
+                        ? 'bg-[var(--pv-primary)] text-white'
+                        : 'bg-[var(--pv-surface)] text-[var(--pv-text-muted)] hover:bg-[var(--pv-border)]'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-          <div className="mt-4 text-sm text-[var(--pv-text-muted)]">
+
+          <div className="mt-3 text-sm text-[var(--pv-text-muted)]">
             Showing {filteredAndSorted.length} of {data.websites.length} websites
           </div>
         </CardContent>
