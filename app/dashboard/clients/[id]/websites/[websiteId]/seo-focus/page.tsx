@@ -200,7 +200,7 @@ export default async function SeoFocusPage({
         )}
 
         {/* Keywords from API */}
-        {seoData && seoData.keywords.top_keywords.length > 0 && (
+        {seoData && seoData.keywords.items.length > 0 && (
           <section className="space-y-4">
             <h2 className="text-xl font-semibold text-[var(--pv-text)]">Keyword Rankings</h2>
             <Card>
@@ -229,7 +229,7 @@ export default async function SeoFocusPage({
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[var(--pv-border)]">
-                    {seoData.keywords.top_keywords.map((kw) => (
+                    {seoData.keywords.items.map((kw) => (
                       <KeywordRow key={kw.keyword} keyword={kw} />
                     ))}
                   </tbody>

@@ -42,11 +42,17 @@ export async function getSeoOverview(): Promise<SeoOverviewResponse> {
 // Single Website SEO Data
 // ============================================================================
 
+export interface ChecklistItemDetail {
+  name: string;
+  status: 'complete' | 'incomplete' | 'partial';
+}
+
 export interface ChecklistItem {
   category: string;
   total: number;
   completed: number;
   pct: number;
+  items?: ChecklistItemDetail[];
 }
 
 export interface ChangelogEntry {
@@ -92,7 +98,7 @@ export interface WebsiteSeoResponse {
     total: number;
     ranking: number;
     avg_position: number | null;
-    top_keywords: KeywordRecord[];
+    items: KeywordRecord[];
   };
   competitors: CompetitorRecord[];
   trend: {
