@@ -65,6 +65,12 @@ const navSections: NavSection[] = [
         available: true,
       },
       {
+        label: 'SEO Health',
+        href: '/dashboard/seo',
+        icon: TrendingUp,
+        available: true,
+      },
+      {
         label: 'Agenda',
         href: '/dashboard/agenda',
         icon: ListTodo,

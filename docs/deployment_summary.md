@@ -417,3 +417,24 @@
 ## Changed URLs
 
 - https://www.pixelversestudios.io/dashboard
+
+## Latest deploy summary
+
+- Added a dedicated SEO Health overview page to the dashboard showing all websites with audit scores, checklist progress, keyword rankings, and trend indicators
+- Summary stat cards at top show total websites, average score, overdue audits, and total keywords tracked
+- Filter websites by audit status (All, Audited, Overdue, Unaudited) with search
+- Added SEO Health link to the dashboard sidebar navigation
+
+## Notes for internal team
+
+- DEV-602 completed: created app/dashboard/seo/page.tsx and app/dashboard/seo/components/seo-overview-page-client.tsx
+- Consumes GET /api/seo/overview (same endpoint as dashboard landing table, with expanded columns)
+- Added client_id to SeoOverviewWebsite type in lib/api/seo.ts for row navigation
+- Sortable columns: website, score, checklist %, keywords, last audit date
+- Checklist column shows color-coded progress bars
+- Overdue audits highlighted in red
+- Added TrendingUp icon + SEO Health nav item to sidebar
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/dashboard/seo
