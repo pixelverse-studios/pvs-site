@@ -26,6 +26,7 @@ import type {
   WebsiteSeoResponse,
   AuditHistoryResponse,
   ChecklistItem,
+  ChangelogEntry,
   KeywordRecord,
 } from '@/lib/api/seo';
 
@@ -181,6 +182,29 @@ export default async function SeoFocusPage({
               }
             />
           </div>
+        )}
+
+        {/* Changelog */}
+        {hasAuditData && audit.changelog.length > 0 && (
+          <section className="space-y-4">
+            <h2 className="text-xl font-semibold text-[var(--pv-text)]">Recent Changes</h2>
+            <Card>
+              <CardContent className="p-5">
+                <div className="space-y-0">
+                  {audit.changelog
+                    .slice()
+                    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                    .map((entry, i) => (
+                      <ChangelogRow
+                        key={`${entry.date}-${i}`}
+                        entry={entry}
+                        isLast={i === audit.changelog.length - 1}
+                      />
+                    ))}
+                </div>
+              </CardContent>
+            </Card>
+          </section>
         )}
 
         {/* Checklist Breakdown */}
@@ -553,6 +577,58 @@ function OverviewCard({
         </p>
       </CardContent>
     </Card>
+  );
+}
+
+const CATEGORY_COLORS: Record<string, string> = {
+  technical: '#3b82f6',
+  content: '#8b5cf6',
+  local: '#f59e0b',
+  backlinks: '#10b981',
+};
+
+const IMPACT_COLORS: Record<string, string> = {
+  positive: '#22c55e',
+  negative: '#ef4444',
+  neutral: '#6b7280',
+};
+
+function ChangelogRow({ entry, isLast }: { entry: ChangelogEntry; isLast: boolean }) {
+  const catColor = CATEGORY_COLORS[(entry.category || '').toLowerCase()] || '#6b7280';
+  const impactColor = IMPACT_COLORS[(entry.impact || '').toLowerCase()] || IMPACT_COLORS.neutral;
+
+  return (
+    <div className="flex gap-3">
+      <div className="flex flex-col items-center">
+        <div
+          className="mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
+          style={{ background: impactColor }}
+        />
+        {!isLast && <div className="w-px flex-1 bg-[var(--pv-border)]" />}
+      </div>
+      <div className="flex-1 pb-5">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs text-[var(--pv-text-muted)]">
+            {new Date(entry.date).toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            })}
+          </span>
+          <span
+            className="rounded-full px-2 py-0.5 text-[10px] font-medium"
+            style={{
+              background: `${catColor}15`,
+              color: catColor,
+              border: `1px solid ${catColor}30`,
+            }}
+          >
+            {entry.category}
+          </span>
+        </div>
+        <p className="mt-1 text-sm text-[var(--pv-text)]">{entry.description}</p>
+      </div>
+    </div>
   );
 }
 

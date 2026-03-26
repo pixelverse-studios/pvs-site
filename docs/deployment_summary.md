@@ -481,3 +481,20 @@
 ## Changed URLs
 
 - https://www.pixelversestudios.io/dashboard/seo
+
+## Latest deploy summary
+
+- Added a changelog timeline to SEO detail pages showing what changed, when, and whether the impact was positive or negative
+- Each changelog entry shows a date, description, color-coded category badge, and impact indicator dot
+
+## Notes for internal team
+
+- DEV-610 completed: added changelog timeline to both app/dashboard/seo/[websiteId]/page.tsx and app/dashboard/clients/[id]/websites/[websiteId]/seo-focus/page.tsx
+- Renders latest_audit.changelog array as a vertical timeline with impact-colored dots and category badges
+- Category colors: technical=blue, content=purple, local=amber, backlinks=green
+- Impact colors: positive=green dot, negative=red dot, neutral=gray dot
+- Section hidden when changelog array is empty
+
+## Changed URLs
+
+- https://www.pixelversestudios.io/dashboard/seo
