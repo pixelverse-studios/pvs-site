@@ -488,6 +488,20 @@ The file has **three required sections**:
    - **URLs must be plain and valid** - no extra text, parentheses, or comments after the URL
    - These URLs are tracked for Google Search Console re-indexing
    - **APPEND new URLs below existing ones** (duplicates are OK, hook dedupes)
+   - **ORDER by SEO priority** — highest-value pages first, lowest last. This ensures Google re-indexes the most important pages first.
+
+#### URL Priority Order (always sort in this order):
+
+1. **Homepage** (`/`) — highest priority
+2. **Service pages** (`/services`, `/services/web-development`, `/services/seo`)
+3. **Area/city pages** (`/areas/*`, `/services/*/city`)
+4. **Portfolio** (`/portfolio`, `/portfolio/*`)
+5. **About, Contact, FAQ** (`/about`, `/contact`, `/faq`)
+6. **Blog posts** (`/blog/*`)
+7. **Sitemap** (`/sitemap.xml`)
+8. **Dashboard pages** (`/dashboard/*`) — lowest priority (internal only, noindex)
+
+Within the same tier, order alphabetically.
 
 #### URL Formatting Examples:
 
@@ -495,8 +509,10 @@ The file has **three required sections**:
 ## Changed URLs
 
 - https://www.pixelversestudios.io/
-- https://www.pixelversestudios.io/dashboard
+- https://www.pixelversestudios.io/services/web-development
+- https://www.pixelversestudios.io/portfolio
 - https://www.pixelversestudios.io/blog/my-post
+- https://www.pixelversestudios.io/dashboard
 ```
 
 **Do NOT add notes after URLs:**
