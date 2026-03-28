@@ -3,7 +3,7 @@ import { getValidCountySlugs, getValidCitySlugs } from '@/data/area-pages-conten
 import { getBlogPosts } from '@/data/blog-posts'
 import { caseStudies } from '@/data/case-studies'
 
-const BASE_URL = 'https://www.pixelversestudios.io'
+const BASE_URL = 'https://pixelversestudios.io'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date().toISOString()
