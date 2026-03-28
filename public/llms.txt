@@ -6,35 +6,35 @@ We specialize in custom Next.js builds, conversion-focused UX design, and data-d
 
 ## Services
 
-- [Web Design & Development](https://www.pixelversestudios.io/services/web-development): Custom-coded websites built with Next.js and Tailwind CSS. Mobile-first, fast-loading, and designed for conversions. No templates or page builders.
-- [Search Engine Optimization](https://www.pixelversestudios.io/services/seo): Local and technical SEO services including keyword strategy, on-page optimization, Google Business Profile management, and monthly reporting.
-- [Services Overview](https://www.pixelversestudios.io/services): Full list of service offerings and our approach to each engagement.
+- [Web Design & Development](https://pixelversestudios.io/services/web-development): Custom-coded websites built with Next.js and Tailwind CSS. Mobile-first, fast-loading, and designed for conversions. No templates or page builders.
+- [Search Engine Optimization](https://pixelversestudios.io/services/seo): Local and technical SEO services including keyword strategy, on-page optimization, Google Business Profile management, and monthly reporting.
+- [Services Overview](https://pixelversestudios.io/services): Full list of service offerings and our approach to each engagement.
 
 ## Portfolio
 
-- [Jones Pressure Washing](https://www.pixelversestudios.io/portfolio/jones-pressure-washing): Custom website and local SEO for a pressure washing business in Bergen County, NJ.
-- [360 Degree Care](https://www.pixelversestudios.io/portfolio/360-degree-care): Website redesign and SEO for a home healthcare agency serving northern New Jersey.
-- [Domani Salon](https://www.pixelversestudios.io/portfolio/domani): Custom site build for a hair salon focused on modern design and online booking.
+- [Jones Pressure Washing](https://pixelversestudios.io/portfolio/jones-pressure-washing): Custom website and local SEO for a pressure washing business in Bergen County, NJ.
+- [360 Degree Care](https://pixelversestudios.io/portfolio/360-degree-care): Website redesign and SEO for a home healthcare agency serving northern New Jersey.
+- [Domani Salon](https://pixelversestudios.io/portfolio/domani): Custom site build for a hair salon focused on modern design and online booking.
 
 ## Company Information
 
-- [About Us](https://www.pixelversestudios.io/about): Meet the team behind PixelVerse Studios. Learn about our philosophy and approach to building websites.
-- [Blog](https://www.pixelversestudios.io/blog): Articles on web development, SEO strategy, and digital marketing for small businesses.
-- [FAQ](https://www.pixelversestudios.io/faq): Frequently asked questions about our process, pricing, and what to expect.
+- [About Us](https://pixelversestudios.io/about): Meet the team behind PixelVerse Studios. Learn about our philosophy and approach to building websites.
+- [Blog](https://pixelversestudios.io/blog): Articles on web development, SEO strategy, and digital marketing for small businesses.
+- [FAQ](https://pixelversestudios.io/faq): Frequently asked questions about our process, pricing, and what to expect.
 
 ## Contact
 
-- [Send a Message](https://www.pixelversestudios.io/contact/details): Fill out our contact form to start a conversation about your project.
-- [Book a Strategy Call](https://www.pixelversestudios.io/contact/call): Schedule a free consultation to discuss your business goals.
-- [Request a Website Review](https://www.pixelversestudios.io/contact/review): Get a complimentary audit of your current website.
+- [Send a Message](https://pixelversestudios.io/contact/details): Fill out our contact form to start a conversation about your project.
+- [Book a Strategy Call](https://pixelversestudios.io/contact/call): Schedule a free consultation to discuss your business goals.
+- [Request a Website Review](https://pixelversestudios.io/contact/review): Get a complimentary audit of your current website.
 
 ## Optional
 
-- [How Much Does a Website Cost in New Jersey?](https://www.pixelversestudios.io/blog/how-much-does-a-website-cost-new-jersey): Pricing guide for small business websites in NJ.
-- [Local SEO Title & Meta Playbook](https://www.pixelversestudios.io/blog/local-seo-title-meta-playbook): Step-by-step guide to optimizing title tags and meta descriptions for local search.
-- [Why SEO Matters for Small Businesses](https://www.pixelversestudios.io/blog/why-seo-matters-for-small-businesses): The case for investing in search engine optimization as a small business.
-- [Custom Development vs Website Builders](https://www.pixelversestudios.io/blog/custom-development-vs-website-builders): Comparing custom-coded websites to template-based platforms.
-- [UX vs UI for Service Brands](https://www.pixelversestudios.io/blog/ux-vs-ui-precision-for-service-brands): Understanding the difference between UX and UI design for service-based businesses.
-- [Focus on Growth, Not DIY Digital](https://www.pixelversestudios.io/blog/focus-on-growth-not-diy-digital): Why outsourcing your digital presence lets you focus on running your business.
-- [AI Security and Small Business Trust](https://www.pixelversestudios.io/blog/ai-security-trust-and-small-business-confidence): How AI tools affect trust and security for small business websites.
-- [Analytics Reporting Clients Actually Read](https://www.pixelversestudios.io/blog/analytics-retainer-reporting-clients-actually-read): How we build monthly reports that clients find useful and actionable.
+- [How Much Does a Website Cost in New Jersey?](https://pixelversestudios.io/blog/how-much-does-a-website-cost-new-jersey): Pricing guide for small business websites in NJ.
+- [Local SEO Title & Meta Playbook](https://pixelversestudios.io/blog/local-seo-title-meta-playbook): Step-by-step guide to optimizing title tags and meta descriptions for local search.
+- [Why SEO Matters for Small Businesses](https://pixelversestudios.io/blog/why-seo-matters-for-small-businesses): The case for investing in search engine optimization as a small business.
+- [Custom Development vs Website Builders](https://pixelversestudios.io/blog/custom-development-vs-website-builders): Comparing custom-coded websites to template-based platforms.
+- [UX vs UI for Service Brands](https://pixelversestudios.io/blog/ux-vs-ui-precision-for-service-brands): Understanding the difference between UX and UI design for service-based businesses.
+- [Focus on Growth, Not DIY Digital](https://pixelversestudios.io/blog/focus-on-growth-not-diy-digital): Why outsourcing your digital presence lets you focus on running your business.
+- [AI Security and Small Business Trust](https://pixelversestudios.io/blog/ai-security-trust-and-small-business-confidence): How AI tools affect trust and security for small business websites.
+- [Analytics Reporting Clients Actually Read](https://pixelversestudios.io/blog/analytics-retainer-reporting-clients-actually-read): How we build monthly reports that clients find useful and actionable.
