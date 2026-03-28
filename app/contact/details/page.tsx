@@ -29,7 +29,7 @@ const contactPageSchema = {
   name: 'Contact Pixelverse Studios',
   description:
     'Get in touch with Pixelverse Studios — a New Jersey web design and local SEO agency serving Bergen County businesses.',
-  url: 'https://www.pixelversestudios.io/contact/details',
+  url: 'https://pixelversestudios.io/contact/details',
 };
 
 export default function ContactDetailsPage() {

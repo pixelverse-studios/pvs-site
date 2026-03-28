@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/_next/', '/api/', '/dashboard/', '/login'],
     },
-    sitemap: 'https://www.pixelversestudios.io/sitemap.xml',
+    sitemap: 'https://pixelversestudios.io/sitemap.xml',
   }
 }
