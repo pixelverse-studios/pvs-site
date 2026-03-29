@@ -1,15 +1,31 @@
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { Container } from '@/components/ui/container';
-import { StatCard } from '@/components/dashboard/stat-card';
 import { DashboardCard } from '@/components/dashboard/dashboard-card';
 import { AgendaWidgetWrapper } from '@/components/dashboard/agenda-widget-wrapper';
 import { getActiveAgendaItems } from '@/lib/api/agenda';
 import { getClients } from '@/lib/api/clients';
 import { getSeoOverview } from '@/lib/api/seo';
+import { getApiBaseUrl } from '@/lib/api-config';
 import type { ClientListItem as ClientData } from '@/lib/types/client';
-import type { SeoOverviewResponse } from '@/lib/api/seo';
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { getClientDisplayName } from '@/lib/types/client';
+import type { SeoOverviewResponse, SeoOverviewWebsite } from '@/lib/api/seo';
+import { STATUS_LABELS as PROJECT_STATUS_LABELS, STATUS_COLORS as PROJECT_STATUS_COLORS } from '@/lib/types/project';
+import type { ProjectStatus } from '@/lib/types/project';
+import type { Prospect, ProspectSource } from '@/components/dashboard/prospects/types';
+import { SOURCE_LABELS, STATUS_COLORS } from '@/components/dashboard/prospects/types';
+import {
+  TrendingUp,
+  TrendingDown,
+  Minus,
+  Users,
+  Globe,
+  Rocket,
+  AlertTriangle,
+  ArrowRight,
+  UserSearch,
+} from 'lucide-react';
 
 export const metadata = {
   title: 'Dashboard',
@@ -27,10 +43,13 @@ export default async function DashboardPage() {
     redirect('/login');
   }
 
-  const [clientsResponse, agendaData, seoOverview] = await Promise.all([
+  const [clientsResponse, agendaData, seoOverview, prospectsData] = await Promise.all([
     getClients().catch(() => ({ clients: [] as ClientData[], total: 0, limit: 50, offset: 0 })),
     getActiveAgendaItems(8).catch(() => ({ items: [], total: 0 })),
     getSeoOverview().catch(() => ({ total: 0, websites: [] }) as SeoOverviewResponse),
+    fetch(`${getApiBaseUrl()}/api/prospects?limit=5&sort=first_seen&order=desc`, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : { prospects: [], total: 0 }))
+      .catch(() => ({ prospects: [] as Prospect[], total: 0 })),
   ]);
 
   const clients = clientsResponse.clients;
@@ -40,8 +59,32 @@ export default async function DashboardPage() {
   const totalWebsites = clients.reduce((acc, c) => acc + (c.website_count || 0), 0);
   const totalDeployments = clients.reduce((acc, c) => acc + (c.deployment_count_30d || 0), 0);
 
-  // SEO stats for the stat card
-  const auditedSites = seoOverview.websites.filter((w) => w.seo_score !== null).length;
+  // Filter SEO overview to active websites only (deployed/maintenance)
+  const activeSeoWebsites = seoOverview.websites.filter((w) =>
+    ['deployed', 'maintenance'].includes((w.project_status || '').toLowerCase()),
+  );
+  const auditedSites = activeSeoWebsites.filter((w) => w.seo_score !== null).length;
+
+  // Compute alerts
+  const alerts = buildAlerts(activeSeoWebsites);
+
+  // Flatten recent deployments across all clients, sorted newest first
+  const recentDeploys = clients
+    .flatMap((client) =>
+      client.recent_deployments.map((d) => ({
+        ...d,
+        client_id: client.client_id,
+        client_name:
+          client.company_name ||
+          [client.firstname, client.lastname].filter(Boolean).join(' ') ||
+          'Unknown',
+      })),
+    )
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    .slice(0, 5);
+
+  const prospects: Prospect[] = prospectsData.prospects || [];
+  const newProspects = prospects.filter((p) => (p.status || '') === 'new');
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -55,7 +98,7 @@ export default async function DashboardPage() {
   return (
     <main className="pb-16 pt-6 lg:pt-8">
       <Container className="max-w-7xl">
-        <div className="space-y-8">
+        <div className="space-y-6">
           {/* Welcome Header */}
           <div className="space-y-1">
             <h1
@@ -69,49 +112,68 @@ export default async function DashboardPage() {
             </p>
           </div>
 
-          {/* Stats Grid — Clickable widgets */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard
-              title="Total Clients"
-              value={totalClients}
-              subtitle={`${activeClients} active`}
-              iconName="users"
-              accentColor="#3b82f6"
-              href="/dashboard/clients"
-            />
-            <StatCard
-              title="Websites"
-              value={totalWebsites}
-              subtitle="Managed sites"
-              iconName="globe"
-              accentColor="var(--pv-primary)"
-              href="/dashboard/websites"
-            />
-            <StatCard
-              title="Recent Deploys"
-              value={totalDeployments}
-              subtitle="Last 30 days"
-              iconName="rocket"
-              accentColor="#10b981"
-              href="/dashboard/deployments"
-            />
-            <StatCard
-              title="SEO Health"
-              value={auditedSites}
-              subtitle={`of ${seoOverview.total} sites audited`}
-              iconName="trendingUp"
-              accentColor="#8b5cf6"
-              href="/dashboard/seo"
-            />
+          {/* Status Bar */}
+          <div
+            className="overflow-hidden rounded-xl border"
+            style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
+          >
+            {/* Metrics Strip */}
+            <div className="flex flex-wrap items-center gap-x-0 divide-x divide-[var(--pv-border)]">
+              <StatusMetric
+                href="/dashboard/clients"
+                icon={<Users className="h-3.5 w-3.5" />}
+                value={activeClients}
+                label="active clients"
+                total={totalClients}
+              />
+              <StatusMetric
+                href="/dashboard/websites"
+                icon={<Globe className="h-3.5 w-3.5" />}
+                value={totalWebsites}
+                label="websites"
+              />
+              <StatusMetric
+                href="/dashboard/deployments"
+                icon={<Rocket className="h-3.5 w-3.5" />}
+                value={totalDeployments}
+                label="deploys"
+                suffix="30d"
+              />
+              <StatusMetric
+                href="/dashboard/seo"
+                icon={<TrendingUp className="h-3.5 w-3.5" />}
+                value={auditedSites}
+                label="audited"
+                total={activeSeoWebsites.length}
+              />
+            </div>
+
+            {/* Alerts Strip */}
+            {alerts.length > 0 && (
+              <div
+                className="flex flex-wrap items-center gap-3 border-t px-4 py-2.5"
+                style={{ borderColor: 'var(--pv-border)' }}
+              >
+                {alerts.map((alert, i) => (
+                  <span
+                    key={i}
+                    className="inline-flex items-center gap-1.5 text-xs"
+                    style={{ color: alert.color }}
+                  >
+                    {alert.icon}
+                    {alert.text}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* SEO Overview Table + Agenda Widget */}
+          {/* Row 1: SEO Health + Agenda */}
           <div className="grid gap-6 lg:grid-cols-3">
-            {/* SEO Overview Table - Takes 2 columns */}
             <div className="lg:col-span-2">
               <DashboardCard
                 title="SEO Health"
-                subtitle="All websites at a glance"
+                subtitle="Active websites"
                 iconName="trendingUp"
                 headerAction={{
                   label: 'View all',
@@ -119,7 +181,7 @@ export default async function DashboardPage() {
                 }}
                 noPadding
               >
-                {seoOverview.websites.length === 0 ? (
+                {activeSeoWebsites.length === 0 ? (
                   <div className="px-6 py-12 text-center">
                     <p className="text-sm text-[var(--pv-text-muted)]">
                       No websites found. SEO data will appear here after running an audit.
@@ -148,7 +210,7 @@ export default async function DashboardPage() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-[var(--pv-border)]">
-                        {seoOverview.websites.map((website) => (
+                        {activeSeoWebsites.map((website) => (
                           <tr
                             key={website.website_id}
                             className="transition-colors hover:bg-[var(--pv-surface)]"
@@ -216,30 +278,324 @@ export default async function DashboardPage() {
                   </div>
                 )}
               </DashboardCard>
+
             </div>
 
-            {/* Focus/Agenda Widget - Takes 1 column */}
-            <div className="space-y-6">
-              <DashboardCard
-                title="Focus"
-                subtitle="Priority items"
-                iconName="zap"
-                headerAction={{
-                  label: 'View all',
-                  href: '/dashboard/agenda',
-                }}
-                noPadding
-                contentClassName="px-2 py-2"
-              >
-                <AgendaWidgetWrapper initialItems={agendaData.items} />
-              </DashboardCard>
-            </div>
+            {/* Right Column — Agenda only */}
+            <DashboardCard
+              title="Focus"
+              subtitle="Priority items"
+              iconName="zap"
+              headerAction={{
+                label: 'View all',
+                href: '/dashboard/agenda',
+              }}
+              noPadding
+              contentClassName="px-2 py-2 max-h-[320px] overflow-y-auto"
+            >
+              <AgendaWidgetWrapper initialItems={agendaData.items} />
+            </DashboardCard>
+          </div>
+
+          {/* Row 2: Clients + Prospects + Deploys */}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {/* Clients */}
+            <DashboardCard
+              title="Clients"
+              subtitle={`${activeClients} active`}
+              iconName="users"
+              headerAction={{
+                label: 'View all',
+                href: '/dashboard/clients',
+              }}
+              noPadding
+            >
+              {clients.length === 0 ? (
+                <div className="px-4 py-8 text-center">
+                  <p className="text-xs text-[var(--pv-text-muted)]">No clients yet</p>
+                </div>
+              ) : (
+                <div className="max-h-[240px] divide-y divide-[var(--pv-border)] overflow-y-auto">
+                  {clients
+                    .filter((c) => c.client_active === true)
+                    .map((client) => {
+                      const name = getClientDisplayName(client);
+                      const topWebsite = client.websites[0];
+                      const statusColor = topWebsite
+                        ? PROJECT_STATUS_COLORS[topWebsite.status as ProjectStatus] || '#6b7280'
+                        : '#6b7280';
+                      const statusLabel = topWebsite
+                        ? PROJECT_STATUS_LABELS[topWebsite.status as ProjectStatus] || topWebsite.status
+                        : 'No website';
+
+                      return (
+                        <Link
+                          key={client.client_id}
+                          href={`/dashboard/clients/${client.client_id}`}
+                          className="group flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-[var(--pv-surface)]"
+                        >
+                          <div
+                            className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md text-[10px] font-semibold"
+                            style={{
+                              background: `${statusColor}15`,
+                              color: statusColor,
+                              border: `1px solid ${statusColor}25`,
+                            }}
+                          >
+                            {name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase()}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-medium text-[var(--pv-text)]">
+                              {name}
+                            </p>
+                            <p className="text-[10px] text-[var(--pv-text-muted)]">
+                              {client.website_count} site{client.website_count !== 1 ? 's' : ''}
+                              {topWebsite && <span className="ml-1 opacity-60">{statusLabel}</span>}
+                            </p>
+                          </div>
+                          {client.deployment_count_30d > 0 && (
+                            <span className="flex-shrink-0 text-[10px] tabular-nums text-[var(--pv-text-muted)]">
+                              {client.deployment_count_30d} deploys
+                            </span>
+                          )}
+                        </Link>
+                      );
+                    })}
+                </div>
+              )}
+            </DashboardCard>
+
+            {/* Recent Deploys */}
+            <DashboardCard
+              title="Recent Deploys"
+              subtitle="Last 30 days"
+              iconName="rocket"
+              headerAction={{
+                label: 'View all',
+                href: '/dashboard/deployments',
+              }}
+              noPadding
+            >
+              {recentDeploys.length === 0 ? (
+                <div className="px-4 py-8 text-center">
+                  <p className="text-xs text-[var(--pv-text-muted)]">No recent deployments</p>
+                </div>
+              ) : (
+                <div className="max-h-[240px] divide-y divide-[var(--pv-border)] overflow-y-auto">
+                  {recentDeploys.map((deploy) => {
+                    const statusColor =
+                      deploy.indexing_status === 'indexed'
+                        ? '#22c55e'
+                        : deploy.indexing_status === 'requested'
+                          ? '#3b82f6'
+                          : '#f59e0b';
+                    const timeAgo = getRelativeTime(deploy.created_at);
+
+                    return (
+                      <Link
+                        key={deploy.deployment_id}
+                        href={`/dashboard/deployments/${deploy.deployment_id}`}
+                        className="group flex items-start gap-3 px-4 py-2.5 transition-colors hover:bg-[var(--pv-surface)]"
+                      >
+                        <div
+                          className="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full"
+                          style={{ background: statusColor }}
+                        />
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-medium text-[var(--pv-text)] line-clamp-1">
+                            {deploy.website_title}
+                          </p>
+                          <p className="mt-0.5 text-[11px] text-[var(--pv-text-muted)] line-clamp-1">
+                            {deploy.deploy_summary || 'No summary'}
+                          </p>
+                        </div>
+                        <span className="flex-shrink-0 text-[10px] tabular-nums text-[var(--pv-text-muted)]">
+                          {timeAgo}
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </DashboardCard>
+
+            {/* Prospects */}
+            <DashboardCard
+              title="Prospects"
+              subtitle={newProspects.length > 0 ? `${newProspects.length} new` : 'Recent leads'}
+              iconName="users"
+              headerAction={{
+                label: 'View all',
+                href: '/dashboard/prospects',
+              }}
+              noPadding
+            >
+              {prospects.length === 0 ? (
+                <div className="px-4 py-8 text-center">
+                  <p className="text-xs text-[var(--pv-text-muted)]">No prospects yet</p>
+                </div>
+              ) : (
+                <div className="max-h-[240px] divide-y divide-[var(--pv-border)] overflow-y-auto">
+                  {prospects.map((prospect) => {
+                    const statusStyle = STATUS_COLORS[(prospect.status || 'new') as keyof typeof STATUS_COLORS] || STATUS_COLORS.new;
+                    const timeAgo = getRelativeTime(prospect.first_seen);
+
+                    return (
+                      <Link
+                        key={prospect.id}
+                        href="/dashboard/prospects"
+                        className="group flex items-center gap-2.5 px-4 py-2.5 transition-colors hover:bg-[var(--pv-surface)]"
+                      >
+                        <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium ${statusStyle.bg} ${statusStyle.text} ${statusStyle.border} border`}>
+                          {(prospect.status || 'new').charAt(0).toUpperCase() + (prospect.status || 'new').slice(1)}
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-medium text-[var(--pv-text)]">
+                            {prospect.name}
+                          </p>
+                          <p className="text-[10px] text-[var(--pv-text-muted)]">
+                            {SOURCE_LABELS[(prospect.source || 'details_form') as ProspectSource] || prospect.source}
+                          </p>
+                        </div>
+                        <span className="flex-shrink-0 text-[10px] tabular-nums text-[var(--pv-text-muted)]">
+                          {timeAgo}
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </DashboardCard>
           </div>
         </div>
       </Container>
     </main>
   );
 }
+
+// ============================================================================
+// Status Bar Components
+// ============================================================================
+
+function StatusMetric({
+  href,
+  icon,
+  value,
+  label,
+  total,
+  suffix,
+}: {
+  href: string;
+  icon: React.ReactNode;
+  value: number;
+  label: string;
+  total?: number;
+  suffix?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group flex flex-1 items-center gap-3 px-4 py-3 transition-colors hover:bg-[var(--pv-bg)]"
+      style={{ minWidth: '140px' }}
+    >
+      <span className="text-[var(--pv-text-muted)] transition-colors group-hover:text-[var(--pv-primary)]">
+        {icon}
+      </span>
+      <div className="flex items-baseline gap-1.5">
+        <span className="font-heading text-xl font-bold tabular-nums" style={{ color: 'var(--pv-text)' }}>
+          {value}
+        </span>
+        {total !== undefined && (
+          <span className="text-xs tabular-nums text-[var(--pv-text-muted)]">/{total}</span>
+        )}
+        <span className="text-[11px] text-[var(--pv-text-muted)]">
+          {label}
+          {suffix && <span className="ml-0.5 opacity-60">({suffix})</span>}
+        </span>
+      </div>
+      <ArrowRight className="ml-auto h-3 w-3 text-[var(--pv-text-muted)] opacity-0 transition-opacity group-hover:opacity-100" />
+    </Link>
+  );
+}
+
+interface Alert {
+  text: string;
+  color: string;
+  icon: React.ReactNode;
+}
+
+function getRelativeTime(dateString: string): string {
+  const now = new Date();
+  const date = new Date(dateString);
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMins / 60);
+  const diffDays = Math.floor(diffHours / 24);
+
+  if (diffMins < 1) return 'just now';
+  if (diffMins < 60) return `${diffMins}m`;
+  if (diffHours < 24) return `${diffHours}h`;
+  if (diffDays === 1) return '1d';
+  if (diffDays < 7) return `${diffDays}d`;
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)}w`;
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function buildAlerts(websites: SeoOverviewWebsite[]): Alert[] {
+  const alerts: Alert[] = [];
+
+  // Overdue audits
+  const overdue = websites.filter(
+    (w) => w.next_audit_due && new Date(w.next_audit_due) < new Date(),
+  );
+  if (overdue.length > 0) {
+    alerts.push({
+      text: `${overdue.length} site${overdue.length > 1 ? 's' : ''} overdue for audit`,
+      color: '#ef4444',
+      icon: <AlertTriangle className="h-3 w-3" />,
+    });
+  }
+
+  // Sites with score drops
+  const declining = websites.filter(
+    (w) => w.score_trend === 'down' && w.score_delta !== null,
+  );
+  for (const site of declining) {
+    alerts.push({
+      text: `${(site.website_title || '').split(' ')[0]}: ${site.score_delta}`,
+      color: '#ef4444',
+      icon: <TrendingDown className="h-3 w-3" />,
+    });
+  }
+
+  // Sites with score gains
+  const improving = websites.filter(
+    (w) => w.score_trend === 'up' && w.score_delta !== null,
+  );
+  for (const site of improving) {
+    alerts.push({
+      text: `${(site.website_title || '').split(' ')[0]}: +${site.score_delta}`,
+      color: '#22c55e',
+      icon: <TrendingUp className="h-3 w-3" />,
+    });
+  }
+
+  // Sites never audited
+  const neverAudited = websites.filter((w) => w.seo_score === null);
+  if (neverAudited.length > 0) {
+    alerts.push({
+      text: `${neverAudited.length} site${neverAudited.length > 1 ? 's' : ''} never audited`,
+      color: 'var(--pv-text-muted)',
+      icon: <Minus className="h-3 w-3" />,
+    });
+  }
+
+  return alerts;
+}
+
+// ============================================================================
+// SEO Table Components
+// ============================================================================
 
 function ScoreBadge({
   score,
