@@ -55,16 +55,18 @@ function StudyImage({
           style={{ width: '100%', height: 'auto', display: 'block' }}
         />
       </div>
-      <a
-        href={study.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`View ${study.name} live site (opens in new tab)`}
-        className="mt-3 inline-flex items-center gap-1.5 text-xs text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]"
-      >
-        <ExternalLink className="h-3 w-3" aria-hidden="true" />
-        {study.name} — live site
-      </a>
+      {(study.url || study.demoUrl) && (
+        <a
+          href={study.url || study.demoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`View ${study.name} ${study.demoUrl && !study.url ? 'demo site' : 'live site'} (opens in new tab)`}
+          className="mt-3 inline-flex items-center gap-1.5 text-xs text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]"
+        >
+          <ExternalLink className="h-3 w-3" aria-hidden="true" />
+          {study.name} — {study.demoUrl && !study.url ? 'demo site' : 'live site'}
+        </a>
+      )}
     </div>
   );
 }

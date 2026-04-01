@@ -100,19 +100,23 @@ export function ProjectShowcaseSection() {
                       Read case study
                       <ArrowRight className="h-4 w-4" aria-hidden="true" />
                     </Link>
-                    <span className="text-[var(--pv-border)]" aria-hidden="true">
-                      |
-                    </span>
-                    <a
-                      href={study.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`View ${study.name} live site (opens in new tab)`}
-                      className="inline-flex items-center gap-2 text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-text)]"
-                    >
-                      View live site
-                      <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-                    </a>
+                    {(study.url || study.demoUrl) && (
+                      <>
+                        <span className="text-[var(--pv-border)]" aria-hidden="true">
+                          |
+                        </span>
+                        <a
+                          href={study.url || study.demoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`View ${study.name} ${study.demoUrl && !study.url ? 'demo site' : 'live site'} (opens in new tab)`}
+                          className="inline-flex items-center gap-2 text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-text)]"
+                        >
+                          {study.demoUrl && !study.url ? 'View demo site' : 'View live site'}
+                          <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                        </a>
+                      </>
+                    )}
                   </div>
                 </MotionItem>
               </div>

@@ -31,7 +31,8 @@ export interface CaseStudy {
   issues: [CaseStudyIssue, CaseStudyIssue, CaseStudyIssue];
   outcome: CaseStudyOutcome;
   img: string;
-  url: string;
+  url?: string;
+  demoUrl?: string;
   services: CaseStudyService[];
   testimonial?: {
     quote: string;
@@ -101,7 +102,7 @@ export const caseStudies: CaseStudy[] = [
     problem:
       '360 Degree Care spent years operating under a franchise brand. When they went independent, they had a strong local reputation \u2014 4.8 stars on Google, 80% caregiver retention, CHAP certification \u2014 but no online presence of their own. Families searching for home care in Bergen County had no way to find them. Every day without an independent website meant potential clients were finding competitors instead, despite 360 Degree Care having stronger credentials and deeper community roots.',
     solution:
-      'We built a custom site on a new domain with dedicated service pages, city-level landing pages, and SEO architecture designed to build organic visibility from a standing start. The site was structured around the six core services they offer \u2014 personal care, companion care, homemaker services, respite care, live-in care, and specialized care \u2014 each with its own page optimized for local search intent. Trust signals like their Google rating, CHAP accreditation, and caregiver retention rate were woven throughout the experience so families could evaluate credibility before making a call.',
+      'We built a custom site on a new domain with dedicated service pages, city-level landing pages, and SEO architecture designed to build organic visibility from a standing start. The site was structured around six core services \u2014 personal care, companion care, homemaker services, respite care, live-in care, and specialized care \u2014 each with its own page optimized for local search intent. Trust signals like their Google rating, CHAP accreditation, and caregiver retention rate were woven throughout the experience so families could evaluate credibility before making a call.',
     issues: [
       {
         icon: 'fileText',
@@ -119,23 +120,17 @@ export const caseStudies: CaseStudy[] = [
         icon: 'alertCircle',
         issue: 'Strong reputation invisible to searchers',
         resolution:
-          'Surfaced trust signals throughout — Google reviews, CHAP certification, team credentials — so credibility shows up before the first phone call',
+          'Surfaced trust signals throughout — Google reviews, CHAP certification, team credentials — so credibility showed up before the first phone call',
       },
     ],
     outcome: {
       metric: '8,500+ search impressions and 270 indexed queries within 6 months',
       description:
-        "From a standing start on a new domain, individual service pages are now pulling hundreds of impressions for high-intent local searches. The site architecture is building organic visibility exactly as designed \u2014 and it\u2019s still climbing. Service-specific pages for personal care and companion care are now ranking for targeted Bergen County queries, and the Google Business Profile integration is driving consistent engagement from families researching local home care options.",
+        'From a standing start on a new domain, individual service pages pulled hundreds of impressions for high-intent local searches. The site architecture built compounding organic visibility as designed. Service-specific pages for personal care and companion care ranked for targeted Bergen County queries, and Google Business Profile integration drove consistent engagement from families researching local home care options.',
     },
     img: '/projects/360.png',
-    url: 'https://www.360degreecare.net',
+    demoUrl: 'https://haven-home-healthcare.netlify.app/',
     services: ['web-development', 'seo'],
-    testimonial: {
-      quote:
-        "PixelVerse didn't just build us a website—they built us a system. We can update content ourselves, add new service pages, and track what's actually driving calls. Best investment we've made in our marketing.",
-      name: 'Michael Chen',
-      role: 'Owner',
-    },
   },
   {
     slug: 'domani',
