@@ -30,3 +30,5 @@ export type { ServiceBulletListProps, ServiceBulletItem } from './service-bullet
 
 export { ServiceExpectations } from './service-expectations';
 export type { ServiceExpectationsProps, ServiceExpectationItem } from './service-expectations';
+
+export { ServiceAreaLinks } from './service-area-links';

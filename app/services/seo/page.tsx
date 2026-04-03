@@ -9,6 +9,7 @@ import {
   ServiceNarrativeSection,
   ServiceCta,
   ServiceFAQ,
+  ServiceAreaLinks,
 } from '@/components/services/individual';
 import { Container } from '@/components/ui/container';
 import { StructuredData } from '@/components/ui/structured-data';
@@ -138,7 +139,10 @@ export default function SEOServicesPage() {
         schemaId="seo-faq-schema"
       />
 
-      {/* 8. Final CTA */}
+      {/* 8. Service Area Links */}
+      <ServiceAreaLinks />
+
+      {/* 9. Final CTA */}
       <ServiceCta
         heading={finalCta.title}
         description={finalCta.description}
