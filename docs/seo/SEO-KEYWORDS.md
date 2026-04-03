@@ -231,30 +231,28 @@ These power FAQ pages, blog posts, and featured snippet opportunities:
 
 ### Monthly Tracking Table
 
-| Keyword                             | Dec 2025 | Jan 2026 | Feb 2026 | Mar 2026 | Notes                                      |
-| ----------------------------------- | -------- | -------- | -------- | -------- | ------------------------------------------ |
-| pixelverse studios                  | N/A      | ~2.4     | ?        | **1**    | Branded; ranking on pixelversestudios.io   |
-| pixelverse studios nj               | N/A      | N/A      | ?        | **1**    | Branded; ranking on pixelversestudios.io   |
-| web design Fort Lee NJ              | ~10      | NR       | NR       | **NR**   | Lost after city page redirect              |
-| local SEO agency Englewood NJ       | ~12      | 10.6     | ?        | **9**    | ✅ Improved! Ranking on /services/englewood |
-| local SEO agency Teaneck NJ         | N/A      | 11.4     | ?        | -        | Not tracked in rank tool                   |
-| SEO agency Englewood NJ             | N/A      | 11.1     | ?        | -        | Not tracked in rank tool                   |
-| SEO agency Teaneck NJ               | N/A      | 13.8     | ?        | -        | Not tracked in rank tool                   |
-| SEO company Bergen County           | N/A      | 32.0     | ?        | -        | Not tracked in rank tool                   |
-| web design Bergen County NJ         | N/A      | N/A      | ?        | **NR**   | Not ranking; very low volume               |
-| custom web design NJ                | N/A      | N/A      | ?        | **NR**   | Not ranking; vol: 50                       |
-| web design agency NJ                | N/A      | N/A      | ?        | **NR**   | Not ranking; vol: 880 — HIGH VALUE         |
-| local SEO services NJ               | N/A      | N/A      | ?        | **NR**   | Not ranking; vol: 50                       |
-| SEO agency Bergen County NJ         | N/A      | N/A      | ?        | **NR**   | Not ranking; very low volume               |
-| web design Hackensack NJ            | N/A      | NR       | ?        | **NR**   | Target: Top 20; city page redirects        |
-| web design Paramus NJ               | N/A      | NR       | ?        | **NR**   | Target: Top 20; city page redirects        |
-| web design Ridgewood NJ             | N/A      | NR       | ?        | **NR**   | Target: Top 20; city page redirects        |
-| Bergen County web design agency     | N/A      | NR       | ?        | **NR**   | /packages removed; city page redirects     |
-| SEO services Hackensack NJ          | N/A      | NR       | ?        | **NR**   | Not ranking; city page redirects           |
-| affordable web design Bergen County | N/A      | NR       | ?        | **NR**   | /packages removed; target page gone        |
-| web design Cliffside Park NJ        | N/A      | N/A      | ?        | **NR**   | Not ranking; very low volume               |
-| law firm website design Fort Lee NJ | N/A      | NR       | ?        | -        | Quick win target; not tracked              |
-| medical practice website design NJ  | N/A      | NR       | ?        | -        | Quick win target; not tracked              |
+| Keyword                             | Dec 2025 | Jan 2026 | Feb 2026 | Mar 2026 | **Apr 2026** | Notes                                                        |
+| ----------------------------------- | -------- | -------- | -------- | -------- | ------------ | ------------------------------------------------------------ |
+| pixelverse studios                  | N/A      | ~2.4     | ?        | 1        | **1**        | Branded; stable                                              |
+| pixelverse studios nj               | N/A      | N/A      | ?        | 1        | **1**        | Branded; stable                                              |
+| web design Fort Lee NJ              | ~10      | NR       | NR       | NR       | **29**       | NEW! Ranking on /areas/bergen-county/fort-lee               |
+| local SEO agency Englewood NJ       | ~12      | 10.6     | ?        | 9        | **27**       | ⚠️ Dropped 9→27 — URL changed to /areas/bergen-county/englewood |
+| web design Bergen County NJ         | N/A      | N/A      | ?        | NR       | **55**       | NEW! Ranking on /areas/bergen-county                        |
+| custom web design NJ                | N/A      | N/A      | ?        | NR       | **NR**       | Not ranking; vol: 50                                         |
+| web design agency NJ                | N/A      | N/A      | ?        | NR       | **NR**       | Not ranking; vol: 880 — HIGHEST VALUE target                 |
+| local SEO services NJ               | N/A      | N/A      | ?        | NR       | **NR**       | Not ranking; vol: 50                                         |
+| SEO agency Bergen County NJ         | N/A      | N/A      | ?        | NR       | **NR**       | Not ranking; very low volume                                 |
+| web design Hackensack NJ            | N/A      | NR       | ?        | NR       | **22**       | NEW! Best city rank — /areas/bergen-county/hackensack       |
+| web design Paramus NJ               | N/A      | NR       | ?        | NR       | **29**       | NEW! Ranking on /areas/bergen-county/paramus                |
+| web design Ridgewood NJ             | N/A      | NR       | ?        | NR       | **43**       | NEW! Ranking on /areas/bergen-county/ridgewood              |
+| Bergen County web design agency     | N/A      | NR       | ?        | NR       | **NR**       | Not ranking                                                  |
+| SEO services Hackensack NJ          | N/A      | NR       | ?        | NR       | **71**       | NEW! Low position but discovered                            |
+| affordable web design Bergen County | N/A      | NR       | ?        | NR       | **NR**       | No target page                                               |
+| web design Cliffside Park NJ        | N/A      | N/A      | ?        | NR       | **NR**       | Not ranking; very low volume                                 |
+| local SEO agency Teaneck NJ         | N/A      | 11.4     | ?        | -        | -            | Not tracked in rank tool                                     |
+| SEO agency Englewood NJ             | N/A      | 11.1     | ?        | -        | -            | Not tracked in rank tool                                     |
+| SEO agency Teaneck NJ               | N/A      | 13.8     | ?        | -        | -            | Not tracked in rank tool                                     |
+| SEO company Bergen County           | N/A      | 32.0     | ?        | -        | -            | Not tracked in rank tool                                     |
 
 ### GSC Query Performance (Jan 2026 - 28 days)
 
@@ -295,6 +293,19 @@ These power FAQ pages, blog posts, and featured snippet opportunities:
 | Not Indexed       | 29       | —        | 103      | **65**      | **-38 (-37%)**      |
 
 > ✅ **Indexing recovery underway** — Not-indexed dropped 103→65 in one week. Indexed pages recovering 24→29. Impressions rebounding to near-January levels. Phase 1 fixes (blog posts, schema, redirects) taking effect.
+
+### GSC Performance (Apr 2026 - 28 days)
+
+| Metric           | Jan 2026 | Feb 2026 | Mar 21   | **Apr 3**   | Change (Mar 21→Apr 3) |
+| ---------------- | -------- | -------- | -------- | ----------- | --------------------- |
+| Total Impressions | 206      | 178      | 181      | **278**     | **+54%**              |
+| Total Clicks      | 13       | 9        | 11       | **9**       | -18%                  |
+| Overall CTR       | 6.3%     | 5.1%     | 6.1%     | **3.2%**    | -2.9pp                |
+| Avg Position      | ~12      | 15.6     | 17.1     | **29.4**    | -12.3 (more pages)    |
+| Indexed Pages     | 42       | 36       | 29       | **28**      | -1 (stable)           |
+| Not Indexed       | 29       | —        | 65       | **89**      | +24 (+37%)            |
+
+> **City pages launching is working** — Impressions surged 54% as all 5 priority city pages entered Google's index. Avg position dropped to 29.4 because new pages are ranking at positions 22-55, pulling the average down — this is expected and healthy for newly discovered pages. CTR dropped because impressions grew faster than clicks (more low-position impressions). Not-indexed rose 65→89 likely because new area pages are in the crawl queue. Key milestone: **6 non-branded keywords now ranking** (up from 1).
 
 ### Keyword Target Page Updates (Post-Restructure)
 

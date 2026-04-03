@@ -29,7 +29,7 @@ const TestimonialCarousel = dynamic(
 );
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Web Design, Development & SEO Services in New Jersey',
+  title: 'Custom Web Design & SEO in New Jersey',
   description:
     'Custom web design & SEO focused on real business outcomes. We build high-performing websites for New Jersey businesses that rank, convert, and scale.',
   path: '/',
