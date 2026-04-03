@@ -7,6 +7,9 @@ import {
   getCitiesForCounty,
 } from '@/data/area-pages-content';
 
+const linkStyles =
+  'underline decoration-[var(--pv-border)] underline-offset-2 transition-colors hover:text-[var(--pv-primary)] hover:decoration-[var(--pv-primary)]';
+
 export function ServiceAreaLinks() {
   const countySlugs = getValidCountySlugs();
 
@@ -24,7 +27,7 @@ export function ServiceAreaLinks() {
                 <span>Serving </span>
                 <Link
                   href={`/areas/${countySlug}`}
-                  className="font-medium text-[var(--pv-text)] underline decoration-[var(--pv-border)] underline-offset-2 transition-colors hover:text-[var(--pv-primary)] hover:decoration-[var(--pv-primary)]"
+                  className={`font-medium text-[var(--pv-text)] ${linkStyles}`}
                 >
                   {county.name}
                 </Link>
@@ -33,7 +36,7 @@ export function ServiceAreaLinks() {
                   <span key={city.slug}>
                     <Link
                       href={`/areas/${countySlug}/${city.slug}`}
-                      className="underline decoration-[var(--pv-border)] underline-offset-2 transition-colors hover:text-[var(--pv-primary)] hover:decoration-[var(--pv-primary)]"
+                      className={linkStyles}
                     >
                       {city.city}
                     </Link>
