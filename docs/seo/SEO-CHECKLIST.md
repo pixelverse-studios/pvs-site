@@ -1,7 +1,7 @@
 # SEO Implementation Checklist
 
-> Progress: 37/59 Complete (63%) — up from 56% after Phase 1 (DEV-492) completions
-> Last Updated: 2026-03-21
+> Progress: 38/59 Complete (64%) — city pages now live at /areas/bergen-county/[city]
+> Last Updated: 2026-04-03
 
 ---
 
@@ -37,8 +37,8 @@
 - [ ] No unintended noindex pages
 - [ ] 404 pages properly handled
 - [x] Old URLs redirected (301s for /works, /pricing)
-- [ ] **CRITICAL: 103 pages not indexed** — investigate GSC reasons (crawled-not-indexed, redirect loops, noindex). Indexed pages dropped 42→24 over 3 months.
-- [ ] **Fix www vs non-www domain mismatch** — metadata.ts uses non-www, sitemap/robots use www. Standardize to www.
+- [ ] **89 pages not indexed** — rose from 65 after area pages added to crawl queue. Monitor for indexing progress.
+- [x] **Fix www vs non-www domain mismatch** — ✅ Addressed in DEV-620 (www→non-www consolidation)
 - [ ] Fix 51+ crawl errors from site restructure (removed /packages, service page changes)
 
 ---
@@ -48,14 +48,16 @@
 ### Implemented
 
 - [x] LocalBusiness schema (global — homepage)
-- [ ] Per-city LocalBusiness schema — ⚠️ functions exist but city pages redirect to /services; NOT DEPLOYED
+- [~] Per-city LocalBusiness schema — ✅ Live on /areas/bergen-county/[city]; ⚠️ missing geo coords for 4 of 5 cities
 - [x] Organization schema (ProfessionalService)
 - [x] BreadcrumbList schema (/services/seo, /services/web-development, /faq)
 - [x] Service schema (homepage: 2 services; service pages: 1 each)
 - [x] FAQPage schema (/faq, homepage, /services/seo, /services/web-development)
 - [x] BlogPosting schema (blog posts)
 - [x] WebSite schema — ✅ Now rendering on root layout (PR #196)
-- [ ] Fix city schema addressLocality bug (hardcodes Cliffside Park for all cities)
+- [x] Fix city schema addressLocality bug — ✅ Now dynamic per city (no longer hardcodes Cliffside Park)
+- [ ] Add geo coordinates to city schemas (only Fort Lee has coords; Englewood, Hackensack, Paramus, Ridgewood missing)
+- [ ] Fix double suffix bug on area page titles (data includes "| Pixelverse Studios" + template adds it again)
 
 ### Validation
 
@@ -230,31 +232,30 @@
 
 ## Quick Reference: Next Actions
 
-### This Week (Priority) - Updated 2026-03-21
+### This Week (Priority) - Updated 2026-04-03
 
-1. [x] ~~**Fix www/non-www domain mismatch**~~ — ✅ Addressed in DEV-492 (redirect chain cleanup)
-2. [x] ~~**Investigate not-indexed pages**~~ — ✅ Recovering: 103→65 not-indexed, 24→29 indexed. Continue monitoring.
-3. [ ] **Decide on city pages** — All 5 priority city routes redirect to /services. DEV-500 scope.
-4. [x] ~~**Lengthen page titles**~~ — ✅ 4 titles fixed to 50-60 char range (PR #197)
-5. [x] **Set up rank tracking tool** — ✅ Done. Per-keyword data now available.
+1. [ ] **Fix double suffix bug on area page titles** — City/county page titles have "| Pixelverse Studios" in data AND template adds it again (88+ char SERP titles)
+2. [ ] **Add geo coordinates to 4 city schemas** — Only Fort Lee has coords; Englewood, Hackensack, Paramus, Ridgewood missing
+3. [ ] **Fix homepage SERP title length** — 75 chars composed (target: 50-60). Shorten raw title.
+4. [ ] **Fix portfolio SERP title length** — 47 chars composed (target: 50-60). Add location keyword.
 
-### This Month (DEV-500 Scope)
+### This Month
 
-1. [ ] **Rebuild city pages** — Restore/redesign 5 priority city landing pages with local content
-2. [ ] **Fix city schema addressLocality bug** — Hardcodes Cliffside Park for all cities
+1. [ ] **Add location keywords to homepage H1** — Currently "Growing Businesses", should include "New Jersey"
+2. [ ] **Add location keywords to service page H2s** — 0-40% compliance on web dev/SEO pages
 3. [ ] Submit to 5+ directories (Clutch, DesignRush, UpCity, Yelp, BBB) — still 0 citations
 4. [ ] Activate GBP (weekly posts, Q&A seeding, 10+ photos, respond to 7 reviews)
-5. [ ] Add location keywords to H2s and body copy on service pages (0% compliance)
-6. [ ] Add service area statement to homepage/footer
-7. [ ] Publish remaining 5 draft blog posts
+5. [ ] Publish 10 draft blog posts (ready for scheduling)
+6. [ ] Add BreadcrumbList schema to /services, /about, /portfolio
+7. [ ] Add service page links to city pages (cross-linking opportunity)
 
 ### This Quarter
 
-1. [ ] 10+ GBP reviews (current: 7, no new since Feb)
+1. [ ] 10+ GBP reviews (current: 7, no new since Feb — stagnant for 2+ months)
 2. [ ] 25+ local citations/backlinks (current: 0)
-3. [ ] Target "web design agency NJ" (880 monthly searches) — highest volume keyword
-4. [ ] All 5 priority cities in top 10 (currently: only Englewood #9)
-5. [ ] Not-indexed pages → 0 (current: 65, trending down)
+3. [ ] Target "web design agency NJ" (880 monthly searches) — highest volume keyword, still NR
+4. [ ] All 5 priority cities in top 10 (current: HCK #22, FL #29, ENG #27, PAR #29, RDG #43)
+5. [ ] Not-indexed pages → 0 (current: 89, rose from 65 due to new area pages)
 
 ---
 

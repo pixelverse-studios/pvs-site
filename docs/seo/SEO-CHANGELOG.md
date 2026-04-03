@@ -43,6 +43,112 @@ Record every SEO change with:
 
 ## 2026 Changes
 
+### 2026-04-03 - Full SEO Audit
+
+**Type:** Full Audit
+**Overall Score:** 71/100 (C) — up from 70/100 (+1)
+
+**Scores by Category:**
+
+| Category      | Score  | vs Mar 21 | Grade | Notes                                                    |
+| ------------- | ------ | --------- | ----- | -------------------------------------------------------- |
+| Technical SEO | 77/100 | +4        | B     | All schemas correct, CSP/HSTS strong, 89 not-indexed     |
+| On-Page SEO   | 75/100 | -3        | B     | Double suffix bug on area titles, homepage H1 no location |
+| Content       | 60/100 | -5        | D     | 10 drafts still unpublished, no new posts since Jan      |
+| Local SEO     | 71/100 | +16       | C     | City pages live! All 5 ranking. GBP still declining.     |
+
+**GSC Performance (Apr 3 vs Mar 21):**
+
+| Metric          | Mar 21   | Apr 3    | Change         |
+| --------------- | -------- | -------- | -------------- |
+| Impressions     | 181      | **278**  | **+54%**       |
+| Clicks          | 11       | **9**    | -18%           |
+| CTR             | 6.1%     | **3.2%** | -2.9pp         |
+| Avg Position    | 17.1     | **29.4** | -12.3 (expected) |
+| Indexed Pages   | 29       | **28**   | -1 (stable)    |
+| Not Indexed     | 65       | **89**   | +24 (+37%)     |
+
+**GBP Performance (Apr 3 vs Mar):**
+
+| Metric              | Mar 2026 | Apr 2026 | Notes              |
+| ------------------- | -------- | -------- | ------------------ |
+| Profile Views       | 101      | **78**   | -23% declining     |
+| Search Appearances  | <50      | **<50**  | Stable             |
+| Direction Requests  | 30       | **25**   | -17%               |
+| Phone Calls         | 0        | **0**    | Zero for 4+ months |
+| Website Clicks      | 2        | **2**    | Stable (very low)  |
+| Reviews             | 7        | **7**    | No new reviews     |
+| Avg Rating          | 5.0      | **5.0**  | Stable             |
+
+**Keyword Rankings — BREAKTHROUGH:**
+
+| Keyword                        | Mar 21 | Apr 3  | Change | Notes                           |
+| ------------------------------ | ------ | ------ | ------ | ------------------------------- |
+| pixelverse studios             | 1      | **1**  | —      | Branded, stable                 |
+| pixelverse studios nj          | 1      | **1**  | —      | Branded, stable                 |
+| web design fort lee nj         | NR     | **29** | NEW    | /areas/bergen-county/fort-lee   |
+| local seo agency englewood nj  | 9      | **27** | -18    | URL changed to /areas/ path    |
+| web design hackensack nj       | NR     | **22** | NEW    | Best non-branded city rank!     |
+| web design paramus nj          | NR     | **29** | NEW    | /areas/bergen-county/paramus   |
+| web design ridgewood nj        | NR     | **43** | NEW    | /areas/bergen-county/ridgewood |
+| web design bergen county nj    | NR     | **55** | NEW    | /areas/bergen-county            |
+| seo services hackensack nj     | NR     | **71** | NEW    | Low but discovered             |
+| web design agency nj (880 vol) | NR     | **NR** | —      | Still highest-value target      |
+
+**Key Takeaways:**
+
+1. **City pages are working** — All 5 priority cities now ranking (positions 22-43). This is the biggest milestone since SEO scope was established.
+2. **Impressions surging** — 278 impressions (+54%) as Google discovers city pages. This is the highest impression count recorded.
+3. **Position average misleading** — 29.4 avg position looks worse than 17.1, but it's because 7 new keywords entered the index at lower positions. Previous 17.1 was based on fewer, better-positioned keywords.
+4. **Englewood URL migration cost** — Dropped 9→27 when URL changed from /services/englewood to /areas/bergen-county/englewood. Expected to recover as new URL builds authority.
+5. **Not-indexed rising** — 89 pages (up from 65). Likely new area pages in crawl queue. Monitor closely.
+6. **GBP continues declining** — Views -23%, directions -17%, zero calls for 4+ months. Still 0 directory citations. This is the weakest area.
+7. **Content stagnant** — 10 draft posts still unpublished. No new content since Jan 20.
+
+**Codebase Scan Findings (New This Audit):**
+
+- Double suffix bug on area page titles (data + template both add "| Pixelverse Studios")
+- Missing geo coordinates in schema for 4 of 5 cities
+- Homepage H1 lacks location keyword ("Growing Businesses" not "New Jersey Businesses")
+- Service page H2s: 0-40% location keyword compliance
+- About page H1 generic ("How We Work")
+- Portfolio SERP title too short (43 chars)
+- FAQ SERP title slightly over (63 chars)
+- NAP consistency confirmed excellent across all instances
+- All FAQPage schemas have parity with UI content
+- WebSite, Organization, Service schemas all present and correct
+
+**Actions Recommended:**
+
+1. [ ] Fix double suffix bug on area page titles (immediate — title truncation in SERP)
+2. [ ] Add geo coordinates to 4 city schemas (Englewood, Hackensack, Paramus, Ridgewood)
+3. [ ] Shorten homepage raw title to keep SERP title under 60 chars
+4. [ ] Add location keyword to homepage H1
+5. [ ] Publish 10 draft blog posts (content freshness stalling)
+6. [ ] Submit to directories (still 0 citations after 4 audits)
+7. [ ] Activate GBP (weekly posts, respond to reviews, add photos)
+8. [ ] Add BreadcrumbList schema to /services hub, /about, /portfolio
+
+**Metrics Snapshot:**
+
+- Organic traffic: 9 clicks (down from 11)
+- Keywords ranking: 9 total (2 branded + 7 non-branded)
+- Keywords in top 30: 6
+- Not-indexed pages: 89
+- GBP reviews: 7 (5.0 avg)
+- Directory citations: 0
+
+**Checklist Progress:** 64% complete (+1% since last — city schema addressLocality fixed, www/non-www resolved)
+
+**Files Updated:**
+
+- docs/seo/SEO-KEYWORDS.md — Rankings updated with Apr 2026 data, GSC metrics added
+- docs/seo/SEO-SCOPE.md — KPI table updated with Apr 3 column
+- docs/seo/SEO-CHECKLIST.md — Items updated, new issues added, priorities refreshed
+- docs/seo/SEO-CHANGELOG.md — This audit entry added
+
+---
+
 ### 2026-03-21 - GSC Refresh & Quick Audit
 
 **Type:** Quick Refresh (post-Phase 1 check-in)
