@@ -6,9 +6,11 @@ import { AboutHeroSection } from '@/components/about/about-hero-section';
 import { AboutNarrativeSection } from '@/components/about/about-narrative-section';
 import { AboutTestimonialsSection } from '@/components/about/about-testimonials-section';
 import { TeamSection } from '@/components/about/team-section';
+import { StructuredData } from '@/components/ui/structured-data';
 import { aboutContent } from '@/data/about';
 import { getGoogleRatingData } from '@/lib/api/google-places';
 import { createPageMetadata } from '@/lib/metadata';
+import { createBreadcrumbSchema } from '@/lib/structured-data';
 
 export const metadata: Metadata = createPageMetadata({
   title: 'About Us | NJ Web Design Agency',
@@ -27,11 +29,17 @@ export const metadata: Metadata = createPageMetadata({
 
 export const revalidate = 86400;
 
+const breadcrumbSchema = createBreadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: 'About', path: '/about' },
+]);
+
 export default async function AboutPage() {
   const googleRating = await getGoogleRatingData();
 
   return (
     <main>
+      <StructuredData data={breadcrumbSchema} id="about-breadcrumb-schema" />
       {/* 1. Hero */}
       <AboutHeroSection />
 

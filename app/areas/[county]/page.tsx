@@ -71,6 +71,7 @@ export default async function CountyPage({
     state: content.state,
     description: content.metaDescription,
     basePath: `/areas/${content.slug}`,
+    isCounty: true,
   });
 
   return (

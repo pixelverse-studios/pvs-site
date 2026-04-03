@@ -87,6 +87,7 @@ export interface CitySchemaParams {
   state: string;
   description?: string;
   basePath?: string; // e.g. '/areas/bergen-county/fort-lee' — defaults to '/services/${slug}'
+  isCounty?: boolean; // true for county-level pages — uses AdministrativeArea instead of City
 }
 
 export function createCityLocalBusinessSchema({
@@ -95,6 +96,7 @@ export function createCityLocalBusinessSchema({
   state,
   description,
   basePath,
+  isCounty = false,
 }: CitySchemaParams) {
   const coords = cityCoordinates[slug];
   const pagePath = basePath || `/services/${slug}`;
@@ -112,14 +114,19 @@ export function createCityLocalBusinessSchema({
     image: lightModeLogo,
     logo: lightModeLogo,
     priceRange: '$$',
-    areaServed: {
-      '@type': 'City',
-      name: city,
-      containedInPlace: {
-        '@type': 'AdministrativeArea',
-        name: 'Bergen County, NJ',
-      },
-    },
+    areaServed: isCounty
+      ? {
+          '@type': 'AdministrativeArea',
+          name: `${city}, ${state}`,
+        }
+      : {
+          '@type': 'City',
+          name: city,
+          containedInPlace: {
+            '@type': 'AdministrativeArea',
+            name: 'Bergen County, NJ',
+          },
+        },
     ...(coords && {
       geo: {
         '@type': 'GeoCoordinates',
