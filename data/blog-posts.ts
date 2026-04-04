@@ -1202,6 +1202,437 @@ const blogPosts: BlogPost[] = [
       'End with a 30-60-90 roadmap that turns review calls into forward planning.',
     ],
   },
+  {
+    slug: 'choosing-web-design-company-new-jersey',
+    title: 'How to Choose a Web Design Company in New Jersey',
+    excerpt:
+      'Hiring a web designer is stressful. This guide gives NJ business owners a clear framework for evaluating agencies, spotting red flags, and getting the most from the process.',
+    category: 'Web Development',
+    tags: ['Web Design', 'Hiring', 'New Jersey', 'Small Business'],
+    publishedAt: '2026-04-08T09:00:00.000Z',
+    readingMinutes: 10,
+    coverGradient: 'linear-gradient(135deg, rgba(59,130,246,0.4) 0%, rgba(37,99,235,0.55) 100%)',
+    accentColor: 'rgba(59,130,246,0.5)',
+    author: defaultAuthor,
+    content: [
+      {
+        type: 'paragraph',
+        content:
+          'You need a new website. Maybe your current one looks like it was built in 2014 (because it was). Maybe you are starting fresh and have no site at all. Either way, you have Googled "web design company NJ" and now you are staring at dozens of agencies that all claim to be the best. How do you actually pick one without wasting thousands of dollars?',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'This is the framework we give to every business owner who asks us that question. It works whether you end up hiring us or someone else. The goal is to help you make a smart decision, not a rushed one.',
+      },
+      {
+        type: 'heading',
+        content: 'What separates a good web design company from a bad one',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'The web design industry has a low barrier to entry. Anyone with a laptop and a Wix account can call themselves a designer. That is not necessarily a problem, but it means the quality range is enormous. A $500 website from a freelancer on Fiverr and a $5,000 site from a local agency are completely different products, even if both parties call it "web design."',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Good agencies focus on outcomes, not just aesthetics. They ask about your business goals before they discuss colors and fonts. They want to know who your customers are, how they find you, and what action you want visitors to take. If a company jumps straight to showing you templates, thats a sign they are selling a product instead of solving a problem.',
+      },
+      {
+        type: 'list',
+        items: [
+          'They ask detailed questions about your business before quoting a price',
+          'Their own website loads fast and looks professional on mobile',
+          'They can explain their process in plain English without jargon',
+          'They show measurable results from past projects, not just pretty screenshots',
+          'They talk about ongoing performance and SEO, not just the initial launch',
+        ],
+      },
+      {
+        type: 'heading',
+        content: 'Questions to ask before signing anything',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Most business owners accept the first proposal that looks reasonable. That is a mistake. You need to interrogate the process the same way you would vet a contractor before a kitchen renovation. Here are the questions that separate serious agencies from amateurs.',
+      },
+      {
+        type: 'list',
+        items: [
+          'Who owns the code and domain after the project is done?',
+          'What is your revision process? How many rounds are included?',
+          'Do you build on templates or write custom code?',
+          'What does your post-launch support look like? Is maintenance included?',
+          'Can you walk me through a recent project from start to finish?',
+          'How do you handle SEO? Is it baked in or a separate add-on?',
+          'What happens if I want to switch providers in a year?',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content:
+          'That last question matters more than you think. Some agencies lock you into proprietary platforms where you lose everything if you leave. Others hand over the keys and let you take your site anywhere. If a company gets cagey about ownership, walk away.',
+      },
+      {
+        type: 'heading',
+        content: 'Red flags that should make you walk away',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'After talking to hundreds of business owners in Bergen County and across New Jersey, the same horror stories keep coming up. A shop owner on Main Street in Hackensack paid $4,000 for a site that took eight months to deliver. A dentist in Paramus got a beautiful design that loaded so slowly it tanked their Google rankings. An attorney in Fort Lee signed a contract that gave the agency ownership of the domain.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'These problems are avoidable. Watch for these warning signs early.',
+      },
+      {
+        type: 'list',
+        items: [
+          'No written contract or scope of work before starting',
+          'A quote that arrives before they ask any questions about your business',
+          'Vague timelines with no milestones or check-in points',
+          'No portfolio or only showing mockups instead of live websites',
+          'Prices that sound too good to be true (a $300 custom website does not exist)',
+          'Pressure to sign immediately with "limited time" discounts',
+          'They cannot explain how your site will show up in search results',
+        ],
+      },
+      {
+        type: 'heading',
+        content: 'How to evaluate a web design portfolio',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'A portfolio tells you two things: what the agency is capable of building, and whether they build for businesses like yours. If every project in their portfolio is for tech startups in Manhattan, they might not understand what a plumber in Ridgewood needs. Context matters as much as craft.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'When reviewing portfolio sites, do not just look at the homepage. Click around. Check how fast pages load on your phone. See if the contact form actually works. Read the copy and ask yourself whether it speaks to real customers or just sounds impressive. A site that looks gorgeous but confuses visitors is a failure, no matter how many design awards it wins.',
+      },
+      {
+        type: 'list',
+        items: [
+          'Test portfolio sites on your phone, not just desktop',
+          'Look for businesses similar to yours in size and industry',
+          'Check if the sites rank for relevant local keywords',
+          'Read the copy and see if it speaks to actual customers',
+          'Ask the agency what results those sites produced after launch',
+        ],
+      },
+      {
+        type: 'heading',
+        content: 'Why local agencies have an edge for NJ businesses',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'You can hire a design firm from anywhere. Remote work makes that possible. But for service businesses in New Jersey, working with a local team has tangible advantages that go beyond convenience.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'A <a href="/areas/bergen-county">Bergen County</a> agency knows that Route 4 and Route 17 define shopping corridors. They understand that <a href="/areas/bergen-county/fort-lee">Fort Lee</a> pulls Manhattan spillover traffic while <a href="/areas/bergen-county/englewood">Englewood</a> draws a different demographic. They know <a href="/areas/bergen-county/paramus">Paramus</a> has strict signage laws that push businesses harder toward digital visibility. That local knowledge shapes better <a href="/services/seo">SEO strategy</a> and smarter content decisions.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'A remote agency in Texas does not know that "near Garden State Plaza" is a search modifier people actually use. They do not know that <a href="/areas/bergen-county/hackensack">Hackensack</a> is the county seat with higher commercial density, or that <a href="/areas/bergen-county/ridgewood">Ridgewood</a> has an affluent residential base that supports premium service providers. These details influence keyword strategy, content tone, and how your site positions you against local competitors.',
+      },
+      {
+        type: 'heading',
+        content: 'What the discovery process should look like',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Any reputable <a href="/services/web-development">web development</a> company will start with discovery before writing a single line of code. This phase might be a 30-minute call, a detailed questionnaire, or a full strategy session depending on the scope. The point is to align on goals, audience, and constraints before work begins.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'During discovery, expect questions about your target customers, your competitive landscape, what is working in your current marketing, and what is not. Good agencies also want to see your Google Analytics or Search Console data if you have it. They are looking for patterns, not just preferences.',
+      },
+      {
+        type: 'list',
+        items: [
+          'Business goals and what success looks like for this project',
+          'Target audience profiles and how they currently find you',
+          'Competitor websites and what you like or dislike about them',
+          'Content inventory and whether you need copywriting help',
+          'Technical requirements like booking systems, forms, or integrations',
+          'Budget range and timeline expectations',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content:
+          'If an agency skips this step and jumps straight to design, they are guessing. And guessing with your money is not a strategy.',
+      },
+      {
+        type: 'quote',
+        content:
+          'The best web projects start with listening. We spend more time in discovery than most agencies spend on the entire design phase, because getting the foundation right means everything after it works harder.',
+        attribution: 'Phil, Lead Developer at PixelVerse Studios',
+      },
+      {
+        type: 'heading',
+        content: 'Pricing transparency and what to expect',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Legitimate agencies publish their pricing or give you a clear range during the first conversation. You should not have to sit through a 90-minute sales presentation to find out whether you can afford them. If you want a detailed breakdown of what websites actually cost in New Jersey, we wrote a full guide on <a href="/blog/how-much-does-a-website-cost-new-jersey">how much a website costs in NJ</a> with pricing tiers for every budget.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'At minimum, expect a written scope of work that spells out deliverables, timeline, payment schedule, revision rounds, and post-launch support. If the only document you receive is an invoice, you do not have enough protection.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'PixelVerse Studios works with New Jersey businesses from <a href="/areas/bergen-county/fort-lee">Fort Lee</a> to <a href="/areas/bergen-county/ridgewood">Ridgewood</a> and beyond, building custom-coded websites designed to generate leads and rank locally. If you are comparing agencies and want an honest conversation about what your project needs, <a href="/contact">reach out for a free consultation</a>. No pressure, no pitch deck, just a straightforward assessment of your goals and how to get there.',
+      },
+    ],
+    highlights: [
+      'Always ask who owns the code and domain before signing a web design contract.',
+      'Local NJ agencies bring market knowledge that remote firms cannot match, from Route 4 shopping corridors to neighborhood-level search behavior.',
+      'A proper discovery process before design begins is the strongest predictor of a successful web project.',
+    ],
+    faqs: [
+      {
+        question: 'How do I know if a web design company is legitimate?',
+        answer:
+          'Check for a real portfolio with live websites you can visit and test. Look for a written contract with clear scope, ownership terms, and a revision process. Legitimate companies ask detailed questions about your business before quoting a price, and they should be willing to share references from past clients.',
+      },
+      {
+        question: 'Should I hire a local web designer or a remote agency?',
+        answer:
+          'For service businesses targeting local customers, a nearby agency offers real advantages. They understand your market, local search behavior, and competitive landscape. Remote agencies can work well for national brands, but local knowledge directly impacts SEO strategy and content quality for businesses serving specific towns or counties.',
+      },
+      {
+        question: 'What should a web design proposal include?',
+        answer:
+          'A professional proposal should include a scope of work, deliverables list, timeline with milestones, number of revision rounds, payment schedule, post-launch support details, and clear ownership terms. If the proposal is vague or missing any of these elements, ask for clarification before signing.',
+      },
+    ],
+  },
+  {
+    slug: 'wix-vs-wordpress-vs-custom-website',
+    title: 'Wix vs WordPress vs Custom: Which Website Platform Wins?',
+    excerpt:
+      'Confused about Wix, WordPress, and custom-coded websites? This comparison breaks down cost, SEO, performance, and long-term value for NJ business owners.',
+    category: 'Web Development',
+    tags: ['Wix', 'WordPress', 'Custom Development', 'Platform Comparison'],
+    publishedAt: '2026-04-10T09:00:00.000Z',
+    readingMinutes: 11,
+    coverGradient: 'linear-gradient(135deg, rgba(168,85,247,0.4) 0%, rgba(139,92,246,0.55) 100%)',
+    accentColor: 'rgba(168,85,247,0.5)',
+    author: defaultAuthor,
+    content: [
+      {
+        type: 'paragraph',
+        content:
+          'Every business owner hits this fork in the road. You need a website, and someone tells you to "just use Wix." Your nephew says WordPress. A developer friend says go custom. Each person sounds confident. None of them agree. So who is right?',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'The honest answer is that it depends on where your business is today and where you want it to be in two years. This is not a "custom is always better" article. Each platform has a legitimate use case. But the tradeoffs are real, and most people do not learn about them until they have already spent money.',
+      },
+      {
+        type: 'heading',
+        content: 'The quick comparison',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Before we dig into each platform, here is a side-by-side breakdown of the five factors that matter most to business owners.',
+      },
+      {
+        type: 'list',
+        items: [
+          'COST -- Wix: $17-$160/month plus apps. WordPress: $30-$300/month for hosting, themes, plugins. Custom: $2,000-$10,000+ upfront, $50-$200/month maintenance.',
+          'EASE OF USE -- Wix: Drag-and-drop, no code needed. WordPress: Moderate learning curve, plugin management required. Custom: Managed by your developer, minimal input needed from you.',
+          'SEO CAPABILITY -- Wix: Basic built-in tools, limited technical control. WordPress: Strong with plugins like Yoast or RankMath, but speed issues common. Custom: Full control over every ranking factor, fastest load times.',
+          'SCALABILITY -- Wix: Hits walls around 50-100 pages or complex features. WordPress: Flexible but plugin conflicts increase with scale. Custom: No platform limits, scales as far as you need.',
+          'OWNERSHIP -- Wix: You rent the platform and cannot export your site. WordPress: You own content but depend on themes and plugins. Custom: You own everything, code included, and can host anywhere.',
+        ],
+      },
+      {
+        type: 'heading',
+        content: 'When Wix makes sense',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Wix works for one specific scenario: you need something live this week, your budget is under $500, and the website is not your primary revenue driver. Think a freelance photographer who needs a portfolio page, or a side project that might not exist in six months.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'The drag-and-drop editor is genuinely easy to use. You can pick a template, swap in your photos and text, and publish in an afternoon. For that speed and simplicity, Wix earns its place.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'But the limitations show up fast. Wix sites share server resources with millions of other sites, which means page speed is largely outside your control. You cannot access or modify the underlying code. If you want a feature Wix does not offer, you are stuck. And the moment you stop paying, your site vanishes. You cannot download it, move it, or hand it to another developer.',
+      },
+      {
+        type: 'list',
+        items: [
+          'Best for: Side projects, temporary sites, personal portfolios under $500 budget',
+          'Watch out for: Slow page speeds, app costs that add up, zero code ownership',
+          'SEO reality: Basic optimization works, but you cannot fix technical speed issues or implement advanced schema markup',
+        ],
+      },
+      {
+        type: 'heading',
+        content: 'When WordPress is the right call',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'WordPress powers roughly 40% of the internet, and thats not an accident. It is flexible, has a massive plugin ecosystem, and gives you more control than any drag-and-drop builder. For businesses that need a blog, regular content updates, or e-commerce through WooCommerce, WordPress is a proven option.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'The catch is that WordPress requires maintenance. Plugins need updates. Themes conflict with plugins. Security patches arrive monthly. If you ignore these tasks, your site becomes slow, vulnerable, and eventually broken. We have seen plenty of Bergen County businesses running WordPress sites with 30+ plugins, half of them outdated, wondering why their pages take six seconds to load.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'The other issue is performance. A default WordPress install is reasonably fast. But after adding a page builder like Elementor, a few contact form plugins, an SEO plugin, analytics tracking, and a slider, you are serving 2-3MB of JavaScript before your content even appears. That directly hurts your <a href="/services/seo">search rankings</a> because Google measures page speed as a ranking factor.',
+      },
+      {
+        type: 'list',
+        items: [
+          'Best for: Content-heavy sites, blogs, e-commerce with WooCommerce, businesses that want CMS flexibility',
+          'Watch out for: Plugin bloat, security vulnerabilities, ongoing maintenance burden',
+          'SEO reality: Great potential with the right setup, but most WordPress sites underperform because of theme and plugin overhead',
+        ],
+      },
+      {
+        type: 'heading',
+        content: 'When custom code is the answer',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Custom-coded websites are purpose-built for your business. There is no template underneath. No plugin doing something you do not need. Every line of code exists because your site requires it. This translates directly into faster load times, better SEO performance, and a design that does not look like anyone elses.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'For service businesses in competitive local markets, that performance gap matters. A <a href="/services/web-development">custom-built website</a> loading in 1.2 seconds outperforms a WordPress site loading in 3.8 seconds, all else being equal. Google rewards speed, and users reward it too. Bounce rates climb roughly 32% when page load goes from one second to three.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'The tradeoff is cost and timeline. Custom sites take longer to build and cost more upfront. You need a developer to make changes rather than logging into a dashboard yourself. For some businesses, thats a dealbreaker. For others, especially those in competitive <a href="/areas/bergen-county">Bergen County</a> markets where every Google position matters, the performance advantage pays for itself in leads.',
+      },
+      {
+        type: 'list',
+        items: [
+          'Best for: Service businesses serious about SEO and lead generation, companies outgrowing templates, brands that want full ownership',
+          'Watch out for: Higher upfront investment, need a developer relationship for updates',
+          'SEO reality: Maximum control over every technical ranking factor. Fastest possible load times. Clean code that search engines love.',
+        ],
+      },
+      {
+        type: 'heading',
+        content: 'Real businesses that outgrew their templates',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'This pattern repeats across North Jersey. A home services company in <a href="/areas/bergen-county/fort-lee">Fort Lee</a> launched on Wix three years ago. The site looked decent. But as they added service pages, the load time crept past four seconds. Their Google rankings for "pressure washing Fort Lee NJ" dropped from page one to page three. They spent $1,800 on the original Wix setup and apps over three years, then another $3,500 to rebuild on a custom platform. Total cost: $5,300 and a year of lost visibility.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'A medical practice near Hackensack University Medical Center ran WordPress with 28 plugins. Every few months something broke. Their booking integration conflicted with a theme update. Their contact form stopped sending emails for two weeks before anyone noticed. They were paying $200/month for managed WordPress hosting plus $150/month for a maintenance contractor. The switch to a custom site cut their monthly costs in half and eliminated the plugin roulette.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'These are not extreme cases. They are the normal trajectory for businesses that pick a platform based on what is cheapest today instead of what performs best over time. Our <a href="/blog/how-much-does-a-website-cost-new-jersey">guide to website costs in New Jersey</a> breaks down the full pricing picture if you want to see the numbers side by side.',
+      },
+      {
+        type: 'heading',
+        content: 'How platform choice affects local SEO',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'If you run a business serving <a href="/areas/bergen-county/englewood">Englewood</a>, <a href="/areas/bergen-county/paramus">Paramus</a>, <a href="/areas/bergen-county/ridgewood">Ridgewood</a>, or anywhere in Bergen County, local SEO is not optional. It is how customers find you. And the platform underneath your website directly affects how well you rank.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Page speed is a confirmed ranking factor. Custom sites average 1-2 second load times. WordPress sites with page builders average 3-5 seconds. Wix sites fall somewhere in between but give you no tools to improve it. Schema markup, which helps Google understand your business location and services, is fully controllable with custom code, partially controllable with WordPress plugins, and barely accessible on Wix.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Mobile performance matters even more for local searches. Over 60% of "near me" searches happen on phones. A slow mobile experience does not just frustrate users, it tells Google your site is not the best result to show. Custom code lets developers optimize specifically for mobile in ways that template platforms cannot.',
+      },
+      {
+        type: 'quote',
+        content:
+          'We have rebuilt more sites from Wix and bloated WordPress installs than we have built from scratch. The pattern is always the same: the platform felt cheap at first and expensive later.',
+        attribution: 'Phil, Lead Developer at PixelVerse Studios',
+      },
+      {
+        type: 'heading',
+        content: 'Making the right choice for your business',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'Pick Wix if your site is a placeholder or a side project with no growth ambitions. Pick WordPress if you need a content-heavy blog or e-commerce store and have someone managing maintenance. Pick custom if your website is a lead generation tool, you operate in a competitive local market, and performance directly affects your revenue.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'The biggest mistake is choosing based on the first month cost instead of the first year cost. Wix at $30/month plus apps often totals $600-$1,200/year. Managed WordPress with maintenance runs $2,400-$4,200/year. A custom site with monthly support runs $2,500-$4,000/year but gives you ownership, speed, and zero plugin headaches.',
+      },
+      {
+        type: 'paragraph',
+        content:
+          'PixelVerse Studios builds custom-coded websites for NJ businesses that are done competing on template platforms. If your current site is slow, outdated, or holding you back from ranking where you should be, <a href="/contact">book a free consultation</a> and we will tell you exactly what is fixable and what needs a fresh start. No sales pitch. Just an honest look at where you stand.',
+      },
+    ],
+    highlights: [
+      'Wix is cheapest month one but often costs more than custom development over three years once you add apps, premium plans, and eventual rebuilds.',
+      'WordPress offers flexibility but demands ongoing maintenance. Plugin bloat is the top reason Bergen County businesses see their rankings drop.',
+      'Custom-coded sites load 2-3x faster than template platforms, and that speed difference directly translates to better local search rankings and more leads.',
+    ],
+    faqs: [
+      {
+        question: 'Can I switch from Wix to a custom website without losing my SEO rankings?',
+        answer:
+          'Yes, with proper planning. The key is setting up 301 redirects from every old URL to its new equivalent so Google transfers your ranking authority. You will also need to resubmit your sitemap in Google Search Console. Expect a brief ranking fluctuation during the transition, but most businesses recover within 2-4 weeks and then see improvement from the faster site.',
+      },
+      {
+        question: 'Is WordPress free or does it have hidden costs?',
+        answer:
+          'WordPress itself is free, but running a real business site on it is not. You need paid hosting ($15-$100/month), a premium theme ($50-$200 one-time), essential plugins ($100-$500/year), and either your own time or a contractor for updates and security patches. The total first-year cost for a properly maintained WordPress business site is typically $1,500 to $3,500.',
+      },
+      {
+        question: 'How long does it take to build a custom website compared to using Wix?',
+        answer:
+          'A Wix site can go live in a day or two. A custom website typically takes 3-8 weeks depending on scope. The difference is like comparing fast food to a restaurant meal. Speed has its place, but businesses generating revenue from their website almost always benefit from the extra time invested in strategy, design, and performance optimization.',
+      },
+    ],
+  },
 ];
 
 export function getBlogPosts(): BlogPost[] {
