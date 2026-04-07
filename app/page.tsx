@@ -28,9 +28,11 @@ const TestimonialCarousel = dynamic(
   () => import('@/components/home/testimonial-carousel').then((m) => m.TestimonialCarousel),
 );
 
+const HOMEPAGE_TITLE = 'Custom Web Design & SEO in New Jersey';
+
 export const metadata: Metadata = {
   ...createPageMetadata({
-    title: 'Custom Web Design & SEO in New Jersey',
+    title: HOMEPAGE_TITLE,
     description:
       'Custom web design & SEO focused on real business outcomes. We build high-performing websites for New Jersey businesses that rank, convert, and scale.',
     path: '/',
@@ -47,7 +49,7 @@ export const metadata: Metadata = {
   // so without this override the homepage <title> drops the brand suffix that
   // every other page gets via the template.
   title: {
-    absolute: 'Custom Web Design & SEO in New Jersey | PixelVerse Studios',
+    absolute: `${HOMEPAGE_TITLE} | PixelVerse Studios`,
   },
 };
 
