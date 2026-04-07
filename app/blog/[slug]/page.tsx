@@ -196,13 +196,13 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
             </div>
           </Container>
         </section>
+        {post.faqs && post.faqs.length > 0 && (
+          <ServiceFAQ
+            faqs={post.faqs}
+            generateSchema={false}
+          />
+        )}
       </article>
-      {post.faqs && post.faqs.length > 0 && (
-        <ServiceFAQ
-          faqs={post.faqs}
-          generateSchema={false}
-        />
-      )}
       <ServiceCta
         heading="Want to talk through your project?"
         description="PixelVerse Studios builds custom websites and SEO strategies for New Jersey businesses. If anything in this post sparked an idea, let's see if we're a fit."
