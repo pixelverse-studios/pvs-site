@@ -115,32 +115,39 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
   const logoSrc = isDarkMode ? DARK_LOGO_URL : LIGHT_LOGO_URL;
 
   const overlayBgClass = isDarkMode ? 'bg-black/65' : 'bg-[rgba(20,16,48,0.18)]';
+  // Dark mode: flat var(--pv-bg) base for the drawer so it matches the rest of
+  // the dark site. The secondary layer adds a subtle brand-primary radial accent
+  // in the top corner so the drawer has a hint of personality without the muddy
+  // purple-over-near-black wash that made icon chips disappear in DEV-668.
   const primaryGradientClass = isDarkMode
-    ? 'bg-[radial-gradient(140%_140%_at_30%_0%,rgba(118,70,255,0.95),rgba(10,8,32,0.98))]'
+    ? 'bg-[var(--pv-bg)]'
     : 'bg-[radial-gradient(140%_140%_at_30%_0%,rgba(118,70,255,0.38),rgba(255,255,255,0.98))]';
   const secondaryGradientClass = isDarkMode
-    ? 'bg-[linear-gradient(170deg,rgba(12,10,38,0.82)_0%,rgba(6,5,24,0.92)_45%,rgba(4,3,20,0.98)_100%)]'
+    ? 'bg-[radial-gradient(120%_120%_at_15%_0%,rgba(118,70,255,0.18),transparent_55%)]'
     : 'bg-[linear-gradient(176deg,rgba(255,255,255,0.85)_0%,rgba(247,243,255,0.92)_45%,rgba(240,236,255,0.97)_100%)]';
   const drawerTextClass = isDarkMode ? 'text-white' : 'text-[var(--pv-text)]';
   const closeButtonThemeClass = isDarkMode
-    ? 'border-white/10 bg-white/5 text-white hover:border-white/30 hover:bg-white/10'
+    ? 'border-white/20 bg-white/10 text-white hover:border-white/40 hover:bg-white/15'
     : 'border-[rgba(63,0,233,0.2)] bg-white text-[var(--pv-primary)] shadow-[0_20px_44px_-32px_rgba(63,0,233,0.35)] hover:border-[rgba(63,0,233,0.35)] hover:bg-[rgba(255,255,255,0.92)]';
   const navItemBaseClass =
     'group flex items-center gap-4 rounded-2xl px-4 py-3 text-base transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]';
   const navItemThemeClass = isDarkMode
-    ? 'text-white/80 hover:text-white'
+    ? 'text-white/90 hover:text-white'
     : 'text-[var(--pv-text-muted)] hover:text-[var(--pv-text)]';
   const navItemHoverBgClass = isDarkMode ? 'hover:bg-white/10' : 'hover:bg-[rgba(63,0,233,0.08)]';
+  // Active state in dark mode uses a brand-primary tint (instead of just bumping
+  // white/12 → white/14, which Sami couldn't tell apart from idle). The purple
+  // background plus a soft purple glow makes the active item unmistakable.
   const navItemActiveClass = isDarkMode
-    ? 'bg-white/12 text-white shadow-[0_24px_48px_-32px_rgba(120,65,255,0.75)]'
+    ? 'bg-[rgba(118,70,255,0.18)] text-white shadow-[0_12px_36px_-20px_rgba(118,70,255,0.7)]'
     : 'bg-[rgba(63,0,233,0.12)] text-[var(--pv-primary)] shadow-[0_24px_48px_-34px_rgba(63,0,233,0.35)]';
   const iconBaseClass =
     'flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-200 group-focus-visible:border-[var(--pv-primary)]';
   const iconThemeClass = isDarkMode
-    ? 'border-white/12 bg-white/10 text-white/80 group-hover:border-white/40 group-hover:bg-white/20 group-hover:text-white'
+    ? 'border-white/20 bg-white/10 text-white group-hover:border-white/40 group-hover:bg-white/20 group-hover:text-white'
     : 'border-[rgba(63,0,233,0.2)] bg-white text-[rgba(63,0,233,0.75)] shadow-[0_18px_36px_-32px_rgba(63,0,233,0.4)] group-hover:border-[rgba(63,0,233,0.45)] group-hover:bg-[rgba(63,0,233,0.08)] group-hover:text-[var(--pv-primary)]';
   const iconActiveClass = isDarkMode
-    ? 'border-white/40 bg-white/20 text-white'
+    ? 'border-[rgba(118,70,255,0.55)] bg-[rgba(118,70,255,0.22)] text-white'
     : 'border-[rgba(63,0,233,0.55)] bg-[rgba(63,0,233,0.12)] text-[var(--pv-primary)]';
 
   const mobileNavPortal =
@@ -250,7 +257,7 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                           <div
                             role="group"
                             aria-label={item.label}
-                            className="ml-14 mt-1 flex flex-col gap-1 border-l-2 border-[var(--pv-border)] pl-4 dark:border-white/10"
+                            className="ml-14 mt-1 flex flex-col gap-1 border-l-2 border-[var(--pv-border)] pl-4 dark:border-white/25"
                           >
                             {item.children!.map((child) => {
                               const childIsActive = pathname === child.href;
@@ -264,11 +271,11 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                                   className={cn(
                                     'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all duration-200',
                                     isDarkMode
-                                      ? 'text-white/70 hover:bg-white/10 hover:text-white'
+                                      ? 'text-white/85 hover:bg-white/10 hover:text-white'
                                       : 'text-[var(--pv-text-muted)] hover:bg-[rgba(63,0,233,0.08)] hover:text-[var(--pv-text)]',
                                     childIsActive &&
                                       (isDarkMode
-                                        ? 'bg-white/10 text-white'
+                                        ? 'bg-[rgba(118,70,255,0.18)] text-white'
                                         : 'bg-[rgba(63,0,233,0.1)] text-[var(--pv-primary)]'),
                                   )}
                                 >
