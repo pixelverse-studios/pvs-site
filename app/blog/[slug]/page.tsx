@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 // dangerouslySetInnerHTML — these classes provide the link styling that the
 // raw <a> tags wouldn't otherwise pick up.
 const blogProseLinkClass =
-  '[&_a]:font-medium [&_a]:text-[var(--pv-primary)] [&_a]:underline [&_a]:decoration-[var(--pv-border)] [&_a]:underline-offset-4 [&_a]:transition-colors hover:[&_a]:decoration-[var(--pv-primary)]';
+  '[&_a]:font-medium [&_a]:text-[var(--pv-primary)] [&_a]:underline [&_a]:decoration-[var(--pv-border)] [&_a]:underline-offset-4 [&_a]:transition-colors [&_a:hover]:decoration-[var(--pv-primary)]';
 
 function renderContent(block: BlogPost['content'][number], index: number) {
   switch (block.type) {
