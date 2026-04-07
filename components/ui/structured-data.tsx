@@ -1,7 +1,5 @@
 'use client';
 
-import Script from 'next/script';
-
 import { useNonce } from '@/components/nonce-provider';
 
 interface StructuredDataProps {
@@ -14,10 +12,9 @@ export function StructuredData({ data, id }: StructuredDataProps) {
   const scriptId = id ?? 'structured-data';
 
   return (
-    <Script
+    <script
       id={scriptId}
       type="application/ld+json"
-      strategy="afterInteractive"
       nonce={nonce}
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
