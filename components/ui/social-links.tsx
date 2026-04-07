@@ -63,7 +63,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
   },
   {
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/company/pixelverse-studios/',
+    href: 'https://www.linkedin.com/company/pixelverse-studios-llc/',
     icon: Linkedin,
   },
   {
