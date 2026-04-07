@@ -19,11 +19,39 @@ const nextConfig = {
     ],
   },
   async headers() {
+    // Public-route CSP. Set statically here (instead of per-request in middleware)
+    // so public pages can be statically generated and CDN-cached. The dashboard
+    // middleware (middleware.ts, which now only runs on /dashboard/*) overrides
+    // this header on its responses with a stricter nonce-based CSP. See DEV-674.
+    //
+    // Trade-off: this CSP uses 'unsafe-inline' for script-src, which is weaker
+    // than the previous nonce mechanism. For a marketing site that renders no
+    // user-supplied content into HTML, this is an acceptable trade — the cost
+    // of the previous nonce mechanism was forced dynamic rendering on every
+    // page (Cache-Control: no-store), which made every navigation pay a cold-
+    // start tax on the Netlify Function. Static pages can't have a per-request
+    // nonce because the HTML is built once at build time.
+    const publicApiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
+    const publicCsp = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com https://js.sentry-cdn.com https://assets.calendly.com https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com",
+      "style-src 'self' 'unsafe-inline' https://assets.calendly.com",
+      "img-src 'self' data: https: blob:",
+      "font-src 'self' data:",
+      `connect-src 'self' https://www.google-analytics.com https://*.sentry.io https://*.supabase.co https://*.calendly.com https://maps.googleapis.com https://maps.gstatic.com https://*.sitebehaviour.com https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com${publicApiBase ? ` ${publicApiBase}` : ''}`,
+      "frame-src 'self' https://calendly.com https://*.calendly.com https://www.google.com/maps",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'self'",
+      'upgrade-insecure-requests',
+    ].join('; ');
+
     return [
       {
         source: '/:path*',
         headers: [
-          // CSP is set dynamically in middleware.ts with per-request nonces
+          { key: 'Content-Security-Policy', value: publicCsp },
           { key: 'X-DNS-Prefetch-Control', value: 'on' },
           {
             key: 'Strict-Transport-Security',

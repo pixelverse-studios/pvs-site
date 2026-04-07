@@ -28,6 +28,14 @@ const TestimonialCarousel = dynamic(
   () => import('@/components/home/testimonial-carousel').then((m) => m.TestimonialCarousel),
 );
 
+// Regenerate the homepage every 24 hours so the Google Places rating stays
+// fresh without forcing per-request SSR. The rating fetches in
+// lib/api/google-places.ts already cache for 86400s; this opts the *page* into
+// ISR so Next.js statically generates it at build time and rebuilds it once a
+// day in the background. Combined with the layout no longer reading headers()
+// (DEV-674), the homepage now ships from the CDN as static HTML.
+export const revalidate = 86400;
+
 const HOMEPAGE_TITLE = 'Custom Web Design & SEO in New Jersey';
 
 export const metadata: Metadata = {
