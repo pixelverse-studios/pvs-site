@@ -15,14 +15,17 @@ export function ServiceAreaLinks() {
 
   return (
     <section
-      aria-label="Service areas"
+      aria-labelledby="service-areas-heading"
       className="border-y border-[var(--pv-border)] bg-[var(--pv-surface)] py-12 md:py-16"
     >
       <Container>
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--pv-text-muted)]">
+          <h2
+            id="service-areas-heading"
+            className="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--pv-text-muted)]"
+          >
             Service areas
-          </p>
+          </h2>
           <div className="flex flex-col gap-8">
             {countySlugs.map((countySlug) => {
               const county = getCountyContent(countySlug);
