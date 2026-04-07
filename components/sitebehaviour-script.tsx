@@ -3,7 +3,6 @@
 import Script from 'next/script';
 import { usePathname } from 'next/navigation';
 
-import { useNonce } from '@/components/nonce-provider';
 import { isTrackingExcludedRoute } from '@/lib/tracking-config';
 
 interface SiteBehaviourScriptProps {
@@ -13,10 +12,14 @@ interface SiteBehaviourScriptProps {
 /**
  * Client component that conditionally renders the SiteBehaviour tracking script.
  * The script is excluded on routes defined in tracking-config.ts (e.g., /dashboard).
+ *
+ * The bootstrap script runs inline. It's allowed by the public CSP via
+ * 'unsafe-inline' in script-src (set in next.config.js). The previous
+ * nonce-based approach was removed as part of DEV-674 because reading the
+ * per-request nonce in the root layout forced every page to render dynamically.
  */
 export function SiteBehaviourScript({ bootstrapScript }: SiteBehaviourScriptProps) {
   const pathname = usePathname();
-  const nonce = useNonce();
 
   if (isTrackingExcludedRoute(pathname)) {
     return null;
@@ -26,7 +29,6 @@ export function SiteBehaviourScript({ bootstrapScript }: SiteBehaviourScriptProp
     <Script
       id="sitebehaviour-tracking"
       strategy="lazyOnload"
-      nonce={nonce}
       dangerouslySetInnerHTML={{ __html: bootstrapScript }}
     />
   );
