@@ -28,19 +28,28 @@ const TestimonialCarousel = dynamic(
   () => import('@/components/home/testimonial-carousel').then((m) => m.TestimonialCarousel),
 );
 
-export const metadata: Metadata = createPageMetadata({
-  title: 'Custom Web Design & SEO in New Jersey',
-  description:
-    'Custom web design & SEO focused on real business outcomes. We build high-performing websites for New Jersey businesses that rank, convert, and scale.',
-  path: '/',
-  keywords: [
-    'web design New Jersey',
-    'custom website development NJ',
-    'SEO services New Jersey',
-    'conversion-focused web design',
-    'performance-first websites',
-  ],
-});
+export const metadata: Metadata = {
+  ...createPageMetadata({
+    title: 'Custom Web Design & SEO in New Jersey',
+    description:
+      'Custom web design & SEO focused on real business outcomes. We build high-performing websites for New Jersey businesses that rank, convert, and scale.',
+    path: '/',
+    keywords: [
+      'web design New Jersey',
+      'custom website development NJ',
+      'SEO services New Jersey',
+      'conversion-focused web design',
+      'performance-first websites',
+    ],
+  }),
+  // Force the full branded title on the homepage. Next.js does not apply the
+  // root layout's `title.template` to a page in the same segment (app/page.tsx),
+  // so without this override the homepage <title> drops the brand suffix that
+  // every other page gets via the template.
+  title: {
+    absolute: 'Custom Web Design & SEO in New Jersey | PixelVerse Studios',
+  },
+};
 
 const homeFaqSchema = {
   '@context': 'https://schema.org',
