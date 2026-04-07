@@ -71,13 +71,16 @@ export function HeroSection({ badge }: { badge?: string }) {
             </div>
           </div>
 
-          {/* Headline */}
-          <div className="hero-enter hero-enter-2 space-y-2">
+          {/* Headline + tagline */}
+          <div className="hero-enter hero-enter-2 space-y-3">
             <h1 className="hero-headline font-heading text-4xl font-semibold leading-[1.08] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-[4.25rem]">
               <span className="bg-[linear-gradient(145deg,var(--pv-primary)_0%,#6d28d9_40%,var(--pv-primary-2)_100%)] bg-clip-text text-transparent dark:bg-[linear-gradient(145deg,#ffffff_0%,#c4b5fd_35%,var(--pv-primary-2)_75%,#f0abfc_100%)]">
                 {homepageHero.headline}
               </span>
             </h1>
+            <h2 className="font-heading text-xl font-medium tracking-tight text-[var(--pv-text-muted)] sm:text-2xl">
+              {homepageHero.tagline}
+            </h2>
           </div>
 
           {/* Subheadlines */}
