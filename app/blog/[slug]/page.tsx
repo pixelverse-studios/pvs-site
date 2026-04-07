@@ -43,6 +43,14 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   });
 }
 
+// Tailwind arbitrary variants that style any inline <a> rendered inside blog
+// body copy. Paragraph and list-item content is authored as HTML strings (so
+// authors can embed internal links via <a href="...">) and rendered via
+// dangerouslySetInnerHTML — these classes provide the link styling that the
+// raw <a> tags wouldn't otherwise pick up.
+const blogProseLinkClass =
+  '[&_a]:font-medium [&_a]:text-[var(--pv-primary)] [&_a]:underline [&_a]:decoration-[var(--pv-border)] [&_a]:underline-offset-4 [&_a]:transition-colors hover:[&_a]:decoration-[var(--pv-primary)]';
+
 function renderContent(block: BlogPost['content'][number], index: number) {
   switch (block.type) {
     case 'heading':
@@ -56,9 +64,11 @@ function renderContent(block: BlogPost['content'][number], index: number) {
       );
     case 'paragraph':
       return (
-        <p key={`paragraph-${index}`} className="text-lg leading-8 text-[var(--pv-text-muted)]">
-          {block.content}
-        </p>
+        <p
+          key={`paragraph-${index}`}
+          className={`text-lg leading-8 text-[var(--pv-text-muted)] ${blogProseLinkClass}`}
+          dangerouslySetInnerHTML={{ __html: block.content }}
+        />
       );
     case 'list': {
       const Element = block.ordered ? 'ol' : 'ul';
@@ -66,10 +76,10 @@ function renderContent(block: BlogPost['content'][number], index: number) {
       return (
         <Element
           key={`list-${index}`}
-          className={`ml-5 ${listClass} space-y-3 text-lg text-[var(--pv-text-muted)] marker:text-[var(--pv-primary)]`}
+          className={`ml-5 ${listClass} space-y-3 text-lg text-[var(--pv-text-muted)] marker:text-[var(--pv-primary)] ${blogProseLinkClass}`}
         >
           {block.items.map((item, itemIndex) => (
-            <li key={itemIndex}>{item}</li>
+            <li key={itemIndex} dangerouslySetInnerHTML={{ __html: item }} />
           ))}
         </Element>
       );
