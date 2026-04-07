@@ -69,5 +69,11 @@ export const config = {
   // Only run on dashboard auth-protected pages and the legacy /contact redirect.
   // Public marketing pages skip middleware entirely so they can be statically
   // generated and CDN-served (DEV-674).
-  matcher: ['/dashboard/:path*', '/contact'],
+  //
+  // Note: `/dashboard/:path*` does NOT match the bare `/dashboard` URL — Next.js
+  // path-to-regexp `:path*` requires at least one segment after `/dashboard/`.
+  // So we add `/dashboard` explicitly. Without this, an unauthenticated user
+  // visiting `/dashboard` would briefly see the dashboard layout shell before
+  // the page-level redirect in app/dashboard/page.tsx kicked in.
+  matcher: ['/dashboard', '/dashboard/:path*', '/contact'],
 };
