@@ -14,6 +14,7 @@ import { caseStudies as allCaseStudies } from '@/data/case-studies';
 export interface HomepageHero {
   badge: string;
   headline: string;
+  tagline: string;
   subheadline: string[];
   primaryCta: {
     label: string;
@@ -88,7 +89,8 @@ export interface FinalCta {
 
 const rawHomepageHero = {
   badge: '⭐ 5.0 on Google • XX Reviews',
-  headline: 'Web Design & Development for Growing Businesses',
+  headline: 'Web Design, Development & SEO',
+  tagline: 'Built for growing New Jersey businesses',
   subheadline: [
     'We help New Jersey businesses understand what their website actually needs, then design and build the right solution, thoughtfully, strategically, and with intention.',
     "The goal isn't just to have a website. It's to support how the business actually operates and grows.",

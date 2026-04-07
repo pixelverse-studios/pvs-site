@@ -74,7 +74,7 @@ export const localBusinessSchema = {
   sameAs: [
     'https://www.instagram.com/pixel.verse.studios/',
     'https://www.facebook.com/profile.php?id=61582670432316',
-    'https://www.linkedin.com/company/pixelverse-studios/',
+    'https://www.linkedin.com/company/pixelverse-studios-llc/',
     'https://www.youtube.com/@PixelVerse_Studios_nj',
     'https://x.com/pvs_nj',
   ],
@@ -149,7 +149,7 @@ export function createCityLocalBusinessSchema({
     sameAs: [
       'https://www.instagram.com/pixel.verse.studios/',
       'https://www.facebook.com/profile.php?id=61582670432316',
-      'https://www.linkedin.com/company/pixelverse-studios/',
+      'https://www.linkedin.com/company/pixelverse-studios-llc/',
       'https://www.youtube.com/@PixelVerse_Studios_nj',
       'https://x.com/pvs_nj',
     ],
@@ -345,7 +345,7 @@ export function createLocalServiceSchema({
       sameAs: [
         'https://www.instagram.com/pixel.verse.studios/',
         'https://www.facebook.com/profile.php?id=61582670432316',
-        'https://www.linkedin.com/company/pixelverse-studios/',
+        'https://www.linkedin.com/company/pixelverse-studios-llc/',
         'https://www.youtube.com/@PixelVerse_Studios_nj',
         'https://x.com/pvs_nj',
       ],

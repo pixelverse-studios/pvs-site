@@ -54,22 +54,25 @@ export function AuthDashboardLink({
 
   if (variant === 'mobile') {
     // Mobile navigation item style (matching existing mobile nav items)
+    // Class strings kept in lockstep with the mobile drawer in `navbar.tsx`
+    // (DEV-668). If you tweak the dark-mode palette here, mirror the change in
+    // navbar.tsx — both files render items in the same drawer.
     const navItemBaseClass =
       'group flex items-center gap-4 rounded-2xl px-4 py-3 text-base transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]';
     const navItemThemeClass = isDarkMode
-      ? 'text-white/80 hover:text-white'
+      ? 'text-white/90 hover:text-white'
       : 'text-[var(--pv-text-muted)] hover:text-[var(--pv-text)]';
     const navItemHoverBgClass = isDarkMode ? 'hover:bg-white/10' : 'hover:bg-[rgba(63,0,233,0.08)]';
     const navItemActiveClass = isDarkMode
-      ? 'bg-white/12 text-white shadow-[0_24px_48px_-32px_rgba(120,65,255,0.75)]'
+      ? 'bg-[rgba(118,70,255,0.18)] text-white shadow-[0_12px_36px_-20px_rgba(118,70,255,0.7)]'
       : 'bg-[rgba(63,0,233,0.12)] text-[var(--pv-primary)] shadow-[0_24px_48px_-34px_rgba(63,0,233,0.35)]';
     const iconBaseClass =
       'flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-200 group-focus-visible:border-[var(--pv-primary)]';
     const iconThemeClass = isDarkMode
-      ? 'border-white/12 bg-white/10 text-white/80 group-hover:border-white/40 group-hover:bg-white/20 group-hover:text-white'
+      ? 'border-white/20 bg-white/10 text-white group-hover:border-white/40 group-hover:bg-white/20 group-hover:text-white'
       : 'border-[rgba(63,0,233,0.2)] bg-white text-[rgba(63,0,233,0.75)] shadow-[0_18px_36px_-32px_rgba(63,0,233,0.4)] group-hover:border-[rgba(63,0,233,0.45)] group-hover:bg-[rgba(63,0,233,0.08)] group-hover:text-[var(--pv-primary)]';
     const iconActiveClass = isDarkMode
-      ? 'border-white/40 bg-white/20 text-white'
+      ? 'border-[rgba(118,70,255,0.55)] bg-[rgba(118,70,255,0.22)] text-white'
       : 'border-[rgba(63,0,233,0.55)] bg-[rgba(63,0,233,0.12)] text-[var(--pv-primary)]';
 
     return (

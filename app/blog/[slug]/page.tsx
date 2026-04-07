@@ -10,6 +10,7 @@ import {
   type BlogPost,
 } from '@/data/blog-posts';
 import { BlogArticlesSection } from '@/components/blog/blog-articles-section';
+import { ServiceCta, ServiceFAQ } from '@/components/services/individual';
 import { Badge } from '@/components/ui/badge';
 import { Container } from '@/components/ui/container';
 import { StructuredData } from '@/components/ui/structured-data';
@@ -42,6 +43,14 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   });
 }
 
+// Tailwind arbitrary variants that style any inline <a> rendered inside blog
+// body copy. Paragraph and list-item content is authored as HTML strings (so
+// authors can embed internal links via <a href="...">) and rendered via
+// dangerouslySetInnerHTML — these classes provide the link styling that the
+// raw <a> tags wouldn't otherwise pick up.
+const blogProseLinkClass =
+  '[&_a]:font-medium [&_a]:text-[var(--pv-primary)] [&_a]:underline [&_a]:decoration-[var(--pv-border)] [&_a]:underline-offset-4 [&_a]:transition-colors [&_a:hover]:decoration-[var(--pv-primary)]';
+
 function renderContent(block: BlogPost['content'][number], index: number) {
   switch (block.type) {
     case 'heading':
@@ -55,9 +64,11 @@ function renderContent(block: BlogPost['content'][number], index: number) {
       );
     case 'paragraph':
       return (
-        <p key={`paragraph-${index}`} className="text-lg leading-8 text-[var(--pv-text-muted)]">
-          {block.content}
-        </p>
+        <p
+          key={`paragraph-${index}`}
+          className={`text-lg leading-8 text-[var(--pv-text-muted)] ${blogProseLinkClass}`}
+          dangerouslySetInnerHTML={{ __html: block.content }}
+        />
       );
     case 'list': {
       const Element = block.ordered ? 'ol' : 'ul';
@@ -65,10 +76,10 @@ function renderContent(block: BlogPost['content'][number], index: number) {
       return (
         <Element
           key={`list-${index}`}
-          className={`ml-5 ${listClass} space-y-3 text-lg text-[var(--pv-text-muted)] marker:text-[var(--pv-primary)]`}
+          className={`ml-5 ${listClass} space-y-3 text-lg text-[var(--pv-text-muted)] marker:text-[var(--pv-primary)] ${blogProseLinkClass}`}
         >
           {block.items.map((item, itemIndex) => (
-            <li key={itemIndex}>{item}</li>
+            <li key={itemIndex} dangerouslySetInnerHTML={{ __html: item }} />
           ))}
         </Element>
       );
@@ -195,7 +206,19 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
             </div>
           </Container>
         </section>
+        {post.faqs && post.faqs.length > 0 && (
+          <ServiceFAQ
+            faqs={post.faqs}
+            generateSchema={false}
+          />
+        )}
       </article>
+      <ServiceCta
+        heading="Want to talk through your project?"
+        description="PixelVerse Studios builds custom websites and SEO strategies for New Jersey businesses. If anything in this post sparked an idea, let's see if we're a fit."
+        primaryCta={{ label: 'Book a free consultation', href: '/contact' }}
+        variant="gradient"
+      />
       <BlogArticlesSection
         eyebrow="More to explore"
         title="Related reads from PixelVerse Studios"

@@ -1,13 +1,11 @@
 import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
-import { headers } from 'next/headers';
 import { Suspense } from 'react';
 import type { ReactNode } from 'react';
 
 import './globals.css';
 import { CampaignTrackerClient } from '@/components/campaign-tracker-client';
 import { LayoutWrapper } from '@/components/layout-wrapper';
-import { NonceProvider } from '@/components/nonce-provider';
 import { SiteBehaviourScript } from '@/components/sitebehaviour-script';
 import { ThemeProvider } from '@/components/theme-provider';
 import { StructuredData } from '@/components/ui/structured-data';
@@ -123,29 +121,31 @@ const navItems = [
   { label: 'FAQ', href: '/faq' },
 ];
 
-export default async function RootLayout({ children }: { children: ReactNode }) {
-  const nonce = (await headers()).get('x-nonce') ?? undefined;
-
+// DEV-674: This layout used to be `async` and call `await headers()` to read a
+// per-request CSP nonce, which forced every page in the app into dynamic
+// rendering and bypassed all CDN caching. Now it's a synchronous server
+// component with no request-scoped data, so public pages can be statically
+// generated and served from the Netlify edge. CSP is set statically in
+// next.config.js using 'unsafe-inline' for script-src.
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${headingFont.variable} ${bodyFont.variable} min-h-screen bg-[var(--pv-bg)] font-body text-[var(--pv-text)] antialiased transition-colors duration-300`}
       >
-        <NonceProvider nonce={nonce}>
-          {enableSiteBehaviourTracking && siteBehaviourBootstrap ? (
-            <SiteBehaviourScript bootstrapScript={siteBehaviourBootstrap} />
-          ) : null}
-          <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
-          <StructuredData id="pixelverse-website" data={websiteSchema} />
-          <ThemeProvider disableTransitionOnChange>
-            <Suspense fallback={null}>
-              <CampaignTrackerClient />
-            </Suspense>
-            <LayoutWrapper navItems={navItems}>
-              {children}
-            </LayoutWrapper>
-          </ThemeProvider>
-        </NonceProvider>
+        {enableSiteBehaviourTracking && siteBehaviourBootstrap ? (
+          <SiteBehaviourScript bootstrapScript={siteBehaviourBootstrap} />
+        ) : null}
+        <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
+        <StructuredData id="pixelverse-website" data={websiteSchema} />
+        <ThemeProvider disableTransitionOnChange>
+          <Suspense fallback={null}>
+            <CampaignTrackerClient />
+          </Suspense>
+          <LayoutWrapper navItems={navItems}>
+            {children}
+          </LayoutWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );
