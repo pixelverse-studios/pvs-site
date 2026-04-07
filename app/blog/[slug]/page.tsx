@@ -10,6 +10,7 @@ import {
   type BlogPost,
 } from '@/data/blog-posts';
 import { BlogArticlesSection } from '@/components/blog/blog-articles-section';
+import { ServiceCta, ServiceFAQ } from '@/components/services/individual';
 import { Badge } from '@/components/ui/badge';
 import { Container } from '@/components/ui/container';
 import { StructuredData } from '@/components/ui/structured-data';
@@ -196,6 +197,18 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
           </Container>
         </section>
       </article>
+      {post.faqs && post.faqs.length > 0 && (
+        <ServiceFAQ
+          faqs={post.faqs}
+          generateSchema={false}
+        />
+      )}
+      <ServiceCta
+        heading="Want to talk through your project?"
+        description="PixelVerse Studios builds custom websites and SEO strategies for New Jersey businesses. If anything in this post sparked an idea, let's see if we're a fit."
+        primaryCta={{ label: 'Book a free consultation', href: '/contact' }}
+        variant="gradient"
+      />
       <BlogArticlesSection
         eyebrow="More to explore"
         title="Related reads from PixelVerse Studios"
