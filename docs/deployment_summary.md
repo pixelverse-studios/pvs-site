@@ -11,6 +11,7 @@
 - **Fixed critical SEO bug**: structured data (schema markup) is now correctly delivered on every page so Google can read it. Previously every schema across the site was missing from the rendered HTML and invisible to search engines.
 - Redesigned the "Service Areas" section on the SEO and Web Development service pages so it's clearly visible on phones — added a labeled, bordered band with a stronger heading and tappable city links.
 - Fixed the homepage browser tab title — it now correctly reads "Custom Web Design & SEO in New Jersey | PixelVerse Studios" so the brand name shows up in Google search results.
+- Improved the mobile navigation menu in dark mode — text, icons, dividers, and the "current page" highlight are now clearly visible against a cleaner dark background that matches the rest of the site. Light mode is unchanged.
 
 ## Notes for internal team
 
@@ -20,6 +21,7 @@
 - DEV-672: replaced `next/script` (strategy="afterInteractive") with a plain `<script>` element in `components/ui/structured-data.tsx`. Affects every page that consumes `<StructuredData>` (17 consumers). After deploy, request re-indexing in GSC for top pages and re-run Google Rich Results Test.
 - DEV-666: redesigned `components/services/individual/service-area-links.tsx` — bordered surface band, eyebrow label, hierarchical layout (lead "Serving [County]" → city `<ul>`), full-strength text colors, focus-visible rings, larger tap targets. Multi-county support preserved.
 - DEV-667: forced absolute title on homepage in `app/page.tsx` to work around Next.js App Router quirk where `title.template` defined in `app/layout.tsx` does not cascade to a page in the same segment. The fix uses `title: { absolute: '...' }` after spreading `createPageMetadata`, so OG/Twitter titles still get the brandless variant for cleaner social cards.
+- DEV-668: rebuilt the dark-mode palette of the mobile nav drawer in `components/ui/navbar.tsx` and the parallel classes in `components/ui/auth-dashboard-link.tsx`. Replaced the heavy purple radial + dark linear gradient stack with a flat `var(--pv-bg)` base + subtle brand-primary radial accent. Bumped icon chips (white/10 → white/10 with white/20 border + full white text), nav text (white/80 → white/90), submenu rule (white/10 → white/25), child links (white/70 → white/85). Replaced the indistinct `bg-white/12` active state with a brand-primary tint (`rgba(118,70,255,0.18)`) plus a soft purple glow so it's unmistakable. Light mode untouched. Note: there's still duplication between navbar.tsx and auth-dashboard-link.tsx — worth a follow-up extract to a shared `mobile-nav-classes.ts` module if it diverges again.
 
 ## Changed URLs
 
