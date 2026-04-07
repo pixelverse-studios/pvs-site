@@ -9,6 +9,7 @@
 - Case study now links to demo site instead of former live site
 - Portfolio listing and detail pages gracefully handle demo vs live site links
 - **Fixed critical SEO bug**: structured data (schema markup) is now correctly delivered on every page so Google can read it. Previously every schema across the site was missing from the rendered HTML and invisible to search engines.
+- Redesigned the "Service Areas" section on the SEO and Web Development service pages so it's clearly visible on phones — added a labeled, bordered band with a stronger heading and tappable city links.
 
 ## Notes for internal team
 
@@ -16,6 +17,7 @@
 - Made `url` field optional on CaseStudy type
 - 360 Degree Care demo site: https://haven-home-healthcare.netlify.app/
 - DEV-672: replaced `next/script` (strategy="afterInteractive") with a plain `<script>` element in `components/ui/structured-data.tsx`. Affects every page that consumes `<StructuredData>` (17 consumers). After deploy, request re-indexing in GSC for top pages and re-run Google Rich Results Test.
+- DEV-666: redesigned `components/services/individual/service-area-links.tsx` — bordered surface band, eyebrow label, hierarchical layout (lead "Serving [County]" → city `<ul>`), full-strength text colors, focus-visible rings, larger tap targets. Multi-county support preserved.
 
 ## Changed URLs
 
