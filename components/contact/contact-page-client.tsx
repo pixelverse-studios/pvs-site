@@ -1,5 +1,7 @@
 'use client';
 
+import { Suspense } from 'react';
+
 import { Container } from '@/components/ui/container';
 import { ContactDetailsForm } from './contact-details-form';
 import { ContactPathSelector, useContactPath } from './contact-path-selector';
@@ -21,8 +23,12 @@ export function ContactPageClient() {
             <ContactStrategyCall />
           ) : (
             <div className="rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-8 md:p-12">
-              {activePath === 'details' && <ContactDetailsForm />}
-              {activePath === 'review' && <ContactReviewForm />}
+              {/* Suspense boundary required because the forms call useSearchParams()
+                  to read ?promo= for auto-population on statically prerendered pages. */}
+              <Suspense fallback={null}>
+                {activePath === 'details' && <ContactDetailsForm />}
+                {activePath === 'review' && <ContactReviewForm />}
+              </Suspense>
             </div>
           )}
         </div>

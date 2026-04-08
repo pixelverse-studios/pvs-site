@@ -1,6 +1,14 @@
 import { z } from 'zod';
 
-const websiteDomainRegex = /^(https?:\/\/)?www\.[a-z0-9-]+(\.[a-z0-9-]+)+(?:\/[\S]*)?$/i;
+// Accepts a wide range of natural inputs:
+//   example.com
+//   www.example.com
+//   app.example.com
+//   https://example.com
+//   https://www.example.com/contact?ref=foo
+// Protocol and `www.` are both optional. `normalizeWebsiteUrl()` will
+// prepend `https://` when needed before the value is sent to the server.
+const websiteDomainRegex = /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(\/[\S]*)?$/i;
 
 export const websiteUrlSchema = z
   .string()
@@ -8,7 +16,7 @@ export const websiteUrlSchema = z
   .max(2048, 'Website URL must be 2048 characters or fewer.')
   .regex(
     websiteDomainRegex,
-    'Enter a valid website URL that starts with www. and includes the domain extension.',
+    'Enter a valid website URL (e.g. yourbusiness.com).',
   );
 
 export function normalizeWebsiteUrl(value: string) {
