@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
@@ -9,6 +9,8 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { getApiBaseUrl } from '@/lib/api-config';
+import { clearStoredPromoCode, usePromoFromUrl } from '@/lib/hooks/use-promo-from-url';
+import { findPromoCode } from '@/lib/promo-codes';
 import { cn } from '@/lib/utils';
 import { formatPhone, stripPhone } from '@/lib/utils/phone';
 import { normalizeWebsiteUrl, websiteUrlSchema } from '@/lib/validation/url';
@@ -33,6 +35,7 @@ const reviewFormSchema = z.object({
   websiteUrl: websiteUrlSchema,
   specifics: z.array(z.string().max(100)).max(10).optional(),
   other_detail: z.string().max(500).optional(),
+  promoCode: z.string().trim().max(32, 'Promo code is too long.').optional(),
   website_confirm: z.string().max(0).optional(),
 });
 
@@ -93,10 +96,22 @@ export function ContactReviewForm() {
     resolver: zodResolver(reviewFormSchema),
     defaultValues: {
       specifics: [],
+      promoCode: '',
     },
   });
 
   const watchedSpecifics = watch('specifics') ?? [];
+  const watchedPromoCode = watch('promoCode');
+
+  // Auto-populate promo code from URL / sessionStorage on mount.
+  const promoFromUrl = usePromoFromUrl();
+  useEffect(() => {
+    if (promoFromUrl) {
+      setValue('promoCode', promoFromUrl, { shouldValidate: false, shouldDirty: false });
+    }
+  }, [promoFromUrl, setValue]);
+
+  const knownPromo = findPromoCode(watchedPromoCode);
   const isAllSelected =
     ALL_CORE_VALUES.every((v) => watchedSpecifics.includes(v)) &&
     !watchedSpecifics.includes('other');
@@ -133,14 +148,16 @@ export function ContactReviewForm() {
     const timeoutId = setTimeout(() => controller.abort(), 15_000);
 
     try {
+      const trimmedPromo = (data.promoCode ?? '').trim();
       const payload = {
         name: data.name,
         email: data.email,
-        phone_number: stripPhone(data.phone_number),
+        phoneNumber: stripPhone(data.phone_number),
         websiteUrl: normalizeWebsiteUrl(data.websiteUrl),
-        other_detail: (data.specifics ?? []).includes('other') ? (data.other_detail ?? '') : undefined,
+        otherDetail: (data.specifics ?? []).includes('other') ? (data.other_detail ?? '') : undefined,
         specifics: (data.specifics ?? []).filter((v) => v !== 'other'),
         honeypot: data.website_confirm ?? '',
+        ...(trimmedPromo ? { promoCode: trimmedPromo } : {}),
       };
 
       const res = await fetch(`${getApiBaseUrl()}/api/audit`, {
@@ -153,6 +170,7 @@ export function ContactReviewForm() {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
       reset();
+      clearStoredPromoCode();
       setFormState('success');
     } catch {
       lastSubmitRef.current = 0;
@@ -365,9 +383,26 @@ export function ContactReviewForm() {
           </div>
         )}
 
-        {/* Submit */}
-        <div className="flex justify-end">
-          <Button type="submit" disabled={isSubmittingState} size="lg">
+        {/* Promo code + submit — inline on sm+, stacked full-width below */}
+        <div className="flex flex-col gap-4 sm:grid sm:grid-cols-[18rem_1fr_auto] sm:items-end sm:gap-x-4">
+          <div className="sm:col-start-1 sm:row-start-1">
+            <FieldLabel htmlFor="review-promoCode">
+              Promo code <span className="font-normal text-[var(--pv-text-muted)]">(optional)</span>
+            </FieldLabel>
+            <Input
+              id="review-promoCode"
+              autoComplete="off"
+              disabled={isSubmittingState}
+              aria-describedby={knownPromo ? 'review-promoCode-applied' : undefined}
+              {...register('promoCode')}
+            />
+          </div>
+          <Button
+            type="submit"
+            disabled={isSubmittingState}
+            size="lg"
+            className="w-full sm:col-start-3 sm:row-start-1 sm:w-auto"
+          >
             {isSubmittingState ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
@@ -377,6 +412,15 @@ export function ContactReviewForm() {
               'Start the Conversation'
             )}
           </Button>
+          {knownPromo && (
+            <p
+              id="review-promoCode-applied"
+              className="flex items-center gap-1.5 text-xs text-[var(--pv-primary)] sm:col-start-1 sm:row-start-2 sm:-mt-1"
+            >
+              <CheckCircle2 className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              {knownPromo.label} applied
+            </p>
+          )}
         </div>
       </div>
     </form>
