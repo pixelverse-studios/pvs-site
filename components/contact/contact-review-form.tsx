@@ -35,7 +35,12 @@ const reviewFormSchema = z.object({
   websiteUrl: websiteUrlSchema,
   specifics: z.array(z.string().max(100)).max(10).optional(),
   other_detail: z.string().max(500).optional(),
-  promoCode: z.string().trim().max(32, 'Promo code is too long.').optional(),
+  promoCode: z
+    .string()
+    .trim()
+    .max(32, 'Promo code is too long.')
+    .regex(/^[A-Za-z0-9_-]*$/, 'Promo code may only contain letters, numbers, hyphens, and underscores.')
+    .optional(),
   website_confirm: z.string().max(0).optional(),
 });
 

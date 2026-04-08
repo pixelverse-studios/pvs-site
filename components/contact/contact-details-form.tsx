@@ -80,7 +80,12 @@ const detailsFormSchema = z.object({
   improvements: z.array(z.enum(toEnumValues(IMPROVEMENT_OPTIONS))).min(1, 'Select at least one area.'),
   interestedIn: z.array(z.enum(['web-design', 'seo', 'unsure'])).min(1).optional(),
   briefSummary: z.string().max(2000, 'Please keep this under 2,000 characters.').optional(),
-  promoCode: z.string().trim().max(32, 'Promo code is too long.').optional(),
+  promoCode: z
+    .string()
+    .trim()
+    .max(32, 'Promo code is too long.')
+    .regex(/^[A-Za-z0-9_-]*$/, 'Promo code may only contain letters, numbers, hyphens, and underscores.')
+    .optional(),
   website_confirm: z.string().max(0).optional(),
 });
 
@@ -238,6 +243,7 @@ export function ContactDetailsForm() {
         improvements: data.improvements,
         ...(data.interestedIn && data.interestedIn.length > 0 ? { interestedIn: data.interestedIn } : {}),
         briefSummary: data.briefSummary ?? '',
+        honeypot: data.website_confirm ?? '',
         ...(trimmedPromo ? { promoCode: trimmedPromo } : {}),
       };
 
