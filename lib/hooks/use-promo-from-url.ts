@@ -3,9 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-import { findPromoCode } from '@/lib/promo-codes';
-
-const STORAGE_KEY = 'pvs_promo';
+import { findPromoCode, PROMO_STORAGE_KEY } from '@/lib/promo-codes';
 
 /**
  * Reads a `?promo=` query parameter, validates it against the hardcoded
@@ -33,7 +31,7 @@ export function usePromoFromUrl(): string {
     const fromUrl = findPromoCode(searchParams?.get('promo'));
     if (fromUrl) {
       try {
-        window.sessionStorage.setItem(STORAGE_KEY, fromUrl.code);
+        window.sessionStorage.setItem(PROMO_STORAGE_KEY, fromUrl.code);
       } catch {
         // sessionStorage may be unavailable (private mode, quota, etc.) — ignore.
       }
@@ -43,7 +41,7 @@ export function usePromoFromUrl(): string {
 
     // 2. Fall back to a previously-stored value, if still valid.
     try {
-      const stored = window.sessionStorage.getItem(STORAGE_KEY);
+      const stored = window.sessionStorage.getItem(PROMO_STORAGE_KEY);
       const fromStorage = findPromoCode(stored);
       if (fromStorage) {
         setPromo(fromStorage.code);
@@ -64,7 +62,7 @@ export function usePromoFromUrl(): string {
 export function clearStoredPromoCode(): void {
   if (typeof window === 'undefined') return;
   try {
-    window.sessionStorage.removeItem(STORAGE_KEY);
+    window.sessionStorage.removeItem(PROMO_STORAGE_KEY);
   } catch {
     // ignore
   }

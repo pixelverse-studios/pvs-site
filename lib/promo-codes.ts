@@ -12,6 +12,14 @@
  * this file becomes the migration source.
  */
 
+/**
+ * sessionStorage key used to persist a captured promo code across page
+ * navigations within a single browser session. Imported by both the global
+ * capture (components/campaign-tracker.tsx) and the contact form hook
+ * (lib/hooks/use-promo-from-url.ts) so the two stay in lockstep.
+ */
+export const PROMO_STORAGE_KEY = 'pvs_promo';
+
 export type PromoCode = {
   /** Canonical uppercase code (e.g. 'NJCC2026'). Stored verbatim in submissions. */
   code: string;
