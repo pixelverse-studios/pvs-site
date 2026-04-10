@@ -31,14 +31,25 @@ const nextConfig = {
     // page (Cache-Control: no-store), which made every navigation pay a cold-
     // start tax on the Netlify Function. Static pages can't have a per-request
     // nonce because the HTML is built once at build time.
-    const publicApiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
+    // Both PVS backend hosts the contact forms POST to:
+    //   - Production builds hit the DigitalOcean host.
+    //   - Local dev hits localhost:5001.
+    // CSP is built once at build time and served on every page regardless of
+    // origin, so we union both hosts. The localhost entry is harmless in
+    // production (no prod page resolves there) and required for the contact
+    // form to work in `npm run dev`. Previously this was read from
+    // NEXT_PUBLIC_API_BASE_URL, but that env var is not set in the Netlify
+    // build env, which caused the contact form POST to /api/leads to be
+    // blocked by CSP on staging/production after public pages went static
+    // (DEV-674). Keep these two values in sync with lib/api-config.ts.
+    const pvsApiHosts = 'https://pvs-server-62hx7.ondigitalocean.app http://localhost:5001';
     const publicCsp = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com https://js.sentry-cdn.com https://assets.calendly.com https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com",
       "style-src 'self' 'unsafe-inline' https://assets.calendly.com",
       "img-src 'self' data: https: blob:",
       "font-src 'self' data:",
-      `connect-src 'self' https://www.google-analytics.com https://*.sentry.io https://*.supabase.co https://*.calendly.com https://maps.googleapis.com https://maps.gstatic.com https://*.sitebehaviour.com https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com${publicApiBase ? ` ${publicApiBase}` : ''}`,
+      `connect-src 'self' ${pvsApiHosts} https://www.google-analytics.com https://*.sentry.io https://*.supabase.co https://*.calendly.com https://maps.googleapis.com https://maps.gstatic.com https://*.sitebehaviour.com https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com`,
       "frame-src 'self' https://calendly.com https://*.calendly.com https://www.google.com/maps",
       "object-src 'none'",
       "base-uri 'self'",
