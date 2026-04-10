@@ -73,7 +73,7 @@ export const webDevelopmentContent: WebDevContentData = {
   },
   whyBuildsGoWrong: {
     title: 'Why Website Builds Go Wrong',
-    body: 'Most website builds don\u2019t fall short because of poor design. They fall short because the wrong decisions were made early.\n\nStructure gets chosen before services are clearly defined. Visual direction is set before messaging is clarified. Technology is selected without considering how the site will need to evolve.\n\nWe see this often with New Jersey businesses — a site launches looking polished, but it wasn\u2019t built to support local search visibility or serve the specific markets the business operates in, whether that\u2019s Bergen County, Northern NJ, or a single town.\n\nThat isn\u2019t a design problem. It\u2019s a direction problem.\n\nAnd it starts before a single page is built.',
+    body: 'Most website builds don\u2019t fall short because of poor design. They fall short because the wrong decisions were made early.\n\nStructure gets chosen before services are clearly defined. Visual direction is set before messaging is clarified. Technology is selected without considering how the site will need to evolve.\n\nWe see this often with New Jersey businesses: a site launches looking polished, but it wasn\u2019t built to support local search visibility or serve the specific markets the business operates in, whether that\u2019s Bergen County, Northern NJ, or a single town.\n\nThat isn\u2019t a design problem. It\u2019s a direction problem.\n\nAnd it starts before a single page is built.',
   },
   howWePlan: {
     title: 'Our Web Design Process for New Jersey Businesses',
@@ -115,23 +115,23 @@ export const webDevelopmentContent: WebDevContentData = {
     {
       question: 'How much does a custom website cost?',
       answer:
-        'Most custom website projects for small-to-mid-size businesses fall in the $3,000\u2013$10,000+ range, depending on scope, number of pages, integrations, and content work involved. We scope every project individually \u2014 you\u2019re not paying for a package built around someone else\u2019s needs.',
+        'Most custom website projects for small-to-mid-size businesses fall in the $3,000\u2013$10,000+ range, depending on scope, number of pages, integrations, and content work involved. We scope every project individually, so you\u2019re not paying for a package built around someone else\u2019s needs.',
       link: { label: 'Share your project details', href: '/contact/details' },
     },
     {
       question: 'How long does it take to build a website?',
       answer:
-        'Most builds run 8\u201312 weeks from kickoff to launch. Discovery and planning take 1\u20132 weeks, design takes 2\u20133 weeks, development runs 4\u20136 weeks, and the final week covers QA and launch. Timeline depends on project complexity and how quickly feedback comes back \u2014 we\u2019ll give you a realistic schedule before anything starts.',
+        'Most builds run 8\u201312 weeks from kickoff to launch. Discovery and planning take 1\u20132 weeks, design takes 2\u20133 weeks, development runs 4\u20136 weeks, and the final week covers QA and launch. Timeline depends on project complexity and how quickly feedback comes back, and we\u2019ll give you a realistic schedule before anything starts.',
     },
     {
       question: "What's actually included in a website build?",
       answer:
-        "Planning and site structure, design direction, full development, review milestones, and thorough testing before launch. The scope varies by project, but the process is always structured and transparent \u2014 you\u2019ll know what\u2019s included before anything moves forward.",
+        "Planning and site structure, design direction, full development, review milestones, and thorough testing before launch. The scope varies by project, but the process is always structured and transparent, so you\u2019ll know what\u2019s included before anything moves forward.",
     },
     {
       question: 'Do you handle copy and content writing?',
       answer:
-        'Content direction is part of our planning phase \u2014 we help structure what needs to be communicated and where. Full copywriting can be scoped in depending on the project, or we can work with content you provide.',
+        'Content direction is part of our planning phase: we help structure what needs to be communicated and where. Full copywriting can be scoped in depending on the project, or we can work with content you provide.',
     },
     {
       question: 'Can you rebuild just part of a site instead of the whole thing?',

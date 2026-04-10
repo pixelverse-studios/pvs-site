@@ -82,7 +82,7 @@ export const seoContent: SeoContentData = {
       'How visitors move through the site and where friction appears',
     ],
     closing:
-      'For New Jersey businesses, this also means evaluating how well the site supports local search in specific markets — whether that\u2019s Bergen County, Northern NJ, or individual cities like Englewood or Paramus.\n\nThe goal isn\u2019t to apply tactics blindly. It\u2019s to identify which factors are limiting performance and where focused changes will have the greatest impact.\n\nThat evaluation determines what happens next.',
+      'For New Jersey businesses, this also means evaluating how well the site supports local search in specific markets, whether that\u2019s Bergen County, Northern NJ, or individual cities like Englewood or Paramus.\n\nThe goal isn\u2019t to apply tactics blindly. It\u2019s to identify which factors are limiting performance and where focused changes will have the greatest impact.\n\nThat evaluation determines what happens next.',
   },
   whenOptimizationIsRight: {
     title: 'When Local Optimization Is the Right Move (and When It\u2019s Not)',
@@ -104,19 +104,19 @@ export const seoContent: SeoContentData = {
       'Clarifying next steps so visibility translates into real inquiries',
     ],
     closing:
-      'The goal isn\u2019t short-term spikes. It\u2019s a site that consistently supports steady local visibility and informed decision-making over time — whether you\u2019re serving Bergen County, Northern New Jersey, or beyond.',
+      'The goal isn\u2019t short-term spikes. It\u2019s a site that consistently supports steady local visibility and informed decision-making over time, whether you\u2019re serving Bergen County, Northern New Jersey, or beyond.',
   },
   faq: [
     {
       question: 'How much does local SEO cost?',
       answer:
-        'Local SEO engagements vary based on what the site actually needs. Most projects for small-to-mid-size businesses fall in the $1,500\u2013$5,000+ range for an initial optimization engagement, with ongoing work structured separately depending on scope. We evaluate first and scope based on what will move the needle \u2014 not a fixed package.',
+        'Local SEO engagements vary based on what the site actually needs. Most projects for small-to-mid-size businesses fall in the $1,500\u2013$5,000+ range for an initial optimization engagement, with ongoing work structured separately depending on scope. We evaluate first and scope based on what will move the needle, not a fixed package.',
       link: { label: 'Share your situation', href: '/contact/details' },
     },
     {
       question: 'How long does SEO take to show results?',
       answer:
-        'For local SEO, meaningful movement in search visibility typically takes 3\u20136 months. Some improvements \u2014 like technical fixes and GBP updates \u2014 can show impact faster, but sustained ranking gains take time as search engines re-index and re-evaluate the site. We set realistic timelines upfront so expectations align with what the work can actually deliver.',
+        'For local SEO, meaningful movement in search visibility typically takes 3\u20136 months. Some improvements (like technical fixes and GBP updates) can show impact faster, but sustained ranking gains take time as search engines re-index and re-evaluate the site. We set realistic timelines upfront so expectations align with what the work can actually deliver.',
     },
     {
       question: "What's actually included in your optimization work?",
@@ -126,7 +126,7 @@ export const seoContent: SeoContentData = {
     {
       question: 'Do you work on Google Business Profile as part of this?',
       answer:
-        'Yes. GBP is a significant factor in local search visibility, and we address it as part of the optimization work \u2014 not as a separate add-on.',
+        'Yes. GBP is a significant factor in local search visibility, and we address it as part of the optimization work, not as a separate add-on.',
     },
     {
       question: "Can you do SEO on a site you didn't build?",
@@ -136,17 +136,17 @@ export const seoContent: SeoContentData = {
     {
       question: 'Is this a one-time project or ongoing work?',
       answer:
-        'Local SEO is most effective as an ongoing effort \u2014 search visibility builds over time and needs maintenance as competitors and algorithms shift. We\u2019re upfront about what\u2019s realistic from a one-time engagement vs. what benefits from continued attention.',
+        'Local SEO is most effective as an ongoing effort. Search visibility builds over time and needs maintenance as competitors and algorithms shift. We\u2019re upfront about what\u2019s realistic from a one-time engagement vs. what benefits from continued attention.',
     },
     {
       question: 'Do you guarantee search rankings?',
       answer:
-        'No \u2014 and any SEO provider that does is overpromising. Google controls rankings, and no one can guarantee specific positions. What we can control is the quality and direction of the work: how well the site is structured for local search, how clearly it communicates relevance, and how consistently those signals are maintained. We focus on sustainable improvement, not short-term results that don\u2019t hold.',
+        'No, and any SEO provider that does is overpromising. Google controls rankings, and no one can guarantee specific positions. What we can control is the quality and direction of the work: how well the site is structured for local search, how clearly it communicates relevance, and how consistently those signals are maintained. We focus on sustainable improvement, not short-term results that don\u2019t hold.',
     },
     {
       question: 'How do I know if I need SEO or a new website?',
       answer:
-        'If your site has a solid structure but isn\u2019t showing up locally or converting visitors into inquiries, optimization is usually the right move. If structural gaps, unclear messaging, or technical limitations are the root issue, SEO alone won\u2019t fix that \u2014 and a rebuild may deliver better long-term results. We\u2019re honest about that distinction and won\u2019t recommend optimization if it\u2019s not the right path.',
+        'If your site has a solid structure but isn\u2019t showing up locally or converting visitors into inquiries, optimization is usually the right move. If structural gaps, unclear messaging, or technical limitations are the root issue, SEO alone won\u2019t fix that, and a rebuild may deliver better long-term results. We\u2019re honest about that distinction and won\u2019t recommend optimization if it\u2019s not the right path.',
     },
   ],
   finalCta: {

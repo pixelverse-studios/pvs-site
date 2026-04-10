@@ -84,7 +84,7 @@ export const aboutContent: AboutContentData = {
     eyebrow: 'About Pixelverse Studios',
     title: 'How We Work',
     description:
-      'Pixelverse Studios takes a partnership approach to web development — working alongside businesses to plan, build, and improve websites with intention and long-term use in mind.\n\nBusinesses often come to us feeling unsure about what their website should be doing, why it isn\'t working, or what to fix first. Our role is to slow that moment down, ask the right questions, and help clarify what actually needs to happen before decisions are made.\n\nThat approach shapes everything we do.',
+      'Pixelverse Studios takes a partnership approach to web development, working alongside businesses to plan, build, and improve websites with intention and long-term use in mind.\n\nBusinesses often come to us feeling unsure about what their website should be doing, why it isn\'t working, or what to fix first. Our role is to slow that moment down, ask the right questions, and help clarify what actually needs to happen before decisions are made.\n\nThat approach shapes everything we do.',
   },
 
   // --------------------------------------------------------------------------
@@ -93,7 +93,7 @@ export const aboutContent: AboutContentData = {
   ourApproach: {
     title: 'Our Approach',
     intro:
-      'We don\'t treat websites as isolated design or technical projects. We apply system thinking to web design — treating every site as an interconnected whole that needs to support real business goals.',
+      'We don\'t treat websites as isolated design or technical projects. We apply system thinking to web design, treating every site as an interconnected whole that needs to support real business goals.',
     bulletPoints: [
       { text: 'understanding what the business needs the website to accomplish', icon: 'compass' },
       { text: 'identifying what\'s helping or holding things back', icon: 'search' },
@@ -140,7 +140,7 @@ export const aboutContent: AboutContentData = {
   // --------------------------------------------------------------------------
   longTermPerspective: {
     title: 'A Long-Term Perspective',
-    body: 'We don\'t view websites as one-time deliverables.\n\nBusinesses change. Services evolve. Markets shift. A website should be able to respond to that without becoming fragile or confusing.\n\nOur approach to long-term web development means creating work that can be refined, improved, and built on over time — whether that\'s through ongoing optimization, iterative updates, or future growth.',
+    body: 'We don\'t view websites as one-time deliverables.\n\nBusinesses change. Services evolve. Markets shift. A website should be able to respond to that without becoming fragile or confusing.\n\nOur approach to long-term web development means creating work that can be refined, improved, and built on over time, whether that\'s through ongoing optimization, iterative updates, or future growth.',
   },
 
   // --------------------------------------------------------------------------
@@ -149,7 +149,7 @@ export const aboutContent: AboutContentData = {
   team: {
     heading: 'Meet the people behind the operation',
     subheading:
-      'Two specialists, one aligned mission — design smarter, build faster, and ship experiences you can scale.',
+      'Two specialists, one aligned mission. Design smarter, build faster, and ship experiences you can scale.',
     members: [
       {
         name: 'Sami',
@@ -160,7 +160,7 @@ export const aboutContent: AboutContentData = {
       {
         name: 'Phil',
         title: 'Development',
-        bio: 'With 7 years of experience in full-stack development, Phil builds scalable applications and solves complex technical challenges. He specializes in JavaScript, modern frameworks, databases, and web performance. Outside of work, he enjoys riding motorcycles and bikes\u2014long rides that clear his mind and spark new ideas.',
+        bio: 'With 7 years of experience in full-stack development, Phil builds scalable applications and solves complex technical challenges. He specializes in JavaScript, modern frameworks, databases, and web performance. Outside of work, he enjoys riding motorcycles and bikes, long rides that clear his mind and spark new ideas.',
         initials: 'P',
       },
     ],

@@ -10,7 +10,7 @@ const towns = [
     name: 'Hackensack',
     segment: 'Healthcare & Professional Services',
     summary:
-      'County seat organizations—health systems, legal teams, and professional firms—needing compliant UX, intake flows, and authority-driven content.',
+      'County seat organizations (health systems, legal teams, and professional firms) needing compliant UX, intake flows, and authority-driven content.',
     highlights: [
       'ADA & HIPAA-ready form workflows',
       'Multi-location service schema + intake tracking',
@@ -128,7 +128,7 @@ export function BergenTownsSection() {
               align="center"
               eyebrow="Town Coverage"
               title="Local depth without sacrificing the PixelVerse playbook"
-              description="Each town campaign mirrors our core services—custom builds, SEO, CRO—while speaking directly to the industries and search terms that matter in that municipality."
+              description="Each town campaign mirrors our core services (custom builds, SEO, CRO) while speaking directly to the industries and search terms that matter in that municipality."
             />
           </MotionItem>
           <MotionItem as="ul" className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">

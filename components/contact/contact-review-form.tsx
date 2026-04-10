@@ -285,7 +285,7 @@ export function ContactReviewForm() {
             Anything specific you want us to look at?
           </p>
           <p className="mb-3 text-xs text-[var(--pv-text-muted)]">
-            (We&rsquo;ll audit everything — this just helps us prioritize)
+            (We&rsquo;ll audit everything, this just helps us prioritize)
           </p>
           {/* 2-col grid for the 4 core options */}
           <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">

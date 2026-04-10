@@ -16,8 +16,8 @@ export function FaqClosingCtaSection() {
               That&apos;s what the conversation is for.
             </h2>
             <p className="mx-auto max-w-2xl text-lg text-[var(--pv-text-muted)] md:text-xl">
-              If something isn&apos;t covered here — or you&apos;re not sure what your website
-              actually needs — the next step is a quick conversation. No pitch, no commitment.
+              If something isn&apos;t covered here (or you&apos;re not sure what your website
+              actually needs) the next step is a quick conversation. No pitch, no commitment.
             </p>
           </MotionItem>
           <MotionItem delay={0.08}>

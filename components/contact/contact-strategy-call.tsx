@@ -32,7 +32,7 @@ function CalendlyPlaceholder() {
           Online Scheduling Coming Soon
         </p>
         <p className="text-sm text-[var(--pv-text-muted)]">
-          Scheduling isn&rsquo;t available here yet —{' '}
+          Scheduling isn&rsquo;t available here yet,{' '}
           <Link
             href="/contact/details"
             className="font-medium text-[var(--pv-primary)] underline underline-offset-2"
@@ -111,7 +111,7 @@ export function ContactStrategyCall() {
               </span>
               <span className="flex flex-wrap items-baseline text-sm text-[var(--pv-text)]">
                 <span className="font-medium">{label}</span>
-                <span className="mx-1.5 text-[var(--pv-text-muted)]">—</span>
+                <span className="mx-1.5 text-[var(--pv-text-muted)]">:</span>
                 <span className="text-[var(--pv-text-muted)]">{detail}</span>
               </span>
             </li>

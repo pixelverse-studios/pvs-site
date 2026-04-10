@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     template: `%s | ${siteName}`,
   },
   description:
-    'PixelVerse Studios builds custom websites and SEO strategies for New Jersey businesses. Focused on real outcomes — sites that rank, convert, and scale.',
+    'PixelVerse Studios builds custom websites and SEO strategies for New Jersey businesses. Focused on real outcomes: sites that rank, convert, and scale.',
   keywords: [
     'PixelVerse Studios',
     'custom web design New Jersey',
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${siteName} | Custom Web Design & SEO`,
     description:
-      'PixelVerse Studios builds custom websites and SEO strategies for New Jersey businesses. Focused on real outcomes — sites that rank, convert, and scale.',
+      'PixelVerse Studios builds custom websites and SEO strategies for New Jersey businesses. Focused on real outcomes: sites that rank, convert, and scale.',
     url: siteUrl,
     siteName,
     locale: 'en_US',
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: `${siteName} | Custom Web Design & SEO`,
     description:
-      'PixelVerse Studios builds custom websites and SEO strategies for New Jersey businesses. Focused on real outcomes — sites that rank, convert, and scale.',
+      'PixelVerse Studios builds custom websites and SEO strategies for New Jersey businesses. Focused on real outcomes: sites that rank, convert, and scale.',
     images: [defaultOgImage],
   },
   icons: {

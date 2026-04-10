@@ -128,7 +128,7 @@ export default async function CityPage({
 
         <ServiceCta
           heading={`Ready to Grow Your ${content.city} Business?`}
-          description={`Based in Cliffside Park, NJ — serving businesses across ${content.county} and beyond. The next step is a conversation about your situation.`}
+          description={`Based in Cliffside Park, NJ, serving businesses across ${content.county} and beyond. The next step is a conversation about your situation.`}
           primaryCta={{ label: `Start Your ${content.city} Project`, href: '/contact/details' }}
           secondaryCta={{ label: `View all ${content.county} areas`, href: `/areas/${content.countySlug}` }}
           variant="gradient"

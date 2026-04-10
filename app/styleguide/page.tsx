@@ -216,7 +216,7 @@ export default function StyleguidePage() {
               </div>
               <div className="rounded-pv border border-[var(--pv-border)] bg-[var(--pv-bg)] p-6 shadow-sm">
                 <small>
-                  Small text defaults to 14 / 22 — ideal for metadata, captions, and supporting
+                  Small text defaults to 14 / 22, ideal for metadata, captions, and supporting
                   labels.
                 </small>
               </div>
@@ -335,7 +335,7 @@ export default function StyleguidePage() {
             <Card>
               <CardHeader>
                 <CardTitle>Aurora Syndicate</CardTitle>
-                <CardDescription>Open-world raid — live</CardDescription>
+                <CardDescription>Open-world raid, live</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 text-sm text-[var(--pv-text-muted)]">
                 <p>

@@ -69,7 +69,7 @@ export default function BlogPage() {
         id="latest"
         eyebrow="Latest Posts"
         title="Fresh perspectives on design, code, and the web itself"
-        description="Explore the latest from the PixelVerse team—insights, discussions, and lessons that make sense of how modern websites are built, optimized, and scaled."
+        description="Explore the latest from the PixelVerse team: insights, discussions, and lessons that make sense of how modern websites are built, optimized, and scaled."
         posts={remainingPosts}
       />
       {/* Temporarily hidden at user request */}

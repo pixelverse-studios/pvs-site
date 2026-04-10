@@ -28,7 +28,7 @@ export function ServicesIntroSection({ headingLevel = 'h1' }: ServicesIntroSecti
           <MotionItem delay={0.08}>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
               Your website is only as strong as the strategy behind it. That’s why our services
-              focus on design, usability, and performance — making sure your online presence isn’t
+              focus on design, usability, and performance, making sure your online presence isn’t
               just seen, but remembered.
             </p>
           </MotionItem>

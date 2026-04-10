@@ -106,7 +106,7 @@ export default function SeoUpdatesPage() {
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <div className="inline-flex flex-wrap items-center gap-3 rounded-full border border-[var(--pv-border)] bg-[var(--pv-surface)] px-4 py-2 text-sm text-[var(--pv-text-muted)]">
-              <span className="font-semibold text-[var(--pv-text)]">{sitemapUrlCount ?? '—'}</span>
+              <span className="font-semibold text-[var(--pv-text)]">{sitemapUrlCount ?? '-'}</span>
               <span>unique URLs currently listed in the sitemap</span>
             </div>
             <DownloadSitemapButton urls={sitemapUrls ?? []} />

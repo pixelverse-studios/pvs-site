@@ -15,7 +15,7 @@ export function PortfolioClosingCtaSection() {
             </h2>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
               If you&apos;re wondering whether something similar could work for your business,
-              the right next step is a conversation — not a proposal. We&apos;ll look at where
+              the right next step is a conversation, not a proposal. We&apos;ll look at where
               you are and figure out what actually makes sense.
             </p>
           </MotionItem>

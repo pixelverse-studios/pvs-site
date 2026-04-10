@@ -296,7 +296,7 @@ const cities: Record<string, CityPageContent> = {
     countySlug: 'bergen-county',
     metaTitle: 'Web Design & SEO in Hackensack, NJ',
     metaDescription:
-      'Pixelverse Studios builds custom websites and local SEO strategies for Hackensack, NJ businesses. From Main Street to Route 17 — we help you rank.',
+      'Pixelverse Studios builds custom websites and local SEO strategies for Hackensack, NJ businesses. From Main Street to Route 17, we help you rank.',
     hero: {
       title: 'Web Design & Local SEO for Hackensack, NJ',
       description:

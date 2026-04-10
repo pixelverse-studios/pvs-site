@@ -19,7 +19,7 @@ export function FaqIntroSection() {
           <MotionItem delay={0.16}>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
               Most people come in with questions before they&apos;re ready to talk. These cover what
-              we do, how we work, and what to expect — so you can decide if it&apos;s worth a
+              we do, how we work, and what to expect, so you can decide if it&apos;s worth a
               conversation.
             </p>
           </MotionItem>

@@ -64,7 +64,7 @@ function StudyImage({
           className="mt-3 inline-flex items-center gap-1.5 text-xs text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]"
         >
           <ExternalLink className="h-3 w-3" aria-hidden="true" />
-          {study.name} — {study.demoUrl && !study.url ? 'demo site' : 'live site'}
+          {study.name}: {study.demoUrl && !study.url ? 'demo site' : 'live site'}
         </a>
       )}
     </div>
@@ -291,7 +291,7 @@ export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
                       {study.testimonial.name}
                     </span>
                     {study.testimonial.role && `, ${study.testimonial.role}`}
-                    {` — ${study.name}`}
+                    {`, ${study.name}`}
                   </span>
                 </figcaption>
               </figure>
@@ -336,7 +336,7 @@ export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
               </h2>
               <p className="text-lg text-[var(--pv-text-muted)]">
                 If you&apos;re wondering whether a similar approach could work for your business,
-                the next step is a conversation — not a proposal.
+                the next step is a conversation, not a proposal.
               </p>
             </MotionItem>
             <MotionItem delay={0.08}>

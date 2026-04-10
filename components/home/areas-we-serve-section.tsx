@@ -7,27 +7,27 @@ const priorityCities = [
   {
     name: 'Fort Lee',
     slug: 'fort-lee',
-    description: 'GW Bridge corridor — restaurants, law firms, medical practices, and a thriving Korean business community.',
+    description: 'GW Bridge corridor: restaurants, law firms, medical practices, and a thriving Korean business community.',
   },
   {
     name: 'Englewood',
     slug: 'englewood',
-    description: 'Palisade Avenue commercial district — healthcare, boutique retail, and professional services.',
+    description: 'Palisade Avenue commercial district: healthcare, boutique retail, and professional services.',
   },
   {
     name: 'Hackensack',
     slug: 'hackensack',
-    description: 'Bergen County seat — HUMC healthcare ecosystem, courthouse legal market, and Route 17 retail.',
+    description: 'Bergen County seat: HUMC healthcare ecosystem, courthouse legal market, and Route 17 retail.',
   },
   {
     name: 'Paramus',
     slug: 'paramus',
-    description: 'NJ\'s retail capital — Garden State Plaza, Route 4 and Route 17 commercial corridors.',
+    description: 'NJ\'s retail capital: Garden State Plaza, Route 4 and Route 17 commercial corridors.',
   },
   {
     name: 'Ridgewood',
     slug: 'ridgewood',
-    description: 'The Village downtown — independent boutiques, farm-to-table restaurants, and premium professional services.',
+    description: 'The Village downtown: independent boutiques, farm-to-table restaurants, and premium professional services.',
   },
 ];
 

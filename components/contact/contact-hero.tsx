@@ -26,7 +26,7 @@ export function ContactHero() {
           <MotionItem delay={0.12}>
             <p className="mx-auto max-w-2xl text-pretty text-lg text-[var(--pv-text-muted)] md:text-xl">
               There&rsquo;s no generic intake form here. Choose the path that fits where you are
-              right now &mdash; whether you&rsquo;re ready to share project details, want to talk
+              right now, whether you&rsquo;re ready to share project details, want to talk
               through your situation on a call, or just want an honest review of your current site
               before making any decisions.
             </p>
@@ -34,12 +34,12 @@ export function ContactHero() {
           <MotionItem delay={0.16}>
             <p className="mx-auto max-w-2xl text-pretty text-[var(--pv-text-muted)]">
               Most inquiries receive a response within one business day. We&rsquo;ll review your
-              situation and follow up with a clear recommendation &mdash; not a sales pitch.
+              situation and follow up with a clear recommendation. Not a sales pitch.
             </p>
           </MotionItem>
           <MotionItem delay={0.2}>
             <p className="text-sm text-[var(--pv-text-muted)]">
-              Based in Bergen County, NJ &mdash; serving businesses across New Jersey.
+              Based in Bergen County, NJ, serving businesses across New Jersey.
             </p>
           </MotionItem>
         </MotionSection>

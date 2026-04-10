@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
       url: `https://pixelversestudios.io${study.img}`,
       width: 1200,
       height: 630,
-      alt: `${study.name} website — built by PixelVerse Studios`,
+      alt: `${study.name} website, built by PixelVerse Studios`,
     },
   });
 }

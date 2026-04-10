@@ -164,7 +164,7 @@ export const processSection: ProcessSection = {
       number: 1,
       title: 'Evaluate',
       description:
-        "We look at what you already have — your current site, your traffic patterns, how visitors behave, and where they drop off. We're not starting from scratch unless we need to.",
+        "We look at what you already have: your current site, your traffic patterns, how visitors behave, and where they drop off. We're not starting from scratch unless we need to.",
     },
     {
       number: 2,
@@ -176,13 +176,13 @@ export const processSection: ProcessSection = {
       number: 3,
       title: 'Recommend',
       description:
-        "We present a clear, prioritized plan tied to your actual business goals — not a templated scope. You'll know exactly what we're proposing, why it matters, and what it's expected to do.",
+        "We present a clear, prioritized plan tied to your actual business goals, not a templated scope. You'll know exactly what we're proposing, why it matters, and what it's expected to do.",
     },
     {
       number: 4,
       title: 'Build & Refine',
       description:
-        "Then we design and develop the right solution — whether that's a full rebuild, targeted improvements, or something in between. After launch, we measure what's working and adjust.",
+        "Then we design and develop the right solution, whether that's a full rebuild, targeted improvements, or something in between. After launch, we measure what's working and adjust.",
     },
   ],
 };

@@ -280,7 +280,7 @@ export function DarkThemePicker() {
                 key={accent.id}
                 onClick={() => selectAccent(accent.id)}
                 aria-pressed={isActive}
-                aria-label={`Accent: ${accent.name} — ${accent.description}`}
+                aria-label={`Accent: ${accent.name}, ${accent.description}`}
                 className="flex flex-col items-center gap-1.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:rounded-full"
               >
                 <div

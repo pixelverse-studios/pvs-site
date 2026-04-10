@@ -26,13 +26,13 @@ export function PortfolioIntroSection() {
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
               Some businesses needed a website built from scratch. Others had a site that looked fine
               but wasn&apos;t generating calls, bookings, or the kind of trust that turns a visitor
-              into a customer. In every case, we started by understanding the business first — its
+              into a customer. In every case, we started by understanding the business first: its
               audience, its goals, and where the current approach was falling short.
             </p>
           </MotionItem>
           <MotionItem delay={0.32}>
             <p className="text-lg text-[var(--pv-text-muted)] md:text-xl">
-              The work below reflects that approach. These aren&apos;t just websites — they&apos;re
+              The work below reflects that approach. These aren&apos;t just websites, they&apos;re
               solutions built around specific problems, tested against real outcomes, and measured by
               whether they moved the business forward. From local service companies building search
               visibility across multiple counties to SaaS products focused on daily user retention,
