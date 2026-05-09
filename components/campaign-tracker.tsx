@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 import analytics from '@/lib/analytics';
+import { captureAttributionFromUrl } from '@/lib/attribution';
 import { findPromoCode, PROMO_STORAGE_KEY } from '@/lib/promo-codes';
 
 export function CampaignTracker() {
@@ -14,6 +15,8 @@ export function CampaignTracker() {
     if (!pathname || !searchParams) {
       return;
     }
+
+    captureAttributionFromUrl(pathname, searchParams);
 
     const adSourceParam = searchParams.get('src');
     if (adSourceParam) {

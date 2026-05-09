@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
@@ -9,6 +10,8 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { getApiBaseUrl } from '@/lib/api-config';
+import analytics from '@/lib/analytics';
+import { getConversionAttribution } from '@/lib/attribution';
 import { clearStoredPromoCode, usePromoFromUrl } from '@/lib/hooks/use-promo-from-url';
 import { findPromoCode } from '@/lib/promo-codes';
 import { cn } from '@/lib/utils';
@@ -31,7 +34,11 @@ const ALL_CORE_VALUES = CORE_SPECIFICS.map((o) => o.value) as string[];
 const reviewFormSchema = z.object({
   name: z.string().min(1, 'Name is required.').max(100, 'Name is too long.'),
   email: z.string().email('Enter a valid email address.').max(254),
-  phone_number: z.string().regex(/^[\d\s+\-().]{7,20}$/, 'Enter a valid phone number.').optional().or(z.literal('')),
+  phone_number: z
+    .string()
+    .regex(/^[\d\s+\-().]{7,20}$/, 'Enter a valid phone number.')
+    .optional()
+    .or(z.literal('')),
   websiteUrl: websiteUrlSchema,
   specifics: z.array(z.string().max(100)).max(10).optional(),
   other_detail: z.string().max(500).optional(),
@@ -39,7 +46,10 @@ const reviewFormSchema = z.object({
     .string()
     .trim()
     .max(32, 'Promo code is too long.')
-    .regex(/^[A-Za-z0-9_-]*$/, 'Promo code may only contain letters, numbers, hyphens, and underscores.')
+    .regex(
+      /^[A-Za-z0-9_-]*$/,
+      'Promo code may only contain letters, numbers, hyphens, and underscores.',
+    )
     .optional(),
   website_confirm: z.string().max(0).optional(),
 });
@@ -58,10 +68,7 @@ function FieldLabel({
   htmlFor?: string;
 }) {
   return (
-    <label
-      htmlFor={htmlFor}
-      className="mb-1.5 block text-sm font-medium text-[var(--pv-text)]"
-    >
+    <label htmlFor={htmlFor} className="mb-1.5 block text-sm font-medium text-[var(--pv-text)]">
       {children}
       {required && (
         <span className="ml-0.5 text-[var(--pv-primary)]" aria-hidden="true">
@@ -89,6 +96,8 @@ type FormState = 'idle' | 'submitting' | 'success' | 'error';
 export function ContactReviewForm() {
   const [formState, setFormState] = useState<FormState>('idle');
   const lastSubmitRef = useRef<number>(0);
+  const hasTrackedFormStartRef = useRef(false);
+  const pathname = usePathname();
 
   const {
     register,
@@ -125,10 +134,25 @@ export function ContactReviewForm() {
   function handleAllChange(checked: boolean) {
     const current = watchedSpecifics;
     if (checked) {
-      setValue('specifics', Array.from(new Set([...ALL_CORE_VALUES, ...current])), { shouldValidate: true });
+      setValue('specifics', Array.from(new Set([...ALL_CORE_VALUES, ...current])), {
+        shouldValidate: true,
+      });
     } else {
-      setValue('specifics', current.filter((v) => !ALL_CORE_VALUES.includes(v)), { shouldValidate: true });
+      setValue(
+        'specifics',
+        current.filter((v) => !ALL_CORE_VALUES.includes(v)),
+        { shouldValidate: true },
+      );
     }
+  }
+
+  function trackFirstFormInteraction() {
+    if (hasTrackedFormStartRef.current) {
+      return;
+    }
+
+    hasTrackedFormStartRef.current = true;
+    analytics.trackFormStart('review', pathname);
   }
 
   const onSubmit = async (data: ReviewFormValues) => {
@@ -159,10 +183,13 @@ export function ContactReviewForm() {
         email: data.email,
         phoneNumber: stripPhone(data.phone_number),
         websiteUrl: normalizeWebsiteUrl(data.websiteUrl),
-        otherDetail: (data.specifics ?? []).includes('other') ? (data.other_detail ?? '') : undefined,
+        otherDetail: (data.specifics ?? []).includes('other')
+          ? (data.other_detail ?? '')
+          : undefined,
         specifics: (data.specifics ?? []).filter((v) => v !== 'other'),
         honeypot: data.website_confirm ?? '',
         ...(trimmedPromo ? { promoCode: trimmedPromo } : {}),
+        attribution: getConversionAttribution('website_review', pathname),
       };
 
       const res = await fetch(`${getApiBaseUrl()}/api/audit`, {
@@ -173,6 +200,10 @@ export function ContactReviewForm() {
       });
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      analytics.trackWebsiteReviewRequest({
+        promo_code: trimmedPromo || undefined,
+      });
 
       reset();
       clearStoredPromoCode();
@@ -208,7 +239,7 @@ export function ContactReviewForm() {
   const isSubmittingState = formState === 'submitting';
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} onChange={trackFirstFormInteraction} noValidate>
       <div className="space-y-6">
         {/* Row 1: name / email */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -273,7 +304,9 @@ export function ContactReviewForm() {
               placeholder="(201) 555-0100"
               disabled={isSubmittingState}
               {...register('phone_number')}
-              onChange={(e) => setValue('phone_number', formatPhone(e.target.value), { shouldValidate: true })}
+              onChange={(e) =>
+                setValue('phone_number', formatPhone(e.target.value), { shouldValidate: true })
+              }
             />
             <FieldError id="review-phone-error" message={errors.phone_number?.message} />
           </div>
@@ -315,7 +348,8 @@ export function ContactReviewForm() {
             className={cn(
               'mt-2.5 flex cursor-pointer items-start gap-3 rounded-lg border p-3 text-sm transition-colors',
               'border-[var(--pv-border)] hover:border-[var(--pv-primary)] hover:bg-[color-mix(in_srgb,var(--pv-primary)_4%,transparent)]',
-              isAllSelected && 'border-[var(--pv-primary)] bg-[color-mix(in_srgb,var(--pv-primary)_4%,transparent)]',
+              isAllSelected &&
+                'border-[var(--pv-primary)] bg-[color-mix(in_srgb,var(--pv-primary)_4%,transparent)]',
               isSubmittingState && 'pointer-events-none opacity-60',
             )}
           >

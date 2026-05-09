@@ -1,10 +1,10 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Calendar, FileText, Search } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
+import { TrackedLink } from '@/components/analytics/tracked-link';
 import { cn } from '@/lib/utils';
 
 export type ContactPath = 'details' | 'call' | 'review';
@@ -72,10 +72,13 @@ export function ContactPathSelector() {
           const isActive = activePath === path.id;
 
           return (
-            <Link
+            <TrackedLink
               key={path.id}
               href={path.href}
               scroll={false}
+              trackingKind="contact_path"
+              contactPath={path.id}
+              trackingLabel={path.title}
               aria-current={isActive ? 'page' : undefined}
               className={cn(
                 'group flex flex-col items-start gap-4 rounded-2xl border p-6 text-left transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
@@ -122,7 +125,7 @@ export function ContactPathSelector() {
                 )}
                 aria-hidden="true"
               />
-            </Link>
+            </TrackedLink>
           );
         })}
       </div>

@@ -1,5 +1,4 @@
-import Link from 'next/link';
-
+import { TrackedLink } from '@/components/analytics/tracked-link';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
@@ -22,7 +21,13 @@ export function FaqClosingCtaSection() {
           </MotionItem>
           <MotionItem delay={0.08}>
             <Button asChild size="lg" variant="cta" className="w-full md:w-auto">
-              <Link href="/contact/details">Start the Conversation</Link>
+              <TrackedLink
+                href="/contact/details"
+                trackingKind="cta"
+                trackingLabel="FAQ closing CTA"
+              >
+                Start the Conversation
+              </TrackedLink>
             </Button>
           </MotionItem>
         </MotionSection>

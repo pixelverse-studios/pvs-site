@@ -1,5 +1,4 @@
-import Link from 'next/link';
-
+import { TrackedLink } from '@/components/analytics/tracked-link';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -16,7 +15,9 @@ export function RequestReviewCta({
 }: RequestReviewCtaProps) {
   return (
     <Button asChild variant={variant} className={cn(className)}>
-      <Link href={href}>Request a Website Review</Link>
+      <TrackedLink href={href} trackingKind="cta" trackingLabel="Request review CTA">
+        Request a Website Review
+      </TrackedLink>
     </Button>
   );
 }

@@ -12,7 +12,6 @@ import {
   Info,
   LayoutDashboard,
   Menu,
-
   PenSquare,
   Search,
   Sparkles,
@@ -22,6 +21,7 @@ import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { createPortal } from 'react-dom';
 
+import { TrackedLink } from '@/components/analytics/tracked-link';
 import { sharedMetadata } from '@/lib/metadata';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from './theme-toggle';
@@ -302,9 +302,15 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                       asChild
                       variant="cta"
                       className="h-12 w-full rounded-full text-base font-semibold tracking-wide shadow-[0_24px_48px_-30px_rgba(122,64,255,0.9)]"
-                      onClick={() => setIsMobileNavOpen(false)}
                     >
-                      <Link href={cta.href}>{cta.label}</Link>
+                      <TrackedLink
+                        href={cta.href}
+                        trackingKind="cta"
+                        trackingLabel="Mobile nav CTA"
+                        onClick={() => setIsMobileNavOpen(false)}
+                      >
+                        {cta.label}
+                      </TrackedLink>
                     </Button>
                   </div>
                 )}
@@ -356,11 +362,11 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                         href={item.href}
                         aria-current={isActive ? 'page' : undefined}
                         className={cn(
-                          'relative inline-flex items-center gap-1 rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-250 ease-out',
+                          'duration-250 relative inline-flex items-center gap-1 rounded-full px-4 py-1.5 text-sm font-medium transition-all ease-out',
                           'text-[var(--pv-text-muted)] hover:text-[var(--pv-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
                           'hover:-translate-y-[1px] hover:bg-[rgba(63,0,233,0.06)] hover:shadow-[0_8px_24px_-8px_rgba(63,0,233,0.3)]',
                           'dark:hover:bg-white/8 dark:hover:text-white dark:hover:shadow-[0_8px_24px_-8px_rgba(120,70,255,0.4)]',
-                          'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-all after:duration-250 group-hover:after:border-[rgba(63,0,233,0.2)] dark:group-hover:after:border-[rgba(159,166,221,0.25)]',
+                          'after:duration-250 after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-all group-hover:after:border-[rgba(63,0,233,0.2)] dark:group-hover:after:border-[rgba(159,166,221,0.25)]',
                           isActive &&
                             'bg-[var(--pv-primary-2)] text-white shadow-[0_12px_28px_-10px_rgba(201,71,255,0.4)] after:scale-100 after:border-transparent hover:translate-y-0 hover:text-white hover:shadow-[0_12px_28px_-10px_rgba(201,71,255,0.4)]',
                         )}
@@ -429,11 +435,11 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
                     href={item.href}
                     aria-current={isActive ? 'page' : undefined}
                     className={cn(
-                      'group relative inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-250 ease-out',
+                      'duration-250 group relative inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium transition-all ease-out',
                       'text-[var(--pv-text-muted)] hover:text-[var(--pv-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]',
                       'hover:-translate-y-[1px] hover:bg-[rgba(63,0,233,0.06)] hover:shadow-[0_8px_24px_-8px_rgba(63,0,233,0.3)]',
                       'dark:hover:bg-white/8 dark:hover:text-white dark:hover:shadow-[0_8px_24px_-8px_rgba(120,70,255,0.4)]',
-                      'after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-all after:duration-250 hover:after:border-[rgba(63,0,233,0.2)] dark:hover:after:border-[rgba(159,166,221,0.25)]',
+                      'after:duration-250 after:absolute after:inset-0 after:-z-10 after:rounded-full after:border after:border-transparent after:transition-all hover:after:border-[rgba(63,0,233,0.2)] dark:hover:after:border-[rgba(159,166,221,0.25)]',
                       isActive &&
                         'bg-[var(--pv-primary-2)] text-white shadow-[0_12px_28px_-10px_rgba(201,71,255,0.4)] after:scale-100 after:border-transparent hover:translate-y-0 hover:text-white hover:shadow-[0_12px_28px_-10px_rgba(201,71,255,0.4)]',
                     )}
@@ -451,9 +457,14 @@ export function Navbar({ className, items = [], cta, ...props }: NavbarProps) {
             </div>
             {cta && (
               <Button asChild variant="cta" className="hidden lg:inline-flex">
-                <Link href={cta.href} className="whitespace-nowrap">
+                <TrackedLink
+                  href={cta.href}
+                  trackingKind="cta"
+                  trackingLabel="Desktop nav CTA"
+                  className="whitespace-nowrap"
+                >
                   {cta.label}
-                </Link>
+                </TrackedLink>
               </Button>
             )}
             {items.length > 0 && (

@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import type { LucideIcon } from 'lucide-react';
 
+import { TrackedLink } from '@/components/analytics/tracked-link';
 import { Container } from '@/components/ui/container';
 import { Button } from '@/components/ui/button';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
@@ -96,22 +96,40 @@ export function ServiceHero({
             </h1>
           </MotionItem>
           <MotionItem delay={0.12} className="space-y-4">
-            {description.split('\n\n').filter(Boolean).map((para, idx) => (
-              <p key={idx} className="mx-auto max-w-2xl text-lg text-[var(--pv-text-muted)] md:text-xl">
-                {para}
-              </p>
-            ))}
+            {description
+              .split('\n\n')
+              .filter(Boolean)
+              .map((para, idx) => (
+                <p
+                  key={idx}
+                  className="mx-auto max-w-2xl text-lg text-[var(--pv-text-muted)] md:text-xl"
+                >
+                  {para}
+                </p>
+              ))}
           </MotionItem>
           <MotionItem
             delay={0.16}
             className="flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
             <Button asChild size="lg" variant="cta" className="w-full sm:w-auto">
-              <Link href={primaryCta.href}>{primaryCta.label}</Link>
+              <TrackedLink
+                href={primaryCta.href}
+                trackingKind="cta"
+                trackingLabel={`Service hero primary: ${primaryCta.label}`}
+              >
+                {primaryCta.label}
+              </TrackedLink>
             </Button>
             {secondaryCta && (
               <Button asChild size="lg" variant="ctaGhost" className="w-full sm:w-auto">
-                <Link href={secondaryCta.href}>{secondaryCta.label}</Link>
+                <TrackedLink
+                  href={secondaryCta.href}
+                  trackingKind="cta"
+                  trackingLabel={`Service hero secondary: ${secondaryCta.label}`}
+                >
+                  {secondaryCta.label}
+                </TrackedLink>
               </Button>
             )}
           </MotionItem>
