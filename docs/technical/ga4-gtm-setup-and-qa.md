@@ -74,7 +74,7 @@ Only attach variables to GA4 event tags when they are relevant to that event.
 | Event | Parameters to send |
 | --- | --- |
 | `page_view` | `page_path` |
-| `campaign_landing` | `traffic_source`, `src_code`, `page_path` |
+| `campaign_landing` | `traffic_source`, `traffic_medium`, `campaign`, `campaign_content`, `campaign_term`, `src_code`, `promo_code`, `page_path` |
 | `contact_path_select` | `contact_path`, `page_path` |
 | `lead_form_start` | `form_type`, `page_path` |
 | `review_form_start` | `form_type`, `page_path` |
@@ -137,9 +137,11 @@ Run this checklist in GTM Preview, then confirm GA4 DebugView.
 1. Open `/contact/details?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=phil_card_v1`.
 2. Confirm attribution is captured in browser storage.
 3. Confirm no PII is present in GTM Preview.
-4. Confirm no `campaign_landing` event is required for UTM-only URLs. UTM parameters are captured for first-party attribution and attached to later conversion payloads.
+4. Confirm `campaign_landing` fires once for the UTM landing and includes `traffic_source`, `traffic_medium`, `campaign`, `campaign_content`, and `page_path`.
 5. Open a `src` campaign URL, such as `/?src=QR`.
-6. Confirm `campaign_landing` fires for the `src` campaign code and includes `traffic_source`, `src_code`, and `page_path`.
+6. Confirm `campaign_landing` fires once for the `src` campaign code and includes `traffic_source`, `src_code`, and `page_path`.
+7. Open a `promo` campaign URL, such as `/?promo=NJCC2026`.
+8. Confirm `campaign_landing` fires once for the promo code and includes `traffic_source`, `promo_code`, and `page_path`.
 
 ### Lead Form
 

@@ -1,4 +1,5 @@
 import { isTrackingExcludedRoute } from '@/lib/tracking-config';
+import type { AttributionTouch } from '@/lib/attribution';
 
 type AdSourceCode = 'G' | 'M' | 'QR' | 'AUDIT' | string;
 type AnalyticsPrimitive = string | number | boolean | null | undefined;
@@ -58,6 +59,8 @@ const SITEBEHAVIOUR_EVENT_NAMES: Record<AnalyticsEventName, SiteBehaviourEventNa
   email_click: 'Email Click',
   cta_click: 'CTA Click',
 };
+
+const seenCampaignLandingKeys = new Set<string>();
 
 const ALLOWED_DATA_LAYER_PARAMETERS = new Set([
   'page_path',
@@ -123,6 +126,37 @@ function debugLog(...args: unknown[]) {
     // eslint-disable-next-line no-console
     console.log('[CampaignTracker]', ...args);
   }
+}
+
+function getSessionItem(key: string): string | null {
+  try {
+    return window.sessionStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function setSessionItem(key: string, value: string) {
+  try {
+    window.sessionStorage.setItem(key, value);
+  } catch {
+    // sessionStorage may be blocked. Fall back to in-memory session de-duping.
+  }
+}
+
+function hasSeenCampaignLanding(key: string): boolean {
+  if (seenCampaignLandingKeys.has(key)) {
+    return true;
+  }
+
+  if (getSessionItem(key)) {
+    seenCampaignLandingKeys.add(key);
+    return true;
+  }
+
+  seenCampaignLandingKeys.add(key);
+  setSessionItem(key, '1');
+  return false;
 }
 
 function isAnalyticsValueArray(value: AnalyticsValue): value is readonly AnalyticsPrimitive[] {
@@ -299,11 +333,10 @@ export function trackAdSource(code: string | null, path: string) {
   }
 
   const sessionKey = `ad_source_${normalized}`;
-  if (sessionStorage.getItem(sessionKey)) {
+  if (hasSeenCampaignLanding(sessionKey)) {
     return;
   }
 
-  sessionStorage.setItem(sessionKey, '1');
   const label = AD_SOURCE_LABELS[normalized] ?? normalized;
   debugLog('Tracking ad source', label, path);
   trackEvent(
@@ -314,6 +347,62 @@ export function trackAdSource(code: string | null, path: string) {
       page_path: path,
     },
     { source: label, code: normalized, path },
+  );
+}
+
+export function trackCampaignLanding(touch: AttributionTouch, path: string) {
+  if (!isBrowser() || isExcludedRoute()) {
+    return;
+  }
+
+  const pagePath = touch.landing_page ?? path;
+  if (isTrackingExcludedRoute(pagePath)) {
+    return;
+  }
+
+  const source =
+    touch.utm_source ??
+    (touch.src_code ? (AD_SOURCE_LABELS[touch.src_code] ?? touch.src_code) : undefined);
+  const trafficSource = source ?? (touch.promo_code ? 'Promo' : undefined);
+  if (!trafficSource) {
+    return;
+  }
+
+  const campaignKey = [
+    touch.utm_source,
+    touch.utm_medium,
+    touch.utm_campaign,
+    touch.utm_content,
+    touch.utm_term,
+    touch.src_code,
+    touch.promo_code,
+    pagePath,
+  ]
+    .filter(Boolean)
+    .join('|')
+    .toUpperCase();
+
+  if (hasSeenCampaignLanding(`campaign_landing_${campaignKey}`)) {
+    return;
+  }
+
+  trackEvent(
+    'campaign_landing',
+    {
+      traffic_source: trafficSource,
+      traffic_medium: touch.utm_medium,
+      campaign: touch.utm_campaign,
+      campaign_content: touch.utm_content,
+      campaign_term: touch.utm_term,
+      src_code: touch.src_code,
+      promo_code: touch.promo_code,
+      page_path: pagePath,
+    },
+    {
+      source: trafficSource,
+      code: touch.src_code ?? touch.promo_code,
+      path: pagePath,
+    },
   );
 }
 
@@ -441,6 +530,7 @@ export function trackCtaClick(ctaLocation: string, ctaDestination: string, pageP
 const analytics = {
   trackEvent,
   trackAdSource,
+  trackCampaignLanding,
   storeAdSource,
   getStoredAdSource,
   trackPageView,
