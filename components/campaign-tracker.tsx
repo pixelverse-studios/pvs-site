@@ -16,18 +16,15 @@ export function CampaignTracker() {
       return;
     }
 
-    captureAttributionFromUrl(pathname, searchParams);
+    const attributionTouch = captureAttributionFromUrl(pathname, searchParams);
+    if (attributionTouch) {
+      analytics.trackCampaignLanding(attributionTouch, pathname);
+    }
 
     const adSourceParam = searchParams.get('src');
     if (adSourceParam) {
-      analytics.trackAdSource(adSourceParam, pathname);
       analytics.storeAdSource(adSourceParam);
       return;
-    }
-
-    const storedSource = analytics.getStoredAdSource();
-    if (storedSource) {
-      analytics.trackAdSource(storedSource, pathname);
     }
   }, [pathname, searchParams]);
 

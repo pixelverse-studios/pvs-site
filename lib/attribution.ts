@@ -74,6 +74,15 @@ function sanitizeText(raw: string | null | undefined, maxLength = 120): string |
   return cleaned || undefined;
 }
 
+function sanitizeCode(raw: string | null | undefined): string | undefined {
+  const value = sanitizeText(raw, 80);
+  if (!value || !/^[a-zA-Z0-9_-]+$/.test(value)) {
+    return undefined;
+  }
+
+  return value.toUpperCase();
+}
+
 function sanitizePath(raw: string | null | undefined): string | undefined {
   const value = sanitizeText(raw, 500);
   if (!value || !value.startsWith('/') || value.startsWith('//')) {
@@ -132,9 +141,10 @@ function sanitizeTouch(raw: unknown): AttributionTouch | undefined {
       return;
     }
 
-    const value = sanitizeText(rawValue);
+    const value =
+      key === 'src_code' || key === 'promo_code' ? sanitizeCode(rawValue) : sanitizeText(rawValue);
     if (value) {
-      touch[key] = key === 'src_code' || key === 'promo_code' ? value.toUpperCase() : value;
+      touch[key] = value;
     }
   });
 
@@ -185,9 +195,24 @@ function hasAttributionSignal(searchParams: AttributionSearchParams): boolean {
   return ATTRIBUTION_PARAM_KEYS.some((key) => Boolean(sanitizeText(searchParams.get(key))));
 }
 
-export function captureAttributionFromUrl(pathname: string, searchParams: AttributionSearchParams) {
+function hasCampaignFields(touch: AttributionTouch): boolean {
+  return Boolean(
+    touch.utm_source ||
+      touch.utm_medium ||
+      touch.utm_campaign ||
+      touch.utm_content ||
+      touch.utm_term ||
+      touch.src_code ||
+      touch.promo_code,
+  );
+}
+
+export function captureAttributionFromUrl(
+  pathname: string,
+  searchParams: AttributionSearchParams,
+): AttributionTouch | undefined {
   if (!isBrowser() || isTrackingExcludedRoute(pathname) || !hasAttributionSignal(searchParams)) {
-    return;
+    return undefined;
   }
 
   const promo = findPromoCode(searchParams.get('promo'));
@@ -197,15 +222,15 @@ export function captureAttributionFromUrl(pathname: string, searchParams: Attrib
     utm_campaign: sanitizeText(searchParams.get('utm_campaign')),
     utm_content: sanitizeText(searchParams.get('utm_content')),
     utm_term: sanitizeText(searchParams.get('utm_term')),
-    src_code: sanitizeText(searchParams.get('src'))?.toUpperCase(),
-    promo_code: promo?.code ?? sanitizeText(searchParams.get('promo'))?.toUpperCase(),
+    src_code: sanitizeCode(searchParams.get('src')),
+    promo_code: promo?.code ?? sanitizeCode(searchParams.get('promo')),
     landing_page: sanitizePath(pathname),
     referrer: sanitizeReferrer(document.referrer),
     captured_at: new Date().toISOString(),
   });
 
-  if (!touch) {
-    return;
+  if (!touch || !hasCampaignFields(touch)) {
+    return undefined;
   }
 
   const stored = readStoredAttribution();
@@ -213,6 +238,8 @@ export function captureAttributionFromUrl(pathname: string, searchParams: Attrib
     first_touch: stored.first_touch ?? touch,
     latest_touch: touch,
   });
+
+  return touch;
 }
 
 export function getConversionAttribution(
