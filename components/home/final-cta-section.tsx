@@ -1,5 +1,4 @@
-import Link from 'next/link';
-
+import { TrackedLink } from '@/components/analytics/tracked-link';
 import { Button } from '@/components/ui/button';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import { finalCta } from '@/data/homepage';
@@ -46,7 +45,13 @@ export function FinalCtaSection() {
           <MotionItem delay={0.14}>
             <div className="mt-10">
               <Button asChild variant="cta">
-                <Link href={finalCta.cta.href}>{finalCta.cta.label}</Link>
+                <TrackedLink
+                  href={finalCta.cta.href}
+                  trackingKind="cta"
+                  trackingLabel="Homepage final CTA"
+                >
+                  {finalCta.cta.label}
+                </TrackedLink>
               </Button>
             </div>
           </MotionItem>

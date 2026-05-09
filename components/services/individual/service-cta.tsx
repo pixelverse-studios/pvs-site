@@ -1,5 +1,4 @@
-import Link from 'next/link';
-
+import { TrackedLink } from '@/components/analytics/tracked-link';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
@@ -35,11 +34,16 @@ export function ServiceCta({
   variant = 'default',
 }: ServiceCtaProps) {
   return (
-    <section aria-labelledby="service-cta-heading" className={cn('py-16 md:py-24', variantClasses[variant])}>
+    <section
+      aria-labelledby="service-cta-heading"
+      className={cn('py-16 md:py-24', variantClasses[variant])}
+    >
       <Container className="max-w-3xl space-y-8 text-center">
         <MotionSection as="div" className="space-y-8">
           <MotionItem className="space-y-5">
-            <h2 id="service-cta-heading" className="text-3xl font-semibold md:text-4xl">{heading}</h2>
+            <h2 id="service-cta-heading" className="text-3xl font-semibold md:text-4xl">
+              {heading}
+            </h2>
             <p className="text-lg text-[var(--pv-text-muted)]">{description}</p>
           </MotionItem>
           <MotionItem
@@ -47,11 +51,23 @@ export function ServiceCta({
             className="flex w-full flex-col items-center justify-center gap-4 sm:flex-row"
           >
             <Button asChild size="lg" variant="cta" className="w-full sm:w-auto">
-              <Link href={primaryCta.href}>{primaryCta.label}</Link>
+              <TrackedLink
+                href={primaryCta.href}
+                trackingKind="cta"
+                trackingLabel={`Service CTA primary: ${primaryCta.label}`}
+              >
+                {primaryCta.label}
+              </TrackedLink>
             </Button>
             {secondaryCta && (
               <Button asChild size="lg" variant="ctaGhost" className="w-full sm:w-auto">
-                <Link href={secondaryCta.href}>{secondaryCta.label}</Link>
+                <TrackedLink
+                  href={secondaryCta.href}
+                  trackingKind="cta"
+                  trackingLabel={`Service CTA secondary: ${secondaryCta.label}`}
+                >
+                  {secondaryCta.label}
+                </TrackedLink>
               </Button>
             )}
           </MotionItem>

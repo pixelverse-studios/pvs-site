@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import {
   Code2,
   Figma,
@@ -12,6 +11,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 
+import { TrackedLink } from '@/components/analytics/tracked-link';
 import { homepageHero } from '@/data/homepage';
 
 import { Container } from './container';
@@ -63,7 +63,7 @@ export function HeroSection({ badge }: { badge?: string }) {
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-8 text-center">
           {/* Badge */}
           <div className="hero-enter hero-enter-1">
-            <div className="badge-shimmer inline-flex items-center gap-2.5 rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)]/70 px-4 py-2 shadow-[0_1px_3px_rgba(0,0,0,0.04)] backdrop-blur-md dark:border-white/[0.08] dark:bg-white/[0.04] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
+            <div className="badge-shimmer bg-[var(--pv-bg)]/70 inline-flex items-center gap-2.5 rounded-full border border-[var(--pv-border)] px-4 py-2 shadow-[0_1px_3px_rgba(0,0,0,0.04)] backdrop-blur-md dark:border-white/[0.08] dark:bg-white/[0.04] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--pv-primary)] shadow-[0_0_8px_2px_var(--pv-primary)] dark:bg-[var(--pv-primary-2)] dark:shadow-[0_0_8px_2px_var(--pv-primary-2)]" />
               <span className="text-xs font-medium tracking-wide text-[var(--pv-text-muted)]">
                 {badge ?? homepageHero.badge}
@@ -86,10 +86,7 @@ export function HeroSection({ badge }: { badge?: string }) {
           {/* Subheadlines */}
           <div className="hero-enter hero-enter-3 max-w-xl space-y-3">
             {homepageHero.subheadline.map((line, i) => (
-              <p
-                key={i}
-                className="text-[1.0625rem] leading-[1.7] text-[var(--pv-text-muted)]"
-              >
+              <p key={i} className="text-[1.0625rem] leading-[1.7] text-[var(--pv-text-muted)]">
                 {line}
               </p>
             ))}
@@ -98,19 +95,23 @@ export function HeroSection({ badge }: { badge?: string }) {
           {/* CTAs */}
           <div className="hero-enter hero-enter-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
-              <Link
+              <TrackedLink
                 href={homepageHero.primaryCta.href}
+                trackingKind="cta"
+                trackingLabel="Homepage hero primary CTA"
                 className="btn-glow-pulse inline-flex h-12 items-center justify-center rounded-full bg-[linear-gradient(to_bottom,var(--pv-primary),#2d00b3)] px-8 text-sm font-semibold text-white shadow-[0_4px_16px_-2px_rgba(63,0,233,0.45),0_1px_3px_rgba(0,0,0,0.1)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_28px_-4px_rgba(63,0,233,0.55)] active:translate-y-0 dark:bg-[linear-gradient(to_bottom,#a78bfa,var(--pv-primary-2))] dark:text-[#0a0020] dark:shadow-[0_4px_24px_-4px_rgba(201,71,255,0.4)] dark:hover:shadow-[0_8px_32px_-4px_rgba(201,71,255,0.55)]"
               >
                 {homepageHero.primaryCta.label}
-              </Link>
+              </TrackedLink>
 
-              <Link
+              <TrackedLink
                 href={homepageHero.secondaryCta.href}
-                className="inline-flex h-12 items-center justify-center rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)]/50 px-7 text-sm font-medium text-[var(--pv-text-muted)] backdrop-blur-sm transition-all duration-200 hover:border-[var(--pv-text-muted)] hover:text-[var(--pv-text)] active:scale-[0.98] dark:border-white/[0.1] dark:bg-white/[0.05] dark:text-white/70 dark:hover:border-white/[0.2] dark:hover:text-white"
+                trackingKind="cta"
+                trackingLabel="Homepage hero secondary CTA"
+                className="bg-[var(--pv-bg)]/50 inline-flex h-12 items-center justify-center rounded-full border border-[var(--pv-border)] px-7 text-sm font-medium text-[var(--pv-text-muted)] backdrop-blur-sm transition-all duration-200 hover:border-[var(--pv-text-muted)] hover:text-[var(--pv-text)] active:scale-[0.98] dark:border-white/[0.1] dark:bg-white/[0.05] dark:text-white/70 dark:hover:border-white/[0.2] dark:hover:text-white"
               >
                 {homepageHero.secondaryCta.label}
-              </Link>
+              </TrackedLink>
             </div>
           </div>
         </div>
@@ -118,7 +119,7 @@ export function HeroSection({ badge }: { badge?: string }) {
 
       {/* Bottom fade */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[var(--pv-bg)] via-[var(--pv-bg)]/60 to-transparent"
+        className="via-[var(--pv-bg)]/60 absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[var(--pv-bg)] to-transparent"
         aria-hidden
       />
     </section>

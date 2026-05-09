@@ -1,7 +1,6 @@
-import Link from 'next/link';
-
 import { ArrowRight } from 'lucide-react';
 
+import { TrackedLink } from '@/components/analytics/tracked-link';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import { whySection } from '@/data/homepage';
 
@@ -49,13 +48,15 @@ export function WhySection() {
 
           {/* CTA */}
           <MotionItem delay={0.14} className="mt-10">
-            <Link
+            <TrackedLink
               href={whySection.cta.href}
+              trackingKind="cta"
+              trackingLabel="Homepage why CTA"
               className="group inline-flex items-center gap-2.5 rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] px-6 py-3 text-sm font-semibold text-[var(--pv-text)] shadow-sm transition-all duration-200 hover:border-[var(--pv-primary)] hover:shadow-md"
             >
               {whySection.cta.label}
               <ArrowRight className="h-4 w-4 text-[var(--pv-primary)] transition-transform duration-200 group-hover:translate-x-0.5" />
-            </Link>
+            </TrackedLink>
           </MotionItem>
         </MotionSection>
       </Container>

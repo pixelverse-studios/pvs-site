@@ -1,12 +1,7 @@
-import Link from 'next/link';
 import { Code, Search, type LucideIcon } from 'lucide-react';
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { TrackedLink } from '@/components/analytics/tracked-link';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import { servicePaths, type ServicePathIconKey } from '@/data/service-paths';
@@ -45,13 +40,15 @@ export function ServicesPathCardsSection() {
                         {path.body}
                       </p>
                       <div className="mt-auto pt-4">
-                        <Link
+                        <TrackedLink
                           href={path.cta.href}
+                          trackingKind="cta"
+                          trackingLabel={`Services path card: ${path.title}`}
                           className="inline-flex items-center gap-2 text-sm font-medium text-[var(--pv-primary)] transition-all duration-200 hover:gap-3"
                         >
                           {path.cta.label}
                           <span aria-hidden="true">&rarr;</span>
-                        </Link>
+                        </TrackedLink>
                       </div>
                     </CardContent>
                   </Card>

@@ -1,10 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Calendar, Clock, MessageSquare, Target } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { PopupButton, useCalendlyEventListener } from 'react-calendly';
+
+import { TrackedLink } from '@/components/analytics/tracked-link';
+import analytics from '@/lib/analytics';
+import { getConversionAttribution } from '@/lib/attribution';
 
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL;
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -12,7 +16,11 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const WHAT_TO_EXPECT = [
   { icon: Clock, label: '30 minutes', detail: 'Straight to what matters' },
   { icon: Target, label: 'Your goals first', detail: 'We listen before we suggest anything' },
-  { icon: MessageSquare, label: 'Honest fit check', detail: "We'll tell you if we're not the right match" },
+  {
+    icon: MessageSquare,
+    label: 'Honest fit check',
+    detail: "We'll tell you if we're not the right match",
+  },
 ];
 
 // ─── Placeholder (no URL configured) ─────────────────────────────────────────
@@ -33,12 +41,14 @@ function CalendlyPlaceholder() {
         </p>
         <p className="text-sm text-[var(--pv-text-muted)]">
           Scheduling isn&rsquo;t available here yet,{' '}
-          <Link
+          <TrackedLink
             href="/contact/details"
+            trackingKind="cta"
+            trackingLabel="Calendly unavailable details fallback"
             className="font-medium text-[var(--pv-primary)] underline underline-offset-2"
           >
             send us a message
-          </Link>{' '}
+          </TrackedLink>{' '}
           to set up a call.
         </p>
       </div>
@@ -52,6 +62,7 @@ export function ContactStrategyCall() {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
   const [rootEl, setRootEl] = useState<HTMLElement | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     setRootEl(document.body);
@@ -64,10 +75,16 @@ export function ContactStrategyCall() {
 
       if (!event_uri || !invitee_uri) return;
 
+      analytics.trackStrategyCallScheduled(pathname);
+
       fetch(`${API_BASE_URL}/api/webhooks/calendly`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ event_uri, invitee_uri }),
+        body: JSON.stringify({
+          event_uri,
+          invitee_uri,
+          attribution: getConversionAttribution('strategy_call', pathname),
+        }),
       }).catch((err) => {
         console.error('[Calendly] Webhook POST failed:', err);
       });
@@ -97,9 +114,9 @@ export function ContactStrategyCall() {
       {/* Body */}
       <div className="px-8 py-8 md:px-12">
         <p className="text-sm leading-relaxed text-[var(--pv-text-muted)]">
-          This call is designed to understand your goals, your current situation, and what you&rsquo;re
-          working toward. We&rsquo;ll use the time to determine whether working together makes sense
-          and what the right next step would be.
+          This call is designed to understand your goals, your current situation, and what
+          you&rsquo;re working toward. We&rsquo;ll use the time to determine whether working
+          together makes sense and what the right next step would be.
         </p>
 
         {/* What to expect */}
@@ -121,13 +138,15 @@ export function ContactStrategyCall() {
         {/* CTA */}
         <div className="mt-8">
           {rootEl && (
-            <PopupButton
-              url={CALENDLY_URL}
-              rootElement={rootEl}
-              pageSettings={pageSettings}
-              text="Pick a time that works"
-              className="btn-shimmer inline-flex items-center gap-2 rounded-xl bg-[var(--pv-primary)] px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]"
-            />
+            <span onClick={() => analytics.trackStrategyCallClick(pathname)}>
+              <PopupButton
+                url={CALENDLY_URL}
+                rootElement={rootEl}
+                pageSettings={pageSettings}
+                text="Pick a time that works"
+                className="btn-shimmer inline-flex items-center gap-2 rounded-xl bg-[var(--pv-primary)] px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)]"
+              />
+            </span>
           )}
         </div>
       </div>

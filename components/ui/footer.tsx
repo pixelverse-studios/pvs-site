@@ -2,6 +2,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { Mail, MapPin, Phone } from 'lucide-react';
 
+import { TrackedLink } from '@/components/analytics/tracked-link';
 import { cn } from '@/lib/utils';
 
 import { Button } from './button';
@@ -31,14 +32,16 @@ const eyebrowCls =
 const navLinkCls =
   'text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]';
 
-
 // ─── Layout: Split Panel ──────────────────────────────────────────────────────
 // Left: tall map + contact details. Right: brand, nav, social, CTA.
 
 export function Footer({ links = [], cta, className, ...props }: FooterProps) {
   return (
     <footer
-      className={cn('border-t border-[var(--pv-border)] bg-[var(--pv-surface)]/70 backdrop-blur', className)}
+      className={cn(
+        'bg-[var(--pv-surface)]/70 border-t border-[var(--pv-border)] backdrop-blur',
+        className,
+      )}
       {...props}
     >
       <div className="mx-auto max-w-7xl">
@@ -53,14 +56,24 @@ export function Footer({ links = [], cta, className, ...props }: FooterProps) {
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
                 <span>{CONTACT.address}</span>
               </address>
-              <a href={CONTACT.phone.href} className={cn('flex items-center gap-2', navLinkCls)}>
+              <TrackedLink
+                href={CONTACT.phone.href}
+                trackingKind="phone"
+                trackingLabel="Footer phone"
+                className={cn('flex items-center gap-2', navLinkCls)}
+              >
                 <Phone className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
                 {CONTACT.phone.label}
-              </a>
-              <Link href={CONTACT.email.href} className={cn('flex items-center gap-2', navLinkCls)}>
+              </TrackedLink>
+              <TrackedLink
+                href={CONTACT.email.href}
+                trackingKind="email"
+                trackingLabel="Footer email"
+                className={cn('flex items-center gap-2', navLinkCls)}
+              >
                 <Mail className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
                 {CONTACT.email.label}
-              </Link>
+              </TrackedLink>
               <p className="mt-2 text-xs leading-relaxed text-[var(--pv-text-muted)]">
                 Serving Fort Lee, Englewood, Hackensack, Paramus, Ridgewood &amp; Bergen County, NJ
               </p>
@@ -70,11 +83,16 @@ export function Footer({ links = [], cta, className, ...props }: FooterProps) {
           <div className="flex flex-col justify-between gap-8 px-8 py-8">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
               <div className="space-y-2">
-                <Link href="/" className="block text-2xl font-semibold text-[var(--pv-text)] transition-colors hover:text-[var(--pv-primary)]">
+                <Link
+                  href="/"
+                  className="block text-2xl font-semibold text-[var(--pv-text)] transition-colors hover:text-[var(--pv-primary)]"
+                >
                   PixelVerse Studios
                 </Link>
                 <p className="max-w-xs text-sm leading-relaxed text-[var(--pv-text-muted)]">
-                  Building websites that work.<br />Designed for people, built to grow.
+                  Building websites that work.
+                  <br />
+                  Designed for people, built to grow.
                 </p>
               </div>
               <nav className="grid grid-cols-2 gap-x-8 gap-y-2">
@@ -92,8 +110,16 @@ export function Footer({ links = [], cta, className, ...props }: FooterProps) {
                 <SocialLinks iconClassName="bg-[var(--pv-bg)]" />
               </div>
               <div className="flex flex-col items-start gap-3 sm:items-end">
-                {cta && <Button asChild variant="cta"><Link href={cta.href}>{cta.label}</Link></Button>}
-                <small className="text-xs text-[var(--pv-text-muted)]">© {CURRENT_YEAR} PixelVerse Studios. All rights reserved.</small>
+                {cta && (
+                  <Button asChild variant="cta">
+                    <TrackedLink href={cta.href} trackingKind="cta" trackingLabel="Footer CTA">
+                      {cta.label}
+                    </TrackedLink>
+                  </Button>
+                )}
+                <small className="text-xs text-[var(--pv-text-muted)]">
+                  © {CURRENT_YEAR} PixelVerse Studios. All rights reserved.
+                </small>
               </div>
             </div>
           </div>

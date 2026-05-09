@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 
 import './globals.css';
 import { CampaignTrackerClient } from '@/components/campaign-tracker-client';
+import { GoogleTagManager } from '@/components/google-tag-manager';
 import { LayoutWrapper } from '@/components/layout-wrapper';
 import { SiteBehaviourScript } from '@/components/sitebehaviour-script';
 import { ThemeProvider } from '@/components/theme-provider';
@@ -28,6 +29,10 @@ const { siteUrl, siteName, defaultOgImage } = sharedMetadata;
 const siteBehaviourSecret = process.env.NEXT_PUBLIC_SITEBEHAVIOUR_SECRET?.trim();
 const enableSiteBehaviourTracking = Boolean(
   siteBehaviourSecret && process.env.NODE_ENV === 'production',
+);
+const googleTagManagerId = process.env.NEXT_PUBLIC_GTM_ID?.trim();
+const enableGoogleTagManager = Boolean(
+  googleTagManagerId && process.env.NODE_ENV === 'production',
 );
 
 // Bootstraps SiteBehaviour analytics loader after hydration.
@@ -133,6 +138,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body
         className={`${headingFont.variable} ${bodyFont.variable} min-h-screen bg-[var(--pv-bg)] font-body text-[var(--pv-text)] antialiased transition-colors duration-300`}
       >
+        {enableGoogleTagManager && googleTagManagerId ? (
+          <GoogleTagManager containerId={googleTagManagerId} />
+        ) : null}
         {enableSiteBehaviourTracking && siteBehaviourBootstrap ? (
           <SiteBehaviourScript bootstrapScript={siteBehaviourBootstrap} />
         ) : null}

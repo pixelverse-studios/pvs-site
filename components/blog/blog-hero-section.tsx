@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { TrackedLink } from '@/components/analytics/tracked-link';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
@@ -42,7 +43,13 @@ export function BlogHeroSection() {
                 <Link href="#latest">Read the latest posts</Link>
               </Button>
               <Button asChild size="lg" variant="ctaGhost">
-                <Link href="/contact/call">Book a strategy call</Link>
+                <TrackedLink
+                  href="/contact/call"
+                  trackingKind="cta"
+                  trackingLabel="Blog hero strategy call"
+                >
+                  Book a strategy call
+                </TrackedLink>
               </Button>
             </div>
           </MotionItem>

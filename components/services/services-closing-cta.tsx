@@ -1,5 +1,4 @@
-import Link from 'next/link';
-
+import { TrackedLink } from '@/components/analytics/tracked-link';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
@@ -26,7 +25,13 @@ export function ServicesClosingCtaSection({
           </MotionItem>
           <MotionItem delay={0.08} className="flex w-full justify-center">
             <Button asChild size="lg" variant="cta" className="w-full md:w-auto">
-              <Link href={contactHref}>Contact Us to Start Your Project</Link>
+              <TrackedLink
+                href={contactHref}
+                trackingKind="cta"
+                trackingLabel="Services closing CTA"
+              >
+                Contact Us to Start Your Project
+              </TrackedLink>
             </Button>
           </MotionItem>
         </MotionSection>

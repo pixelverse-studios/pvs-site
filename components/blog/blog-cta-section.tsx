@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { TrackedLink } from '@/components/analytics/tracked-link';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
@@ -31,7 +32,13 @@ export function BlogCtaSection() {
           </MotionItem>
           <MotionItem className="flex flex-col items-center gap-4 sm:flex-row">
             <Button asChild size="lg" variant="cta">
-              <Link href="/contact/call">Book a strategy call</Link>
+              <TrackedLink
+                href="/contact/call"
+                trackingKind="cta"
+                trackingLabel="Blog CTA strategy call"
+              >
+                Book a strategy call
+              </TrackedLink>
             </Button>
             <Button
               asChild

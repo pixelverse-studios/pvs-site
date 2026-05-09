@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
@@ -17,6 +18,8 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { getApiBaseUrl } from '@/lib/api-config';
+import analytics from '@/lib/analytics';
+import { getConversionAttribution } from '@/lib/attribution';
 import { clearStoredPromoCode, usePromoFromUrl } from '@/lib/hooks/use-promo-from-url';
 import { findPromoCode } from '@/lib/promo-codes';
 import { cn } from '@/lib/utils';
@@ -69,7 +72,11 @@ const detailsFormSchema = z.object({
   name: z.string().min(2, 'Please enter your name.').max(100, 'Name is too long.'),
   email: z.string().email('Enter a valid email address.').max(254),
   companyName: z.string().min(1, 'Company name is required.').max(150, 'Company name is too long.'),
-  phone: z.string().regex(/^[\d\s+\-().]{7,20}$/, 'Enter a valid phone number.').optional().or(z.literal('')),
+  phone: z
+    .string()
+    .regex(/^[\d\s+\-().]{7,20}$/, 'Enter a valid phone number.')
+    .optional()
+    .or(z.literal('')),
   budget: z.enum(toEnumValues(BUDGET_OPTIONS), {
     required_error: 'Select a budget range.',
   }),
@@ -77,14 +84,22 @@ const detailsFormSchema = z.object({
     required_error: 'Select a timeline.',
   }),
   currentWebsite: websiteUrlSchema.optional().or(z.literal('')),
-  improvements: z.array(z.enum(toEnumValues(IMPROVEMENT_OPTIONS))).min(1, 'Select at least one area.'),
-  interestedIn: z.array(z.enum(['web-design', 'seo', 'unsure'])).min(1).optional(),
+  improvements: z
+    .array(z.enum(toEnumValues(IMPROVEMENT_OPTIONS)))
+    .min(1, 'Select at least one area.'),
+  interestedIn: z
+    .array(z.enum(['web-design', 'seo', 'unsure']))
+    .min(1)
+    .optional(),
   briefSummary: z.string().max(2000, 'Please keep this under 2,000 characters.').optional(),
   promoCode: z
     .string()
     .trim()
     .max(32, 'Promo code is too long.')
-    .regex(/^[A-Za-z0-9_-]*$/, 'Promo code may only contain letters, numbers, hyphens, and underscores.')
+    .regex(
+      /^[A-Za-z0-9_-]*$/,
+      'Promo code may only contain letters, numbers, hyphens, and underscores.',
+    )
     .optional(),
   website_confirm: z.string().max(0).optional(),
 });
@@ -103,10 +118,7 @@ function FieldLabel({
   htmlFor?: string;
 }) {
   return (
-    <label
-      htmlFor={htmlFor}
-      className="mb-1.5 block text-sm font-medium text-[var(--pv-text)]"
-    >
+    <label htmlFor={htmlFor} className="mb-1.5 block text-sm font-medium text-[var(--pv-text)]">
       {children}
       {required && (
         <span className="ml-0.5 text-[var(--pv-primary)]" aria-hidden="true">
@@ -134,6 +146,8 @@ type FormState = 'idle' | 'submitting' | 'success' | 'error';
 export function ContactDetailsForm() {
   const [formState, setFormState] = useState<FormState>('idle');
   const lastSubmitRef = useRef<number>(0);
+  const hasTrackedFormStartRef = useRef(false);
+  const pathname = usePathname();
   const [interestedInSelections, setInterestedInSelections] = useState<Set<string>>(new Set());
 
   const {
@@ -153,8 +167,15 @@ export function ContactDetailsForm() {
     },
   });
 
-  const [watchedName, watchedEmail, watchedCompany, watchedBudget, watchedTimeline, watchedImprovements, watchedPromoCode] =
-    watch(['name', 'email', 'companyName', 'budget', 'timeline', 'improvements', 'promoCode']);
+  const [
+    watchedName,
+    watchedEmail,
+    watchedCompany,
+    watchedBudget,
+    watchedTimeline,
+    watchedImprovements,
+    watchedPromoCode,
+  ] = watch(['name', 'email', 'companyName', 'budget', 'timeline', 'improvements', 'promoCode']);
 
   // Auto-populate promo code from URL / sessionStorage on mount.
   const promoFromUrl = usePromoFromUrl();
@@ -173,6 +194,8 @@ export function ContactDetailsForm() {
   const isUnsureSelected = interestedInSelections.has('unsure');
 
   function handleInterestedInClick(value: string) {
+    trackFirstFormInteraction();
+
     setInterestedInSelections((prev) => {
       const next = new Set(prev);
       if (value === 'unsure') {
@@ -202,12 +225,21 @@ export function ContactDetailsForm() {
   }, [interestedInSelections, setValue]);
 
   const isFormReady =
-    !!(watchedName?.trim()) &&
-    !!(watchedEmail?.trim()) &&
-    !!(watchedCompany?.trim()) &&
+    !!watchedName?.trim() &&
+    !!watchedEmail?.trim() &&
+    !!watchedCompany?.trim() &&
     !!watchedBudget &&
     !!watchedTimeline &&
     (watchedImprovements?.length ?? 0) > 0;
+
+  function trackFirstFormInteraction() {
+    if (hasTrackedFormStartRef.current) {
+      return;
+    }
+
+    hasTrackedFormStartRef.current = true;
+    analytics.trackFormStart('details', pathname);
+  }
 
   const onSubmit = async (data: DetailsFormValues) => {
     // Re-entry guard
@@ -241,10 +273,13 @@ export function ContactDetailsForm() {
         timeline: data.timeline,
         currentWebsite: normalizeWebsiteUrl(data.currentWebsite ?? ''),
         improvements: data.improvements,
-        ...(data.interestedIn && data.interestedIn.length > 0 ? { interestedIn: data.interestedIn } : {}),
+        ...(data.interestedIn && data.interestedIn.length > 0
+          ? { interestedIn: data.interestedIn }
+          : {}),
         briefSummary: data.briefSummary ?? '',
         honeypot: data.website_confirm ?? '',
         ...(trimmedPromo ? { promoCode: trimmedPromo } : {}),
+        attribution: getConversionAttribution('lead', pathname),
       };
 
       const res = await fetch(`${getApiBaseUrl()}/api/leads`, {
@@ -255,6 +290,13 @@ export function ContactDetailsForm() {
       });
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      analytics.trackLeadConversion({
+        budget_range: data.budget,
+        timeline: data.timeline,
+        interest_category: data.interestedIn,
+        promo_code: trimmedPromo || undefined,
+      });
 
       reset();
       setInterestedInSelections(new Set());
@@ -291,7 +333,7 @@ export function ContactDetailsForm() {
   const isSubmittingState = formState === 'submitting';
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} onChange={trackFirstFormInteraction} noValidate>
       <div className="space-y-6">
         {/* Row 1: name / email */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -356,7 +398,9 @@ export function ContactDetailsForm() {
               placeholder="(201) 555-0100"
               disabled={isSubmittingState}
               {...register('phone')}
-              onChange={(e) => setValue('phone', formatPhone(e.target.value), { shouldValidate: true })}
+              onChange={(e) =>
+                setValue('phone', formatPhone(e.target.value), { shouldValidate: true })
+              }
             />
           </div>
 
@@ -504,7 +548,10 @@ export function ContactDetailsForm() {
               </label>
             ))}
           </div>
-          <FieldError id="improvements-error" message={errors.improvements?.root?.message ?? errors.improvements?.message} />
+          <FieldError
+            id="improvements-error"
+            message={errors.improvements?.root?.message ?? errors.improvements?.message}
+          />
         </div>
 
         {/* Brief summary textarea */}

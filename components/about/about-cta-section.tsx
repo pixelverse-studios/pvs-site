@@ -1,5 +1,4 @@
-import Link from 'next/link';
-
+import { TrackedLink } from '@/components/analytics/tracked-link';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
@@ -17,10 +16,7 @@ export function AboutCtaSection() {
             <h2 className="font-heading text-3xl md:text-4xl">{title}</h2>
             <div className="max-w-2xl space-y-4">
               {paragraphs.map((paragraph, i) => (
-                <p
-                  key={i}
-                  className="text-lg text-[var(--pv-text-muted)] md:text-xl"
-                >
+                <p key={i} className="text-lg text-[var(--pv-text-muted)] md:text-xl">
                   {paragraph}
                 </p>
               ))}
@@ -28,7 +24,9 @@ export function AboutCtaSection() {
           </MotionItem>
           <MotionItem delay={0.1}>
             <Button asChild size="lg" variant="cta">
-              <Link href={cta.href}>{cta.label}</Link>
+              <TrackedLink href={cta.href} trackingKind="cta" trackingLabel="About closing CTA">
+                {cta.label}
+              </TrackedLink>
             </Button>
           </MotionItem>
         </MotionSection>

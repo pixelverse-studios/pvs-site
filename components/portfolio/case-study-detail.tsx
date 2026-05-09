@@ -18,6 +18,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 
+import { TrackedLink } from '@/components/analytics/tracked-link';
 import { Container } from '@/components/ui/container';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
 import type { CaseStudy } from '@/data/case-studies';
@@ -29,7 +30,6 @@ const iconMap: Record<string, LucideIcon> = {
   layoutGrid: LayoutGrid,
   zap: Zap,
 };
-
 
 // ── Shared image + caption block ───────────────────────────────────────────
 
@@ -72,7 +72,6 @@ function StudyImage({
 }
 
 // ── Narrative section layouts ──────────────────────────────────────────────
-
 
 function NarrativeSpread({ study }: { study: CaseStudy }) {
   return (
@@ -118,7 +117,6 @@ function NarrativeSpread({ study }: { study: CaseStudy }) {
   );
 }
 
-
 // ── Main component ─────────────────────────────────────────────────────────
 
 interface CaseStudyDetailProps {
@@ -127,7 +125,6 @@ interface CaseStudyDetailProps {
 }
 
 export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
-
   return (
     <main>
       {/* ── Hero ─────────────────────────────────────────────── */}
@@ -195,10 +192,7 @@ export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
             <MotionItem delay={0.16}>
               <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--pv-text-muted)]">
                 <span className="inline-flex items-center gap-2">
-                  <Building2
-                    className="h-3.5 w-3.5 text-[var(--pv-primary)]"
-                    aria-hidden="true"
-                  />
+                  <Building2 className="h-3.5 w-3.5 text-[var(--pv-primary)]" aria-hidden="true" />
                   <span className="font-medium text-[var(--pv-text)]">{study.name}</span>
                 </span>
                 <span className="inline-flex items-center gap-2">
@@ -340,17 +334,18 @@ export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
               </p>
             </MotionItem>
             <MotionItem delay={0.08}>
-              <Link
+              <TrackedLink
                 href="/contact/details"
+                trackingKind="cta"
+                trackingLabel="Case study detail CTA"
                 className="inline-flex items-center gap-2 rounded-full bg-[image:var(--pv-gradient)] px-8 py-3 font-medium text-white shadow-[0_8px_24px_-8px_rgba(63,0,233,0.5)] transition-opacity hover:opacity-90"
               >
                 Start the Conversation
-              </Link>
+              </TrackedLink>
             </MotionItem>
           </MotionSection>
         </Container>
       </section>
-
     </main>
   );
 }
