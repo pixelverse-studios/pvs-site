@@ -270,8 +270,16 @@ First-touch attribution tells us what originally brought the lead in. Latest-tou
 10. Publish GTM container.
 11. Compare SiteBehaviour, GA4, and first-party lead attribution for at least one full reporting cycle before making renewal decisions.
 
+## Setup And QA Reference
+
+The detailed GTM tag setup, GA4 key-event configuration, privacy rules, and frontend QA checklist live in:
+
+```text
+docs/technical/ga4-gtm-setup-and-qa.md
+```
+
+Use that checklist before publishing the GTM container and again after the first production deploy with GA4 enabled.
+
 ## Open Questions
 
-- What exact clean URLs should be created for the first business card and flier batch?
-- Should initial QR URLs point to `/contact/details`, `/contact/review`, or campaign-specific landing pages?
 - Will Meta Pixel be added immediately, or only after the first Meta campaign is ready?
