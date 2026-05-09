@@ -125,6 +125,24 @@ const nextConfig = {
 
     return [
       {
+        source: '/go/card-phil',
+        destination:
+          '/contact/details?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=phil_card_v1',
+        permanent: false,
+      },
+      {
+        source: '/go/card-sami',
+        destination:
+          '/contact/details?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=sami_card_v1',
+        permanent: false,
+      },
+      {
+        source: '/go/flyer',
+        destination:
+          '/contact/review?utm_source=flyer&utm_medium=qr&utm_campaign=local_print_2026&utm_content=general_flyer_v1',
+        permanent: false,
+      },
+      {
         source: '/works',
         destination: '/portfolio',
         permanent: true,
