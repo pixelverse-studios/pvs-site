@@ -69,7 +69,7 @@ function toEnumValues<T extends readonly { readonly value: string }[]>(
 }
 
 const detailsFormSchema = z.object({
-  name: z.string().min(2, 'Please enter your name.').max(100, 'Name is too long.'),
+  fullName: z.string().min(2, 'Please enter your name.').max(100, 'Name is too long.'),
   email: z.string().email('Enter a valid email address.').max(254),
   companyName: z.string().min(1, 'Company name is required.').max(150, 'Company name is too long.'),
   phone: z
@@ -168,14 +168,22 @@ export function ContactDetailsForm() {
   });
 
   const [
-    watchedName,
+    watchedFullName,
     watchedEmail,
     watchedCompany,
     watchedBudget,
     watchedTimeline,
     watchedImprovements,
     watchedPromoCode,
-  ] = watch(['name', 'email', 'companyName', 'budget', 'timeline', 'improvements', 'promoCode']);
+  ] = watch([
+    'fullName',
+    'email',
+    'companyName',
+    'budget',
+    'timeline',
+    'improvements',
+    'promoCode',
+  ]);
 
   // Auto-populate promo code from URL / sessionStorage on mount.
   const promoFromUrl = usePromoFromUrl();
@@ -225,7 +233,7 @@ export function ContactDetailsForm() {
   }, [interestedInSelections, setValue]);
 
   const isFormReady =
-    !!watchedName?.trim() &&
+    !!watchedFullName?.trim() &&
     !!watchedEmail?.trim() &&
     !!watchedCompany?.trim() &&
     !!watchedBudget &&
@@ -265,7 +273,7 @@ export function ContactDetailsForm() {
     try {
       const trimmedPromo = (data.promoCode ?? '').trim();
       const payload = {
-        name: data.name,
+        name: data.fullName,
         email: data.email,
         companyName: data.companyName,
         phone: stripPhone(data.phone),
@@ -346,11 +354,11 @@ export function ContactDetailsForm() {
               autoComplete="name"
               placeholder="Jane Smith"
               disabled={isSubmittingState}
-              aria-invalid={!!errors.name}
-              aria-describedby={errors.name ? 'name-error' : undefined}
-              {...register('name')}
+              aria-invalid={!!errors.fullName}
+              aria-describedby={errors.fullName ? 'name-error' : undefined}
+              {...register('fullName')}
             />
-            <FieldError id="name-error" message={errors.name?.message} />
+            <FieldError id="name-error" message={errors.fullName?.message} />
           </div>
 
           <div>

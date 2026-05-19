@@ -32,7 +32,7 @@ const ALL_CORE_VALUES = CORE_SPECIFICS.map((o) => o.value) as string[];
 // ─── Schema ──────────────────────────────────────────────────────────────────
 
 const reviewFormSchema = z.object({
-  name: z.string().min(1, 'Name is required.').max(100, 'Name is too long.'),
+  fullName: z.string().min(1, 'Name is required.').max(100, 'Name is too long.'),
   email: z.string().email('Enter a valid email address.').max(254),
   phone_number: z
     .string()
@@ -179,7 +179,7 @@ export function ContactReviewForm() {
     try {
       const trimmedPromo = (data.promoCode ?? '').trim();
       const payload = {
-        name: data.name,
+        name: data.fullName,
         email: data.email,
         phoneNumber: stripPhone(data.phone_number),
         websiteUrl: normalizeWebsiteUrl(data.websiteUrl),
@@ -252,11 +252,11 @@ export function ContactReviewForm() {
               autoComplete="name"
               placeholder="Jane Smith"
               disabled={isSubmittingState}
-              aria-invalid={!!errors.name}
-              aria-describedby={errors.name ? 'review-name-error' : undefined}
-              {...register('name')}
+              aria-invalid={!!errors.fullName}
+              aria-describedby={errors.fullName ? 'review-name-error' : undefined}
+              {...register('fullName')}
             />
-            <FieldError id="review-name-error" message={errors.name?.message} />
+            <FieldError id="review-name-error" message={errors.fullName?.message} />
           </div>
 
           <div>
