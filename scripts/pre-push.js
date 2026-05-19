@@ -132,7 +132,7 @@ async function sendDeployment(data, env) {
     return false;
   }
 
-  const endpoint = `${apiUrl}/api/deployments`;
+  const endpoint = `${apiUrl.replace(/\/+$/, '')}/api/deployments`;
 
   logInfo('Sending deployment to API...');
   logInfo(`Endpoint: ${endpoint}`);
