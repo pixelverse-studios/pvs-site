@@ -125,6 +125,9 @@ interface CaseStudyDetailProps {
 }
 
 export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
+  const siteHref = study.url || study.demoUrl;
+  const siteLabel = study.demoUrl && !study.url ? 'View demo site' : 'Visit website';
+
   return (
     <main>
       {/* ── Hero ─────────────────────────────────────────────── */}
@@ -205,6 +208,24 @@ export function CaseStudyDetail({ study, nextStudy }: CaseStudyDetailProps) {
                 </span>
               </div>
             </MotionItem>
+
+            {siteHref && (
+              <MotionItem delay={0.2}>
+                <a
+                  href={siteHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${siteLabel} for ${study.name} (opens in new tab)`}
+                  className="group inline-flex w-fit items-center gap-2 rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] px-5 py-2.5 text-sm font-medium text-[var(--pv-text)] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--pv-primary)] hover:text-[var(--pv-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-surface)] active:translate-y-0"
+                >
+                  {siteLabel}
+                  <ExternalLink
+                    className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  />
+                </a>
+              </MotionItem>
+            )}
           </MotionSection>
         </Container>
       </section>

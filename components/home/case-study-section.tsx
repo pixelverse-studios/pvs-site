@@ -3,7 +3,8 @@
 import { useState } from 'react';
 
 import { motion } from 'framer-motion';
-import { Box, Building2, Heart, Wrench } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRight, Box, Building2, Heart, Wrench } from 'lucide-react';
 
 import { caseStudies } from '@/data/homepage';
 
@@ -30,19 +31,29 @@ export function CaseStudySection() {
       <Container className="py-16 md:py-24">
         <div className="space-y-12">
           {/* Eyebrow */}
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
               Case Study
             </p>
-            <div className="h-px flex-1 bg-[var(--pv-border)]" />
+            <div className="hidden h-px flex-1 bg-[var(--pv-border)] sm:block" />
+            <Link
+              href="/portfolio"
+              className="group inline-flex w-fit items-center gap-2 text-sm font-medium text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-surface)]"
+            >
+              View full portfolio
+              <ArrowRight
+                className="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </Link>
           </div>
 
           {/* Sidebar selector + content */}
-          <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
+          <div className="flex flex-col gap-8 xl:flex-row xl:gap-12">
             {/* Left: Vertical card selector */}
             {caseStudies.length > 1 && (
               <div
-                className="flex gap-3 overflow-x-auto lg:w-72 lg:shrink-0 lg:flex-col lg:gap-2 lg:overflow-visible"
+                className="flex gap-3 overflow-x-auto xl:w-72 xl:shrink-0 xl:flex-col xl:gap-2 xl:overflow-visible"
                 role="tablist"
                 aria-label="Case studies"
               >
