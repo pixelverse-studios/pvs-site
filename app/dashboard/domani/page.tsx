@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { getFeedbackItems } from '@/lib/api/feedback';
 import { getWaitlistEntries } from '@/lib/api/waitlist';
 import { getDomaniUsers } from '@/lib/api/domani-users';
@@ -12,13 +10,6 @@ export const metadata = {
 };
 
 export default async function DomaniOverviewPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) redirect('/login');
-
   // Fetch all data in parallel
   const [feedbackResult, waitlistResult, usersResult] = await Promise.all([
     getFeedbackItems({ limit: 100 }).catch(() => ({ items: [] })),

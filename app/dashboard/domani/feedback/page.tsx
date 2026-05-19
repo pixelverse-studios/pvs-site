@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { getFeedbackItems } from '@/lib/api/feedback';
 import { FeedbackPageClient } from './components/feedback-page-client';
 
@@ -10,13 +8,6 @@ export const metadata = {
 };
 
 export default async function FeedbackPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) redirect('/login');
-
   // Fetch initial feedback items with pagination
   const { items, total } = await getFeedbackItems({ limit: 50, offset: 0 }).catch(() => ({
     items: [],

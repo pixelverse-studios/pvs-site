@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { Container } from '@/components/ui/container';
 import { getWebsiteSeo, getWebsiteSeoAudits, getSeoOverview } from '@/lib/api/seo';
 import { SeoDetailClient } from './components/seo-detail-client';
@@ -17,15 +15,6 @@ export default async function SeoDetailPage({
   params: Promise<{ websiteId: string }>;
 }) {
   const { websiteId } = await params;
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/login');
-  }
-
   const [seoData, auditHistory, overview] = await Promise.all([
     getWebsiteSeo(websiteId).catch(() => null as WebsiteSeoResponse | null),
     getWebsiteSeoAudits(websiteId, { limit: 12 }).catch(

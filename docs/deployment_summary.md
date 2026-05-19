@@ -26,6 +26,10 @@
 - **Promo codes now follow visitors across the entire site.** Previously, the promo code from a tagged landing URL only auto-filled if the visitor went straight to the contact form. Now they can browse any page first (homepage, services, blog, portfolio) and the code still appears, pre-filled, when they reach the form.
 - Replaced em dashes across all public copy (homepage, about, services, portfolio, contact, FAQ, area pages, and blog) with commas, colons, periods, and parentheses chosen sentence-by-sentence. Wording is unchanged, only punctuation. Copy reads more natural and less templated.
 - Corrected the founder name on the Jones Pressure Washing case study from "David Jones" to "Kyle Jones".
+- Improved dashboard navigation responsiveness by removing repeated auth checks during route changes.
+- Reduced the clients dashboard route from many per-client detail requests to two list requests.
+- Added a dashboard loading state so route transitions show immediate feedback while data loads.
+- Added dashboard sidebar route warmup on hover/focus and immediate active-route feedback so clicks feel responsive while server-rendered dashboard pages finish loading.
 
 ## Notes for internal team
 
@@ -49,6 +53,7 @@
 - **Promo capture across page navigation (DEV-678 follow-up):** the original DEV-678 implementation only ran the `?promo=` capture inside `usePromoFromUrl()`, which is called from the two contact form components. So a visitor landing on `/?promo=NJCC2026` and clicking through to `/contact/details` via a `<Link>` (which drops the query string) would see a blank promo field — the capture never ran on the homepage, and sessionStorage stayed empty. Fixed by adding a second `useEffect` to `components/campaign-tracker.tsx` (already mounted globally in `app/layout.tsx` inside a Suspense boundary as part of the existing ad-source tracking) that reads `searchParams.get('promo')`, validates with `findPromoCode`, and writes the canonical code to `sessionStorage[PROMO_STORAGE_KEY]`. Same hook (`usePromoFromUrl`) inside the contact forms still does its own URL→storage capture as a backstop, so direct landings on `/contact/details?promo=…` keep working. The storage key was duplicated as a magic string in two files; extracted to `lib/promo-codes.ts` as `export const PROMO_STORAGE_KEY = 'pvs_promo'` and imported by both `components/campaign-tracker.tsx` and `lib/hooks/use-promo-from-url.ts`. Verified live on `localhost:3001/contact/details` after `localhost:3001/?promo=NJCC2026`.
 - **Em dash sweep across public copy:** removed every em dash from user-facing strings on the marketing site. Methodology: grep'd for all four encodings (`—` literal, `\u2014` escaped, `&mdash;` HTML entity, `&#8212;` numeric entity) across `data/`, `components/`, and `app/` (excluding `**/dashboard/**`). 23 files modified, ~62 substitutions. Replacement choices were context-aware, not a global sed: comma for soft continuations (default), colon for setup-then-list/expansion, period for tagline-style breaks or comma-adjacent dashes, parentheses for paired dashes wrapping comma-laden inserts. Code comments, JSDoc, dashboard internal pages, and `console.log/error` strings deliberately not touched (they're not visible to users). Verified zero remaining em dashes on `localhost:3001/contact/details` via `curl ... | grep -o '—\|&mdash;'`. Followed up on one missed file (`components/contact/contact-hero.tsx`) that used HTML entity form which my initial grep missed — methodology gap fixed for next time. Reasoning: em dashes have become an "AI tell" and the user wants copy to read as deliberate human writing.
 - **Founder name correction (`data/case-studies.ts:89`):** Jones Pressure Washing testimonial attributed to "David Jones" was wrong — the actual founder is Kyle Jones. One-line fix; rendered output verified on `localhost:3001/portfolio/jones-pressure-washing` (2 matches for "Kyle Jones", 0 for "David Jones").
+- DEV-889: Dashboard route gating now relies on middleware, with header identity hydrated in the client shell and the dashboard segment forced dynamic. The clients dashboard now builds board data from list responses instead of issuing per-client detail requests. Dashboard sidebar links warm routes on hover/focus and mark the clicked destination active immediately while server data resolves. The Domani new campaign route still reads the user server-side because it needs the sender email.
 
 ## Changed URLs
 
@@ -72,5 +77,13 @@
 - https://www.pixelversestudios.io/blog
 - https://www.pixelversestudios.io/blog/choosing-web-design-company-new-jersey
 - https://www.pixelversestudios.io/blog/wix-vs-wordpress-vs-custom-website
+- https://www.pixelversestudios.io/dashboard
+- https://www.pixelversestudios.io/dashboard/clients
+- https://www.pixelversestudios.io/dashboard/websites
+- https://www.pixelversestudios.io/dashboard/deployments
+- https://www.pixelversestudios.io/dashboard/seo
+- https://www.pixelversestudios.io/dashboard/agenda
+- https://www.pixelversestudios.io/dashboard/prospects
+- https://www.pixelversestudios.io/dashboard/domani
 </content>
 </invoke>

@@ -422,6 +422,7 @@ export function PipelineListView({
 
 // Helper functions
 function getClientDisplayName(client: Client): string {
+  if (client.company_name) return client.company_name;
   if (client.firstname && client.lastname) {
     return `${client.firstname} ${client.lastname}`;
   }

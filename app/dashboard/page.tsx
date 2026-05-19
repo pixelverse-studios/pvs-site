@@ -1,6 +1,4 @@
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { createClient } from '@/lib/supabase/server';
 import { Container } from '@/components/ui/container';
 import { DashboardCard } from '@/components/dashboard/dashboard-card';
 import { AgendaWidgetWrapper } from '@/components/dashboard/agenda-widget-wrapper';
@@ -34,15 +32,6 @@ export const metadata = {
 };
 
 export default async function DashboardPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/login');
-  }
-
   const [clientsResponse, agendaData, seoOverview, prospectsData] = await Promise.all([
     getClients().catch(() => ({ clients: [] as ClientData[], total: 0, limit: 50, offset: 0 })),
     getActiveAgendaItems(8).catch(() => ({ items: [], total: 0 })),
@@ -93,8 +82,6 @@ export default async function DashboardPage() {
     return 'Good evening';
   };
 
-  const firstName = user.user_metadata?.full_name?.split(' ')[0] || 'there';
-
   return (
     <main className="pb-16 pt-6 lg:pt-8">
       <Container className="max-w-7xl">
@@ -105,7 +92,7 @@ export default async function DashboardPage() {
               className="font-heading text-2xl font-bold md:text-3xl"
               style={{ color: 'var(--pv-text)' }}
             >
-              {getGreeting()}, {firstName}
+              {getGreeting()}
             </h1>
             <p className="text-sm" style={{ color: 'var(--pv-text-muted)' }}>
               Here&apos;s what&apos;s happening with your studio today.

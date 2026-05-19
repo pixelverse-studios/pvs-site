@@ -1,5 +1,4 @@
-import { redirect, notFound } from 'next/navigation';
-import { createClient as createSupabaseClient } from '@/lib/supabase/server';
+import { notFound } from 'next/navigation';
 import { Container } from '@/components/ui/container';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
@@ -19,16 +18,6 @@ interface PageProps {
 }
 
 export default async function ClientDetailPage({ params }: PageProps) {
-  const supabase = await createSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  // If not logged in, redirect to login
-  if (!user) {
-    redirect('/login');
-  }
-
   // Fetch client from API
   const { id } = await params;
   let client;

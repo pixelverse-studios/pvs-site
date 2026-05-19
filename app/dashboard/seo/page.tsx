@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { Container } from '@/components/ui/container';
 import { getSeoOverview } from '@/lib/api/seo';
 import { SeoOverviewPageClient } from './components/seo-overview-page-client';
@@ -12,15 +10,6 @@ export const metadata = {
 };
 
 export default async function SeoOverviewPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/login');
-  }
-
   let seoData: SeoOverviewResponse = { total: 0, websites: [] };
 
   try {

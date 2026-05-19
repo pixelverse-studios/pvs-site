@@ -141,7 +141,7 @@ export function ClientsPageClient({
         // Also search by client name
         const client = clients.find((c) => c.id === p.client_id);
         const clientName = client
-          ? `${client.firstname || ''} ${client.lastname || ''} ${client.client || ''}`.toLowerCase()
+          ? `${client.company_name || ''} ${client.firstname || ''} ${client.lastname || ''} ${client.client || ''}`.toLowerCase()
           : '';
         return (
           title.includes(query) || (domain && domain.includes(query)) || clientName.includes(query)

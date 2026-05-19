@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { Container } from '@/components/ui/container';
 import { getClients } from '@/lib/api/clients';
 import { getClientDisplayName } from '@/lib/types/client';
@@ -62,15 +60,6 @@ function flattenWebsites(clients: ClientListItem[]): FlattenedWebsite[] {
 }
 
 export default async function WebsitesPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/login');
-  }
-
   let websites: FlattenedWebsite[] = [];
 
   try {

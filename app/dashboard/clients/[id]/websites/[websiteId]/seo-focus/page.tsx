@@ -1,6 +1,5 @@
-import { redirect, notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { createClient as createSupabaseClient } from '@/lib/supabase/server';
 import { Container } from '@/components/ui/container';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -46,15 +45,6 @@ export default async function SeoFocusPage({
   params: Promise<{ id: string; websiteId: string }>;
 }) {
   const { id, websiteId } = await params;
-  const supabase = await createSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/login');
-  }
-
   let client: Client;
   try {
     client = await getClient(id);

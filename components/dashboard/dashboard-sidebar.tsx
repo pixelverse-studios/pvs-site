@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import {
   LayoutDashboard,
   Users,
@@ -128,8 +128,10 @@ const navSections: NavSection[] = [
 
 export function DashboardSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { isCollapsed, setIsCollapsed, isMobileOpen, setIsMobileOpen } = useSidebar();
   const { resolvedTheme } = useTheme();
+  const [optimisticHref, setOptimisticHref] = useState<string | null>(null);
   const logoSrc =
     resolvedTheme === 'dark'
       ? 'https://res.cloudinary.com/pixelverse-studios/image/upload/v1761333954/pvs/logo-white.png'
@@ -138,7 +140,17 @@ export function DashboardSidebar() {
   // Close mobile menu when route changes
   useEffect(() => {
     setIsMobileOpen(false);
+    setOptimisticHref(null);
   }, [pathname, setIsMobileOpen]);
+
+  const warmRoute = useCallback(
+    (href: string, available: boolean) => {
+      if (available && href !== pathname) {
+        router.prefetch(href);
+      }
+    },
+    [pathname, router],
+  );
 
   const isActive = (href: string) => {
     if (href === '/dashboard') {
@@ -253,12 +265,17 @@ export function DashboardSidebar() {
                   <div className="space-y-1">
                     {section.items.map((item) => {
                       const Icon = item.icon;
-                      const active = isActive(item.href);
+                      const active = optimisticHref
+                        ? optimisticHref === item.href
+                        : isActive(item.href);
+                      const pending = optimisticHref === item.href && !isActive(item.href);
 
                       return (
                         <div key={item.href} className="group relative">
                           <Link
                             href={item.available ? item.href : '#'}
+                            prefetch={false}
+                            aria-current={active ? 'page' : undefined}
                             className={`
                               relative flex items-center gap-3 rounded-xl px-3 py-2.5
                               transition-all duration-200
@@ -275,8 +292,14 @@ export function DashboardSidebar() {
                             onClick={(e) => {
                               if (!item.available) {
                                 e.preventDefault();
+                                return;
+                              }
+                              if (item.href !== pathname) {
+                                setOptimisticHref(item.href);
                               }
                             }}
+                            onMouseEnter={() => warmRoute(item.href, item.available)}
+                            onFocus={() => warmRoute(item.href, item.available)}
                           >
                             {/* Icon */}
                             <div className="flex-shrink-0">
@@ -306,6 +329,12 @@ export function DashboardSidebar() {
                                 }}
                               >
                                 Soon
+                              </span>
+                            )}
+
+                            {pending && (
+                              <span className="ml-auto flex h-4 w-4 items-center justify-center">
+                                <span className="h-2 w-2 animate-pulse rounded-full bg-white" />
                               </span>
                             )}
                           </Link>

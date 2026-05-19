@@ -1,5 +1,4 @@
-import { redirect, notFound } from 'next/navigation';
-import { createClient as createSupabaseClient } from '@/lib/supabase/server';
+import { notFound } from 'next/navigation';
 import { WebsiteDetailView } from './components/website-detail-view';
 import { getClient } from '@/lib/api/clients';
 import type { Client } from '@/lib/types/client';
@@ -16,16 +15,6 @@ export default async function WebsiteDetailPage({
   params: Promise<{ id: string; websiteId: string }>;
 }) {
   const { id, websiteId } = await params;
-  const supabase = await createSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  // If not logged in, redirect to login
-  if (!user) {
-    redirect('/login');
-  }
-
   // Fetch client from API (which includes websites)
   let client: Client;
   try {

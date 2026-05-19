@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { getCampaigns } from '@/lib/api/email-campaigns';
 import type { Campaign } from '@/lib/types/email-campaign';
 import { CampaignsPageClient } from './components/campaigns-page-client';
@@ -11,13 +9,6 @@ export const metadata = {
 };
 
 export default async function CampaignsPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) redirect('/login');
-
   let campaigns: Campaign[] = [];
   let total = 0;
   let loadError = false;

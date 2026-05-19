@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { Container } from '@/components/ui/container';
 import { ClientsPageClient } from './components/clients-page-client';
-import { getClients, getAllClientsWithWebsites } from '@/lib/api/clients';
+import { getClients } from '@/lib/api/clients';
+import type { ClientListItem, Client } from '@/lib/types/client';
 import type { Project, WebsiteProject } from '@/lib/types/project';
 
 export const metadata = {
@@ -17,16 +17,53 @@ interface PageProps {
   searchParams: Promise<{ page?: string; limit?: string }>;
 }
 
+function mapClientListItemsToClients(clientListItems: ClientListItem[]): Client[] {
+  return clientListItems.map((client) => ({
+    id: client.client_id,
+    client: client.company_name ?? undefined,
+    client_slug: '',
+    company_name: client.company_name,
+    firstname: client.firstname,
+    lastname: client.lastname,
+    email: client.client_email,
+    phone: null,
+    active: client.client_active === true,
+    cms: null,
+    created_at: '',
+    updated_at: null,
+    websites: client.websites.map((website) => ({
+      id: website.website_id,
+      title: website.website_title,
+      website_slug: '',
+      domain: website.domain,
+      type: '',
+      status: website.status,
+      priority: website.priority,
+    })),
+  }));
+}
+
+function mapClientListItemsToProjects(clientListItems: ClientListItem[]): Project[] {
+  return clientListItems.flatMap((client) =>
+    client.websites.map(
+      (website): WebsiteProject => ({
+        id: website.website_id,
+        title: website.website_title,
+        status: website.status,
+        priority: website.priority,
+        created_at: '',
+        updated_at: null,
+        type: 'website',
+        domain: website.domain,
+        website_slug: '',
+        websiteType: '',
+        client_id: client.client_id,
+      }),
+    ),
+  );
+}
+
 export default async function ClientsPage({ searchParams }: PageProps) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/login');
-  }
-
   // Parse pagination params
   const params = await searchParams;
   const page = Math.max(1, parseInt(params.page || '1', 10) || 1);
@@ -39,39 +76,19 @@ export default async function ClientsPage({ searchParams }: PageProps) {
   // Fetch data in parallel
   let clientListItems: Awaited<ReturnType<typeof getClients>>['clients'] = [];
   let total = 0;
-  let clients: Awaited<ReturnType<typeof getAllClientsWithWebsites>> = [];
+  let clients: Client[] = [];
   let projects: Project[] = [];
 
   try {
-    // Fetch paginated client list (for table view) and full clients (for board view) in parallel
-    const [listResponse, fullClients] = await Promise.all([
+    const [listResponse, boardResponse] = await Promise.all([
       getClients({ limit, offset }),
-      getAllClientsWithWebsites(),
+      getClients({ limit: 100 }),
     ]);
 
     clientListItems = listResponse.clients;
     total = listResponse.total;
-    clients = fullClients;
-
-    // Flatten websites into projects
-    projects = fullClients.flatMap((client) =>
-      (client.websites || []).map(
-        (website): WebsiteProject => ({
-          id: website.id,
-          title: website.title,
-          status: website.status,
-          priority: website.priority,
-          created_at: new Date().toISOString(),
-          updated_at: null,
-          type: 'website',
-          domain: website.domain,
-          website_slug: website.website_slug,
-          websiteType: website.type,
-          seo_focus: website.seo_focus,
-          client_id: client.id,
-        }),
-      ),
-    );
+    clients = mapClientListItemsToClients(boardResponse.clients);
+    projects = mapClientListItemsToProjects(boardResponse.clients);
   } catch (error) {
     console.error('Error fetching clients:', error);
   }

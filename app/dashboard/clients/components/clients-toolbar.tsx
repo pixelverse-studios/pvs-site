@@ -48,6 +48,9 @@ export function ClientsToolbar({
 }: ClientsToolbarProps) {
   // Helper to get client display name
   const getClientName = (client: Client) => {
+    if (client.company_name) {
+      return client.company_name;
+    }
     if (client.firstname && client.lastname) {
       return `${client.firstname} ${client.lastname}`;
     }

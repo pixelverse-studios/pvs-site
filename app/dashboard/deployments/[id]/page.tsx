@@ -1,5 +1,4 @@
-import { redirect, notFound } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
+import { notFound } from 'next/navigation';
 import { getDeployment } from '@/lib/api/deployments';
 import { DeploymentDetailView } from './components/deployment-detail-view';
 import type { DeploymentDetail } from '@/lib/types/deployment';
@@ -12,16 +11,6 @@ export const metadata = {
 
 export default async function DeploymentDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  // Check authentication
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/login');
-  }
-
   // Fetch deployment from API
   let deployment: DeploymentDetail;
 

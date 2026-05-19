@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import type { Project, WebsiteProject, AppProject, ProjectStatus } from '@/lib/types/project';
+import type { Project, AppProject } from '@/lib/types/project';
 import { STATUS_COLORS, isProjectInactive, formatRelativeTime } from '@/lib/types/project';
 
 interface ProjectKanbanCardProps {
@@ -41,7 +41,10 @@ const APP_PLATFORM_CONFIG: Record<string, { color: string; icon: typeof Smartpho
 
 function TypeBadge({ project }: { project: Project }) {
   if (project.type === 'website') {
-    const config = WEBSITE_TYPE_CONFIG[project.websiteType] ?? WEBSITE_TYPE_CONFIG.Static;
+    const websiteType = project.websiteType?.trim();
+    if (!websiteType) return null;
+
+    const config = WEBSITE_TYPE_CONFIG[websiteType] ?? WEBSITE_TYPE_CONFIG.Static;
     const Icon = config.icon;
     return (
       <span
@@ -51,7 +54,7 @@ function TypeBadge({ project }: { project: Project }) {
         )}
       >
         <Icon className="h-3 w-3" />
-        {project.websiteType}
+        {websiteType}
       </span>
     );
   }
@@ -138,7 +141,10 @@ export function ProjectKanbanCard({
 }: ProjectKanbanCardProps) {
   const statusColor = STATUS_COLORS[project.status];
   const isInactive = isProjectInactive(project.status);
-  const relativeTime = useMemo(() => formatRelativeTime(project.updated_at), [project.updated_at]);
+  const relativeTime = useMemo(
+    () => (project.updated_at ? formatRelativeTime(project.updated_at) : null),
+    [project.updated_at],
+  );
 
   // Build detail page URL
   const detailUrl = useMemo(() => {
@@ -150,7 +156,7 @@ export function ProjectKanbanCard({
 
   // SEO URL (websites only)
   const seoUrl = useMemo(() => {
-    if (project.type === 'website' && project.seo_focus) {
+    if (project.type === 'website') {
       return `/dashboard/clients/${clientId}/websites/${project.id}/seo-focus`;
     }
     return null;
@@ -194,10 +200,12 @@ export function ProjectKanbanCard({
         </div>
 
         {/* Timestamp */}
-        <div className="mb-3 flex items-center gap-1.5 pl-6 text-xs text-[var(--pv-text-muted)]">
-          <Clock className="h-3 w-3" />
-          <span>Updated {relativeTime}</span>
-        </div>
+        {relativeTime && (
+          <div className="mb-3 flex items-center gap-1.5 pl-6 text-xs text-[var(--pv-text-muted)]">
+            <Clock className="h-3 w-3" />
+            <span>Updated {relativeTime}</span>
+          </div>
+        )}
 
         {/* Quick Actions - visible on hover */}
         <div className="flex items-center gap-1.5 pl-6 opacity-0 transition-opacity group-hover:opacity-100">
