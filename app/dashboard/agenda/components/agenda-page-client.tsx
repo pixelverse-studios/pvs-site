@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback, useEffect, type CSSProperties } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { Circle, Loader2, CheckCircle2, Plus, LayoutGrid, LayoutList } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -333,22 +333,27 @@ export function AgendaPageClient({ initialItems }: AgendaPageClientProps) {
                           ) : (
                             groupedItems[status].map((item, index) => (
                               <Draggable key={item.id} draggableId={item.id} index={index}>
-                                {(dragProvided, dragSnapshot) => (
-                                  <div
-                                    ref={dragProvided.innerRef}
-                                    {...dragProvided.draggableProps}
-                                    {...dragProvided.dragHandleProps}
-                                  >
-                                    <AgendaCard
-                                      item={item}
-                                      isDragging={dragSnapshot.isDragging}
-                                      onEdit={() => setSelectedItem(item)}
-                                      onDelete={() => setDeletingItem(item)}
-                                      onStatusChange={handleStatusChange}
-                                      onSelect={setSelectedItem}
-                                    />
-                                  </div>
-                                )}
+                                {(dragProvided, dragSnapshot) => {
+                                  const { style, ...draggableProps } = dragProvided.draggableProps;
+
+                                  return (
+                                    <div
+                                      ref={dragProvided.innerRef}
+                                      {...draggableProps}
+                                      {...dragProvided.dragHandleProps}
+                                      style={style as CSSProperties}
+                                    >
+                                      <AgendaCard
+                                        item={item}
+                                        isDragging={dragSnapshot.isDragging}
+                                        onEdit={() => setSelectedItem(item)}
+                                        onDelete={() => setDeletingItem(item)}
+                                        onStatusChange={handleStatusChange}
+                                        onSelect={setSelectedItem}
+                                      />
+                                    </div>
+                                  );
+                                }}
                               </Draggable>
                             ))
                           )}

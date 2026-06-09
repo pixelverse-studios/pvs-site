@@ -1,6 +1,7 @@
 'use client';
 
 import { Droppable, Draggable } from '@hello-pangea/dnd';
+import type { CSSProperties } from 'react';
 import { cn } from '@/lib/utils';
 import { StatusSelect } from './status-select';
 import type { Project, ProjectStatus } from '@/lib/types/project';
@@ -93,63 +94,76 @@ export function PipelineColumn({
                   const client = clientMap.get(project.client_id);
                   return (
                     <Draggable key={project.id} draggableId={project.id} index={index}>
-                      {(dragProvided, dragSnapshot) => (
-                        <div
-                          ref={dragProvided.innerRef}
-                          {...dragProvided.draggableProps}
-                          {...dragProvided.dragHandleProps}
-                          onClick={() => onEditProject?.(project)}
-                          className={cn(
-                            'cursor-pointer rounded-xl border p-4 transition-all',
-                            dragSnapshot.isDragging
-                              ? 'ring-[var(--pv-primary)]/20 shadow-lg ring-2'
-                              : 'hover:shadow-md',
-                          )}
-                          style={{
-                            background: 'var(--pv-surface)',
-                            borderColor: 'var(--pv-border)',
-                            ...dragProvided.draggableProps.style,
-                          }}
-                        >
-                          {/* Project Title */}
-                          <h4 className="font-medium text-[var(--pv-text)]">{project.title}</h4>
+                      {(dragProvided, dragSnapshot) => {
+                        const { style, ...draggableProps } = dragProvided.draggableProps;
 
-                          {/* Domain (for websites) */}
-                          {'domain' in project && project.domain && (
-                            <p className="mt-0.5 text-xs text-[var(--pv-text-muted)]">
-                              {project.domain}
-                            </p>
-                          )}
+                        return (
+                          <div
+                            ref={dragProvided.innerRef}
+                            {...draggableProps}
+                            {...dragProvided.dragHandleProps}
+                            onClick={() => onEditProject?.(project)}
+                            className={cn(
+                              'cursor-pointer rounded-xl border p-4 transition-all',
+                              dragSnapshot.isDragging
+                                ? 'ring-[var(--pv-primary)]/20 shadow-lg ring-2'
+                                : 'hover:shadow-md',
+                            )}
+                            style={{
+                              background: 'var(--pv-surface)',
+                              borderColor: 'var(--pv-border)',
+                              ...(style as CSSProperties),
+                            }}
+                          >
+                            {/* Project Title */}
+                            <h4 className="font-medium text-[var(--pv-text)]">{project.title}</h4>
 
-                          {/* Client Name */}
-                          {client && (
-                            <div className="mt-3 flex items-center gap-2 border-t border-[var(--pv-border)] pt-3">
-                              <div
-                                className="flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium"
-                                style={{
-                                  background:
-                                    'linear-gradient(135deg, var(--pv-primary), var(--pv-primary-2))',
-                                  color: 'white',
-                                }}
-                              >
-                                {getClientInitials(client)}
+                            {/* Domain (for websites) */}
+                            {'domain' in project && project.domain && (
+                              <p className="mt-0.5 text-xs text-[var(--pv-text-muted)]">
+                                {project.domain}
+                              </p>
+                            )}
+
+                            {/* Client Name */}
+                            {client && (
+                              <div className="mt-3 flex items-center gap-2 border-t border-[var(--pv-border)] pt-3">
+                                <div
+                                  className="flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium"
+                                  style={{
+                                    background:
+                                      'linear-gradient(135deg, var(--pv-primary), var(--pv-primary-2))',
+                                    color: 'white',
+                                  }}
+                                >
+                                  {getClientInitials(client)}
+                                </div>
+                                <span className="text-sm text-[var(--pv-text-muted)]">
+                                  {getClientDisplayName(client)}
+                                </span>
                               </div>
-                              <span className="text-sm text-[var(--pv-text-muted)]">
-                                {getClientDisplayName(client)}
-                              </span>
-                            </div>
-                          )}
+                            )}
 
-                          {/* Status & Type Row */}
-                          <div className="mt-2 flex items-center justify-between gap-2">
-                            {onStatusChange ? (
-                              <StatusSelect
-                                status={project.status}
-                                onChange={(newStatus) =>
-                                  onStatusChange(project.id, project.type, newStatus)
-                                }
-                              />
-                            ) : (
+                            {/* Status & Type Row */}
+                            <div className="mt-2 flex items-center justify-between gap-2">
+                              {onStatusChange ? (
+                                <StatusSelect
+                                  status={project.status}
+                                  onChange={(newStatus) =>
+                                    onStatusChange(project.id, project.type, newStatus)
+                                  }
+                                />
+                              ) : (
+                                <span
+                                  className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium"
+                                  style={{
+                                    background: 'var(--pv-border)',
+                                    color: 'var(--pv-text-muted)',
+                                  }}
+                                >
+                                  {project.type === 'website' ? 'Website' : 'App'}
+                                </span>
+                              )}
                               <span
                                 className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium"
                                 style={{
@@ -159,19 +173,10 @@ export function PipelineColumn({
                               >
                                 {project.type === 'website' ? 'Website' : 'App'}
                               </span>
-                            )}
-                            <span
-                              className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium"
-                              style={{
-                                background: 'var(--pv-border)',
-                                color: 'var(--pv-text-muted)',
-                              }}
-                            >
-                              {project.type === 'website' ? 'Website' : 'App'}
-                            </span>
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        );
+                      }}
                     </Draggable>
                   );
                 })
