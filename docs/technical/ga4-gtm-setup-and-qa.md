@@ -134,7 +134,7 @@ Run this checklist in GTM Preview, then confirm GA4 DebugView.
 
 ### Campaign Landing
 
-1. Open `/contact/details?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=phil_card_v1`.
+1. Open `/?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=phil_card_v1`.
 2. Confirm attribution is captured in browser storage.
 3. Confirm no PII is present in GTM Preview.
 4. Confirm `campaign_landing` fires once for the UTM landing and includes `traffic_source`, `traffic_medium`, `campaign`, `campaign_content`, and `page_path`.
@@ -198,14 +198,20 @@ Check that these clean URLs preserve UTM parameters after redirect:
 /go/card-phil
 /go/card-sami
 /go/flyer
+/go/nnjcc
+/go/njcc
+/go/njcc-live-audit
 ```
 
 Expected targets:
 
 ```text
-/contact/details?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=phil_card_v1
-/contact/details?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=sami_card_v1
-/contact/review?utm_source=flyer&utm_medium=qr&utm_campaign=local_print_2026&utm_content=general_flyer_v1
+/?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=phil_card_v1
+/?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=sami_card_v1
+/?utm_source=flyer&utm_medium=qr&utm_campaign=local_print_2026&utm_content=general_flyer_v1
+/?utm_source=nnjcc&utm_medium=press_release&utm_campaign=nnjcc_press_release_2026&utm_content=embedded_link
+/?utm_source=njcc&utm_medium=press_release&utm_campaign=nnjcc_press_release_2026&utm_content=embedded_link
+/?utm_source=njcc&utm_medium=event&utm_campaign=njcc_live_audit_sale_2026&utm_content=live_audit
 ```
 
 ## Local Verification Commands
@@ -213,7 +219,7 @@ Expected targets:
 Use this redirect verification command from the project root:
 
 ```bash
-node -e "Promise.resolve(require('./next.config.js').redirects()).then((redirects)=>{for (const source of ['/go/card-phil','/go/card-sami','/go/flyer']) { const match = redirects.find((redirect) => redirect.source === source); console.log(source + ' -> ' + (match ? match.destination : 'MISSING')); if (!match) process.exitCode = 1; }}).catch((error)=>{ console.error(error); process.exit(1); })"
+node -e "Promise.resolve(require('./next.config.js').redirects()).then((redirects)=>{for (const source of ['/go/card-phil','/go/card-sami','/go/flyer','/go/nnjcc','/go/njcc','/go/njcc-live-audit']) { const match = redirects.find((redirect) => redirect.source === source); console.log(source + ' -> ' + (match ? match.destination : 'MISSING')); if (!match) process.exitCode = 1; }}).catch((error)=>{ console.error(error); process.exit(1); })"
 ```
 
 Run standard project verification before publishing tracking changes:

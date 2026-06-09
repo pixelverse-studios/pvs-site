@@ -127,19 +127,37 @@ const nextConfig = {
       {
         source: '/go/card-phil',
         destination:
-          '/contact/details?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=phil_card_v1',
+          '/?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=phil_card_v1',
         permanent: false,
       },
       {
         source: '/go/card-sami',
         destination:
-          '/contact/details?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=sami_card_v1',
+          '/?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=sami_card_v1',
         permanent: false,
       },
       {
         source: '/go/flyer',
         destination:
-          '/contact/review?utm_source=flyer&utm_medium=qr&utm_campaign=local_print_2026&utm_content=general_flyer_v1',
+          '/?utm_source=flyer&utm_medium=qr&utm_campaign=local_print_2026&utm_content=general_flyer_v1',
+        permanent: false,
+      },
+      {
+        source: '/go/nnjcc',
+        destination:
+          '/?utm_source=nnjcc&utm_medium=press_release&utm_campaign=nnjcc_press_release_2026&utm_content=embedded_link',
+        permanent: false,
+      },
+      {
+        source: '/go/njcc',
+        destination:
+          '/?utm_source=njcc&utm_medium=press_release&utm_campaign=nnjcc_press_release_2026&utm_content=embedded_link',
+        permanent: false,
+      },
+      {
+        source: '/go/njcc-live-audit',
+        destination:
+          '/?utm_source=njcc&utm_medium=event&utm_campaign=njcc_live_audit_sale_2026&utm_content=live_audit',
         permanent: false,
       },
       {

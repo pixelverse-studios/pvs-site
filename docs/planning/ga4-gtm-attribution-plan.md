@@ -87,14 +87,20 @@ Initial clean URLs:
 /go/card-phil
 /go/card-sami
 /go/flyer
+/go/nnjcc
+/go/njcc
+/go/njcc-live-audit
 ```
 
 Initial redirect targets:
 
 ```text
-/contact/details?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=phil_card_v1
-/contact/details?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=sami_card_v1
-/contact/review?utm_source=flyer&utm_medium=qr&utm_campaign=local_print_2026&utm_content=general_flyer_v1
+/?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=phil_card_v1
+/?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=sami_card_v1
+/?utm_source=flyer&utm_medium=qr&utm_campaign=local_print_2026&utm_content=general_flyer_v1
+/?utm_source=nnjcc&utm_medium=press_release&utm_campaign=nnjcc_press_release_2026&utm_content=embedded_link
+/?utm_source=njcc&utm_medium=press_release&utm_campaign=nnjcc_press_release_2026&utm_content=embedded_link
+/?utm_source=njcc&utm_medium=event&utm_campaign=njcc_live_audit_sale_2026&utm_content=live_audit
 ```
 
 The clean URL should be the QR destination. The redirect target carries the full UTM payload for GA4.
@@ -107,7 +113,8 @@ The clean URL should be the QR destination. The redirect target carries the full
 | Meta Ads | `meta` | `paid_social` | `lead_gen_2026` | creative variant |
 | Business cards | `business_card` | `qr` | `local_print_2026` | person/card version |
 | Fliers | `flyer` | `qr` | `local_print_2026` | location/batch |
-| Chamber/event | `event` | `qr` | event name/year | booth/card/version |
+| Partner event / sale | partner code, e.g. `njcc` | `event` | event sale name/year | offer or landing variant |
+| Event QR only | partner code, e.g. `njcc` | `qr` | event name/year | booth/card/version |
 | Manual outreach | `outreach` | `direct` | campaign name | list or message version |
 
 Use lowercase, underscores, and stable names so reports stay clean.
