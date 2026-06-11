@@ -170,7 +170,7 @@ export const caseStudies: CaseStudy[] = [
       description:
         'The nightly planning flow was designed to stay under two minutes, light enough to become a real habit. Early users consistently highlight the plan lock feature and streak tracker as the elements that keep them coming back. Retention patterns show that users who complete the onboarding flow and plan for three consecutive nights are significantly more likely to maintain the habit long-term, validating the behavioral design approach we built the entire experience around.',
     },
-    img: '/projects/Domani1.png',
+    img: '/projects/DomaniHero.jpg',
     url: 'https://www.domani-app.com',
     services: ['mobile-app'],
   },

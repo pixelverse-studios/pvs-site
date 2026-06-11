@@ -9,6 +9,10 @@ import { createCaseStudyBreadcrumbSchema, createCaseStudySchema } from '@/lib/st
 
 type Params = { slug: string };
 
+function resolveImageUrl(src: string) {
+  return src.startsWith('http') ? src : `https://pixelversestudios.io${src}`;
+}
+
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -35,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
       'PixelVerse Studios portfolio',
     ],
     ogImage: {
-      url: `https://pixelversestudios.io${study.img}`,
+      url: resolveImageUrl(study.img),
       width: 1200,
       height: 630,
       alt: `${study.name} website, built by PixelVerse Studios`,
