@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
-import { motion } from 'framer-motion';
+import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight, Box, Building2, Heart, Wrench } from 'lucide-react';
 
@@ -19,23 +19,55 @@ const industryIconMap: Record<string, React.ComponentType<{ className?: string }
 
 export function CaseStudySection() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isHeaderCompact, setIsHeaderCompact] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const isHeaderCompactRef = useRef(false);
   const study = caseStudies[activeIndex];
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start 128px', 'start 48px'],
+  });
+
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    const shouldCompact = latest > 0.45;
+    if (isHeaderCompactRef.current !== shouldCompact) {
+      isHeaderCompactRef.current = shouldCompact;
+      setIsHeaderCompact(shouldCompact);
+    }
+  });
 
   if (!study) return null;
 
   return (
     <section
+      ref={sectionRef}
       className="border-b border-[var(--pv-border)] bg-[var(--pv-surface)]"
       aria-labelledby="case-study-heading"
     >
       <Container className="py-16 md:py-24">
         <div className="space-y-12">
           {/* Eyebrow */}
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]">
+          <motion.div
+            layout
+            transition={{ type: 'spring', stiffness: 85, damping: 22 }}
+            className={`top-44 z-20 flex flex-col gap-4 bg-[var(--pv-surface)]/95 py-3 backdrop-blur-sm sm:items-start xl:sticky ${
+              isHeaderCompact ? 'xl:w-72 xl:gap-3' : 'xl:w-full xl:flex-row xl:items-center'
+            }`}
+          >
+            <motion.p
+              layout
+              className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--pv-primary)]"
+            >
               Case Study
-            </p>
-            <div className="hidden h-px flex-1 bg-[var(--pv-border)] sm:block" />
+            </motion.p>
+            <motion.div
+              layout
+              aria-hidden="true"
+              className={`hidden h-px origin-left bg-[var(--pv-border)] sm:block ${
+                isHeaderCompact ? 'xl:w-14 xl:flex-none' : 'xl:flex-1'
+              }`}
+              transition={{ type: 'spring', stiffness: 90, damping: 24 }}
+            />
             <Link
               href="/portfolio"
               className="group inline-flex w-fit items-center gap-2 text-sm font-medium text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-surface)]"
@@ -46,14 +78,14 @@ export function CaseStudySection() {
                 aria-hidden="true"
               />
             </Link>
-          </div>
+          </motion.div>
 
           {/* Sidebar selector + content */}
-          <div className="flex flex-col gap-8 xl:flex-row xl:gap-12">
+          <div className="flex flex-col items-start gap-8 xl:flex-row xl:gap-12">
             {/* Left: Vertical card selector */}
             {caseStudies.length > 1 && (
               <div
-                className="flex gap-3 overflow-x-auto xl:w-72 xl:shrink-0 xl:flex-col xl:gap-2 xl:overflow-visible"
+                className="flex w-full gap-3 overflow-x-auto xl:sticky xl:top-72 xl:w-72 xl:shrink-0 xl:flex-col xl:gap-2 xl:self-start xl:overflow-visible"
                 role="tablist"
                 aria-label="Case studies"
               >
