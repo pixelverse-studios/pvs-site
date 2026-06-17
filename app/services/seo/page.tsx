@@ -10,10 +10,12 @@ import {
   ServiceCta,
   ServiceFAQ,
   ServiceAreaLinks,
+  SeoPackagePricingSection,
 } from '@/components/services/individual';
 import { Container } from '@/components/ui/container';
 import { StructuredData } from '@/components/ui/structured-data';
-import { seoContent } from '@/data/seo-content';
+import { formatMonthlyStartingPrice } from '@/data/package-pricing';
+import { getLowestSeoMonthlyPrice, seoContent } from '@/data/seo-content';
 
 export const metadata: Metadata = createPageMetadata({
   title: 'Local SEO Services | New Jersey',
@@ -52,6 +54,7 @@ export default function SEOServicesPage() {
     howWeEvaluate,
     whenOptimizationIsRight,
     whatToExpect,
+    pricing,
     faq,
     finalCta,
   } = seoContent;
@@ -67,7 +70,12 @@ export default function SEOServicesPage() {
         title={hero.title}
         description={hero.description}
         primaryCta={hero.cta}
+        secondaryCta={{ label: 'Request a Website Review', href: '/contact/review' }}
         icon={Search}
+        startingPrice={{
+          label: 'Recurring SEO starts at',
+          price: formatMonthlyStartingPrice(getLowestSeoMonthlyPrice()),
+        }}
       />
 
       {/* 2. Why Businesses Look at Local SEO & Optimization */}
@@ -79,7 +87,15 @@ export default function SEOServicesPage() {
         background="bg"
       />
 
-      {/* 3. Why Local SEO Isn't Just About Rankings */}
+      {/* 3. Recurring SEO Package Options */}
+      <SeoPackagePricingSection
+        eyebrow={pricing.eyebrow}
+        title={pricing.title}
+        intro={pricing.intro}
+        packages={pricing.packages}
+      />
+
+      {/* 4. Why Local SEO Isn't Just About Rankings */}
       <ServiceNarrativeSection
         eyebrow="The Full Picture"
         title={whyNotJustRankings.title}
@@ -90,7 +106,7 @@ export default function SEOServicesPage() {
         background="bg"
       />
 
-      {/* 4. How We Evaluate What's Holding a Site Back */}
+      {/* 5. How We Evaluate What's Holding a Site Back */}
       <ServiceNarrativeSection
         eyebrow="Our Approach"
         title={howWeEvaluate.title}
@@ -101,7 +117,7 @@ export default function SEOServicesPage() {
         background="surface"
       />
 
-      {/* 5. When Local Optimization Is the Right Move */}
+      {/* 6. When Local Optimization Is the Right Move */}
       <div className="bg-[var(--pv-bg)]">
         <ServiceNarrativeSection
           eyebrow="Finding the Right Path"
@@ -122,7 +138,7 @@ export default function SEOServicesPage() {
         </Container>
       </div>
 
-      {/* 6. What You Can Expect From Local Optimization Work */}
+      {/* 7. What You Can Expect From Local Optimization Work */}
       <ServiceNarrativeSection
         eyebrow="Practical Outcomes"
         title={whatToExpect.title}
@@ -133,16 +149,16 @@ export default function SEOServicesPage() {
         background="surface"
       />
 
-      {/* 7. FAQ */}
+      {/* 8. FAQ */}
       <ServiceFAQ
         faqs={faq}
         schemaId="seo-faq-schema"
       />
 
-      {/* 8. Service Area Links */}
+      {/* 9. Service Area Links */}
       <ServiceAreaLinks />
 
-      {/* 9. Final CTA */}
+      {/* 10. Final CTA */}
       <ServiceCta
         heading={finalCta.title}
         description={finalCta.description}

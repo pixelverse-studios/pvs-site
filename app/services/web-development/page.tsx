@@ -13,6 +13,7 @@ import {
 } from '@/components/services/individual';
 import { Container } from '@/components/ui/container';
 import { StructuredData } from '@/components/ui/structured-data';
+import { formatStartingPrice, packageStartingPrices } from '@/data/package-pricing';
 import { webDevelopmentContent } from '@/data/web-development-content';
 
 export const metadata: Metadata = createPageMetadata({
@@ -67,7 +68,12 @@ export default function WebDevelopmentPage() {
         title={hero.title}
         description={hero.description}
         primaryCta={hero.cta}
+        secondaryCta={{ label: 'Request a Website Review', href: '/contact/review' }}
         icon={Code2}
+        startingPrice={{
+          label: 'Website packages start as low as',
+          price: formatStartingPrice(packageStartingPrices.web),
+        }}
       />
 
       {/* 2. When a New Website Is the Right Move */}

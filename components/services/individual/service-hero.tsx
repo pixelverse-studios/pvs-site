@@ -4,6 +4,7 @@ import { TrackedLink } from '@/components/analytics/tracked-link';
 import { Container } from '@/components/ui/container';
 import { Button } from '@/components/ui/button';
 import { MotionItem, MotionSection } from '@/components/ui/motion-section';
+import { StartingPriceCue, type StartingPriceCueProps } from '@/components/ui/starting-price-cue';
 
 /**
  * CTA link with fully customizable label text.
@@ -66,6 +67,8 @@ export interface ServiceHeroProps {
   secondaryCta?: CtaLink;
   /** Optional icon displayed alongside the eyebrow */
   icon?: LucideIcon;
+  /** Optional compact starting-price cue displayed after CTAs */
+  startingPrice?: StartingPriceCueProps;
 }
 
 export function ServiceHero({
@@ -75,6 +78,7 @@ export function ServiceHero({
   primaryCta,
   secondaryCta,
   icon: Icon,
+  startingPrice,
 }: ServiceHeroProps) {
   return (
     <section className="bg-[var(--pv-surface)] pb-16 pt-hero md:pb-24">
@@ -133,6 +137,11 @@ export function ServiceHero({
               </Button>
             )}
           </MotionItem>
+          {startingPrice && (
+            <MotionItem delay={0.2}>
+              <StartingPriceCue {...startingPrice} />
+            </MotionItem>
+          )}
         </MotionSection>
       </Container>
     </section>

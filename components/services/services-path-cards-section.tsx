@@ -39,6 +39,9 @@ export function ServicesPathCardsSection() {
                       <p className="text-[0.9375rem] leading-relaxed text-[var(--pv-text-muted)]">
                         {path.body}
                       </p>
+                      <div className="inline-flex w-fit rounded-full border border-[color-mix(in_srgb,var(--pv-primary)_16%,var(--pv-border))] bg-[color-mix(in_srgb,var(--pv-primary)_5%,transparent)] px-3 py-1.5 text-xs font-semibold text-[var(--pv-primary)]">
+                        {path.startingAt}
+                      </div>
                       <div className="mt-auto pt-4">
                         <TrackedLink
                           href={path.cta.href}

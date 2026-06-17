@@ -1,4 +1,9 @@
 import type { FaqItem } from '@/data/faq-types';
+import {
+  formatMonthlyStartingPrice,
+  formatStartingPrice,
+  packageStartingPrices,
+} from '@/data/package-pricing';
 
 export const homepageFaq: FaqItem[] = [
   {
@@ -14,9 +19,13 @@ export const homepageFaq: FaqItem[] = [
   },
   {
     question: 'How much does a custom website typically cost in New Jersey?',
-    answer:
-      'Most custom website projects for small-to-mid-size businesses in New Jersey fall in the $3,000\u2013$10,000+ range. Scope, number of pages, integrations, and content work all affect the final number. We don\u2019t price from a menu. We scope each project based on what your business actually needs.',
+    answer: `Website packages can start at ${formatStartingPrice(packageStartingPrices.web)}, with larger custom website projects for small-to-mid-size businesses in New Jersey often scaling based on scope, number of pages, integrations, and content work. We do not force every project into the same package. We scope based on what your business actually needs.`,
     link: { label: 'Share your project details', href: '/contact/details' },
+  },
+  {
+    question: 'How much do SEO packages start at?',
+    answer: `Recurring SEO starts at ${formatMonthlyStartingPrice(packageStartingPrices.seoMonthly)}. From there, pricing depends on keyword coverage, location coverage, support cadence, and reporting depth. The goal is to match the level of SEO support to the market you are actually competing in.`,
+    link: { label: 'Explore local SEO services', href: '/services/seo' },
   },
   {
     question: 'How long does it take to build a custom website?',

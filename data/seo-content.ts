@@ -1,5 +1,6 @@
 import type { CTA } from './service-paths';
 import type { FaqItem } from '@/data/faq-types';
+import { packageStartingPrices } from '@/data/package-pricing';
 
 export interface SeoContentData {
   hero: {
@@ -34,12 +35,43 @@ export interface SeoContentData {
     bulletPoints: string[];
     closing: string;
   };
+  pricing: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    packages: SeoPricingPackage[];
+  };
   faq: FaqItem[];
   finalCta: {
     title: string;
     description: string;
     cta: CTA;
   };
+}
+
+export interface SeoPricingPackage {
+  name: 'Basic' | 'Advanced' | 'Pro' | 'Custom';
+  monthlyPrice: number | null;
+  description: string;
+  highlights: string[];
+  note?: string;
+}
+
+export const seoBillingOptions = [
+  { id: 'monthly', label: 'Monthly', months: 1, discount: 0, suffix: '/mo' },
+  { id: 'quarterly', label: 'Quarterly', months: 3, discount: 0.15, suffix: '/qtr' },
+  { id: 'annual', label: 'Annual', months: 12, discount: 0.2, suffix: '/yr' },
+] as const;
+
+export type SeoBillingOption = (typeof seoBillingOptions)[number];
+export type SeoBillingOptionId = SeoBillingOption['id'];
+
+export function getLowestSeoMonthlyPrice() {
+  return Math.min(
+    ...seoContent.pricing.packages
+      .map((pkg) => pkg.monthlyPrice)
+      .filter((price): price is number => typeof price === 'number'),
+  );
 }
 
 export const seoContent: SeoContentData = {
@@ -106,11 +138,64 @@ export const seoContent: SeoContentData = {
     closing:
       'The goal isn\u2019t short-term spikes. It\u2019s a site that consistently supports steady local visibility and informed decision-making over time, whether you\u2019re serving Bergen County, Northern New Jersey, or beyond.',
   },
+  pricing: {
+    eyebrow: 'Recurring SEO Packages',
+    title: 'Start with the level of support your market actually needs.',
+    intro:
+      'These packages are focused on recurring SEO support: keywords, locations, visibility checks, practical recommendations, and reporting. We keep the scope clear so the first conversation can focus on fit.',
+    packages: [
+      {
+        name: 'Basic',
+        monthlyPrice: packageStartingPrices.seoMonthly,
+        description: 'For a focused local presence that needs consistent visibility tracking.',
+        highlights: [
+          'Core keyword tracking',
+          '1 focus location',
+          'Light monthly reporting',
+          'Priority recommendations',
+        ],
+      },
+      {
+        name: 'Advanced',
+        monthlyPrice: 400,
+        description: 'For businesses competing across a focused local service area.',
+        highlights: [
+          'Expanded keyword set',
+          '2-3 focus locations',
+          'Monthly optimization support',
+          'GBP and website recommendations',
+        ],
+      },
+      {
+        name: 'Pro',
+        monthlyPrice: 650,
+        description: 'For active local growth with broader visibility and support needs.',
+        highlights: [
+          'Broader keyword coverage',
+          'Multiple location priorities',
+          'Competitor visibility checks',
+          'Stronger reporting cadence',
+        ],
+      },
+      {
+        name: 'Custom',
+        monthlyPrice: null,
+        description: 'For multi-location, competitive, or content-heavy SEO needs.',
+        highlights: [
+          'Custom keyword and location scope',
+          'Technical and content planning',
+          'Reporting matched to goals',
+          'Support cadence by agreement',
+        ],
+        note: 'Scoped after review',
+      },
+    ],
+  },
   faq: [
     {
       question: 'How much does local SEO cost?',
       answer:
-        'Local SEO engagements vary based on what the site actually needs. Most projects for small-to-mid-size businesses fall in the $1,500\u2013$5,000+ range for an initial optimization engagement, with ongoing work structured separately depending on scope. We evaluate first and scope based on what will move the needle, not a fixed package.',
+        'Our recurring local SEO packages start at $200/month and scale based on keyword coverage, location coverage, support cadence, and reporting depth. We evaluate the site first so we can recommend the level of recurring support that actually fits the business.',
       link: { label: 'Share your situation', href: '/contact/details' },
     },
     {

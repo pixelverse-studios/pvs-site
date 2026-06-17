@@ -1,3 +1,9 @@
+import {
+  formatMonthlyStartingPrice,
+  formatStartingPrice,
+  packageStartingPrices,
+} from '@/data/package-pricing';
+
 export interface CTA {
   label: string;
   href: string;
@@ -25,6 +31,7 @@ export interface ServicePath {
   title: string;
   description: string;
   body: string;
+  startingAt: string;
   cta: CTA;
 }
 
@@ -58,6 +65,7 @@ export const servicePaths: ServicePath[] = [
     description:
       'For businesses that need a website built from the ground up, or a rebuild when the current site no longer reflects how the business operates. This includes startups launching their first online presence, established companies outgrowing template sites, and businesses whose current website no longer reflects the quality of their work.',
     body: 'This work focuses on planning, structure, design, and development working together to create a site that is clear, usable, and built to support real business goals. Every project starts with understanding who the site is for, what action visitors should take, and what information they need before they feel confident enough to take it. The result is a website built with intention: from information architecture and content strategy to responsive design and performance optimization.',
+    startingAt: `Website packages start at ${formatStartingPrice(packageStartingPrices.web)}`,
     cta: {
       label: 'Learn more about Web Design & Development',
       href: '/services/web-development',
@@ -70,6 +78,7 @@ export const servicePaths: ServicePath[] = [
     description:
       'For businesses with an existing website that want stronger local visibility, clearer positioning, and better performance over time. This is for companies that already have a site but aren\u2019t showing up where their customers are searching, or aren\u2019t converting the traffic they do get into real inquiries.',
     body: 'This work focuses on improving how a site shows up in local search, how clearly it communicates services and locations, and how effectively it turns visitors into action. That includes restructuring service and location pages to match how people actually search, strengthening Google Business Profile integration, improving site performance and technical health, and refining messaging so visitors understand what\u2019s offered and whether it fits. Optimization and SEO are treated as ongoing efforts, not one-time fixes.',
+    startingAt: `Recurring SEO starts at ${formatMonthlyStartingPrice(packageStartingPrices.seoMonthly)}`,
     cta: {
       label: 'Learn more about Local Website Optimization & SEO',
       href: '/services/seo',

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
@@ -148,6 +148,7 @@ export function ContactDetailsForm() {
   const lastSubmitRef = useRef<number>(0);
   const hasTrackedFormStartRef = useRef(false);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [interestedInSelections, setInterestedInSelections] = useState<Set<string>>(new Set());
 
   const {
@@ -192,6 +193,23 @@ export function ContactDetailsForm() {
       setValue('promoCode', promoFromUrl, { shouldValidate: false, shouldDirty: false });
     }
   }, [promoFromUrl, setValue]);
+
+  // Allow service/package CTAs to prefill high-intent context.
+  useEffect(() => {
+    const interest = searchParams.get('interest');
+    const details = searchParams.get('details')?.trim();
+
+    if (interest === 'web-design' || interest === 'seo' || interest === 'unsure') {
+      setInterestedInSelections(new Set([interest]));
+    }
+
+    if (details) {
+      setValue('briefSummary', details.slice(0, 2000), {
+        shouldValidate: false,
+        shouldDirty: false,
+      });
+    }
+  }, [searchParams, setValue]);
 
   // Show the friendly label only when the current value is a known active code.
   const knownPromo = findPromoCode(watchedPromoCode);

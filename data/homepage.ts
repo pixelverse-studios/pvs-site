@@ -6,6 +6,11 @@
 
 import { validateHomepageHero } from '@/lib/validation/homepage';
 import { caseStudies as allCaseStudies } from '@/data/case-studies';
+import {
+  formatMonthlyStartingPrice,
+  formatStartingPrice,
+  packageStartingPrices,
+} from '@/data/package-pricing';
 
 // ----------------------------------------------------------------------------
 // Type Definitions
@@ -64,6 +69,7 @@ export interface Service {
   summary: string;
   icon: string;
   href: string;
+  startingAt?: string;
 }
 
 export interface Testimonial {
@@ -237,6 +243,7 @@ export const services: Service[] = [
       'Creating custom websites that are user-focused, conversion-optimized, and built to support your business goals. From initial design to development and launch.',
     icon: 'palette',
     href: '/services/web-development',
+    startingAt: `Website packages start at ${formatStartingPrice(packageStartingPrices.web)}`,
   },
   {
     title: 'Website Optimization & SEO',
@@ -244,6 +251,7 @@ export const services: Service[] = [
       'Improving search rankings and visibility through site structure, content optimization, performance improvements, and local SEO strategies that help the right customers find your business.',
     icon: 'search',
     href: '/services/seo',
+    startingAt: `Recurring SEO starts at ${formatMonthlyStartingPrice(packageStartingPrices.seoMonthly)}`,
   },
   {
     title: 'Ongoing Support & Iteration',

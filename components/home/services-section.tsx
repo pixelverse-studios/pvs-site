@@ -69,6 +69,12 @@ export function ServicesSection() {
                         {service.summary}
                       </p>
 
+                      {service.startingAt && (
+                        <div className="mt-6 inline-flex w-fit rounded-full border border-[var(--pv-border)] bg-[var(--pv-bg)] px-3 py-1.5 text-xs font-semibold text-[var(--pv-primary)]">
+                          {service.startingAt}
+                        </div>
+                      )}
+
                       {/* Link indicator */}
                       <div className="mt-6 flex items-center gap-1.5 text-sm font-medium text-[var(--pv-primary)] opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                         <span>Learn more</span>

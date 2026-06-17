@@ -32,3 +32,6 @@ export { ServiceExpectations } from './service-expectations';
 export type { ServiceExpectationsProps, ServiceExpectationItem } from './service-expectations';
 
 export { ServiceAreaLinks } from './service-area-links';
+
+export { SeoPackagePricingSection } from './seo-package-pricing-section';
+export type { SeoPackagePricingSectionProps } from './seo-package-pricing-section';
