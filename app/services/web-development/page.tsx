@@ -10,6 +10,7 @@ import {
   ServiceCta,
   ServiceFAQ,
   ServiceAreaLinks,
+  ServicePackagePricingSection,
 } from '@/components/services/individual';
 import { Container } from '@/components/ui/container';
 import { StructuredData } from '@/components/ui/structured-data';
@@ -53,6 +54,7 @@ export default function WebDevelopmentPage() {
     howWePlan,
     designAndDevelopment,
     whatToExpect,
+    pricing,
     faq,
     finalCta,
   } = webDevelopmentContent;
@@ -99,7 +101,21 @@ export default function WebDevelopmentPage() {
         </Container>
       </div>
 
-      {/* 3. Why Builds Go Wrong */}
+      {/* 3. Website Package Options */}
+      <ServicePackagePricingSection
+        id="web-development-pricing-heading"
+        eyebrow={pricing.eyebrow}
+        title={pricing.title}
+        intro={pricing.intro}
+        packages={pricing.packages}
+        serviceLabel="Website"
+        interest="web-design"
+        detailsLabel="website"
+        setupLabel="Project starts at"
+        recurringLabel="Ongoing support"
+      />
+
+      {/* 4. Why Builds Go Wrong */}
       <ServiceNarrativeSection
         eyebrow="The Reality"
         title={whyBuildsGoWrong.title}
@@ -108,7 +124,7 @@ export default function WebDevelopmentPage() {
         background="surface"
       />
 
-      {/* 4. How We Plan Before We Build */}
+      {/* 5. How We Plan Before We Build */}
       <ServiceNarrativeSection
         eyebrow="Our Approach"
         title={howWePlan.title}
@@ -119,7 +135,7 @@ export default function WebDevelopmentPage() {
         background="bg"
       />
 
-      {/* 5. Design and Development Working Together */}
+      {/* 6. Design and Development Working Together */}
       <ServiceNarrativeSection
         eyebrow="How We Build"
         title={designAndDevelopment.title}
@@ -129,7 +145,7 @@ export default function WebDevelopmentPage() {
         background="surface"
       />
 
-      {/* 6. What to Expect From a Build */}
+      {/* 7. What to Expect From a Build */}
       <ServiceNarrativeSection
         eyebrow="The Process"
         title={whatToExpect.title}
@@ -140,16 +156,16 @@ export default function WebDevelopmentPage() {
         background="bg"
       />
 
-      {/* 7. FAQ */}
+      {/* 8. FAQ */}
       <ServiceFAQ
         faqs={faq}
         schemaId="web-development-faq-schema"
       />
 
-      {/* 8. Service Area Links */}
+      {/* 9. Service Area Links */}
       <ServiceAreaLinks />
 
-      {/* 9. Final CTA */}
+      {/* 10. Final CTA */}
       <ServiceCta
         heading={finalCta.title}
         description={finalCta.description}

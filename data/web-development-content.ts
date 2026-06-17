@@ -1,5 +1,6 @@
 import type { CTA } from './service-paths';
 import type { FaqItem } from '@/data/faq-types';
+import { packageStartingPrices } from '@/data/package-pricing';
 
 export interface WebDevContentData {
   hero: {
@@ -35,12 +36,27 @@ export interface WebDevContentData {
     bulletPoints: string[];
     closing: string;
   };
+  pricing: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    packages: WebPricingPackage[];
+  };
   faq: FaqItem[];
   finalCta: {
     title: string;
     description: string;
     cta: CTA;
   };
+}
+
+export interface WebPricingPackage {
+  name: 'Basic' | 'Advanced' | 'Pro' | 'Custom';
+  setupPrice: number | null;
+  monthlyPrice: number | null;
+  description: string;
+  highlights: string[];
+  note?: string;
 }
 
 export const webDevelopmentContent: WebDevContentData = {
@@ -110,6 +126,63 @@ export const webDevelopmentContent: WebDevContentData = {
     ],
     closing:
       'The result is a site that reflects the business accurately, supports its next stage of growth, and is positioned to compete in Bergen County and across New Jersey.',
+  },
+  pricing: {
+    eyebrow: 'Website Packages',
+    title: 'Choose a starting point for the site you actually need.',
+    intro:
+      'Website projects are primarily scoped upfront, with a lighter monthly care plan to keep the site supported after launch. We keep the tiers simple so the first conversation can focus on fit.',
+    packages: [
+      {
+        name: 'Basic',
+        setupPrice: packageStartingPrices.web,
+        monthlyPrice: 35,
+        description: 'For a starter site, focused refresh, or direct website update scope.',
+        highlights: [
+          'Focused page structure',
+          'Mobile responsive build',
+          'Basic technical setup',
+          'Monthly hosting, uptime checks, and minor edits',
+        ],
+      },
+      {
+        name: 'Advanced',
+        setupPrice: 1500,
+        monthlyPrice: 50,
+        description: 'For a small business site that needs stronger structure and polish.',
+        highlights: [
+          'Expanded page planning',
+          'SEO-ready structure',
+          'Conversion-focused sections',
+          'Monthly updates and small technical fixes',
+        ],
+      },
+      {
+        name: 'Pro',
+        setupPrice: 3000,
+        monthlyPrice: 75,
+        description: 'For larger custom sites with deeper content and conversion needs.',
+        highlights: [
+          'Custom site strategy',
+          'Expanded UX planning',
+          'Launch support',
+          'Monthly priority updates and support requests',
+        ],
+      },
+      {
+        name: 'Custom',
+        setupPrice: null,
+        monthlyPrice: null,
+        description: 'For CMS, integrations, ecommerce, portals, or complex website needs.',
+        highlights: [
+          'Custom CMS planning',
+          'Advanced integrations',
+          'Complex page architecture',
+          'Support matched to scope',
+        ],
+        note: 'Scoped after review',
+      },
+    ],
   },
   faq: [
     {

@@ -35,3 +35,9 @@ export { ServiceAreaLinks } from './service-area-links';
 
 export { SeoPackagePricingSection } from './seo-package-pricing-section';
 export type { SeoPackagePricingSectionProps } from './seo-package-pricing-section';
+
+export { ServicePackagePricingSection } from './service-package-pricing-section';
+export type {
+  ServicePackagePricingSectionProps,
+  ServicePricingPackage,
+} from './service-package-pricing-section';

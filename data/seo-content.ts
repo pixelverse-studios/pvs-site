@@ -57,15 +57,6 @@ export interface SeoPricingPackage {
   note?: string;
 }
 
-export const seoBillingOptions = [
-  { id: 'monthly', label: 'Monthly', months: 1, discount: 0, suffix: '/mo' },
-  { id: 'quarterly', label: 'Quarterly', months: 3, discount: 0.15, suffix: '/qtr' },
-  { id: 'annual', label: 'Annual', months: 12, discount: 0.2, suffix: '/yr' },
-] as const;
-
-export type SeoBillingOption = (typeof seoBillingOptions)[number];
-export type SeoBillingOptionId = SeoBillingOption['id'];
-
 export function getLowestSeoMonthlyPrice() {
   return Math.min(
     ...seoContent.pricing.packages
