@@ -7,39 +7,24 @@ import {
   FileText,
   Search,
   Mail,
+  Phone,
+  Globe2,
   Clock,
   MessageSquare,
   Loader2,
   CheckCircle2,
+  AlertCircle,
+  Inbox,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getApiBaseUrl } from '@/lib/api-config';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet';
+import { Drawer, Select } from '@mantine/core';
 import {
   Prospect,
   ProspectSource,
   ProspectStatus,
-  SOURCE_LABELS,
   STATUS_LABELS,
-  SOURCE_COLORS,
-  STATUS_COLORS,
 } from './types';
-
-// ─── Badge helpers ────────────────────────────────────────────────────────────
-
-function SourceBadge({ source }: { source: ProspectSource }) {
-  const c = SOURCE_COLORS[source];
-  return (
-    <span className={cn('rounded-full border px-2.5 py-0.5 text-xs font-medium', c.bg, c.text, c.border)}>
-      {SOURCE_LABELS[source]}
-    </span>
-  );
-}
 
 // ─── Section wrapper ──────────────────────────────────────────────────────────
 
@@ -67,15 +52,78 @@ function Section({
   );
 }
 
-function Field({ label, value }: { label: string; value?: string | string[] | null }) {
-  if (!value || (Array.isArray(value) && value.length === 0)) return null;
-  const display = Array.isArray(value) ? value.join(', ') : value;
+function DetailItem({ label, children }: { label: string; children: React.ReactNode }) {
+  if (!children) return null;
   return (
-    <div className="space-y-0.5">
-      <p className="text-xs text-[var(--pv-text-muted)]">{label}</p>
-      <p className="text-sm text-[var(--pv-text)]">{display}</p>
+    <div className="space-y-1">
+      <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--pv-text-muted)]">
+        {label}
+      </p>
+      <div className="text-sm leading-6 text-[var(--pv-text)]">{children}</div>
     </div>
   );
+}
+
+function FocusAreaList({ values }: { values?: string[] | string | null }) {
+  const items = normalizeList(values);
+  if (items.length === 0) return null;
+
+  return (
+    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+      {items.map((item) => (
+        <div
+          key={item}
+          className="flex items-center gap-2 rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)] px-3 py-2 text-sm text-[var(--pv-text)]"
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-[var(--pv-primary)]" />
+          {item}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function safeExternalHref(value?: string | null) {
+  if (!value) return null;
+  try {
+    const url = new URL(value);
+    return url.protocol === 'http:' || url.protocol === 'https:' ? url.toString() : null;
+  } catch {
+    try {
+      const url = new URL(`https://${value}`);
+      return url.toString();
+    } catch {
+      return null;
+    }
+  }
+}
+
+function normalizeList(values?: string[] | string | null) {
+  if (!values) return [];
+  if (Array.isArray(values)) return values.filter(Boolean);
+  return values
+    .split(',')
+    .map((value) => value.trim())
+    .filter(Boolean);
+}
+
+function formatPhone(value?: string | null) {
+  if (!value) return '';
+  const digits = value.replace(/\D/g, '');
+  if (digits.length === 10) {
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+  if (digits.length === 11 && digits.startsWith('1')) {
+    return `+1 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7)}`;
+  }
+  return value;
+}
+
+function getProspectTypeLabel(source?: ProspectSource) {
+  if (source === 'review_request') return 'Website Review Request';
+  if (source === 'details_form') return 'Project Inquiry';
+  if (source === 'calendly_call') return 'Strategy Call';
+  return 'Prospect';
 }
 
 // ─── Status selector ──────────────────────────────────────────────────────────
@@ -117,32 +165,35 @@ function StatusSelector({ current, prospectId, onUpdate }: StatusSelectorProps) 
     }
   };
 
-  const c = STATUS_COLORS[current];
-
   return (
-    <div>
-      <div className="flex items-center gap-2">
-        <select
-          value={current}
-          onChange={(e) => handleChange(e.target.value as ProspectStatus)}
-          disabled={saving}
-          className={cn(
-            'rounded-full border px-3 py-1 text-xs font-medium outline-none transition-colors disabled:opacity-50',
-            c.bg,
-            c.text,
-            c.border,
-          )}
-          aria-label="Update prospect status"
-        >
-          {(Object.keys(STATUS_LABELS) as ProspectStatus[]).map((s) => (
-            <option key={s} value={s}>
-              {STATUS_LABELS[s]}
-            </option>
-          ))}
-        </select>
-        {saving && <Loader2 className="h-3.5 w-3.5 animate-spin text-[var(--pv-text-muted)]" />}
-        {saved && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />}
-      </div>
+    <div className="min-w-[150px]">
+      <Select
+        aria-label="Update prospect status"
+        data={(Object.keys(STATUS_LABELS) as ProspectStatus[]).map((status) => ({
+          value: status,
+          label: STATUS_LABELS[status],
+        }))}
+        value={current}
+        onChange={(value) => value && handleChange(value as ProspectStatus)}
+        disabled={saving}
+        radius="xl"
+        size="xs"
+        allowDeselect={false}
+        comboboxProps={{ withinPortal: true, zIndex: 10000 }}
+        rightSection={
+          saving ? (
+            <Loader2 className="h-3.5 w-3.5 animate-spin text-[var(--pv-text-muted)]" />
+          ) : saved ? (
+            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+          ) : undefined
+        }
+        classNames={{
+          input:
+            'border-[var(--pv-border)] bg-[var(--pv-surface)] text-xs font-medium text-[var(--pv-text)]',
+          dropdown: 'border-[var(--pv-border)] bg-[var(--pv-bg)]',
+          option: 'text-sm',
+        }}
+      />
       {updateError && (
         <p className="mt-1 text-xs text-red-500">Failed to save — please try again.</p>
       )}
@@ -228,8 +279,13 @@ function NotesField({ prospectId, initialNotes }: NotesFieldProps) {
 
 // ─── Date formatting helpers ──────────────────────────────────────────────────
 
-function formatDate(str?: string) {
-  if (!str) return '—';
+function isValidDate(str?: string | null) {
+  if (!str) return false;
+  return Number.isFinite(new Date(str).getTime());
+}
+
+function formatDate(str?: string | null) {
+  if (!isValidDate(str)) return '—';
   try {
     return new Intl.DateTimeFormat('en-US', {
       month: 'short',
@@ -237,16 +293,17 @@ function formatDate(str?: string) {
       year: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
-    }).format(new Date(str));
+    }).format(new Date(str as string));
   } catch {
     return '—';
   }
 }
 
-function formatRelative(str?: string) {
-  if (!str) return '—';
+function formatRelative(str?: string | null) {
+  if (!isValidDate(str)) return '—';
   try {
-    const diff = Date.now() - new Date(str).getTime();
+    const diff = Date.now() - new Date(str as string).getTime();
+    if (!Number.isFinite(diff)) return '—';
     const mins = Math.floor(diff / 60000);
     if (mins < 1) return 'just now';
     if (mins < 60) return `${mins} minute${mins !== 1 ? 's' : ''} ago`;
@@ -266,153 +323,269 @@ function formatRelative(str?: string) {
 
 interface ProspectDetailDrawerProps {
   prospect: Prospect | null;
+  detail: Prospect | null;
   open: boolean;
+  loading: boolean;
+  error: boolean;
   onClose: () => void;
   onStatusUpdate: (id: string, newStatus: ProspectStatus) => void;
 }
 
 export function ProspectDetailDrawer({
   prospect,
+  detail,
   open,
+  loading,
+  error,
   onClose,
   onStatusUpdate,
 }: ProspectDetailDrawerProps) {
-  if (!prospect) return null;
-
-  const sourceIcon =
-    prospect.source === 'calendly_call'
-      ? Calendar
-      : prospect.source === 'review_request'
-        ? Search
-        : FileText;
+  const detailProspect = detail;
+  const leadWebsiteHref = safeExternalHref(detailProspect?.lead_submission?.current_website);
+  const auditWebsiteHref = safeExternalHref(detailProspect?.audit_request?.website_url);
+  const rescheduleHref = safeExternalHref(detailProspect?.calendly_booking?.reschedule_url);
+  const cancelHref = safeExternalHref(detailProspect?.calendly_booking?.cancel_url);
+  const hasDetails = Boolean(
+    detailProspect?.lead_submission ||
+      detailProspect?.audit_request ||
+      detailProspect?.calendly_booking,
+  );
+  const primaryPhone =
+    detailProspect?.lead_submission?.phone_number || detailProspect?.audit_request?.phone_number;
+  const primaryWebsite =
+    detailProspect?.lead_submission?.current_website || detailProspect?.audit_request?.website_url;
+  const primaryWebsiteHref = safeExternalHref(primaryWebsite);
+  const leadSubmission = detailProspect?.lead_submission;
+  const auditRequest = detailProspect?.audit_request;
+  const calendlyBooking = detailProspect?.calendly_booking;
+  const improvementItems = normalizeList(leadSubmission?.improvements);
+  const focusAreaItems = normalizeList(auditRequest?.specifics);
+  const prospectTypeLabel = getProspectTypeLabel(prospect?.source);
+  const submittedAt =
+    leadSubmission?.submitted_at || auditRequest?.submitted_at || calendlyBooking?.booked_at;
+  const drawerTitle = prospect ? (
+    <div className="min-w-0">
+      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--pv-primary)]">
+        Prospect
+      </p>
+      <p className="mt-1 truncate font-heading text-xl font-semibold text-[var(--pv-text)]">
+        {prospectTypeLabel}
+      </p>
+    </div>
+  ) : null;
 
   return (
-    <Sheet open={open} onOpenChange={(isOpen) => { if (!isOpen) onClose(); }}>
-      <SheetContent
-        side="right"
-        className="flex w-full flex-col gap-0 overflow-y-auto p-0 sm:max-w-[480px]"
-        style={{ background: 'var(--pv-bg)', borderColor: 'var(--pv-border)' }}
-      >
-        {/* Header */}
-        <SheetHeader className="sticky top-0 z-10 border-b border-[var(--pv-border)] px-6 py-4 pr-14" style={{ background: 'var(--pv-bg)' }}>
-          <div className="min-w-0">
-            <SheetTitle className="truncate font-heading text-lg font-semibold text-[var(--pv-text)]">
-              {prospect.name}
-            </SheetTitle>
-            <div className="mt-1 flex items-center gap-2">
-              <Mail className="h-3.5 w-3.5 shrink-0 text-[var(--pv-text-muted)]" />
-              <span className="truncate text-sm text-[var(--pv-text-muted)]">{prospect.email}</span>
+    <Drawer
+      opened={open && Boolean(prospect)}
+      onClose={onClose}
+      position="right"
+      size="lg"
+      title={drawerTitle}
+      transitionProps={{ transition: 'slide-left', duration: 260, timingFunction: 'ease-out' }}
+    >
+      {prospect && (
+        <>
+          {/* Header */}
+          <div className="space-y-5 border-b border-[var(--pv-border)] pb-5">
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <p className="truncate font-heading text-lg font-semibold text-[var(--pv-text)]">
+                  {prospect.name}
+                </p>
+                <a
+                  href={`mailto:${prospect.email}`}
+                  className="mt-1.5 flex min-w-0 items-center gap-2 text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]"
+                >
+                  <Mail className="h-3.5 w-3.5 shrink-0" />
+                  <span className="truncate">{prospect.email}</span>
+                </a>
+                {primaryPhone && (
+                  <a
+                    href={`tel:${primaryPhone}`}
+                    className="mt-1.5 flex min-w-0 items-center gap-2 text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]"
+                  >
+                    <Phone className="h-3.5 w-3.5 shrink-0" />
+                    <span className="truncate">{formatPhone(primaryPhone)}</span>
+                  </a>
+                )}
+              </div>
+              <StatusSelector
+                current={prospect.status}
+                prospectId={prospect.id}
+                onUpdate={(newStatus) => onStatusUpdate(prospect.id, newStatus)}
+              />
+            </div>
+
+            {primaryWebsite && primaryWebsiteHref && (
+              <a
+                href={primaryWebsiteHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex min-w-0 items-center gap-2 rounded-xl border border-[var(--pv-border)] bg-[var(--pv-surface)] px-3 py-2.5 text-sm text-[var(--pv-text)] transition-colors hover:border-[var(--pv-primary)]"
+              >
+                <Globe2 className="h-4 w-4 shrink-0 text-[var(--pv-primary)]" />
+                <span className="truncate">{primaryWebsite}</span>
+                <ExternalLink className="ml-auto h-3.5 w-3.5 shrink-0 text-[var(--pv-text-muted)] transition-colors group-hover:text-[var(--pv-primary)]" />
+              </a>
+            )}
+
+            <div className="rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                <div className="space-y-1">
+                  <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--pv-text-muted)]">
+                    First seen
+                  </p>
+                  <p className="flex items-center gap-1.5 text-sm text-[var(--pv-text)]">
+                    <Clock className="h-3.5 w-3.5 text-[var(--pv-text-muted)]" />
+                    {formatRelative(prospect.first_seen)}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--pv-text-muted)]">
+                    Last activity
+                  </p>
+                  <p className="flex items-center gap-1.5 text-sm text-[var(--pv-text)]">
+                    <Clock className="h-3.5 w-3.5 text-[var(--pv-text-muted)]" />
+                    {formatRelative(prospect.last_activity)}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--pv-text-muted)]">
+                    Submitted
+                  </p>
+                  <p className="flex items-center gap-1.5 text-sm text-[var(--pv-text)]">
+                    <Clock className="h-3.5 w-3.5 text-[var(--pv-text-muted)]" />
+                    {formatRelative(submittedAt)}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Source + Status row */}
-          <div className="mt-3 flex items-center gap-3">
-            <SourceBadge source={prospect.source} />
-            <StatusSelector
-              current={prospect.status}
-              prospectId={prospect.id}
-              onUpdate={(newStatus) => onStatusUpdate(prospect.id, newStatus)}
-            />
-          </div>
+          {/* Body */}
+          <div className="space-y-6 py-6">
+          {loading && <ProspectDetailSkeleton />}
 
-          {/* Timestamps */}
-          <div className="mt-3 flex flex-wrap gap-4 text-xs text-[var(--pv-text-muted)]">
-            <span className="flex items-center gap-1">
-              <Clock className="h-3 w-3" />
-              First seen {formatRelative(prospect.first_seen)}
-            </span>
-            <span className="flex items-center gap-1">
-              <Clock className="h-3 w-3" />
-              Last activity {formatRelative(prospect.last_activity)}
-            </span>
-          </div>
-        </SheetHeader>
+          {error && !loading && (
+            <Section icon={AlertCircle} title="Details Unavailable">
+              <p className="text-sm leading-6 text-[var(--pv-text-muted)]">
+                The prospect record loaded, but the full submission details could not be fetched.
+              </p>
+            </Section>
+          )}
 
-        {/* Body */}
-        <div className="space-y-6 px-6 py-6">
+          {!loading && !error && !hasDetails && (
+            <Section icon={Inbox} title="Submission Details">
+              <p className="text-sm leading-6 text-[var(--pv-text-muted)]">
+                No submission details were returned for this prospect yet.
+              </p>
+            </Section>
+          )}
+
           {/* Lead submission */}
-          {prospect.lead_submission && (
+          {!loading && leadSubmission && (
             <Section icon={FileText} title="Project Inquiry">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <Field label="Company" value={prospect.lead_submission.company_name} />
-                <Field label="Phone" value={prospect.lead_submission.phone_number} />
-                <Field label="Website" value={prospect.lead_submission.current_website} />
-                <Field label="Interested In" value={prospect.lead_submission.interested_in} />
+              <div className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
+                <DetailItem label="Company">
+                  {leadSubmission.company_name}
+                </DetailItem>
+                {leadSubmission.current_website && (
+                  <DetailItem label="Website">
+                    {leadWebsiteHref ? (
+                      <a
+                        href={leadWebsiteHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex max-w-full items-center gap-1 text-sm text-[var(--pv-primary)] underline underline-offset-2"
+                      >
+                        <span className="truncate">{leadSubmission.current_website}</span>
+                        <ExternalLink className="h-3 w-3 shrink-0" />
+                      </a>
+                    ) : (
+                      leadSubmission.current_website
+                    )}
+                  </DetailItem>
+                )}
+                <DetailItem label="Interested In">
+                  {leadSubmission.interested_in}
+                </DetailItem>
+                <DetailItem label="Budget">{leadSubmission.budget}</DetailItem>
+                <DetailItem label="Timeline">{leadSubmission.timeline}</DetailItem>
+                <DetailItem label="Promo Code">{leadSubmission.promo_code}</DetailItem>
+                {improvementItems.length > 0 && (
+                  <div className="sm:col-span-2">
+                    <DetailItem label="Improvements">
+                      <FocusAreaList values={improvementItems} />
+                    </DetailItem>
+                  </div>
+                )}
                 <div className="sm:col-span-2">
-                  <Field label="Summary" value={prospect.lead_submission.brief_summary} />
-                </div>
-                <div className="sm:col-span-2">
-                  <p className="text-xs text-[var(--pv-text-muted)]">Submitted</p>
-                  <p className="text-sm text-[var(--pv-text)]">
-                    {formatDate(prospect.lead_submission.submitted_at)}
-                  </p>
+                  <DetailItem label="Summary">{leadSubmission.brief_summary}</DetailItem>
                 </div>
               </div>
             </Section>
           )}
 
           {/* Audit request */}
-          {prospect.audit_request && (
+          {!loading && auditRequest && (
             <Section icon={Search} title="Website Review Request">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
                 <div className="sm:col-span-2">
-                  <p className="text-xs text-[var(--pv-text-muted)]">Website URL</p>
-                  <a
-                    href={prospect.audit_request.website_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-sm text-[var(--pv-primary)] underline underline-offset-2"
-                  >
-                    {prospect.audit_request.website_url}
-                    <ExternalLink className="h-3 w-3 shrink-0" />
-                  </a>
+                  <DetailItem label="Website URL">
+                    {auditWebsiteHref ? (
+                      <a
+                        href={auditWebsiteHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex max-w-full items-center gap-1 text-sm text-[var(--pv-primary)] underline underline-offset-2"
+                      >
+                        <span className="truncate">{auditRequest.website_url}</span>
+                        <ExternalLink className="h-3 w-3 shrink-0" />
+                      </a>
+                    ) : (
+                      auditRequest.website_url
+                    )}
+                  </DetailItem>
                 </div>
-                <Field label="Phone" value={prospect.audit_request.phone_number} />
-                <Field label="Focus Areas" value={prospect.audit_request.specifics} />
-                {prospect.audit_request.other_detail && (
+                {focusAreaItems.length > 0 && (
                   <div className="sm:col-span-2">
-                    <Field label="Other detail" value={prospect.audit_request.other_detail} />
+                    <DetailItem label="Focus Areas">
+                      <FocusAreaList values={focusAreaItems} />
+                    </DetailItem>
                   </div>
                 )}
-                <div className="sm:col-span-2">
-                  <p className="text-xs text-[var(--pv-text-muted)]">Submitted</p>
-                  <p className="text-sm text-[var(--pv-text)]">
-                    {formatDate(prospect.audit_request.submitted_at)}
-                  </p>
-                </div>
+                {auditRequest.other_detail && (
+                  <div className="sm:col-span-2">
+                    <DetailItem label="Other Detail">
+                      {auditRequest.other_detail}
+                    </DetailItem>
+                  </div>
+                )}
               </div>
             </Section>
           )}
 
           {/* Calendly booking */}
-          {prospect.calendly_booking && (
+          {!loading && calendlyBooking && (
             <Section icon={Calendar} title="Strategy Call">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {prospect.calendly_booking.event_name && (
+              <div className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
+                {calendlyBooking.event_name && (
                   <div className="sm:col-span-2">
-                    <p className="text-xs text-[var(--pv-text-muted)]">Event</p>
-                    <p className="text-sm text-[var(--pv-text)]">{prospect.calendly_booking.event_name}</p>
+                    <DetailItem label="Event">{calendlyBooking.event_name}</DetailItem>
                   </div>
                 )}
-                {prospect.calendly_booking.start_time && (
+                {calendlyBooking.start_time && (
                   <div className="sm:col-span-2">
-                    <p className="text-xs text-[var(--pv-text-muted)]">Scheduled For</p>
-                    <p className="text-sm text-[var(--pv-text)]">
-                      {formatDate(prospect.calendly_booking.start_time)}
-                    </p>
+                    <DetailItem label="Scheduled For">
+                      {formatDate(calendlyBooking.start_time)}
+                    </DetailItem>
                   </div>
                 )}
-                <div className="sm:col-span-2">
-                  <p className="text-xs text-[var(--pv-text-muted)]">Booked</p>
-                  <p className="text-sm text-[var(--pv-text)]">
-                    {formatDate(prospect.calendly_booking.booked_at)}
-                  </p>
-                </div>
-                {(prospect.calendly_booking.cancel_url || prospect.calendly_booking.reschedule_url) && (
+                {(cancelHref || rescheduleHref) && (
                   <div className="flex flex-wrap gap-2 sm:col-span-2">
-                    {prospect.calendly_booking.reschedule_url && (
+                    {rescheduleHref && (
                       <a
-                        href={prospect.calendly_booking.reschedule_url}
+                        href={rescheduleHref}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-1 rounded-lg border border-[var(--pv-border)] px-3 py-1.5 text-xs font-medium text-[var(--pv-text)] transition-colors hover:border-[var(--pv-primary)] hover:text-[var(--pv-primary)]"
@@ -421,9 +594,9 @@ export function ProspectDetailDrawer({
                         Reschedule
                       </a>
                     )}
-                    {prospect.calendly_booking.cancel_url && (
+                    {cancelHref && (
                       <a
-                        href={prospect.calendly_booking.cancel_url}
+                        href={cancelHref}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-1 rounded-lg border border-red-500/20 px-3 py-1.5 text-xs font-medium text-red-400 transition-colors hover:border-red-500/40 hover:text-red-500"
@@ -439,9 +612,37 @@ export function ProspectDetailDrawer({
           )}
 
           {/* Notes */}
-          <NotesField prospectId={prospect.id} initialNotes={prospect.notes ?? ''} />
+          {!loading && (
+            <NotesField
+              prospectId={prospect.id}
+              initialNotes={detailProspect?.notes ?? prospect.notes ?? ''}
+            />
+          )}
         </div>
-      </SheetContent>
-    </Sheet>
+        </>
+      )}
+    </Drawer>
+  );
+}
+
+function ProspectDetailSkeleton() {
+  return (
+    <div className="space-y-6">
+      {[0, 1].map((section) => (
+        <div key={section} className="space-y-3">
+          <div className="h-4 w-36 animate-pulse rounded bg-[var(--pv-border)]" />
+          <div className="rounded-xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {Array.from({ length: section === 0 ? 5 : 3 }).map((_, index) => (
+                <div key={index} className={index === 4 ? 'sm:col-span-2' : undefined}>
+                  <div className="mb-2 h-3 w-20 animate-pulse rounded bg-[var(--pv-border)]" />
+                  <div className="h-4 w-full animate-pulse rounded bg-[var(--pv-border)]" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }

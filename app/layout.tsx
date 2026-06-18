@@ -3,10 +3,12 @@ import { Inter, Poppins } from 'next/font/google';
 import { Suspense } from 'react';
 import type { ReactNode } from 'react';
 
+import '@mantine/core/styles.css';
 import './globals.css';
 import { CampaignTrackerClient } from '@/components/campaign-tracker-client';
 import { GoogleTagManager } from '@/components/google-tag-manager';
 import { LayoutWrapper } from '@/components/layout-wrapper';
+import { MantineRootProvider } from '@/components/mantine-root-provider';
 import { SiteBehaviourScript } from '@/components/sitebehaviour-script';
 import { ThemeProvider } from '@/components/theme-provider';
 import { StructuredData } from '@/components/ui/structured-data';
@@ -146,14 +148,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         ) : null}
         <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
         <StructuredData id="pixelverse-website" data={websiteSchema} />
-        <ThemeProvider disableTransitionOnChange>
-          <Suspense fallback={null}>
-            <CampaignTrackerClient />
-          </Suspense>
-          <LayoutWrapper navItems={navItems}>
-            {children}
-          </LayoutWrapper>
-        </ThemeProvider>
+        <MantineRootProvider>
+          <ThemeProvider disableTransitionOnChange>
+            <Suspense fallback={null}>
+              <CampaignTrackerClient />
+            </Suspense>
+            <LayoutWrapper navItems={navItems}>
+              {children}
+            </LayoutWrapper>
+          </ThemeProvider>
+        </MantineRootProvider>
       </body>
     </html>
   );

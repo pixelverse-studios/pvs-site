@@ -425,7 +425,7 @@ export default async function DashboardPage() {
                 <div className="max-h-[240px] divide-y divide-[var(--pv-border)] overflow-y-auto">
                   {prospects.map((prospect) => {
                     const statusStyle = STATUS_COLORS[(prospect.status || 'new') as keyof typeof STATUS_COLORS] || STATUS_COLORS.new;
-                    const timeAgo = getRelativeTime(prospect.first_seen);
+                    const timeAgo = getRelativeTime(prospect.first_seen ?? prospect.created_at ?? '');
 
                     return (
                       <Link

@@ -143,9 +143,19 @@ function EmptyState({ hasFilters }: { hasFilters: boolean }) {
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-function formatDate(dateStr: string) {
+function isValidDate(dateStr?: string | null) {
+  if (!dateStr) return false;
+  return Number.isFinite(new Date(dateStr).getTime());
+}
+
+function formatRelativeDate(dateStr?: string | null) {
+  if (!isValidDate(dateStr)) {
+    return '—';
+  }
+
   try {
-    const diff = Date.now() - new Date(dateStr).getTime();
+    const diff = Date.now() - new Date(dateStr as string).getTime();
+    if (!Number.isFinite(diff)) return '—';
     const mins = Math.floor(diff / 60000);
     if (mins < 1) return 'just now';
     if (mins < 60) return `${mins}m ago`;
@@ -191,24 +201,6 @@ export function ProspectsTable({
   onSelectProspect,
 }: ProspectsTableProps) {
   const hasFilters = sourceFilter !== 'all' || statusFilter !== 'all';
-
-  const formatDate = (dateStr: string) => {
-    try {
-      const diff = Date.now() - new Date(dateStr).getTime();
-      const mins = Math.floor(diff / 60000);
-      if (mins < 1) return 'just now';
-      if (mins < 60) return `${mins}m ago`;
-      const hrs = Math.floor(mins / 60);
-      if (hrs < 24) return `${hrs}h ago`;
-      const days = Math.floor(hrs / 24);
-      if (days < 30) return `${days}d ago`;
-      const months = Math.floor(days / 30);
-      if (months < 12) return `${months}mo ago`;
-      return `${Math.floor(months / 12)}y ago`;
-    } catch {
-      return '—';
-    }
-  };
 
   return (
     <div className="overflow-hidden rounded-2xl border border-[var(--pv-border)]">
@@ -273,10 +265,10 @@ export function ProspectsTable({
                     <StatusBadge status={prospect.status} />
                   </td>
                   <td className="px-4 py-3.5 text-[var(--pv-text-muted)]">
-                    {formatDate(prospect.first_seen)}
+                    {formatRelativeDate(prospect.first_seen)}
                   </td>
                   <td className="px-4 py-3.5 text-[var(--pv-text-muted)]">
-                    {formatDate(prospect.last_activity)}
+                    {formatRelativeDate(prospect.last_activity)}
                   </td>
                 </tr>
               ))

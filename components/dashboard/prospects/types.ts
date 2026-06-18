@@ -7,28 +7,44 @@ export interface LeadSubmission {
   current_website?: string;
   brief_summary?: string;
   interested_in?: string;
+  phone?: string;
   phone_number?: string;
-  submitted_at: string;
+  budget?: string;
+  timeline?: string;
+  improvements?: string[] | string;
+  promo_code?: string;
+  submitted_at?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface AuditRequest {
   id: string;
   website_url: string;
-  specifics?: string[];
+  specifics?: string[] | string;
   other_detail?: string;
   phone_number?: string;
-  submitted_at: string;
+  submitted_at?: string;
+  created_at?: string;
+  updated_at?: string;
+  promo_code?: string | null;
 }
 
 export interface CalendlyBooking {
   id: string;
-  event_uri: string;
-  invitee_uri: string;
+  event_uri?: string;
+  invitee_uri?: string;
+  calendly_event_uri?: string;
+  calendly_invitee_uri?: string;
   event_name?: string;
+  event_type_name?: string;
   start_time?: string;
+  event_start_at?: string;
   cancel_url?: string;
   reschedule_url?: string;
-  booked_at: string;
+  booked_at?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface Prospect {
@@ -38,11 +54,19 @@ export interface Prospect {
   source: ProspectSource;
   status: ProspectStatus;
   notes?: string;
-  first_seen: string;
-  last_activity: string;
+  first_seen?: string;
+  last_activity?: string;
+  created_at?: string;
+  updated_at?: string;
+  lead_submission_count?: number;
+  audit_request_count?: number;
+  calendly_booking_count?: number;
   lead_submission?: LeadSubmission;
   audit_request?: AuditRequest;
   calendly_booking?: CalendlyBooking;
+  lead_submissions?: LeadSubmission[];
+  audit_requests?: AuditRequest[];
+  calendly_bookings?: CalendlyBooking[];
 }
 
 export interface ProspectStats {
@@ -63,7 +87,8 @@ export interface ProspectStats {
 export interface ProspectsListResponse {
   prospects: Prospect[];
   total: number;
-  page: number;
+  page?: number;
+  offset?: number;
   limit: number;
 }
 

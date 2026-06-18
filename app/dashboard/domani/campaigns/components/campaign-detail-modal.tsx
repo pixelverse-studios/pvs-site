@@ -44,10 +44,11 @@ export function CampaignDetailModal({
   onClose,
 }: CampaignDetailModalProps) {
   const [activeTab, setActiveTab] = useState<'email' | 'recipients'>('email');
+  const htmlContent = campaign?.html_content || '';
 
   const sanitizedHtml = useMemo(
-    () => (campaign ? DOMPurify.sanitize(campaign.html_content || '') : ''),
-    [campaign?.html_content],
+    () => DOMPurify.sanitize(htmlContent),
+    [htmlContent],
   );
 
   useEffect(() => {
