@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Checkbox, Select, Switch, Textarea as MantineTextarea, TextInput } from '@mantine/core';
+import { DateInput, MonthPickerInput } from '@mantine/dates';
 import {
   AlertTriangle,
   ArrowDown,
@@ -72,7 +73,7 @@ const labelClass =
   'block text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--pv-text-muted)]';
 const mantineFieldClassNames = {
   input:
-    'min-h-11 rounded-pv-sm border-[var(--pv-border)] bg-[var(--pv-surface)] text-sm text-[var(--pv-text)] placeholder:text-[var(--pv-text-muted)] focus:border-[var(--pv-primary)]',
+    'border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)] placeholder:text-[var(--pv-text-muted)] focus:border-[var(--pv-primary)]',
   error: 'text-xs text-red-600 dark:text-red-300',
 };
 const mantineSelectClassNames = {
@@ -691,38 +692,50 @@ export function ReleaseEditor({
               />
             </Field>
             <Field label="Target month">
-              <TextInput
-                type="month"
-                value={form.targetMonth}
+              <MonthPickerInput
+                value={form.targetMonth ? `${form.targetMonth}-01` : null}
                 disabled={formDisabled}
-                onChange={(event) => setField('targetMonth', event.target.value)}
+                onChange={(value) => setField('targetMonth', value?.slice(0, 7) || '')}
+                placeholder="Select month"
+                valueFormat="MMMM YYYY"
+                clearable
+                size="md"
                 classNames={mantineFieldClassNames}
               />
             </Field>
             <Field label="Target date">
-              <TextInput
-                type="date"
-                value={form.targetDate}
+              <DateInput
+                value={form.targetDate || null}
                 disabled={formDisabled}
-                onChange={(event) => setField('targetDate', event.target.value)}
+                onChange={(value) => setField('targetDate', value || '')}
+                placeholder="Select date"
+                valueFormat="MM/DD/YYYY"
+                clearable
+                size="md"
                 classNames={mantineFieldClassNames}
               />
             </Field>
             <Field label="Confirmed date">
-              <TextInput
-                type="date"
-                value={form.confirmedDate}
+              <DateInput
+                value={form.confirmedDate || null}
                 disabled={formDisabled}
-                onChange={(event) => setField('confirmedDate', event.target.value)}
+                onChange={(value) => setField('confirmedDate', value || '')}
+                placeholder="Select date"
+                valueFormat="MM/DD/YYYY"
+                clearable
+                size="md"
                 classNames={mantineFieldClassNames}
               />
             </Field>
             <Field label="Released date">
-              <TextInput
-                type="date"
-                value={form.releasedDate}
+              <DateInput
+                value={form.releasedDate || null}
                 disabled={isNew || formDisabled || form.lifecycleStatus !== 'released'}
-                onChange={(event) => setField('releasedDate', event.target.value)}
+                onChange={(value) => setField('releasedDate', value || '')}
+                placeholder="Select date"
+                valueFormat="MM/DD/YYYY"
+                clearable
+                size="md"
                 classNames={mantineFieldClassNames}
                 required={form.lifecycleStatus === 'released'}
               />
