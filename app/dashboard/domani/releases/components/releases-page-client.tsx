@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { TextInput } from '@mantine/core';
 import { AlertTriangle, FileText, Loader2, Plus, RotateCcw, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { listReleases } from '@/lib/api/admin-releases';
 import type {
   AdminRelease,
@@ -157,16 +157,19 @@ export function ReleasesPageClient() {
       </div>
 
       <div className={cn(panelClass, 'mb-5 flex flex-col gap-4 p-4')}>
-        <label className="relative block min-w-0 flex-1 lg:max-w-sm">
-          <span className="sr-only">Search releases</span>
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--pv-text-muted)]" />
-          <Input
+        <div className="min-w-0 flex-1 lg:max-w-sm">
+          <TextInput
+            aria-label="Search releases"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder="Search versions or release title"
-            className="pl-10"
+            leftSection={<Search className="h-4 w-4 text-[var(--pv-text-muted)]" />}
+            classNames={{
+              input:
+                'min-h-11 rounded-pv-sm border-[var(--pv-border)] bg-[var(--pv-surface)] text-sm text-[var(--pv-text)] placeholder:text-[var(--pv-text-muted)] focus:border-[var(--pv-primary)]',
+            }}
           />
-        </label>
+        </div>
         <div className="grid gap-3 lg:grid-cols-[auto_1fr] lg:items-center">
           <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--pv-text-muted)]">
             Status

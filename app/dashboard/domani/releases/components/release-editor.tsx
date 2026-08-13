@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Checkbox, Select, Switch, Textarea as MantineTextarea, TextInput } from '@mantine/core';
 import {
   AlertTriangle,
   ArrowDown,
@@ -25,8 +26,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import {
   archiveReleaseNote,
   createRelease,
@@ -71,8 +70,20 @@ import {
 const fieldClass = 'space-y-2';
 const labelClass =
   'block text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--pv-text-muted)]';
-const selectClass =
-  'h-11 w-full rounded-pv-sm border border-[var(--pv-border)] bg-[var(--pv-surface)] px-3 text-sm text-[var(--pv-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-ring)]';
+const mantineFieldClassNames = {
+  input:
+    'min-h-11 rounded-pv-sm border-[var(--pv-border)] bg-[var(--pv-surface)] text-sm text-[var(--pv-text)] placeholder:text-[var(--pv-text-muted)] focus:border-[var(--pv-primary)]',
+  error: 'text-xs text-red-600 dark:text-red-300',
+};
+const mantineSelectClassNames = {
+  ...mantineFieldClassNames,
+  dropdown: 'border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-text)]',
+  option: 'text-sm data-[checked]:bg-violet-100 data-[checked]:text-violet-800',
+};
+const noteTypeOptions = ['feature', 'improvement', 'fix', 'breaking'].map((value) => ({
+  value,
+  label: value.charAt(0).toUpperCase() + value.slice(1),
+}));
 
 type ReleaseAction = 'publish-preview' | 'return-to-private' | 'publish' | 'unpublish' | 'archive';
 
@@ -628,7 +639,7 @@ export function ReleaseEditor({
           <h3 className="mb-5 text-lg font-bold text-[var(--pv-text)]">Release settings</h3>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
             <Field label="Version">
-              <Input
+              <TextInput
                 value={form.version}
                 onChange={(event) => setField('version', event.target.value)}
                 disabled={!isNew || formDisabled}
@@ -636,6 +647,12 @@ export function ReleaseEditor({
                 pattern="(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})"
                 aria-describedby="release-version-help"
                 aria-invalid={isNew && form.version.length > 0 && !derivedReleaseType}
+                error={
+                  isNew && form.version.length > 0 && !derivedReleaseType
+                    ? 'Enter a complete semantic version such as 1.2.0.'
+                    : undefined
+                }
+                classNames={mantineFieldClassNames}
                 required
               />
               <p id="release-version-help" className="text-xs text-[var(--pv-text-muted)]">
@@ -643,72 +660,82 @@ export function ReleaseEditor({
               </p>
             </Field>
             <Field label="Release type">
-              <div className="flex h-11 items-center rounded-pv-sm border border-[var(--pv-border)] bg-[var(--pv-bg)] px-4 text-sm font-semibold text-[var(--pv-text)]">
-                {releaseTypeLabel(form.version)}
-              </div>
+              <TextInput
+                value={releaseTypeLabel(form.version)}
+                readOnly
+                aria-label="Release type derived from version"
+                classNames={mantineFieldClassNames}
+              />
             </Field>
             <Field label="Lifecycle status">
-              <select
-                className={selectClass}
+              <Select
                 value={form.lifecycleStatus}
                 disabled={isNew || formDisabled}
-                onChange={(event) =>
-                  setField('lifecycleStatus', event.target.value as ReleaseLifecycle)
+                onChange={(value) =>
+                  value && setField('lifecycleStatus', value as ReleaseLifecycle)
                 }
-              >
-                {availableLifecycleStatuses.map((value) => (
-                  <option key={value} value={value}>
-                    {lifecycleLabels[value]}
-                  </option>
-                ))}
-              </select>
+                data={availableLifecycleStatuses.map((value) => ({
+                  value,
+                  label: lifecycleLabels[value],
+                }))}
+                allowDeselect={false}
+                classNames={mantineSelectClassNames}
+              />
             </Field>
             <Field label="Visibility">
-              <div className="flex h-11 items-center rounded-pv-sm border border-[var(--pv-border)] bg-[var(--pv-surface)] px-3 text-sm font-semibold text-[var(--pv-text)]">
-                {release ? visibilityLabels[release.visibility] : 'Private'}
-              </div>
+              <TextInput
+                value={release ? visibilityLabels[release.visibility] : 'Private'}
+                readOnly
+                aria-label="Current release visibility"
+                classNames={mantineFieldClassNames}
+              />
             </Field>
             <Field label="Target month">
-              <Input
+              <TextInput
                 type="month"
                 value={form.targetMonth}
                 disabled={formDisabled}
                 onChange={(event) => setField('targetMonth', event.target.value)}
+                classNames={mantineFieldClassNames}
               />
             </Field>
             <Field label="Target date">
-              <Input
+              <TextInput
                 type="date"
                 value={form.targetDate}
                 disabled={formDisabled}
                 onChange={(event) => setField('targetDate', event.target.value)}
+                classNames={mantineFieldClassNames}
               />
             </Field>
             <Field label="Confirmed date">
-              <Input
+              <TextInput
                 type="date"
                 value={form.confirmedDate}
                 disabled={formDisabled}
                 onChange={(event) => setField('confirmedDate', event.target.value)}
+                classNames={mantineFieldClassNames}
               />
             </Field>
             <Field label="Released date">
-              <Input
+              <TextInput
                 type="date"
                 value={form.releasedDate}
                 disabled={isNew || formDisabled || form.lifecycleStatus !== 'released'}
                 onChange={(event) => setField('releasedDate', event.target.value)}
+                classNames={mantineFieldClassNames}
                 required={form.lifecycleStatus === 'released'}
               />
             </Field>
           </div>
           <div className="mt-4">
             <Field label="Slug">
-              <Input
+              <TextInput
                 value={form.slug}
                 onChange={(event) => setField('slug', event.target.value)}
                 disabled={formDisabled}
                 placeholder="smarter-evening-planning"
+                classNames={mantineFieldClassNames}
                 required
               />
             </Field>
@@ -718,24 +745,26 @@ export function ReleaseEditor({
         <section className={cn(panelClass, 'p-5 sm:p-6')}>
           <h3 className="mb-5 text-lg font-bold text-[var(--pv-text)]">Public summary</h3>
           <Field label="Release title">
-            <Input
+            <TextInput
               value={form.title}
               onChange={(event) => setField('title', event.target.value)}
               disabled={formDisabled}
               placeholder="Smarter evening planning setup"
+              classNames={mantineFieldClassNames}
               required
               maxLength={160}
             />
           </Field>
           <div className="mt-4">
             <Field label="Public overview">
-              <Textarea
+              <MantineTextarea
                 value={form.publicSummary}
                 onChange={(event) => setField('publicSummary', event.target.value)}
                 disabled={formDisabled}
                 rows={5}
                 maxLength={2000}
                 placeholder="A concise summary shown on public release pages."
+                classNames={mantineFieldClassNames}
               />
             </Field>
           </div>
@@ -795,13 +824,16 @@ export function ReleaseEditor({
             <p className="mb-4 text-sm text-[var(--pv-text-muted)]">
               Private build, API, QA, and support context.
             </p>
-            <Textarea
+            <MantineTextarea
               value={form.internalSummary}
               onChange={(event) => setField('internalSummary', event.target.value)}
               disabled={formDisabled}
               rows={12}
               maxLength={10000}
-              className="font-mono text-sm"
+              classNames={{
+                ...mantineFieldClassNames,
+                input: `${mantineFieldClassNames.input} font-mono`,
+              }}
               placeholder={
                 'api: release public view\ndb: release lifecycle\nqa: verify platform filters'
               }
@@ -970,33 +1002,30 @@ function PlatformChecks({
   onChange: (value: ReleasePlatform[]) => void;
   disabled?: boolean;
 }) {
-  const toggle = (platform: ReleasePlatform) => {
-    if (value.includes(platform)) {
-      if (value.length > 1) onChange(value.filter((item) => item !== platform));
-    } else onChange([...value, platform]);
-  };
   return (
     <fieldset>
       <legend className={labelClass}>Platforms</legend>
-      <div className="mt-2 flex gap-2">
-        {(['ios', 'android'] as const).map((platform) => (
-          <button
-            key={platform}
-            type="button"
-            onClick={() => toggle(platform)}
+      <Checkbox.Group
+        value={value}
+        onChange={(next) => next.length && onChange(next as ReleasePlatform[])}
+      >
+        <div className="mt-2 flex gap-4">
+          <Checkbox
+            value="ios"
+            label="iOS"
             disabled={disabled}
-            aria-pressed={value.includes(platform)}
-            className={cn(
-              'rounded-full px-3 py-1.5 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-ring)] disabled:cursor-not-allowed disabled:opacity-60',
-              value.includes(platform)
-                ? 'bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300'
-                : 'bg-[var(--pv-surface)] text-[var(--pv-text-muted)]',
-            )}
-          >
-            {platform === 'ios' ? 'iOS' : 'Android'}
-          </button>
-        ))}
-      </div>
+            color="violet"
+            classNames={{ label: 'text-sm font-medium text-[var(--pv-text)]' }}
+          />
+          <Checkbox
+            value="android"
+            label="Android"
+            disabled={disabled}
+            color="violet"
+            classNames={{ label: 'text-sm font-medium text-[var(--pv-text)]' }}
+          />
+        </div>
+      </Checkbox.Group>
     </fieldset>
   );
 }
@@ -1140,64 +1169,61 @@ function NoteEditor({
       </div>
       <div className="grid gap-4 sm:grid-cols-[150px_1fr]">
         <Field label="Note type">
-          <select
-            className={selectClass}
+          <Select
             value={noteType}
             disabled={controlsDisabled}
-            onChange={(event) => setNoteType(event.target.value as ReleaseNoteType)}
-          >
-            {['feature', 'improvement', 'fix', 'breaking'].map((value) => (
-              <option key={value} value={value}>
-                {value}
-              </option>
-            ))}
-          </select>
+            onChange={(value) => value && setNoteType(value as ReleaseNoteType)}
+            data={noteTypeOptions}
+            allowDeselect={false}
+            classNames={mantineSelectClassNames}
+          />
         </Field>
         <Field label="Public title">
-          <Input
+          <TextInput
             value={title}
             disabled={controlsDisabled}
             onChange={(event) => setTitle(event.target.value)}
             maxLength={160}
+            classNames={mantineFieldClassNames}
           />
         </Field>
       </div>
       <div className="mt-4">
         <Field label="Public note">
-          <Textarea
+          <MantineTextarea
             value={body}
             disabled={controlsDisabled}
             onChange={(event) => setBody(event.target.value)}
             rows={3}
             maxLength={4000}
+            classNames={mantineFieldClassNames}
           />
         </Field>
       </div>
       <div className="mt-4">
         <Field label="Technical notes">
-          <Textarea
+          <MantineTextarea
             value={technical}
             disabled={controlsDisabled}
             onChange={(event) => setTechnical(event.target.value)}
             rows={2}
             maxLength={20000}
             placeholder="Private implementation context"
+            classNames={mantineFieldClassNames}
           />
         </Field>
       </div>
       <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <PlatformChecks value={platforms} onChange={setPlatforms} disabled={controlsDisabled} />
         <div className="flex items-center gap-3">
-          <label className="flex items-center gap-2 text-sm font-medium text-[var(--pv-text)]">
-            <input
-              type="checkbox"
-              checked={isPublic}
-              disabled={controlsDisabled}
-              onChange={(event) => setIsPublic(event.target.checked)}
-              className="h-4 w-4 accent-[var(--pv-primary)]"
-            />
-            Public note
-          </label>
+          <Switch
+            checked={isPublic}
+            disabled={controlsDisabled}
+            onChange={(event) => setIsPublic(event.currentTarget.checked)}
+            label="Public note"
+            color="violet"
+            classNames={{ label: 'text-sm font-medium text-[var(--pv-text)]' }}
+          />
           <Button
             size="sm"
             variant={dirty ? 'default' : 'secondary'}
@@ -1334,63 +1360,60 @@ function NewNoteForm({
       <h4 className="mb-4 font-semibold text-[var(--pv-text)]">New release note</h4>
       <div className="grid gap-4 sm:grid-cols-[150px_1fr]">
         <Field label="Note type">
-          <select
-            className={selectClass}
+          <Select
             value={noteType}
             disabled={controlsDisabled}
-            onChange={(event) => setNoteType(event.target.value as ReleaseNoteType)}
-          >
-            {['feature', 'improvement', 'fix', 'breaking'].map((value) => (
-              <option key={value} value={value}>
-                {value}
-              </option>
-            ))}
-          </select>
+            onChange={(value) => value && setNoteType(value as ReleaseNoteType)}
+            data={noteTypeOptions}
+            allowDeselect={false}
+            classNames={mantineSelectClassNames}
+          />
         </Field>
         <Field label="Public title">
-          <Input
+          <TextInput
             value={title}
             disabled={controlsDisabled}
             onChange={(event) => setTitle(event.target.value)}
             maxLength={160}
+            classNames={mantineFieldClassNames}
           />
         </Field>
       </div>
       <div className="mt-4">
         <Field label="Public note">
-          <Textarea
+          <MantineTextarea
             value={body}
             disabled={controlsDisabled}
             onChange={(event) => setBody(event.target.value)}
             rows={3}
             maxLength={4000}
+            classNames={mantineFieldClassNames}
           />
         </Field>
       </div>
       <div className="mt-4">
         <Field label="Technical notes">
-          <Textarea
+          <MantineTextarea
             value={technical}
             disabled={controlsDisabled}
             onChange={(event) => setTechnical(event.target.value)}
             rows={2}
             maxLength={20000}
+            classNames={mantineFieldClassNames}
           />
         </Field>
       </div>
       <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <PlatformChecks value={platforms} onChange={setPlatforms} disabled={controlsDisabled} />
         <div className="flex items-center gap-3">
-          <label className="flex items-center gap-2 text-sm font-medium text-[var(--pv-text)]">
-            <input
-              type="checkbox"
-              checked={isPublic}
-              disabled={controlsDisabled}
-              onChange={(event) => setIsPublic(event.target.checked)}
-              className="h-4 w-4 accent-[var(--pv-primary)]"
-            />
-            Public note
-          </label>
+          <Switch
+            checked={isPublic}
+            disabled={controlsDisabled}
+            onChange={(event) => setIsPublic(event.currentTarget.checked)}
+            label="Public note"
+            color="violet"
+            classNames={{ label: 'text-sm font-medium text-[var(--pv-text)]' }}
+          />
           <Button variant="ghost" size="sm" onClick={discard} disabled={saving}>
             Cancel
           </Button>
