@@ -10,6 +10,7 @@ const tabs = [
   { label: 'Waitlist', href: '/dashboard/domani/waitlist' },
   { label: 'Users', href: '/dashboard/domani/users' },
   { label: 'Campaigns', href: '/dashboard/domani/campaigns' },
+  { label: 'Releases', href: '/dashboard/domani/releases' },
 ];
 
 export function DomaniNav() {
@@ -33,7 +34,7 @@ export function DomaniNav() {
               'whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors',
               isActive(tab.href)
                 ? 'border-[var(--pv-primary)] text-[var(--pv-primary)]'
-                : 'border-transparent text-[var(--pv-text-muted)] hover:border-[var(--pv-border)] hover:text-[var(--pv-text)]'
+                : 'border-transparent text-[var(--pv-text-muted)] hover:border-[var(--pv-border)] hover:text-[var(--pv-text)]',
             )}
           >
             {tab.label}
