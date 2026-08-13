@@ -4,6 +4,21 @@ export type ReleaseVisibility = 'private' | 'public_preview' | 'published';
 export type ReleaseNoteType = 'feature' | 'improvement' | 'fix' | 'breaking';
 export type ReleasePlatform = 'ios' | 'android';
 
+export interface PublicOverviewNode {
+  type: 'doc' | 'paragraph' | 'heading' | 'bulletList' | 'orderedList' | 'listItem' | 'text';
+  attrs?: Record<string, unknown>;
+  content?: PublicOverviewNode[];
+  marks?: Array<{
+    type: 'bold' | 'italic' | 'link';
+    attrs?: Record<string, unknown>;
+  }>;
+  text?: string;
+}
+
+export interface PublicOverviewDocument extends PublicOverviewNode {
+  type: 'doc';
+}
+
 export interface AdminRelease {
   id: string;
   version: string;
@@ -12,6 +27,7 @@ export interface AdminRelease {
   releaseType: ReleaseType;
   lifecycleStatus: ReleaseLifecycle;
   visibility: ReleaseVisibility;
+  publicOverview: PublicOverviewDocument | null;
   publicSummary: string | null;
   internalSummary: string | null;
   targetMonth: string | null;
@@ -51,7 +67,13 @@ export interface AdminReleaseDetail extends AdminRelease {
     sourceReference: string;
   }>;
   allowedActions: Array<
-    'edit' | 'publish_preview' | 'return_to_private' | 'publish' | 'unpublish' | 'archive'
+    | 'edit'
+    | 'mark_released'
+    | 'publish_preview'
+    | 'return_to_private'
+    | 'publish'
+    | 'unpublish'
+    | 'archive'
   >;
 }
 
@@ -87,13 +109,11 @@ export interface ReleaseMutationResponse {
 
 export interface CreateReleaseInput {
   version: string;
-  slug: string;
   title: string;
-  publicSummary: string | null;
+  publicOverview: PublicOverviewDocument | null;
   internalSummary: string | null;
   targetMonth: string | null;
   targetDate: string | null;
-  confirmedDate: string | null;
   ownerUserId?: string | null;
 }
 
@@ -101,14 +121,11 @@ export type UpdateReleaseInput = Partial<
   Pick<
     AdminRelease,
     | 'title'
-    | 'slug'
     | 'lifecycleStatus'
-    | 'publicSummary'
+    | 'publicOverview'
     | 'internalSummary'
     | 'targetMonth'
     | 'targetDate'
-    | 'confirmedDate'
-    | 'releasedAt'
     | 'ownerUserId'
   >
 >;

@@ -1,5 +1,6 @@
 import type {
   AdminReleaseDetail,
+  PublicOverviewDocument,
   ReleaseLifecycle,
   ReleaseType,
   ReleaseVisibility,
@@ -7,32 +8,38 @@ import type {
 
 export interface ReleaseFormState {
   version: string;
-  slug: string;
   title: string;
   lifecycleStatus: ReleaseLifecycle;
-  publicSummary: string;
+  publicOverview: PublicOverviewDocument;
   internalSummary: string;
   targetMonth: string;
   targetDate: string;
-  confirmedDate: string;
-  releasedDate: string;
 }
+
+export const emptyPublicOverview: PublicOverviewDocument = {
+  type: 'doc',
+  content: [{ type: 'paragraph' }],
+};
 
 export const emptyReleaseForm: ReleaseFormState = {
   version: '',
-  slug: '',
   title: '',
   lifecycleStatus: 'draft',
-  publicSummary: '',
+  publicOverview: emptyPublicOverview,
   internalSummary: '',
   targetMonth: '',
   targetDate: '',
-  confirmedDate: '',
-  releasedDate: '',
 };
 
 const versionPattern = /^(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})$/;
-const slugPattern = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+export function publicOverviewText(document: PublicOverviewDocument | null): string {
+  if (!document) return '';
+  const walk = (node: NonNullable<PublicOverviewDocument['content']>[number]): string => {
+    if (node.type === 'text') return node.text || '';
+    return (node.content || []).map(walk).join(node.type === 'paragraph' ? '' : ' ');
+  };
+  return (document.content || []).map(walk).join('\n').trim();
+}
 
 export function deriveReleaseType(version: string): ReleaseType | null {
   const match = version.match(versionPattern);
@@ -60,25 +67,17 @@ export function releaseFormError(
   if (isNew && !versionPattern.test(form.version)) {
     return 'Enter a valid X.Y.Z version, such as 1.2.0 or 1.2.1.';
   }
-  if (!slugPattern.test(form.slug)) {
-    return 'Enter a lowercase slug using letters, numbers, and single hyphens.';
-  }
   if (!form.title.trim()) return 'Enter a release title.';
   if (form.title.trim().length > 160) return 'Keep the release title to 160 characters or fewer.';
-  if (form.publicSummary.length > 2000) {
-    return 'Keep the public overview to 2,000 characters or fewer.';
+  const overviewText = publicOverviewText(form.publicOverview);
+  if (overviewText.length > 10000) {
+    return 'Keep the public overview to 10,000 characters or fewer.';
   }
-  if (visibility !== 'private' && !form.publicSummary.trim()) {
+  if (visibility !== 'private' && !overviewText) {
     return 'Public preview and published releases require a public overview.';
   }
   if (form.internalSummary.length > 10000) {
     return 'Keep the internal log to 10,000 characters or fewer.';
-  }
-  if (!isNew && form.lifecycleStatus === 'released' && !form.releasedDate) {
-    return 'Choose a released date before marking this release as released.';
-  }
-  if (form.lifecycleStatus !== 'released' && form.releasedDate) {
-    return 'A released date can only be set when the lifecycle is Released.';
   }
   return null;
 }
@@ -99,11 +98,9 @@ export function lifecycleOptions(release: AdminReleaseDetail | null): ReleaseLif
     options.add('canceled');
   } else if (release.lifecycleStatus === 'planned') {
     options.add('in_progress');
-    options.add('released');
     options.add('canceled');
   } else if (release.lifecycleStatus === 'in_progress') {
     options.add('planned');
-    options.add('released');
     options.add('canceled');
   }
 
@@ -111,10 +108,10 @@ export function lifecycleOptions(release: AdminReleaseDetail | null): ReleaseLif
 }
 
 export function publicationReadiness(
-  release: Pick<AdminReleaseDetail, 'publicSummary' | 'notes'>,
+  release: Pick<AdminReleaseDetail, 'publicOverview' | 'notes'>,
 ): { ready: boolean; message: string | null } {
   const missing: string[] = [];
-  if (!release.publicSummary?.trim()) missing.push('a public overview');
+  if (!publicOverviewText(release.publicOverview)) missing.push('a public overview');
   if (!release.notes.some((note) => note.isPublic && !note.archivedAt)) {
     missing.push('at least one public release note');
   }

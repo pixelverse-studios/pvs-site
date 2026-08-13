@@ -55,8 +55,10 @@ import {
   ReleaseBadge,
   visibilityLabels,
 } from './release-ui';
+import { PublicOverviewEditor } from './public-overview-editor';
 import {
   emptyReleaseForm,
+  emptyPublicOverview,
   deriveReleaseType,
   firstFieldError,
   lifecycleOptions,
@@ -86,7 +88,13 @@ const noteTypeOptions = ['feature', 'improvement', 'fix', 'breaking'].map((value
   label: value.charAt(0).toUpperCase() + value.slice(1),
 }));
 
-type ReleaseAction = 'publish-preview' | 'return-to-private' | 'publish' | 'unpublish' | 'archive';
+type ReleaseAction =
+  | 'mark-released'
+  | 'publish-preview'
+  | 'return-to-private'
+  | 'publish'
+  | 'unpublish'
+  | 'archive';
 
 interface ConflictState {
   message: string;
@@ -95,6 +103,11 @@ interface ConflictState {
 }
 
 const actionCopy: Record<ReleaseAction, { title: string; description: string; confirm: string }> = {
+  'mark-released': {
+    title: 'Mark this release as released?',
+    description: 'This records the release date and moves the lifecycle to Released.',
+    confirm: 'Mark released',
+  },
   'publish-preview': {
     title: 'Publish this coming-soon preview?',
     description:
@@ -128,15 +141,21 @@ const actionCopy: Record<ReleaseAction, { title: string; description: string; co
 function formFromRelease(release: AdminReleaseDetail): ReleaseFormState {
   return {
     version: release.version,
-    slug: release.slug,
     title: release.title,
     lifecycleStatus: release.lifecycleStatus,
-    publicSummary: release.publicSummary || '',
+    publicOverview:
+      release.publicOverview ||
+      (release.publicSummary
+        ? {
+            type: 'doc',
+            content: [
+              { type: 'paragraph', content: [{ type: 'text', text: release.publicSummary }] },
+            ],
+          }
+        : emptyPublicOverview),
     internalSummary: release.internalSummary || '',
     targetMonth: release.targetMonth || '',
     targetDate: release.targetDate || '',
-    confirmedDate: release.confirmedDate || '',
-    releasedDate: release.releasedAt?.slice(0, 10) || '',
   };
 }
 
@@ -166,6 +185,7 @@ export function ReleaseEditor({
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [pendingAction, setPendingAction] = useState<ReleaseAction | null>(null);
+  const [releasedDate, setReleasedDate] = useState(new Date().toISOString().slice(0, 10));
   const [conflict, setConflict] = useState<ConflictState | null>(null);
   const [dirtyNotes, setDirtyNotes] = useState<Record<string, boolean>>({});
   const [canCreateRelease, setCanCreateRelease] = useState(false);
@@ -184,7 +204,7 @@ export function ReleaseEditor({
   const newReleaseDirty = isNew && JSON.stringify(form) !== JSON.stringify(emptyReleaseForm);
   const hasUnsavedChanges = newReleaseDirty || releaseDirty || hasDirtyNotes;
   const readiness = release
-    ? publicationReadiness({ ...release, publicSummary: form.publicSummary })
+    ? publicationReadiness({ ...release, publicOverview: form.publicOverview })
     : { ready: false, message: null };
   const hasPublicationAction = allowed.has('publish_preview') || allowed.has('publish');
   const suppressNextPop = useRef(false);
@@ -324,26 +344,7 @@ export function ReleaseEditor({
   }, []);
 
   const setField = <K extends keyof ReleaseFormState>(field: K, value: ReleaseFormState[K]) => {
-    if (field === 'lifecycleStatus') {
-      setForm((current) => ({
-        ...current,
-        lifecycleStatus: value as ReleaseLifecycle,
-        releasedDate: value === 'released' ? current.releasedDate : '',
-      }));
-      return;
-    }
     setForm((current) => ({ ...current, [field]: value }));
-    if (field === 'title' && isNew && !form.slug) {
-      setForm((current) => ({
-        ...current,
-        title: value as string,
-        slug: String(value)
-          .toLowerCase()
-          .trim()
-          .replace(/[^a-z0-9]+/g, '-')
-          .replace(/(^-|-$)/g, ''),
-      }));
-    }
   };
 
   const handleSave = async () => {
@@ -367,13 +368,11 @@ export function ReleaseEditor({
       if (isNew) {
         const input: CreateReleaseInput = {
           version: form.version,
-          slug: form.slug,
           title: form.title.trim(),
-          publicSummary: form.publicSummary || null,
+          publicOverview: form.publicOverview,
           internalSummary: form.internalSummary || null,
           targetMonth: form.targetMonth || null,
           targetDate: form.targetDate || null,
-          confirmedDate: form.confirmedDate || null,
         };
         const id = await createRelease(input);
         router.replace(`/dashboard/domani/releases/${id}`);
@@ -382,14 +381,11 @@ export function ReleaseEditor({
       if (!release) return;
       await updateRelease(release.id, release.rowVersion, {
         title: form.title.trim(),
-        slug: form.slug,
         lifecycleStatus: form.lifecycleStatus,
-        publicSummary: form.publicSummary || null,
+        publicOverview: form.publicOverview,
         internalSummary: form.internalSummary || null,
         targetMonth: form.targetMonth || null,
         targetDate: form.targetDate || null,
-        confirmedDate: form.confirmedDate || null,
-        releasedAt: form.releasedDate ? `${form.releasedDate}T12:00:00.000Z` : null,
       });
       if (await refreshAfterMutation(false)) setNotice('Release settings saved.');
     } catch (caught) {
@@ -423,7 +419,12 @@ export function ReleaseEditor({
     setError(null);
     setNotice(null);
     try {
-      await runReleaseAction(release.id, release.rowVersion, action);
+      await runReleaseAction(
+        release.id,
+        release.rowVersion,
+        action,
+        action === 'mark-released' ? { releasedDate } : undefined,
+      );
       setPendingAction(null);
       if (action === 'archive') {
         router.replace('/dashboard/domani/releases');
@@ -432,11 +433,13 @@ export function ReleaseEditor({
       }
       if (await refreshAfterMutation()) {
         setNotice(
-          action === 'publish-preview'
-            ? 'Release is now visible as a public preview.'
-            : action === 'publish'
-              ? 'Release published to the changelog.'
-              : 'Release visibility updated.',
+          action === 'mark-released'
+            ? 'Release marked as released.'
+            : action === 'publish-preview'
+              ? 'Release is now visible as a public preview.'
+              : action === 'publish'
+                ? 'Release published to the changelog.'
+                : 'Release visibility updated.',
         );
       }
     } catch (caught) {
@@ -523,6 +526,19 @@ export function ReleaseEditor({
             <Save className="mr-2 h-4 w-4" />
             {saving ? 'Saving…' : 'Save'}
           </Button>
+          {release && allowed.has('mark_released') && (
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setReleasedDate(new Date().toISOString().slice(0, 10));
+                setPendingAction('mark-released');
+              }}
+              disabled={saving || refreshBlocked || releaseDirty || hasDirtyNotes}
+            >
+              <Check className="mr-2 h-4 w-4" />
+              Mark released
+            </Button>
+          )}
           {release && allowed.has('publish_preview') && (
             <Button
               onClick={() => setPendingAction('publish-preview')}
@@ -663,7 +679,7 @@ export function ReleaseEditor({
             <Field label="Release type">
               <TextInput
                 value={releaseTypeLabel(form.version)}
-                readOnly
+                disabled
                 aria-label="Release type derived from version"
                 classNames={mantineFieldClassNames}
               />
@@ -684,12 +700,18 @@ export function ReleaseEditor({
               />
             </Field>
             <Field label="Visibility">
-              <TextInput
-                value={release ? visibilityLabels[release.visibility] : 'Private'}
-                readOnly
-                aria-label="Current release visibility"
-                classNames={mantineFieldClassNames}
-              />
+              <div className="flex min-h-9 items-center">
+                {release ? (
+                  <ReleaseBadge kind="visibility" value={release.visibility} />
+                ) : (
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 dark:bg-slate-700 dark:text-slate-100">
+                    Private
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-[var(--pv-text-muted)]">
+                Changes only through preview and publish actions.
+              </p>
             </Field>
             <Field label="Target month">
               <MonthPickerInput
@@ -698,6 +720,7 @@ export function ReleaseEditor({
                 onChange={(value) => setField('targetMonth', value?.slice(0, 7) || '')}
                 placeholder="Select month"
                 valueFormat="MMMM YYYY"
+                minDate={new Date(new Date().getFullYear(), new Date().getMonth(), 1)}
                 clearable
                 size="md"
                 classNames={mantineFieldClassNames}
@@ -710,46 +733,10 @@ export function ReleaseEditor({
                 onChange={(value) => setField('targetDate', value || '')}
                 placeholder="Select date"
                 valueFormat="MM/DD/YYYY"
+                minDate={new Date().toISOString().slice(0, 10)}
                 clearable
                 size="md"
                 classNames={mantineFieldClassNames}
-              />
-            </Field>
-            <Field label="Confirmed date">
-              <DateInput
-                value={form.confirmedDate || null}
-                disabled={formDisabled}
-                onChange={(value) => setField('confirmedDate', value || '')}
-                placeholder="Select date"
-                valueFormat="MM/DD/YYYY"
-                clearable
-                size="md"
-                classNames={mantineFieldClassNames}
-              />
-            </Field>
-            <Field label="Released date">
-              <DateInput
-                value={form.releasedDate || null}
-                disabled={isNew || formDisabled || form.lifecycleStatus !== 'released'}
-                onChange={(value) => setField('releasedDate', value || '')}
-                placeholder="Select date"
-                valueFormat="MM/DD/YYYY"
-                clearable
-                size="md"
-                classNames={mantineFieldClassNames}
-                required={form.lifecycleStatus === 'released'}
-              />
-            </Field>
-          </div>
-          <div className="mt-4">
-            <Field label="Slug">
-              <TextInput
-                value={form.slug}
-                onChange={(event) => setField('slug', event.target.value)}
-                disabled={formDisabled}
-                placeholder="smarter-evening-planning"
-                classNames={mantineFieldClassNames}
-                required
               />
             </Field>
           </div>
@@ -769,17 +756,17 @@ export function ReleaseEditor({
             />
           </Field>
           <div className="mt-4">
-            <Field label="Public overview">
-              <MantineTextarea
-                value={form.publicSummary}
-                onChange={(event) => setField('publicSummary', event.target.value)}
+            <div className={fieldClass}>
+              <span className={labelClass}>Public overview</span>
+              <PublicOverviewEditor
+                value={form.publicOverview}
+                onChange={(value) => setField('publicOverview', value)}
                 disabled={formDisabled}
-                rows={5}
-                maxLength={2000}
-                placeholder="A concise summary shown on public release pages."
-                classNames={mantineFieldClassNames}
               />
-            </Field>
+              <p className="text-xs text-[var(--pv-text-muted)]">
+                Supports headings, paragraphs, bold, italic, links, and bullet or numbered lists.
+              </p>
+            </div>
           </div>
           <div className="mt-4 rounded-xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-4 text-xs text-[var(--pv-text-muted)]">
             Public fields can be edited while private. Visibility changes only through the explicit
@@ -877,13 +864,28 @@ export function ReleaseEditor({
                   {release?.notes.filter((note) => note.isPublic).length || 0} public notes
                 </p>
               </div>
+              {pendingAction === 'mark-released' && (
+                <Field label="Released date">
+                  <DateInput
+                    value={releasedDate}
+                    onChange={(value) => setReleasedDate(value || '')}
+                    maxDate={new Date().toISOString().slice(0, 10)}
+                    valueFormat="MM/DD/YYYY"
+                    classNames={mantineFieldClassNames}
+                    required
+                  />
+                  <p className="text-xs text-[var(--pv-text-muted)]">
+                    Today or an earlier historical release date.
+                  </p>
+                </Field>
+              )}
               <DialogFooter>
                 <DialogClose asChild>
                   <Button variant="ghost">Cancel</Button>
                 </DialogClose>
                 <Button
                   onClick={() => void handleAction(pendingAction)}
-                  disabled={saving}
+                  disabled={saving || (pendingAction === 'mark-released' && !releasedDate)}
                   className={
                     pendingAction === 'archive' ? 'bg-red-600 hover:bg-red-700' : undefined
                   }

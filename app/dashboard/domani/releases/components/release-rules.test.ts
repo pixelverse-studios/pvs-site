@@ -41,6 +41,10 @@ const release = (overrides: Partial<AdminReleaseDetail> = {}): AdminReleaseDetai
   releaseType: 'minor',
   lifecycleStatus: 'planned',
   visibility: 'private',
+  publicOverview: {
+    type: 'doc',
+    content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Plan tomorrow tonight.' }] }],
+  },
   publicSummary: 'Plan tomorrow tonight.',
   internalSummary: null,
   targetMonth: null,
@@ -61,9 +65,11 @@ const release = (overrides: Partial<AdminReleaseDetail> = {}): AdminReleaseDetai
 const form = (overrides: Partial<ReleaseFormState> = {}): ReleaseFormState => ({
   ...emptyReleaseForm,
   version: '1.2.0',
-  slug: 'clear-mornings',
   title: 'Clear mornings',
-  publicSummary: 'Plan tomorrow tonight.',
+  publicOverview: {
+    type: 'doc',
+    content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Plan tomorrow tonight.' }] }],
+  },
   ...overrides,
 });
 
@@ -79,27 +85,15 @@ describe('release identity and lifecycle rules', () => {
   it('rejects malformed identity fields', () => {
     expect(releaseFormError(form({ version: '01.2.0' }), true)).toMatch(/valid X\.Y\.Z/);
     expect(releaseFormError(form({ version: '1.2' }), true)).toMatch(/valid X\.Y\.Z/);
-    expect(releaseFormError(form({ slug: 'Not Valid' }), true)).toMatch(/lowercase slug/);
     expect(releaseFormError(form({ title: ' ' }), true)).toBe('Enter a release title.');
   });
 
-  it('requires public summaries for visible releases', () => {
-    expect(releaseFormError(form({ publicSummary: ' ' }), false, 'public_preview')).toMatch(
-      /require a public overview/,
-    );
-    expect(releaseFormError(form({ publicSummary: '' }), false, 'private')).toBeNull();
-  });
-
-  it('enforces the released lifecycle/date pairing', () => {
+  it('requires rich public overview content for visible releases', () => {
+    const emptyOverview = { type: 'doc' as const, content: [{ type: 'paragraph' as const }] };
     expect(
-      releaseFormError(form({ lifecycleStatus: 'released', releasedDate: '' }), false),
-    ).toMatch(/released date/);
-    expect(
-      releaseFormError(form({ lifecycleStatus: 'planned', releasedDate: '2026-08-13' }), false),
-    ).toMatch(/only be set/);
-    expect(
-      releaseFormError(form({ lifecycleStatus: 'released', releasedDate: '2026-08-13' }), false),
-    ).toBeNull();
+      releaseFormError(form({ publicOverview: emptyOverview }), false, 'public_preview'),
+    ).toMatch(/require a public overview/);
+    expect(releaseFormError(form({ publicOverview: emptyOverview }), false, 'private')).toBeNull();
   });
 
   it('only offers DEV-1005 lifecycle transitions', () => {
@@ -111,7 +105,6 @@ describe('release identity and lifecycle rules', () => {
     expect(lifecycleOptions(release({ lifecycleStatus: 'planned' }))).toEqual([
       'planned',
       'in_progress',
-      'released',
       'canceled',
     ]);
     expect(
@@ -124,7 +117,7 @@ describe('release identity and lifecycle rules', () => {
 describe('publication and note rules', () => {
   it('requires a public summary and active public note before publication', () => {
     expect(publicationReadiness(release())).toEqual({ ready: true, message: null });
-    expect(publicationReadiness(release({ publicSummary: null, notes: [] }))).toEqual({
+    expect(publicationReadiness(release({ publicOverview: null, notes: [] }))).toEqual({
       ready: false,
       message: 'Before publishing, add a public overview and at least one public release note.',
     });

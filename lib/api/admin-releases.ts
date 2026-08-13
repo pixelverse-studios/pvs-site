@@ -125,12 +125,19 @@ export function updateRelease(id: string, rowVersion: number, input: UpdateRelea
 export function runReleaseAction(
   id: string,
   rowVersion: number,
-  action: 'publish-preview' | 'return-to-private' | 'publish' | 'unpublish' | 'archive',
+  action:
+    | 'mark-released'
+    | 'publish-preview'
+    | 'return-to-private'
+    | 'publish'
+    | 'unpublish'
+    | 'archive',
+  input?: { releasedDate: string },
 ) {
   return request<ReleaseMutationResponse>(`/${id}/${action}`, {
     method: 'POST',
     headers: { 'If-Match': `\"${rowVersion}\"` },
-    body: '{}',
+    body: JSON.stringify(input || {}),
   });
 }
 
