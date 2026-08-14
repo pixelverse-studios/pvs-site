@@ -34,7 +34,7 @@ export function PublicOverviewEditor({
     content: value,
     editorProps: {
       attributes: {
-        'aria-label': 'Public overview content',
+        'aria-label': 'Release introduction content',
       },
     },
     extensions: [
@@ -140,7 +140,7 @@ export function PublicOverviewEditor({
       <div
         className="flex flex-wrap gap-1 border-b border-[var(--pv-border)] p-2"
         role="toolbar"
-        aria-label="Public overview formatting"
+        aria-label="Release introduction formatting"
       >
         {toolbar.map(({ label, icon: Icon, active, run }) => (
           <Button

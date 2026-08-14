@@ -116,7 +116,7 @@ export function ReleasesPageClient() {
           </p>
           <h2 className="font-heading text-3xl font-bold text-[var(--pv-text)]">Releases</h2>
           <p className="mt-1 text-sm text-[var(--pv-text-muted)]">
-            Plan, draft, approve, and publish Domani release notes.
+            Plan, draft, approve, and publish Domani releases.
           </p>
         </div>
         {capabilities.canCreateRelease && (

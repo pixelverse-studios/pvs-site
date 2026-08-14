@@ -119,7 +119,8 @@ describe('publication and note rules', () => {
     expect(publicationReadiness(release())).toEqual({ ready: true, message: null });
     expect(publicationReadiness(release({ publicOverview: null, notes: [] }))).toEqual({
       ready: false,
-      message: 'Before publishing, add a public overview and at least one public release note.',
+      message:
+        'Before publishing, add a public overview and at least one public release highlight.',
     });
     expect(
       publicationReadiness(release({ notes: [note({ archivedAt: '2026-08-13' })] })).ready,

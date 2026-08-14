@@ -468,7 +468,7 @@ export function ReleaseEditor({
     setError(null);
     try {
       await reorderReleaseNotes(release, next);
-      if (await refreshAfterMutation()) setNotice('Release notes reordered.');
+      if (await refreshAfterMutation()) setNotice('Release highlights reordered.');
     } catch (caught) {
       await handleMutationError(caught);
     } finally {
@@ -743,7 +743,12 @@ export function ReleaseEditor({
         </section>
 
         <section className={cn(panelClass, 'p-5 sm:p-6')}>
-          <h3 className="mb-5 text-lg font-bold text-[var(--pv-text)]">Public summary</h3>
+          <div className="mb-5">
+            <h3 className="text-lg font-bold text-[var(--pv-text)]">Public release content</h3>
+            <p className="mt-1 text-sm text-[var(--pv-text-muted)]">
+              The title and introduction shown at the top of the public release.
+            </p>
+          </div>
           <Field label="Release title">
             <TextInput
               value={form.title}
@@ -757,37 +762,47 @@ export function ReleaseEditor({
           </Field>
           <div className="mt-4">
             <div className={fieldClass}>
-              <span className={labelClass}>Public overview</span>
+              <span className={labelClass}>Introduction</span>
               <PublicOverviewEditor
                 value={form.publicOverview}
                 onChange={(value) => setField('publicOverview', value)}
                 disabled={formDisabled}
               />
               <p className="text-xs text-[var(--pv-text-muted)]">
-                Supports headings, paragraphs, bold, italic, links, and bullet or numbered lists.
+                Explain what the release means and why it matters. Use release highlights below for
+                individual changes. Supports headings, links, and bullet or numbered lists.
               </p>
             </div>
           </div>
           <div className="mt-4 rounded-xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-4 text-xs text-[var(--pv-text-muted)]">
-            Public fields can be edited while private. Visibility changes only through the explicit
-            preview and publish actions above.
+            This content stays private until you use the preview or publish actions above.
           </div>
         </section>
       </div>
 
-      {!isNew && release && (
-        <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.55fr)_minmax(300px,0.75fr)]">
-          <section className={cn(panelClass, 'p-5 sm:p-6')}>
-            <div className="mb-5">
-              <h3 className="text-lg font-bold text-[var(--pv-text)]">Release notes</h3>
-              <p className="mt-1 text-sm text-[var(--pv-text-muted)]">
-                Edit public highlights, private technical context, platforms, and order.
+      <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.55fr)_minmax(300px,0.75fr)]">
+        <section className={cn(panelClass, 'p-5 sm:p-6')}>
+          <div className="mb-5">
+            <h3 className="text-lg font-bold text-[var(--pv-text)]">Release highlights</h3>
+            <p className="mt-1 text-sm text-[var(--pv-text-muted)]">
+              Add each feature, improvement, fix, or breaking change separately. Public highlights
+              appear below the introduction and can be ordered by importance.
+            </p>
+          </div>
+          {isNew || !release ? (
+            <div className="rounded-xl border border-dashed border-[var(--pv-border)] px-4 py-8 text-center">
+              <p className="text-sm font-medium text-[var(--pv-text)]">
+                Save the release details to begin adding highlights.
+              </p>
+              <p className="mt-1 text-xs text-[var(--pv-text-muted)]">
+                Highlights are separate items, so the release needs to be created first.
               </p>
             </div>
+          ) : (
             <div className="space-y-4">
               {release.notes.length === 0 ? (
                 <div className="rounded-xl border border-dashed border-[var(--pv-border)] px-4 py-8 text-center text-sm text-[var(--pv-text-muted)]">
-                  No notes yet. Add the first public or private highlight below.
+                  No highlights yet. Add each customer-facing change as its own highlight.
                 </div>
               ) : (
                 release.notes.map((note, index) => (
@@ -818,32 +833,33 @@ export function ReleaseEditor({
                 setNotice={setNotice}
               />
             </div>
-          </section>
-          <section className={cn(panelClass, 'h-fit p-5 sm:p-6')}>
-            <h3 className="mb-2 text-lg font-bold text-[var(--pv-text)]">Internal log</h3>
-            <p className="mb-4 text-sm text-[var(--pv-text-muted)]">
-              Private build, API, QA, and support context.
-            </p>
-            <MantineTextarea
-              value={form.internalSummary}
-              onChange={(event) => setField('internalSummary', event.target.value)}
-              disabled={formDisabled}
-              rows={12}
-              maxLength={10000}
-              classNames={{
-                ...mantineFieldClassNames,
-                input: `${mantineFieldClassNames.input} font-mono`,
-              }}
-              placeholder={
-                'api: release public view\ndb: release lifecycle\nqa: verify platform filters'
-              }
-            />
-            <div className="mt-4 inline-flex rounded-full bg-violet-100 px-3 py-1 text-xs font-semibold text-violet-700 dark:bg-violet-500/15 dark:text-violet-300">
-              Private
-            </div>
-          </section>
-        </div>
-      )}
+          )}
+        </section>
+        <section className={cn(panelClass, 'h-fit p-5 sm:p-6')}>
+          <h3 className="mb-2 text-lg font-bold text-[var(--pv-text)]">Team notes</h3>
+          <p className="mb-4 text-sm text-[var(--pv-text-muted)]">
+            Optional and private. Record implementation details, QA checks, support context, and
+            known issues for the team.
+          </p>
+          <MantineTextarea
+            value={form.internalSummary}
+            onChange={(event) => setField('internalSummary', event.target.value)}
+            disabled={formDisabled}
+            rows={12}
+            maxLength={10000}
+            classNames={{
+              ...mantineFieldClassNames,
+              input: `${mantineFieldClassNames.input} font-mono`,
+            }}
+            placeholder={
+              'QA:\n- Verify templates on iOS and Android\n\nSupport:\n- Existing tasks are unaffected\n\nTechnical:\n- Requires app version 1.2.0'
+            }
+          />
+          <div className="mt-4 inline-flex rounded-full bg-violet-100 px-3 py-1 text-xs font-semibold text-violet-700 dark:bg-violet-500/15 dark:text-violet-300">
+            Private
+          </div>
+        </section>
+      </div>
 
       <Dialog
         open={Boolean(pendingAction)}
@@ -861,7 +877,7 @@ export function ReleaseEditor({
                   {release?.version} · {form.title}
                 </p>
                 <p className="mt-1 text-[var(--pv-text-muted)]">
-                  {release?.notes.filter((note) => note.isPublic).length || 0} public notes
+                  {release?.notes.filter((note) => note.isPublic).length || 0} public highlights
                 </p>
               </div>
               {pendingAction === 'mark-released' && (
@@ -1105,7 +1121,7 @@ function NoteEditor({
     if (wouldRemoveLastPublicNote(release, note.id, isPublic)) {
       await onError(
         new Error(
-          'A visible release must keep at least one public note. Make another note public first.',
+          'A visible release must keep at least one public highlight. Make another highlight public first.',
         ),
       );
       return;
@@ -1136,7 +1152,7 @@ function NoteEditor({
     if (wouldRemoveLastPublicNote(release, note.id, false)) {
       await onError(
         new Error(
-          'A visible release must keep at least one public note. Make another note public first.',
+          'A visible release must keep at least one public highlight. Make another highlight public first.',
         ),
       );
       return;
@@ -1183,7 +1199,7 @@ function NoteEditor({
         </div>
       </div>
       <div className="grid gap-4 sm:grid-cols-[150px_1fr]">
-        <Field label="Note type">
+        <Field label="Change type">
           <Select
             value={noteType}
             disabled={controlsDisabled}
@@ -1193,7 +1209,7 @@ function NoteEditor({
             classNames={mantineSelectClassNames}
           />
         </Field>
-        <Field label="Public title">
+        <Field label="Highlight title">
           <TextInput
             value={title}
             disabled={controlsDisabled}
@@ -1204,7 +1220,7 @@ function NoteEditor({
         </Field>
       </div>
       <div className="mt-4">
-        <Field label="Public note">
+        <Field label="Public description">
           <MantineTextarea
             value={body}
             disabled={controlsDisabled}
@@ -1216,7 +1232,7 @@ function NoteEditor({
         </Field>
       </div>
       <div className="mt-4">
-        <Field label="Technical notes">
+        <Field label="Private technical context">
           <MantineTextarea
             value={technical}
             disabled={controlsDisabled}
@@ -1235,7 +1251,7 @@ function NoteEditor({
             checked={isPublic}
             disabled={controlsDisabled}
             onChange={(event) => setIsPublic(event.currentTarget.checked)}
-            label="Public note"
+            label="Show publicly"
             color="violet"
             classNames={{ label: 'text-sm font-medium text-[var(--pv-text)]' }}
           />
@@ -1246,7 +1262,7 @@ function NoteEditor({
             onClick={() => void save()}
           >
             {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {dirty ? 'Save note' : 'Saved'}
+            {dirty ? 'Save highlight' : 'Saved'}
           </Button>
           {canArchive && (
             <Button
@@ -1265,9 +1281,9 @@ function NoteEditor({
       <Dialog open={archiveOpen} onOpenChange={setArchiveOpen}>
         <DialogContent className="max-w-md p-6">
           <DialogHeader>
-            <DialogTitle>Archive this release note?</DialogTitle>
+            <DialogTitle>Archive this release highlight?</DialogTitle>
             <DialogDescription>
-              “{title}” will be removed from the active note list. Its history is retained.
+              “{title}” will be removed from the active highlight list. Its history is retained.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -1280,7 +1296,7 @@ function NoteEditor({
               className="bg-red-600 hover:bg-red-700"
             >
               {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Archive note
+              Archive highlight
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -1363,7 +1379,7 @@ function NewNoteForm({
         isPublic,
       });
       discard();
-      if (await onSaved()) setNotice('Release note added.');
+      if (await onSaved()) setNotice('Release highlight added.');
     } catch (caught) {
       await onError(caught);
     } finally {
@@ -1372,9 +1388,9 @@ function NewNoteForm({
   };
   return (
     <div className="rounded-2xl border border-dashed border-[var(--pv-primary)] bg-[rgba(99,102,241,0.04)] p-4">
-      <h4 className="mb-4 font-semibold text-[var(--pv-text)]">New release note</h4>
+      <h4 className="mb-4 font-semibold text-[var(--pv-text)]">New release highlight</h4>
       <div className="grid gap-4 sm:grid-cols-[150px_1fr]">
-        <Field label="Note type">
+        <Field label="Change type">
           <Select
             value={noteType}
             disabled={controlsDisabled}
@@ -1384,7 +1400,7 @@ function NewNoteForm({
             classNames={mantineSelectClassNames}
           />
         </Field>
-        <Field label="Public title">
+        <Field label="Highlight title">
           <TextInput
             value={title}
             disabled={controlsDisabled}
@@ -1395,7 +1411,7 @@ function NewNoteForm({
         </Field>
       </div>
       <div className="mt-4">
-        <Field label="Public note">
+        <Field label="Public description">
           <MantineTextarea
             value={body}
             disabled={controlsDisabled}
@@ -1407,7 +1423,7 @@ function NewNoteForm({
         </Field>
       </div>
       <div className="mt-4">
-        <Field label="Technical notes">
+        <Field label="Private technical context">
           <MantineTextarea
             value={technical}
             disabled={controlsDisabled}
@@ -1425,7 +1441,7 @@ function NewNoteForm({
             checked={isPublic}
             disabled={controlsDisabled}
             onChange={(event) => setIsPublic(event.currentTarget.checked)}
-            label="Public note"
+            label="Show publicly"
             color="violet"
             classNames={{ label: 'text-sm font-medium text-[var(--pv-text)]' }}
           />
@@ -1437,7 +1453,7 @@ function NewNoteForm({
             disabled={disabled || saving || !title.trim() || !body.trim()}
             onClick={() => void save()}
           >
-            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Add note
+            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Add highlight
           </Button>
         </div>
       </div>

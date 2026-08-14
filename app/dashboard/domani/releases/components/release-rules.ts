@@ -113,7 +113,7 @@ export function publicationReadiness(
   const missing: string[] = [];
   if (!publicOverviewText(release.publicOverview)) missing.push('a public overview');
   if (!release.notes.some((note) => note.isPublic && !note.archivedAt)) {
-    missing.push('at least one public release note');
+    missing.push('at least one public release highlight');
   }
   return {
     ready: missing.length === 0,
