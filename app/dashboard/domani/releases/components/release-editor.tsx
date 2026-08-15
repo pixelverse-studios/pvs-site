@@ -652,138 +652,138 @@ export function ReleaseEditor({
         </div>
       )}
 
-      <section className={cn(panelClass, 'p-5 sm:p-6')}>
-        <div className="mb-5 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-          <div>
+      <div className="grid gap-6 xl:grid-cols-[minmax(320px,0.72fr)_minmax(0,2.1fr)] xl:items-start">
+        <section className={cn(panelClass, 'p-5 sm:p-6 xl:col-start-1 xl:row-start-1')}>
+          <div className="mb-5">
             <h3 className="text-lg font-bold text-[var(--pv-text)]">Release details</h3>
             <p className="mt-1 text-sm text-[var(--pv-text-muted)]">
-              A compact release header. Highlights below carry the detailed update.
+              The compact identity and timing shown before the detailed highlights.
             </p>
           </div>
-          <p className="text-xs text-[var(--pv-text-muted)]">
-            Public only after preview or publish
-          </p>
-        </div>
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1.7fr)_minmax(340px,0.75fr)]">
-          <div className="min-w-0">
-            <Field label="Release title">
-              <TextInput
-                value={form.title}
-                onChange={(event) => setField('title', event.target.value)}
-                disabled={formDisabled}
-                placeholder="Smarter evening planning setup"
-                classNames={mantineFieldClassNames}
-                required
-                maxLength={160}
-              />
-            </Field>
-            <div className="mt-4">
-              <div className={fieldClass}>
-                <span className={labelClass}>Quick description</span>
-                <PublicOverviewEditor
-                  value={form.publicOverview}
-                  onChange={(value) => setField('publicOverview', value)}
-                  disabled={formDisabled}
-                />
-                <p className="text-xs text-[var(--pv-text-muted)]">
-                  Keep this brief. Use the rich highlights below for the substance of the release.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="border-t border-[var(--pv-border)] pt-5 xl:border-l xl:border-t-0 xl:pl-6 xl:pt-0">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Version">
+          <div className="space-y-5">
+            <div className="min-w-0">
+              <Field label="Release title">
                 <TextInput
-                  value={form.version}
-                  onChange={(event) => setField('version', event.target.value)}
-                  disabled={!isNew || formDisabled}
-                  placeholder="1.2.0"
-                  pattern="(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})"
-                  aria-describedby="release-version-help"
-                  aria-invalid={isNew && form.version.length > 0 && !derivedReleaseType}
-                  error={
-                    isNew && form.version.length > 0 && !derivedReleaseType
-                      ? 'Enter a complete semantic version such as 1.2.0.'
-                      : undefined
-                  }
+                  value={form.title}
+                  onChange={(event) => setField('title', event.target.value)}
+                  disabled={formDisabled}
+                  placeholder="Smarter evening planning setup"
                   classNames={mantineFieldClassNames}
                   required
-                />
-                <p id="release-version-help" className="text-xs text-[var(--pv-text-muted)]">
-                  Use X.Y.Z. The release type is derived automatically.
-                </p>
-              </Field>
-              <Field label="Release type">
-                <TextInput
-                  value={releaseTypeLabel(form.version)}
-                  disabled
-                  aria-label="Release type derived from version"
-                  classNames={mantineFieldClassNames}
+                  maxLength={160}
                 />
               </Field>
-              <Field label="Lifecycle status">
-                <Select
-                  value={form.lifecycleStatus}
-                  disabled={isNew || formDisabled}
-                  onChange={(value) =>
-                    value && setField('lifecycleStatus', value as ReleaseLifecycle)
-                  }
-                  data={availableLifecycleStatuses.map((value) => ({
-                    value,
-                    label: lifecycleLabels[value],
-                  }))}
-                  allowDeselect={false}
-                  classNames={mantineSelectClassNames}
-                />
-              </Field>
-              <Field label="Visibility">
-                <div className="flex min-h-9 items-center">
-                  {release ? (
-                    <ReleaseBadge kind="visibility" value={release.visibility} />
-                  ) : (
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 dark:bg-slate-700 dark:text-slate-100">
-                      Private
-                    </span>
-                  )}
+              <div className="mt-4">
+                <div className={fieldClass}>
+                  <span className={labelClass}>Quick description</span>
+                  <PublicOverviewEditor
+                    value={form.publicOverview}
+                    onChange={(value) => setField('publicOverview', value)}
+                    disabled={formDisabled}
+                  />
+                  <p className="text-xs text-[var(--pv-text-muted)]">
+                    Keep this brief. Use the rich highlights below for the substance of the release.
+                  </p>
                 </div>
-                <p className="text-xs text-[var(--pv-text-muted)]">
-                  Changes only through preview and publish actions.
-                </p>
-              </Field>
-              <Field label="Target month">
-                <MonthPickerInput
-                  value={form.targetMonth ? `${form.targetMonth}-01` : null}
-                  disabled={formDisabled}
-                  onChange={(value) => setField('targetMonth', value?.slice(0, 7) || '')}
-                  placeholder="Select month"
-                  valueFormat="MMMM YYYY"
-                  minDate={new Date(new Date().getFullYear(), new Date().getMonth(), 1)}
-                  clearable
-                  size="md"
-                  classNames={mantineFieldClassNames}
-                />
-              </Field>
-              <Field label="Target date">
-                <DateInput
-                  value={form.targetDate || null}
-                  disabled={formDisabled}
-                  onChange={(value) => setField('targetDate', value || '')}
-                  placeholder="Select date"
-                  valueFormat="MM/DD/YYYY"
-                  minDate={new Date().toISOString().slice(0, 10)}
-                  clearable
-                  size="md"
-                  classNames={mantineFieldClassNames}
-                />
-              </Field>
+              </div>
+            </div>
+            <div className="border-t border-[var(--pv-border)] pt-5">
+              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-2">
+                <Field label="Version">
+                  <TextInput
+                    value={form.version}
+                    onChange={(event) => setField('version', event.target.value)}
+                    disabled={!isNew || formDisabled}
+                    placeholder="1.2.0"
+                    pattern="(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})"
+                    aria-describedby="release-version-help"
+                    aria-invalid={isNew && form.version.length > 0 && !derivedReleaseType}
+                    error={
+                      isNew && form.version.length > 0 && !derivedReleaseType
+                        ? 'Enter a complete semantic version such as 1.2.0.'
+                        : undefined
+                    }
+                    classNames={mantineFieldClassNames}
+                    required
+                  />
+                  <p id="release-version-help" className="text-xs text-[var(--pv-text-muted)]">
+                    Use X.Y.Z. The release type is derived automatically.
+                  </p>
+                </Field>
+                <Field label="Release type">
+                  <TextInput
+                    value={releaseTypeLabel(form.version)}
+                    disabled
+                    aria-label="Release type derived from version"
+                    classNames={mantineFieldClassNames}
+                  />
+                </Field>
+                <Field label="Lifecycle status">
+                  <Select
+                    value={form.lifecycleStatus}
+                    disabled={isNew || formDisabled}
+                    onChange={(value) =>
+                      value && setField('lifecycleStatus', value as ReleaseLifecycle)
+                    }
+                    data={availableLifecycleStatuses.map((value) => ({
+                      value,
+                      label: lifecycleLabels[value],
+                    }))}
+                    allowDeselect={false}
+                    classNames={mantineSelectClassNames}
+                  />
+                </Field>
+                <Field label="Visibility">
+                  <div className="flex min-h-9 items-center">
+                    {release ? (
+                      <ReleaseBadge kind="visibility" value={release.visibility} />
+                    ) : (
+                      <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 dark:bg-slate-700 dark:text-slate-100">
+                        Private
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-[var(--pv-text-muted)]">
+                    Changes only through preview and publish actions.
+                  </p>
+                </Field>
+                <Field label="Target month">
+                  <MonthPickerInput
+                    value={form.targetMonth ? `${form.targetMonth}-01` : null}
+                    disabled={formDisabled}
+                    onChange={(value) => setField('targetMonth', value?.slice(0, 7) || '')}
+                    placeholder="Select month"
+                    valueFormat="MMMM YYYY"
+                    minDate={new Date(new Date().getFullYear(), new Date().getMonth(), 1)}
+                    clearable
+                    size="md"
+                    classNames={mantineFieldClassNames}
+                  />
+                </Field>
+                <Field label="Target date">
+                  <DateInput
+                    value={form.targetDate || null}
+                    disabled={formDisabled}
+                    onChange={(value) => setField('targetDate', value || '')}
+                    placeholder="Select date"
+                    valueFormat="MM/DD/YYYY"
+                    minDate={new Date().toISOString().slice(0, 10)}
+                    clearable
+                    size="md"
+                    classNames={mantineFieldClassNames}
+                  />
+                </Field>
+              </div>
+              <p className="mt-4 text-xs text-[var(--pv-text-muted)]">
+                Public only after preview or publish.
+              </p>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,2.2fr)_minmax(280px,0.65fr)]">
-        <section className={cn(panelClass, 'p-5 sm:p-6')}>
+        <section
+          className={cn(panelClass, 'p-5 sm:p-6 xl:col-start-2 xl:row-span-2 xl:row-start-1')}
+        >
           <div className="mb-5">
             <h3 className="text-lg font-bold text-[var(--pv-text)]">Release highlights</h3>
             <p className="mt-1 text-sm text-[var(--pv-text-muted)]">
@@ -837,7 +837,7 @@ export function ReleaseEditor({
             </div>
           )}
         </section>
-        <section className={cn(panelClass, 'h-fit p-5 sm:p-6')}>
+        <section className={cn(panelClass, 'h-fit p-5 sm:p-6 xl:col-start-1 xl:row-start-2')}>
           <h3 className="mb-2 text-lg font-bold text-[var(--pv-text)]">Team notes</h3>
           <p className="mb-4 text-sm text-[var(--pv-text-muted)]">
             Optional and private. Record implementation details, QA checks, support context, and
@@ -847,7 +847,7 @@ export function ReleaseEditor({
             value={form.internalSummary}
             onChange={(event) => setField('internalSummary', event.target.value)}
             disabled={formDisabled}
-            rows={12}
+            rows={10}
             maxLength={10000}
             classNames={{
               ...mantineFieldClassNames,
