@@ -2,12 +2,12 @@
 
 import { useEffect } from 'react';
 import Link from '@tiptap/extension-link';
+import { Markdown } from '@tiptap/markdown';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import {
   Bold,
-  Heading2,
-  Heading3,
+  Code2,
   Italic,
   Link as LinkIcon,
   List,
@@ -16,37 +16,38 @@ import {
   Undo2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import type { PublicOverviewDocument } from '@/lib/types/admin-release';
 import { cn } from '@/lib/utils';
 
-export function PublicOverviewEditor({
+export function ReleaseMarkdownEditor({
   value,
   onChange,
   disabled = false,
+  maxLength = 4000,
 }: {
-  value: PublicOverviewDocument;
-  onChange: (value: PublicOverviewDocument) => void;
+  value: string;
+  onChange: (value: string) => void;
   disabled?: boolean;
+  maxLength?: number;
 }) {
   const editor = useEditor({
     immediatelyRender: false,
     editable: !disabled,
     content: value,
+    contentType: 'markdown',
     editorProps: {
       attributes: {
-        'aria-label': 'Quick release description',
+        'aria-label': 'Release highlight description',
       },
     },
     extensions: [
       StarterKit.configure({
         blockquote: false,
-        code: false,
         codeBlock: false,
         hardBreak: false,
+        heading: false,
         horizontalRule: false,
         link: false,
         strike: false,
-        heading: { levels: [2, 3] },
       }),
       Link.configure({
         openOnClick: false,
@@ -55,10 +56,9 @@ export function PublicOverviewEditor({
         protocols: ['http', 'https', 'mailto'],
         HTMLAttributes: { rel: 'noopener noreferrer nofollow' },
       }),
+      Markdown,
     ],
-    onUpdate: ({ editor: nextEditor }) => {
-      onChange(nextEditor.getJSON() as PublicOverviewDocument);
-    },
+    onUpdate: ({ editor: nextEditor }) => onChange(nextEditor.getMarkdown()),
   });
 
   useEffect(() => {
@@ -66,13 +66,12 @@ export function PublicOverviewEditor({
   }, [disabled, editor]);
 
   useEffect(() => {
-    if (!editor || editor.isFocused) return;
-    const next = JSON.stringify(value);
-    if (JSON.stringify(editor.getJSON()) !== next) editor.commands.setContent(value);
+    if (!editor || editor.isFocused || editor.getMarkdown() === value) return;
+    editor.commands.setContent(value, { contentType: 'markdown', emitUpdate: false });
   }, [editor, value]);
 
   if (!editor) {
-    return <div className="min-h-28 animate-pulse rounded-lg bg-[var(--pv-surface)]" />;
+    return <div className="min-h-36 animate-pulse rounded-xl bg-[var(--pv-surface)]" />;
   }
 
   const setLink = () => {
@@ -84,26 +83,14 @@ export function PublicOverviewEditor({
       return;
     }
     const normalizedUrl = url.trim();
-    if (!/^(https?:\/\/|mailto:)/i.test(normalizedUrl)) {
-      window.alert('Links must begin with http://, https://, or mailto:.');
+    if (!/^(https?:\/\/|mailto:|\/|#)/i.test(normalizedUrl) || normalizedUrl.startsWith('//')) {
+      window.alert('Use an http, https, mailto, site-relative, or anchor link.');
       return;
     }
     editor.chain().focus().extendMarkRange('link').setLink({ href: normalizedUrl }).run();
   };
 
   const toolbar = [
-    {
-      label: 'Heading 2',
-      icon: Heading2,
-      active: editor.isActive('heading', { level: 2 }),
-      run: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
-    },
-    {
-      label: 'Heading 3',
-      icon: Heading3,
-      active: editor.isActive('heading', { level: 3 }),
-      run: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
-    },
     {
       label: 'Bold',
       icon: Bold,
@@ -115,6 +102,12 @@ export function PublicOverviewEditor({
       icon: Italic,
       active: editor.isActive('italic'),
       run: () => editor.chain().focus().toggleItalic().run(),
+    },
+    {
+      label: 'Inline code',
+      icon: Code2,
+      active: editor.isActive('code'),
+      run: () => editor.chain().focus().toggleCode().run(),
     },
     {
       label: 'Bullet list',
@@ -134,14 +127,14 @@ export function PublicOverviewEditor({
   return (
     <div
       className={cn(
-        'overflow-hidden rounded-lg border border-[var(--pv-border)] bg-[var(--pv-surface)]',
+        'overflow-hidden rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)] transition-colors focus-within:border-[var(--pv-primary)]',
         disabled && 'opacity-60',
       )}
     >
       <div
-        className="flex flex-wrap gap-1 border-b border-[var(--pv-border)] p-2"
+        className="flex flex-wrap items-center gap-1 border-b border-[var(--pv-border)] bg-[var(--pv-surface)] px-2 py-1.5"
         role="toolbar"
-        aria-label="Quick release description formatting"
+        aria-label="Release highlight formatting"
       >
         {toolbar.map(({ label, icon: Icon, active, run }) => (
           <Button
@@ -150,7 +143,7 @@ export function PublicOverviewEditor({
             variant="ghost"
             size="icon"
             className={cn(
-              'h-8 w-8',
+              'h-8 w-8 active:scale-[0.98]',
               active && 'bg-violet-100 text-violet-800 dark:bg-violet-500/20 dark:text-violet-200',
             )}
             onClick={run}
@@ -161,12 +154,12 @@ export function PublicOverviewEditor({
             <Icon className="h-4 w-4" />
           </Button>
         ))}
-        <span className="mx-1 w-px bg-[var(--pv-border)]" aria-hidden="true" />
+        <span className="mx-1 h-5 w-px bg-[var(--pv-border)]" aria-hidden="true" />
         <Button
           type="button"
           variant="ghost"
           size="icon"
-          className="h-8 w-8"
+          className="h-8 w-8 active:scale-[0.98]"
           onClick={() => editor.chain().focus().undo().run()}
           disabled={disabled || !editor.can().undo()}
           aria-label="Undo"
@@ -177,7 +170,7 @@ export function PublicOverviewEditor({
           type="button"
           variant="ghost"
           size="icon"
-          className="h-8 w-8"
+          className="h-8 w-8 active:scale-[0.98]"
           onClick={() => editor.chain().focus().redo().run()}
           disabled={disabled || !editor.can().redo()}
           aria-label="Redo"
@@ -187,8 +180,14 @@ export function PublicOverviewEditor({
       </div>
       <EditorContent
         editor={editor}
-        className="[&_.tiptap]:min-h-28 [&_.tiptap]:px-4 [&_.tiptap]:py-3 [&_.tiptap]:text-sm [&_.tiptap]:text-[var(--pv-text)] [&_.tiptap]:outline-none [&_a]:text-violet-600 [&_a]:underline [&_h2]:mb-2 [&_h2]:mt-3 [&_h2]:text-lg [&_h2]:font-bold [&_h3]:mb-2 [&_h3]:mt-3 [&_h3]:font-semibold [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-2 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-6"
+        className="[&_.tiptap]:min-h-36 [&_.tiptap]:px-4 [&_.tiptap]:py-3 [&_.tiptap]:text-sm [&_.tiptap]:leading-relaxed [&_.tiptap]:text-[var(--pv-text)] [&_.tiptap]:outline-none [&_a]:font-medium [&_a]:text-violet-600 [&_a]:underline [&_code]:rounded [&_code]:bg-[var(--pv-surface)] [&_code]:px-1 [&_code]:py-0.5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-2 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-6"
       />
+      <div className="flex items-center justify-between gap-3 border-t border-[var(--pv-border)] px-3 py-2 text-[11px] text-[var(--pv-text-muted)]">
+        <span>Bold, italic, links, inline code, and lists</span>
+        <span className={cn(value.length > maxLength && 'font-semibold text-red-600')}>
+          {value.length.toLocaleString()} / {maxLength.toLocaleString()}
+        </span>
+      </div>
     </div>
   );
 }

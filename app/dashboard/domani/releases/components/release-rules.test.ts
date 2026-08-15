@@ -88,11 +88,11 @@ describe('release identity and lifecycle rules', () => {
     expect(releaseFormError(form({ title: ' ' }), true)).toBe('Enter a release title.');
   });
 
-  it('requires rich public overview content for visible releases', () => {
+  it('requires a rich quick description for visible releases', () => {
     const emptyOverview = { type: 'doc' as const, content: [{ type: 'paragraph' as const }] };
     expect(
       releaseFormError(form({ publicOverview: emptyOverview }), false, 'public_preview'),
-    ).toMatch(/require a public overview/);
+    ).toMatch(/require a quick description/);
     expect(releaseFormError(form({ publicOverview: emptyOverview }), false, 'private')).toBeNull();
   });
 
@@ -120,7 +120,7 @@ describe('publication and note rules', () => {
     expect(publicationReadiness(release({ publicOverview: null, notes: [] }))).toEqual({
       ready: false,
       message:
-        'Before publishing, add a public overview and at least one public release highlight.',
+        'Before publishing, add a quick description and at least one public release highlight.',
     });
     expect(
       publicationReadiness(release({ notes: [note({ archivedAt: '2026-08-13' })] })).ready,

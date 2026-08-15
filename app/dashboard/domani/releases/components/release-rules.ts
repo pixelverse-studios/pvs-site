@@ -71,13 +71,13 @@ export function releaseFormError(
   if (form.title.trim().length > 160) return 'Keep the release title to 160 characters or fewer.';
   const overviewText = publicOverviewText(form.publicOverview);
   if (overviewText.length > 10000) {
-    return 'Keep the public overview to 10,000 characters or fewer.';
+    return 'Keep the quick description to 10,000 characters or fewer.';
   }
   if (visibility !== 'private' && !overviewText) {
-    return 'Public preview and published releases require a public overview.';
+    return 'Public preview and published releases require a quick description.';
   }
   if (form.internalSummary.length > 10000) {
-    return 'Keep the internal log to 10,000 characters or fewer.';
+    return 'Keep team notes to 10,000 characters or fewer.';
   }
   return null;
 }
@@ -111,7 +111,7 @@ export function publicationReadiness(
   release: Pick<AdminReleaseDetail, 'publicOverview' | 'notes'>,
 ): { ready: boolean; message: string | null } {
   const missing: string[] = [];
-  if (!publicOverviewText(release.publicOverview)) missing.push('a public overview');
+  if (!publicOverviewText(release.publicOverview)) missing.push('a quick description');
   if (!release.notes.some((note) => note.isPublic && !note.archivedAt)) {
     missing.push('at least one public release highlight');
   }
@@ -124,14 +124,14 @@ export function publicationReadiness(
 export function noteFormError(title: string, body: string, technical: string): string | null {
   const normalizedTitle = title.trim();
   const normalizedBody = body.replace(/\r\n?/g, '\n').trim();
-  if (!normalizedTitle) return 'Enter a public note title.';
-  if (normalizedTitle.length > 160) return 'Keep the public note title to 160 characters or fewer.';
-  if (!normalizedBody) return 'Enter public note content.';
+  if (!normalizedTitle) return 'Enter a highlight title.';
+  if (normalizedTitle.length > 160) return 'Keep the highlight title to 160 characters or fewer.';
+  if (!normalizedBody) return 'Enter highlight content.';
   if (normalizedBody.length > 4000) {
-    return 'Keep the public note content to 4,000 characters or fewer.';
+    return 'Keep highlight content to 4,000 characters or fewer.';
   }
   if (technical.length > 20000) {
-    return 'Keep technical notes to 20,000 characters or fewer.';
+    return 'Keep private technical context to 20,000 characters or fewer.';
   }
   return null;
 }

@@ -56,6 +56,7 @@ import {
   visibilityLabels,
 } from './release-ui';
 import { PublicOverviewEditor } from './public-overview-editor';
+import { ReleaseMarkdownEditor } from './release-markdown-editor';
 import {
   emptyReleaseForm,
   emptyPublicOverview,
@@ -111,13 +112,13 @@ const actionCopy: Record<ReleaseAction, { title: string; description: string; co
   'publish-preview': {
     title: 'Publish this coming-soon preview?',
     description:
-      'The public summary and every public note will become visible on Domani’s Coming Soon page.',
+      'The quick description and every public highlight will become visible on Domani’s Coming Soon page.',
     confirm: 'Publish preview',
   },
   publish: {
     title: 'Publish this changelog release?',
     description:
-      'The release and every public note will become visible on Domani’s public changelog.',
+      'The release and every public highlight will become visible on Domani’s public changelog.',
     confirm: 'Publish release',
   },
   'return-to-private': {
@@ -635,11 +636,11 @@ export function ReleaseEditor({
         >
           You have unsaved{' '}
           {releaseDirty && hasDirtyNotes
-            ? 'release settings and note drafts'
+            ? 'release details and highlight drafts'
             : releaseDirty
-              ? 'release settings'
-              : 'release-note drafts'}
-          . Save them before publishing, changing visibility, archiving, or reordering notes.
+              ? 'release details'
+              : 'highlight drafts'}
+          . Save them before publishing, changing visibility, archiving, or reordering highlights.
         </div>
       )}
 
@@ -651,142 +652,143 @@ export function ReleaseEditor({
         </div>
       )}
 
-      <div className="grid gap-6 xl:grid-cols-[minmax(300px,0.75fr)_minmax(0,1.6fr)]">
-        <section className={cn(panelClass, 'p-5 sm:p-6')}>
-          <h3 className="mb-5 text-lg font-bold text-[var(--pv-text)]">Release settings</h3>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
-            <Field label="Version">
-              <TextInput
-                value={form.version}
-                onChange={(event) => setField('version', event.target.value)}
-                disabled={!isNew || formDisabled}
-                placeholder="1.2.0"
-                pattern="(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})"
-                aria-describedby="release-version-help"
-                aria-invalid={isNew && form.version.length > 0 && !derivedReleaseType}
-                error={
-                  isNew && form.version.length > 0 && !derivedReleaseType
-                    ? 'Enter a complete semantic version such as 1.2.0.'
-                    : undefined
-                }
-                classNames={mantineFieldClassNames}
-                required
-              />
-              <p id="release-version-help" className="text-xs text-[var(--pv-text-muted)]">
-                Use X.Y.Z. The release type is derived automatically.
-              </p>
-            </Field>
-            <Field label="Release type">
-              <TextInput
-                value={releaseTypeLabel(form.version)}
-                disabled
-                aria-label="Release type derived from version"
-                classNames={mantineFieldClassNames}
-              />
-            </Field>
-            <Field label="Lifecycle status">
-              <Select
-                value={form.lifecycleStatus}
-                disabled={isNew || formDisabled}
-                onChange={(value) =>
-                  value && setField('lifecycleStatus', value as ReleaseLifecycle)
-                }
-                data={availableLifecycleStatuses.map((value) => ({
-                  value,
-                  label: lifecycleLabels[value],
-                }))}
-                allowDeselect={false}
-                classNames={mantineSelectClassNames}
-              />
-            </Field>
-            <Field label="Visibility">
-              <div className="flex min-h-9 items-center">
-                {release ? (
-                  <ReleaseBadge kind="visibility" value={release.visibility} />
-                ) : (
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 dark:bg-slate-700 dark:text-slate-100">
-                    Private
-                  </span>
-                )}
-              </div>
-              <p className="text-xs text-[var(--pv-text-muted)]">
-                Changes only through preview and publish actions.
-              </p>
-            </Field>
-            <Field label="Target month">
-              <MonthPickerInput
-                value={form.targetMonth ? `${form.targetMonth}-01` : null}
-                disabled={formDisabled}
-                onChange={(value) => setField('targetMonth', value?.slice(0, 7) || '')}
-                placeholder="Select month"
-                valueFormat="MMMM YYYY"
-                minDate={new Date(new Date().getFullYear(), new Date().getMonth(), 1)}
-                clearable
-                size="md"
-                classNames={mantineFieldClassNames}
-              />
-            </Field>
-            <Field label="Target date">
-              <DateInput
-                value={form.targetDate || null}
-                disabled={formDisabled}
-                onChange={(value) => setField('targetDate', value || '')}
-                placeholder="Select date"
-                valueFormat="MM/DD/YYYY"
-                minDate={new Date().toISOString().slice(0, 10)}
-                clearable
-                size="md"
-                classNames={mantineFieldClassNames}
-              />
-            </Field>
-          </div>
-        </section>
-
-        <section className={cn(panelClass, 'p-5 sm:p-6')}>
-          <div className="mb-5">
-            <h3 className="text-lg font-bold text-[var(--pv-text)]">Public release content</h3>
+      <section className={cn(panelClass, 'p-5 sm:p-6')}>
+        <div className="mb-5 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h3 className="text-lg font-bold text-[var(--pv-text)]">Release details</h3>
             <p className="mt-1 text-sm text-[var(--pv-text-muted)]">
-              The title and introduction shown at the top of the public release.
+              A compact release header. Highlights below carry the detailed update.
             </p>
           </div>
-          <Field label="Release title">
-            <TextInput
-              value={form.title}
-              onChange={(event) => setField('title', event.target.value)}
-              disabled={formDisabled}
-              placeholder="Smarter evening planning setup"
-              classNames={mantineFieldClassNames}
-              required
-              maxLength={160}
-            />
-          </Field>
-          <div className="mt-4">
-            <div className={fieldClass}>
-              <span className={labelClass}>Introduction</span>
-              <PublicOverviewEditor
-                value={form.publicOverview}
-                onChange={(value) => setField('publicOverview', value)}
+          <p className="text-xs text-[var(--pv-text-muted)]">
+            Public only after preview or publish
+          </p>
+        </div>
+        <div className="grid gap-6 xl:grid-cols-[minmax(0,1.7fr)_minmax(340px,0.75fr)]">
+          <div className="min-w-0">
+            <Field label="Release title">
+              <TextInput
+                value={form.title}
+                onChange={(event) => setField('title', event.target.value)}
                 disabled={formDisabled}
+                placeholder="Smarter evening planning setup"
+                classNames={mantineFieldClassNames}
+                required
+                maxLength={160}
               />
-              <p className="text-xs text-[var(--pv-text-muted)]">
-                Explain what the release means and why it matters. Use release highlights below for
-                individual changes. Supports headings, links, and bullet or numbered lists.
-              </p>
+            </Field>
+            <div className="mt-4">
+              <div className={fieldClass}>
+                <span className={labelClass}>Quick description</span>
+                <PublicOverviewEditor
+                  value={form.publicOverview}
+                  onChange={(value) => setField('publicOverview', value)}
+                  disabled={formDisabled}
+                />
+                <p className="text-xs text-[var(--pv-text-muted)]">
+                  Keep this brief. Use the rich highlights below for the substance of the release.
+                </p>
+              </div>
             </div>
           </div>
-          <div className="mt-4 rounded-xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-4 text-xs text-[var(--pv-text-muted)]">
-            This content stays private until you use the preview or publish actions above.
+          <div className="border-t border-[var(--pv-border)] pt-5 xl:border-l xl:border-t-0 xl:pl-6 xl:pt-0">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="Version">
+                <TextInput
+                  value={form.version}
+                  onChange={(event) => setField('version', event.target.value)}
+                  disabled={!isNew || formDisabled}
+                  placeholder="1.2.0"
+                  pattern="(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})"
+                  aria-describedby="release-version-help"
+                  aria-invalid={isNew && form.version.length > 0 && !derivedReleaseType}
+                  error={
+                    isNew && form.version.length > 0 && !derivedReleaseType
+                      ? 'Enter a complete semantic version such as 1.2.0.'
+                      : undefined
+                  }
+                  classNames={mantineFieldClassNames}
+                  required
+                />
+                <p id="release-version-help" className="text-xs text-[var(--pv-text-muted)]">
+                  Use X.Y.Z. The release type is derived automatically.
+                </p>
+              </Field>
+              <Field label="Release type">
+                <TextInput
+                  value={releaseTypeLabel(form.version)}
+                  disabled
+                  aria-label="Release type derived from version"
+                  classNames={mantineFieldClassNames}
+                />
+              </Field>
+              <Field label="Lifecycle status">
+                <Select
+                  value={form.lifecycleStatus}
+                  disabled={isNew || formDisabled}
+                  onChange={(value) =>
+                    value && setField('lifecycleStatus', value as ReleaseLifecycle)
+                  }
+                  data={availableLifecycleStatuses.map((value) => ({
+                    value,
+                    label: lifecycleLabels[value],
+                  }))}
+                  allowDeselect={false}
+                  classNames={mantineSelectClassNames}
+                />
+              </Field>
+              <Field label="Visibility">
+                <div className="flex min-h-9 items-center">
+                  {release ? (
+                    <ReleaseBadge kind="visibility" value={release.visibility} />
+                  ) : (
+                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 dark:bg-slate-700 dark:text-slate-100">
+                      Private
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-[var(--pv-text-muted)]">
+                  Changes only through preview and publish actions.
+                </p>
+              </Field>
+              <Field label="Target month">
+                <MonthPickerInput
+                  value={form.targetMonth ? `${form.targetMonth}-01` : null}
+                  disabled={formDisabled}
+                  onChange={(value) => setField('targetMonth', value?.slice(0, 7) || '')}
+                  placeholder="Select month"
+                  valueFormat="MMMM YYYY"
+                  minDate={new Date(new Date().getFullYear(), new Date().getMonth(), 1)}
+                  clearable
+                  size="md"
+                  classNames={mantineFieldClassNames}
+                />
+              </Field>
+              <Field label="Target date">
+                <DateInput
+                  value={form.targetDate || null}
+                  disabled={formDisabled}
+                  onChange={(value) => setField('targetDate', value || '')}
+                  placeholder="Select date"
+                  valueFormat="MM/DD/YYYY"
+                  minDate={new Date().toISOString().slice(0, 10)}
+                  clearable
+                  size="md"
+                  classNames={mantineFieldClassNames}
+                />
+              </Field>
+            </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.55fr)_minmax(300px,0.75fr)]">
+      <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,2.2fr)_minmax(280px,0.65fr)]">
         <section className={cn(panelClass, 'p-5 sm:p-6')}>
           <div className="mb-5">
             <h3 className="text-lg font-bold text-[var(--pv-text)]">Release highlights</h3>
             <p className="mt-1 text-sm text-[var(--pv-text-muted)]">
-              Add each feature, improvement, fix, or breaking change separately. Public highlights
-              appear below the introduction and can be ordered by importance.
+              The main release story. Add each feature, improvement, fix, or breaking change as rich
+              content, then order the highlights by importance.
             </p>
           </div>
           {isNew || !release ? (
@@ -1220,16 +1222,15 @@ function NoteEditor({
         </Field>
       </div>
       <div className="mt-4">
-        <Field label="Public description">
-          <MantineTextarea
+        <div className={fieldClass}>
+          <span className={labelClass}>Highlight content</span>
+          <ReleaseMarkdownEditor
             value={body}
             disabled={controlsDisabled}
-            onChange={(event) => setBody(event.target.value)}
-            rows={3}
+            onChange={setBody}
             maxLength={4000}
-            classNames={mantineFieldClassNames}
           />
-        </Field>
+        </div>
       </div>
       <div className="mt-4">
         <Field label="Private technical context">
@@ -1411,16 +1412,15 @@ function NewNoteForm({
         </Field>
       </div>
       <div className="mt-4">
-        <Field label="Public description">
-          <MantineTextarea
+        <div className={fieldClass}>
+          <span className={labelClass}>Highlight content</span>
+          <ReleaseMarkdownEditor
             value={body}
             disabled={controlsDisabled}
-            onChange={(event) => setBody(event.target.value)}
-            rows={3}
+            onChange={setBody}
             maxLength={4000}
-            classNames={mantineFieldClassNames}
           />
-        </Field>
+        </div>
       </div>
       <div className="mt-4">
         <Field label="Private technical context">
