@@ -18,6 +18,7 @@ import {
 import { Button } from '@/components/ui/button';
 import type { PublicOverviewDocument } from '@/lib/types/admin-release';
 import { cn } from '@/lib/utils';
+import { syncPublicOverviewValue } from './public-overview-sync';
 
 export function PublicOverviewEditor({
   value,
@@ -66,9 +67,8 @@ export function PublicOverviewEditor({
   }, [disabled, editor]);
 
   useEffect(() => {
-    if (!editor || editor.isFocused) return;
-    const next = JSON.stringify(value);
-    if (JSON.stringify(editor.getJSON()) !== next) editor.commands.setContent(value);
+    if (!editor) return;
+    syncPublicOverviewValue(editor, value);
   }, [editor, value]);
 
   if (!editor) {
@@ -185,10 +185,12 @@ export function PublicOverviewEditor({
           <Redo2 className="h-4 w-4" />
         </Button>
       </div>
-      <EditorContent
-        editor={editor}
-        className="[&_.tiptap]:min-h-28 [&_.tiptap]:px-4 [&_.tiptap]:py-3 [&_.tiptap]:text-sm [&_.tiptap]:text-[var(--pv-text)] [&_.tiptap]:outline-none [&_a]:text-violet-600 [&_a]:underline [&_h2]:mb-2 [&_h2]:mt-3 [&_h2]:text-lg [&_h2]:font-bold [&_h3]:mb-2 [&_h3]:mt-3 [&_h3]:font-semibold [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-2 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-6"
-      />
+      <div className="h-20 min-h-16 resize-y overflow-auto">
+        <EditorContent
+          editor={editor}
+          className="min-h-full [&_.tiptap]:min-h-full [&_.tiptap]:px-4 [&_.tiptap]:py-3 [&_.tiptap]:text-sm [&_.tiptap]:text-[var(--pv-text)] [&_.tiptap]:outline-none [&_a]:text-violet-600 [&_a]:underline [&_h2]:mb-2 [&_h2]:mt-3 [&_h2]:text-lg [&_h2]:font-bold [&_h3]:mb-2 [&_h3]:mt-3 [&_h3]:font-semibold [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-2 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-6"
+        />
+      </div>
     </div>
   );
 }

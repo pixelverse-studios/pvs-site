@@ -1,22 +1,27 @@
 import { describe, expect, it } from 'vitest';
 import type { AdminReleaseDetail, AdminReleaseNote } from '../../../../../lib/types/admin-release';
 import {
-  emptyReleaseForm,
   deriveReleaseType,
-  firstFieldError,
+  destinationMessage,
+  emptyReleaseEditorForm,
   formatReleasedDate,
-  lifecycleOptions,
-  noteFormError,
-  publicationReadiness,
-  releaseFormError,
+  releaseDestination,
+  releaseEditorFormError,
+  releaseEditorFormFromRelease,
+  releaseEditorFormsEqual,
+  releaseEditorPayload,
   releaseTypeLabel,
-  wouldRemoveLastPublicNote,
-  type ReleaseFormState,
+  type ReleaseEditorFormState,
 } from './release-rules';
 
+const overview = {
+  type: 'doc' as const,
+  content: [{ type: 'paragraph' as const, content: [{ type: 'text' as const, text: 'Plan tomorrow tonight.' }] }],
+};
+
 const note = (overrides: Partial<AdminReleaseNote> = {}): AdminReleaseNote => ({
-  id: 'note-1',
-  releaseId: 'release-1',
+  id: '00000000-0000-4000-8000-000000000002',
+  releaseId: '00000000-0000-4000-8000-000000000001',
   noteType: 'feature',
   publicTitle: 'Clear mornings',
   publicBody: 'Plan the night before.',
@@ -34,21 +39,21 @@ const note = (overrides: Partial<AdminReleaseNote> = {}): AdminReleaseNote => ({
 });
 
 const release = (overrides: Partial<AdminReleaseDetail> = {}): AdminReleaseDetail => ({
-  id: 'release-1',
+  id: '00000000-0000-4000-8000-000000000001',
   version: '1.2.0',
   slug: 'clear-mornings',
   title: 'Clear mornings',
   releaseType: 'minor',
-  lifecycleStatus: 'planned',
+  status: 'draft',
+  timing: { kind: 'date', value: '2026-08-30' },
+  platforms: ['ios', 'android'],
+  lifecycleStatus: 'draft',
   visibility: 'private',
-  publicOverview: {
-    type: 'doc',
-    content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Plan tomorrow tonight.' }] }],
-  },
+  publicOverview: overview,
   publicSummary: 'Plan tomorrow tonight.',
   internalSummary: null,
-  targetMonth: null,
-  targetDate: null,
+  targetMonth: '2026-08',
+  targetDate: '2026-08-30',
   confirmedDate: null,
   releasedAt: null,
   ownerUserId: null,
@@ -58,106 +63,97 @@ const release = (overrides: Partial<AdminReleaseDetail> = {}): AdminReleaseDetai
   archivedAt: null,
   notes: [note()],
   sources: [],
-  allowedActions: ['edit', 'publish_preview'],
+  allowedActions: ['edit', 'archive'],
   ...overrides,
 });
 
-const form = (overrides: Partial<ReleaseFormState> = {}): ReleaseFormState => ({
-  ...emptyReleaseForm,
+const form = (overrides: Partial<ReleaseEditorFormState> = {}): ReleaseEditorFormState => ({
+  ...emptyReleaseEditorForm(),
   version: '1.2.0',
   title: 'Clear mornings',
-  publicOverview: {
-    type: 'doc',
-    content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Plan tomorrow tonight.' }] }],
-  },
+  publicOverview: overview,
+  timing: { kind: 'date', value: '2026-08-30' },
+  highlights: [
+    {
+      id: '00000000-0000-4000-8000-000000000002',
+      rowVersion: 1,
+      noteType: 'feature',
+      publicTitle: 'Clear mornings',
+      publicBody: 'Plan the night before.',
+      technicalNotes: '',
+      platformOverride: null,
+      isPublic: true,
+    },
+  ],
   ...overrides,
 });
 
-describe('release identity and lifecycle rules', () => {
-  it('derives the release type from canonical semantic versions', () => {
+describe('release identity', () => {
+  it('derives the release type from X.Y.Z versions', () => {
     expect(deriveReleaseType('2.0.0')).toBe('major');
     expect(deriveReleaseType('1.2.0')).toBe('minor');
     expect(deriveReleaseType('1.2.1')).toBe('patch');
-    expect(releaseTypeLabel('1.2.1')).toBe('Patch / bug fix');
+    expect(releaseTypeLabel('1.2.1')).toBe('Patch release');
     expect(deriveReleaseType('1.2')).toBeNull();
   });
 
-  it('rejects malformed identity fields', () => {
-    expect(releaseFormError(form({ version: '01.2.0' }), true)).toMatch(/valid X\.Y\.Z/);
-    expect(releaseFormError(form({ version: '1.2' }), true)).toMatch(/valid X\.Y\.Z/);
-    expect(releaseFormError(form({ title: ' ' }), true)).toBe('Enter a release title.');
+  it('maps saved releases into the single editor form', () => {
+    const mapped = releaseEditorFormFromRelease(release());
+    expect(mapped.status).toBe('draft');
+    expect(mapped.timing).toEqual({ kind: 'date', value: '2026-08-30' });
+    expect(mapped.highlights[0].platformOverride).toBeNull();
   });
 
-  it('requires a rich quick description for visible releases', () => {
-    const emptyOverview = { type: 'doc' as const, content: [{ type: 'paragraph' as const }] };
-    expect(
-      releaseFormError(form({ publicOverview: emptyOverview }), false, 'public_preview'),
-    ).toMatch(/require a quick description/);
-    expect(releaseFormError(form({ publicOverview: emptyOverview }), false, 'private')).toBeNull();
-  });
-
-  it('only offers DEV-1005 lifecycle transitions', () => {
-    expect(lifecycleOptions(release({ lifecycleStatus: 'draft' }))).toEqual([
-      'draft',
-      'planned',
-      'canceled',
-    ]);
-    expect(lifecycleOptions(release({ lifecycleStatus: 'planned' }))).toEqual([
-      'planned',
-      'in_progress',
-      'canceled',
-    ]);
-    expect(
-      lifecycleOptions(release({ lifecycleStatus: 'planned', visibility: 'public_preview' })),
-    ).toEqual(['planned', 'in_progress']);
-    expect(lifecycleOptions(release({ lifecycleStatus: 'released' }))).toEqual(['released']);
-  });
-});
-
-describe('publication and note rules', () => {
-  it('requires a public summary and active public note before publication', () => {
-    expect(publicationReadiness(release())).toEqual({ ready: true, message: null });
-    expect(publicationReadiness(release({ publicOverview: null, notes: [] }))).toEqual({
-      ready: false,
-      message:
-        'Before publishing, add a quick description and at least one public release highlight.',
+  it('does not mark equivalent rich content dirty when JSON keys are reordered', () => {
+    const left = form();
+    const right = form({
+      publicOverview: {
+        content: [{ content: [{ text: 'Plan tomorrow tonight.', type: 'text' }], type: 'paragraph' }],
+        type: 'doc',
+      },
     });
-    expect(
-      publicationReadiness(release({ notes: [note({ archivedAt: '2026-08-13' })] })).ready,
-    ).toBe(false);
-  });
-
-  it('enforces note field limits after Markdown normalization', () => {
-    expect(noteFormError(' ', 'body', '')).toMatch(/title/);
-    expect(noteFormError('Title', ' \r\n ', '')).toMatch(/content/);
-    expect(noteFormError('Title', 'x'.repeat(4001), '')).toMatch(/4,000/);
-    expect(noteFormError('Title', 'Body', 'x'.repeat(20001))).toMatch(/20,000/);
-    expect(noteFormError('Title', 'Body', 'Implementation detail')).toBeNull();
-  });
-
-  it('protects the last public note on visible releases', () => {
-    expect(
-      wouldRemoveLastPublicNote(release({ visibility: 'public_preview' }), 'note-1', false),
-    ).toBe(true);
-    expect(wouldRemoveLastPublicNote(release(), 'note-1', false)).toBe(false);
-    expect(
-      wouldRemoveLastPublicNote(
-        release({ visibility: 'published', notes: [note(), note({ id: 'note-2' })] }),
-        'note-1',
-        false,
-      ),
-    ).toBe(false);
+    expect(releaseEditorFormsEqual(left, right)).toBe(true);
+    expect(releaseEditorFormsEqual(left, { ...right, title: 'Changed' })).toBe(false);
   });
 });
 
-describe('error and date presentation', () => {
-  it('surfaces the first stable API field error', () => {
-    expect(firstFieldError({ title: [], publicBody: ['Public body is too long'] })).toBe(
-      'Public body is too long',
-    );
-    expect(firstFieldError({})).toBeNull();
+describe('publishing and placement', () => {
+  it('keeps drafts private and places published releases by timing', () => {
+    expect(releaseDestination(form(), '2026-08-16')).toBe('private');
+    expect(
+      releaseDestination(form({ status: 'published', timing: { kind: 'date', value: '2026-08-16' } }), '2026-08-16'),
+    ).toBe('changelog');
+    expect(
+      releaseDestination(form({ status: 'published', timing: { kind: 'date', value: '2026-08-17' } }), '2026-08-16'),
+    ).toBe('coming-soon');
+    expect(releaseDestination(form({ status: 'published', timing: { kind: 'tbd', value: null } }), '2026-08-16')).toBe('coming-soon');
+    expect(destinationMessage(form())).toMatch(/Only your team/);
   });
 
+  it('requires customer content only when publishing', () => {
+    const noOverview = { type: 'doc' as const, content: [{ type: 'paragraph' as const }] };
+    expect(releaseEditorFormError(form({ publicOverview: noOverview }))).toBeNull();
+    expect(releaseEditorFormError(form({ status: 'published', publicOverview: noOverview }))).toMatch(/quick description/);
+    expect(
+      releaseEditorFormError(form({ status: 'published', highlights: form().highlights.map((item) => ({ ...item, isPublic: false })) })),
+    ).toMatch(/public highlight/);
+  });
+
+  it('sends release platforms by default and preserves explicit highlight platforms', () => {
+    const inherited = releaseEditorPayload(form({ platforms: ['ios'] }));
+    expect(inherited.highlights[0].platforms).toEqual(['ios']);
+
+    const overridden = releaseEditorPayload(
+      form({
+        platforms: ['ios', 'android'],
+        highlights: form().highlights.map((item) => ({ ...item, platformOverride: ['android'] })),
+      }),
+    );
+    expect(overridden.highlights[0].platforms).toEqual(['android']);
+  });
+});
+
+describe('date presentation', () => {
   it('formats released timestamps using the UTC calendar date', () => {
     expect(formatReleasedDate('2026-08-13T00:30:00+14:00')).toBe('Aug 12, 2026');
   });

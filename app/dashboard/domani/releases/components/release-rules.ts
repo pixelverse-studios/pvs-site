@@ -1,19 +1,35 @@
 import type {
   AdminReleaseDetail,
   PublicOverviewDocument,
-  ReleaseLifecycle,
+  PublicOverviewNode,
+  ReleaseNoteType,
+  ReleasePlatform,
+  ReleaseStatus,
+  ReleaseTiming,
   ReleaseType,
-  ReleaseVisibility,
+  SaveReleaseEditorInput,
 } from '../../../../../lib/types/admin-release';
 
-export interface ReleaseFormState {
+export interface ReleaseHighlightFormState {
+  id: string;
+  rowVersion: number | null;
+  noteType: ReleaseNoteType;
+  publicTitle: string;
+  publicBody: string;
+  technicalNotes: string;
+  platformOverride: ReleasePlatform[] | null;
+  isPublic: boolean;
+}
+
+export interface ReleaseEditorFormState {
   version: string;
   title: string;
-  lifecycleStatus: ReleaseLifecycle;
+  status: ReleaseStatus;
+  timing: ReleaseTiming;
+  platforms: ReleasePlatform[];
   publicOverview: PublicOverviewDocument;
   internalSummary: string;
-  targetMonth: string;
-  targetDate: string;
+  highlights: ReleaseHighlightFormState[];
 }
 
 export const emptyPublicOverview: PublicOverviewDocument = {
@@ -21,140 +37,189 @@ export const emptyPublicOverview: PublicOverviewDocument = {
   content: [{ type: 'paragraph' }],
 };
 
-export const emptyReleaseForm: ReleaseFormState = {
-  version: '',
-  title: '',
-  lifecycleStatus: 'draft',
-  publicOverview: emptyPublicOverview,
-  internalSummary: '',
-  targetMonth: '',
-  targetDate: '',
-};
+const samePlatforms = (left: ReleasePlatform[], right: ReleasePlatform[]) =>
+  [...left].sort().join(',') === [...right].sort().join(',');
+
+export function emptyReleaseEditorForm(): ReleaseEditorFormState {
+  return {
+    version: '',
+    title: '',
+    status: 'draft',
+    timing: { kind: 'tbd', value: null },
+    platforms: ['ios', 'android'],
+    publicOverview: emptyPublicOverview,
+    internalSummary: '',
+    highlights: [],
+  };
+}
+
+function timingFromRelease(release: AdminReleaseDetail): ReleaseTiming {
+  if (release.timing) return release.timing;
+  if (release.confirmedDate || release.targetDate) {
+    return { kind: 'date', value: release.confirmedDate || release.targetDate || '' };
+  }
+  if (release.targetMonth) return { kind: 'month', value: release.targetMonth };
+  return { kind: 'tbd', value: null };
+}
+
+export function releaseEditorFormFromRelease(
+  release: AdminReleaseDetail,
+): ReleaseEditorFormState {
+  const releasePlatforms: ReleasePlatform[] = release.platforms?.length
+    ? release.platforms
+    : ['ios', 'android'];
+  return {
+    version: release.version,
+    title: release.title,
+    status: release.status || (release.visibility === 'private' ? 'draft' : 'published'),
+    timing: timingFromRelease(release),
+    platforms: releasePlatforms,
+    publicOverview:
+      release.publicOverview ||
+      (release.publicSummary
+        ? {
+            type: 'doc',
+            content: [
+              { type: 'paragraph', content: [{ type: 'text', text: release.publicSummary }] },
+            ],
+          }
+        : emptyPublicOverview),
+    internalSummary: release.internalSummary || '',
+    highlights: release.notes.map((note) => ({
+      id: note.id,
+      rowVersion: note.rowVersion,
+      noteType: note.noteType,
+      publicTitle: note.publicTitle,
+      publicBody: note.publicBody,
+      technicalNotes: note.technicalNotes || '',
+      platformOverride: samePlatforms(note.platforms, releasePlatforms) ? null : note.platforms,
+      isPublic: note.isPublic,
+    })),
+  };
+}
+
+function canonicalJson(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(canonicalJson);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .filter(([, entry]) => entry !== undefined)
+        .sort(([left], [right]) => left.localeCompare(right))
+        .map(([key, entry]) => [key, canonicalJson(entry)]),
+    );
+  }
+  return value;
+}
+
+export function releaseEditorFormsEqual(
+  left: ReleaseEditorFormState,
+  right: ReleaseEditorFormState,
+): boolean {
+  return JSON.stringify(canonicalJson(left)) === JSON.stringify(canonicalJson(right));
+}
 
 const versionPattern = /^(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})$/;
+
 export function publicOverviewText(document: PublicOverviewDocument | null): string {
   if (!document) return '';
-  const walk = (node: NonNullable<PublicOverviewDocument['content']>[number]): string => {
+  const walk = (node: PublicOverviewNode): string => {
     if (node.type === 'text') return node.text || '';
-    return (node.content || []).map(walk).join(node.type === 'paragraph' ? '' : ' ');
+    return (node.content || []).map(walk).join(' ');
   };
-  return (document.content || []).map(walk).join('\n').trim();
+  return walk(document).replace(/\s+/g, ' ').trim();
 }
 
 export function deriveReleaseType(version: string): ReleaseType | null {
   const match = version.match(versionPattern);
   if (!match) return null;
-  const minor = Number(match[2]);
-  const patch = Number(match[3]);
-  if (patch > 0) return 'patch';
-  if (minor > 0) return 'minor';
+  if (Number(match[3]) > 0) return 'patch';
+  if (Number(match[2]) > 0) return 'minor';
   return 'major';
 }
 
 export function releaseTypeLabel(version: string): string {
-  const releaseType = deriveReleaseType(version);
-  if (releaseType === 'patch') return 'Patch / bug fix';
-  if (releaseType === 'minor') return 'Minor';
-  if (releaseType === 'major') return 'Major';
-  return 'Enter a valid version';
+  const type = deriveReleaseType(version);
+  if (type === 'patch') return 'Patch release';
+  if (type === 'minor') return 'Minor release';
+  if (type === 'major') return 'Major release';
+  return 'Enter a complete version';
 }
 
-export function releaseFormError(
-  form: ReleaseFormState,
-  isNew: boolean,
-  visibility: ReleaseVisibility = 'private',
-): string | null {
-  if (isNew && !versionPattern.test(form.version)) {
-    return 'Enter a valid X.Y.Z version, such as 1.2.0 or 1.2.1.';
-  }
-  if (!form.title.trim()) return 'Enter a release title.';
-  if (form.title.trim().length > 160) return 'Keep the release title to 160 characters or fewer.';
-  const overviewText = publicOverviewText(form.publicOverview);
-  if (overviewText.length > 10000) {
-    return 'Keep the quick description to 10,000 characters or fewer.';
-  }
-  if (visibility !== 'private' && !overviewText) {
-    return 'Public preview and published releases require a quick description.';
-  }
-  if (form.internalSummary.length > 10000) {
-    return 'Keep team notes to 10,000 characters or fewer.';
-  }
-  return null;
+export type PublicReleaseDestination = 'private' | 'coming-soon' | 'changelog';
+
+export function releaseDestination(
+  form: Pick<ReleaseEditorFormState, 'status' | 'timing'>,
+  today = new Date().toISOString().slice(0, 10),
+): PublicReleaseDestination {
+  if (form.status === 'draft') return 'private';
+  if (form.timing.kind === 'date' && form.timing.value <= today) return 'changelog';
+  return 'coming-soon';
 }
 
-export function lifecycleOptions(release: AdminReleaseDetail | null): ReleaseLifecycle[] {
-  if (!release) return ['draft'];
+export function destinationMessage(form: Pick<ReleaseEditorFormState, 'status' | 'timing'>) {
+  const destination = releaseDestination(form);
+  if (destination === 'private') return 'Only your team can see this release.';
+  if (destination === 'changelog') return 'This release will appear in the public changelog.';
+  return 'This release will appear on the Coming Soon page.';
+}
 
-  const options = new Set<ReleaseLifecycle>([release.lifecycleStatus]);
-  if (release.visibility !== 'private') {
-    if (release.visibility === 'public_preview' && release.lifecycleStatus === 'planned') {
-      options.add('in_progress');
+export function releaseEditorFormError(form: ReleaseEditorFormState): string | null {
+  if (!versionPattern.test(form.version)) {
+    return 'Enter a complete version such as 1.2.0 or 1.2.1.';
+  }
+  if (!form.title.trim()) return 'Add a release title.';
+  if (form.title.trim().length > 160) return 'Keep the release title under 160 characters.';
+  if (!form.platforms.length) return 'Choose at least one release platform.';
+  if (form.timing.kind === 'date' && !form.timing.value) return 'Choose a release date.';
+  if (form.timing.kind === 'month') {
+    if (!form.timing.value) return 'Choose a release month.';
+    if (form.timing.value < new Date().toISOString().slice(0, 7)) {
+      return 'Choose the current month or a future month.';
     }
-    return Array.from(options);
   }
-
-  if (release.lifecycleStatus === 'draft') {
-    options.add('planned');
-    options.add('canceled');
-  } else if (release.lifecycleStatus === 'planned') {
-    options.add('in_progress');
-    options.add('canceled');
-  } else if (release.lifecycleStatus === 'in_progress') {
-    options.add('planned');
-    options.add('canceled');
+  const overview = publicOverviewText(form.publicOverview);
+  if (overview.length > 10000) return 'Keep the quick description under 10,000 characters.';
+  if (form.internalSummary.length > 10000) return 'Keep team notes under 10,000 characters.';
+  for (let index = 0; index < form.highlights.length; index += 1) {
+    const highlight = form.highlights[index];
+    if (!highlight.publicTitle.trim()) return `Add a title to highlight ${index + 1}.`;
+    if (highlight.publicTitle.trim().length > 160) {
+      return `Keep highlight ${index + 1}'s title under 160 characters.`;
+    }
+    if (!highlight.publicBody.trim()) return `Add content to highlight ${index + 1}.`;
+    if (highlight.publicBody.trim().length > 4000) {
+      return `Keep highlight ${index + 1} under 4,000 characters.`;
+    }
   }
-
-  return Array.from(options);
+  if (form.status === 'published' && !overview) {
+    return 'Add a quick description before publishing.';
+  }
+  if (form.status === 'published' && !form.highlights.some((highlight) => highlight.isPublic)) {
+    return 'Include at least one public highlight before publishing.';
+  }
+  return null;
 }
 
-export function publicationReadiness(
-  release: Pick<AdminReleaseDetail, 'publicOverview' | 'notes'>,
-): { ready: boolean; message: string | null } {
-  const missing: string[] = [];
-  if (!publicOverviewText(release.publicOverview)) missing.push('a quick description');
-  if (!release.notes.some((note) => note.isPublic && !note.archivedAt)) {
-    missing.push('at least one public release highlight');
-  }
+export function releaseEditorPayload(form: ReleaseEditorFormState): SaveReleaseEditorInput {
   return {
-    ready: missing.length === 0,
-    message: missing.length ? `Before publishing, add ${missing.join(' and ')}.` : null,
+    version: form.version,
+    title: form.title.trim(),
+    status: form.status,
+    timing: form.timing,
+    platforms: form.platforms,
+    publicOverview: form.publicOverview,
+    internalSummary: form.internalSummary.trim() || null,
+    highlights: form.highlights.map((highlight) => ({
+      id: highlight.id,
+      rowVersion: highlight.rowVersion,
+      noteType: highlight.noteType,
+      publicTitle: highlight.publicTitle.trim(),
+      publicBody: highlight.publicBody.replace(/\r\n?/g, '\n').trim(),
+      technicalNotes: highlight.technicalNotes.trim() || null,
+      platforms: highlight.platformOverride || form.platforms,
+      isPublic: highlight.isPublic,
+    })),
   };
-}
-
-export function noteFormError(title: string, body: string, technical: string): string | null {
-  const normalizedTitle = title.trim();
-  const normalizedBody = body.replace(/\r\n?/g, '\n').trim();
-  if (!normalizedTitle) return 'Enter a highlight title.';
-  if (normalizedTitle.length > 160) return 'Keep the highlight title to 160 characters or fewer.';
-  if (!normalizedBody) return 'Enter highlight content.';
-  if (normalizedBody.length > 4000) {
-    return 'Keep highlight content to 4,000 characters or fewer.';
-  }
-  if (technical.length > 20000) {
-    return 'Keep private technical context to 20,000 characters or fewer.';
-  }
-  return null;
-}
-
-export function wouldRemoveLastPublicNote(
-  release: Pick<AdminReleaseDetail, 'visibility' | 'notes'>,
-  noteId: string,
-  nextIsPublic: boolean,
-): boolean {
-  if (release.visibility === 'private' || nextIsPublic) return false;
-  const note = release.notes.find((candidate) => candidate.id === noteId);
-  if (!note?.isPublic) return false;
-  return (
-    release.notes.filter((candidate) => candidate.isPublic && !candidate.archivedAt).length === 1
-  );
-}
-
-export function firstFieldError(fieldErrors: Record<string, string[]>): string | null {
-  for (const messages of Object.values(fieldErrors)) {
-    const message = messages.find(Boolean);
-    if (message) return message;
-  }
-  return null;
 }
 
 export function formatReleasedDate(value: string): string {

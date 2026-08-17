@@ -1,6 +1,11 @@
 export type ReleaseType = 'major' | 'minor' | 'patch';
 export type ReleaseLifecycle = 'draft' | 'planned' | 'in_progress' | 'released' | 'canceled';
 export type ReleaseVisibility = 'private' | 'public_preview' | 'published';
+export type ReleaseStatus = 'draft' | 'published';
+export type ReleaseTiming =
+  | { kind: 'date'; value: string }
+  | { kind: 'month'; value: string }
+  | { kind: 'tbd'; value: null };
 export type ReleaseNoteType = 'feature' | 'improvement' | 'fix' | 'breaking';
 export type ReleasePlatform = 'ios' | 'android';
 
@@ -25,6 +30,9 @@ export interface AdminRelease {
   slug: string;
   title: string;
   releaseType: ReleaseType;
+  status: ReleaseStatus;
+  timing: ReleaseTiming;
+  platforms: ReleasePlatform[];
   lifecycleStatus: ReleaseLifecycle;
   visibility: ReleaseVisibility;
   publicOverview: PublicOverviewDocument | null;
@@ -107,6 +115,28 @@ export interface ReleaseMutationResponse {
   meta: { requestId: string };
 }
 
+export interface ReleaseEditorHighlightInput {
+  id: string;
+  rowVersion: number | null;
+  noteType: ReleaseNoteType;
+  publicTitle: string;
+  publicBody: string;
+  technicalNotes: string | null;
+  platforms: ReleasePlatform[];
+  isPublic: boolean;
+}
+
+export interface SaveReleaseEditorInput {
+  version: string;
+  title: string;
+  status: ReleaseStatus;
+  timing: ReleaseTiming;
+  platforms: ReleasePlatform[];
+  publicOverview: PublicOverviewDocument;
+  internalSummary: string | null;
+  highlights: ReleaseEditorHighlightInput[];
+}
+
 export interface CreateReleaseInput {
   version: string;
   title: string;
@@ -120,6 +150,7 @@ export interface CreateReleaseInput {
 export type UpdateReleaseInput = Partial<
   Pick<
     AdminRelease,
+    | 'version'
     | 'title'
     | 'lifecycleStatus'
     | 'publicOverview'

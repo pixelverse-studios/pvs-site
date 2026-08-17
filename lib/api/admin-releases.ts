@@ -9,6 +9,7 @@ import type {
   ReleaseMutationResponse,
   ReleaseNoteType,
   ReleasePlatform,
+  SaveReleaseEditorInput,
   ReleaseType,
   ReleaseVisibility,
   UpdateReleaseInput,
@@ -119,6 +120,33 @@ export function updateRelease(id: string, rowVersion: number, input: UpdateRelea
     method: 'PATCH',
     headers: { 'If-Match': `\"${rowVersion}\"` },
     body: JSON.stringify(input),
+  });
+}
+
+export async function saveReleaseEditor(
+  id: string | undefined,
+  rowVersion: number | undefined,
+  input: SaveReleaseEditorInput,
+): Promise<AdminReleaseDetail> {
+  const response = await request<ReleaseMutationResponse>(id ? `/${id}/editor` : '/editor', {
+    method: 'POST',
+    headers: id && rowVersion ? { 'If-Match': `\"${rowVersion}\"` } : undefined,
+    body: JSON.stringify(input),
+  });
+  const release = response.data.release as AdminReleaseDetail | undefined;
+  if (!release?.id) throw new ReleaseApiError('The saved release could not be loaded', 500);
+  return release;
+}
+
+export function setReleaseVisibility(
+  id: string,
+  rowVersion: number,
+  visibility: ReleaseVisibility,
+) {
+  return request<ReleaseMutationResponse>(`/${id}/visibility`, {
+    method: 'POST',
+    headers: { 'If-Match': `\"${rowVersion}\"` },
+    body: JSON.stringify({ visibility }),
   });
 }
 
