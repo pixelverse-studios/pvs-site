@@ -47,6 +47,9 @@ import { PublicOverviewEditor } from './public-overview-editor';
 import { ReleaseMarkdownEditor } from './release-markdown-editor';
 import {
   destinationMessage,
+  domaniReleaseCalendarDate,
+  domaniReleaseCalendarDateValue,
+  domaniReleaseCalendarMonth,
   emptyReleaseEditorForm,
   releaseEditorFormError,
   releaseEditorFormFromRelease,
@@ -738,8 +741,8 @@ export function ReleaseEditor({
                   <Select
                     value={form.timing.kind}
                     onChange={(value) => {
-                      if (value === 'date') setField('timing', { kind: 'date', value: new Date().toISOString().slice(0, 10) });
-                      if (value === 'month') setField('timing', { kind: 'month', value: new Date().toISOString().slice(0, 7) });
+                      if (value === 'date') setField('timing', { kind: 'date', value: domaniReleaseCalendarDate() });
+                      if (value === 'month') setField('timing', { kind: 'month', value: domaniReleaseCalendarMonth() });
                       if (value === 'tbd') setField('timing', { kind: 'tbd', value: null });
                     }}
                     data={[
@@ -757,7 +760,7 @@ export function ReleaseEditor({
                       value={form.timing.value || null}
                       onChange={(value) => setField('timing', { kind: 'date', value: value || '' })}
                       disabled={disabled}
-                      minDate={isNew ? new Date().toISOString().slice(0, 10) : undefined}
+                      minDate={form.status === 'draft' ? domaniReleaseCalendarDate() : undefined}
                       valueFormat="MMMM D, YYYY"
                       placeholder="Choose a date"
                       size="md"
@@ -769,7 +772,7 @@ export function ReleaseEditor({
                       value={form.timing.value ? `${form.timing.value}-01` : null}
                       onChange={(value) => setField('timing', { kind: 'month', value: value?.slice(0, 7) || '' })}
                       disabled={disabled}
-                      minDate={new Date(new Date().getFullYear(), new Date().getMonth(), 1)}
+                      minDate={domaniReleaseCalendarDateValue()}
                       valueFormat="MMMM YYYY"
                       placeholder="Choose a month"
                       size="md"

@@ -147,9 +147,32 @@ export function releaseTypeLabel(version: string): string {
 
 export type PublicReleaseDestination = 'private' | 'coming-soon' | 'changelog';
 
+export const DOMANI_RELEASE_TIME_ZONE = 'America/New_York';
+
+export function domaniReleaseCalendarDate(now = new Date()): string {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: DOMANI_RELEASE_TIME_ZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(now);
+  const values = Object.fromEntries(
+    parts.filter((part) => part.type !== 'literal').map((part) => [part.type, part.value]),
+  );
+  return `${values.year}-${values.month}-${values.day}`;
+}
+
+export function domaniReleaseCalendarMonth(now = new Date()): string {
+  return domaniReleaseCalendarDate(now).slice(0, 7);
+}
+
+export function domaniReleaseCalendarDateValue(now = new Date()): Date {
+  return new Date(`${domaniReleaseCalendarDate(now)}T12:00:00`);
+}
+
 export function releaseDestination(
   form: Pick<ReleaseEditorFormState, 'status' | 'timing'>,
-  today = new Date().toISOString().slice(0, 10),
+  today = domaniReleaseCalendarDate(),
 ): PublicReleaseDestination {
   if (form.status === 'draft') return 'private';
   if (form.timing.kind === 'date' && form.timing.value <= today) return 'changelog';
@@ -170,10 +193,15 @@ export function releaseEditorFormError(form: ReleaseEditorFormState): string | n
   if (!form.title.trim()) return 'Add a release title.';
   if (form.title.trim().length > 160) return 'Keep the release title under 160 characters.';
   if (!form.platforms.length) return 'Choose at least one release platform.';
-  if (form.timing.kind === 'date' && !form.timing.value) return 'Choose a release date.';
+  if (form.timing.kind === 'date') {
+    if (!form.timing.value) return 'Choose a release date.';
+    if (form.status === 'draft' && form.timing.value < domaniReleaseCalendarDate()) {
+      return 'Choose today or a future release date.';
+    }
+  }
   if (form.timing.kind === 'month') {
     if (!form.timing.value) return 'Choose a release month.';
-    if (form.timing.value < new Date().toISOString().slice(0, 7)) {
+    if (form.timing.value < domaniReleaseCalendarMonth()) {
       return 'Choose the current month or a future month.';
     }
   }
@@ -227,6 +255,6 @@ export function formatReleasedDate(value: string): string {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
-    timeZone: 'UTC',
+    timeZone: DOMANI_RELEASE_TIME_ZONE,
   });
 }

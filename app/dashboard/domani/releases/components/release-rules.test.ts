@@ -3,6 +3,8 @@ import type { AdminReleaseDetail, AdminReleaseNote } from '../../../../../lib/ty
 import {
   deriveReleaseType,
   destinationMessage,
+  domaniReleaseCalendarDate,
+  domaniReleaseCalendarMonth,
   emptyReleaseEditorForm,
   formatReleasedDate,
   releaseDestination,
@@ -139,6 +141,18 @@ describe('publishing and placement', () => {
     ).toMatch(/public highlight/);
   });
 
+  it('rejects past draft dates and past release months', () => {
+    expect(
+      releaseEditorFormError(form({ timing: { kind: 'date', value: '2000-01-01' } })),
+    ).toMatch(/today or a future release date/);
+    expect(
+      releaseEditorFormError(form({ timing: { kind: 'month', value: '2000-01' } })),
+    ).toMatch(/current month or a future month/);
+    expect(
+      releaseEditorFormError(form({ status: 'published', timing: { kind: 'date', value: '2000-01-01' } })),
+    ).toBeNull();
+  });
+
   it('sends release platforms by default and preserves explicit highlight platforms', () => {
     const inherited = releaseEditorPayload(form({ platforms: ['ios'] }));
     expect(inherited.highlights[0].platforms).toEqual(['ios']);
@@ -154,7 +168,17 @@ describe('publishing and placement', () => {
 });
 
 describe('date presentation', () => {
-  it('formats released timestamps using the UTC calendar date', () => {
+  it('formats released timestamps using the New York business calendar', () => {
     expect(formatReleasedDate('2026-08-13T00:30:00+14:00')).toBe('Aug 12, 2026');
+  });
+
+  it('keeps UTC timestamps before New York midnight on the prior business date', () => {
+    const beforeMidnight = new Date('2026-08-17T02:30:00.000Z');
+    expect(domaniReleaseCalendarDate(beforeMidnight)).toBe('2026-08-16');
+    expect(domaniReleaseCalendarMonth(beforeMidnight)).toBe('2026-08');
+  });
+
+  it('rolls the business date at New York midnight', () => {
+    expect(domaniReleaseCalendarDate(new Date('2026-08-17T04:30:00.000Z'))).toBe('2026-08-17');
   });
 });

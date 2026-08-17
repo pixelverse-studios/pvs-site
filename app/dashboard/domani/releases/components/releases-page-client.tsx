@@ -9,31 +9,26 @@ import { listReleases } from '@/lib/api/admin-releases';
 import type {
   AdminRelease,
   AdminReleaseCapabilities,
-  ReleaseLifecycle,
-  ReleaseVisibility,
+  ReleaseStatus,
 } from '@/lib/types/admin-release';
 import { cn } from '@/lib/utils';
-import { lifecycleLabels, panelClass, ReleaseBadge } from './release-ui';
-import { formatReleasedDate } from './release-rules';
+import { panelClass } from './release-ui';
+import { formatReleasedDate, releaseDestination } from './release-rules';
 
-type ReleaseFilter = 'all' | ReleaseLifecycle | 'archived';
-type VisibilityFilter = 'all' | ReleaseVisibility;
+type ReleaseFilter = 'all' | ReleaseStatus | 'archived';
+type DestinationFilter = 'all' | 'coming-soon' | 'changelog';
 
 const filters: Array<{ label: string; value: ReleaseFilter }> = [
   { label: 'All', value: 'all' },
   { label: 'Draft', value: 'draft' },
-  { label: 'Planning', value: 'in_progress' },
-  { label: 'Planned', value: 'planned' },
-  { label: 'Released', value: 'released' },
-  { label: 'Canceled', value: 'canceled' },
+  { label: 'Published', value: 'published' },
   { label: 'Archived', value: 'archived' },
 ];
 
-const visibilityFilters: Array<{ label: string; value: VisibilityFilter }> = [
-  { label: 'Any visibility', value: 'all' },
-  { label: 'Private', value: 'private' },
-  { label: 'Public preview', value: 'public_preview' },
-  { label: 'Published', value: 'published' },
+const destinationFilters: Array<{ label: string; value: DestinationFilter }> = [
+  { label: 'Any public page', value: 'all' },
+  { label: 'Coming Soon', value: 'coming-soon' },
+  { label: 'Changelog', value: 'changelog' },
 ];
 
 function targetLabel(release: AdminRelease) {
@@ -52,7 +47,7 @@ export function ReleasesPageClient() {
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [activeFilter, setActiveFilter] = useState<ReleaseFilter>('all');
-  const [visibilityFilter, setVisibilityFilter] = useState<VisibilityFilter>('all');
+  const [destinationFilter, setDestinationFilter] = useState<DestinationFilter>('all');
   const [capabilities, setCapabilities] = useState<AdminReleaseCapabilities>({
     canCreateRelease: false,
     canViewArchivedReleases: false,
@@ -85,24 +80,23 @@ export function ReleasesPageClient() {
     const query = search.trim().toLowerCase();
     return releases.filter((release) => {
       const matchesFilter =
-        activeFilter === 'all' ||
-        activeFilter === 'archived' ||
-        release.lifecycleStatus === activeFilter;
-      const matchesVisibility =
-        visibilityFilter === 'all' || release.visibility === visibilityFilter;
+        activeFilter === 'all' || activeFilter === 'archived' || release.status === activeFilter;
+      const destination = releaseDestination(release);
+      const matchesDestination = destinationFilter === 'all' || destination === destinationFilter;
       const matchesQuery =
         !query ||
         `${release.version} ${release.title} ${release.slug}`.toLowerCase().includes(query);
-      return matchesFilter && matchesVisibility && matchesQuery;
+      return matchesFilter && matchesDestination && matchesQuery;
     });
-  }, [activeFilter, releases, search, visibilityFilter]);
+  }, [activeFilter, destinationFilter, releases, search]);
 
   const stats = useMemo(
     () => ({
-      drafts: releases.filter((release) => release.lifecycleStatus === 'draft').length,
-      planned: releases.filter((release) => release.lifecycleStatus === 'planned').length,
-      public: releases.filter((release) => release.visibility !== 'private').length,
-      private: releases.filter((release) => release.visibility === 'private').length,
+      drafts: releases.filter((release) => release.status === 'draft').length,
+      published: releases.filter((release) => release.status === 'published').length,
+      comingSoon: releases.filter((release) => releaseDestination(release) === 'coming-soon')
+        .length,
+      changelog: releases.filter((release) => releaseDestination(release) === 'changelog').length,
     }),
     [releases],
   );
@@ -116,7 +110,7 @@ export function ReleasesPageClient() {
           </p>
           <h2 className="font-heading text-3xl font-bold text-[var(--pv-text)]">Releases</h2>
           <p className="mt-1 text-sm text-[var(--pv-text-muted)]">
-            Plan, draft, approve, and publish Domani releases.
+            Draft release updates and publish them to Coming Soon or the Changelog.
           </p>
         </div>
         {capabilities.canCreateRelease && (
@@ -131,10 +125,15 @@ export function ReleasesPageClient() {
 
       <div className="mb-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {[
-          ['Drafts', stats.drafts, 'Need copy and note review', 'bg-violet-100 text-violet-700'],
-          ['Planned', stats.planned, 'Scheduled releases', 'bg-amber-100 text-amber-700'],
-          ['Public', stats.public, 'Preview or published', 'bg-emerald-100 text-emerald-700'],
-          ['Private', stats.private, 'Internal only', 'bg-blue-100 text-blue-700'],
+          ['Drafts', stats.drafts, 'Visible only to your team', 'bg-violet-100 text-violet-700'],
+          ['Published', stats.published, 'Visible to customers', 'bg-emerald-100 text-emerald-700'],
+          [
+            'Coming Soon',
+            stats.comingSoon,
+            'Upcoming public releases',
+            'bg-amber-100 text-amber-700',
+          ],
+          ['Changelog', stats.changelog, 'Released public updates', 'bg-blue-100 text-blue-700'],
         ].map(([label, value, helper, color], index) => (
           <div key={String(label)} className={cn(panelClass, 'p-5')}>
             <div className="flex items-center gap-4">
@@ -193,17 +192,17 @@ export function ReleasesPageClient() {
               ))}
           </div>
           <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--pv-text-muted)]">
-            Visibility
+            Public page
           </span>
           <div
             className="flex gap-2 overflow-x-auto pb-1 lg:pb-0"
-            aria-label="Filter releases by visibility"
+            aria-label="Filter releases by public page"
           >
-            {visibilityFilters.map((filter) => (
+            {destinationFilters.map((filter) => (
               <FilterButton
                 key={filter.value}
-                active={visibilityFilter === filter.value}
-                onClick={() => setVisibilityFilter(filter.value)}
+                active={destinationFilter === filter.value}
+                onClick={() => setDestinationFilter(filter.value)}
               >
                 {filter.label}
               </FilterButton>
@@ -274,14 +273,22 @@ export function ReleasesPageClient() {
                 <p className="mt-1 truncate text-xs text-[var(--pv-text-muted)]">
                   {release.publicSummary ||
                     release.internalSummary ||
-                    `${lifecycleLabels[release.lifecycleStatus]} release`}
+                    (release.status === 'draft' ? 'Draft release' : 'Published release')}
                 </p>
               </div>
-              <ReleaseBadge kind="lifecycle" value={release.lifecycleStatus} />
+              <span className="inline-flex rounded-full bg-[var(--pv-surface)] px-3 py-1 text-xs font-semibold text-[var(--pv-text)]">
+                {release.status === 'draft' ? 'Draft' : 'Published'}
+              </span>
               <span className="inline-flex rounded-full bg-[var(--pv-surface)] px-3 py-1 text-xs font-semibold capitalize text-[var(--pv-text-muted)]">
                 {release.releaseType}
               </span>
-              <ReleaseBadge kind="visibility" value={release.visibility} />
+              <span className="inline-flex rounded-full bg-[var(--pv-surface)] px-3 py-1 text-xs font-semibold text-[var(--pv-text-muted)]">
+                {release.status === 'draft'
+                  ? 'Team only'
+                  : releaseDestination(release) === 'coming-soon'
+                    ? 'Coming Soon'
+                    : 'Changelog'}
+              </span>
             </Link>
           ))}
         </div>
