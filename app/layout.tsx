@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import type { ReactNode } from 'react';
 
 import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 import './globals.css';
 import { CampaignTrackerClient } from '@/components/campaign-tracker-client';
 import { GoogleTagManager } from '@/components/google-tag-manager';
@@ -33,9 +34,7 @@ const enableSiteBehaviourTracking = Boolean(
   siteBehaviourSecret && process.env.NODE_ENV === 'production',
 );
 const googleTagManagerId = process.env.NEXT_PUBLIC_GTM_ID?.trim();
-const enableGoogleTagManager = Boolean(
-  googleTagManagerId && process.env.NODE_ENV === 'production',
-);
+const enableGoogleTagManager = Boolean(googleTagManagerId && process.env.NODE_ENV === 'production');
 
 // Bootstraps SiteBehaviour analytics loader after hydration.
 const siteBehaviourBootstrap = enableSiteBehaviourTracking
@@ -148,16 +147,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         ) : null}
         <StructuredData id="pixelverse-local-business" data={localBusinessSchema} />
         <StructuredData id="pixelverse-website" data={websiteSchema} />
-        <MantineRootProvider>
-          <ThemeProvider disableTransitionOnChange>
+        <ThemeProvider disableTransitionOnChange>
+          <MantineRootProvider>
             <Suspense fallback={null}>
               <CampaignTrackerClient />
             </Suspense>
-            <LayoutWrapper navItems={navItems}>
-              {children}
-            </LayoutWrapper>
-          </ThemeProvider>
-        </MantineRootProvider>
+            <LayoutWrapper navItems={navItems}>{children}</LayoutWrapper>
+          </MantineRootProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

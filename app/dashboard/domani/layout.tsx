@@ -5,7 +5,7 @@ import { DomaniNav } from './components/domani-nav';
 export default function DomaniLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="pb-16 pt-6 lg:pt-8">
-      <Container className="max-w-7xl">
+      <Container className="max-w-none">
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center gap-3">
@@ -25,7 +25,7 @@ export default function DomaniLayout({ children }: { children: React.ReactNode }
                 Domani
               </h1>
               <p className="text-sm text-[var(--pv-text-muted)]">
-                App analytics and user data
+                App analytics and release operations
               </p>
             </div>
           </div>
