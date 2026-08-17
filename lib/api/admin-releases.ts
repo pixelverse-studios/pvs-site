@@ -2,13 +2,18 @@ import type {
   AdminReleaseDetail,
   AdminReleaseCapabilities,
   AdminReleaseNote,
+  AdminReleaseSource,
+  ConvertMarkdownResponse,
   CreateReleaseInput,
+  ImportMarkdownResponse,
   ReleaseDetailResponse,
   ReleaseLifecycle,
   ReleaseListResponse,
   ReleaseMutationResponse,
   ReleaseNoteType,
   ReleasePlatform,
+  ReleaseIntendedSurface,
+  ReleaseSourceType,
   SaveReleaseEditorInput,
   ReleaseType,
   ReleaseVisibility,
@@ -32,7 +37,9 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     cache: 'no-store',
     ...init,
     headers: {
-      ...(init?.body ? { 'Content-Type': 'application/json' } : {}),
+      ...(init?.body && !(init.body instanceof FormData)
+        ? { 'Content-Type': 'application/json' }
+        : {}),
       ...init?.headers,
     },
   });
@@ -46,6 +53,79 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     );
   }
   return body as T;
+}
+
+export async function importReleaseMarkdown(input: {
+  markdown?: string;
+  file?: File;
+  releaseId?: string;
+  releaseRowVersion?: number;
+  releaseVersion?: string;
+  releaseTitle?: string;
+  sourceType: ReleaseSourceType;
+  sourceReference: string;
+  intendedSurface: ReleaseIntendedSurface;
+}): Promise<ImportMarkdownResponse['data']> {
+  const common = {
+    releaseId: input.releaseId,
+    releaseVersion: input.releaseVersion,
+    releaseTitle: input.releaseTitle,
+    sourceType: input.sourceType,
+    sourceReference: input.sourceReference,
+    intendedSurface: input.intendedSurface,
+  };
+  const headers = input.releaseRowVersion
+    ? { 'If-Match': `\"${input.releaseRowVersion}\"` }
+    : undefined;
+  let body: BodyInit;
+  if (input.file) {
+    const form = new FormData();
+    form.set('file', input.file);
+    Object.entries(common).forEach(([key, value]) => {
+      if (value !== undefined) form.set(key, String(value));
+    });
+    body = form;
+  } else {
+    body = JSON.stringify({ ...common, markdown: input.markdown || '' });
+  }
+  const response = await request<ImportMarkdownResponse>('/import-markdown', {
+    method: 'POST',
+    headers,
+    body,
+  });
+  return response.data;
+}
+
+export async function convertReleaseMarkdown(
+  releaseId: string,
+  source: Pick<AdminReleaseSource, 'id' | 'rowVersion'>,
+  releaseRowVersion: number,
+): Promise<ConvertMarkdownResponse['data']> {
+  const response = await request<ConvertMarkdownResponse>(
+    `/${releaseId}/prds/${source.id}/convert`,
+    {
+      method: 'POST',
+      headers: { 'If-Match': `\"${source.rowVersion}\"` },
+      body: JSON.stringify({ rewriteMode: 'deterministic', releaseRowVersion }),
+    },
+  );
+  return response.data;
+}
+
+export function approveConvertedSource(
+  releaseId: string,
+  source: Pick<AdminReleaseSource, 'id' | 'rowVersion'>,
+  releaseRowVersion: number,
+  notes: AdminReleaseNote[],
+) {
+  return request<ReleaseMutationResponse>(`/${releaseId}/prds/${source.id}/approve`, {
+    method: 'POST',
+    headers: { 'If-Match': `\"${source.rowVersion}\"` },
+    body: JSON.stringify({
+      releaseRowVersion,
+      noteRowVersions: notes.map(({ id, rowVersion }) => ({ id, rowVersion })),
+    }),
+  });
 }
 
 export async function listReleases(filters?: {
@@ -154,12 +234,7 @@ export function runReleaseAction(
   id: string,
   rowVersion: number,
   action:
-    | 'mark-released'
-    | 'publish-preview'
-    | 'return-to-private'
-    | 'publish'
-    | 'unpublish'
-    | 'archive',
+    'mark-released' | 'publish-preview' | 'return-to-private' | 'publish' | 'unpublish' | 'archive',
   input?: { releasedDate: string },
 ) {
   return request<ReleaseMutationResponse>(`/${id}/${action}`, {

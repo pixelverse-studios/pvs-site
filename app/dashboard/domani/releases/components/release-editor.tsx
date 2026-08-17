@@ -45,6 +45,7 @@ import type {
 import { cn } from '@/lib/utils';
 import { PublicOverviewEditor } from './public-overview-editor';
 import { ReleaseMarkdownEditor } from './release-markdown-editor';
+import { ReleaseSourceQueue } from './release-source-queue';
 import {
   destinationMessage,
   domaniReleaseCalendarDate,
@@ -286,7 +287,10 @@ function HighlightEditor({
                 label="Use the release platforms"
                 checked={inheritedPlatforms}
                 onChange={(event) =>
-                  set('platformOverride', event.currentTarget.checked ? null : [...releasePlatforms])
+                  set(
+                    'platformOverride',
+                    event.currentTarget.checked ? null : [...releasePlatforms],
+                  )
                 }
                 disabled={disabled}
                 color="violet"
@@ -439,7 +443,7 @@ export function ReleaseEditor({
   };
 
   const save = async () => {
-    const validationError = releaseEditorFormError(form);
+    const validationError = releaseEditorFormError(form, baseline);
     if (validationError) {
       setError(validationError);
       return;
@@ -448,7 +452,11 @@ export function ReleaseEditor({
     setError(null);
     setNotice(null);
     try {
-      const saved = await saveReleaseEditor(release?.id, release?.rowVersion, releaseEditorPayload(form));
+      const saved = await saveReleaseEditor(
+        release?.id,
+        release?.rowVersion,
+        releaseEditorPayload(form),
+      );
       const savedForm = releaseEditorFormFromRelease(saved);
       setRelease(saved);
       setForm(savedForm);
@@ -533,7 +541,9 @@ export function ReleaseEditor({
     return (
       <div className="mx-auto flex min-h-[55vh] max-w-xl flex-col items-center justify-center text-center">
         <AlertTriangle className="h-7 w-7 text-red-500" />
-        <h1 className="mt-4 text-2xl font-bold text-[var(--pv-text)]">This release could not be loaded</h1>
+        <h1 className="mt-4 text-2xl font-bold text-[var(--pv-text)]">
+          This release could not be loaded
+        </h1>
         <p className="mt-2 text-sm text-[var(--pv-text-muted)]">{error}</p>
         <Button className="mt-5" variant="outline" onClick={() => void load()}>
           <RefreshCw className="mr-2 h-4 w-4" /> Retry
@@ -546,7 +556,9 @@ export function ReleaseEditor({
     return (
       <div className="mx-auto flex min-h-[55vh] max-w-xl flex-col items-center justify-center text-center">
         <AlertTriangle className="h-7 w-7 text-amber-500" />
-        <h1 className="mt-4 text-2xl font-bold text-[var(--pv-text)]">You cannot create releases</h1>
+        <h1 className="mt-4 text-2xl font-bold text-[var(--pv-text)]">
+          You cannot create releases
+        </h1>
         <p className="mt-2 text-sm text-[var(--pv-text-muted)]">
           Ask a dashboard administrator to update your access.
         </p>
@@ -589,14 +601,22 @@ export function ReleaseEditor({
             </p>
           </div>
           <div className="flex items-center gap-3">
-            {dirty && <span className="text-xs font-medium text-amber-700 dark:text-amber-300">Unsaved changes</span>}
+            {dirty && (
+              <span className="text-xs font-medium text-amber-700 dark:text-amber-300">
+                Unsaved changes
+              </span>
+            )}
             <Button
               type="button"
               onClick={() => void save()}
               disabled={disabled || !dirty}
               className="min-w-32 bg-violet-600 text-white hover:bg-violet-700"
             >
-              {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
+              {saving ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Save className="mr-2 h-4 w-4" />
+              )}
               {isNew ? 'Create release' : 'Save changes'}
             </Button>
           </div>
@@ -624,8 +644,12 @@ export function ReleaseEditor({
           <main className="min-w-0 space-y-8">
             <section className="space-y-6">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-violet-600">Public release content</p>
-                <h2 className="mt-1 text-xl font-bold text-[var(--pv-text)]">What customers will see</h2>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-violet-600">
+                  Public release content
+                </p>
+                <h2 className="mt-1 text-xl font-bold text-[var(--pv-text)]">
+                  What customers will see
+                </h2>
               </div>
               <Field label="Release title">
                 <TextInput
@@ -653,7 +677,9 @@ export function ReleaseEditor({
             <section className="border-t border-[var(--pv-border)] pt-8">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-violet-600">Release highlights</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-violet-600">
+                    Release highlights
+                  </p>
                   <h2 className="mt-1 text-xl font-bold text-[var(--pv-text)]">What changed</h2>
                   <p className="mt-1 max-w-2xl text-sm text-[var(--pv-text-muted)]">
                     Add each customer-facing feature, improvement, fix, or important change.
@@ -691,23 +717,34 @@ export function ReleaseEditor({
                 ) : (
                   <div className="rounded-2xl border border-dashed border-[var(--pv-border)] px-6 py-12 text-center">
                     <FileText className="mx-auto h-6 w-6 text-[var(--pv-text-muted)]" />
-                    <h3 className="mt-3 text-sm font-semibold text-[var(--pv-text)]">No highlights yet</h3>
+                    <h3 className="mt-3 text-sm font-semibold text-[var(--pv-text)]">
+                      No highlights yet
+                    </h3>
                     <p className="mt-1 text-sm text-[var(--pv-text-muted)]">
                       Add the first change customers should know about.
                     </p>
-                    <Button type="button" variant="outline" className="mt-4" onClick={addHighlight} disabled={disabled}>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="mt-4"
+                      onClick={addHighlight}
+                      disabled={disabled}
+                    >
                       <Plus className="mr-2 h-4 w-4" /> Add highlight
                     </Button>
                   </div>
                 )}
               </div>
             </section>
+            {release && <ReleaseSourceQueue release={release} />}
           </main>
 
           <aside className="space-y-6 xl:sticky xl:top-6 xl:self-start">
             <section className={cn(panelClass, 'p-5')}>
               <h2 className="text-base font-bold text-[var(--pv-text)]">Release settings</h2>
-              <p className="mt-1 text-sm text-[var(--pv-text-muted)]">Publishing, timing, and platforms.</p>
+              <p className="mt-1 text-sm text-[var(--pv-text-muted)]">
+                Publishing, timing, and platforms.
+              </p>
               <div className="mt-5 space-y-5">
                 <Field label="Version">
                   <TextInput
@@ -719,13 +756,17 @@ export function ReleaseEditor({
                     size="md"
                     classNames={mantineFieldClassNames}
                   />
-                  <p className="text-xs text-[var(--pv-text-muted)]">Use X.Y.Z · {releaseTypeLabel(form.version)}</p>
+                  <p className="text-xs text-[var(--pv-text-muted)]">
+                    Use X.Y.Z · {releaseTypeLabel(form.version)}
+                  </p>
                 </Field>
 
                 <Field label="Status">
                   <Select
                     value={form.status}
-                    onChange={(value) => value && setField('status', value as ReleaseEditorFormState['status'])}
+                    onChange={(value) =>
+                      value && setField('status', value as ReleaseEditorFormState['status'])
+                    }
                     data={[
                       { value: 'draft', label: 'Draft' },
                       { value: 'published', label: 'Published' },
@@ -741,8 +782,10 @@ export function ReleaseEditor({
                   <Select
                     value={form.timing.kind}
                     onChange={(value) => {
-                      if (value === 'date') setField('timing', { kind: 'date', value: domaniReleaseCalendarDate() });
-                      if (value === 'month') setField('timing', { kind: 'month', value: domaniReleaseCalendarMonth() });
+                      if (value === 'date')
+                        setField('timing', { kind: 'date', value: domaniReleaseCalendarDate() });
+                      if (value === 'month')
+                        setField('timing', { kind: 'month', value: domaniReleaseCalendarMonth() });
                       if (value === 'tbd') setField('timing', { kind: 'tbd', value: null });
                     }}
                     data={[
@@ -770,7 +813,9 @@ export function ReleaseEditor({
                   {form.timing.kind === 'month' && (
                     <MonthPickerInput
                       value={form.timing.value ? `${form.timing.value}-01` : null}
-                      onChange={(value) => setField('timing', { kind: 'month', value: value?.slice(0, 7) || '' })}
+                      onChange={(value) =>
+                        setField('timing', { kind: 'month', value: value?.slice(0, 7) || '' })
+                      }
                       disabled={disabled}
                       minDate={domaniReleaseCalendarDateValue()}
                       valueFormat="MMMM YYYY"
@@ -790,7 +835,9 @@ export function ReleaseEditor({
                     onChange={(value) => setField('platforms', value)}
                     disabled={disabled}
                   />
-                  <p className="text-xs text-[var(--pv-text-muted)]">Highlights use these platforms unless you choose otherwise.</p>
+                  <p className="text-xs text-[var(--pv-text-muted)]">
+                    Highlights use these platforms unless you choose otherwise.
+                  </p>
                 </Field>
               </div>
             </section>
@@ -799,9 +846,13 @@ export function ReleaseEditor({
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h2 className="text-base font-bold text-[var(--pv-text)]">Team notes</h2>
-                  <p className="mt-1 text-sm text-[var(--pv-text-muted)]">Private context for your team.</p>
+                  <p className="mt-1 text-sm text-[var(--pv-text-muted)]">
+                    Private context for your team.
+                  </p>
                 </div>
-                <span className="rounded-full bg-violet-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-violet-700 dark:bg-violet-500/15 dark:text-violet-300">Private</span>
+                <span className="rounded-full bg-violet-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-violet-700 dark:bg-violet-500/15 dark:text-violet-300">
+                  Private
+                </span>
               </div>
               {form.internalSummary.trim() ? (
                 <p className="mt-4 max-h-28 overflow-hidden whitespace-pre-line text-sm leading-6 text-[var(--pv-text-muted)]">
@@ -810,7 +861,13 @@ export function ReleaseEditor({
               ) : (
                 <p className="mt-4 text-sm text-[var(--pv-text-muted)]">No team notes yet.</p>
               )}
-              <Button type="button" variant="outline" className="mt-4 w-full" onClick={() => setTeamNotesOpen(true)} disabled={disabled}>
+              <Button
+                type="button"
+                variant="outline"
+                className="mt-4 w-full"
+                onClick={() => setTeamNotesOpen(true)}
+                disabled={disabled}
+              >
                 {form.internalSummary.trim() ? 'Edit team notes' : 'Add team notes'}
               </Button>
             </section>
@@ -827,7 +884,11 @@ export function ReleaseEditor({
                 >
                   <Trash2 className="mr-2 h-4 w-4" /> Archive release
                 </Button>
-                {dirty && <p className="text-xs text-[var(--pv-text-muted)]">Save or discard your changes before archiving.</p>}
+                {dirty && (
+                  <p className="text-xs text-[var(--pv-text-muted)]">
+                    Save or discard your changes before archiving.
+                  </p>
+                )}
               </section>
             )}
           </aside>
@@ -854,7 +915,9 @@ export function ReleaseEditor({
             classNames={mantineFieldClassNames}
           />
           <DialogFooter>
-            <DialogClose asChild><Button type="button">Done</Button></DialogClose>
+            <DialogClose asChild>
+              <Button type="button">Done</Button>
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -864,12 +927,22 @@ export function ReleaseEditor({
           <DialogHeader>
             <DialogTitle>Archive this release?</DialogTitle>
             <DialogDescription>
-              It will be removed from active release lists and hidden from customers. Its history will be kept.
+              It will be removed from active release lists and hidden from customers. Its history
+              will be kept.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <DialogClose asChild><Button type="button" variant="outline">Cancel</Button></DialogClose>
-            <Button type="button" variant="destructive" onClick={() => void archive()} disabled={archiving}>
+            <DialogClose asChild>
+              <Button type="button" variant="outline">
+                Cancel
+              </Button>
+            </DialogClose>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => void archive()}
+              disabled={archiving}
+            >
               {archiving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Archive release
             </Button>

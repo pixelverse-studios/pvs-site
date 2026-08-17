@@ -28,14 +28,15 @@ async function proxy(request: NextRequest, context: RouteContext) {
   };
   const ifMatch = request.headers.get('if-match');
   if (ifMatch) headers['If-Match'] = ifMatch;
-  if (request.method !== 'GET') headers['Content-Type'] = 'application/json';
+  const contentType = request.headers.get('content-type');
+  if (request.method !== 'GET' && contentType) headers['Content-Type'] = contentType;
 
   try {
     const upstream = await fetch(upstreamUrl, {
       method: request.method,
       headers,
       cache: 'no-store',
-      body: request.method === 'GET' ? undefined : await request.text(),
+      body: request.method === 'GET' ? undefined : await request.arrayBuffer(),
     });
     const body = await upstream.text();
     const response = new NextResponse(body, {

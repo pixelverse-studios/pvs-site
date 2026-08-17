@@ -62,9 +62,7 @@ function timingFromRelease(release: AdminReleaseDetail): ReleaseTiming {
   return { kind: 'tbd', value: null };
 }
 
-export function releaseEditorFormFromRelease(
-  release: AdminReleaseDetail,
-): ReleaseEditorFormState {
+export function releaseEditorFormFromRelease(release: AdminReleaseDetail): ReleaseEditorFormState {
   const releasePlatforms: ReleasePlatform[] = release.platforms?.length
     ? release.platforms
     : ['ios', 'android'];
@@ -186,7 +184,13 @@ export function destinationMessage(form: Pick<ReleaseEditorFormState, 'status' |
   return 'This release will appear on the Coming Soon page.';
 }
 
-export function releaseEditorFormError(form: ReleaseEditorFormState): string | null {
+const timingMatches = (left: ReleaseTiming, right: ReleaseTiming) =>
+  left.kind === right.kind && left.value === right.value;
+
+export function releaseEditorFormError(
+  form: ReleaseEditorFormState,
+  baseline?: ReleaseEditorFormState,
+): string | null {
   if (!versionPattern.test(form.version)) {
     return 'Enter a complete version such as 1.2.0 or 1.2.1.';
   }
@@ -195,13 +199,20 @@ export function releaseEditorFormError(form: ReleaseEditorFormState): string | n
   if (!form.platforms.length) return 'Choose at least one release platform.';
   if (form.timing.kind === 'date') {
     if (!form.timing.value) return 'Choose a release date.';
-    if (form.status === 'draft' && form.timing.value < domaniReleaseCalendarDate()) {
+    if (
+      form.status === 'draft' &&
+      form.timing.value < domaniReleaseCalendarDate() &&
+      (!baseline || !timingMatches(form.timing, baseline.timing))
+    ) {
       return 'Choose today or a future release date.';
     }
   }
   if (form.timing.kind === 'month') {
     if (!form.timing.value) return 'Choose a release month.';
-    if (form.timing.value < domaniReleaseCalendarMonth()) {
+    if (
+      form.timing.value < domaniReleaseCalendarMonth() &&
+      (!baseline || !timingMatches(form.timing, baseline.timing))
+    ) {
       return 'Choose the current month or a future month.';
     }
   }

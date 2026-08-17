@@ -71,3 +71,15 @@ export function PlatformBadge({ platforms }: { platforms: ReleasePlatform[] }) {
 
 export const panelClass =
   'rounded-2xl border border-[var(--pv-border)] bg-[var(--pv-bg)] shadow-[0_16px_45px_-38px_rgba(20,16,35,0.45)]';
+
+export const mantineFieldClassNames = {
+  input:
+    'border-[var(--pv-border)] bg-[var(--pv-surface)] text-[var(--pv-text)] placeholder:text-[var(--pv-text-muted)] focus:border-[var(--pv-primary)]',
+  error: 'text-xs text-red-600 dark:text-red-300',
+};
+
+export const mantineSelectClassNames = {
+  ...mantineFieldClassNames,
+  dropdown: 'border-[var(--pv-border)] bg-[var(--pv-bg)] text-[var(--pv-text)]',
+  option: 'text-sm data-[checked]:bg-violet-100 data-[checked]:text-violet-800',
+};

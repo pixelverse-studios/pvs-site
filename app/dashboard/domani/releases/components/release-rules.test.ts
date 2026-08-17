@@ -18,7 +18,12 @@ import {
 
 const overview = {
   type: 'doc' as const,
-  content: [{ type: 'paragraph' as const, content: [{ type: 'text' as const, text: 'Plan tomorrow tonight.' }] }],
+  content: [
+    {
+      type: 'paragraph' as const,
+      content: [{ type: 'text' as const, text: 'Plan tomorrow tonight.' }],
+    },
+  ],
 };
 
 const note = (overrides: Partial<AdminReleaseNote> = {}): AdminReleaseNote => ({
@@ -110,7 +115,9 @@ describe('release identity', () => {
     const left = form();
     const right = form({
       publicOverview: {
-        content: [{ content: [{ text: 'Plan tomorrow tonight.', type: 'text' }], type: 'paragraph' }],
+        content: [
+          { content: [{ text: 'Plan tomorrow tonight.', type: 'text' }], type: 'paragraph' },
+        ],
         type: 'doc',
       },
     });
@@ -123,34 +130,68 @@ describe('publishing and placement', () => {
   it('keeps drafts private and places published releases by timing', () => {
     expect(releaseDestination(form(), '2026-08-16')).toBe('private');
     expect(
-      releaseDestination(form({ status: 'published', timing: { kind: 'date', value: '2026-08-16' } }), '2026-08-16'),
+      releaseDestination(
+        form({ status: 'published', timing: { kind: 'date', value: '2026-08-16' } }),
+        '2026-08-16',
+      ),
     ).toBe('changelog');
     expect(
-      releaseDestination(form({ status: 'published', timing: { kind: 'date', value: '2026-08-17' } }), '2026-08-16'),
+      releaseDestination(
+        form({ status: 'published', timing: { kind: 'date', value: '2026-08-17' } }),
+        '2026-08-16',
+      ),
     ).toBe('coming-soon');
-    expect(releaseDestination(form({ status: 'published', timing: { kind: 'tbd', value: null } }), '2026-08-16')).toBe('coming-soon');
+    expect(
+      releaseDestination(
+        form({ status: 'published', timing: { kind: 'tbd', value: null } }),
+        '2026-08-16',
+      ),
+    ).toBe('coming-soon');
     expect(destinationMessage(form())).toMatch(/Only your team/);
   });
 
   it('requires customer content only when publishing', () => {
     const noOverview = { type: 'doc' as const, content: [{ type: 'paragraph' as const }] };
     expect(releaseEditorFormError(form({ publicOverview: noOverview }))).toBeNull();
-    expect(releaseEditorFormError(form({ status: 'published', publicOverview: noOverview }))).toMatch(/quick description/);
     expect(
-      releaseEditorFormError(form({ status: 'published', highlights: form().highlights.map((item) => ({ ...item, isPublic: false })) })),
+      releaseEditorFormError(form({ status: 'published', publicOverview: noOverview })),
+    ).toMatch(/quick description/);
+    expect(
+      releaseEditorFormError(
+        form({
+          status: 'published',
+          highlights: form().highlights.map((item) => ({ ...item, isPublic: false })),
+        }),
+      ),
     ).toMatch(/public highlight/);
   });
 
   it('rejects past draft dates and past release months', () => {
+    expect(releaseEditorFormError(form({ timing: { kind: 'date', value: '2000-01-01' } }))).toMatch(
+      /today or a future release date/,
+    );
+    expect(releaseEditorFormError(form({ timing: { kind: 'month', value: '2000-01' } }))).toMatch(
+      /current month or a future month/,
+    );
     expect(
-      releaseEditorFormError(form({ timing: { kind: 'date', value: '2000-01-01' } })),
-    ).toMatch(/today or a future release date/);
-    expect(
-      releaseEditorFormError(form({ timing: { kind: 'month', value: '2000-01' } })),
-    ).toMatch(/current month or a future month/);
-    expect(
-      releaseEditorFormError(form({ status: 'published', timing: { kind: 'date', value: '2000-01-01' } })),
+      releaseEditorFormError(
+        form({ status: 'published', timing: { kind: 'date', value: '2000-01-01' } }),
+      ),
     ).toBeNull();
+  });
+
+  it('allows an existing historical timing value while rejecting a newly selected one', () => {
+    const historicalDate = form({ timing: { kind: 'date', value: '2000-01-01' } });
+    expect(releaseEditorFormError(historicalDate, historicalDate)).toBeNull();
+    expect(releaseEditorFormError(historicalDate, form())).toMatch(
+      /today or a future release date/,
+    );
+
+    const historicalMonth = form({ timing: { kind: 'month', value: '2000-01' } });
+    expect(releaseEditorFormError(historicalMonth, historicalMonth)).toBeNull();
+    expect(releaseEditorFormError(historicalMonth, form())).toMatch(
+      /current month or a future month/,
+    );
   });
 
   it('sends release platforms by default and preserves explicit highlight platforms', () => {

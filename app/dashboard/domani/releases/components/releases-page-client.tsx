@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TextInput } from '@mantine/core';
-import { AlertTriangle, FileText, Loader2, Plus, RotateCcw, Search } from 'lucide-react';
+import { AlertTriangle, FileText, Loader2, Plus, RotateCcw, Search, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { listReleases } from '@/lib/api/admin-releases';
 import type {
@@ -114,12 +114,20 @@ export function ReleasesPageClient() {
           </p>
         </div>
         {capabilities.canCreateRelease && (
-          <Button asChild className="w-full sm:w-auto">
-            <Link href="/dashboard/domani/releases/new">
-              <Plus className="mr-2 h-4 w-4" />
-              New release
-            </Link>
-          </Button>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Button asChild variant="outline" className="w-full sm:w-auto">
+              <Link href="/dashboard/domani/releases/import">
+                <Upload className="mr-2 h-4 w-4" />
+                Import Markdown
+              </Link>
+            </Button>
+            <Button asChild className="w-full sm:w-auto">
+              <Link href="/dashboard/domani/releases/new">
+                <Plus className="mr-2 h-4 w-4" />
+                New release
+              </Link>
+            </Button>
+          </div>
         )}
       </div>
 

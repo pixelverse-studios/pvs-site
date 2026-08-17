@@ -3,11 +3,12 @@ export type ReleaseLifecycle = 'draft' | 'planned' | 'in_progress' | 'released' 
 export type ReleaseVisibility = 'private' | 'public_preview' | 'published';
 export type ReleaseStatus = 'draft' | 'published';
 export type ReleaseTiming =
-  | { kind: 'date'; value: string }
-  | { kind: 'month'; value: string }
-  | { kind: 'tbd'; value: null };
+  { kind: 'date'; value: string } | { kind: 'month'; value: string } | { kind: 'tbd'; value: null };
 export type ReleaseNoteType = 'feature' | 'improvement' | 'fix' | 'breaking';
 export type ReleasePlatform = 'ios' | 'android';
+export type ReleaseSourceType = 'linear_epic' | 'linear_ticket' | 'milestone' | 'manual';
+export type ReleaseIntendedSurface = 'changelog' | 'coming_soon' | 'both';
+export type ReleaseConversionStatus = 'raw' | 'needs_review' | 'approved' | 'failed' | 'superseded';
 
 export interface PublicOverviewNode {
   type: 'doc' | 'paragraph' | 'heading' | 'bulletList' | 'orderedList' | 'listItem' | 'text';
@@ -67,13 +68,27 @@ export interface AdminReleaseNote {
   archivedAt: string | null;
 }
 
+export interface AdminReleaseSource {
+  id: string;
+  releaseId: string;
+  rawMarkdown: string;
+  originalFilename: string | null;
+  sourceType: ReleaseSourceType;
+  sourceReference: string;
+  sourceContentSha256: string;
+  intendedSurface: ReleaseIntendedSurface;
+  conversionStatus: ReleaseConversionStatus;
+  latestConversionRunId: string | null;
+  conversionErrorCode: string | null;
+  conversionErrorMessage: string | null;
+  rowVersion: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface AdminReleaseDetail extends AdminRelease {
   notes: AdminReleaseNote[];
-  sources: Array<{
-    id: string;
-    conversionStatus: 'raw' | 'needs_review' | 'approved' | 'failed' | 'superseded';
-    sourceReference: string;
-  }>;
+  sources: AdminReleaseSource[];
   allowedActions: Array<
     | 'edit'
     | 'mark_released'
@@ -112,6 +127,29 @@ export interface ReleaseDetailResponse {
 
 export interface ReleaseMutationResponse {
   data: Record<string, unknown>;
+  meta: { requestId: string };
+}
+
+export interface ImportMarkdownResponse {
+  data: {
+    release: AdminRelease;
+    source: AdminReleaseSource;
+    duplicate: boolean;
+  };
+  meta: { requestId: string };
+}
+
+export interface ConvertMarkdownResponse {
+  data: {
+    source: AdminReleaseSource;
+    conversionRun: {
+      id: string;
+      status: 'succeeded';
+      resultingNoteIds: string[];
+    };
+    notes: AdminReleaseNote[];
+    releaseRowVersion: number;
+  };
   meta: { requestId: string };
 }
 
