@@ -26,7 +26,7 @@ const filters: Array<{ label: string; value: ReleaseFilter }> = [
 ];
 
 const destinationFilters: Array<{ label: string; value: DestinationFilter }> = [
-  { label: 'Any public page', value: 'all' },
+  { label: 'All destinations', value: 'all' },
   { label: 'Coming Soon', value: 'coming-soon' },
   { label: 'Changelog', value: 'changelog' },
 ];
