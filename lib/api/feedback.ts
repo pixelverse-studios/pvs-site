@@ -1,3 +1,7 @@
+import { createClient } from '@/lib/supabase/client';
+import { getApiBaseUrl } from '@/lib/api-config';
+import { feedbackQuery } from './feedback-query';
+export { feedbackQuery } from './feedback-query';
 import type {
   UnifiedFeedbackItem,
   FeedbackListResponse,
@@ -7,16 +11,22 @@ import type {
   WritableFeedbackStatus,
 } from '@/lib/types/feedback';
 
-export function feedbackQuery(params: FeedbackQueryParams = {}): string {
-  const query = new URLSearchParams();
-  for (const [key, value] of Object.entries(params)) {
-    if (value !== undefined && value !== '') query.set(key, String(value));
-  }
-  return query.toString();
-}
-
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const response = await fetch(`/api/domani/feedback${path}`, { ...options, cache: 'no-store' });
+  options.signal?.throwIfAborted();
+  // Read the current browser session; the API independently verifies this token
+  // and staff membership. Session contents are not an authorization decision.
+  const { data, error } = await createClient().auth.getSession();
+  options.signal?.throwIfAborted();
+  if (error || !data.session?.access_token)
+    throw new Error('Your session has expired. Please sign in again.');
+  const headers = new Headers(options.headers);
+  headers.set('Authorization', `Bearer ${data.session.access_token}`);
+  const response = await fetch(new URL(`/api/domani/feedback${path}`, getApiBaseUrl()), {
+    ...options,
+    headers,
+    credentials: 'omit',
+    cache: 'no-store',
+  });
   if (!response.ok) {
     throw new Error(
       response.status === 403

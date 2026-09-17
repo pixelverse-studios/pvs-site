@@ -1,4 +1,5 @@
 'use client';
+import { RequestError } from '@/components/ui/request-error';
 
 import { MessageSquare, Users, UserCircle } from 'lucide-react';
 import { StatCard } from './stat-card';
@@ -28,12 +29,11 @@ export function OverviewPageClient({ stats, feedbackUnavailable }: OverviewPageC
       {/* Stat Cards Grid */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {feedbackUnavailable ? (
-          <div role="alert" className="rounded-lg border border-[var(--pv-border)] p-6">
-            Feedback counts unavailable.{' '}
-            <a className="text-[var(--pv-primary)] underline" href="/dashboard/domani/feedback">
-              Open feedback to retry
-            </a>
-          </div>
+          <RequestError
+            title="Feedback unavailable"
+            message="Feedback counts could not be loaded."
+            action={{ label: 'Open feedback to retry', href: '/dashboard/domani/feedback' }}
+          />
         ) : (
           <StatCard
             title="Feedback & Support"

@@ -5,8 +5,13 @@ import { X, Mail, Smartphone, Calendar, Tag, Activity } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { UnifiedFeedbackItem, WritableFeedbackStatus } from '@/lib/types/feedback';
 import { CATEGORY_COLORS, STATUS_COLORS } from '@/lib/types/feedback';
+import { RequestError } from '@/components/ui/request-error';
 
 interface FeedbackDetailModalProps {
+  statusError?: string;
+  refreshError?: string;
+  refreshing?: boolean;
+  onRetry?: () => void;
   item: UnifiedFeedbackItem | null;
   isOpen: boolean;
   onClose: () => void;
@@ -24,6 +29,10 @@ export function FeedbackDetailModal({
   onClose,
   onStatusChange,
   disabled,
+  statusError,
+  refreshError,
+  refreshing,
+  onRetry,
 }: FeedbackDetailModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
@@ -154,6 +163,24 @@ export function FeedbackDetailModal({
 
         {/* Content */}
         <div className="space-y-6 p-6">
+          {statusError && <RequestError title="Status update failed" message={statusError} />}
+          {refreshError && (
+            <RequestError
+              title="Feedback refresh failed"
+              message={refreshError}
+              detail="Previously loaded details are shown. Refresh before changing the status."
+              action={
+                onRetry
+                  ? { label: 'Retry refresh', onClick: onRetry, disabled: refreshing }
+                  : undefined
+              }
+            />
+          )}
+          {refreshing && (
+            <p role="status" className="text-sm text-[var(--pv-text-muted)]">
+              Refreshing feedback…
+            </p>
+          )}
           {/* Status Section */}
           <div>
             <label className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">

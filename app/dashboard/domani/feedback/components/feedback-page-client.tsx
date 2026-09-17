@@ -11,6 +11,7 @@ import { getFeedbackItems, updateFeedbackStatus } from '@/lib/api/feedback';
 import { FeedbackToolbar, type FeedbackFilters } from './feedback-toolbar';
 import { FeedbackTable } from './feedback-table';
 import { Pagination } from '@/components/ui/pagination';
+import { RequestError } from '@/components/ui/request-error';
 
 export function FeedbackPageClient({
   initialData,
@@ -156,17 +157,18 @@ export function FeedbackPageClient({
         />
       </div>
       {statusError && (
-        <p role="alert" className="mb-4 text-red-600">
-          {statusError}
-        </p>
+        <div className="mb-4">
+          <RequestError title="Status update failed" message={statusError} />
+        </div>
       )}
       {error && (
-        <div role="alert" className="mb-4 rounded-lg border border-red-300 p-4">
-          {error}{' '}
-          <button className="ml-2 underline" onClick={() => setRevision((value) => value + 1)}>
-            Retry
-          </button>
-          {data && <p className="mt-2 text-sm">Previously loaded results are shown below.</p>}
+        <div className="mb-4">
+          <RequestError
+            title="Feedback unavailable"
+            message={error}
+            detail={data ? 'Previously loaded results are shown below.' : undefined}
+            action={{ label: 'Retry', onClick: () => setRevision((value) => value + 1) }}
+          />
         </div>
       )}
       {refreshing && (
@@ -180,6 +182,10 @@ export function FeedbackPageClient({
           items={data.items}
           onStatusChange={handleStatusChange}
           disabled={saving || refreshing || !!error}
+          statusError={statusError}
+          refreshError={error}
+          refreshing={refreshing}
+          onRetry={() => setRevision((value) => value + 1)}
         />
       )}
       {data && !error && !refreshing && (

@@ -21,6 +21,10 @@ const UNKNOWN_CATEGORY_CONFIG: CategoryConfig = {
 };
 
 interface FeedbackTableProps {
+  statusError?: string;
+  refreshError?: string;
+  refreshing?: boolean;
+  onRetry?: () => void;
   items: UnifiedFeedbackItem[];
   disabled?: boolean;
   onStatusChange: (
@@ -30,7 +34,15 @@ interface FeedbackTableProps {
   ) => Promise<void>;
 }
 
-export function FeedbackTable({ items, onStatusChange, disabled }: FeedbackTableProps) {
+export function FeedbackTable({
+  items,
+  onStatusChange,
+  disabled,
+  statusError,
+  refreshError,
+  refreshing,
+  onRetry,
+}: FeedbackTableProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [modalItem, setModalItem] = useState<UnifiedFeedbackItem | null>(null);
 
@@ -242,6 +254,10 @@ export function FeedbackTable({ items, onStatusChange, disabled }: FeedbackTable
           items.find((item) => modalItem && feedbackKey(item) === feedbackKey(modalItem)) || null
         }
         isOpen={!!modalItem}
+        statusError={statusError}
+        refreshError={refreshError}
+        refreshing={refreshing}
+        onRetry={onRetry}
         onClose={() => setModalItem(null)}
         onStatusChange={onStatusChange}
         disabled={disabled}

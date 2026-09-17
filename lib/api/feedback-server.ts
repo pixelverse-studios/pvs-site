@@ -1,7 +1,7 @@
 import 'server-only';
 import { createClient } from '@/lib/supabase/server';
 import { getApiBaseUrl } from '@/lib/api-config';
-import { feedbackQuery } from './feedback';
+import { feedbackQuery } from './feedback-query';
 import type {
   FeedbackListResponse,
   FeedbackQueryParams,
