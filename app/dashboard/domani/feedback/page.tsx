@@ -1,4 +1,4 @@
-import { getFeedbackItems } from '@/lib/api/feedback';
+import { getServerFeedbackItems } from '@/lib/api/feedback-server';
 import { FeedbackPageClient } from './components/feedback-page-client';
 
 export const metadata = {
@@ -8,11 +8,14 @@ export const metadata = {
 };
 
 export default async function FeedbackPage() {
-  // Fetch initial feedback items with pagination
-  const { items, total } = await getFeedbackItems({ limit: 50, offset: 0 }).catch(() => ({
-    items: [],
-    total: 0,
-  }));
-
-  return <FeedbackPageClient initialItems={items} initialTotal={total} />;
+  try {
+    const response = await getServerFeedbackItems({ limit: 50, offset: 0 });
+    return <FeedbackPageClient initialData={response} />;
+  } catch (error) {
+    return (
+      <FeedbackPageClient
+        initialError={error instanceof Error ? error.message : 'Feedback service unavailable.'}
+      />
+    );
+  }
 }

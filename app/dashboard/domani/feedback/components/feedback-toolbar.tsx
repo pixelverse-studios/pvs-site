@@ -9,7 +9,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { DateRangeFilter, type DateRange, getDateRangeLabel } from '@/components/ui/date-range-filter';
+import {
+  DateRangeFilter,
+  type DateRange,
+  getDateRangeLabel,
+} from '@/components/ui/date-range-filter';
 import { cn } from '@/lib/utils';
 import type {
   UnifiedCategory,
@@ -77,6 +81,8 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
         <div className="relative max-w-sm flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--pv-text-muted)]" />
           <Input
+            aria-label="Search feedback by email or message"
+            maxLength={200}
             placeholder="Search by email or message..."
             value={filters.search}
             onChange={(e) => updateFilter('search', e.target.value)}
@@ -85,7 +91,7 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
           {filters.search && (
             <button
               onClick={() => updateFilter('search', '')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--pv-text-muted)] hover:text-[var(--pv-text)] transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-text)]"
             >
               <X className="h-4 w-4" />
             </button>
@@ -150,7 +156,7 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
               className={cn(
                 'h-9 w-auto min-w-[120px] gap-2 border-transparent bg-transparent',
                 filters.category !== 'all' &&
-                  'border-[var(--pv-primary)]/30 bg-[var(--pv-primary)]/10 text-[var(--pv-primary)]'
+                  'border-[var(--pv-primary)]/30 bg-[var(--pv-primary)]/10 text-[var(--pv-primary)]',
               )}
             >
               <Tag className="h-4 w-4 shrink-0 opacity-50" />
@@ -163,6 +169,7 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
               <SelectItem value="love">Love</SelectItem>
               <SelectItem value="general">General</SelectItem>
               <SelectItem value="support">Support</SelectItem>
+              <SelectItem value="unknown">Unknown</SelectItem>
             </SelectContent>
           </Select>
 
@@ -175,7 +182,7 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
               className={cn(
                 'h-9 w-auto min-w-[110px] gap-2 border-transparent bg-transparent',
                 filters.status !== 'all' &&
-                  'border-[var(--pv-primary)]/30 bg-[var(--pv-primary)]/10 text-[var(--pv-primary)]'
+                  'border-[var(--pv-primary)]/30 bg-[var(--pv-primary)]/10 text-[var(--pv-primary)]',
               )}
             >
               <CircleDot className="h-4 w-4 shrink-0 opacity-50" />
@@ -186,6 +193,7 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
               <SelectItem value="new">New</SelectItem>
               <SelectItem value="reviewed">Reviewed</SelectItem>
               <SelectItem value="resolved">Resolved</SelectItem>
+              <SelectItem value="unknown">Unknown</SelectItem>
             </SelectContent>
           </Select>
 
@@ -198,7 +206,7 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
               className={cn(
                 'h-9 w-auto min-w-[120px] gap-2 border-transparent bg-transparent',
                 filters.platform !== 'all' &&
-                  'border-[var(--pv-primary)]/30 bg-[var(--pv-primary)]/10 text-[var(--pv-primary)]'
+                  'border-[var(--pv-primary)]/30 bg-[var(--pv-primary)]/10 text-[var(--pv-primary)]',
               )}
             >
               <Smartphone className="h-4 w-4 shrink-0 opacity-50" />
@@ -208,6 +216,7 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
               <SelectItem value="all">All Platforms</SelectItem>
               <SelectItem value="ios">iOS</SelectItem>
               <SelectItem value="android">Android</SelectItem>
+              <SelectItem value="unknown">Unknown</SelectItem>
             </SelectContent>
           </Select>
 
@@ -220,7 +229,7 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
               className={cn(
                 'h-9 w-auto min-w-[110px] gap-2 border-transparent bg-transparent',
                 filters.source !== 'all' &&
-                  'border-[var(--pv-primary)]/30 bg-[var(--pv-primary)]/10 text-[var(--pv-primary)]'
+                  'border-[var(--pv-primary)]/30 bg-[var(--pv-primary)]/10 text-[var(--pv-primary)]',
               )}
             >
               <Inbox className="h-4 w-4 shrink-0 opacity-50" />
@@ -264,7 +273,9 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
             <FilterChip
               label={getDateRangeLabel(filters.dateRange)}
               icon={<Calendar className="h-3 w-3" />}
-              onRemove={() => updateFilter('dateRange', { preset: 'all', startDate: null, endDate: null })}
+              onRemove={() =>
+                updateFilter('dateRange', { preset: 'all', startDate: null, endDate: null })
+              }
             />
           )}
           {filters.category !== 'all' && (

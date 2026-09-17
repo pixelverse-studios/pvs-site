@@ -10,13 +10,14 @@ export type FeedbackCategory = 'bug' | 'feature' | 'love' | 'general';
 export type SupportCategory = 'support';
 
 // Combined category type for unified view
-export type UnifiedCategory = FeedbackCategory | SupportCategory;
+export type UnifiedCategory = FeedbackCategory | SupportCategory | 'unknown';
 
 // Status values for feedback items
-export type FeedbackStatus = 'new' | 'reviewed' | 'resolved';
+export type FeedbackStatus = 'new' | 'reviewed' | 'resolved' | 'unknown';
+export type WritableFeedbackStatus = Exclude<FeedbackStatus, 'unknown'>;
 
 // Platform values
-export type Platform = 'ios' | 'android';
+export type Platform = 'ios' | 'android' | 'unknown';
 
 // Source type to distinguish between feedback and support requests
 export type FeedbackSource = 'beta_feedback' | 'support_request';
@@ -25,15 +26,15 @@ export type FeedbackSource = 'beta_feedback' | 'support_request';
 interface BaseFeedbackFields {
   id: string;
   user_id: string | null;
-  email: string;
+  email: string | null;
   status: FeedbackStatus;
-  platform: Platform;
-  app_version: string;
+  platform: Platform | null;
+  app_version: string | null;
   app_build: string | null;
   device_brand: string | null;
   device_model: string | null;
   os_version: string | null;
-  created_at: string;
+  created_at: string | null;
 }
 
 // Beta feedback item from beta_feedback table
@@ -53,17 +54,19 @@ export interface UnifiedFeedbackItem {
   id: string;
   source: FeedbackSource;
   user_id: string | null;
-  email: string;
+  email: string | null;
   category: UnifiedCategory;
+  original_category: string | null;
+  original_status: string | null;
   message: string; // message for feedback, description for support
   status: FeedbackStatus;
-  platform: Platform;
-  app_version: string;
+  platform: Platform | null;
+  app_version: string | null;
   app_build: string | null;
   device_brand: string | null;
   device_model: string | null;
   os_version: string | null;
-  created_at: string;
+  created_at: string | null;
 }
 
 // API response types
@@ -72,6 +75,20 @@ export interface FeedbackListResponse {
   total: number;
   feedback_count: number;
   support_count: number;
+  stats: FeedbackStats;
+  limit: number;
+  offset: number;
+}
+
+export interface FeedbackStats {
+  total: number;
+  by_status: Record<FeedbackStatus, number>;
+  by_category: Record<string, number>;
+  by_platform: Record<string, number>;
+}
+
+export function feedbackKey(item: Pick<UnifiedFeedbackItem, 'source' | 'id'>): string {
+  return `${item.source}:${item.id}`;
 }
 
 // Query params for filtering
@@ -111,6 +128,11 @@ export interface StatusConfig {
 
 // Category colors mapping
 export const CATEGORY_COLORS: Record<UnifiedCategory, CategoryConfig> = {
+  unknown: {
+    label: 'Unknown',
+    color: 'text-gray-600 dark:text-gray-400',
+    bgColor: 'bg-gray-100 dark:bg-gray-800/50',
+  },
   bug: {
     label: 'Bug',
     color: 'text-red-600 dark:text-red-400',
@@ -140,6 +162,11 @@ export const CATEGORY_COLORS: Record<UnifiedCategory, CategoryConfig> = {
 
 // Status colors mapping
 export const STATUS_COLORS: Record<FeedbackStatus, StatusConfig> = {
+  unknown: {
+    label: 'Unknown',
+    color: 'text-gray-600 dark:text-gray-400',
+    bgColor: 'bg-gray-100 dark:bg-gray-800/50',
+  },
   new: {
     label: 'New',
     color: 'text-blue-600 dark:text-blue-400',

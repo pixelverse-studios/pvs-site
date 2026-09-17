@@ -1,15 +1,26 @@
 'use client';
 
+import React, { useEffect, useId, useRef } from 'react';
 import { X, Mail, Smartphone, Calendar, Tag, Activity } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { UnifiedFeedbackItem, FeedbackStatus } from '@/lib/types/feedback';
+import type { UnifiedFeedbackItem, WritableFeedbackStatus } from '@/lib/types/feedback';
 import { CATEGORY_COLORS, STATUS_COLORS } from '@/lib/types/feedback';
+import { RequestError } from '@/components/ui/request-error';
 
 interface FeedbackDetailModalProps {
+  statusError?: string;
+  refreshError?: string;
+  refreshing?: boolean;
+  onRetry?: () => void;
   item: UnifiedFeedbackItem | null;
   isOpen: boolean;
   onClose: () => void;
-  onStatusChange: (id: string, source: 'beta_feedback' | 'support_request', status: FeedbackStatus) => void;
+  disabled?: boolean;
+  onStatusChange: (
+    id: string,
+    source: 'beta_feedback' | 'support_request',
+    status: WritableFeedbackStatus,
+  ) => Promise<void>;
 }
 
 export function FeedbackDetailModal({
@@ -17,13 +28,77 @@ export function FeedbackDetailModal({
   isOpen,
   onClose,
   onStatusChange,
+  disabled,
+  statusError,
+  refreshError,
+  refreshing,
+  onRetry,
 }: FeedbackDetailModalProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+  const closeRef = useRef(onClose);
+  closeRef.current = onClose;
+  const visible = isOpen && !!item;
+  useEffect(() => {
+    if (!visible) return;
+    const previousFocus =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    dialog.focus();
+    const keydown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeRef.current();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex="0"]',
+        ),
+      );
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (!first) {
+        event.preventDefault();
+        dialog.focus();
+        return;
+      }
+      if (
+        event.shiftKey &&
+        (document.activeElement === first || document.activeElement === dialog)
+      ) {
+        event.preventDefault();
+        last.focus();
+      } else if (
+        !event.shiftKey &&
+        (document.activeElement === last || document.activeElement === dialog)
+      ) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    const containFocus = (event: FocusEvent) => {
+      if (event.target instanceof Node && !dialog.contains(event.target)) dialog.focus();
+    };
+    document.addEventListener('keydown', keydown);
+    document.addEventListener('focusin', containFocus);
+    return () => {
+      document.removeEventListener('keydown', keydown);
+      document.removeEventListener('focusin', containFocus);
+      document.body.style.overflow = previousOverflow;
+      if (previousFocus?.isConnected) previousFocus.focus();
+    };
+  }, [visible]);
   if (!isOpen || !item) return null;
 
-  const categoryConfig = CATEGORY_COLORS[item.category];
-  const statusConfig = STATUS_COLORS[item.status];
+  const categoryConfig = CATEGORY_COLORS[item.category] || CATEGORY_COLORS.unknown;
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | null) => {
+    if (!dateString || Number.isNaN(Date.parse(dateString))) return 'Unknown';
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
       weekday: 'long',
@@ -35,7 +110,7 @@ export function FeedbackDetailModal({
     });
   };
 
-  const handleStatusChange = (status: FeedbackStatus) => {
+  const handleStatusChange = (status: WritableFeedbackStatus) => {
     onStatusChange(item.id, item.source, status);
   };
 
@@ -46,12 +121,20 @@ export function FeedbackDetailModal({
 
       {/* Modal */}
       <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
         className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border shadow-2xl"
         style={{
           background: 'var(--pv-bg)',
           borderColor: 'var(--pv-border)',
         }}
       >
+        <h2 id={titleId} className="sr-only">
+          Feedback details
+        </h2>
         {/* Header */}
         <div
           className="sticky top-0 z-10 flex items-center justify-between border-b px-6 py-4"
@@ -70,6 +153,7 @@ export function FeedbackDetailModal({
             <PlatformBadge platform={item.platform} />
           </div>
           <button
+            aria-label="Close feedback details"
             onClick={onClose}
             className="rounded-lg p-2 transition-colors hover:bg-[var(--pv-surface)]"
           >
@@ -79,6 +163,24 @@ export function FeedbackDetailModal({
 
         {/* Content */}
         <div className="space-y-6 p-6">
+          {statusError && <RequestError title="Status update failed" message={statusError} />}
+          {refreshError && (
+            <RequestError
+              title="Feedback refresh failed"
+              message={refreshError}
+              detail="Previously loaded details are shown. Refresh before changing the status."
+              action={
+                onRetry
+                  ? { label: 'Retry refresh', onClick: onRetry, disabled: refreshing }
+                  : undefined
+              }
+            />
+          )}
+          {refreshing && (
+            <p role="status" className="text-sm text-[var(--pv-text-muted)]">
+              Refreshing feedback…
+            </p>
+          )}
           {/* Status Section */}
           <div>
             <label className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
@@ -86,13 +188,14 @@ export function FeedbackDetailModal({
               Status
             </label>
             <div className="flex items-center gap-2">
-              {(['new', 'reviewed', 'resolved'] as FeedbackStatus[]).map((status) => {
+              {(['new', 'reviewed', 'resolved'] as WritableFeedbackStatus[]).map((status) => {
                 const config = STATUS_COLORS[status];
                 const isActive = item.status === status;
 
                 return (
                   <button
                     key={status}
+                    disabled={disabled}
                     onClick={() => handleStatusChange(status)}
                     className={cn(
                       'rounded-lg px-4 py-2 text-sm font-medium transition-all',
@@ -127,7 +230,7 @@ export function FeedbackDetailModal({
               User
             </label>
             <p className="text-lg font-medium" style={{ color: 'var(--pv-text)' }}>
-              {item.email}
+              {item.email || 'Unknown email'}
             </p>
             {item.user_id && (
               <p className="mt-1 text-xs text-[var(--pv-text-muted)]">User ID: {item.user_id}</p>
@@ -144,7 +247,10 @@ export function FeedbackDetailModal({
               className="rounded-xl border p-4"
               style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
             >
-              <p className="whitespace-pre-wrap text-sm leading-relaxed" style={{ color: 'var(--pv-text)' }}>
+              <p
+                className="whitespace-pre-wrap text-sm leading-relaxed"
+                style={{ color: 'var(--pv-text)' }}
+              >
                 {item.message}
               </p>
             </div>
@@ -160,12 +266,18 @@ export function FeedbackDetailModal({
               className="grid grid-cols-2 gap-4 rounded-xl border p-4"
               style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
             >
-              <DeviceInfoRow label="Platform" value={item.platform.toUpperCase()} />
-              <DeviceInfoRow label="Device" value={`${item.device_brand || ''} ${item.device_model || ''}`.trim() || 'Unknown'} />
+              <DeviceInfoRow label="Platform" value={item.platform?.toUpperCase() || 'Unknown'} />
+              <DeviceInfoRow
+                label="Device"
+                value={`${item.device_brand || ''} ${item.device_model || ''}`.trim() || 'Unknown'}
+              />
               <DeviceInfoRow label="OS Version" value={item.os_version || 'Unknown'} />
-              <DeviceInfoRow label="App Version" value={item.app_version} />
+              <DeviceInfoRow label="App Version" value={item.app_version || 'Unknown'} />
               <DeviceInfoRow label="Build Number" value={item.app_build || 'N/A'} />
-              <DeviceInfoRow label="Source" value={item.source === 'beta_feedback' ? 'In-App Feedback' : 'Support Request'} />
+              <DeviceInfoRow
+                label="Source"
+                value={item.source === 'beta_feedback' ? 'In-App Feedback' : 'Support Request'}
+              />
             </div>
           </div>
 
@@ -187,6 +299,7 @@ export function FeedbackDetailModal({
           style={{ background: 'var(--pv-bg)', borderColor: 'var(--pv-border)' }}
         >
           <button
+            aria-label="Close feedback details"
             onClick={onClose}
             className="rounded-xl px-5 py-2.5 text-sm font-medium transition-colors hover:bg-[var(--pv-surface)]"
             style={{ color: 'var(--pv-text)' }}
@@ -210,7 +323,9 @@ function DeviceInfoRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-function PlatformBadge({ platform }: { platform: 'ios' | 'android' }) {
+function PlatformBadge({ platform }: { platform: string | null }) {
+  if (platform !== 'ios' && platform !== 'android')
+    return <span className="text-xs text-[var(--pv-text-muted)]">Unknown</span>;
   return (
     <span
       className={cn(
