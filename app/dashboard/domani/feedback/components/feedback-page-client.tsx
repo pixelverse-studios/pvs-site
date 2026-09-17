@@ -1,212 +1,201 @@
 'use client';
 
-import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Loader2 } from 'lucide-react';
-import type { UnifiedFeedbackItem, FeedbackStatus } from '@/lib/types/feedback';
+import type {
+  FeedbackListResponse,
+  FeedbackSource,
+  WritableFeedbackStatus,
+} from '@/lib/types/feedback';
 import { getFeedbackItems, updateFeedbackStatus } from '@/lib/api/feedback';
 import { FeedbackToolbar, type FeedbackFilters } from './feedback-toolbar';
 import { FeedbackTable } from './feedback-table';
 import { Pagination } from '@/components/ui/pagination';
-import type { DateRange } from '@/components/ui/date-range-filter';
 
-interface FeedbackPageClientProps {
-  initialItems: UnifiedFeedbackItem[];
-  initialTotal: number;
-}
-
-interface Toast {
-  type: 'success' | 'error';
-  message: string;
-}
-
-const DEFAULT_PAGE_SIZE = 50;
-const DEFAULT_DATE_RANGE: DateRange = { preset: 'all', startDate: null, endDate: null };
-
-export function FeedbackPageClient({ initialItems, initialTotal }: FeedbackPageClientProps) {
-  const [items, setItems] = useState(initialItems);
-  const [total, setTotal] = useState(initialTotal);
-  const [toast, setToast] = useState<Toast | null>(null);
+export function FeedbackPageClient({
+  initialData,
+  initialError,
+}: {
+  initialData?: FeedbackListResponse;
+  initialError?: string;
+}) {
+  const [data, setData] = useState(initialData);
+  const [error, setError] = useState(initialError);
+  const [statusError, setStatusError] = useState<string>();
   const [filters, setFilters] = useState<FeedbackFilters>({
     search: '',
     category: 'all',
     status: 'all',
     platform: 'all',
     source: 'all',
-    dateRange: DEFAULT_DATE_RANGE,
+    dateRange: { preset: 'all', startDate: null, endDate: null },
   });
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
-  const [isLoading, setIsLoading] = useState(false);
-  const isInitialMount = useRef(true);
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const [revision, setRevision] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const mutationLock = useRef(false);
+  const requestNumber = useRef(0);
+  const initialQuery = useRef(true);
+  const controller = useRef<AbortController>();
 
-  // Auto-hide toast
-  const showToast = useCallback((type: 'success' | 'error', message: string) => {
-    setToast({ type, message });
-    setTimeout(() => setToast(null), 3000);
-  }, []);
-
-  const fetchData = useCallback(async (page: number, size: number, dateRange: DateRange) => {
-    setIsLoading(true);
-    try {
-      const offset = (page - 1) * size;
-      const response = await getFeedbackItems({
-        limit: size,
-        offset,
-        start_date: dateRange.startDate || undefined,
-        end_date: dateRange.endDate || undefined,
-      });
-      setItems(response.items);
-      setTotal(response.total);
-    } catch (error) {
-      console.error('Failed to fetch feedback items:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  // Fetch when pagination or date range changes
   useEffect(() => {
-    // Skip initial render
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
+    const timer = setTimeout(() => {
+      setSearch(filters.search);
+      setPage(1);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [filters.search]);
+
+  useEffect(() => {
+    if (initialQuery.current && initialData) {
+      initialQuery.current = false;
       return;
     }
-    fetchData(currentPage, pageSize, filters.dateRange);
-  }, [currentPage, pageSize, filters.dateRange, fetchData]);
+    initialQuery.current = false;
+    const abort = new AbortController();
+    controller.current = abort;
+    const number = ++requestNumber.current;
+    setLoading(true);
+    setError(undefined);
+    getFeedbackItems(
+      {
+        search: search || undefined,
+        category: filters.category === 'all' ? undefined : filters.category,
+        status: filters.status === 'all' ? undefined : filters.status,
+        platform: filters.platform === 'all' ? undefined : filters.platform,
+        source: filters.source === 'all' ? undefined : filters.source,
+        start_date: filters.dateRange.startDate || undefined,
+        end_date: filters.dateRange.endDate || undefined,
+        limit: pageSize,
+        offset: (page - 1) * pageSize,
+        sort_by: 'created_at',
+        sort_order: 'desc',
+      },
+      abort.signal,
+    )
+      .then((response) => {
+        if (abort.signal.aborted || number !== requestNumber.current) return;
+        const lastPage = Math.max(1, Math.ceil(response.total / pageSize));
+        if (page > lastPage) {
+          setPage(lastPage);
+          return;
+        }
+        setData(response);
+      })
+      .catch((failure) => {
+        if (!abort.signal.aborted && number === requestNumber.current)
+          setError(failure instanceof Error ? failure.message : 'Feedback service unavailable.');
+      })
+      .finally(() => {
+        if (!abort.signal.aborted && number === requestNumber.current) setLoading(false);
+      });
+    return () => abort.abort();
+  }, [
+    search,
+    filters.category,
+    filters.status,
+    filters.platform,
+    filters.source,
+    filters.dateRange,
+    page,
+    pageSize,
+    revision,
+    initialData,
+  ]);
 
-  const handleFiltersChange = (newFilters: FeedbackFilters) => {
-    // If date range changed, reset to page 1 and fetch
-    if (
-      newFilters.dateRange.preset !== filters.dateRange.preset ||
-      newFilters.dateRange.startDate !== filters.dateRange.startDate ||
-      newFilters.dateRange.endDate !== filters.dateRange.endDate
-    ) {
-      setCurrentPage(1);
-    }
-    setFilters(newFilters);
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  const handlePageSizeChange = (size: number) => {
-    setPageSize(size);
-    setCurrentPage(1);
-  };
-
-  // Filter and sort items (client-side filtering on current page)
-  const filteredItems = useMemo(() => {
-    let result = [...items];
-
-    // Search filter
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      result = result.filter(
-        (item) =>
-          item.email.toLowerCase().includes(searchLower) ||
-          item.message.toLowerCase().includes(searchLower),
-      );
-    }
-
-    // Category filter
-    if (filters.category !== 'all') {
-      result = result.filter((item) => item.category === filters.category);
-    }
-
-    // Status filter
-    if (filters.status !== 'all') {
-      result = result.filter((item) => item.status === filters.status);
-    }
-
-    // Platform filter
-    if (filters.platform !== 'all') {
-      result = result.filter((item) => item.platform === filters.platform);
-    }
-
-    // Source filter
-    if (filters.source !== 'all') {
-      result = result.filter((item) => item.source === filters.source);
-    }
-
-    // Sort by created_at descending (newest first)
-    result.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-
-    return result;
-  }, [items, filters]);
-
-  // Count stats
-  const counts = useMemo(
-    () => ({
-      total: total,
-      new: items.filter((item) => item.status === 'new').length,
-    }),
-    [items, total],
-  );
-
-  // Handle status change
-  const handleStatusChange = async (
+  async function handleStatusChange(
     id: string,
-    source: 'beta_feedback' | 'support_request',
-    newStatus: FeedbackStatus,
-  ) => {
-    const item = items.find((i) => i.id === id);
-    if (!item || item.status === newStatus) return;
-
-    const originalStatus = item.status;
-
-    // Optimistic update
-    setItems((prev) => prev.map((i) => (i.id === id ? { ...i, status: newStatus } : i)));
-
+    source: FeedbackSource,
+    status: WritableFeedbackStatus,
+  ) {
+    if (mutationLock.current) return;
+    mutationLock.current = true;
+    setSaving(true);
+    setStatusError(undefined);
+    controller.current?.abort();
+    ++requestNumber.current;
     try {
-      await updateFeedbackStatus(id, source, newStatus);
-      showToast('success', `Status updated to ${newStatus}`);
-    } catch {
-      // Revert on error
-      setItems((prev) => prev.map((i) => (i.id === id ? { ...i, status: originalStatus } : i)));
-      showToast('error', 'Failed to update status');
+      const item = await updateFeedbackStatus(id, source, status);
+      setData(
+        (previous) =>
+          previous && {
+            ...previous,
+            items: previous.items.map((existing) =>
+              existing.id === id && existing.source === source ? item : existing,
+            ),
+          },
+      );
+    } catch (failure) {
+      setStatusError(failure instanceof Error ? failure.message : 'Failed to update status.');
+    } finally {
+      mutationLock.current = false;
+      setSaving(false);
+      setRevision((value) => value + 1);
     }
-  };
+  }
+
+  const refreshing = loading || search !== filters.search;
 
   return (
     <>
-      {/* Toast */}
-      {toast && (
-        <div
-          className={`fixed bottom-6 right-6 z-50 rounded-lg px-4 py-3 text-sm font-medium shadow-lg ${
-            toast.type === 'success' ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'
-          }`}
-        >
-          {toast.message}
-        </div>
-      )}
-
-      {/* Toolbar */}
       <div className="mb-6">
-        <FeedbackToolbar filters={filters} onFiltersChange={handleFiltersChange} counts={counts} />
-      </div>
-
-      {/* Loading state */}
-      {isLoading ? (
-        <div className="flex items-center justify-center py-16">
-          <Loader2 className="h-6 w-6 animate-spin text-[var(--pv-primary)]" />
-          <span className="ml-2 text-sm text-[var(--pv-text-muted)]">Loading...</span>
-        </div>
-      ) : (
-        /* Table */
-        <FeedbackTable items={filteredItems} onStatusChange={handleStatusChange} />
-      )}
-
-      {/* Pagination */}
-      <div className="mt-4">
-        <Pagination
-          currentPage={currentPage}
-          totalItems={total}
-          pageSize={pageSize}
-          onPageChange={handlePageChange}
-          onPageSizeChange={handlePageSizeChange}
+        <FeedbackToolbar
+          filters={filters}
+          onFiltersChange={(next) => {
+            setFilters(next);
+            if (next.search === filters.search) setPage(1);
+          }}
+          counts={
+            data && !refreshing && !error
+              ? { total: data.stats.total, new: data.stats.by_status.new }
+              : undefined
+          }
         />
       </div>
+      {statusError && (
+        <p role="alert" className="mb-4 text-red-600">
+          {statusError}
+        </p>
+      )}
+      {error && (
+        <div role="alert" className="mb-4 rounded-lg border border-red-300 p-4">
+          {error}{' '}
+          <button className="ml-2 underline" onClick={() => setRevision((value) => value + 1)}>
+            Retry
+          </button>
+          {data && <p className="mt-2 text-sm">Previously loaded results are shown below.</p>}
+        </div>
+      )}
+      {refreshing && (
+        <div role="status" className="flex items-center gap-2 py-4">
+          <Loader2 className="h-5 w-5 animate-spin" />
+          Loading feedback… Previous results remain visible until the refresh completes.
+        </div>
+      )}
+      {data && (
+        <FeedbackTable
+          items={data.items}
+          onStatusChange={handleStatusChange}
+          disabled={saving || refreshing || !!error}
+        />
+      )}
+      {data && !error && !refreshing && (
+        <div className="mt-4">
+          <Pagination
+            currentPage={page}
+            totalItems={data.total}
+            pageSize={pageSize}
+            onPageChange={setPage}
+            onPageSizeChange={(size) => {
+              setPageSize(size);
+              setPage(1);
+            }}
+          />
+        </div>
+      )}
     </>
   );
 }

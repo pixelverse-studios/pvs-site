@@ -3,8 +3,13 @@
 import { Fragment, useState } from 'react';
 import { ChevronRight, Smartphone, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { UnifiedFeedbackItem, FeedbackStatus, CategoryConfig } from '@/lib/types/feedback';
-import { CATEGORY_COLORS, STATUS_COLORS } from '@/lib/types/feedback';
+import type {
+  UnifiedFeedbackItem,
+  WritableFeedbackStatus,
+  FeedbackStatus,
+  CategoryConfig,
+} from '@/lib/types/feedback';
+import { CATEGORY_COLORS, STATUS_COLORS, feedbackKey } from '@/lib/types/feedback';
 
 import { FeedbackDetailModal } from './feedback-detail-modal';
 
@@ -17,20 +22,24 @@ const UNKNOWN_CATEGORY_CONFIG: CategoryConfig = {
 
 interface FeedbackTableProps {
   items: UnifiedFeedbackItem[];
-  onStatusChange: (id: string, source: 'beta_feedback' | 'support_request', status: FeedbackStatus) => void;
+  disabled?: boolean;
+  onStatusChange: (
+    id: string,
+    source: 'beta_feedback' | 'support_request',
+    status: WritableFeedbackStatus,
+  ) => Promise<void>;
 }
 
-export function FeedbackTable({ items, onStatusChange }: FeedbackTableProps) {
+export function FeedbackTable({ items, onStatusChange, disabled }: FeedbackTableProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [modalItem, setModalItem] = useState<UnifiedFeedbackItem | null>(null);
-
-  const selectedItem = items.find((item) => item.id === selectedId) || null;
 
   const handleRowClick = (id: string) => {
     setSelectedId(selectedId === id ? null : id);
   };
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | null) => {
+    if (!dateString || Number.isNaN(Date.parse(dateString))) return 'Unknown';
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
       month: 'short',
@@ -96,82 +105,83 @@ export function FeedbackTable({ items, onStatusChange }: FeedbackTableProps) {
           </thead>
           <tbody>
             {items.map((item) => {
-              const isSelected = selectedId === item.id;
+              const isSelected = selectedId === feedbackKey(item);
               const categoryConfig = CATEGORY_COLORS[item.category] || UNKNOWN_CATEGORY_CONFIG;
-              const statusConfig = STATUS_COLORS[item.status];
+              const statusConfig = STATUS_COLORS[item.status] || STATUS_COLORS.unknown;
 
               return (
-                <Fragment key={item.id}>
-                <tr
-                  className={cn(
-                    'cursor-pointer border-t transition-colors',
-                    isSelected
-                      ? 'bg-[var(--pv-primary)]/5'
-                      : 'hover:bg-[var(--pv-surface)]'
-                  )}
-                  style={{ borderColor: 'var(--pv-border)' }}
-                  onClick={() => handleRowClick(item.id)}
-                >
-                  <td className="px-4 py-3">
-                    <ChevronRight
-                      className={cn(
-                        'h-4 w-4 transition-transform',
-                        isSelected ? 'rotate-90 text-[var(--pv-primary)]' : 'text-[var(--pv-text-muted)]'
-                      )}
-                    />
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-sm text-[var(--pv-text-muted)]">
-                    {formatDate(item.created_at)}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span
-                      className={cn(
-                        'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
-                        categoryConfig.bgColor,
-                        categoryConfig.color,
-                      )}
-                    >
-                      {categoryConfig.label}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-sm" style={{ color: 'var(--pv-text)' }}>
-                    {item.email}
-                  </td>
-                  <td className="max-w-xs px-4 py-3 text-sm text-[var(--pv-text-muted)]">
-                    {truncateMessage(item.message)}
-                  </td>
-                  <td className="px-4 py-3">
-                    <PlatformBadge platform={item.platform} />
-                  </td>
-                  <td className="px-4 py-3">
-                    <span
-                      className={cn(
-                        'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
-                        statusConfig.bgColor,
-                        statusConfig.color,
-                      )}
-                    >
-                      {statusConfig.label}
-                    </span>
-                  </td>
-                </tr>
-                {/* Inline expanded detail row */}
-                {isSelected && (
+                <Fragment key={feedbackKey(item)}>
                   <tr
-                    className="border-t bg-[var(--pv-surface)]"
+                    className={cn(
+                      'cursor-pointer border-t transition-colors',
+                      isSelected ? 'bg-[var(--pv-primary)]/5' : 'hover:bg-[var(--pv-surface)]',
+                    )}
                     style={{ borderColor: 'var(--pv-border)' }}
+                    onClick={() => handleRowClick(feedbackKey(item))}
                   >
-                    <td colSpan={7} className="p-0">
-                      <InlineDetailPanel
-                        item={item}
-                        onClose={() => setSelectedId(null)}
-                        onStatusChange={onStatusChange}
-                        onViewDetails={() => setModalItem(item)}
+                    <td className="px-4 py-3">
+                      <ChevronRight
+                        className={cn(
+                          'h-4 w-4 transition-transform',
+                          isSelected
+                            ? 'rotate-90 text-[var(--pv-primary)]'
+                            : 'text-[var(--pv-text-muted)]',
+                        )}
                       />
                     </td>
+                    <td className="whitespace-nowrap px-4 py-3 text-sm text-[var(--pv-text-muted)]">
+                      {formatDate(item.created_at)}
+                    </td>
+                    <td className="px-4 py-3">
+                      <span
+                        className={cn(
+                          'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
+                          categoryConfig.bgColor,
+                          categoryConfig.color,
+                        )}
+                      >
+                        {categoryConfig.label}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-sm" style={{ color: 'var(--pv-text)' }}>
+                      {item.email || 'Unknown email'}
+                    </td>
+                    <td className="max-w-xs px-4 py-3 text-sm text-[var(--pv-text-muted)]">
+                      {truncateMessage(item.message)}
+                    </td>
+                    <td className="px-4 py-3">
+                      <PlatformBadge platform={item.platform} />
+                    </td>
+                    <td className="px-4 py-3">
+                      <span
+                        className={cn(
+                          'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
+                          statusConfig.bgColor,
+                          statusConfig.color,
+                        )}
+                      >
+                        {statusConfig.label}
+                      </span>
+                    </td>
                   </tr>
-                )}
-              </Fragment>
+                  {/* Inline expanded detail row */}
+                  {isSelected && (
+                    <tr
+                      className="border-t bg-[var(--pv-surface)]"
+                      style={{ borderColor: 'var(--pv-border)' }}
+                    >
+                      <td colSpan={7} className="p-0">
+                        <InlineDetailPanel
+                          item={item}
+                          onClose={() => setSelectedId(null)}
+                          onStatusChange={onStatusChange}
+                          disabled={disabled}
+                          onViewDetails={() => setModalItem(item)}
+                        />
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
               );
             })}
           </tbody>
@@ -182,11 +192,11 @@ export function FeedbackTable({ items, onStatusChange }: FeedbackTableProps) {
       <div className="max-h-[calc(100vh-540px)] space-y-3 overflow-auto md:hidden">
         {items.map((item) => {
           const categoryConfig = CATEGORY_COLORS[item.category] || UNKNOWN_CATEGORY_CONFIG;
-          const statusConfig = STATUS_COLORS[item.status];
+          const statusConfig = STATUS_COLORS[item.status] || STATUS_COLORS.unknown;
 
           return (
             <div
-              key={item.id}
+              key={feedbackKey(item)}
               className="rounded-xl border p-4"
               style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
               onClick={() => setModalItem(item)}
@@ -215,7 +225,7 @@ export function FeedbackTable({ items, onStatusChange }: FeedbackTableProps) {
                 </span>
               </div>
               <p className="mb-2 text-sm font-medium" style={{ color: 'var(--pv-text)' }}>
-                {item.email}
+                {item.email || 'Unknown email'}
               </p>
               <p className="mb-2 text-sm text-[var(--pv-text-muted)]">
                 {truncateMessage(item.message, 100)}
@@ -228,10 +238,13 @@ export function FeedbackTable({ items, onStatusChange }: FeedbackTableProps) {
 
       {/* Detail Modal */}
       <FeedbackDetailModal
-        item={modalItem}
+        item={
+          items.find((item) => modalItem && feedbackKey(item) === feedbackKey(modalItem)) || null
+        }
         isOpen={!!modalItem}
         onClose={() => setModalItem(null)}
         onStatusChange={onStatusChange}
+        disabled={disabled}
       />
     </>
   );
@@ -242,11 +255,17 @@ function InlineDetailPanel({
   onClose,
   onStatusChange,
   onViewDetails,
+  disabled,
 }: {
   item: UnifiedFeedbackItem;
   onClose: () => void;
-  onStatusChange: (id: string, source: 'beta_feedback' | 'support_request', status: FeedbackStatus) => void;
+  onStatusChange: (
+    id: string,
+    source: 'beta_feedback' | 'support_request',
+    status: WritableFeedbackStatus,
+  ) => Promise<void>;
   onViewDetails: () => void;
+  disabled?: boolean;
 }) {
   const categoryConfig = CATEGORY_COLORS[item.category] || UNKNOWN_CATEGORY_CONFIG;
 
@@ -268,7 +287,7 @@ function InlineDetailPanel({
             {categoryConfig.label}
           </span>
           <span className="text-sm font-medium" style={{ color: 'var(--pv-text)' }}>
-            {item.email}
+            {item.email || 'Unknown email'}
           </span>
           <PlatformBadge platform={item.platform} />
         </div>
@@ -297,16 +316,23 @@ function InlineDetailPanel({
 
         {/* Device Info */}
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <InfoField label="Device" value={`${item.device_brand || ''} ${item.device_model || ''}`.trim() || 'Unknown'} />
+          <InfoField
+            label="Device"
+            value={`${item.device_brand || ''} ${item.device_model || ''}`.trim() || 'Unknown'}
+          />
           <InfoField label="OS Version" value={item.os_version || 'Unknown'} />
-          <InfoField label="App Version" value={item.app_version} />
+          <InfoField label="App Version" value={item.app_version || 'Unknown'} />
           <InfoField label="Build" value={item.app_build || 'N/A'} />
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-3 border-t pt-4" style={{ borderColor: 'var(--pv-border)' }}>
+        <div
+          className="flex items-center gap-3 border-t pt-4"
+          style={{ borderColor: 'var(--pv-border)' }}
+        >
           <StatusButtons
             currentStatus={item.status}
+            disabled={disabled}
             onStatusChange={(status) => onStatusChange(item.id, item.source, status)}
           />
           <button
@@ -324,7 +350,9 @@ function InlineDetailPanel({
   );
 }
 
-function PlatformBadge({ platform }: { platform: 'ios' | 'android' }) {
+function PlatformBadge({ platform }: { platform: string | null }) {
+  if (platform !== 'ios' && platform !== 'android')
+    return <span className="text-xs text-[var(--pv-text-muted)]">Unknown</span>;
   return (
     <span
       className={cn(
@@ -379,11 +407,13 @@ function InfoField({ label, value }: { label: string; value: string }) {
 function StatusButtons({
   currentStatus,
   onStatusChange,
+  disabled,
 }: {
   currentStatus: FeedbackStatus;
-  onStatusChange: (status: FeedbackStatus) => void;
+  disabled?: boolean;
+  onStatusChange: (status: WritableFeedbackStatus) => Promise<void>;
 }) {
-  const statuses: FeedbackStatus[] = ['new', 'reviewed', 'resolved'];
+  const statuses: WritableFeedbackStatus[] = ['new', 'reviewed', 'resolved'];
 
   return (
     <div className="flex items-center gap-1">
@@ -394,6 +424,7 @@ function StatusButtons({
         return (
           <button
             key={status}
+            disabled={disabled}
             onClick={(e) => {
               e.stopPropagation();
               onStatusChange(status);

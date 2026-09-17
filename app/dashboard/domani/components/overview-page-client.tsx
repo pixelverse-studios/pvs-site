@@ -19,22 +19,32 @@ interface OverviewStats {
 
 interface OverviewPageClientProps {
   stats: OverviewStats;
+  feedbackUnavailable?: boolean;
 }
 
-export function OverviewPageClient({ stats }: OverviewPageClientProps) {
+export function OverviewPageClient({ stats, feedbackUnavailable }: OverviewPageClientProps) {
   return (
     <>
       {/* Stat Cards Grid */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <StatCard
-          title="Feedback & Support"
-          count={stats.feedback.total}
-          subCount={stats.feedback.new}
-          subLabel="new"
-          href="/dashboard/domani/feedback"
-          icon={MessageSquare}
-          gradient="linear-gradient(135deg, #f59e0b, #d97706)"
-        />
+        {feedbackUnavailable ? (
+          <div role="alert" className="rounded-lg border border-[var(--pv-border)] p-6">
+            Feedback counts unavailable.{' '}
+            <a className="text-[var(--pv-primary)] underline" href="/dashboard/domani/feedback">
+              Open feedback to retry
+            </a>
+          </div>
+        ) : (
+          <StatCard
+            title="Feedback & Support"
+            count={stats.feedback.total}
+            subCount={stats.feedback.new}
+            subLabel="new"
+            href="/dashboard/domani/feedback"
+            icon={MessageSquare}
+            gradient="linear-gradient(135deg, #f59e0b, #d97706)"
+          />
+        )}
         <StatCard
           title="Waitlist Signups"
           count={stats.waitlist.total}
@@ -55,10 +65,7 @@ export function OverviewPageClient({ stats }: OverviewPageClientProps) {
 
       {/* Quick Links Section */}
       <div className="mt-12">
-        <h2
-          className="mb-4 text-lg font-semibold"
-          style={{ color: 'var(--pv-text)' }}
-        >
+        <h2 className="mb-4 text-lg font-semibold" style={{ color: 'var(--pv-text)' }}>
           Quick Links
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
