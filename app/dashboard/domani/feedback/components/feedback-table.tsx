@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState } from 'react';
 import { ChevronRight, Smartphone, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type {
@@ -11,12 +11,8 @@ import type {
 } from '@/lib/types/feedback';
 import { CATEGORY_COLORS, STATUS_COLORS, feedbackKey } from '@/lib/types/feedback';
 
-import {
-  FeedbackReplyComposer,
-  emptyReplyDraft,
-  hasUnsentReply,
-  type ReplyDraft,
-} from './feedback-reply-composer';
+import { FeedbackReplyComposer, emptyReplyDraft } from './feedback-reply-composer';
+import { useFeedbackDrafts } from '@/components/feedback-drafts-provider';
 import { FeedbackDetailModal } from './feedback-detail-modal';
 
 // Fallback config for unknown categories
@@ -49,34 +45,7 @@ export function FeedbackTable({
   refreshing,
   onRetry,
 }: FeedbackTableProps) {
-  const [drafts, setDrafts] = useState<Record<string, ReplyDraft>>({});
-  const unsent = Object.values(drafts).some(hasUnsentReply);
-  useEffect(() => {
-    if (!unsent) return;
-    const unload = (event: BeforeUnloadEvent) => {
-      event.preventDefault();
-      event.returnValue = '';
-    };
-    const navigate = (event: MouseEvent) => {
-      const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null;
-      if (
-        !(anchor instanceof HTMLAnchorElement) ||
-        anchor.target === '_blank' ||
-        anchor.pathname === window.location.pathname
-      )
-        return;
-      if (!window.confirm('Leave this page and discard unsent reply drafts?')) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-    };
-    window.addEventListener('beforeunload', unload);
-    document.addEventListener('click', navigate, true);
-    return () => {
-      window.removeEventListener('beforeunload', unload);
-      document.removeEventListener('click', navigate, true);
-    };
-  }, [unsent]);
+  const { drafts, setDrafts } = useFeedbackDrafts();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [modalItem, setModalItem] = useState<UnifiedFeedbackItem | null>(null);
 

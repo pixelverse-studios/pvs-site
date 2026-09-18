@@ -11,23 +11,8 @@ import {
   type FeedbackMessage,
 } from '@/lib/api/feedback';
 
-export interface ReplyDraft {
-  subject: string;
-  text: string;
-  key?: string;
-  result?: FeedbackReplyState;
-  phase: 'draft' | 'pending' | 'submitted' | 'unknown';
-  error?: string;
-  missingIntent?: boolean;
-}
-export const emptyReplyDraft = (): ReplyDraft => ({
-  subject: 'Re: Your Domani feedback',
-  text: '',
-  phase: 'draft',
-});
-export const hasUnsentReply = (draft: ReplyDraft) =>
-  !!draft.text &&
-  !['accepted', 'delivered', 'bounced', 'complained'].includes(draft.result?.delivery_status || '');
+import { emptyReplyDraft, type ReplyDraft } from '@/lib/feedback-reply-draft';
+export { emptyReplyDraft, hasUnsentReply, type ReplyDraft } from '@/lib/feedback-reply-draft';
 const accepted = (result?: FeedbackReplyState) =>
   !!result && ['accepted', 'delivered', 'bounced', 'complained'].includes(result.delivery_status);
 export function FeedbackReplyComposer({
@@ -45,6 +30,7 @@ export function FeedbackReplyComposer({
   const [historyLoading, setHistoryLoading] = useState(false);
   const [checking, setChecking] = useState(false);
   const lock = useRef(false);
+  const mounted = useRef(true);
   const current = useRef(draft);
   current.current = draft;
   const callback = useRef(onChange);
@@ -53,6 +39,17 @@ export function FeedbackReplyComposer({
     current.current = next;
     callback.current(next);
   }, []);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+      // A remounted composer must reconcile a request still running elsewhere,
+      // rather than remain permanently pending or offer a duplicate send.
+      if (current.current.phase === 'pending') {
+        change({ ...current.current, phase: 'unknown' });
+      }
+    };
+  }, [change]);
   const recipientValid =
     !!item.email && item.email.length <= 320 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(item.email);
   const locked = draft.phase !== 'draft';
@@ -101,7 +98,8 @@ export function FeedbackReplyComposer({
     }
     lock.current = true;
     const key = snapshot.key || crypto.randomUUID();
-    change({ ...snapshot, key, phase: 'pending', error: undefined });
+    const pending: ReplyDraft = { ...snapshot, key, phase: 'pending', error: undefined };
+    change(pending);
     try {
       const result = retry
         ? await retryFeedbackReply(item.id, item.source, key)
@@ -110,6 +108,7 @@ export function FeedbackReplyComposer({
             text: snapshot.text,
             request_key: key,
           });
+      if (!mounted.current || current.current !== pending) return;
       change({
         ...snapshot,
         key,
@@ -120,6 +119,7 @@ export function FeedbackReplyComposer({
       });
       if (accepted(result)) void loadHistory();
     } catch (error) {
+      if (!mounted.current || current.current !== pending) return;
       // Only definitive pre-dispatch rejections allow editing. Network/5xx outcomes
       // retain immutable content and request key until the server confirms state.
       const rejected =
@@ -144,9 +144,11 @@ export function FeedbackReplyComposer({
     setChecking(true);
     try {
       const result = await getFeedbackReplyState(item.id, item.source, snapshot.key);
+      if (!mounted.current || current.current !== snapshot) return;
       change({ ...snapshot, result, phase: 'submitted', error: undefined, missingIntent: false });
       if (accepted(result) && !accepted(snapshot.result)) void loadHistory();
     } catch (error) {
+      if (!mounted.current || current.current !== snapshot) return;
       if (error instanceof FeedbackRequestError && error.status === 404) {
         // No stored intent yet. Keep the same key so a still-running first request
         // and the next attempt can never create two messages.
@@ -294,7 +296,7 @@ export function FeedbackReplyComposer({
             <button
               type="button"
               className={buttonClass}
-              disabled={draft.phase === 'pending'}
+              disabled={checking}
               onClick={() => void submit(true)}
             >
               Retry same reply
@@ -309,7 +311,7 @@ export function FeedbackReplyComposer({
               Edit as a new reply
             </button>
           )}
-          {accepted(draft.result) && (
+          {draft.phase !== 'pending' && accepted(draft.result) && (
             <button type="button" className={buttonClass} onClick={() => change(emptyReplyDraft())}>
               Write another reply
             </button>
@@ -328,8 +330,8 @@ export function FeedbackReplyComposer({
         </div>
       </form>
       <p className="text-xs text-[var(--pv-text-muted)]">
-        Closing this dialog keeps your draft while you stay on this page. Sending does not resolve
-        the feedback.
+        Drafts stay in this tab while you navigate. Reloading, closing the tab, or signing out
+        clears them. Sending does not resolve the feedback.
       </p>
       <div className="space-y-3" aria-label="Conversation history">
         <h3 className="font-semibold">Conversation</h3>
