@@ -11,6 +11,8 @@ const mocks = vi.hoisted(() => ({
   status: vi.fn(),
   send: vi.fn(),
   auth: vi.fn(),
+  reconcile: vi.fn(),
+  retry: vi.fn(),
 }));
 vi.mock('@/lib/api/feedback', () => ({
   FeedbackRequestError: class extends Error {
@@ -24,7 +26,8 @@ vi.mock('@/lib/api/feedback', () => ({
   getFeedbackMessages: mocks.history,
   getFeedbackReplyState: mocks.status,
   sendFeedbackReply: mocks.send,
-  retryFeedbackReply: vi.fn(),
+  retryFeedbackReply: mocks.retry,
+  reconcileFeedbackReply: mocks.reconcile,
 }));
 vi.mock('@/lib/supabase/client', () => ({
   createClient: () => ({ auth: { onAuthStateChange: mocks.auth } }),
@@ -233,13 +236,14 @@ describe('paginated history after acceptance', () => {
     'preserves loaded pages and fetches through the new reply after %s',
     async (action) => {
       let accepted = false;
-      mocks.history.mockImplementation(async (_id, _source, after) => {
-        const start = after ? Number(after.split('-')[1]) : 0;
+      mocks.history.mockImplementation(async (_id, _source, page) => {
         const total = accepted ? 45 : 40;
-        const end = Math.min(start + 20, total);
+        const end = page?.before ? Number(page.before.split('-')[1]) - 1 : total;
+        const start = Math.max(0, end - 20);
         return {
           items: Array.from({ length: end - start }, (_, i) => message(start + i + 1)),
-          next_cursor: end < total ? `message-${end}` : null,
+          previous_cursor: start > 0 ? `message-${start + 1}` : null,
+          next_cursor: null,
         };
       });
       const accept = async () => {
@@ -257,25 +261,27 @@ describe('paginated history after acceptance', () => {
         return <FeedbackReplyComposer item={item} draft={draft} onChange={setDraft} />;
       }
       await act(async () => root.render(<Composer />));
-      await click('Load more replies');
+      await click('Load earlier replies');
       expect(container.querySelectorAll('article')).toHaveLength(40);
       await click(action === 'send' ? 'Send reply' : 'Check status');
       expect(container.querySelectorAll('article')).toHaveLength(45);
       expect(container.querySelectorAll('article')[44].textContent).toContain('History message 45');
-      expect(mocks.history).toHaveBeenLastCalledWith(item.id, item.source, 'message-40');
+      expect(mocks.history).toHaveBeenLastCalledWith(item.id, item.source, {
+        latest: true,
+        before: 'message-6',
+      });
     },
   );
   it('retains displayed replies when a later refresh page fails and retries through acceptance', async () => {
     let accepted = false;
     let fail = true;
-    mocks.history.mockImplementation(async (_id, _source, after) => {
-      if (after && fail) throw new Error('History temporarily unavailable');
-      return after
-        ? { items: [message(21)], next_cursor: null }
-        : {
-            items: Array.from({ length: 20 }, (_, i) => message(i + 1)),
-            next_cursor: accepted ? 'message-20' : null,
-          };
+    mocks.history.mockImplementation(async (_id, _source, page) => {
+      if (page?.before && fail) throw new Error('History temporarily unavailable');
+      if (page?.before) return { items: [message(1)], previous_cursor: null };
+      return {
+        items: Array.from({ length: 20 }, (_, i) => message(i + (accepted ? 2 : 1))),
+        previous_cursor: accepted ? 'message-2' : null,
+      };
     });
     mocks.send.mockImplementation(async () => {
       accepted = true;
@@ -294,5 +300,71 @@ describe('paginated history after acceptance', () => {
     expect(container.querySelectorAll('article')).toHaveLength(21);
     expect(container.textContent).toContain('History message 21');
     expect(mocks.send).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('collapsible delivery history', () => {
+  const fixture = (id: string, status: string, canRetry = false) => ({
+    id,
+    request_key: `key-${id}`,
+    direction: 'outbound',
+    subject: `Subject ${id}`,
+    text: '<img src="https://tracker.test/pixel"> Plain text reply',
+    author: { email: 'staff@example.test' },
+    sender_email: 'hello@domani-app.com',
+    recipient_email: 'fixture@example.test',
+    created_at: '2026-09-18T12:00:00Z',
+    delivery_status: status,
+    can_retry: canRetry,
+  });
+  function Composer() {
+    const [draft, setDraft] = useState<ReplyDraft>(emptyReplyDraft());
+    return <FeedbackReplyComposer item={item} draft={draft} onChange={setDraft} />;
+  }
+  it('opens all responses initially and preserves individual collapse choices during refresh', async () => {
+    mocks.history.mockResolvedValue({
+      items: [fixture('one', 'accepted'), fixture('two', 'delivered')],
+      previous_cursor: null,
+    });
+    await act(async () => root.render(<Composer />));
+    const expanded = () =>
+      Array.from(container.querySelectorAll('button[aria-expanded]')).map((b) =>
+        b.getAttribute('aria-expanded'),
+      );
+    expect(expanded()).toEqual(['true', 'true']);
+    await act(async () =>
+      (container.querySelector('button[aria-expanded]') as HTMLButtonElement).click(),
+    );
+    await type('Keep this draft');
+    await click('Refresh history');
+    expect(expanded()).toEqual(['false', 'true']);
+    expect(container.querySelector('textarea')!.value).toBe('Keep this draft');
+    await click('Collapse all');
+    expect(expanded()).toEqual(['false', 'false']);
+    await click('Expand all');
+    expect(expanded()).toEqual(['true', 'true']);
+    expect(container.querySelector('img')).toBeNull();
+    expect(container.textContent).toContain('staff@example.test');
+    expect(container.textContent).toContain('Delivered');
+  });
+  it('shows retry only when permitted and checks provider status without sending another reply', async () => {
+    mocks.history.mockResolvedValue({
+      items: [fixture('one', 'failed', true), fixture('two', 'complained')],
+      previous_cursor: null,
+    });
+    mocks.reconcile.mockResolvedValue({ delivery_status: 'delivered' });
+    mocks.retry.mockResolvedValue({ delivery_status: 'queued' });
+    await act(async () => root.render(<Composer />));
+    expect(
+      Array.from(container.querySelectorAll('button')).filter(
+        (b) => b.textContent === 'Retry same reply',
+      ),
+    ).toHaveLength(1);
+    await click('Check status');
+    expect(mocks.reconcile).toHaveBeenCalledWith(item.id, item.source, 'key-one');
+    expect(mocks.send).not.toHaveBeenCalled();
+    await click('Retry same reply');
+    expect(mocks.retry).toHaveBeenCalledWith(item.id, item.source, 'key-one');
+    expect(container.textContent).toContain('marked this email as spam');
   });
 });

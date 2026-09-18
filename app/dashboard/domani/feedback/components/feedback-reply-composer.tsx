@@ -3,31 +3,30 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import type { UnifiedFeedbackItem } from '@/lib/types/feedback';
 import {
   FeedbackRequestError,
-  getFeedbackMessages,
   getFeedbackReplyState,
   retryFeedbackReply,
   sendFeedbackReply,
   type FeedbackReplyState,
-  type FeedbackMessage,
 } from '@/lib/api/feedback';
 
+import { FeedbackConversationHistory } from './feedback-conversation-history';
 import { emptyReplyDraft, type ReplyDraft } from '@/lib/feedback-reply-draft';
 export { emptyReplyDraft, hasUnsentReply, type ReplyDraft } from '@/lib/feedback-reply-draft';
 const accepted = (result?: FeedbackReplyState) =>
-  !!result && ['accepted', 'delivered', 'bounced', 'complained'].includes(result.delivery_status);
+  !!result &&
+  ['accepted', 'delayed', 'delivered', 'bounced', 'complained'].includes(result.delivery_status);
 export function FeedbackReplyComposer({
   item,
   draft,
   onChange,
+  onHistoryChanged,
 }: {
   item: UnifiedFeedbackItem;
   draft: ReplyDraft;
   onChange: (draft: ReplyDraft) => void;
+  onHistoryChanged?: () => void;
 }) {
-  const [messages, setMessages] = useState<FeedbackMessage[]>([]);
-  const [cursor, setCursor] = useState<string | null>(null);
-  const [historyError, setHistoryError] = useState('');
-  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyRevision, setHistoryRevision] = useState(0);
   const [checking, setChecking] = useState(false);
   const lock = useRef(false);
   const mounted = useRef(true);
@@ -54,56 +53,10 @@ export function FeedbackReplyComposer({
     !!item.email && item.email.length <= 320 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(item.email);
   const locked = draft.phase !== 'draft';
 
-  const historyRequest = useRef(0);
-  const historyTarget = useRef<string>();
-  const loadHistory = useCallback(
-    async (after?: string, throughId?: string) => {
-      const requestId = ++historyRequest.current;
-      if (throughId) historyTarget.current = throughId;
-      const target = historyTarget.current;
-      setHistoryLoading(true);
-      setHistoryError('');
-      try {
-        // Refresh through the accepted message, not just the oldest page. Keep
-        // the displayed history intact until the complete refresh succeeds.
-        let next = target ? undefined : after;
-        let nextCursor: string | null = null;
-        const refreshed: FeedbackMessage[] = [];
-        do {
-          const result = await getFeedbackMessages(item.id, item.source, next);
-          if (!mounted.current || requestId !== historyRequest.current) return;
-          refreshed.push(...result.items);
-          nextCursor = result.next_cursor;
-          if (!target || refreshed.some((message) => message.id === target) || !nextCursor) break;
-          next = nextCursor;
-        } while (true);
-        if (target && !refreshed.some((message) => message.id === target)) {
-          throw new Error(
-            'Your reply was accepted, but its history is not available yet. Retry history.',
-          );
-        }
-        setMessages((previous) => {
-          const updated = new Map(refreshed.map((message) => [message.id, message]));
-          const existing = new Set(previous.map((message) => message.id));
-          return [
-            ...previous.map((message) => updated.get(message.id) || message),
-            ...refreshed.filter((message) => !existing.has(message.id)),
-          ];
-        });
-        setCursor(nextCursor);
-        historyTarget.current = undefined;
-      } catch (error) {
-        if (!mounted.current || requestId !== historyRequest.current) return;
-        setHistoryError(error instanceof Error ? error.message : 'Conversation unavailable.');
-      } finally {
-        if (mounted.current && requestId === historyRequest.current) setHistoryLoading(false);
-      }
-    },
-    [item.id, item.source],
-  );
-  useEffect(() => {
-    void loadHistory();
-  }, [loadHistory]);
+  const loadHistory = useCallback(() => {
+    setHistoryRevision((value) => value + 1);
+    onHistoryChanged?.();
+  }, [onHistoryChanged]);
 
   async function submit(retry = false) {
     if (lock.current || current.current.phase === 'pending') return;
@@ -144,7 +97,7 @@ export function FeedbackReplyComposer({
         error: undefined,
         missingIntent: false,
       });
-      if (accepted(result)) void loadHistory(undefined, result.message_id);
+      if (accepted(result)) void loadHistory();
     } catch (error) {
       if (!mounted.current || current.current !== pending) return;
       // Only definitive pre-dispatch rejections allow editing. Network/5xx outcomes
@@ -173,8 +126,7 @@ export function FeedbackReplyComposer({
       const result = await getFeedbackReplyState(item.id, item.source, snapshot.key);
       if (!mounted.current || current.current !== snapshot) return;
       change({ ...snapshot, result, phase: 'submitted', error: undefined, missingIntent: false });
-      if (accepted(result) && !accepted(snapshot.result))
-        void loadHistory(undefined, result.message_id);
+      if (accepted(result) && !accepted(snapshot.result)) void loadHistory();
     } catch (error) {
       if (!mounted.current || current.current !== snapshot) return;
       if (error instanceof FeedbackRequestError && error.status === 404) {
@@ -220,17 +172,19 @@ export function FeedbackReplyComposer({
         ? 'Send outcome is unconfirmed. Check status before taking another action.'
         : status === 'accepted'
           ? 'Accepted by the email provider. Delivery is not confirmed yet.'
-          : status === 'delivered'
-            ? 'Delivered.'
-            : status === 'unknown'
-              ? 'The provider outcome is uncertain. Do not send a duplicate reply.'
-              : status === 'failed'
-                ? 'The reply could not be sent.'
-                : status === 'bounced' || status === 'complained'
-                  ? 'This reply has a delivery issue.'
-                  : status === 'queued' || status === 'sending'
-                    ? 'Your reply is queued for sending.'
-                    : '';
+          : status === 'delayed'
+            ? 'Delivery delayed. The email provider will keep trying.'
+            : status === 'delivered'
+              ? 'Delivered.'
+              : status === 'unknown'
+                ? 'The provider outcome is uncertain. Do not send a duplicate reply.'
+                : status === 'failed'
+                  ? 'The reply could not be sent.'
+                  : status === 'bounced' || status === 'complained'
+                    ? 'This reply has a delivery issue.'
+                    : status === 'queued' || status === 'sending'
+                      ? 'Your reply is queued for sending.'
+                      : '';
   const fieldClass =
     'w-full rounded-lg border border-[var(--pv-border)] bg-[var(--pv-bg)] p-3 text-sm text-[var(--pv-text)] focus:outline-none focus:ring-2 focus:ring-[var(--pv-primary)] disabled:opacity-60';
   const buttonClass =
@@ -361,47 +315,11 @@ export function FeedbackReplyComposer({
         Drafts stay in this tab while you navigate. Reloading, closing the tab, or signing out
         clears them. Sending does not resolve the feedback.
       </p>
-      <div className="space-y-3" aria-label="Conversation history">
-        <h3 className="font-semibold">Conversation</h3>
-        {historyLoading && (
-          <p role="status" className="text-sm">
-            Loading conversation…
-          </p>
-        )}
-        {historyError && (
-          <p role="alert" className="text-sm">
-            {historyError}{' '}
-            <button className="underline" onClick={() => void loadHistory()}>
-              Retry history
-            </button>
-          </p>
-        )}
-        {!historyLoading && !historyError && messages.length === 0 && (
-          <p className="text-sm text-[var(--pv-text-muted)]">No replies yet.</p>
-        )}
-        {messages.map((message) => (
-          <article
-            key={message.id}
-            className="rounded-lg border border-[var(--pv-border)] bg-[var(--pv-surface)] p-3 text-sm"
-          >
-            <p className="font-medium">
-              {message.direction === 'outbound' ? 'Domani' : message.author.email} ·{' '}
-              {message.delivery_status}
-            </p>
-            <p className="font-medium">{message.subject}</p>
-            <p className="whitespace-pre-wrap break-words">{message.text}</p>
-          </article>
-        ))}
-        {cursor && (
-          <button
-            className={buttonClass}
-            disabled={historyLoading}
-            onClick={() => void loadHistory(cursor)}
-          >
-            Load more replies
-          </button>
-        )}
-      </div>
+      <FeedbackConversationHistory
+        item={item}
+        revision={historyRevision}
+        onChanged={onHistoryChanged}
+      />
     </section>
   );
 }
