@@ -1,13 +1,15 @@
 'use client';
 
 import React, { useEffect, useId, useRef } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { X, Mail, Smartphone, Calendar, Tag, Activity } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { UnifiedFeedbackItem, WritableFeedbackStatus } from '@/lib/types/feedback';
 import { CATEGORY_COLORS, STATUS_COLORS } from '@/lib/types/feedback';
 import { RequestError } from '@/components/ui/request-error';
 
-interface FeedbackDetailModalProps {
+interface FeedbackDetailDrawerProps {
+  composer?: React.ReactNode;
   statusError?: string;
   refreshError?: string;
   refreshing?: boolean;
@@ -23,7 +25,16 @@ interface FeedbackDetailModalProps {
   ) => Promise<void>;
 }
 
-export function FeedbackDetailModal({
+export function FeedbackDetailDrawer(props: FeedbackDetailDrawerProps) {
+  return (
+    <AnimatePresence>
+      {props.isOpen && props.item && <FeedbackDrawerContent key="feedback-details" {...props} />}
+    </AnimatePresence>
+  );
+}
+
+function FeedbackDrawerContent({
+  composer,
   item,
   isOpen,
   onClose,
@@ -33,7 +44,8 @@ export function FeedbackDetailModal({
   refreshError,
   refreshing,
   onRetry,
-}: FeedbackDetailModalProps) {
+}: FeedbackDetailDrawerProps) {
+  const reducedMotion = useReducedMotion();
   const dialogRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
   const closeRef = useRef(onClose);
@@ -115,42 +127,57 @@ export function FeedbackDetailModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <motion.div
+      className="fixed inset-0 z-50 flex justify-end"
+      initial="closed"
+      animate="open"
+      exit="closed"
+    >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <motion.div
+        className="absolute inset-0 bg-black/40"
+        variants={{ closed: { opacity: 0 }, open: { opacity: 1 } }}
+        transition={{ duration: reducedMotion ? 0 : 0.2 }}
+        onClick={onClose}
+        aria-hidden="true"
+      />
 
-      {/* Modal */}
-      <div
+      {/* Right-side drawer */}
+      <motion.div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border shadow-2xl"
+        className="relative flex h-dvh w-full min-w-0 flex-col border-l shadow-2xl sm:w-3/4 lg:w-1/2 xl:w-[45%]"
+        variants={{ closed: { x: reducedMotion ? 0 : '100%' }, open: { x: 0 } }}
+        transition={{ duration: reducedMotion ? 0 : 0.28, ease: [0.22, 1, 0.36, 1] }}
         style={{
           background: 'var(--pv-bg)',
           borderColor: 'var(--pv-border)',
         }}
       >
-        <h2 id={titleId} className="sr-only">
-          Feedback details
-        </h2>
         {/* Header */}
         <div
-          className="sticky top-0 z-10 flex items-center justify-between border-b px-6 py-4"
+          className="flex shrink-0 items-start justify-between gap-4 border-b px-4 py-4 sm:px-6"
           style={{ background: 'var(--pv-bg)', borderColor: 'var(--pv-border)' }}
         >
-          <div className="flex items-center gap-3">
-            <span
-              className={cn(
-                'inline-flex rounded-full px-3 py-1 text-sm font-medium',
-                categoryConfig.bgColor,
-                categoryConfig.color,
-              )}
-            >
-              {categoryConfig.label}
-            </span>
-            <PlatformBadge platform={item.platform} />
+          <div className="min-w-0 space-y-2">
+            <h2 id={titleId} className="text-lg font-semibold text-[var(--pv-text)]">
+              Feedback details
+            </h2>
+            <div className="flex flex-wrap items-center gap-3">
+              <span
+                className={cn(
+                  'inline-flex rounded-full px-3 py-1 text-sm font-medium',
+                  categoryConfig.bgColor,
+                  categoryConfig.color,
+                )}
+              >
+                {categoryConfig.label}
+              </span>
+              <PlatformBadge platform={item.platform} />
+            </div>
           </div>
           <button
             aria-label="Close feedback details"
@@ -162,7 +189,7 @@ export function FeedbackDetailModal({
         </div>
 
         {/* Content */}
-        <div className="space-y-6 p-6">
+        <div className="min-h-0 flex-1 space-y-6 overflow-y-auto overscroll-contain break-words p-4 sm:p-6">
           {statusError && <RequestError title="Status update failed" message={statusError} />}
           {refreshError && (
             <RequestError
@@ -281,6 +308,8 @@ export function FeedbackDetailModal({
             </div>
           </div>
 
+          {composer}
+
           {/* Timestamp */}
           <div>
             <label className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
@@ -295,9 +324,23 @@ export function FeedbackDetailModal({
 
         {/* Footer */}
         <div
-          className="sticky bottom-0 flex justify-end gap-3 border-t px-6 py-4"
+          className="flex shrink-0 justify-end gap-3 border-t px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-6"
           style={{ background: 'var(--pv-bg)', borderColor: 'var(--pv-border)' }}
         >
+          {composer && (
+            <button
+              onClick={() => {
+                const field = dialogRef.current?.querySelector<HTMLInputElement>(
+                  '[aria-label="Reply subject"]',
+                );
+                field?.scrollIntoView({ block: 'center' });
+                if (!field?.disabled) field?.focus();
+              }}
+              className="rounded-xl bg-[var(--pv-primary)] px-5 py-2.5 text-sm font-medium text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+              Reply
+            </button>
+          )}
           <button
             aria-label="Close feedback details"
             onClick={onClose}
@@ -307,8 +350,8 @@ export function FeedbackDetailModal({
             Close
           </button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 

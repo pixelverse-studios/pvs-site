@@ -9,7 +9,7 @@ vi.mock(
   '@/components/ui/request-error',
   () => import('../../../../../components/ui/request-error'),
 );
-import { FeedbackDetailModal } from './feedback-detail-modal';
+import { FeedbackDetailDrawer } from './feedback-detail-drawer';
 
 describe('feedback detail rendering', () => {
   it('renders unknown legacy categories and nullable fields without mislabelling devices', () => {
@@ -32,7 +32,12 @@ describe('feedback detail rendering', () => {
       created_at: null,
     } as unknown as UnifiedFeedbackItem;
     const html = renderToStaticMarkup(
-      <FeedbackDetailModal item={item} isOpen onClose={() => {}} onStatusChange={async () => {}} />,
+      <FeedbackDetailDrawer
+        item={item}
+        isOpen
+        onClose={() => {}}
+        onStatusChange={async () => {}}
+      />,
     );
     expect(html).toContain('role="dialog"');
     expect(html).toContain('aria-modal="true"');
@@ -56,7 +61,7 @@ describe('feedback detail rendering', () => {
     } as UnifiedFeedbackItem;
     const html = renderToStaticMarkup(
       <MantineProvider>
-        <FeedbackDetailModal
+        <FeedbackDetailDrawer
           item={item}
           isOpen
           onClose={() => {}}

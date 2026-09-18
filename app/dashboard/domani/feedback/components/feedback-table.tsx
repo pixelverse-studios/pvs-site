@@ -11,7 +11,9 @@ import type {
 } from '@/lib/types/feedback';
 import { CATEGORY_COLORS, STATUS_COLORS, feedbackKey } from '@/lib/types/feedback';
 
-import { FeedbackDetailModal } from './feedback-detail-modal';
+import { FeedbackReplyComposer, emptyReplyDraft } from './feedback-reply-composer';
+import { useFeedbackDrafts } from '@/components/feedback-drafts-provider';
+import { FeedbackDetailDrawer } from './feedback-detail-drawer';
 
 // Fallback config for unknown categories
 const UNKNOWN_CATEGORY_CONFIG: CategoryConfig = {
@@ -43,8 +45,9 @@ export function FeedbackTable({
   refreshing,
   onRetry,
 }: FeedbackTableProps) {
+  const { drafts, setDrafts } = useFeedbackDrafts();
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [modalItem, setModalItem] = useState<UnifiedFeedbackItem | null>(null);
+  const [drawerItem, setDrawerItem] = useState<UnifiedFeedbackItem | null>(null);
 
   const handleRowClick = (id: string) => {
     setSelectedId(selectedId === id ? null : id);
@@ -188,7 +191,7 @@ export function FeedbackTable({
                           onClose={() => setSelectedId(null)}
                           onStatusChange={onStatusChange}
                           disabled={disabled}
-                          onViewDetails={() => setModalItem(item)}
+                          onViewDetails={() => setDrawerItem(item)}
                         />
                       </td>
                     </tr>
@@ -211,7 +214,7 @@ export function FeedbackTable({
               key={feedbackKey(item)}
               className="rounded-xl border p-4"
               style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
-              onClick={() => setModalItem(item)}
+              onClick={() => setDrawerItem(item)}
             >
               <div className="mb-3 flex items-start justify-between">
                 <div className="flex items-center gap-2">
@@ -249,16 +252,28 @@ export function FeedbackTable({
       </div>
 
       {/* Detail Modal */}
-      <FeedbackDetailModal
-        item={
-          items.find((item) => modalItem && feedbackKey(item) === feedbackKey(modalItem)) || null
+      <FeedbackDetailDrawer
+        composer={
+          drawerItem ? (
+            <FeedbackReplyComposer
+              key={feedbackKey(drawerItem)}
+              item={drawerItem}
+              draft={drafts[feedbackKey(drawerItem)] || emptyReplyDraft()}
+              onChange={(draft) =>
+                setDrafts((previous) => ({ ...previous, [feedbackKey(drawerItem)]: draft }))
+              }
+            />
+          ) : undefined
         }
-        isOpen={!!modalItem}
+        item={
+          items.find((item) => drawerItem && feedbackKey(item) === feedbackKey(drawerItem)) || null
+        }
+        isOpen={!!drawerItem}
         statusError={statusError}
         refreshError={refreshError}
         refreshing={refreshing}
         onRetry={onRetry}
-        onClose={() => setModalItem(null)}
+        onClose={() => setDrawerItem(null)}
         onStatusChange={onStatusChange}
         disabled={disabled}
       />
@@ -343,7 +358,7 @@ function InlineDetailPanel({
 
         {/* Actions */}
         <div
-          className="flex items-center gap-3 border-t pt-4"
+          className="flex flex-wrap items-center gap-3 border-t pt-4"
           style={{ borderColor: 'var(--pv-border)' }}
         >
           <StatusButtons
@@ -359,6 +374,15 @@ function InlineDetailPanel({
             className="text-sm font-medium text-[var(--pv-primary)] hover:underline"
           >
             View Full Details
+          </button>
+          <button
+            onClick={(event) => {
+              event.stopPropagation();
+              onViewDetails();
+            }}
+            className="rounded-lg bg-[var(--pv-primary)] px-4 py-2 text-sm font-medium text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          >
+            Reply
           </button>
         </div>
       </div>
