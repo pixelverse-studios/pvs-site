@@ -13,7 +13,7 @@ import { CATEGORY_COLORS, STATUS_COLORS, feedbackKey } from '@/lib/types/feedbac
 
 import { FeedbackReplyComposer, emptyReplyDraft } from './feedback-reply-composer';
 import { useFeedbackDrafts } from '@/components/feedback-drafts-provider';
-import { FeedbackDetailModal } from './feedback-detail-modal';
+import { FeedbackDetailDrawer } from './feedback-detail-drawer';
 
 // Fallback config for unknown categories
 const UNKNOWN_CATEGORY_CONFIG: CategoryConfig = {
@@ -47,7 +47,7 @@ export function FeedbackTable({
 }: FeedbackTableProps) {
   const { drafts, setDrafts } = useFeedbackDrafts();
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [modalItem, setModalItem] = useState<UnifiedFeedbackItem | null>(null);
+  const [drawerItem, setDrawerItem] = useState<UnifiedFeedbackItem | null>(null);
 
   const handleRowClick = (id: string) => {
     setSelectedId(selectedId === id ? null : id);
@@ -191,7 +191,7 @@ export function FeedbackTable({
                           onClose={() => setSelectedId(null)}
                           onStatusChange={onStatusChange}
                           disabled={disabled}
-                          onViewDetails={() => setModalItem(item)}
+                          onViewDetails={() => setDrawerItem(item)}
                         />
                       </td>
                     </tr>
@@ -214,7 +214,7 @@ export function FeedbackTable({
               key={feedbackKey(item)}
               className="rounded-xl border p-4"
               style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
-              onClick={() => setModalItem(item)}
+              onClick={() => setDrawerItem(item)}
             >
               <div className="mb-3 flex items-start justify-between">
                 <div className="flex items-center gap-2">
@@ -252,28 +252,28 @@ export function FeedbackTable({
       </div>
 
       {/* Detail Modal */}
-      <FeedbackDetailModal
+      <FeedbackDetailDrawer
         composer={
-          modalItem ? (
+          drawerItem ? (
             <FeedbackReplyComposer
-              key={feedbackKey(modalItem)}
-              item={modalItem}
-              draft={drafts[feedbackKey(modalItem)] || emptyReplyDraft()}
+              key={feedbackKey(drawerItem)}
+              item={drawerItem}
+              draft={drafts[feedbackKey(drawerItem)] || emptyReplyDraft()}
               onChange={(draft) =>
-                setDrafts((previous) => ({ ...previous, [feedbackKey(modalItem)]: draft }))
+                setDrafts((previous) => ({ ...previous, [feedbackKey(drawerItem)]: draft }))
               }
             />
           ) : undefined
         }
         item={
-          items.find((item) => modalItem && feedbackKey(item) === feedbackKey(modalItem)) || null
+          items.find((item) => drawerItem && feedbackKey(item) === feedbackKey(drawerItem)) || null
         }
-        isOpen={!!modalItem}
+        isOpen={!!drawerItem}
         statusError={statusError}
         refreshError={refreshError}
         refreshing={refreshing}
         onRetry={onRetry}
-        onClose={() => setModalItem(null)}
+        onClose={() => setDrawerItem(null)}
         onStatusChange={onStatusChange}
         disabled={disabled}
       />
