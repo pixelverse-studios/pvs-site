@@ -1,3 +1,7 @@
+import { createClient } from '@/lib/supabase/client';
+import { getApiBaseUrl } from '@/lib/api-config';
+import { collectReleases, type ReleaseFilters } from './release-list';
+import { cachedReleaseList, invalidateReleaseLists } from './release-list-cache';
 import type {
   AdminReleaseDetail,
   AdminReleaseCapabilities,
@@ -33,7 +37,16 @@ export class ReleaseApiError extends Error {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(`/api/admin/releases${path}`, {
+  const mutation = init?.method && init.method !== 'GET';
+  if (mutation) invalidateReleaseLists();
+  const { data, error } = await createClient().auth.getSession();
+  if (error || !data.session?.access_token) {
+    invalidateReleaseLists();
+    throw new ReleaseApiError('Your session has expired. Please sign in again.', 401);
+  }
+  // The API verifies the bearer token and permissions. Browser cookies are not sent.
+  const response = await fetch(new URL(`/api/admin/releases${path}`, getApiBaseUrl()), {
+    credentials: 'omit',
     cache: 'no-store',
     ...init,
     headers: {
@@ -41,9 +54,12 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
         ? { 'Content-Type': 'application/json' }
         : {}),
       ...init?.headers,
+      Authorization: `Bearer ${data.session.access_token}`,
     },
   });
   const body = await response.json().catch(() => ({}));
+  // Also invalidate after completion: a list may have started during the mutation.
+  if (mutation || response.status === 401 || response.status === 403) invalidateReleaseLists();
   if (!response.ok) {
     throw new ReleaseApiError(
       body.error?.message || body.message || `Release request failed (${response.status})`,
@@ -128,49 +144,16 @@ export function approveConvertedSource(
   });
 }
 
-export async function listReleases(filters?: {
-  lifecycle?: ReleaseLifecycle;
-  visibility?: ReleaseVisibility;
-  releaseType?: ReleaseType;
-  platform?: ReleasePlatform;
-  version?: string;
-  archived?: boolean;
-}) {
-  const releases: ReleaseListResponse['data']['releases'] = [];
-  let capabilities: AdminReleaseCapabilities = {
-    canCreateRelease: false,
-    canViewArchivedReleases: false,
-  };
-  const seenCursors = new Set<string>();
-  let cursor: string | null = null;
-  let lastResponse: ReleaseListResponse | null = null;
-
-  do {
-    const params = new URLSearchParams({ limit: '100' });
-    Object.entries(filters || {}).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== '') params.set(key, String(value));
-    });
-    if (cursor) params.set('cursor', cursor);
-
-    lastResponse = await request<ReleaseListResponse>(`?${params}`);
-    releases.push(...lastResponse.data.releases);
-    capabilities = lastResponse.data.capabilities || capabilities;
-
-    const nextCursor = lastResponse.meta.nextCursor;
-    if (nextCursor && seenCursors.has(nextCursor)) {
-      throw new ReleaseApiError('Release pagination returned a repeated cursor', 502);
-    }
-    if (nextCursor) seenCursors.add(nextCursor);
-    cursor = nextCursor;
-  } while (cursor);
-
-  return {
-    data: { releases, capabilities },
-    meta: {
-      requestId: lastResponse?.meta.requestId || '',
-      nextCursor: null,
-    },
-  } satisfies ReleaseListResponse;
+export async function listReleases(filters?: ReleaseFilters) {
+  const { data, error } = await createClient().auth.getSession();
+  if (error || !data.session?.access_token) {
+    invalidateReleaseLists();
+    throw new ReleaseApiError('Your session has expired. Please sign in again.', 401);
+  }
+  const key = JSON.stringify(Object.entries(filters ?? {}).sort(([a], [b]) => a.localeCompare(b)));
+  return cachedReleaseList(data.session.access_token, key, () =>
+    collectReleases((path) => request<ReleaseListResponse>(path), filters),
+  );
 }
 
 export async function getRelease(id: string, includeArchived = false): Promise<AdminReleaseDetail> {
@@ -208,10 +191,17 @@ export async function saveReleaseEditor(
   rowVersion: number | undefined,
   input: SaveReleaseEditorInput,
 ): Promise<AdminReleaseDetail> {
+  if (id && (!Number.isSafeInteger(rowVersion) || (rowVersion ?? 0) < 1)) {
+    throw new ReleaseApiError(
+      'This release is missing its saved version. Reload it before saving; keep a copy of your changes.',
+      428,
+      'PRECONDITION_REQUIRED',
+    );
+  }
   const response = await request<ReleaseMutationResponse>(id ? `/${id}/editor` : '/editor', {
     method: 'POST',
     headers: id && rowVersion ? { 'If-Match': `\"${rowVersion}\"` } : undefined,
-    body: JSON.stringify(input),
+    body: JSON.stringify({ ...input, ...(id ? { expectedRowVersion: rowVersion } : {}) }),
   });
   const release = response.data.release as AdminReleaseDetail | undefined;
   if (!release?.id) throw new ReleaseApiError('The saved release could not be loaded', 500);
@@ -234,7 +224,12 @@ export function runReleaseAction(
   id: string,
   rowVersion: number,
   action:
-    'mark-released' | 'publish-preview' | 'return-to-private' | 'publish' | 'unpublish' | 'archive',
+    | 'mark-released'
+    | 'publish-preview'
+    | 'return-to-private'
+    | 'publish'
+    | 'unpublish'
+    | 'archive',
   input?: { releasedDate: string },
 ) {
   return request<ReleaseMutationResponse>(`/${id}/${action}`, {

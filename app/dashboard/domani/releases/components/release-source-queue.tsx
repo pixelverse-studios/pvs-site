@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { DomaniLink as Link } from '../../components/domani-link';
 import { ArrowRight, FileText, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { AdminReleaseDetail, AdminReleaseSource } from '@/lib/types/admin-release';

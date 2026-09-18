@@ -65,13 +65,12 @@ This is not optional. This is not an afterthought. This is the FIRST action afte
 
 ### Required Actions After EVERY Task:
 
-1. **STOP** - Do not proceed to audit files or wait for commit approval
+1. **STOP** - Do not wait for commit approval
 2. **APPEND** to `docs/deployment_summary.md` (add below existing entries):
    - `## Latest deploy summary` - Plain-language bullet points (what changed, not how)
    - `## Notes for internal team` - Technical details, ticket IDs (optional)
    - `## Changed URLs` - Full URLs affected (for Google re-indexing)
-3. **THEN** create the audit file in `docs/audits/landing/`
-4. **THEN** wait for user commit approval
+3. **THEN** wait for user commit approval
 
 ### Quick Reference (Accumulated Example):
 
@@ -409,7 +408,6 @@ export const config = {
   globals.css
   tailwind.config.js
 /docs/
-  audits/              # Audit logs for all changes
   planning/            # Strategy and planning documents
   features/            # Feature documentation
   technical/           # Technical documentation
@@ -438,14 +436,12 @@ export const config = {
 
 ## Documentation Requirements
 
-**IMPORTANT: ALL documentation and audit files MUST be created in the `docs/` directory**
+**IMPORTANT: ALL documentation MUST be created in the `docs/` directory**
 
 ### Directory Structure:
 
 ```
 docs/
-├── audits/
-│   └── landing/        # Landing page audit files
 ├── features/           # Feature documentation
 ├── technical/          # Technical documentation
 └── planning/           # Planning and strategy documents
@@ -539,10 +535,9 @@ Within the same tier, order alphabetically.
 
 1. Complete your work on a feature/task
 2. **IMMEDIATELY APPEND** to `docs/deployment_summary.md` (add below existing entries)
-3. Create the detailed audit log in `docs/audits/landing/`
-4. Wait for user to review and request commit
-5. Commit and push to feature branch (hook skips - file stays populated)
-6. When PR is merged and `main` is pushed, the pre-push hook will:
+3. Wait for user to review and request commit
+4. Commit and push to feature branch (hook skips - file stays populated)
+5. When PR is merged and `main` is pushed, the pre-push hook will:
    - Read the accumulated deployment_summary.md
    - Send all changes to PVS API
    - Trigger email notification with full summary
@@ -587,67 +582,7 @@ This installs a Git hook that automatically tracks deployments on `git push` to 
 
 ---
 
-After completing any task or answering any prompt, create an audit file with the following:
-
-### File Naming Convention:
-
-```
-docs/audits/landing/YYYY-MM-DD-HH-MM-SS-[brief-description].md
-```
-
-Example: `docs/audits/landing/2025-01-15-14-30-45-hero-section.md`
-
-### Audit File Template:
-
-```markdown
-# Audit Log - App - [Date Time]
-
-## Prompt Summary
-
-[Summarize what the user asked for]
-
-## Actions Taken
-
-1. [List each action performed]
-2. [Include files created/modified]
-3. [Note any decisions made]
-
-## Files Changed
-
-- `apps/landing/path/to/file1.tsx` - [Brief description of changes]
-- `apps/landing/path/to/file2.ts` - [Brief description of changes]
-
-## Components/Features Affected
-
-- [Component/Feature name]
-- [Related dependencies]
-
-## Testing Considerations
-
-- [What should be tested]
-- [Potential edge cases]
-- [Device/browser testing needs]
-
-## Performance Impact
-
-- [Bundle size changes]
-- [Loading time considerations]
-- [SEO implications]
-
-## Next Steps
-
-- [Suggested follow-up tasks]
-- [A/B testing opportunities]
-
-## Notes
-
-[Any additional context, warnings, or important information]
-
-## Timestamp
-
-Created: YYYY-MM-DD HH:MM:SS
-Page Section: [hero/features/pricing/etc]
-```
+Use Git commits and pull request descriptions for change history and notes. Do not create per-task audit files.
 
 ## Core Principles
 
@@ -660,7 +595,7 @@ Page Section: [hero/features/pricing/etc]
 7. **Test Everything**: Data drives decisions
 8. **Accessibility**: WCAG 2.1 AA compliance minimum
 9. **Progressive Enhancement**: Core functionality works without JS
-10. **Audit Everything**: Document all changes for history
+10. **Git History**: Use commits and pull request descriptions for change history and notes
 11. **Documentation in /docs**: ALL documentation must be in the docs/ directory
 
 Don't change any immediately provided context in work scope. You can add extra where you see fit, but any direct copy given to you needs to remain untouched.
@@ -718,9 +653,8 @@ When working on SEO tasks:
 - Reference full strategy at `docs/planning/hyper-local-seo-strategy.md`
 - Maintain the master SEO checklist at `docs/features/bergen-seo-checklist.md`
 - Record detailed research and planning outputs under `docs/planning/`
-- After each SEO task, log progress and create an audit entry in `docs/audits/landing/`
+- After each SEO task, log progress
 - After each SEO change ships, update the SEO log page at `/docs/seo`
-- Every SEO change must include patch notes in `docs/audits/landing` (timestamped)
 
 ### Expected Timeline
 

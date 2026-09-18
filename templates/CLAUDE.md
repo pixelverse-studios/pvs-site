@@ -55,13 +55,12 @@ This is not optional. This is not an afterthought. This is the FIRST action afte
 
 ### Required Actions After EVERY Task:
 
-1. **STOP** - Do not proceed to audit files or wait for commit approval
+1. **STOP** - Do not wait for commit approval
 2. **UPDATE** `docs/deployment_summary.md` with:
    - `## Latest deploy summary` - Plain-language bullet points (what changed, not how)
    - `## Notes for internal team` - Technical details (optional)
    - `## Changed URLs` - Full URLs affected (for Google re-indexing)
-3. **THEN** create the audit file in `docs/audits/`
-4. **THEN** wait for user commit approval
+3. **THEN** wait for user commit approval
 
 ### Quick Reference:
 
@@ -208,13 +207,12 @@ Each major page has its own component directory under `/components/` and a route
 
 ## Documentation Requirements
 
-**IMPORTANT: ALL documentation and audit files MUST be created in the `docs/` directory**
+**IMPORTANT: ALL documentation MUST be created in the `docs/` directory**
 
 ### Directory Structure:
 
 ```
 docs/
-├── audits/             # Change audit files
 ├── features/           # Feature documentation
 ├── technical/          # Technical documentation
 ├── reference/          # Reference guides (SEO, blog, etc.)
@@ -282,7 +280,6 @@ The file has **three required sections**:
 
 1. Complete your work on a feature/task
 2. **IMMEDIATELY** update `docs/deployment_summary.md` (see critical section at top)
-3. Create the detailed audit log in `docs/audits/`
 4. Wait for user to review and request commit
 5. When user runs `git push`, the pre-push hook will:
    - Read deployment_summary.md
@@ -326,70 +323,7 @@ node scripts/install-hooks.js
 
 ---
 
-### Audit File Requirements
-
-After completing any task, create an audit file:
-
-#### File Naming Convention:
-
-```
-docs/audits/YYYY-MM-DD-HH-MM-SS-[brief-description].md
-```
-
-Example: `docs/audits/2025-01-15-14-30-45-hero-section.md`
-
-#### Audit File Template:
-
-```markdown
-# Audit Log - [Feature/Task] - [Date Time]
-
-## Prompt Summary
-
-[Summarize what the user asked for]
-
-## Actions Taken
-
-1. [List each action performed]
-2. [Include files created/modified]
-3. [Note any decisions made]
-
-## Files Changed
-
-- `path/to/file1.tsx` - [Brief description of changes]
-- `path/to/file2.ts` - [Brief description of changes]
-
-## Components/Features Affected
-
-- [Component/Feature name]
-- [Related dependencies]
-
-## Testing Considerations
-
-- [What should be tested]
-- [Potential edge cases]
-- [Device/browser testing needs]
-
-## Performance Impact
-
-- [Bundle size changes]
-- [Loading time considerations]
-- [SEO implications]
-
-## Next Steps
-
-- [Suggested follow-up tasks]
-
-## Notes
-
-[Any additional context, warnings, or important information]
-
-## Timestamp
-
-Created: YYYY-MM-DD HH:MM:SS
-Page Section: [section name]
-```
-
----
+Use Git commits and pull request descriptions for change history and notes. Do not create per-task audit files.
 
 ## Core Principles
 
@@ -402,7 +336,7 @@ Page Section: [section name]
 7. **Test Everything**: Data drives decisions
 8. **Accessibility**: WCAG 2.1 AA compliance minimum
 9. **Progressive Enhancement**: Core functionality works without JS
-10. **Audit Everything**: Document all changes for history
+10. **Git History**: Use commits and pull request descriptions for change history and notes
 11. **Documentation in /docs**: ALL documentation must be in the docs/ directory
 
 **Content Rule:** Don't change any immediately provided context in work scope. You can add extra where you see fit, but any direct copy given to you needs to remain untouched.

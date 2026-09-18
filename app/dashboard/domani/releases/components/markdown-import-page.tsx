@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { DomaniLink as Link } from '../../components/domani-link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Select, TextInput, Textarea } from '@mantine/core';

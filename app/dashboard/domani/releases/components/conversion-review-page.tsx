@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { DomaniLink as Link } from '../../components/domani-link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Select, TextInput, Textarea } from '@mantine/core';
 import { ArrowLeft, Check, FileText, Loader2, RefreshCw, Save } from 'lucide-react';
