@@ -7,6 +7,7 @@ import { FeedbackReplyComposer, emptyReplyDraft, type ReplyDraft } from './feedb
 import { FeedbackDraftsProvider, useFeedbackDrafts } from '@/components/feedback-drafts-provider';
 
 const mocks = vi.hoisted(() => ({
+  history: vi.fn(),
   status: vi.fn(),
   send: vi.fn(),
   auth: vi.fn(),
@@ -20,7 +21,7 @@ vi.mock('@/lib/api/feedback', () => ({
       super(message);
     }
   },
-  getFeedbackMessages: async () => ({ items: [], next_cursor: null }),
+  getFeedbackMessages: mocks.history,
   getFeedbackReplyState: mocks.status,
   sendFeedbackReply: mocks.send,
   retryFeedbackReply: vi.fn(),
@@ -35,6 +36,7 @@ let authChanged: (event: string, session: any) => void;
 beforeEach(() => {
   (globalThis as any).IS_REACT_ACT_ENVIRONMENT = true;
   vi.clearAllMocks();
+  mocks.history.mockReset().mockResolvedValue({ items: [], next_cursor: null });
   mocks.auth.mockImplementation((callback) => {
     authChanged = callback;
     callback('INITIAL_SESSION', { user: { id: 'staff-one' } });
@@ -214,6 +216,83 @@ describe('draft lifetime across route transitions', () => {
     await type('Do not overwrite');
     await act(async () => request.resolve({ delivery_status: 'accepted' }));
     expect(container.querySelector('textarea')!.value).toBe('Do not overwrite');
+    expect(mocks.send).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('paginated history after acceptance', () => {
+  const message = (n: number) => ({
+    id: `message-${n}`,
+    direction: 'outbound',
+    author: { email: 'hello@domani-app.com' },
+    subject: `Reply ${n}`,
+    text: `History message ${n}`,
+    delivery_status: 'accepted',
+  });
+  it.each(['send', 'status'])(
+    'preserves loaded pages and fetches through the new reply after %s',
+    async (action) => {
+      let accepted = false;
+      mocks.history.mockImplementation(async (_id, _source, after) => {
+        const start = after ? Number(after.split('-')[1]) : 0;
+        const total = accepted ? 45 : 40;
+        const end = Math.min(start + 20, total);
+        return {
+          items: Array.from({ length: end - start }, (_, i) => message(start + i + 1)),
+          next_cursor: end < total ? `message-${end}` : null,
+        };
+      });
+      const accept = async () => {
+        accepted = true;
+        return { message_id: 'message-45', delivery_status: 'accepted' };
+      };
+      mocks.send.mockImplementation(accept);
+      mocks.status.mockImplementation(accept);
+      function Composer() {
+        const [draft, setDraft] = useState<ReplyDraft>({
+          ...emptyReplyDraft(),
+          text: 'New reply',
+          ...(action === 'status' ? { key: 'pending-key', phase: 'unknown' as const } : {}),
+        });
+        return <FeedbackReplyComposer item={item} draft={draft} onChange={setDraft} />;
+      }
+      await act(async () => root.render(<Composer />));
+      await click('Load more replies');
+      expect(container.querySelectorAll('article')).toHaveLength(40);
+      await click(action === 'send' ? 'Send reply' : 'Check status');
+      expect(container.querySelectorAll('article')).toHaveLength(45);
+      expect(container.querySelectorAll('article')[44].textContent).toContain('History message 45');
+      expect(mocks.history).toHaveBeenLastCalledWith(item.id, item.source, 'message-40');
+    },
+  );
+  it('retains displayed replies when a later refresh page fails and retries through acceptance', async () => {
+    let accepted = false;
+    let fail = true;
+    mocks.history.mockImplementation(async (_id, _source, after) => {
+      if (after && fail) throw new Error('History temporarily unavailable');
+      return after
+        ? { items: [message(21)], next_cursor: null }
+        : {
+            items: Array.from({ length: 20 }, (_, i) => message(i + 1)),
+            next_cursor: accepted ? 'message-20' : null,
+          };
+    });
+    mocks.send.mockImplementation(async () => {
+      accepted = true;
+      return { message_id: 'message-21', delivery_status: 'accepted' };
+    });
+    function Composer() {
+      const [draft, setDraft] = useState<ReplyDraft>({ ...emptyReplyDraft(), text: 'New reply' });
+      return <FeedbackReplyComposer item={item} draft={draft} onChange={setDraft} />;
+    }
+    await act(async () => root.render(<Composer />));
+    await click('Send reply');
+    expect(container.querySelectorAll('article')).toHaveLength(20);
+    expect(container.textContent).toContain('History temporarily unavailable');
+    fail = false;
+    await click('Retry history');
+    expect(container.querySelectorAll('article')).toHaveLength(21);
+    expect(container.textContent).toContain('History message 21');
     expect(mocks.send).toHaveBeenCalledTimes(1);
   });
 });
