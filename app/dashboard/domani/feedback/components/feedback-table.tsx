@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { ChevronRight, Smartphone, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type {
@@ -11,6 +11,12 @@ import type {
 } from '@/lib/types/feedback';
 import { CATEGORY_COLORS, STATUS_COLORS, feedbackKey } from '@/lib/types/feedback';
 
+import {
+  FeedbackReplyComposer,
+  emptyReplyDraft,
+  hasUnsentReply,
+  type ReplyDraft,
+} from './feedback-reply-composer';
 import { FeedbackDetailModal } from './feedback-detail-modal';
 
 // Fallback config for unknown categories
@@ -43,6 +49,34 @@ export function FeedbackTable({
   refreshing,
   onRetry,
 }: FeedbackTableProps) {
+  const [drafts, setDrafts] = useState<Record<string, ReplyDraft>>({});
+  const unsent = Object.values(drafts).some(hasUnsentReply);
+  useEffect(() => {
+    if (!unsent) return;
+    const unload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = '';
+    };
+    const navigate = (event: MouseEvent) => {
+      const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null;
+      if (
+        !(anchor instanceof HTMLAnchorElement) ||
+        anchor.target === '_blank' ||
+        anchor.pathname === window.location.pathname
+      )
+        return;
+      if (!window.confirm('Leave this page and discard unsent reply drafts?')) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+    window.addEventListener('beforeunload', unload);
+    document.addEventListener('click', navigate, true);
+    return () => {
+      window.removeEventListener('beforeunload', unload);
+      document.removeEventListener('click', navigate, true);
+    };
+  }, [unsent]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [modalItem, setModalItem] = useState<UnifiedFeedbackItem | null>(null);
 
@@ -250,6 +284,18 @@ export function FeedbackTable({
 
       {/* Detail Modal */}
       <FeedbackDetailModal
+        composer={
+          modalItem ? (
+            <FeedbackReplyComposer
+              key={feedbackKey(modalItem)}
+              item={modalItem}
+              draft={drafts[feedbackKey(modalItem)] || emptyReplyDraft()}
+              onChange={(draft) =>
+                setDrafts((previous) => ({ ...previous, [feedbackKey(modalItem)]: draft }))
+              }
+            />
+          ) : undefined
+        }
         item={
           items.find((item) => modalItem && feedbackKey(item) === feedbackKey(modalItem)) || null
         }
@@ -343,7 +389,7 @@ function InlineDetailPanel({
 
         {/* Actions */}
         <div
-          className="flex items-center gap-3 border-t pt-4"
+          className="flex flex-wrap items-center gap-3 border-t pt-4"
           style={{ borderColor: 'var(--pv-border)' }}
         >
           <StatusButtons
@@ -359,6 +405,15 @@ function InlineDetailPanel({
             className="text-sm font-medium text-[var(--pv-primary)] hover:underline"
           >
             View Full Details
+          </button>
+          <button
+            onClick={(event) => {
+              event.stopPropagation();
+              onViewDetails();
+            }}
+            className="rounded-lg bg-[var(--pv-primary)] px-4 py-2 text-sm font-medium text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          >
+            Reply
           </button>
         </div>
       </div>

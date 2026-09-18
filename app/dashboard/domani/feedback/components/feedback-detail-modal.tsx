@@ -8,6 +8,7 @@ import { CATEGORY_COLORS, STATUS_COLORS } from '@/lib/types/feedback';
 import { RequestError } from '@/components/ui/request-error';
 
 interface FeedbackDetailModalProps {
+  composer?: React.ReactNode;
   statusError?: string;
   refreshError?: string;
   refreshing?: boolean;
@@ -24,6 +25,7 @@ interface FeedbackDetailModalProps {
 }
 
 export function FeedbackDetailModal({
+  composer,
   item,
   isOpen,
   onClose,
@@ -281,6 +283,8 @@ export function FeedbackDetailModal({
             </div>
           </div>
 
+          {composer}
+
           {/* Timestamp */}
           <div>
             <label className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
@@ -298,6 +302,20 @@ export function FeedbackDetailModal({
           className="sticky bottom-0 flex justify-end gap-3 border-t px-6 py-4"
           style={{ background: 'var(--pv-bg)', borderColor: 'var(--pv-border)' }}
         >
+          {composer && (
+            <button
+              onClick={() => {
+                const field = dialogRef.current?.querySelector<HTMLInputElement>(
+                  '[aria-label="Reply subject"]',
+                );
+                field?.scrollIntoView({ block: 'center' });
+                if (!field?.disabled) field?.focus();
+              }}
+              className="rounded-xl bg-[var(--pv-primary)] px-5 py-2.5 text-sm font-medium text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+              Reply
+            </button>
+          )}
           <button
             aria-label="Close feedback details"
             onClick={onClose}
