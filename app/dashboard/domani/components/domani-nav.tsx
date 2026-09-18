@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { DomaniLink as Link } from './domani-link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
@@ -30,6 +30,7 @@ export function DomaniNav() {
           <Link
             key={tab.href}
             href={tab.href}
+            aria-current={isActive(tab.href) ? 'page' : undefined}
             className={cn(
               'whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors',
               isActive(tab.href)

@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+import { DomaniPageLoading } from './components/domani-page-loading';
 import { getServerFeedbackStats } from '@/lib/api/feedback-server';
 import { getWaitlistEntries } from '@/lib/api/waitlist';
 import { getDomaniUsers } from '@/lib/api/domani-users';
@@ -9,7 +11,15 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function DomaniOverviewPage() {
+export default function DomaniOverviewPage() {
+  return (
+    <Suspense fallback={<DomaniPageLoading title="Overview" />}>
+      <OverviewContent />
+    </Suspense>
+  );
+}
+
+async function OverviewContent() {
   // Fetch all data in parallel
   const [feedbackResult, waitlistResult, usersResult] = await Promise.all([
     getServerFeedbackStats().catch(() => null),

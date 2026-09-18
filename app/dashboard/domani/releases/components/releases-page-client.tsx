@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { DomaniLink as Link } from '../../components/domani-link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TextInput } from '@mantine/core';
 import { AlertTriangle, FileText, Loader2, Plus, RotateCcw, Search, Upload } from 'lucide-react';
@@ -10,6 +10,7 @@ import type {
   AdminRelease,
   AdminReleaseCapabilities,
   ReleaseStatus,
+  ReleaseListResponse,
 } from '@/lib/types/admin-release';
 import { cn } from '@/lib/utils';
 import { panelClass } from './release-ui';
@@ -41,19 +42,28 @@ function targetLabel(release: AdminRelease) {
   return 'No date set';
 }
 
-export function ReleasesPageClient() {
-  const [releases, setReleases] = useState<AdminRelease[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export function ReleasesPageClient({
+  initialData,
+  initialError,
+}: {
+  initialData?: ReleaseListResponse['data'];
+  initialError?: string;
+}) {
+  const [releases, setReleases] = useState<AdminRelease[]>(initialData?.releases ?? []);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(initialError ?? null);
   const [search, setSearch] = useState('');
   const [activeFilter, setActiveFilter] = useState<ReleaseFilter>('all');
   const [destinationFilter, setDestinationFilter] = useState<DestinationFilter>('all');
-  const [capabilities, setCapabilities] = useState<AdminReleaseCapabilities>({
-    canCreateRelease: false,
-    canViewArchivedReleases: false,
-  });
+  const [capabilities, setCapabilities] = useState<AdminReleaseCapabilities>(
+    initialData?.capabilities ?? {
+      canCreateRelease: false,
+      canViewArchivedReleases: false,
+    },
+  );
   const loadSequence = useRef(0);
   const showArchived = activeFilter === 'archived';
+  const previousArchived = useRef(false);
 
   const load = useCallback(async () => {
     const sequence = ++loadSequence.current;
@@ -73,8 +83,14 @@ export function ReleasesPageClient() {
   }, [showArchived]);
 
   useEffect(() => {
+    // Initial data (or a retryable error) already came from the server render.
+    if (previousArchived.current === showArchived) return;
+    previousArchived.current = showArchived;
     void load();
-  }, [load]);
+    return () => {
+      loadSequence.current += 1;
+    };
+  }, [load, showArchived]);
 
   const visibleReleases = useMemo(() => {
     const query = search.trim().toLowerCase();

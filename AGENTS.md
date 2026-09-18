@@ -147,80 +147,18 @@ Each major page has its own component directory under `/components/` and a Next.
 
 ## Documentation Requirements
 
-**IMPORTANT: ALL documentation and audit files MUST be created in the `docs/` directory**
+**IMPORTANT: ALL documentation MUST be created in the `docs/` directory**
 
 ### Directory Structure:
 
 ```
 docs/
-├── audits/
-│   └── landing/        # Landing page audit files
 ├── features/           # Feature documentation
 ├── technical/          # Technical documentation
 └── planning/           # Planning and strategy documents
 ```
 
-After completing any task or answering any prompt, create an audit file with the following:
-
-### File Naming Convention:
-
-```
-docs/audits/landing/YYYY-MM-DD-HH-MM-SS-[brief-description].md
-```
-
-Example: `docs/audits/landing/2025-01-15-14-30-45-hero-section.md`
-
-### Audit File Template:
-
-```markdown
-# Audit Log - App - [Date Time]
-
-## Prompt Summary
-
-[Summarize what the user asked for]
-
-## Actions Taken
-
-1. [List each action performed]
-2. [Include files created/modified]
-3. [Note any decisions made]
-
-## Files Changed
-
-- `apps/landing/path/to/file1.tsx` - [Brief description of changes]
-- `apps/landing/path/to/file2.ts` - [Brief description of changes]
-
-## Components/Features Affected
-
-- [Component/Feature name]
-- [Related dependencies]
-
-## Testing Considerations
-
-- [What should be tested]
-- [Potential edge cases]
-- [Device/browser testing needs]
-
-## Performance Impact
-
-- [Bundle size changes]
-- [Loading time considerations]
-- [SEO implications]
-
-## Next Steps
-
-- [Suggested follow-up tasks]
-- [A/B testing opportunities]
-
-## Notes
-
-[Any additional context, warnings, or important information]
-
-## Timestamp
-
-Created: YYYY-MM-DD HH:MM:SS
-Page Section: [hero/features/pricing/etc]
-```
+Use Git commits and pull request descriptions for change history and notes. Do not create per-task audit files.
 
 ## Core Principles
 
@@ -233,7 +171,7 @@ Page Section: [hero/features/pricing/etc]
 7. **Test Everything**: Data drives decisions
 8. **Accessibility**: WCAG 2.1 AA compliance minimum
 9. **Progressive Enhancement**: Core functionality works without JS
-10. **Audit Everything**: Document all changes for history
+10. **Git History**: Use commits and pull request descriptions for change history and notes
 11. **Documentation in /docs**: ALL documentation must be in the docs/ directory
 
 Don't change any immediately provided context in work scope. You can add extra where you see fit, but any direct copy given to you needs to remain untouched.
@@ -242,9 +180,9 @@ Don't change any immediately provided context in work scope. You can add extra w
 
 - Maintain the master SEO checklist at `docs/features/bergen-seo-checklist.md`; mark items complete as work progresses.
 - Record detailed research and planning outputs under `docs/planning/` (e.g., audience research, competitive scans, keyword matrix).
-- After each SEO task or checklist update, log progress in `docs/planning/bergen-seo-todo.md` and create an audit entry in `docs/audits/landing/`.
+- After each SEO task or checklist update, log progress in `docs/planning/bergen-seo-todo.md`.
 - After each SEO change ships (metadata, content, links, redirects, blogs), update the SEO log page at `/docs/seo` so indexing targets and change notes stay current.
-- Every SEO change must include patch notes in `docs/audits/landing` (timestamped) and a refresh of the `/docs/seo` download-to-CSV flow so it includes any newly affected URLs/pages introduced by the change.
+- Every SEO change must include a refresh of the `/docs/seo` download-to-CSV flow so it includes any newly affected URLs/pages introduced by the change.
 
 # agents.md — SEO Website Essentials Checklist
 
