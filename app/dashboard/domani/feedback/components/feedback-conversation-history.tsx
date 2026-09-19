@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from
 import { ChevronDown } from 'lucide-react';
 import {
   getFeedbackMessages,
+  markFeedbackRead,
   reconcileFeedbackReply,
   retryFeedbackReply,
   type FeedbackMessage,
@@ -163,6 +164,25 @@ export function FeedbackConversationHistory({
       if (alive.current) setBusy(undefined);
     }
   }
+  async function markRead() {
+    const latest = messagesRef.current.at(-1);
+    if (!latest || actionLock.current) return;
+    actionLock.current = true;
+    setBusy('read');
+    setError('');
+    try {
+      await markFeedbackRead(item.id, item.source, latest.id);
+      if (alive.current) {
+        await load();
+        onChanged?.();
+      }
+    } catch {
+      if (alive.current) setError('Could not mark replies read. Try again.');
+    } finally {
+      actionLock.current = false;
+      if (alive.current) setBusy(undefined);
+    }
+  }
   return (
     <div ref={region} className="space-y-3" aria-label="Conversation history">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -195,6 +215,16 @@ export function FeedbackConversationHistory({
           >
             Collapse all
           </button>
+          {messages.some((message) => message.unread) && (
+            <button
+              type="button"
+              className={control}
+              disabled={!!busy || loading}
+              onClick={() => void markRead()}
+            >
+              {busy === 'read' ? 'Marking read…' : 'Mark conversation read'}
+            </button>
+          )}
         </div>
       )}
       {loading && (
@@ -259,6 +289,11 @@ export function FeedbackConversationHistory({
                   <time dateTime={message.created_at}>{date(message.created_at)}</time>
                 </span>
                 <span className="block text-xs font-medium">{delivery.label}</span>
+                {message.unread && (
+                  <span className="block text-xs font-semibold text-[var(--pv-primary)]">
+                    Unread reply
+                  </span>
+                )}
               </span>
             </button>
             <div
@@ -271,7 +306,13 @@ export function FeedbackConversationHistory({
                 <br />
                 To: {message.recipient_email || item.email || 'Unknown recipient'}
               </p>
-              <p className="whitespace-pre-wrap break-words">{message.text}</p>
+              <MessageText text={message.text} incoming={message.direction === 'inbound'} />
+              {!!message.attachment_count && (
+                <p className="text-xs text-[var(--pv-text-muted)]">
+                  {message.attachment_count} attachment(s) omitted. Attachments are not available in
+                  the dashboard.
+                </p>
+              )}
               <p className="text-xs text-[var(--pv-text-muted)]">
                 {delivery.detail}
                 {message.delivery_event_at && (
@@ -312,8 +353,25 @@ export function FeedbackConversationHistory({
         );
       })}
       <span className="sr-only" role="status">
-        {allCollapsed ? 'All responses collapsed' : ''}
+        {allCollapsed ? 'All responses collapsed. ' : ''}
+        {messages.filter((message) => message.unread).length} unread replies in loaded history.
       </span>
     </div>
+  );
+}
+
+function MessageText({ text, incoming }: { text: string; incoming: boolean }) {
+  const boundary = incoming
+    ? text.search(/^(?:>.*|On .+wrote:|-----Original Message-----)\s*$/m)
+    : -1;
+  if (boundary <= 0) return <p className="whitespace-pre-wrap break-words">{text}</p>;
+  return (
+    <>
+      <p className="whitespace-pre-wrap break-words">{text.slice(0, boundary).trimEnd()}</p>
+      <details className="text-[var(--pv-text-muted)]">
+        <summary className="cursor-pointer rounded focus-visible:outline">Quoted message</summary>
+        <p className="mt-2 whitespace-pre-wrap break-words">{text.slice(boundary)}</p>
+      </details>
+    </>
   );
 }

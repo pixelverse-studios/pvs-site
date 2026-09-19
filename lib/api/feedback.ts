@@ -115,6 +115,8 @@ export interface FeedbackMessage {
   request_key?: string | null;
   can_retry?: boolean;
   needs_reconciliation?: boolean;
+  unread?: boolean;
+  attachment_count?: number;
 }
 export const getFeedbackMessages = (
   id: string,
@@ -143,6 +145,13 @@ export const reconcileFeedbackReply = (id: string, source: FeedbackSource, key: 
       signal: AbortSignal.timeout(15000),
     },
   );
+export const markFeedbackRead = (id: string, source: FeedbackSource, messageId: string) =>
+  request<{ last_read_message_id: string }>(`/${source}/${encodeURIComponent(id)}/read`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message_id: messageId }),
+    signal: AbortSignal.timeout(15000),
+  });
 export const sendFeedbackReply = (
   id: string,
   source: FeedbackSource,

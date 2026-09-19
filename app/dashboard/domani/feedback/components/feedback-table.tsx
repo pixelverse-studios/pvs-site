@@ -508,11 +508,16 @@ function StatusButtons({
 
 function ReplySummary({ item }: { item: UnifiedFeedbackItem }) {
   const summary = item.conversation;
-  if (!summary?.reply_count) return null;
+  if (!summary || (!summary.reply_count && !summary.last_incoming_at)) return null;
   return (
     <span className="mt-2 block space-y-1 text-xs text-[var(--pv-text-muted)]">
+      {!!summary.unread_count && (
+        <span className="block font-semibold text-[var(--pv-primary)]">
+          {summary.unread_count} unread {summary.unread_count === 1 ? 'reply' : 'replies'}
+        </span>
+      )}
       <span className="block font-medium">
-        {summary.reply_count} {summary.reply_count === 1 ? 'reply' : 'replies'} ·{' '}
+        {summary.reply_count} outgoing {summary.reply_count === 1 ? 'reply' : 'replies'} ·{' '}
         {feedbackDelivery(summary.last_delivery_status).label}
         {summary.last_message_at && Number.isFinite(Date.parse(summary.last_message_at)) && (
           <> · {new Date(summary.last_message_at).toLocaleString()}</>
@@ -520,6 +525,12 @@ function ReplySummary({ item }: { item: UnifiedFeedbackItem }) {
       </span>
       {summary.last_message_preview && (
         <span className="block truncate">{summary.last_message_preview}</span>
+      )}
+      {summary.last_incoming_at && Number.isFinite(Date.parse(summary.last_incoming_at)) && (
+        <span className="block">
+          Last incoming: {new Date(summary.last_incoming_at).toLocaleString()}
+          <span className="block truncate">{summary.last_incoming_preview}</span>
+        </span>
       )}
     </span>
   );
