@@ -51,6 +51,13 @@ export interface SupportRequest extends BaseFeedbackFields {
 
 // Unified feedback item for dashboard display
 export interface UnifiedFeedbackItem {
+  conversation?: {
+    id: string | null;
+    reply_count: number;
+    last_message_at: string | null;
+    last_message_preview?: string | null;
+    last_delivery_status: string | null;
+  };
   id: string;
   source: FeedbackSource;
   user_id: string | null;

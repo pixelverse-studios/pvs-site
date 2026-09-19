@@ -16,4 +16,6 @@ export const emptyReplyDraft = (): ReplyDraft => ({
 });
 export const hasUnsentReply = (draft: ReplyDraft) =>
   !!draft.text &&
-  !['accepted', 'delivered', 'bounced', 'complained'].includes(draft.result?.delivery_status || '');
+  !['accepted', 'delayed', 'delivered', 'bounced', 'complained'].includes(
+    draft.result?.delivery_status || '',
+  );

@@ -1,7 +1,9 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { ChevronRight, Smartphone, X } from 'lucide-react';
+import { getFeedbackItem } from '@/lib/api/feedback';
+import { feedbackDelivery } from '@/lib/feedback-delivery';
 import { cn } from '@/lib/utils';
 import type {
   UnifiedFeedbackItem,
@@ -37,7 +39,7 @@ interface FeedbackTableProps {
 }
 
 export function FeedbackTable({
-  items,
+  items: baseItems,
   onStatusChange,
   disabled,
   statusError,
@@ -46,6 +48,23 @@ export function FeedbackTable({
   onRetry,
 }: FeedbackTableProps) {
   const { drafts, setDrafts } = useFeedbackDrafts();
+  const [summaries, setSummaries] = useState<Record<string, UnifiedFeedbackItem['conversation']>>(
+    {},
+  );
+  useEffect(() => setSummaries({}), [baseItems]);
+  const items = baseItems.map((item) => ({
+    ...item,
+    conversation: summaries[feedbackKey(item)] || item.conversation,
+  }));
+  const refreshSummary = async (item: UnifiedFeedbackItem) => {
+    try {
+      const fresh = await getFeedbackItem(item.id, item.source);
+      setSummaries((previous) => ({ ...previous, [feedbackKey(item)]: fresh.conversation }));
+    } catch {
+      /* The next list refresh can recover; never turn an accepted send into a failure. */
+    }
+  };
+
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [drawerItem, setDrawerItem] = useState<UnifiedFeedbackItem | null>(null);
 
@@ -163,6 +182,7 @@ export function FeedbackTable({
                     </td>
                     <td className="max-w-xs px-4 py-3 text-sm text-[var(--pv-text-muted)]">
                       {truncateMessage(item.message)}
+                      <ReplySummary item={item} />
                     </td>
                     <td className="px-4 py-3">
                       <PlatformBadge platform={item.platform} />
@@ -245,6 +265,7 @@ export function FeedbackTable({
               <p className="mb-2 text-sm text-[var(--pv-text-muted)]">
                 {truncateMessage(item.message, 100)}
               </p>
+              <ReplySummary item={item} />
               <p className="text-xs text-[var(--pv-text-muted)]">{formatDate(item.created_at)}</p>
             </div>
           );
@@ -258,6 +279,7 @@ export function FeedbackTable({
             <FeedbackReplyComposer
               key={feedbackKey(drawerItem)}
               item={drawerItem}
+              onHistoryChanged={() => void refreshSummary(drawerItem)}
               draft={drafts[feedbackKey(drawerItem)] || emptyReplyDraft()}
               onChange={(draft) =>
                 setDrafts((previous) => ({ ...previous, [feedbackKey(drawerItem)]: draft }))
@@ -481,5 +503,24 @@ function StatusButtons({
         );
       })}
     </div>
+  );
+}
+
+function ReplySummary({ item }: { item: UnifiedFeedbackItem }) {
+  const summary = item.conversation;
+  if (!summary?.reply_count) return null;
+  return (
+    <span className="mt-2 block space-y-1 text-xs text-[var(--pv-text-muted)]">
+      <span className="block font-medium">
+        {summary.reply_count} {summary.reply_count === 1 ? 'reply' : 'replies'} ·{' '}
+        {feedbackDelivery(summary.last_delivery_status).label}
+        {summary.last_message_at && Number.isFinite(Date.parse(summary.last_message_at)) && (
+          <> · {new Date(summary.last_message_at).toLocaleString()}</>
+        )}
+      </span>
+      {summary.last_message_preview && (
+        <span className="block truncate">{summary.last_message_preview}</span>
+      )}
+    </span>
   );
 }

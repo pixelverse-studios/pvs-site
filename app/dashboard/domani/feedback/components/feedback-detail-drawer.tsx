@@ -189,7 +189,10 @@ function FeedbackDrawerContent({
         </div>
 
         {/* Content */}
-        <div className="min-h-0 flex-1 space-y-6 overflow-y-auto overscroll-contain break-words p-4 sm:p-6">
+        <div
+          data-feedback-scroll
+          className="min-h-0 flex-1 space-y-6 overflow-y-auto overscroll-contain break-words p-4 sm:p-6"
+        >
           {statusError && <RequestError title="Status update failed" message={statusError} />}
           {refreshError && (
             <RequestError

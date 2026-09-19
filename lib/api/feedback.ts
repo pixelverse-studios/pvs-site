@@ -91,6 +91,7 @@ export interface FeedbackReplyState {
     | 'queued'
     | 'sending'
     | 'accepted'
+    | 'delayed'
     | 'delivered'
     | 'failed'
     | 'unknown'
@@ -108,10 +109,39 @@ export interface FeedbackMessage {
   author: { id: string | null; email: string };
   created_at: string;
   delivery_status: string;
+  delivery_event_at?: string | null;
+  sender_email?: string;
+  recipient_email?: string;
+  request_key?: string | null;
+  can_retry?: boolean;
+  needs_reconciliation?: boolean;
 }
-export const getFeedbackMessages = (id: string, source: FeedbackSource, after?: string) =>
-  request<{ items: FeedbackMessage[]; next_cursor: string | null }>(
-    `/${source}/${encodeURIComponent(id)}/messages?limit=20${after ? `&after=${encodeURIComponent(after)}` : ''}`,
+export const getFeedbackMessages = (
+  id: string,
+  source: FeedbackSource,
+  page?: string | { before?: string; latest: true },
+) => {
+  const params = new URLSearchParams({ limit: '20' });
+  if (typeof page === 'string') params.set('after', page);
+  else if (page) {
+    params.set('latest', 'true');
+    if (page.before) params.set('before', page.before);
+  }
+  return request<{
+    items: FeedbackMessage[];
+    next_cursor: string | null;
+    previous_cursor?: string | null;
+  }>(`/${source}/${encodeURIComponent(id)}/messages?${params}`, {
+    signal: AbortSignal.timeout(15000),
+  });
+};
+export const reconcileFeedbackReply = (id: string, source: FeedbackSource, key: string) =>
+  request<FeedbackReplyState>(
+    `/${source}/${encodeURIComponent(id)}/replies/${encodeURIComponent(key)}/reconcile`,
+    {
+      method: 'POST',
+      signal: AbortSignal.timeout(15000),
+    },
   );
 export const sendFeedbackReply = (
   id: string,
