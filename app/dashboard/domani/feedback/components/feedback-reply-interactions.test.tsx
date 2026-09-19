@@ -4,6 +4,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { act, Simulate } from 'react-dom/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { FeedbackReplyComposer, emptyReplyDraft, type ReplyDraft } from './feedback-reply-composer';
+import { FeedbackTable } from './feedback-table';
 import { FeedbackDraftsProvider, useFeedbackDrafts } from '@/components/feedback-drafts-provider';
 
 const mocks = vi.hoisted(() => ({
@@ -33,6 +34,15 @@ vi.mock('@/lib/api/feedback', () => ({
 }));
 vi.mock('@/lib/supabase/client', () => ({
   createClient: () => ({ auth: { onAuthStateChange: mocks.auth } }),
+}));
+vi.mock('./feedback-detail-drawer', () => ({
+  FeedbackDetailDrawer: ({ item, isOpen, composer, onClose }: any) =>
+    isOpen && item ? (
+      <div role="dialog">
+        <button onClick={onClose}>Close details</button>
+        {composer}
+      </div>
+    ) : null,
 }));
 const item = { id: 'fixture', source: 'beta_feedback', email: 'fixture@example.test' } as any;
 let container: HTMLDivElement;
@@ -528,4 +538,48 @@ describe('incoming replies', () => {
     expect(container.textContent).toContain('Unread reply');
     expect(container.textContent).toContain('Mark conversation read');
   });
+});
+
+describe('feedback list refresh during composition', () => {
+  it.each([
+    { refreshedItems: [] },
+    {
+      refreshedItems: [
+        { ...item, id: 'other', message: 'Other feedback', status: 'new', category: 'general' },
+      ],
+    },
+  ])(
+    'preserves the active drawer and composer when the selected item leaves the results (%j)',
+    async ({ refreshedItems }) => {
+      const feedback = {
+        ...item,
+        message: 'Original feedback',
+        status: 'new',
+        category: 'general',
+      };
+      const renderTable = (items: any[]) => (
+        <FeedbackDraftsProvider>
+          <FeedbackTable items={items} onStatusChange={async () => {}} />
+        </FeedbackDraftsProvider>
+      );
+      await act(async () => root.render(renderTable([feedback])));
+      await act(async () =>
+        container
+          .querySelector('tbody tr')!
+          .dispatchEvent(new MouseEvent('click', { bubbles: true })),
+      );
+      await click('View Full Details');
+      await type('Keep my draft');
+      const textarea = container.querySelector('textarea')!;
+      textarea.focus();
+      await act(async () => root.render(renderTable(refreshedItems)));
+      expect(container.querySelector('[role="dialog"]')).not.toBeNull();
+      expect(container.querySelector('textarea')).toBe(textarea);
+      expect(textarea.value).toBe('Keep my draft');
+      expect(document.activeElement).toBe(textarea);
+      if (!refreshedItems.length) expect(container.textContent).toContain('No feedback found');
+      await click('Close details');
+      expect(container.querySelector('[role="dialog"]')).toBeNull();
+    },
+  );
 });
