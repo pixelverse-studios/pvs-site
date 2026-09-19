@@ -4,6 +4,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { act, Simulate } from 'react-dom/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { FeedbackReplyComposer, emptyReplyDraft, type ReplyDraft } from './feedback-reply-composer';
+import { FeedbackTable } from './feedback-table';
 import { FeedbackDraftsProvider, useFeedbackDrafts } from '@/components/feedback-drafts-provider';
 
 const mocks = vi.hoisted(() => ({
@@ -12,6 +13,7 @@ const mocks = vi.hoisted(() => ({
   send: vi.fn(),
   auth: vi.fn(),
   reconcile: vi.fn(),
+  read: vi.fn(),
   retry: vi.fn(),
 }));
 vi.mock('@/lib/api/feedback', () => ({
@@ -28,9 +30,19 @@ vi.mock('@/lib/api/feedback', () => ({
   sendFeedbackReply: mocks.send,
   retryFeedbackReply: mocks.retry,
   reconcileFeedbackReply: mocks.reconcile,
+  markFeedbackRead: mocks.read,
 }));
 vi.mock('@/lib/supabase/client', () => ({
   createClient: () => ({ auth: { onAuthStateChange: mocks.auth } }),
+}));
+vi.mock('./feedback-detail-drawer', () => ({
+  FeedbackDetailDrawer: ({ item, isOpen, composer, onClose }: any) =>
+    isOpen && item ? (
+      <div role="dialog">
+        <button onClick={onClose}>Close details</button>
+        {composer}
+      </div>
+    ) : null,
 }));
 const item = { id: 'fixture', source: 'beta_feedback', email: 'fixture@example.test' } as any;
 let container: HTMLDivElement;
@@ -468,6 +480,106 @@ describe('review regressions', () => {
         expect(container.textContent).toContain('Write another reply');
         expect(container.textContent).not.toContain('The provider outcome is uncertain');
       }
+    },
+  );
+});
+
+describe('incoming replies', () => {
+  const incoming = (id: string, unread = true) => ({
+    id,
+    direction: 'inbound',
+    subject: 'Re: Feedback',
+    text: 'Thanks!\n\n> Old quoted reply\n<img src="https://tracking.test/pixel">',
+    author: { email: 'user@example.test' },
+    sender_email: 'user@example.test',
+    recipient_email: 'route@replies.domani-app.com',
+    created_at: '2026-09-18T12:00:00Z',
+    delivery_status: 'received',
+    unread,
+    attachment_count: 1,
+  });
+  function Composer() {
+    const [draft, setDraft] = useState(emptyReplyDraft());
+    return <FeedbackReplyComposer item={item} draft={draft} onChange={setDraft} />;
+  }
+  it('shows unread incoming text safely with quoted content and omitted attachments', async () => {
+    mocks.history.mockResolvedValue({ items: [incoming('one')] });
+    await act(async () => root.render(<Composer />));
+    expect(container.textContent).toContain('Unread reply');
+    expect(container.textContent).toContain('user@example.test');
+    expect(container.textContent).toContain('attachment(s) omitted');
+    expect(container.querySelector('details summary')!.textContent).toBe('Quoted message');
+    expect(container.querySelector('img')).toBeNull();
+    expect(mocks.read).not.toHaveBeenCalled();
+  });
+  it('marks only the loaded boundary and preserves a later arriving reply and draft', async () => {
+    let later = false;
+    mocks.history.mockImplementation(async () => ({
+      items: later ? [incoming('one', false), incoming('two')] : [incoming('one')],
+    }));
+    mocks.read.mockImplementation(async () => {
+      later = true;
+      return { last_read_message_id: 'one' };
+    });
+    await act(async () => root.render(<Composer />));
+    await type('Keep composing');
+    await click('Mark conversation read');
+    expect(mocks.read).toHaveBeenCalledWith(item.id, item.source, 'one');
+    expect(container.querySelectorAll('article')).toHaveLength(2);
+    expect(container.textContent).toContain('1 unread replies in loaded history');
+    expect(container.querySelector('textarea')!.value).toBe('Keep composing');
+  });
+  it('retains unread replies and exposes retry when marking read fails', async () => {
+    mocks.history.mockResolvedValue({ items: [incoming('one')] });
+    mocks.read.mockRejectedValue(new Error('Unavailable'));
+    await act(async () => root.render(<Composer />));
+    await click('Mark conversation read');
+    expect(container.textContent).toContain('Could not mark replies read');
+    expect(container.textContent).toContain('Unread reply');
+    expect(container.textContent).toContain('Mark conversation read');
+  });
+});
+
+describe('feedback list refresh during composition', () => {
+  it.each([
+    { refreshedItems: [] },
+    {
+      refreshedItems: [
+        { ...item, id: 'other', message: 'Other feedback', status: 'new', category: 'general' },
+      ],
+    },
+  ])(
+    'preserves the active drawer and composer when the selected item leaves the results (%j)',
+    async ({ refreshedItems }) => {
+      const feedback = {
+        ...item,
+        message: 'Original feedback',
+        status: 'new',
+        category: 'general',
+      };
+      const renderTable = (items: any[]) => (
+        <FeedbackDraftsProvider>
+          <FeedbackTable items={items} onStatusChange={async () => {}} />
+        </FeedbackDraftsProvider>
+      );
+      await act(async () => root.render(renderTable([feedback])));
+      await act(async () =>
+        container
+          .querySelector('tbody tr')!
+          .dispatchEvent(new MouseEvent('click', { bubbles: true })),
+      );
+      await click('View Full Details');
+      await type('Keep my draft');
+      const textarea = container.querySelector('textarea')!;
+      textarea.focus();
+      await act(async () => root.render(renderTable(refreshedItems)));
+      expect(container.querySelector('[role="dialog"]')).not.toBeNull();
+      expect(container.querySelector('textarea')).toBe(textarea);
+      expect(textarea.value).toBe('Keep my draft');
+      expect(document.activeElement).toBe(textarea);
+      if (!refreshedItems.length) expect(container.textContent).toContain('No feedback found');
+      await click('Close details');
+      expect(container.querySelector('[role="dialog"]')).toBeNull();
     },
   );
 });

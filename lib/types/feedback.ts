@@ -54,6 +54,10 @@ export interface UnifiedFeedbackItem {
   conversation?: {
     id: string | null;
     reply_count: number;
+    unread_count?: number;
+    last_incoming_at?: string | null;
+    last_incoming_preview?: string | null;
+    last_direction?: 'inbound' | 'outbound' | null;
     last_message_at: string | null;
     last_message_preview?: string | null;
     last_delivery_status: string | null;

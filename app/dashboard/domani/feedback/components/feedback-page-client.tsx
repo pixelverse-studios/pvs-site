@@ -41,6 +41,19 @@ export function FeedbackPageClient({
   const requestNumber = useRef(0);
   const initialQuery = useRef(true);
   const controller = useRef<AbortController>();
+  const busy = useRef(false);
+  const backgroundRefresh = useRef(false);
+  busy.current = loading || saving;
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (document.visibilityState === 'visible' && !busy.current) {
+        backgroundRefresh.current = true;
+        setRevision((value) => value + 1);
+      }
+    }, 30000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -59,7 +72,8 @@ export function FeedbackPageClient({
     const abort = new AbortController();
     controller.current = abort;
     const number = ++requestNumber.current;
-    setLoading(true);
+    setLoading(!backgroundRefresh.current);
+    backgroundRefresh.current = false;
     setError(undefined);
     getFeedbackItems(
       {
