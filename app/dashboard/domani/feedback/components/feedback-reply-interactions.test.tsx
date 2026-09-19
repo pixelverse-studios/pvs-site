@@ -368,3 +368,106 @@ describe('collapsible delivery history', () => {
     expect(container.textContent).toContain('marked this email as spam');
   });
 });
+
+describe('review regressions', () => {
+  it('keeps the oldest loaded boundary on refresh and still allows earlier replies', async () => {
+    let total = 40;
+    mocks.history.mockImplementation(async (_id, _source, page) => {
+      const end = page?.before ? Number(page.before.split('-')[1]) - 1 : total;
+      const start = Math.max(0, end - 20);
+      return {
+        items: Array.from({ length: end - start }, (_, i) => ({
+          id: `message-${start + i + 1}`,
+          direction: 'outbound',
+          author: { email: 'staff@example.test' },
+          subject: `Reply ${start + i + 1}`,
+          text: 'Body',
+          delivery_status: 'accepted',
+          created_at: '2026-09-18T12:00:00Z',
+        })),
+        previous_cursor: start > 0 ? `message-${start + 1}` : null,
+      };
+    });
+    await act(async () =>
+      root.render(
+        <FeedbackReplyComposer item={item} draft={emptyReplyDraft()} onChange={() => {}} />,
+      ),
+    );
+    expect(container.querySelectorAll('article')).toHaveLength(20);
+    total = 41;
+    await click('Refresh history');
+    expect(container.querySelectorAll('article')).toHaveLength(21);
+    expect(container.querySelector('article')!.textContent).toContain('Reply 21');
+    await click('Load earlier replies');
+    expect(mocks.history).toHaveBeenLastCalledWith(item.id, item.source, {
+      latest: true,
+      before: 'message-21',
+    });
+    expect(container.querySelectorAll('article')).toHaveLength(41);
+    expect(container.querySelector('article')!.textContent).toContain('Reply 1');
+  });
+
+  it.each([false, true])(
+    'syncs history reconciliation without overwriting a newer draft (%s)',
+    async (newDraft) => {
+      const pending = deferred();
+      let status = newDraft ? 'accepted' : 'unknown';
+      mocks.history.mockImplementation(async () => ({
+        items: [
+          {
+            id: 'message',
+            request_key: 'same-key',
+            direction: 'outbound',
+            author: { email: 'staff@example.test' },
+            subject: 'Reply',
+            text: 'Body',
+            delivery_status: status,
+            created_at: '2026-09-18T12:00:00Z',
+          },
+        ],
+      }));
+      mocks.reconcile.mockReturnValue(pending.promise);
+      function Composer() {
+        const [draft, setDraft] = useState<ReplyDraft>({
+          ...emptyReplyDraft(),
+          key: 'same-key',
+          text: 'Body',
+          phase: 'submitted',
+          result: {
+            delivery_status: status,
+            needs_reconciliation: !newDraft,
+            can_retry: false,
+          } as any,
+        });
+        return <FeedbackReplyComposer item={item} draft={draft} onChange={setDraft} />;
+      }
+      await act(async () => root.render(<Composer />));
+      const button = Array.from(
+        container.querySelector('article')!.querySelectorAll('button'),
+      ).find((b) => b.textContent === 'Check status')!;
+      await act(async () => button.click());
+      if (newDraft) {
+        await click('Write another reply');
+        await type('Keep this new draft');
+      }
+      status = 'delivered';
+      await act(async () =>
+        pending.resolve({
+          message_id: 'message',
+          request_key: 'same-key',
+          delivery_status: 'delivered',
+          can_retry: false,
+          needs_reconciliation: false,
+        }),
+      );
+      expect(container.querySelector('article')!.textContent).toContain('Delivered');
+      if (newDraft) {
+        expect(container.querySelector('textarea')!.value).toBe('Keep this new draft');
+        expect(container.querySelector('textarea')!.disabled).toBe(false);
+      } else {
+        expect(container.textContent).toContain('Write another reply');
+        expect(container.textContent).not.toContain('The provider outcome is uncertain');
+      }
+    },
+  );
+});

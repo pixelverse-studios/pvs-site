@@ -58,6 +58,17 @@ export function FeedbackReplyComposer({
     onHistoryChanged?.();
   }, [onHistoryChanged]);
 
+  const syncReplyState = useCallback(
+    (key: string, result: FeedbackReplyState) => {
+      const snapshot = current.current;
+      // A history action may finish after the staff member starts another draft.
+      if (snapshot.key !== key || snapshot.phase === 'draft' || snapshot.phase === 'pending')
+        return;
+      change({ ...snapshot, result, phase: 'submitted', error: undefined, missingIntent: false });
+    },
+    [change],
+  );
+
   async function submit(retry = false) {
     if (lock.current || current.current.phase === 'pending') return;
     const snapshot = current.current;
@@ -319,6 +330,7 @@ export function FeedbackReplyComposer({
         item={item}
         revision={historyRevision}
         onChanged={onHistoryChanged}
+        onReplyState={syncReplyState}
       />
     </section>
   );

@@ -6,6 +6,7 @@ import {
   reconcileFeedbackReply,
   retryFeedbackReply,
   type FeedbackMessage,
+  type FeedbackReplyState,
 } from '@/lib/api/feedback';
 import { feedbackDelivery } from '@/lib/feedback-delivery';
 import type { UnifiedFeedbackItem } from '@/lib/types/feedback';
@@ -17,10 +18,12 @@ export function FeedbackConversationHistory({
   item,
   revision,
   onChanged,
+  onReplyState,
 }: {
   item: UnifiedFeedbackItem;
   revision: number;
   onChanged?: () => void;
+  onReplyState?: (key: string, result: FeedbackReplyState) => void;
 }) {
   const [messages, setMessages] = useState<FeedbackMessage[]>([]);
   const messagesRef = useRef(messages);
@@ -68,6 +71,14 @@ export function FeedbackConversationHistory({
           incoming = [...page.items, ...incoming];
         }
         if (!alive.current || version !== request.current) return;
+        let previousCursor = page.previous_cursor || null;
+        if (!before && oldest) {
+          const boundary = incoming.findIndex((message) => message.id === oldest);
+          if (boundary > 0) {
+            incoming = incoming.slice(boundary);
+            previousCursor = oldest;
+          }
+        }
         if (before) {
           const scroll = region.current?.closest<HTMLElement>('[data-feedback-scroll]');
           if (scroll)
@@ -81,7 +92,7 @@ export function FeedbackConversationHistory({
         setMessages(before ? [...incoming, ...current.filter((m) => !seen.has(m.id))] : incoming);
         if (allCollapsedRef.current)
           setCollapsed((ids) => new Set([...Array.from(ids), ...incoming.map((m) => m.id)]));
-        setPrevious(page.previous_cursor || null);
+        setPrevious(previousCursor);
       } catch (failure) {
         if (alive.current && version === request.current)
           setError(failure instanceof Error ? failure.message : 'Conversation unavailable.');
@@ -134,12 +145,13 @@ export function FeedbackConversationHistory({
     setBusy(message.id);
     setError('');
     try {
-      await (retry ? retryFeedbackReply : reconcileFeedbackReply)(
+      const result = await (retry ? retryFeedbackReply : reconcileFeedbackReply)(
         item.id,
         item.source,
         message.request_key,
       );
       if (alive.current) {
+        onReplyState?.(message.request_key, result);
         await load();
         onChanged?.();
       }
