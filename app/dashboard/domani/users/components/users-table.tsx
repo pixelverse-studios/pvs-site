@@ -112,7 +112,7 @@ export function UsersTable({
   return (
     <div
       ref={scrollRegion}
-      className="min-h-0 flex-1 overflow-auto overscroll-contain rounded-xl border border-[var(--pv-border)]"
+      className="isolate min-h-0 flex-1 overflow-auto overscroll-contain rounded-xl border border-[var(--pv-border)]"
       role="region"
       aria-label="Users table, scroll for more users and columns"
       tabIndex={0}
