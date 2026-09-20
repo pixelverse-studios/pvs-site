@@ -7,6 +7,7 @@ import { UsersToolbar } from './users-toolbar';
 import { UsersTable, USER_COLUMNS, DEFAULT_COLUMNS, type UserColumn } from './users-table';
 import { Pagination } from '@/components/ui/pagination';
 import { Button } from '@/components/ui/button';
+import { UserDetailDrawer } from './user-detail-drawer';
 const initialQuery: UsersQueryParams = {
   limit: 50,
   offset: 0,
@@ -14,6 +15,8 @@ const initialQuery: UsersQueryParams = {
   sort_order: 'desc',
 };
 export function UsersPageClient() {
+  const [selectedUser, setSelectedUser] = useState<string | null>(null);
+  const detailTrigger = useRef<HTMLButtonElement | null>(null);
   const [query, setQuery] = useState(initialQuery),
     [result, setResult] = useState<UsersListResponse | null>(null),
     [loading, setLoading] = useState(true),
@@ -26,7 +29,10 @@ export function UsersPageClient() {
     const { data } = createClient().auth.onAuthStateChange((_event, session) => {
       const nextActor = session?.user.id || null;
       const changed = actorRef.current !== nextActor;
-      if (changed) setResult(null);
+      if (changed) {
+        setResult(null);
+        setSelectedUser(null);
+      }
       actorRef.current = nextActor;
       setActor(nextActor);
       if (changed || !session)
@@ -198,7 +204,14 @@ export function UsersPageClient() {
         </div>
       ) : result ? (
         <div aria-busy={loading}>
-          <UsersTable items={result.items} columns={columns} />
+          <UsersTable
+            items={result.items}
+            columns={columns}
+            onOpen={(id, trigger) => {
+              detailTrigger.current = trigger;
+              setSelectedUser(id);
+            }}
+          />
           <div className="mt-4">
             <Pagination
               currentPage={Math.floor((query.offset || 0) / (query.limit || 50)) + 1}
@@ -220,6 +233,13 @@ export function UsersPageClient() {
           Loading user insights…
         </div>
       )}
+      <UserDetailDrawer
+        id={selectedUser}
+        onClose={() => setSelectedUser(null)}
+        returnFocus={() => {
+          if (detailTrigger.current?.isConnected) detailTrigger.current.focus();
+        }}
+      />
     </div>
   );
 }

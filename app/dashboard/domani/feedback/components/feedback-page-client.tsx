@@ -16,9 +16,11 @@ import { RequestError } from '@/components/ui/request-error';
 export function FeedbackPageClient({
   initialData,
   initialError,
+  userId,
 }: {
   initialData?: FeedbackListResponse;
   initialError?: string;
+  userId?: string;
 }) {
   const [data, setData] = useState(initialData);
   const [error, setError] = useState(initialError);
@@ -77,6 +79,7 @@ export function FeedbackPageClient({
     setError(undefined);
     getFeedbackItems(
       {
+        user_id: userId,
         search: search || undefined,
         category: filters.category === 'all' ? undefined : filters.category,
         status: filters.status === 'all' ? undefined : filters.status,
@@ -119,6 +122,7 @@ export function FeedbackPageClient({
     pageSize,
     revision,
     initialData,
+    userId,
   ]);
 
   async function handleStatusChange(
@@ -156,6 +160,22 @@ export function FeedbackPageClient({
 
   return (
     <>
+      {userId && (
+        <div className="mb-4 rounded-lg border border-[var(--pv-border)] p-3 text-sm">
+          <p className="break-all">
+            Feedback for user ID: <span className="font-mono">{userId}</span>
+          </p>
+          <p className="mt-1 text-xs text-[var(--pv-text-muted)]">
+            Matched by account ID, not email.
+          </p>
+          <a
+            href="/dashboard/domani/feedback"
+            className="mt-2 inline-block text-[var(--pv-primary)] underline"
+          >
+            Show all feedback
+          </a>
+        </div>
+      )}
       <div className="mb-6">
         <FeedbackToolbar
           filters={filters}

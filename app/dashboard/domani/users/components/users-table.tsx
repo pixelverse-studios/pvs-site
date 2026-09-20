@@ -87,7 +87,15 @@ function cell(user: UserProfile, column: UserColumn): React.ReactNode {
       return d ? label(d.source) : 'Not recorded';
   }
 }
-export function UsersTable({ items, columns }: { items: UserProfile[]; columns: UserColumn[] }) {
+export function UsersTable({
+  items,
+  columns,
+  onOpen,
+}: {
+  items: UserProfile[];
+  columns: UserColumn[];
+  onOpen?: (id: string, trigger: HTMLButtonElement) => void;
+}) {
   if (!items.length)
     return (
       <div className="rounded-xl border border-[var(--pv-border)] bg-[var(--pv-surface)] px-6 py-16 text-center">
@@ -132,7 +140,18 @@ export function UsersTable({ items, columns }: { items: UserProfile[]; columns: 
                 className="sticky left-0 z-10 bg-[var(--pv-bg)] px-4 py-4 font-normal"
               >
                 <div className="max-w-[260px] break-words font-medium">
-                  {user.full_name || 'Name not recorded'}
+                  {onOpen ? (
+                    <button
+                      type="button"
+                      className="text-left text-[var(--pv-primary)] underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2"
+                      aria-label={`View details for ${user.full_name || user.email || user.id}`}
+                      onClick={(event) => onOpen(user.id, event.currentTarget)}
+                    >
+                      {user.full_name || user.email || 'View user'}
+                    </button>
+                  ) : (
+                    user.full_name || 'Name not recorded'
+                  )}
                 </div>
                 <div className="mt-1 max-w-[260px] break-words text-xs text-[var(--pv-text-muted)]">
                   {user.email || 'Email unavailable'}
