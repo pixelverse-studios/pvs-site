@@ -1,151 +1,152 @@
 'use client';
-
-import { ColumnDef } from '@tanstack/react-table';
-import { UserCircle } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { DataTable } from '@/components/ui/data-table';
-import type { UserProfile, SignupCohort } from '@/lib/types/domani-users';
-import { COHORT_COLORS, SIGNUP_METHOD_LABELS } from '@/lib/types/domani-users';
-
-interface UsersTableProps {
-  items: UserProfile[];
-  globalFilter?: string;
-  onGlobalFilterChange?: (value: string) => void;
-}
-
-const formatRelativeDate = (dateString: string) => {
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHours = Math.floor(diffMs / 3600000);
-  const diffDays = Math.floor(diffMs / 86400000);
-
-  if (diffMins < 1) return 'Just now';
-  if (diffMins < 60) return `${diffMins}m ago`;
-  if (diffHours < 24) return `${diffHours}h ago`;
-  if (diffDays < 7) return `${diffDays}d ago`;
-  if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+import React from 'react';
+import type { UserProfile } from '@/lib/types/domani-users';
+export const USER_COLUMNS = {
+  joined: 'Joined',
+  activity: 'Last app activity',
+  signin: 'Last sign-in',
+  providers: 'Login providers',
+  device: 'Last reported device',
+  status: 'Account status',
+  cohort: 'Cohort',
+  timezone: 'Timezone',
+  verification: 'Email verification',
+  signup: 'Original signup method',
+  os: 'Reported OS',
+  version: 'Reported app version / build',
+  observed: 'Device reported at',
+  source: 'Device source',
 };
-
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-};
-
-const columns: ColumnDef<UserProfile>[] = [
-  {
-    accessorKey: 'email',
-    header: 'Email',
-    cell: ({ row }) => {
-      const isDeleted = !!row.original.deleted_at;
-      return (
-        <div>
-          <span
-            className={cn(isDeleted && 'line-through')}
-            style={{ color: 'var(--pv-text)' }}
-          >
-            {row.getValue('email')}
-          </span>
-          {isDeleted && (
-            <span className="ml-2 text-xs text-red-500 dark:text-red-400">(deleted)</span>
-          )}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: 'full_name',
-    header: 'Name',
-    cell: ({ row }) => (
-      <span className="text-[var(--pv-text-muted)]">
-        {row.getValue('full_name') || '—'}
-      </span>
-    ),
-  },
-  {
-    accessorKey: 'signup_cohort',
-    header: 'Cohort',
-    cell: ({ row }) => {
-      const cohort = row.getValue('signup_cohort') as SignupCohort;
-      const config = COHORT_COLORS[cohort];
-      return (
-        <span
-          className={cn(
-            'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
-            config?.bgColor,
-            config?.color
-          )}
-        >
-          {config?.label || cohort}
-        </span>
-      );
-    },
-  },
-  {
-    accessorKey: 'last_active_at',
-    header: 'Last Active',
-    cell: ({ row }) => {
-      const value = row.getValue('last_active_at') as string | null;
-      if (!value) {
-        return <span className="text-[var(--pv-text-muted)]">Never</span>;
-      }
-      return (
-        <span className="whitespace-nowrap text-[var(--pv-text-muted)]">
-          {formatRelativeDate(value)}
-        </span>
-      );
-    },
-  },
-  {
-    accessorKey: 'signup_method',
-    header: 'Signup',
-    cell: ({ row }) => (
-      <span className="text-[var(--pv-text-muted)]">
-        {SIGNUP_METHOD_LABELS[row.getValue('signup_method') as string] || row.getValue('signup_method')}
-      </span>
-    ),
-  },
-  {
-    accessorKey: 'created_at',
-    header: 'Joined',
-    cell: ({ row }) => (
-      <span className="whitespace-nowrap text-[var(--pv-text-muted)]">
-        {formatDate(row.getValue('created_at'))}
-      </span>
-    ),
-  },
+export type UserColumn = keyof typeof USER_COLUMNS;
+export const DEFAULT_COLUMNS: UserColumn[] = [
+  'joined',
+  'activity',
+  'signin',
+  'providers',
+  'device',
+  'status',
 ];
-
-export function UsersTable({ items, globalFilter, onGlobalFilterChange }: UsersTableProps) {
-  const emptyState = (
-    <div
-      className="flex flex-col items-center justify-center rounded-xl border py-16"
-      style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
-    >
-      <UserCircle className="mb-4 h-12 w-12 text-[var(--pv-text-muted)]" />
-      <p className="text-lg font-medium" style={{ color: 'var(--pv-text)' }}>
-        No users found
-      </p>
-      <p className="mt-1 text-sm text-[var(--pv-text-muted)]">
-        Domani users will appear here
-      </p>
-    </div>
-  );
-
+export function ExactDate({ value }: { value?: string | null }) {
+  if (!value || !Number.isFinite(Date.parse(value)))
+    return <span className="text-[var(--pv-text-muted)]">Not recorded</span>;
+  const iso = new Date(value).toISOString();
   return (
-    <DataTable
-      columns={columns}
-      data={items}
-      emptyState={emptyState}
-      globalFilter={globalFilter}
-      onGlobalFilterChange={onGlobalFilterChange}
-      getRowClassName={(row) => (row.deleted_at ? 'opacity-50' : '')}
-    />
+    <time dateTime={iso} title={iso}>
+      {iso.slice(0, 10)}
+      <span className="block text-xs text-[var(--pv-text-muted)]">{iso.slice(11, 19)} UTC</span>
+    </time>
+  );
+}
+const label = (value?: string | null) => (value ? value.replaceAll('_', ' ') : 'Unknown');
+function cell(user: UserProfile, column: UserColumn): React.ReactNode {
+  const d = user.latest_device_observation;
+  switch (column) {
+    case 'joined':
+      return <ExactDate value={user.joined_at} />;
+    case 'activity':
+      return <ExactDate value={user.last_active_at} />;
+    case 'signin':
+      return <ExactDate value={user.last_sign_in_at} />;
+    case 'providers':
+      return user.login_providers?.length ? user.login_providers.join(', ') : 'Not recorded';
+    case 'device':
+      return d ? (
+        <>
+          <span>
+            {[d.device_brand, d.device_model].filter(Boolean).join(' ') || 'Model unknown'}
+          </span>
+          <span className="mt-1 block text-xs text-[var(--pv-text-muted)]">
+            {label(d.platform)} · {label(d.source)} snapshot
+          </span>
+          <ExactDate value={d.observed_at} />
+        </>
+      ) : (
+        'Not recorded'
+      );
+    case 'status':
+      return (
+        <span className="rounded-md bg-[var(--pv-surface)] px-2 py-1 capitalize">
+          {label(user.account_status)}
+        </span>
+      );
+    case 'cohort':
+      return label(user.signup_cohort);
+    case 'timezone':
+      return user.timezone || 'Not recorded';
+    case 'verification':
+      return label(user.email_verification_status);
+    case 'signup':
+      return label(user.signup_method);
+    case 'os':
+      return d?.os_version || 'Not recorded';
+    case 'version':
+      return d ? `${d.app_version || 'Unknown'} / ${d.app_build || 'Unknown'}` : 'Not recorded';
+    case 'observed':
+      return <ExactDate value={d?.observed_at} />;
+    case 'source':
+      return d ? label(d.source) : 'Not recorded';
+  }
+}
+export function UsersTable({ items, columns }: { items: UserProfile[]; columns: UserColumn[] }) {
+  if (!items.length)
+    return (
+      <div className="rounded-xl border border-[var(--pv-border)] bg-[var(--pv-surface)] px-6 py-16 text-center">
+        <p className="font-medium">No users match these filters</p>
+        <p className="mt-2 text-sm text-[var(--pv-text-muted)]">
+          Adjust your search or clear the filters.
+        </p>
+      </div>
+    );
+  return (
+    <div
+      className="overflow-x-auto rounded-xl border border-[var(--pv-border)]"
+      role="region"
+      aria-label="Users table, scroll horizontally for more columns"
+      tabIndex={0}
+    >
+      <table className="w-full text-left text-sm">
+        <caption className="sr-only">
+          Domani user account, login, activity and historical device insights. All timestamps are
+          UTC.
+        </caption>
+        <thead className="bg-[var(--pv-surface)] text-xs text-[var(--pv-text-muted)]">
+          <tr>
+            <th
+              scope="col"
+              className="sticky left-0 z-10 min-w-[220px] bg-[var(--pv-surface)] px-4 py-3"
+            >
+              User
+            </th>
+            {columns.map((c) => (
+              <th key={c} scope="col" className="whitespace-nowrap px-4 py-3 font-medium">
+                {USER_COLUMNS[c]}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {items.map((user) => (
+            <tr key={user.id} className="border-t border-[var(--pv-border)]">
+              <th
+                scope="row"
+                className="sticky left-0 z-10 bg-[var(--pv-bg)] px-4 py-4 font-normal"
+              >
+                <div className="max-w-[260px] break-words font-medium">
+                  {user.full_name || 'Name not recorded'}
+                </div>
+                <div className="mt-1 max-w-[260px] break-words text-xs text-[var(--pv-text-muted)]">
+                  {user.email || 'Email unavailable'}
+                </div>
+              </th>
+              {columns.map((c) => (
+                <td key={c} className="min-w-[160px] whitespace-nowrap px-4 py-4 align-top">
+                  {cell(user, c)}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

@@ -15,15 +15,21 @@ interface OverviewStats {
   users: {
     total: number;
     active: number;
+    activityUnknown: number;
   };
 }
 
 interface OverviewPageClientProps {
   stats: OverviewStats;
   feedbackUnavailable?: boolean;
+  usersUnavailable?: boolean;
 }
 
-export function OverviewPageClient({ stats, feedbackUnavailable }: OverviewPageClientProps) {
+export function OverviewPageClient({
+  stats,
+  feedbackUnavailable,
+  usersUnavailable,
+}: OverviewPageClientProps) {
   return (
     <>
       {/* Stat Cards Grid */}
@@ -52,15 +58,23 @@ export function OverviewPageClient({ stats, feedbackUnavailable }: OverviewPageC
           icon={Users}
           gradient="linear-gradient(135deg, #10b981, #059669)"
         />
-        <StatCard
-          title="Active Users"
-          count={stats.users.active}
-          subCount={stats.users.total - stats.users.active}
-          subLabel="deleted"
-          href="/dashboard/domani/users"
-          icon={UserCircle}
-          gradient="linear-gradient(135deg, #8b5cf6, #7c3aed)"
-        />
+        {usersUnavailable ? (
+          <RequestError
+            title="Users unavailable"
+            message="User counts could not be loaded."
+            action={{ label: 'Open Users to retry', href: '/dashboard/domani/users' }}
+          />
+        ) : (
+          <StatCard
+            title="Registered Users"
+            count={stats.users.total}
+            subCount={stats.users.active}
+            subLabel="active in 30 days (recorded activity)"
+            href="/dashboard/domani/users"
+            icon={UserCircle}
+            gradient="linear-gradient(135deg, #8b5cf6, #7c3aed)"
+          />
+        )}
       </div>
 
       {/* Quick Links Section */}
@@ -82,7 +96,7 @@ export function OverviewPageClient({ stats, feedbackUnavailable }: OverviewPageC
           <QuickLink
             href="/dashboard/domani/users"
             title="User Directory"
-            description="Browse all registered users by tier and cohort"
+            description="Browse account, login and reported device information"
           />
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getDomaniUsers } from '@/lib/api/domani-users';
+import { getServerDomaniUsers as getDomaniUsers } from '@/lib/api/domani-users-server';
 import { ComposePageClient } from './components/compose-page-client';
 
 export const metadata = {

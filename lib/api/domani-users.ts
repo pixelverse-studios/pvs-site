@@ -1,63 +1,48 @@
 import { getApiBaseUrl } from '@/lib/api-config';
-import type { UserProfile, UsersListResponse, UsersQueryParams } from '@/lib/types/domani-users';
-
-/**
- * Fetch Domani users with optional filters
- */
-export async function getDomaniUsers(params?: UsersQueryParams): Promise<UsersListResponse> {
-  const searchParams = new URLSearchParams();
-
-  if (params?.cohort) searchParams.set('cohort', params.cohort);
-  if (params?.include_deleted !== undefined)
-    searchParams.set('include_deleted', String(params.include_deleted));
-  if (params?.limit) searchParams.set('limit', String(params.limit));
-  if (params?.offset) searchParams.set('offset', String(params.offset));
-  if (params?.start_date) searchParams.set('start_date', params.start_date);
-  if (params?.end_date) searchParams.set('end_date', params.end_date);
-
-  const url = `${getApiBaseUrl()}/api/domani/users?${searchParams}`;
-  const res = await fetch(url, { cache: 'no-store' });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch Domani users');
+import { createClient } from '@/lib/supabase/client';
+import { usersQuery } from './domani-users-query';
+import type {
+  UserProfile,
+  UsersListResponse,
+  UsersQueryParams,
+  UserStats,
+} from '@/lib/types/domani-users';
+export class UsersRequestError extends Error {
+  constructor(
+    message: string,
+    public status: number,
+  ) {
+    super(message);
   }
-
-  return res.json();
 }
-
-/**
- * Get a single user profile by ID
- */
-export async function getDomaniUser(id: string): Promise<UserProfile> {
-  const res = await fetch(`${getApiBaseUrl()}/api/domani/users/${id}`, {
+async function read<T>(path: string, signal?: AbortSignal): Promise<T> {
+  signal?.throwIfAborted();
+  const { data, error } = await createClient().auth.getSession();
+  signal?.throwIfAborted();
+  if (error || !data.session?.access_token)
+    throw new UsersRequestError('Your session has expired. Please sign in again.', 401);
+  const response = await fetch(new URL(`/api/domani/users${path}`, getApiBaseUrl()), {
+    headers: { Authorization: `Bearer ${data.session.access_token}` },
     cache: 'no-store',
+    credentials: 'omit',
+    signal: signal
+      ? AbortSignal.any([signal, AbortSignal.timeout(15000)])
+      : AbortSignal.timeout(15000),
   });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch user profile');
-  }
-
-  return res.json();
+  if (!response.ok)
+    throw new UsersRequestError(
+      response.status === 403
+        ? 'You do not have staff access to Users.'
+        : response.status === 401
+          ? 'Your session has expired. Please sign in again.'
+          : response.status === 400
+            ? 'Check the selected filters and date range.'
+            : 'User insights unavailable. Please try again.',
+      response.status,
+    );
+  return response.json();
 }
-
-/**
- * Get user statistics
- */
-export async function getDomaniUserStats(): Promise<{
-  total: number;
-  active: number;
-  deleted: number;
-  by_tier: Record<string, number>;
-  by_cohort: Record<string, number>;
-  by_signup_method: Record<string, number>;
-}> {
-  const res = await fetch(`${getApiBaseUrl()}/api/domani/users/stats`, {
-    cache: 'no-store',
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch user stats');
-  }
-
-  return res.json();
-}
+export const getDomaniUsers = (params?: UsersQueryParams, signal?: AbortSignal) =>
+  read<UsersListResponse>(`?${usersQuery(params)}`, signal);
+export const getDomaniUser = (id: string) => read<UserProfile>(`/${encodeURIComponent(id)}`);
+export const getDomaniUserStats = () => read<UserStats>('/stats');
