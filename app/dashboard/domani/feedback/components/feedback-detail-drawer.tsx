@@ -330,20 +330,6 @@ function FeedbackDrawerContent({
           className="flex shrink-0 justify-end gap-3 border-t px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-6"
           style={{ background: 'var(--pv-bg)', borderColor: 'var(--pv-border)' }}
         >
-          {composer && (
-            <button
-              onClick={() => {
-                const field = dialogRef.current?.querySelector<HTMLInputElement>(
-                  '[aria-label="Reply subject"]',
-                );
-                field?.scrollIntoView({ block: 'center' });
-                if (!field?.disabled) field?.focus();
-              }}
-              className="rounded-xl bg-[var(--pv-primary)] px-5 py-2.5 text-sm font-medium text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-            >
-              Reply
-            </button>
-          )}
           <button
             aria-label="Close feedback details"
             onClick={onClose}

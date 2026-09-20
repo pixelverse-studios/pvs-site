@@ -122,3 +122,27 @@ describe('reply request safety', () => {
     ).rejects.toMatchObject({ status: 503, code: 'SENDING_DISABLED' });
   });
 });
+
+describe('operation-specific validation errors', () => {
+  it('does not show send validation guidance for rejected history requests', async () => {
+    const { getFeedbackMessages } = await import('./feedback');
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(
+        JSON.stringify({ error: { code: 'INVALID_REQUEST', message: 'private detail' } }),
+        { status: 400 },
+      ),
+    );
+    await expect(getFeedbackMessages('id', 'beta_feedback', { latest: true })).rejects.toThrow(
+      'This feedback request could not be processed. Refresh and try again.',
+    );
+  });
+  it('retains composer validation guidance for reply submission', async () => {
+    const { sendFeedbackReply } = await import('./feedback');
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify({ error: { code: 'INVALID_REQUEST' } }), { status: 400 }),
+    );
+    await expect(
+      sendFeedbackReply('id', 'beta_feedback', { subject: '', text: '', request_key: 'key' }),
+    ).rejects.toThrow('Check the subject and message length before sending.');
+  });
+});

@@ -43,7 +43,10 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
       SENDING_DISABLED: 'Feedback email sending is not enabled yet. Your draft is saved here.',
       RECIPIENT_UNAVAILABLE: 'This feedback has no usable recipient email.',
       REPLY_CONFLICT: 'This reply cannot be changed or retried. Check its status.',
-      INVALID_REQUEST: 'Check the subject and message length before sending.',
+      INVALID_REQUEST:
+        options.method === 'POST' && /^\/[^/]+\/[^/]+\/messages$/.test(path)
+          ? 'Check the subject and message length before sending.'
+          : 'This feedback request could not be processed. Refresh and try again.',
     };
     throw new FeedbackRequestError(
       response.status === 403
