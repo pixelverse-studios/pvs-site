@@ -4,12 +4,41 @@ vi.mock('@/lib/supabase/client', () => ({
   createClient: () => ({ auth: { getSession: session } }),
 }));
 vi.mock('@/lib/api-config', () => ({ getApiBaseUrl: () => 'https://api.test' }));
-import { getDomaniUsers } from './domani-users';
+import { getDomaniUsers, getDomaniUserStats } from './domani-users';
+const validResponse = {
+  items: [],
+  total: 0,
+  limit: 50,
+  offset: 0,
+  stats: {
+    total: 0,
+    non_deleted: 0,
+    deleted: 0,
+    active_30d: 0,
+    activity_unknown: 0,
+    activity_window_days: 30,
+  },
+  data_as_of: '2026-09-20T00:00:00Z',
+};
 afterEach(() => vi.restoreAllMocks());
 beforeEach(() => session.mockResolvedValue({ data: { session: { access_token: 'staff-token' } } }));
 describe('staff user API', () => {
+  it.each([
+    { items: [], total: 1, limit: 50, offset: 0 },
+    { ...validResponse, stats: null },
+    { ...validResponse, stats: { active_30d: 0 } },
+  ])('rejects incompatible list responses before they reach rendering', async (payload) => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(JSON.stringify(payload)));
+    await expect(getDomaniUsers()).rejects.toThrow('incompatible Users response');
+  });
+  it('rejects incompatible overview stats without inventing zero counts', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('{}'));
+    await expect(getDomaniUserStats()).rejects.toThrow('incompatible Users response');
+  });
   it('passes all global query options and an abort signal directly to the server', async () => {
-    const fetch = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('{}'));
+    const fetch = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValue(new Response(JSON.stringify(validResponse)));
     const abort = new AbortController();
     await getDomaniUsers(
       {

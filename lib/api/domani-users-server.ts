@@ -2,7 +2,8 @@ import 'server-only';
 import { feedbackAccessToken } from './feedback-server';
 import { getApiBaseUrl } from '@/lib/api-config';
 import { usersQuery } from './domani-users-query';
-import type { UsersListResponse, UsersQueryParams, UserStats } from '@/lib/types/domani-users';
+import { requireUsersList, requireUserStats } from './domani-users-contract';
+import type { UsersQueryParams } from '@/lib/types/domani-users';
 async function read<T>(path: string): Promise<T> {
   const token = await feedbackAccessToken();
   if (!token) throw new Error('Your session has expired.');
@@ -15,5 +16,5 @@ async function read<T>(path: string): Promise<T> {
   return res.json();
 }
 export const getServerDomaniUsers = (params: UsersQueryParams) =>
-  read<UsersListResponse>(`?${usersQuery(params)}`);
-export const getServerDomaniUserStats = () => read<UserStats>('/stats');
+  read<unknown>(`?${usersQuery(params)}`).then(requireUsersList);
+export const getServerDomaniUserStats = () => read<unknown>('/stats').then(requireUserStats);

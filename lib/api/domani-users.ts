@@ -1,12 +1,8 @@
 import { getApiBaseUrl } from '@/lib/api-config';
 import { createClient } from '@/lib/supabase/client';
 import { usersQuery } from './domani-users-query';
-import type {
-  UserProfile,
-  UsersListResponse,
-  UsersQueryParams,
-  UserStats,
-} from '@/lib/types/domani-users';
+import { requireUsersList, requireUserStats } from './domani-users-contract';
+import type { UserProfile, UsersQueryParams } from '@/lib/types/domani-users';
 export class UsersRequestError extends Error {
   constructor(
     message: string,
@@ -43,6 +39,6 @@ async function read<T>(path: string, signal?: AbortSignal): Promise<T> {
   return response.json();
 }
 export const getDomaniUsers = (params?: UsersQueryParams, signal?: AbortSignal) =>
-  read<UsersListResponse>(`?${usersQuery(params)}`, signal);
+  read<unknown>(`?${usersQuery(params)}`, signal).then(requireUsersList);
 export const getDomaniUser = (id: string) => read<UserProfile>(`/${encodeURIComponent(id)}`);
-export const getDomaniUserStats = () => read<UserStats>('/stats');
+export const getDomaniUserStats = () => read<unknown>('/stats').then(requireUserStats);
