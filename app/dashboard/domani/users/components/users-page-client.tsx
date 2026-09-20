@@ -109,7 +109,7 @@ export function UsersPageClient() {
             'User counts unavailable'
           )}
         </div>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="relative flex max-w-full flex-wrap items-center gap-3">
           <label className="text-sm">
             Sort by{' '}
             <select
@@ -147,11 +147,11 @@ export function UsersPageClient() {
           >
             {query.sort_order === 'asc' ? 'Ascending' : 'Descending'}
           </Button>
-          <details className="relative">
+          <details>
             <summary className="cursor-pointer rounded-lg border border-[var(--pv-border)] px-3 py-2 text-sm">
               Columns
             </summary>
-            <div className="absolute left-0 z-30 mt-2 w-64 rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)] p-4 shadow-lg sm:left-auto sm:right-0">
+            <div className="absolute right-0 top-full z-30 mt-2 w-64 max-w-full rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)] p-4 shadow-lg">
               <p className="mb-2 text-xs text-[var(--pv-text-muted)]">
                 Saved for your staff account
               </p>
