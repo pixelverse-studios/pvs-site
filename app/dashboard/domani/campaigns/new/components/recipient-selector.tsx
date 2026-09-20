@@ -48,11 +48,14 @@ export function RecipientSelector({
     setIsLoading(true);
     setFetchError(null);
     try {
-      const response = await getDomaniUsers({
-        limit: pageSize,
-        offset: (pageNum - 1) * pageSize,
-        include_deleted: false,
-      });
+      const response = await getDomaniUsers(
+        {
+          limit: pageSize,
+          offset: (pageNum - 1) * pageSize,
+          include_deleted: false,
+        },
+        controller.signal,
+      );
       if (!controller.signal.aborted) {
         setUsers(response.items);
         setTotal(response.total);
