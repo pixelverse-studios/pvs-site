@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import type { UserProfile } from '@/lib/types/domani-users';
 export const USER_COLUMNS = {
   joined: 'Joined',
@@ -96,9 +96,13 @@ export function UsersTable({
   columns: UserColumn[];
   onOpen?: (id: string, trigger: HTMLButtonElement) => void;
 }) {
+  const scrollRegion = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (scrollRegion.current) scrollRegion.current.scrollTop = 0;
+  }, [items]);
   if (!items.length)
     return (
-      <div className="rounded-xl border border-[var(--pv-border)] bg-[var(--pv-surface)] px-6 py-16 text-center">
+      <div className="min-h-0 flex-1 overflow-auto rounded-xl border border-[var(--pv-border)] bg-[var(--pv-surface)] px-6 py-16 text-center">
         <p className="font-medium">No users match these filters</p>
         <p className="mt-2 text-sm text-[var(--pv-text-muted)]">
           Adjust your search or clear the filters.
@@ -107,9 +111,10 @@ export function UsersTable({
     );
   return (
     <div
-      className="overflow-x-auto rounded-xl border border-[var(--pv-border)]"
+      ref={scrollRegion}
+      className="min-h-0 flex-1 overflow-auto overscroll-contain rounded-xl border border-[var(--pv-border)]"
       role="region"
-      aria-label="Users table, scroll horizontally for more columns"
+      aria-label="Users table, scroll for more users and columns"
       tabIndex={0}
     >
       <table className="w-full text-left text-sm">
@@ -121,12 +126,16 @@ export function UsersTable({
           <tr>
             <th
               scope="col"
-              className="sticky left-0 z-10 min-w-[220px] bg-[var(--pv-surface)] px-4 py-3"
+              className="sticky left-0 top-0 z-30 min-w-[220px] bg-[var(--pv-surface)] px-4 py-3"
             >
               User
             </th>
             {columns.map((c) => (
-              <th key={c} scope="col" className="whitespace-nowrap px-4 py-3 font-medium">
+              <th
+                key={c}
+                scope="col"
+                className="sticky top-0 z-20 whitespace-nowrap bg-[var(--pv-surface)] px-4 py-3 font-medium"
+              >
                 {USER_COLUMNS[c]}
               </th>
             ))}
@@ -137,7 +146,7 @@ export function UsersTable({
             <tr key={user.id} className="border-t border-[var(--pv-border)]">
               <th
                 scope="row"
-                className="sticky left-0 z-10 bg-[var(--pv-bg)] px-4 py-4 font-normal"
+                className="sticky left-0 z-10 bg-[var(--pv-bg)] px-4 py-3 font-normal"
               >
                 <div className="max-w-[260px] break-words font-medium">
                   {onOpen ? (
@@ -158,7 +167,7 @@ export function UsersTable({
                 </div>
               </th>
               {columns.map((c) => (
-                <td key={c} className="min-w-[160px] whitespace-nowrap px-4 py-4 align-top">
+                <td key={c} className="min-w-[160px] whitespace-nowrap px-4 py-3 align-top">
                   {cell(user, c)}
                 </td>
               ))}
