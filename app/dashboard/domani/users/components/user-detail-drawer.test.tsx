@@ -78,6 +78,39 @@ describe('user detail drawer', () => {
     expect(copy).toHaveBeenCalledWith(id);
     expect(dialog.textContent).toContain('User ID copied');
   });
+  it('keeps account, login, activity and historical device provenance distinct in UTC', async () => {
+    mock.get.mockResolvedValueOnce({
+      ...user,
+      account_status: 'deletion_pending',
+      email_verification_status: 'unverified',
+      joined_at: '2026-09-21T00:30:00+02:00',
+      profile_created_at: '2026-09-20T22:30:01Z',
+      last_sign_in_at: '2026-09-20T23:00:00Z',
+      last_active_at: '2026-08-01T12:00:00Z',
+      activity_source: 'app_foreground',
+      latest_device_observation: {
+        source: 'support',
+        source_id: '30000000-0000-4000-8000-000000000001',
+        observed_at: '2026-07-01T04:05:06Z',
+        platform: 'ios',
+        device_brand: 'Apple',
+        device_model: 'iPhone',
+        os_version: '18.0',
+        app_version: '5.0',
+        app_build: '500',
+      },
+    });
+    await render();
+    const text = document.querySelector('[role="dialog"]')!.textContent || '';
+    expect(text).toContain('deletion pending');
+    expect(text).toContain('unverified');
+    expect(text).toContain('2026-09-20');
+    expect(text).toContain('22:30:00 UTC');
+    expect(text).toContain('Last recorded app activity');
+    expect(text).toContain('Apple iPhone');
+    expect(text).toContain('support');
+    expect(text).toContain('not a current device inventory or complete login history');
+  });
   it('aborts obsolete detail loads and removes content after close', async () => {
     let resolve!: (value: any) => void;
     mock.get.mockReturnValueOnce(
