@@ -14,6 +14,7 @@ vi.mock('@/lib/api/domani-users', () => ({
     constructor(
       message: string,
       public status: number,
+      public code?: string,
     ) {
       super(message);
     }
@@ -152,4 +153,18 @@ describe('Users table contract', () => {
       );
     },
   );
+  it('identifies a local origin configuration rejection separately from staff access', async () => {
+    mocks.list.mockRejectedValueOnce(
+      new UsersRequestError('Local origin is not allowed', 403, 'ORIGIN_NOT_ALLOWED'),
+    );
+    await mount();
+    await tick();
+    expect(container.textContent).toContain('Local API configuration required');
+    expect(container.textContent).not.toContain('Staff access required');
+    expect(
+      Array.from(container.querySelectorAll('button')).some(
+        (button) => button.textContent === 'Retry',
+      ),
+    ).toBe(true);
+  });
 });

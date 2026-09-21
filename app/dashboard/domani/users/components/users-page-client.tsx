@@ -22,7 +22,7 @@ export function UsersPageClient() {
   const [query, setQuery] = useState(initialQuery),
     [result, setResult] = useState<UsersListResponse | null>(null),
     [loading, setLoading] = useState(true),
-    [error, setError] = useState<{ message: string; status: number } | null>(null),
+    [error, setError] = useState<{ message: string; status: number; code?: string } | null>(null),
     [revision, setRevision] = useState(0);
   const [actor, setActor] = useState<string | null>(null),
     [columns, setColumns] = useState<UserColumn[]>(DEFAULT_COLUMNS);
@@ -88,6 +88,7 @@ export function UsersPageClient() {
             setError({
               message: e instanceof Error ? e.message : 'User insights unavailable.',
               status: e instanceof UsersRequestError ? e.status : 503,
+              code: e instanceof UsersRequestError ? e.code : undefined,
             });
           }
         })
@@ -208,18 +209,20 @@ export function UsersPageClient() {
           className="rounded-xl border border-[var(--pv-border)] bg-[var(--pv-surface)] p-6"
         >
           <h2 className="font-semibold">
-            {error.status === 403
-              ? 'Staff access required'
-              : error.status === 401
-                ? 'Session expired'
-                : 'Users unavailable'}
+            {error.code === 'ORIGIN_NOT_ALLOWED'
+              ? 'Local API configuration required'
+              : error.status === 403
+                ? 'Staff access required'
+                : error.status === 401
+                  ? 'Session expired'
+                  : 'Users unavailable'}
           </h2>
           <p className="my-3 text-sm">{error.message}</p>
           {error.status === 401 ? (
             <a className="text-[var(--pv-primary)] underline" href="/login">
               Sign in
             </a>
-          ) : error.status !== 403 ? (
+          ) : error.code !== 'STAFF_ACCESS_REQUIRED' ? (
             <Button variant="outline" onClick={() => setRevision((v) => v + 1)}>
               Retry
             </Button>

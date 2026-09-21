@@ -187,7 +187,7 @@ export function DashboardSidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 z-50 h-screen transition-all duration-500 ease-out
+        className={`fixed left-0 top-0 z-50 h-dvh transition-all duration-500 ease-out
           ${
             isMobileOpen
               ? 'w-72 translate-x-0'

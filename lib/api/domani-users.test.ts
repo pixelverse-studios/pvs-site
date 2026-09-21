@@ -84,4 +84,19 @@ describe('staff user API', () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('private details', { status }));
     await expect(getDomaniUsers()).rejects.toMatchObject({ status });
   });
+  it('preserves an origin rejection instead of mislabeling it as missing staff access', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          error: { code: 'ORIGIN_NOT_ALLOWED', message: 'Request origin is not allowed' },
+        }),
+        { status: 403 },
+      ),
+    );
+    await expect(getDomaniUsers()).rejects.toMatchObject({
+      status: 403,
+      code: 'ORIGIN_NOT_ALLOWED',
+      message: 'This dashboard origin is not allowed by the local API configuration.',
+    });
+  });
 });

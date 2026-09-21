@@ -39,7 +39,7 @@ export function DashboardShell({ children, userName, userEmail }: DashboardShell
   };
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-dvh flex-col">
       <DashboardHeader userName={displayName} userEmail={displayEmail} onLogout={handleLogout} />
       <main className="flex-1">{children}</main>
     </div>
