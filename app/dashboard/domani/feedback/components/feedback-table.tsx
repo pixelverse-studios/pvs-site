@@ -111,7 +111,7 @@ export function FeedbackTable({
             className="hidden max-h-[calc(100vh-580px)] overflow-auto rounded-xl border xl:block"
             style={{ borderColor: 'var(--pv-border)' }}
           >
-            <table className="w-full min-w-[960px] table-fixed">
+            <table className="w-full table-fixed">
               <colgroup>
                 <col className="w-12" />
                 <col className="w-40" />

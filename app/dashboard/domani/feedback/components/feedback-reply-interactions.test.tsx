@@ -587,7 +587,9 @@ describe('feedback list refresh during composition', () => {
       );
       await act(async () => root.render(<TestProvider>{renderTable([feedback])}</TestProvider>));
       const desktopTable = container.querySelector('table')!;
-      expect(desktopTable.className).toContain('min-w-[960px]');
+      expect(desktopTable.className).toContain('w-full');
+      expect(desktopTable.className).toContain('table-fixed');
+      expect(desktopTable.className).not.toContain('min-w-');
       expect(desktopTable.parentElement?.className).toContain('xl:block');
       expect(
         Array.from(container.querySelectorAll('div')).some(
