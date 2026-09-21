@@ -31,3 +31,9 @@ export function requireUserStats(value: unknown): UserStats {
   if (!stats.extend({ data_as_of: freshness }).safeParse(value).success) throw new Error(message);
   return value as UserStats;
 }
+
+export function requireUserDetail(value: unknown, id: string) {
+  const result = z.object({ id: z.literal(id), data_as_of: freshness }).safeParse(value);
+  if (!result.success) throw new Error(message);
+  return value as import('@/lib/types/domani-users').UserProfile;
+}

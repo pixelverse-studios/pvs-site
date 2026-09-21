@@ -28,6 +28,7 @@ export interface UserProfile {
   deletion_scheduled_for?: string | null;
   latest_device_observation?: DeviceObservation | null;
   feedback_count?: number;
+  data_as_of?: string;
 }
 
 export interface DeviceObservation {

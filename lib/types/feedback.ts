@@ -104,6 +104,7 @@ export function feedbackKey(item: Pick<UnifiedFeedbackItem, 'source' | 'id'>): s
 
 // Query params for filtering
 export interface FeedbackQueryParams {
+  user_id?: string;
   category?: UnifiedCategory;
   status?: FeedbackStatus;
   platform?: Platform;

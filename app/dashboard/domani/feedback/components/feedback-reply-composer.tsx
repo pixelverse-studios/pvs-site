@@ -1,4 +1,5 @@
 'use client';
+import { TextInput, Textarea } from '@mantine/core';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import type { UnifiedFeedbackItem } from '@/lib/types/feedback';
 import {
@@ -224,9 +225,9 @@ export function FeedbackReplyComposer({
       >
         <label className="block space-y-1 text-sm">
           <span>Subject</span>
-          <input
+          <TextInput
             aria-label="Reply subject"
-            className={fieldClass}
+            classNames={{ input: fieldClass }}
             value={draft.subject}
             disabled={locked}
             maxLength={200}
@@ -237,9 +238,9 @@ export function FeedbackReplyComposer({
         </label>
         <label className="block space-y-1 text-sm">
           <span>Message</span>
-          <textarea
+          <Textarea
             aria-label="Reply message"
-            className={fieldClass}
+            classNames={{ input: fieldClass }}
             rows={6}
             value={draft.text}
             disabled={locked}

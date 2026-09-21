@@ -5,8 +5,10 @@ import { getDomaniUsers, UsersRequestError } from '@/lib/api/domani-users';
 import type { UsersListResponse, UsersQueryParams, UserSort } from '@/lib/types/domani-users';
 import { UsersToolbar } from './users-toolbar';
 import { UsersTable, USER_COLUMNS, DEFAULT_COLUMNS, type UserColumn } from './users-table';
-import { Pagination } from '@/components/ui/pagination';
-import { Button } from '@/components/ui/button';
+import { Pagination } from '@/app/dashboard/domani/components/domani-pagination';
+import { Button, Checkbox, Popover, Select } from '@mantine/core';
+import { selectClassNames } from '../../components/domani-controls';
+import { UserDetailDrawer } from './user-detail-drawer';
 const initialQuery: UsersQueryParams = {
   limit: 50,
   offset: 0,
@@ -14,6 +16,9 @@ const initialQuery: UsersQueryParams = {
   sort_order: 'desc',
 };
 export function UsersPageClient() {
+  const [selectedUser, setSelectedUser] = useState<string | null>(null);
+  const workspace = useRef<HTMLDivElement | null>(null);
+  const detailTrigger = useRef<HTMLButtonElement | null>(null);
   const [query, setQuery] = useState(initialQuery),
     [result, setResult] = useState<UsersListResponse | null>(null),
     [loading, setLoading] = useState(true),
@@ -26,7 +31,10 @@ export function UsersPageClient() {
     const { data } = createClient().auth.onAuthStateChange((_event, session) => {
       const nextActor = session?.user.id || null;
       const changed = actorRef.current !== nextActor;
-      if (changed) setResult(null);
+      if (changed) {
+        setResult(null);
+        setSelectedUser(null);
+      }
       actorRef.current = nextActor;
       setActor(nextActor);
       if (changed || !session)
@@ -92,51 +100,69 @@ export function UsersPageClient() {
       controller.abort();
     };
   }, [query, actor, revision]);
+  useEffect(() => {
+    const node = workspace.current;
+    if (!node) return;
+    const measure = () => {
+      const top = node.getBoundingClientRect().top + window.scrollY;
+      node.style.height = `${Math.max(440, window.innerHeight - top - 16)}px`;
+    };
+    measure();
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(measure);
+    if (node.parentElement) observer?.observe(node.parentElement);
+    window.addEventListener('resize', measure);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, []);
   return (
-    <div className="space-y-5">
+    <div ref={workspace} className="flex min-h-[440px] min-w-0 flex-col gap-3">
       <UsersToolbar query={query} onChange={setQuery} />
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex shrink-0 flex-wrap items-center justify-between gap-2">
         <div role="status" className="text-sm text-[var(--pv-text-muted)]">
           {loading ? (
             'Loading users…'
           ) : result ? (
             <>
-              <strong className="text-[var(--pv-text)]">{result.total}</strong> matching users ·{' '}
-              {result.stats.active_30d} with recorded activity in 30 days ·{' '}
-              {result.stats.activity_unknown} activity not recorded
+              <strong className="text-[var(--pv-text)]">{result.total}</strong> matching users
+              <span className="hidden text-xs sm:inline">
+                {' '}
+                · {result.stats.active_30d} with recorded activity in 30 days ·{' '}
+                {result.stats.activity_unknown} activity not recorded
+              </span>
             </>
           ) : (
             'User counts unavailable'
           )}
         </div>
-        <div className="relative flex max-w-full flex-wrap items-center gap-3">
-          <label className="text-sm">
-            Sort by{' '}
-            <select
-              aria-label="Sort users by"
-              className="rounded-md border border-[var(--pv-border)] bg-[var(--pv-bg)] p-2"
-              value={query.sort_by}
-              onChange={(e) =>
-                setQuery({ ...query, sort_by: e.target.value as UserSort, offset: 0 })
-              }
-            >
-              {Object.entries({
-                joined_at: 'Joined',
-                last_sign_in_at: 'Last sign-in',
-                last_active_at: 'Last app activity',
-                email: 'Email',
-                full_name: 'Name',
-                account_status: 'Account status',
-              }).map(([v, l]) => (
-                <option key={v} value={v}>
-                  {l}
-                </option>
-              ))}
-            </select>
-          </label>
+        <div className="relative flex max-w-full flex-wrap items-center gap-2">
+          <Select
+            aria-label="Sort users by"
+            classNames={selectClassNames}
+            value={query.sort_by}
+            allowDeselect={false}
+            data={Object.entries({
+              joined_at: 'Joined',
+              last_sign_in_at: 'Last sign-in',
+              last_active_at: 'Last app activity',
+              email: 'Email',
+              full_name: 'Name',
+              account_status: 'Account status',
+            }).map(([value, label]) => ({ value, label }))}
+            onChange={(value) =>
+              value && setQuery({ ...query, sort_by: value as UserSort, offset: 0 })
+            }
+          />
           <Button
             variant="outline"
+            className="h-9 px-3"
             aria-label="Toggle sort direction"
+            title={
+              query.sort_order === 'asc'
+                ? 'Ascending; switch to descending'
+                : 'Descending; switch to ascending'
+            }
             onClick={() =>
               setQuery({
                 ...query,
@@ -145,34 +171,37 @@ export function UsersPageClient() {
               })
             }
           >
-            {query.sort_order === 'asc' ? 'Ascending' : 'Descending'}
+            <span className="sm:hidden" aria-hidden="true">
+              {query.sort_order === 'asc' ? '↑' : '↓'}
+            </span>
+            <span className="hidden sm:inline">
+              {query.sort_order === 'asc' ? 'Ascending' : 'Descending'}
+            </span>
           </Button>
-          <details>
-            <summary className="cursor-pointer rounded-lg border border-[var(--pv-border)] px-3 py-2 text-sm">
-              Columns
-            </summary>
-            <div className="absolute right-0 top-full z-30 mt-2 w-64 max-w-full rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)] p-4 shadow-lg">
+          <Popover position="bottom-end" width={256} trapFocus returnFocus withArrow shadow="md">
+            <Popover.Target>
+              <Button variant="outline">Columns</Button>
+            </Popover.Target>
+            <Popover.Dropdown
+              className="max-h-[50dvh] overflow-y-auto"
+              style={{ background: 'var(--pv-bg)', color: 'var(--pv-text)' }}
+            >
               <p className="mb-2 text-xs text-[var(--pv-text-muted)]">
                 Saved for your staff account
               </p>
               {Object.entries(USER_COLUMNS).map(([key, label]) => (
-                <label key={key} className="flex items-center gap-2 py-1.5 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={columns.includes(key as UserColumn)}
-                    onChange={() => toggleColumn(key as UserColumn)}
-                  />
-                  {label}
-                </label>
+                <Checkbox
+                  key={key}
+                  className="py-1.5"
+                  label={label}
+                  checked={columns.includes(key as UserColumn)}
+                  onChange={() => toggleColumn(key as UserColumn)}
+                />
               ))}
-            </div>
-          </details>
+            </Popover.Dropdown>
+          </Popover>
         </div>
       </div>
-      <p className="text-xs text-[var(--pv-text-muted)]">
-        Account status does not indicate recent use. Devices are historical feedback/support
-        snapshots, not a current device inventory. All times are UTC.
-      </p>
       {error ? (
         <div
           role="alert"
@@ -197,10 +226,18 @@ export function UsersPageClient() {
           ) : null}
         </div>
       ) : result ? (
-        <div aria-busy={loading}>
-          <UsersTable items={result.items} columns={columns} />
-          <div className="mt-4">
+        <div aria-busy={loading} className="flex min-h-0 flex-1 flex-col gap-2">
+          <UsersTable
+            items={result.items}
+            columns={columns}
+            onOpen={(id, trigger) => {
+              detailTrigger.current = trigger;
+              setSelectedUser(id);
+            }}
+          />
+          <div className="shrink-0">
             <Pagination
+              className="gap-2"
               currentPage={Math.floor((query.offset || 0) / (query.limit || 50)) + 1}
               totalItems={result.total}
               pageSize={query.limit || 50}
@@ -208,7 +245,7 @@ export function UsersPageClient() {
               onPageSizeChange={(limit) => setQuery({ ...query, limit, offset: 0 })}
             />
           </div>
-          <p className="mt-3 text-xs text-[var(--pv-text-muted)]">
+          <p className="shrink-0 text-xs text-[var(--pv-text-muted)]">
             Data as of {new Date(result.data_as_of).toUTCString()}
           </p>
         </div>
@@ -220,6 +257,13 @@ export function UsersPageClient() {
           Loading user insights…
         </div>
       )}
+      <UserDetailDrawer
+        id={selectedUser}
+        onClose={() => setSelectedUser(null)}
+        returnFocus={() => {
+          if (detailTrigger.current?.isConnected) detailTrigger.current.focus();
+        }}
+      />
     </div>
   );
 }

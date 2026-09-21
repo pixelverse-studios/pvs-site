@@ -4,7 +4,7 @@ vi.mock('@/lib/supabase/client', () => ({
   createClient: () => ({ auth: { getSession: session } }),
 }));
 vi.mock('@/lib/api-config', () => ({ getApiBaseUrl: () => 'https://api.test' }));
-import { getDomaniUsers, getDomaniUserStats } from './domani-users';
+import { getDomaniUsers, getDomaniUserStats, getDomaniUser } from './domani-users';
 const validResponse = {
   items: [],
   total: 0,
@@ -23,6 +23,12 @@ const validResponse = {
 afterEach(() => vi.restoreAllMocks());
 beforeEach(() => session.mockResolvedValue({ data: { session: { access_token: 'staff-token' } } }));
 describe('staff user API', () => {
+  it('rejects a detail response for another user', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify({ id: 'other', data_as_of: validResponse.data_as_of })),
+    );
+    await expect(getDomaniUser('expected')).rejects.toThrow('incompatible Users response');
+  });
   it.each([
     { items: [], total: 1, limit: 50, offset: 0 },
     { ...validResponse, stats: null },
