@@ -7,10 +7,17 @@ export class UsersRequestError extends Error {
   constructor(
     message: string,
     public status: number,
+    public code?: string,
   ) {
     super(message);
   }
 }
+
+type UsersApiErrorBody = {
+  error?: { code?: unknown; message?: unknown };
+  message?: unknown;
+};
+
 async function read<T>(path: string, signal?: AbortSignal): Promise<T> {
   signal?.throwIfAborted();
   const { data, error } = await createClient().auth.getSession();
@@ -25,17 +32,28 @@ async function read<T>(path: string, signal?: AbortSignal): Promise<T> {
       ? AbortSignal.any([signal, AbortSignal.timeout(15000)])
       : AbortSignal.timeout(15000),
   });
-  if (!response.ok)
+  if (!response.ok) {
+    const body = (await response
+      .clone()
+      .json()
+      .catch(() => null)) as UsersApiErrorBody | null;
+    const code = typeof body?.error?.code === 'string' ? body.error.code : undefined;
     throw new UsersRequestError(
-      response.status === 403
-        ? 'You do not have staff access to Users.'
-        : response.status === 401
-          ? 'Your session has expired. Please sign in again.'
-          : response.status === 400
-            ? 'Check the selected filters and date range.'
-            : 'User insights unavailable. Please try again.',
+      code === 'ORIGIN_NOT_ALLOWED'
+        ? 'This dashboard origin is not allowed by the local API configuration.'
+        : code === 'STAFF_ACCESS_REQUIRED'
+          ? 'You do not have staff access to Users.'
+          : response.status === 403
+            ? 'The Users request was rejected by the API.'
+            : response.status === 401
+              ? 'Your session has expired. Please sign in again.'
+              : response.status === 400
+                ? 'Check the selected filters and date range.'
+                : 'User insights unavailable. Please try again.',
       response.status,
+      code,
     );
+  }
   return response.json();
 }
 export const getDomaniUsers = (params?: UsersQueryParams, signal?: AbortSignal) =>

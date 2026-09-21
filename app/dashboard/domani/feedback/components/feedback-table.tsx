@@ -68,8 +68,8 @@ export function FeedbackTable({
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [drawerItem, setDrawerItem] = useState<UnifiedFeedbackItem | null>(null);
 
-  const handleRowClick = (id: string) => {
-    setSelectedId(selectedId === id ? null : id);
+  const toggleRow = (id: string) => {
+    setSelectedId((currentId) => (currentId === id ? null : id));
   };
 
   const formatDate = (dateString: string | null) => {
@@ -108,29 +108,58 @@ export function FeedbackTable({
         <>
           {/* Desktop Table */}
           <div
-            className="hidden max-h-[calc(100vh-580px)] overflow-auto rounded-xl border md:block"
+            className="hidden max-h-[calc(100vh-580px)] overflow-auto rounded-xl border xl:block"
             style={{ borderColor: 'var(--pv-border)' }}
           >
-            <table className="w-full">
+            <table className="w-full table-fixed">
+              <colgroup>
+                <col className="w-12" />
+                <col className="w-40" />
+                <col className="w-24" />
+                <col className="w-48" />
+                <col />
+                <col className="w-24" />
+                <col className="w-24" />
+              </colgroup>
               <thead className="sticky top-0 z-10">
                 <tr style={{ background: 'var(--pv-surface)' }}>
-                  <th className="w-8 px-4 py-3"></th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
+                  <th scope="col" className="px-2 py-3">
+                    <span className="sr-only">Expand feedback</span>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]"
+                  >
                     Date
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
+                  <th
+                    scope="col"
+                    className="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]"
+                  >
                     Category
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
+                  <th
+                    scope="col"
+                    className="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]"
+                  >
                     Email
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
+                  <th
+                    scope="col"
+                    className="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide text-[var(--pv-text)]"
+                  >
                     Message
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
+                  <th
+                    scope="col"
+                    className="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]"
+                  >
                     Platform
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
+                  <th
+                    scope="col"
+                    className="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]"
+                  >
                     Status
                   </th>
                 </tr>
@@ -145,26 +174,33 @@ export function FeedbackTable({
                     <Fragment key={feedbackKey(item)}>
                       <tr
                         className={cn(
-                          'cursor-pointer border-t transition-colors',
+                          'border-t transition-colors',
                           isSelected ? 'bg-[var(--pv-primary)]/5' : 'hover:bg-[var(--pv-surface)]',
                         )}
                         style={{ borderColor: 'var(--pv-border)' }}
-                        onClick={() => handleRowClick(feedbackKey(item))}
                       >
-                        <td className="px-4 py-3">
-                          <ChevronRight
-                            className={cn(
-                              'h-4 w-4 transition-transform',
-                              isSelected
-                                ? 'rotate-90 text-[var(--pv-primary)]'
-                                : 'text-[var(--pv-text-muted)]',
-                            )}
-                          />
+                        <td className="px-2 py-3 text-center align-top">
+                          <button
+                            type="button"
+                            className="hover:bg-[var(--pv-primary)]/10 inline-flex h-8 w-8 items-center justify-center rounded-md text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2"
+                            aria-label={`${isSelected ? 'Collapse' : 'Expand'} feedback from ${item.email || 'unknown email'}`}
+                            aria-expanded={isSelected}
+                            aria-controls={`feedback-details-${feedbackKey(item)}`}
+                            onClick={() => toggleRow(feedbackKey(item))}
+                          >
+                            <ChevronRight
+                              aria-hidden="true"
+                              className={cn(
+                                'h-4 w-4 transition-transform',
+                                isSelected && 'rotate-90 text-[var(--pv-primary)]',
+                              )}
+                            />
+                          </button>
                         </td>
-                        <td className="whitespace-nowrap px-4 py-3 text-sm text-[var(--pv-text-muted)]">
+                        <td className="whitespace-nowrap px-3 py-4 align-top text-[13px] text-[var(--pv-text-muted)]">
                           {formatDate(item.created_at)}
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-3 py-4 align-top">
                           <span
                             className={cn(
                               'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
@@ -175,17 +211,27 @@ export function FeedbackTable({
                             {categoryConfig.label}
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-sm" style={{ color: 'var(--pv-text)' }}>
-                          {item.email || 'Unknown email'}
+                        <td
+                          className="px-3 py-4 align-top text-sm"
+                          style={{ color: 'var(--pv-text)' }}
+                        >
+                          <span className="block truncate" title={item.email || 'Unknown email'}>
+                            {item.email || 'Unknown email'}
+                          </span>
                         </td>
-                        <td className="max-w-xs px-4 py-3 text-sm text-[var(--pv-text-muted)]">
-                          {truncateMessage(item.message)}
+                        <td className="px-5 py-4 align-top">
+                          <p
+                            className="line-clamp-3 break-words text-[15px] leading-6 text-[var(--pv-text)]"
+                            title={item.message}
+                          >
+                            {truncateMessage(item.message, 180)}
+                          </p>
                           <ReplySummary item={item} />
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-3 py-4 align-top">
                           <PlatformBadge platform={item.platform} />
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-3 py-4 align-top">
                           <span
                             className={cn(
                               'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
@@ -200,6 +246,7 @@ export function FeedbackTable({
                       {/* Inline expanded detail row */}
                       {isSelected && (
                         <tr
+                          id={`feedback-details-${feedbackKey(item)}`}
                           className="border-t bg-[var(--pv-surface)]"
                           style={{ borderColor: 'var(--pv-border)' }}
                         >
@@ -222,7 +269,7 @@ export function FeedbackTable({
           </div>
 
           {/* Mobile Cards */}
-          <div className="max-h-[calc(100vh-540px)] space-y-3 overflow-auto md:hidden">
+          <div className="max-h-[calc(100vh-540px)] space-y-3 overflow-auto xl:hidden">
             {items.map((item) => {
               const categoryConfig = CATEGORY_COLORS[item.category] || UNKNOWN_CATEGORY_CONFIG;
               const statusConfig = STATUS_COLORS[item.status] || STATUS_COLORS.unknown;

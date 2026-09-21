@@ -1,9 +1,10 @@
 import { Container } from '@/components/ui/container';
 import { DomaniNav } from './components/domani-nav';
+import { DomaniLayoutFrame } from './components/domani-layout-frame';
 
 export default function DomaniLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="pb-16 pt-6 lg:pt-8">
+    <DomaniLayoutFrame>
       <Container className="max-w-none">
         {/* Sub-navigation */}
         <DomaniNav />
@@ -11,6 +12,6 @@ export default function DomaniLayout({ children }: { children: React.ReactNode }
         {/* Page content */}
         {children}
       </Container>
-    </div>
+    </DomaniLayoutFrame>
   );
 }

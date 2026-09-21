@@ -586,11 +586,26 @@ describe('feedback list refresh during composition', () => {
         </FeedbackDraftsProvider>
       );
       await act(async () => root.render(<TestProvider>{renderTable([feedback])}</TestProvider>));
-      await act(async () =>
-        container
-          .querySelector('tbody tr')!
-          .dispatchEvent(new MouseEvent('click', { bubbles: true })),
-      );
+      const desktopTable = container.querySelector('table')!;
+      expect(desktopTable.className).toContain('w-full');
+      expect(desktopTable.className).toContain('table-fixed');
+      expect(desktopTable.className).not.toContain('min-w-');
+      expect(desktopTable.parentElement?.className).toContain('xl:block');
+      expect(
+        Array.from(container.querySelectorAll('div')).some(
+          (node) =>
+            typeof node.className === 'string' &&
+            node.className.includes('xl:hidden') &&
+            node.className.includes('space-y-3'),
+        ),
+      ).toBe(true);
+      const expandButton = container.querySelector(
+        'button[aria-label="Expand feedback from fixture@example.test"]',
+      ) as HTMLButtonElement;
+      expect(expandButton).not.toBeNull();
+      expect(expandButton.getAttribute('aria-expanded')).toBe('false');
+      await act(async () => expandButton.click());
+      expect(expandButton.getAttribute('aria-expanded')).toBe('true');
       await click('View Full Details');
       await type('Keep my draft');
       const textarea = container.querySelector('textarea')!;
