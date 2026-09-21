@@ -211,7 +211,7 @@ export function UsersPageClient() {
           <h2 className="font-semibold">
             {error.code === 'ORIGIN_NOT_ALLOWED'
               ? 'Local API configuration required'
-              : error.status === 403
+              : error.code === 'STAFF_ACCESS_REQUIRED'
                 ? 'Staff access required'
                 : error.status === 401
                   ? 'Session expired'

@@ -145,14 +145,23 @@ describe('Users table contract', () => {
       expect(container.querySelector('[role="alert"]')).not.toBeNull();
       expect(container.textContent).not.toContain('No users match');
       expect(container.textContent).toContain(
-        status === 401
-          ? 'Session expired'
-          : status === 403
-            ? 'Staff access required'
-            : 'Users unavailable',
+        status === 401 ? 'Session expired' : 'Users unavailable',
       );
     },
   );
+  it('shows staff access messaging only for an explicit staff rejection', async () => {
+    mocks.list.mockRejectedValueOnce(
+      new UsersRequestError('Staff access is required', 403, 'STAFF_ACCESS_REQUIRED'),
+    );
+    await mount();
+    await tick();
+    expect(container.textContent).toContain('Staff access required');
+    expect(
+      Array.from(container.querySelectorAll('button')).some(
+        (button) => button.textContent === 'Retry',
+      ),
+    ).toBe(false);
+  });
   it('identifies a local origin configuration rejection separately from staff access', async () => {
     mocks.list.mockRejectedValueOnce(
       new UsersRequestError('Local origin is not allowed', 403, 'ORIGIN_NOT_ALLOWED'),
