@@ -207,7 +207,7 @@ export function DashboardSidebar() {
         >
           {/* Logo area */}
           <div
-            className="flex h-16 items-center border-b px-4"
+            className="flex h-16 shrink-0 items-center border-b px-4"
             style={{ borderColor: 'var(--pv-border)' }}
           >
             <Link

@@ -90,7 +90,7 @@ export function UsersToolbar({
           <p className="text-sm text-[var(--pv-text-muted)]">
             Refine the user list. Changes take effect when you apply filters.
           </p>
-          <div className="min-h-0 flex-1 space-y-5 overflow-y-auto pr-1">
+          <div className="min-h-0 flex-1 space-y-5 overflow-y-auto p-1">
             <div className="flex flex-wrap items-end gap-3">
               <label className="min-w-[220px] flex-[2] text-xs text-[var(--pv-text-muted)]">
                 Search users
