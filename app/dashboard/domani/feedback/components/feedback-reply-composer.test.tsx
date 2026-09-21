@@ -1,3 +1,4 @@
+import { TestProvider } from '../../components/mantine-test-provider';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
@@ -7,7 +8,9 @@ const item = { id: 'fixture', source: 'beta_feedback', email: 'fixture@example.t
 describe('reply composer states', () => {
   it('labels immutable sender and recipient, with a plain-text editor', () => {
     const html = renderToStaticMarkup(
-      <FeedbackReplyComposer item={item} draft={emptyReplyDraft()} onChange={() => {}} />,
+      <TestProvider>
+        {<FeedbackReplyComposer item={item} draft={emptyReplyDraft()} onChange={() => {}} />}
+      </TestProvider>,
     );
     expect(html).toContain('hello@domani-app.com');
     expect(html).toContain('fixture@example.test');
@@ -17,17 +20,21 @@ describe('reply composer states', () => {
   });
   it('locks uncertain content and offers only same-request recovery', () => {
     const html = renderToStaticMarkup(
-      <FeedbackReplyComposer
-        item={item}
-        draft={{
-          ...emptyReplyDraft(),
-          text: '<unsafe>',
-          key: 'key',
-          phase: 'unknown',
-          missingIntent: true,
-        }}
-        onChange={() => {}}
-      />,
+      <TestProvider>
+        {
+          <FeedbackReplyComposer
+            item={item}
+            draft={{
+              ...emptyReplyDraft(),
+              text: '<unsafe>',
+              key: 'key',
+              phase: 'unknown',
+              missingIntent: true,
+            }}
+            onChange={() => {}}
+          />
+        }
+      </TestProvider>,
     );
     expect(html).toContain('Retry same request');
     expect(html).not.toContain('>Send reply<');

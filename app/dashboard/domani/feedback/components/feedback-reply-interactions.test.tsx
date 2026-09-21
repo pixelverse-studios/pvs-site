@@ -1,3 +1,4 @@
+import { TestProvider } from '../../components/mantine-test-provider';
 // @vitest-environment jsdom
 import React, { useEffect, useState } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
@@ -102,7 +103,7 @@ describe('reply async ownership', () => {
         });
         return <FeedbackReplyComposer item={item} draft={draft} onChange={setDraft} />;
       }
-      await act(async () => root.render(<Composer />));
+      await act(async () => root.render(<TestProvider>{<Composer />}</TestProvider>));
       await click('Check status');
       await click(status === 'accepted' ? 'Write another reply' : 'Edit as a new reply');
       await type('My new reply');
@@ -124,7 +125,7 @@ describe('reply async ownership', () => {
       });
       return <FeedbackReplyComposer item={item} draft={draft} onChange={setDraft} />;
     }
-    await act(async () => root.render(<Composer />));
+    await act(async () => root.render(<TestProvider>{<Composer />}</TestProvider>));
     await click('Check status');
     await click('Write another reply');
     await type('Keep this');
@@ -160,9 +161,13 @@ describe('draft lifetime across route transitions', () => {
   it('restores text after history navigation and warns before document unload even on another page', async () => {
     await act(async () =>
       root.render(
-        <FeedbackDraftsProvider>
-          <Routes />
-        </FeedbackDraftsProvider>,
+        <TestProvider>
+          {
+            <FeedbackDraftsProvider>
+              <Routes />
+            </FeedbackDraftsProvider>
+          }
+        </TestProvider>,
       ),
     );
     await type('Retain through Back and Forward');
@@ -178,9 +183,13 @@ describe('draft lifetime across route transitions', () => {
     async (event) => {
       await act(async () =>
         root.render(
-          <FeedbackDraftsProvider>
-            <Routes />
-          </FeedbackDraftsProvider>,
+          <TestProvider>
+            {
+              <FeedbackDraftsProvider>
+                <Routes />
+              </FeedbackDraftsProvider>
+            }
+          </TestProvider>,
         ),
       );
       await type('Private draft');
@@ -197,9 +206,13 @@ describe('draft lifetime across route transitions', () => {
     mocks.send.mockReturnValue(request.promise);
     await act(async () =>
       root.render(
-        <FeedbackDraftsProvider>
-          <Routes />
-        </FeedbackDraftsProvider>,
+        <TestProvider>
+          {
+            <FeedbackDraftsProvider>
+              <Routes />
+            </FeedbackDraftsProvider>
+          }
+        </TestProvider>,
       ),
     );
     await type('Private pending message');
@@ -214,9 +227,13 @@ describe('draft lifetime across route transitions', () => {
     mocks.status.mockResolvedValue({ delivery_status: 'accepted' });
     await act(async () =>
       root.render(
-        <FeedbackDraftsProvider>
-          <Routes />
-        </FeedbackDraftsProvider>,
+        <TestProvider>
+          {
+            <FeedbackDraftsProvider>
+              <Routes />
+            </FeedbackDraftsProvider>
+          }
+        </TestProvider>,
       ),
     );
     await type('Send once');
@@ -272,7 +289,7 @@ describe('paginated history after acceptance', () => {
         });
         return <FeedbackReplyComposer item={item} draft={draft} onChange={setDraft} />;
       }
-      await act(async () => root.render(<Composer />));
+      await act(async () => root.render(<TestProvider>{<Composer />}</TestProvider>));
       await click('Load earlier replies');
       expect(container.querySelectorAll('article')).toHaveLength(40);
       await click(action === 'send' ? 'Send reply' : 'Check status');
@@ -303,7 +320,7 @@ describe('paginated history after acceptance', () => {
       const [draft, setDraft] = useState<ReplyDraft>({ ...emptyReplyDraft(), text: 'New reply' });
       return <FeedbackReplyComposer item={item} draft={draft} onChange={setDraft} />;
     }
-    await act(async () => root.render(<Composer />));
+    await act(async () => root.render(<TestProvider>{<Composer />}</TestProvider>));
     await click('Send reply');
     expect(container.querySelectorAll('article')).toHaveLength(20);
     expect(container.textContent).toContain('History temporarily unavailable');
@@ -338,7 +355,7 @@ describe('collapsible delivery history', () => {
       items: [fixture('one', 'accepted'), fixture('two', 'delivered')],
       previous_cursor: null,
     });
-    await act(async () => root.render(<Composer />));
+    await act(async () => root.render(<TestProvider>{<Composer />}</TestProvider>));
     const expanded = () =>
       Array.from(container.querySelectorAll('button[aria-expanded]')).map((b) =>
         b.getAttribute('aria-expanded'),
@@ -366,7 +383,7 @@ describe('collapsible delivery history', () => {
     });
     mocks.reconcile.mockResolvedValue({ delivery_status: 'delivered' });
     mocks.retry.mockResolvedValue({ delivery_status: 'queued' });
-    await act(async () => root.render(<Composer />));
+    await act(async () => root.render(<TestProvider>{<Composer />}</TestProvider>));
     expect(
       Array.from(container.querySelectorAll('button')).filter(
         (b) => b.textContent === 'Retry same reply',
@@ -402,7 +419,9 @@ describe('review regressions', () => {
     });
     await act(async () =>
       root.render(
-        <FeedbackReplyComposer item={item} draft={emptyReplyDraft()} onChange={() => {}} />,
+        <TestProvider>
+          {<FeedbackReplyComposer item={item} draft={emptyReplyDraft()} onChange={() => {}} />}
+        </TestProvider>,
       ),
     );
     expect(container.querySelectorAll('article')).toHaveLength(20);
@@ -453,7 +472,7 @@ describe('review regressions', () => {
         });
         return <FeedbackReplyComposer item={item} draft={draft} onChange={setDraft} />;
       }
-      await act(async () => root.render(<Composer />));
+      await act(async () => root.render(<TestProvider>{<Composer />}</TestProvider>));
       const button = Array.from(
         container.querySelector('article')!.querySelectorAll('button'),
       ).find((b) => b.textContent === 'Check status')!;
@@ -504,11 +523,15 @@ describe('incoming replies', () => {
   }
   it('shows unread incoming text safely with quoted content and omitted attachments', async () => {
     mocks.history.mockResolvedValue({ items: [incoming('one')] });
-    await act(async () => root.render(<Composer />));
+    await act(async () => root.render(<TestProvider>{<Composer />}</TestProvider>));
     expect(container.textContent).toContain('Unread reply');
     expect(container.textContent).toContain('user@example.test');
     expect(container.textContent).toContain('attachment(s) omitted');
-    expect(container.querySelector('details summary')!.textContent).toBe('Quoted message');
+    expect(
+      Array.from(container.querySelectorAll('button')).find(
+        (e) => e.textContent === 'Quoted message',
+      )!.textContent,
+    ).toBe('Quoted message');
     expect(container.querySelector('img')).toBeNull();
     expect(mocks.read).not.toHaveBeenCalled();
   });
@@ -521,7 +544,7 @@ describe('incoming replies', () => {
       later = true;
       return { last_read_message_id: 'one' };
     });
-    await act(async () => root.render(<Composer />));
+    await act(async () => root.render(<TestProvider>{<Composer />}</TestProvider>));
     await type('Keep composing');
     await click('Mark conversation read');
     expect(mocks.read).toHaveBeenCalledWith(item.id, item.source, 'one');
@@ -532,7 +555,7 @@ describe('incoming replies', () => {
   it('retains unread replies and exposes retry when marking read fails', async () => {
     mocks.history.mockResolvedValue({ items: [incoming('one')] });
     mocks.read.mockRejectedValue(new Error('Unavailable'));
-    await act(async () => root.render(<Composer />));
+    await act(async () => root.render(<TestProvider>{<Composer />}</TestProvider>));
     await click('Mark conversation read');
     expect(container.textContent).toContain('Could not mark replies read');
     expect(container.textContent).toContain('Unread reply');
@@ -562,7 +585,7 @@ describe('feedback list refresh during composition', () => {
           <FeedbackTable items={items} onStatusChange={async () => {}} />
         </FeedbackDraftsProvider>
       );
-      await act(async () => root.render(renderTable([feedback])));
+      await act(async () => root.render(<TestProvider>{renderTable([feedback])}</TestProvider>));
       await act(async () =>
         container
           .querySelector('tbody tr')!
@@ -572,7 +595,9 @@ describe('feedback list refresh during composition', () => {
       await type('Keep my draft');
       const textarea = container.querySelector('textarea')!;
       textarea.focus();
-      await act(async () => root.render(renderTable(refreshedItems)));
+      await act(async () =>
+        root.render(<TestProvider>{renderTable(refreshedItems)}</TestProvider>),
+      );
       expect(container.querySelector('[role="dialog"]')).not.toBeNull();
       expect(container.querySelector('textarea')).toBe(textarea);
       expect(textarea.value).toBe('Keep my draft');

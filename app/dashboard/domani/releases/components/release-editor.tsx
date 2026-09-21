@@ -21,15 +21,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Modal } from '@mantine/core';
 import {
   getRelease,
   getReleaseCapabilities,
@@ -895,60 +887,63 @@ export function ReleaseEditor({
         </div>
       </div>
 
-      <Dialog open={teamNotesOpen} onOpenChange={setTeamNotesOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Team notes</DialogTitle>
-            <DialogDescription>
-              Add private QA, support, or technical context. Customers will never see this.
-            </DialogDescription>
-          </DialogHeader>
-          <Textarea
-            value={form.internalSummary}
-            onChange={(event) => setField('internalSummary', event.currentTarget.value)}
-            placeholder="Add helpful context for the team…"
-            autosize
-            minRows={8}
-            maxRows={16}
-            maxLength={10000}
-            disabled={disabled}
-            classNames={mantineFieldClassNames}
-          />
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button">Done</Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <Modal
+        closeButtonProps={{ 'aria-label': 'Close' }}
+        opened={teamNotesOpen}
+        onClose={() => setTeamNotesOpen(false)}
+        title="Team notes"
+      >
+        <div className="mb-4">
+          <p className="text-sm text-[var(--pv-text-muted)]">
+            Add private QA, support, or technical context. Customers will never see this.
+          </p>
+        </div>
+        <Textarea
+          value={form.internalSummary}
+          onChange={(event) => setField('internalSummary', event.currentTarget.value)}
+          placeholder="Add helpful context for the team…"
+          autosize
+          minRows={8}
+          maxRows={16}
+          maxLength={10000}
+          disabled={disabled}
+          classNames={mantineFieldClassNames}
+        />
+        <div className="mt-4 flex justify-end gap-2">
+          <Button type="button" onClick={() => setTeamNotesOpen(false)}>
+            Done
+          </Button>
+        </div>
+      </Modal>
 
-      <Dialog open={archiveOpen} onOpenChange={setArchiveOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Archive this release?</DialogTitle>
-            <DialogDescription>
-              It will be removed from active release lists and hidden from customers. Its history
-              will be kept.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="outline">
-                Cancel
-              </Button>
-            </DialogClose>
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={() => void archive()}
-              disabled={archiving}
-            >
-              {archiving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Archive release
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <Modal
+        closeButtonProps={{ 'aria-label': 'Close' }}
+        opened={archiveOpen}
+        onClose={() => setArchiveOpen(false)}
+        title="Archive this release?"
+      >
+        <div className="mb-4">
+          <p className="text-sm text-[var(--pv-text-muted)]">
+            It will be removed from active release lists and hidden from customers. Its history will
+            be kept.
+          </p>
+        </div>
+        <div className="mt-4 flex justify-end gap-2">
+          <Button type="button" variant="outline" onClick={() => setArchiveOpen(false)}>
+            Cancel
+          </Button>
+
+          <Button
+            type="button"
+            variant="destructive"
+            onClick={() => void archive()}
+            disabled={archiving}
+          >
+            {archiving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Archive release
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

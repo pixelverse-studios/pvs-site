@@ -1,3 +1,4 @@
+import { TestProvider } from '../../components/mantine-test-provider';
 // @vitest-environment jsdom
 import React from 'react';
 import { createRoot, type Root } from 'react-dom/client';
@@ -34,7 +35,11 @@ const close = vi.fn(),
   restore = vi.fn();
 const render = (value: string | null = id) =>
   act(async () =>
-    root.render(<UserDetailDrawer id={value} onClose={close} returnFocus={restore} />),
+    root.render(
+      <TestProvider>
+        {<UserDetailDrawer id={value} onClose={close} returnFocus={restore} />}
+      </TestProvider>,
+    ),
   );
 beforeEach(() => {
   (globalThis as any).React = React;
@@ -73,7 +78,7 @@ describe('user detail drawer', () => {
     expect(copy).toHaveBeenCalledWith(id);
     expect(dialog.textContent).toContain('User ID copied');
   });
-  it('aborts obsolete detail loads and restores focus after close', async () => {
+  it('aborts obsolete detail loads and removes content after close', async () => {
     let resolve!: (value: any) => void;
     mock.get.mockReturnValueOnce(
       new Promise((r) => {
@@ -90,7 +95,7 @@ describe('user detail drawer', () => {
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 10));
     });
-    expect(restore).toHaveBeenCalled();
+    expect(document.querySelector('[role="dialog"]')).toBeNull();
   });
   it.each([
     [404, 'User not found'],

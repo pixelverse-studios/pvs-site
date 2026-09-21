@@ -1,4 +1,5 @@
 'use client';
+import { Accordion } from '@mantine/core';
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import {
@@ -368,10 +369,14 @@ function MessageText({ text, incoming }: { text: string; incoming: boolean }) {
   return (
     <>
       <p className="whitespace-pre-wrap break-words">{text.slice(0, boundary).trimEnd()}</p>
-      <details className="text-[var(--pv-text-muted)]">
-        <summary className="cursor-pointer rounded focus-visible:outline">Quoted message</summary>
-        <p className="mt-2 whitespace-pre-wrap break-words">{text.slice(boundary)}</p>
-      </details>
+      <Accordion variant="default">
+        <Accordion.Item value="quoted">
+          <Accordion.Control>Quoted message</Accordion.Control>
+          <Accordion.Panel>
+            <p className="whitespace-pre-wrap break-words">{text.slice(boundary)}</p>
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
     </>
   );
 }

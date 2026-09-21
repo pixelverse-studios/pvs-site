@@ -1,13 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-} from '@/components/ui/sheet';
+import { DomaniDrawer } from '../../components/domani-controls';
 import { Button } from '@/components/ui/button';
 import { getDomaniUser, UsersRequestError } from '@/lib/api/domani-users';
 import type { UserProfile } from '@/lib/types/domani-users';
@@ -41,28 +35,17 @@ export function UserDetailDrawer({
   returnFocus: () => void;
 }) {
   return (
-    <Sheet
-      open={!!id}
-      onOpenChange={(open) => {
-        if (!open) onClose();
-      }}
+    <DomaniDrawer
+      opened={!!id}
+      onClose={onClose}
+      title="User details"
+      onExitTransitionEnd={returnFocus}
     >
-      <SheetContent
-        onCloseAutoFocus={(event) => {
-          event.preventDefault();
-          returnFocus();
-        }}
-        className="block w-full overflow-y-auto motion-reduce:animate-none sm:w-3/4 sm:max-w-none lg:w-1/2 lg:max-w-none xl:max-w-none"
-      >
-        <SheetHeader className="mb-6 pr-10">
-          <SheetTitle>User details</SheetTitle>
-          <SheetDescription>
-            Account, login and historical device context. All timestamps are UTC.
-          </SheetDescription>
-        </SheetHeader>
-        {id && <UserDetailContent key={id} id={id} />}
-      </SheetContent>
-    </Sheet>
+      <p className="mb-6 text-sm text-[var(--pv-text-muted)]">
+        Account, login and historical device context. All timestamps are UTC.
+      </p>
+      {id && <UserDetailContent key={id} id={id} />}
+    </DomaniDrawer>
   );
 }
 

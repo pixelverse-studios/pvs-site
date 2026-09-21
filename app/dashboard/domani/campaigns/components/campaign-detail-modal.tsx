@@ -1,23 +1,12 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import {
-  X,
-  Calendar,
-  Send,
-  Users,
-  CheckCircle2,
-  XCircle,
-  AlertTriangle,
-  Mail,
-} from 'lucide-react';
+import { X, Calendar, Send, Users, CheckCircle2, XCircle, AlertTriangle, Mail } from 'lucide-react';
+import { Modal } from '@mantine/core';
 import DOMPurify from 'dompurify';
 import { cn } from '@/lib/utils';
 import type { Campaign } from '@/lib/types/email-campaign';
-import {
-  DELIVERY_STATUS_COLORS,
-  TEMPLATE_TYPE_COLORS,
-} from '@/lib/types/email-campaign';
+import { DELIVERY_STATUS_COLORS, TEMPLATE_TYPE_COLORS } from '@/lib/types/email-campaign';
 
 interface CampaignDetailModalProps {
   campaign: Campaign | null;
@@ -38,31 +27,11 @@ function formatDate(dateString: string) {
   });
 }
 
-export function CampaignDetailModal({
-  campaign,
-  isOpen,
-  onClose,
-}: CampaignDetailModalProps) {
+export function CampaignDetailModal({ campaign, isOpen, onClose }: CampaignDetailModalProps) {
   const [activeTab, setActiveTab] = useState<'email' | 'recipients'>('email');
   const htmlContent = campaign?.html_content || '';
 
-  const sanitizedHtml = useMemo(
-    () => DOMPurify.sanitize(htmlContent),
-    [htmlContent],
-  );
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
-    };
-  }, [isOpen, onClose]);
+  const sanitizedHtml = useMemo(() => DOMPurify.sanitize(htmlContent), [htmlContent]);
 
   // Reset to email tab when opening a new campaign
   useEffect(() => {
@@ -89,29 +58,21 @@ export function CampaignDetailModal({
   const hasEmailContent = sanitizedHtml.trim().length > 0;
 
   // Sort failed to top
-  const sortedRecipients = [...recipients].sort(
-    (a, b) => Number(a.success) - Number(b.success),
-  );
+  const sortedRecipients = [...recipients].sort((a, b) => Number(a.success) - Number(b.success));
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={onClose}
-      />
-
-      {/* Modal */}
-      <div
-        className="relative flex max-h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border shadow-2xl"
-        role="dialog"
-        aria-modal="true"
-        aria-label={`Campaign details: ${campaign.subject}`}
-        style={{
-          background: 'var(--pv-bg)',
-          borderColor: 'var(--pv-border)',
-        }}
-      >
+    <Modal
+      opened={isOpen}
+      onClose={onClose}
+      title={`Campaign details: ${campaign.subject}`}
+      closeButtonProps={{ 'aria-label': 'Close campaign details' }}
+      size="min(64rem, 95vw)"
+      styles={{
+        content: { background: 'var(--pv-bg)', color: 'var(--pv-text)' },
+        header: { background: 'var(--pv-bg)' },
+      }}
+    >
+      <div className="flex max-h-[75dvh] min-h-0 flex-col">
         {/* Header */}
         <div
           className="flex items-start justify-between border-b px-6 py-4"
@@ -119,10 +80,7 @@ export function CampaignDetailModal({
         >
           <div className="mr-4 min-w-0 flex-1">
             <div className="flex items-center gap-3">
-              <h2
-                className="truncate text-lg font-semibold"
-                style={{ color: 'var(--pv-text)' }}
-              >
+              <h2 className="truncate text-lg font-semibold" style={{ color: 'var(--pv-text)' }}>
                 {campaign.subject}
               </h2>
               <span
@@ -135,7 +93,10 @@ export function CampaignDetailModal({
                 {templateConfig.label}
               </span>
             </div>
-            <div className="mt-1.5 flex items-center gap-4 text-xs" style={{ color: 'var(--pv-text-muted)' }}>
+            <div
+              className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs"
+              style={{ color: 'var(--pv-text-muted)' }}
+            >
               <span className="flex items-center gap-1">
                 <Send className="h-3 w-3" />
                 {campaign.sent_by}
@@ -147,12 +108,16 @@ export function CampaignDetailModal({
               <span className="h-3 w-px" style={{ background: 'var(--pv-border)' }} />
               <span className="flex items-center gap-1">
                 <Users className="h-3 w-3" style={{ color: 'var(--pv-primary)' }} />
-                <span style={{ color: 'var(--pv-text)' }} className="font-medium">{campaign.recipient_count}</span>
+                <span style={{ color: 'var(--pv-text)' }} className="font-medium">
+                  {campaign.recipient_count}
+                </span>
                 sent
               </span>
               <span className="flex items-center gap-1">
                 <CheckCircle2 className="h-3 w-3 text-green-500" />
-                <span style={{ color: 'var(--pv-text)' }} className="font-medium">{campaign.successful}</span>
+                <span style={{ color: 'var(--pv-text)' }} className="font-medium">
+                  {campaign.successful}
+                </span>
                 delivered ({successRate}%)
               </span>
               {campaign.failed > 0 && (
@@ -164,19 +129,10 @@ export function CampaignDetailModal({
               )}
             </div>
           </div>
-          <button
-            onClick={onClose}
-            className="flex-shrink-0 rounded-lg p-2 transition-colors hover:bg-[var(--pv-surface)]"
-          >
-            <X className="h-5 w-5 text-[var(--pv-text-muted)]" />
-          </button>
         </div>
 
         {/* Tab bar */}
-        <div
-          className="flex gap-0 border-b px-6"
-          style={{ borderColor: 'var(--pv-border)' }}
-        >
+        <div className="flex gap-0 border-b px-6" style={{ borderColor: 'var(--pv-border)' }}>
           <button
             onClick={() => setActiveTab('email')}
             className={cn(
@@ -217,10 +173,10 @@ export function CampaignDetailModal({
 
         {/* Tab content */}
         <div className="min-h-0 flex-1 overflow-y-auto p-6">
-          {activeTab === 'email' && (
-            hasEmailContent ? (
+          {activeTab === 'email' &&
+            (hasEmailContent ? (
               <div
-                className="prose prose-sm dark:prose-invert max-w-none rounded-xl border p-5"
+                className="prose prose-sm max-w-none rounded-xl border p-5 dark:prose-invert"
                 style={{
                   borderColor: 'var(--pv-border)',
                   background: 'var(--pv-surface)',
@@ -239,13 +195,12 @@ export function CampaignDetailModal({
                 <AlertTriangle className="h-4 w-4 flex-shrink-0" />
                 Email content not available for this campaign.
               </div>
-            )
-          )}
+            ))}
 
-          {activeTab === 'recipients' && (
-            hasRecipients ? (
+          {activeTab === 'recipients' &&
+            (hasRecipients ? (
               <div
-                className="overflow-hidden rounded-xl border"
+                className="overflow-x-auto rounded-xl border"
                 style={{
                   borderColor: 'var(--pv-border)',
                   background: 'var(--pv-surface)',
@@ -284,10 +239,7 @@ export function CampaignDetailModal({
                           >
                             {recipient.name || 'No name'}
                           </td>
-                          <td
-                            className="px-4 py-2.5"
-                            style={{ color: 'var(--pv-text-muted)' }}
-                          >
+                          <td className="px-4 py-2.5" style={{ color: 'var(--pv-text-muted)' }}>
                             {recipient.email}
                           </td>
                           <td className="px-4 py-2.5 text-center">
@@ -325,14 +277,16 @@ export function CampaignDetailModal({
                 </table>
               </div>
             ) : (
-              <div className="flex items-center gap-2 py-8 text-sm" style={{ color: 'var(--pv-text-muted)' }}>
+              <div
+                className="flex items-center gap-2 py-8 text-sm"
+                style={{ color: 'var(--pv-text-muted)' }}
+              >
                 <Users className="h-4 w-4 opacity-40" />
                 Recipient data not available for this campaign.
               </div>
-            )
-          )}
+            ))}
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }

@@ -1,0 +1,55 @@
+.drawerContent {
+  display: flex;
+  flex-direction: column;
+  background: var(--pv-bg);
+  color: var(--pv-text);
+}
+.drawerHeader {
+  background: var(--pv-bg);
+  color: var(--pv-text);
+  border-bottom: 1px solid var(--pv-border);
+}
+.drawerBody {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+.drawer {
+  --domani-drawer-width: 100%;
+}
+@media (min-width: 640px) {
+  .drawer {
+    --domani-drawer-width: 75%;
+  }
+}
+@media (min-width: 1024px) {
+  .drawer {
+    --domani-drawer-width: 50%;
+  }
+}
+.filterDrawer {
+  --domani-drawer-width: 100%;
+}
+@media (min-width: 640px) {
+  .filterDrawer {
+    --domani-drawer-width: 32rem;
+  }
+}
+.input {
+  background: var(--pv-bg);
+  color: var(--pv-text);
+  border-color: var(--pv-border);
+}
+.dropdown {
+  background: var(--pv-bg);
+  color: var(--pv-text);
+  border-color: var(--pv-border);
+}
+
+.containedBody {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}

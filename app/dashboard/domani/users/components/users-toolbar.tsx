@@ -1,16 +1,9 @@
 'use client';
 import React, { useState } from 'react';
-import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-} from '@/components/ui/sheet';
+import { Button, Checkbox, Select, TextInput } from '@mantine/core';
+import { DateInput } from '@mantine/dates';
+import { DomaniDrawer, fieldClassNames, selectClassNames } from '../../components/domani-controls';
 import type { UsersQueryParams } from '@/lib/types/domani-users';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 export function UsersToolbar({
   query,
   onChange,
@@ -42,73 +35,67 @@ export function UsersToolbar({
         : {}),
     });
   const select = (key: keyof UsersQueryParams, title: string, values: [string, string][]) => (
-    <label className="min-w-[150px] flex-1 text-xs text-[var(--pv-text-muted)]">
-      {title}
-      <select
-        aria-label={title}
-        value={String(draft[key] || '')}
-        onChange={(e) => update(key, e.target.value)}
-        className="mt-1 h-10 w-full rounded-lg border border-[var(--pv-border)] bg-[var(--pv-bg)] px-3 text-sm text-[var(--pv-text)]"
-      >
-        <option value="">All</option>
-        {values.map(([v, l]) => (
-          <option key={v} value={v}>
-            {l}
-          </option>
-        ))}
-      </select>
-    </label>
+    <Select
+      className="min-w-[150px] flex-1"
+      label={title}
+      aria-label={title}
+      classNames={selectClassNames}
+      value={String(draft[key] || '')}
+      allowDeselect={false}
+      comboboxProps={{ withinPortal: false }}
+      onChange={(value) => update(key, value || '')}
+      data={[{ value: '', label: 'All' }, ...values.map(([value, label]) => ({ value, label }))]}
+    />
   );
   return (
     <div className="flex shrink-0 flex-wrap items-center gap-2">
-      <Input
+      <TextInput
+        classNames={fieldClassNames}
         aria-label="Search users"
         placeholder="Search name or email"
         className="h-10 min-w-0 flex-1 basis-full sm:basis-48"
         value={query.search || ''}
         onChange={(e) => onChange({ ...query, search: e.target.value || undefined, offset: 0 })}
       />
-      <select
+      <Select
         aria-label="Quick login provider"
-        className="h-10 rounded-lg border border-[var(--pv-border)] bg-[var(--pv-bg)] px-3 text-sm"
+        classNames={selectClassNames}
+        allowDeselect={false}
         value={query.provider || ''}
-        onChange={(e) =>
+        data={[
+          { value: '', label: 'All providers' },
+          { value: 'apple', label: 'Apple' },
+          { value: 'google', label: 'Google' },
+          { value: 'email', label: 'Email' },
+        ]}
+        onChange={(value) =>
           onChange({
             ...query,
-            provider: (e.target.value || undefined) as UsersQueryParams['provider'],
+            provider: (value || undefined) as UsersQueryParams['provider'],
             offset: 0,
           })
         }
-      >
-        <option value="">All providers</option>
-        <option value="apple">Apple</option>
-        <option value="google">Google</option>
-        <option value="email">Email</option>
-      </select>
-      <Sheet
-        open={open}
-        onOpenChange={(value) => {
-          if (value) setDraft(query);
-          setOpen(value);
+      />
+      <Button
+        variant="outline"
+        onClick={() => {
+          setDraft(query);
+          setOpen(true);
         }}
       >
-        <SheetTrigger asChild>
-          <Button variant="outline" className="h-10 px-3">
-            Filters{activeCount ? ` (${activeCount})` : ''}
-          </Button>
-        </SheetTrigger>
-        <SheetContent className="flex flex-col gap-4 motion-reduce:animate-none sm:max-w-lg lg:max-w-lg xl:max-w-lg">
-          <SheetHeader className="pr-8">
-            <SheetTitle>Filter users</SheetTitle>
-            <SheetDescription>
-              Refine the user list. Changes take effect when you apply filters.
-            </SheetDescription>
-          </SheetHeader>
+        Filters{activeCount ? ` (${activeCount})` : ''}
+      </Button>
+      <DomaniDrawer filter opened={open} onClose={() => setOpen(false)} title="Filter users">
+        <div className="flex min-h-0 flex-1 flex-col gap-4">
+          <p className="text-sm text-[var(--pv-text-muted)]">
+            Refine the user list. Changes take effect when you apply filters.
+          </p>
           <div className="min-h-0 flex-1 space-y-5 overflow-y-auto pr-1">
             <div className="flex flex-wrap items-end gap-3">
               <label className="min-w-[220px] flex-[2] text-xs text-[var(--pv-text-muted)]">
                 Search users
-                <Input
+                <TextInput
+                  classNames={fieldClassNames}
                   aria-label="Filter search users"
                   className="mt-1"
                   placeholder="Name or email across all users"
@@ -153,7 +140,8 @@ export function UsersToolbar({
               ])}
               <label className="text-xs text-[var(--pv-text-muted)]">
                 Reported app version
-                <Input
+                <TextInput
+                  classNames={fieldClassNames}
                   aria-label="Reported app version"
                   className="mt-1"
                   value={draft.app_version || ''}
@@ -163,35 +151,35 @@ export function UsersToolbar({
               {(['start_date', 'end_date'] as const).map((key, i) => (
                 <label key={key} className="text-xs text-[var(--pv-text-muted)]">
                   {i ? 'Joined through (UTC)' : 'Joined from (UTC)'}
-                  <Input
+                  <DateInput
+                    classNames={fieldClassNames}
                     aria-label={i ? 'Joined through (UTC)' : 'Joined from (UTC)'}
-                    type="date"
                     className="mt-1"
-                    value={draft[key] || ''}
-                    onChange={(e) => update(key, e.target.value)}
+                    value={draft[key] || null}
+                    valueFormat="MMM D, YYYY"
+                    clearable
+                    popoverProps={{ withinPortal: false }}
+                    onChange={(value) => update(key, value || '')}
                   />
                 </label>
               ))}
             </div>
 
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={!!draft.include_deleted}
-                  onChange={(e) =>
-                    setDraft({
-                      ...draft,
-                      include_deleted: e.target.checked,
-                      account_status: undefined,
-                      offset: 0,
-                    })
-                  }
-                />
-                Include deleted accounts
-              </label>
+              <Checkbox
+                label="Include deleted accounts"
+                checked={!!draft.include_deleted}
+                onChange={(e) =>
+                  setDraft({
+                    ...draft,
+                    include_deleted: e.currentTarget.checked,
+                    account_status: undefined,
+                    offset: 0,
+                  })
+                }
+              />
               <Button
-                variant="ghost"
+                variant="subtle"
                 onClick={() =>
                   setDraft({
                     limit: query.limit || 50,
@@ -222,8 +210,8 @@ export function UsersToolbar({
               Apply filters
             </Button>
           </div>
-        </SheetContent>
-      </Sheet>
+        </div>
+      </DomaniDrawer>
     </div>
   );
 }

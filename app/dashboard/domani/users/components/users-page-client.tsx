@@ -5,8 +5,9 @@ import { getDomaniUsers, UsersRequestError } from '@/lib/api/domani-users';
 import type { UsersListResponse, UsersQueryParams, UserSort } from '@/lib/types/domani-users';
 import { UsersToolbar } from './users-toolbar';
 import { UsersTable, USER_COLUMNS, DEFAULT_COLUMNS, type UserColumn } from './users-table';
-import { Pagination } from '@/components/ui/pagination';
-import { Button } from '@/components/ui/button';
+import { Pagination } from '@/app/dashboard/domani/components/domani-pagination';
+import { Button, Checkbox, Popover, Select } from '@mantine/core';
+import { selectClassNames } from '../../components/domani-controls';
 import { UserDetailDrawer } from './user-detail-drawer';
 const initialQuery: UsersQueryParams = {
   limit: 50,
@@ -136,30 +137,23 @@ export function UsersPageClient() {
           )}
         </div>
         <div className="relative flex max-w-full flex-wrap items-center gap-2">
-          <label className="text-sm">
-            Sort by{' '}
-            <select
-              aria-label="Sort users by"
-              className="rounded-md border border-[var(--pv-border)] bg-[var(--pv-bg)] p-2"
-              value={query.sort_by}
-              onChange={(e) =>
-                setQuery({ ...query, sort_by: e.target.value as UserSort, offset: 0 })
-              }
-            >
-              {Object.entries({
-                joined_at: 'Joined',
-                last_sign_in_at: 'Last sign-in',
-                last_active_at: 'Last app activity',
-                email: 'Email',
-                full_name: 'Name',
-                account_status: 'Account status',
-              }).map(([v, l]) => (
-                <option key={v} value={v}>
-                  {l}
-                </option>
-              ))}
-            </select>
-          </label>
+          <Select
+            aria-label="Sort users by"
+            classNames={selectClassNames}
+            value={query.sort_by}
+            allowDeselect={false}
+            data={Object.entries({
+              joined_at: 'Joined',
+              last_sign_in_at: 'Last sign-in',
+              last_active_at: 'Last app activity',
+              email: 'Email',
+              full_name: 'Name',
+              account_status: 'Account status',
+            }).map(([value, label]) => ({ value, label }))}
+            onChange={(value) =>
+              value && setQuery({ ...query, sort_by: value as UserSort, offset: 0 })
+            }
+          />
           <Button
             variant="outline"
             className="h-9 px-3"
@@ -184,26 +178,28 @@ export function UsersPageClient() {
               {query.sort_order === 'asc' ? 'Ascending' : 'Descending'}
             </span>
           </Button>
-          <details>
-            <summary className="cursor-pointer rounded-lg border border-[var(--pv-border)] px-3 py-2 text-sm">
-              Columns
-            </summary>
-            <div className="absolute right-0 top-full z-30 mt-2 max-h-[50dvh] w-64 max-w-full overflow-y-auto rounded-xl border border-[var(--pv-border)] bg-[var(--pv-bg)] p-4 shadow-lg">
+          <Popover position="bottom-end" width={256} trapFocus returnFocus withArrow shadow="md">
+            <Popover.Target>
+              <Button variant="outline">Columns</Button>
+            </Popover.Target>
+            <Popover.Dropdown
+              className="max-h-[50dvh] overflow-y-auto"
+              style={{ background: 'var(--pv-bg)', color: 'var(--pv-text)' }}
+            >
               <p className="mb-2 text-xs text-[var(--pv-text-muted)]">
                 Saved for your staff account
               </p>
               {Object.entries(USER_COLUMNS).map(([key, label]) => (
-                <label key={key} className="flex items-center gap-2 py-1.5 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={columns.includes(key as UserColumn)}
-                    onChange={() => toggleColumn(key as UserColumn)}
-                  />
-                  {label}
-                </label>
+                <Checkbox
+                  key={key}
+                  className="py-1.5"
+                  label={label}
+                  checked={columns.includes(key as UserColumn)}
+                  onChange={() => toggleColumn(key as UserColumn)}
+                />
               ))}
-            </div>
-          </details>
+            </Popover.Dropdown>
+          </Popover>
         </div>
       </div>
       {error ? (

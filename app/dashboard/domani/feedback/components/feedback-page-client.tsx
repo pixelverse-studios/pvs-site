@@ -10,7 +10,7 @@ import type {
 import { getFeedbackItems, updateFeedbackStatus } from '@/lib/api/feedback';
 import { FeedbackToolbar, type FeedbackFilters } from './feedback-toolbar';
 import { FeedbackTable } from './feedback-table';
-import { Pagination } from '@/components/ui/pagination';
+import { Pagination } from '@/app/dashboard/domani/components/domani-pagination';
 import { RequestError } from '@/components/ui/request-error';
 
 export function FeedbackPageClient({

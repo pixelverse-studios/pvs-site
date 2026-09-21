@@ -1,3 +1,4 @@
+import { TestProvider } from '../../components/mantine-test-provider';
 // @vitest-environment jsdom
 import React from 'react';
 import { createRoot, type Root } from 'react-dom/client';
@@ -65,7 +66,8 @@ afterEach(async () => {
   container.remove();
   vi.useRealTimers();
 });
-const mount = () => act(async () => root.render(<UsersPageClient />));
+const mount = () =>
+  act(async () => root.render(<TestProvider>{<UsersPageClient />}</TestProvider>));
 describe('Users table contract', () => {
   it('renders authoritative counts, unknown activity and linked providers without treating sign-in as activity', async () => {
     await mount();
@@ -99,9 +101,15 @@ describe('Users table contract', () => {
   it('stores column IDs per staff account and clears data on sign-out', async () => {
     await mount();
     await tick();
-    const checkbox = Array.from(container.querySelectorAll('label'))
-      .find((e) => e.textContent === 'Timezone')!
-      .querySelector('input')!;
+    await act(async () =>
+      Array.from(container.querySelectorAll('button'))
+        .find((e) => e.textContent === 'Columns')!
+        .click(),
+    );
+    const label = Array.from(document.querySelectorAll('label')).find(
+      (e) => e.textContent === 'Timezone',
+    )!;
+    const checkbox = document.getElementById(label.htmlFor) as HTMLInputElement;
     await act(async () => checkbox.click());
     expect(localStorage.getItem('domani-users-columns:staff-a')).toContain('timezone');
     expect(localStorage.getItem('domani-users-columns:staff-a')).not.toContain('synthetic');
