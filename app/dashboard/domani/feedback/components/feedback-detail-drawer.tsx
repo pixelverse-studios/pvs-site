@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useClosingOverlayValue } from '../../components/use-closing-overlay-value';
 import { Button } from '@mantine/core';
 import { DomaniDrawer } from '../../components/domani-controls';
 import { X, Mail, Smartphone, Calendar, Tag, Activity } from 'lucide-react';
@@ -27,13 +28,31 @@ interface FeedbackDetailDrawerProps {
 }
 
 export function FeedbackDetailDrawer(props: FeedbackDetailDrawerProps) {
-  return <FeedbackDrawerContent {...props} />;
+  const opened = props.isOpen && props.item !== null;
+  const current = useMemo(
+    () => ({ item: props.item, composer: props.composer }),
+    [props.item, props.composer],
+  );
+  const [display, clearDisplay] = useClosingOverlayValue(current, opened);
+  return (
+    <DomaniDrawer
+      contained
+      opened={opened}
+      onClose={props.onClose}
+      onExitTransitionEnd={clearDisplay}
+      title="Feedback details"
+      closeButtonProps={{ 'aria-label': 'Close feedback details' }}
+    >
+      {display && (
+        <FeedbackDrawerContent {...props} item={display.item} composer={display.composer} />
+      )}
+    </DomaniDrawer>
+  );
 }
 
 function FeedbackDrawerContent({
   composer,
   item,
-  isOpen,
   onClose,
   onStatusChange,
   disabled,
@@ -63,190 +82,182 @@ function FeedbackDrawerContent({
   };
 
   return (
-    <DomaniDrawer
-      contained
-      opened={isOpen}
-      onClose={onClose}
-      title="Feedback details"
-      closeButtonProps={{ 'aria-label': 'Close feedback details' }}
-    >
-      <div className="flex min-h-0 flex-1 flex-col">
-        {/* Header */}
-        <div
-          className="flex shrink-0 items-start justify-between gap-4 border-b px-4 py-4 sm:px-6"
-          style={{ background: 'var(--pv-bg)', borderColor: 'var(--pv-border)' }}
-        >
-          <div className="min-w-0 space-y-2">
-            <div className="flex flex-wrap items-center gap-3">
-              <span
-                className={cn(
-                  'inline-flex rounded-full px-3 py-1 text-sm font-medium',
-                  categoryConfig.bgColor,
-                  categoryConfig.color,
-                )}
-              >
-                {categoryConfig.label}
-              </span>
-              <PlatformBadge platform={item.platform} />
-            </div>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div
-          data-feedback-scroll
-          className="min-h-0 flex-1 space-y-6 overflow-y-auto overscroll-contain break-words p-4 sm:p-6"
-        >
-          {statusError && <RequestError title="Status update failed" message={statusError} />}
-          {refreshError && (
-            <RequestError
-              title="Feedback refresh failed"
-              message={refreshError}
-              detail="Previously loaded details are shown. Refresh before changing the status."
-              action={
-                onRetry
-                  ? { label: 'Retry refresh', onClick: onRetry, disabled: refreshing }
-                  : undefined
-              }
-            />
-          )}
-          {refreshing && (
-            <p role="status" className="text-sm text-[var(--pv-text-muted)]">
-              Refreshing feedback…
-            </p>
-          )}
-          {/* Status Section */}
-          <div>
-            <label className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
-              <Activity className="h-3.5 w-3.5" />
-              Status
-            </label>
-            <div className="flex items-center gap-2">
-              {(['new', 'reviewed', 'resolved'] as WritableFeedbackStatus[]).map((status) => {
-                const config = STATUS_COLORS[status];
-                const isActive = item.status === status;
-
-                return (
-                  <Button
-                    variant="subtle"
-                    key={status}
-                    disabled={disabled}
-                    onClick={() => handleStatusChange(status)}
-                    className={cn(
-                      'rounded-lg px-4 py-2 text-sm font-medium transition-all',
-                      isActive
-                        ? cn(config.bgColor, config.color, 'ring-2 ring-offset-2')
-                        : 'bg-[var(--pv-surface)] text-[var(--pv-text-muted)] hover:bg-[var(--pv-border)]',
-                    )}
-                    style={
-                      isActive
-                        ? {
-                            ['--tw-ring-color' as string]:
-                              status === 'new'
-                                ? '#3b82f6'
-                                : status === 'reviewed'
-                                  ? '#f59e0b'
-                                  : '#22c55e',
-                          }
-                        : undefined
-                    }
-                  >
-                    {config.label}
-                  </Button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* User Info */}
-          <div>
-            <label className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
-              <Mail className="h-3.5 w-3.5" />
-              User
-            </label>
-            <p className="text-lg font-medium" style={{ color: 'var(--pv-text)' }}>
-              {item.email || 'Unknown email'}
-            </p>
-            {item.user_id && (
-              <p className="mt-1 text-xs text-[var(--pv-text-muted)]">User ID: {item.user_id}</p>
-            )}
-          </div>
-
-          {/* Message */}
-          <div>
-            <label className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
-              <Tag className="h-3.5 w-3.5" />
-              {item.source === 'support_request' ? 'Support Request' : 'Feedback Message'}
-            </label>
-            <div
-              className="rounded-xl border p-4"
-              style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
+    <div className="flex min-h-0 flex-1 flex-col">
+      {/* Header */}
+      <div
+        className="flex shrink-0 items-start justify-between gap-4 border-b px-4 py-4 sm:px-6"
+        style={{ background: 'var(--pv-bg)', borderColor: 'var(--pv-border)' }}
+      >
+        <div className="min-w-0 space-y-2">
+          <div className="flex flex-wrap items-center gap-3">
+            <span
+              className={cn(
+                'inline-flex rounded-full px-3 py-1 text-sm font-medium',
+                categoryConfig.bgColor,
+                categoryConfig.color,
+              )}
             >
-              <p
-                className="whitespace-pre-wrap text-sm leading-relaxed"
-                style={{ color: 'var(--pv-text)' }}
-              >
-                {item.message}
-              </p>
-            </div>
+              {categoryConfig.label}
+            </span>
+            <PlatformBadge platform={item.platform} />
           </div>
-
-          {/* Device Information */}
-          <div>
-            <label className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
-              <Smartphone className="h-3.5 w-3.5" />
-              Device Information
-            </label>
-            <div
-              className="grid grid-cols-2 gap-4 rounded-xl border p-4"
-              style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
-            >
-              <DeviceInfoRow label="Platform" value={item.platform?.toUpperCase() || 'Unknown'} />
-              <DeviceInfoRow
-                label="Device"
-                value={`${item.device_brand || ''} ${item.device_model || ''}`.trim() || 'Unknown'}
-              />
-              <DeviceInfoRow label="OS Version" value={item.os_version || 'Unknown'} />
-              <DeviceInfoRow label="App Version" value={item.app_version || 'Unknown'} />
-              <DeviceInfoRow label="Build Number" value={item.app_build || 'N/A'} />
-              <DeviceInfoRow
-                label="Source"
-                value={item.source === 'beta_feedback' ? 'In-App Feedback' : 'Support Request'}
-              />
-            </div>
-          </div>
-
-          {composer}
-
-          {/* Timestamp */}
-          <div>
-            <label className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
-              <Calendar className="h-3.5 w-3.5" />
-              Submitted
-            </label>
-            <p className="text-sm" style={{ color: 'var(--pv-text)' }}>
-              {formatDate(item.created_at)}
-            </p>
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div
-          className="flex shrink-0 justify-end gap-3 border-t px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-6"
-          style={{ background: 'var(--pv-bg)', borderColor: 'var(--pv-border)' }}
-        >
-          <Button
-            variant="subtle"
-            aria-label="Close feedback details"
-            onClick={onClose}
-            className="rounded-xl px-5 py-2.5 text-sm font-medium transition-colors hover:bg-[var(--pv-surface)]"
-            style={{ color: 'var(--pv-text)' }}
-          >
-            Close
-          </Button>
         </div>
       </div>
-    </DomaniDrawer>
+
+      {/* Content */}
+      <div
+        data-feedback-scroll
+        className="min-h-0 flex-1 space-y-6 overflow-y-auto overscroll-contain break-words p-4 sm:p-6"
+      >
+        {statusError && <RequestError title="Status update failed" message={statusError} />}
+        {refreshError && (
+          <RequestError
+            title="Feedback refresh failed"
+            message={refreshError}
+            detail="Previously loaded details are shown. Refresh before changing the status."
+            action={
+              onRetry
+                ? { label: 'Retry refresh', onClick: onRetry, disabled: refreshing }
+                : undefined
+            }
+          />
+        )}
+        {refreshing && (
+          <p role="status" className="text-sm text-[var(--pv-text-muted)]">
+            Refreshing feedback…
+          </p>
+        )}
+        {/* Status Section */}
+        <div>
+          <label className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
+            <Activity className="h-3.5 w-3.5" />
+            Status
+          </label>
+          <div className="flex items-center gap-2">
+            {(['new', 'reviewed', 'resolved'] as WritableFeedbackStatus[]).map((status) => {
+              const config = STATUS_COLORS[status];
+              const isActive = item.status === status;
+
+              return (
+                <Button
+                  variant="subtle"
+                  key={status}
+                  disabled={disabled}
+                  onClick={() => handleStatusChange(status)}
+                  className={cn(
+                    'rounded-lg px-4 py-2 text-sm font-medium transition-all',
+                    isActive
+                      ? cn(config.bgColor, config.color, 'ring-2 ring-offset-2')
+                      : 'bg-[var(--pv-surface)] text-[var(--pv-text-muted)] hover:bg-[var(--pv-border)]',
+                  )}
+                  style={
+                    isActive
+                      ? {
+                          ['--tw-ring-color' as string]:
+                            status === 'new'
+                              ? '#3b82f6'
+                              : status === 'reviewed'
+                                ? '#f59e0b'
+                                : '#22c55e',
+                        }
+                      : undefined
+                  }
+                >
+                  {config.label}
+                </Button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* User Info */}
+        <div>
+          <label className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
+            <Mail className="h-3.5 w-3.5" />
+            User
+          </label>
+          <p className="text-lg font-medium" style={{ color: 'var(--pv-text)' }}>
+            {item.email || 'Unknown email'}
+          </p>
+          {item.user_id && (
+            <p className="mt-1 text-xs text-[var(--pv-text-muted)]">User ID: {item.user_id}</p>
+          )}
+        </div>
+
+        {/* Message */}
+        <div>
+          <label className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
+            <Tag className="h-3.5 w-3.5" />
+            {item.source === 'support_request' ? 'Support Request' : 'Feedback Message'}
+          </label>
+          <div
+            className="rounded-xl border p-4"
+            style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
+          >
+            <p
+              className="whitespace-pre-wrap text-sm leading-relaxed"
+              style={{ color: 'var(--pv-text)' }}
+            >
+              {item.message}
+            </p>
+          </div>
+        </div>
+
+        {/* Device Information */}
+        <div>
+          <label className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
+            <Smartphone className="h-3.5 w-3.5" />
+            Device Information
+          </label>
+          <div
+            className="grid grid-cols-2 gap-4 rounded-xl border p-4"
+            style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
+          >
+            <DeviceInfoRow label="Platform" value={item.platform?.toUpperCase() || 'Unknown'} />
+            <DeviceInfoRow
+              label="Device"
+              value={`${item.device_brand || ''} ${item.device_model || ''}`.trim() || 'Unknown'}
+            />
+            <DeviceInfoRow label="OS Version" value={item.os_version || 'Unknown'} />
+            <DeviceInfoRow label="App Version" value={item.app_version || 'Unknown'} />
+            <DeviceInfoRow label="Build Number" value={item.app_build || 'N/A'} />
+            <DeviceInfoRow
+              label="Source"
+              value={item.source === 'beta_feedback' ? 'In-App Feedback' : 'Support Request'}
+            />
+          </div>
+        </div>
+
+        {composer}
+
+        {/* Timestamp */}
+        <div>
+          <label className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
+            <Calendar className="h-3.5 w-3.5" />
+            Submitted
+          </label>
+          <p className="text-sm" style={{ color: 'var(--pv-text)' }}>
+            {formatDate(item.created_at)}
+          </p>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div
+        className="flex shrink-0 justify-end gap-3 border-t px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-6"
+        style={{ background: 'var(--pv-bg)', borderColor: 'var(--pv-border)' }}
+      >
+        <Button
+          variant="subtle"
+          aria-label="Close feedback details"
+          onClick={onClose}
+          className="rounded-xl px-5 py-2.5 text-sm font-medium transition-colors hover:bg-[var(--pv-surface)]"
+          style={{ color: 'var(--pv-text)' }}
+        >
+          Close
+        </Button>
+      </div>
+    </div>
   );
 }
 
