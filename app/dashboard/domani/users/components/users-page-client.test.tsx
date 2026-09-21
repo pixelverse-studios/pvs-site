@@ -98,6 +98,24 @@ describe('Users table contract', () => {
     expect(container.textContent).not.toContain('Obsolete user');
     expect(container.textContent).toContain('Synthetic User');
   });
+  it('sends pagination and sort changes back to the global server query', async () => {
+    await mount();
+    await tick();
+    await act(async () =>
+      container.querySelector<HTMLButtonElement>('[aria-label="Next page"]')!.click(),
+    );
+    await tick();
+    expect(mocks.list.mock.calls.at(-1)?.[0]).toMatchObject({ offset: 50, limit: 50 });
+    await act(async () =>
+      container.querySelector<HTMLButtonElement>('[aria-label="Toggle sort direction"]')!.click(),
+    );
+    await tick();
+    expect(mocks.list.mock.calls.at(-1)?.[0]).toMatchObject({
+      offset: 0,
+      sort_by: 'joined_at',
+      sort_order: 'asc',
+    });
+  });
   it('stores column IDs per staff account and clears data on sign-out', async () => {
     await mount();
     await tick();
