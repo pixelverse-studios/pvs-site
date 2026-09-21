@@ -586,6 +586,17 @@ describe('feedback list refresh during composition', () => {
         </FeedbackDraftsProvider>
       );
       await act(async () => root.render(<TestProvider>{renderTable([feedback])}</TestProvider>));
+      const desktopTable = container.querySelector('table')!;
+      expect(desktopTable.className).toContain('min-w-[960px]');
+      expect(desktopTable.parentElement?.className).toContain('xl:block');
+      expect(
+        Array.from(container.querySelectorAll('div')).some(
+          (node) =>
+            typeof node.className === 'string' &&
+            node.className.includes('xl:hidden') &&
+            node.className.includes('space-y-3'),
+        ),
+      ).toBe(true);
       const expandButton = container.querySelector(
         'button[aria-label="Expand feedback from fixture@example.test"]',
       ) as HTMLButtonElement;

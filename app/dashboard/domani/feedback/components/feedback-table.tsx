@@ -108,18 +108,18 @@ export function FeedbackTable({
         <>
           {/* Desktop Table */}
           <div
-            className="hidden max-h-[calc(100vh-580px)] overflow-auto rounded-xl border md:block"
+            className="hidden max-h-[calc(100vh-580px)] overflow-auto rounded-xl border xl:block"
             style={{ borderColor: 'var(--pv-border)' }}
           >
-            <table className="w-full min-w-[1120px] table-fixed">
+            <table className="w-full min-w-[960px] table-fixed">
               <colgroup>
                 <col className="w-12" />
-                <col className="w-44" />
-                <col className="w-28" />
-                <col className="w-60" />
+                <col className="w-40" />
+                <col className="w-24" />
+                <col className="w-48" />
                 <col />
-                <col className="w-28" />
-                <col className="w-28" />
+                <col className="w-24" />
+                <col className="w-24" />
               </colgroup>
               <thead className="sticky top-0 z-10">
                 <tr style={{ background: 'var(--pv-surface)' }}>
@@ -269,7 +269,7 @@ export function FeedbackTable({
           </div>
 
           {/* Mobile Cards */}
-          <div className="max-h-[calc(100vh-540px)] space-y-3 overflow-auto md:hidden">
+          <div className="max-h-[calc(100vh-540px)] space-y-3 overflow-auto xl:hidden">
             {items.map((item) => {
               const categoryConfig = CATEGORY_COLORS[item.category] || UNKNOWN_CATEGORY_CONFIG;
               const statusConfig = STATUS_COLORS[item.status] || STATUS_COLORS.unknown;
