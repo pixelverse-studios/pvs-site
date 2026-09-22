@@ -108,10 +108,11 @@ export function FeedbackConversationHistory({
     [item.id, item.source],
   );
   useEffect(() => {
+    const requestState = request;
     alive.current = true;
     return () => {
       alive.current = false;
-      request.current++;
+      requestState.current++;
     };
   }, []);
   useEffect(() => {

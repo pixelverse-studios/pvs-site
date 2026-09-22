@@ -152,14 +152,20 @@ describe('publishing and placement', () => {
 
   it('requires customer content only when publishing', () => {
     const noOverview = { type: 'doc' as const, content: [{ type: 'paragraph' as const }] };
-    expect(releaseEditorFormError(form({ publicOverview: noOverview }))).toBeNull();
+    const validTiming = { kind: 'tbd' as const, value: null };
     expect(
-      releaseEditorFormError(form({ status: 'published', publicOverview: noOverview })),
+      releaseEditorFormError(form({ publicOverview: noOverview, timing: validTiming })),
+    ).toBeNull();
+    expect(
+      releaseEditorFormError(
+        form({ status: 'published', publicOverview: noOverview, timing: validTiming }),
+      ),
     ).toMatch(/quick description/);
     expect(
       releaseEditorFormError(
         form({
           status: 'published',
+          timing: validTiming,
           highlights: form().highlights.map((item) => ({ ...item, isPublic: false })),
         }),
       ),
