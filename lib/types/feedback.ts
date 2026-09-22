@@ -51,6 +51,17 @@ export interface SupportRequest extends BaseFeedbackFields {
 
 // Unified feedback item for dashboard display
 export interface UnifiedFeedbackItem {
+  conversation?: {
+    id: string | null;
+    reply_count: number;
+    unread_count?: number;
+    last_incoming_at?: string | null;
+    last_incoming_preview?: string | null;
+    last_direction?: 'inbound' | 'outbound' | null;
+    last_message_at: string | null;
+    last_message_preview?: string | null;
+    last_delivery_status: string | null;
+  };
   id: string;
   source: FeedbackSource;
   user_id: string | null;
@@ -93,6 +104,7 @@ export function feedbackKey(item: Pick<UnifiedFeedbackItem, 'source' | 'id'>): s
 
 // Query params for filtering
 export interface FeedbackQueryParams {
+  user_id?: string;
   category?: UnifiedCategory;
   status?: FeedbackStatus;
   platform?: Platform;

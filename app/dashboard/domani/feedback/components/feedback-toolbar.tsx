@@ -1,19 +1,17 @@
 'use client';
+import {
+  fieldClassNames,
+  selectClassNames,
+} from '@/app/dashboard/domani/components/domani-controls';
 
 import { Search, X, RotateCcw, Calendar, Tag, CircleDot, Smartphone, Inbox } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { TextInput as Input } from '@mantine/core';
+import { Select } from '@mantine/core';
 import {
   DateRangeFilter,
   type DateRange,
   getDateRangeLabel,
-} from '@/components/ui/date-range-filter';
+} from '@/app/dashboard/domani/components/domani-date-range-filter';
 import { cn } from '@/lib/utils';
 import type {
   UnifiedCategory,
@@ -79,17 +77,18 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Search */}
         <div className="relative max-w-sm flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--pv-text-muted)]" />
           <Input
+            leftSection={<Search size={16} />}
             aria-label="Search feedback by email or message"
             maxLength={200}
             placeholder="Search by email or message..."
             value={filters.search}
             onChange={(e) => updateFilter('search', e.target.value)}
-            className="h-10 pl-10 pr-10"
+            classNames={{ ...fieldClassNames, input: `h-10 pr-10 ${fieldClassNames.input}` }}
           />
           {filters.search && (
             <button
+              aria-label="Clear search"
               onClick={() => updateFilter('search', '')}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-text)]"
             >
@@ -149,98 +148,68 @@ export function FeedbackToolbar({ filters, onFiltersChange, counts }: FeedbackTo
 
           {/* Category Filter */}
           <Select
+            classNames={selectClassNames}
             value={filters.category}
-            onValueChange={(value) => updateFilter('category', value as UnifiedCategory | 'all')}
-          >
-            <SelectTrigger
-              className={cn(
-                'h-9 w-auto min-w-[120px] gap-2 border-transparent bg-transparent',
-                filters.category !== 'all' &&
-                  'border-[var(--pv-primary)]/30 bg-[var(--pv-primary)]/10 text-[var(--pv-primary)]',
-              )}
-            >
-              <Tag className="h-4 w-4 shrink-0 opacity-50" />
-              <SelectValue placeholder="Category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
-              <SelectItem value="bug">Bug</SelectItem>
-              <SelectItem value="feature">Feature</SelectItem>
-              <SelectItem value="love">Love</SelectItem>
-              <SelectItem value="general">General</SelectItem>
-              <SelectItem value="support">Support</SelectItem>
-              <SelectItem value="unknown">Unknown</SelectItem>
-            </SelectContent>
-          </Select>
+            onChange={(value) =>
+              updateFilter('category', (value || 'all') as UnifiedCategory | 'all')
+            }
+            aria-label="category"
+            allowDeselect={false}
+            data={[
+              { value: 'all', label: 'All Categories' },
+              { value: 'bug', label: 'Bug' },
+              { value: 'feature', label: 'Feature' },
+              { value: 'love', label: 'Love' },
+              { value: 'general', label: 'General' },
+              { value: 'support', label: 'Support' },
+              { value: 'unknown', label: 'Unknown' },
+            ]}
+          />
 
           {/* Status Filter */}
           <Select
+            classNames={selectClassNames}
             value={filters.status}
-            onValueChange={(value) => updateFilter('status', value as FeedbackStatus | 'all')}
-          >
-            <SelectTrigger
-              className={cn(
-                'h-9 w-auto min-w-[110px] gap-2 border-transparent bg-transparent',
-                filters.status !== 'all' &&
-                  'border-[var(--pv-primary)]/30 bg-[var(--pv-primary)]/10 text-[var(--pv-primary)]',
-              )}
-            >
-              <CircleDot className="h-4 w-4 shrink-0 opacity-50" />
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
-              <SelectItem value="new">New</SelectItem>
-              <SelectItem value="reviewed">Reviewed</SelectItem>
-              <SelectItem value="resolved">Resolved</SelectItem>
-              <SelectItem value="unknown">Unknown</SelectItem>
-            </SelectContent>
-          </Select>
+            onChange={(value) => updateFilter('status', (value || 'all') as FeedbackStatus | 'all')}
+            aria-label="status"
+            allowDeselect={false}
+            data={[
+              { value: 'all', label: 'All Statuses' },
+              { value: 'new', label: 'New' },
+              { value: 'reviewed', label: 'Reviewed' },
+              { value: 'resolved', label: 'Resolved' },
+              { value: 'unknown', label: 'Unknown' },
+            ]}
+          />
 
           {/* Platform Filter */}
           <Select
+            classNames={selectClassNames}
             value={filters.platform}
-            onValueChange={(value) => updateFilter('platform', value as Platform | 'all')}
-          >
-            <SelectTrigger
-              className={cn(
-                'h-9 w-auto min-w-[120px] gap-2 border-transparent bg-transparent',
-                filters.platform !== 'all' &&
-                  'border-[var(--pv-primary)]/30 bg-[var(--pv-primary)]/10 text-[var(--pv-primary)]',
-              )}
-            >
-              <Smartphone className="h-4 w-4 shrink-0 opacity-50" />
-              <SelectValue placeholder="Platform" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Platforms</SelectItem>
-              <SelectItem value="ios">iOS</SelectItem>
-              <SelectItem value="android">Android</SelectItem>
-              <SelectItem value="unknown">Unknown</SelectItem>
-            </SelectContent>
-          </Select>
+            onChange={(value) => updateFilter('platform', (value || 'all') as Platform | 'all')}
+            aria-label="platform"
+            allowDeselect={false}
+            data={[
+              { value: 'all', label: 'All Platforms' },
+              { value: 'ios', label: 'iOS' },
+              { value: 'android', label: 'Android' },
+              { value: 'unknown', label: 'Unknown' },
+            ]}
+          />
 
           {/* Source Filter */}
           <Select
+            classNames={selectClassNames}
             value={filters.source}
-            onValueChange={(value) => updateFilter('source', value as FeedbackSource | 'all')}
-          >
-            <SelectTrigger
-              className={cn(
-                'h-9 w-auto min-w-[110px] gap-2 border-transparent bg-transparent',
-                filters.source !== 'all' &&
-                  'border-[var(--pv-primary)]/30 bg-[var(--pv-primary)]/10 text-[var(--pv-primary)]',
-              )}
-            >
-              <Inbox className="h-4 w-4 shrink-0 opacity-50" />
-              <SelectValue placeholder="Source" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Sources</SelectItem>
-              <SelectItem value="beta_feedback">Feedback</SelectItem>
-              <SelectItem value="support_request">Support</SelectItem>
-            </SelectContent>
-          </Select>
+            onChange={(value) => updateFilter('source', (value || 'all') as FeedbackSource | 'all')}
+            aria-label="source"
+            allowDeselect={false}
+            data={[
+              { value: 'all', label: 'All Sources' },
+              { value: 'beta_feedback', label: 'Feedback' },
+              { value: 'support_request', label: 'Support' },
+            ]}
+          />
         </div>
 
         {/* Reset Button */}

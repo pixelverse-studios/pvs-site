@@ -1,8 +1,16 @@
 'use client';
+import {
+  fieldClassNames,
+  selectClassNames,
+} from '@/app/dashboard/domani/components/domani-controls';
 
 import { Search, X, RotateCcw, Calendar } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { DateRangeFilter, type DateRange, getDateRangeLabel } from '@/components/ui/date-range-filter';
+import { TextInput as Input } from '@mantine/core';
+import {
+  DateRangeFilter,
+  type DateRange,
+  getDateRangeLabel,
+} from '@/app/dashboard/domani/components/domani-date-range-filter';
 
 export interface WaitlistFilters {
   search: string;
@@ -24,10 +32,9 @@ export function WaitlistToolbar({ filters, onFiltersChange, total }: WaitlistToo
 
   const hasActiveFilters = filters.search !== '' || filters.dateRange.preset !== 'all';
 
-  const activeFilterCount = [
-    filters.search !== '',
-    filters.dateRange.preset !== 'all',
-  ].filter(Boolean).length;
+  const activeFilterCount = [filters.search !== '', filters.dateRange.preset !== 'all'].filter(
+    Boolean,
+  ).length;
 
   const clearFilters = () => {
     onFiltersChange({
@@ -42,17 +49,19 @@ export function WaitlistToolbar({ filters, onFiltersChange, total }: WaitlistToo
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Search */}
         <div className="relative max-w-sm flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--pv-text-muted)]" />
           <Input
+            aria-label="Search waitlist"
+            leftSection={<Search size={16} />}
             placeholder="Search by email..."
             value={filters.search}
             onChange={(e) => updateFilter('search', e.target.value)}
-            className="h-10 pl-10 pr-10"
+            classNames={{ ...fieldClassNames, input: `h-10 pr-10 ${fieldClassNames.input}` }}
           />
           {filters.search && (
             <button
+              aria-label="Clear search"
               onClick={() => updateFilter('search', '')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--pv-text-muted)] hover:text-[var(--pv-text)] transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-text)]"
             >
               <X className="h-4 w-4" />
             </button>

@@ -187,7 +187,7 @@ export function DashboardSidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 z-50 h-screen transition-all duration-500 ease-out
+        className={`fixed left-0 top-0 z-50 h-dvh transition-all duration-500 ease-out
           ${
             isMobileOpen
               ? 'w-72 translate-x-0'
@@ -207,7 +207,7 @@ export function DashboardSidebar() {
         >
           {/* Logo area */}
           <div
-            className="flex h-16 items-center border-b px-4"
+            className="flex h-16 shrink-0 items-center border-b px-4"
             style={{ borderColor: 'var(--pv-border)' }}
           >
             <Link

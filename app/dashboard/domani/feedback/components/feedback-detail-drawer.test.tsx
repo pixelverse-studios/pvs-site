@@ -1,3 +1,4 @@
+import { TestProvider } from '../../components/mantine-test-provider';
 import React from 'react';
 import { MantineProvider } from '@mantine/core';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -9,7 +10,7 @@ vi.mock(
   '@/components/ui/request-error',
   () => import('../../../../../components/ui/request-error'),
 );
-import { FeedbackDetailModal } from './feedback-detail-modal';
+import { FeedbackDetailDrawer } from './feedback-detail-drawer';
 
 describe('feedback detail rendering', () => {
   it('renders unknown legacy categories and nullable fields without mislabelling devices', () => {
@@ -32,7 +33,16 @@ describe('feedback detail rendering', () => {
       created_at: null,
     } as unknown as UnifiedFeedbackItem;
     const html = renderToStaticMarkup(
-      <FeedbackDetailModal item={item} isOpen onClose={() => {}} onStatusChange={async () => {}} />,
+      <TestProvider>
+        {
+          <FeedbackDetailDrawer
+            item={item}
+            isOpen
+            onClose={() => {}}
+            onStatusChange={async () => {}}
+          />
+        }
+      </TestProvider>,
     );
     expect(html).toContain('role="dialog"');
     expect(html).toContain('aria-modal="true"');
@@ -55,18 +65,22 @@ describe('feedback detail rendering', () => {
       created_at: null,
     } as UnifiedFeedbackItem;
     const html = renderToStaticMarkup(
-      <MantineProvider>
-        <FeedbackDetailModal
-          item={item}
-          isOpen
-          onClose={() => {}}
-          onStatusChange={async () => {}}
-          disabled
-          statusError="The status could not be saved."
-          refreshError="Could not reload feedback."
-          onRetry={() => {}}
-        />
-      </MantineProvider>,
+      <TestProvider>
+        {
+          <MantineProvider env="test">
+            <FeedbackDetailDrawer
+              item={item}
+              isOpen
+              onClose={() => {}}
+              onStatusChange={async () => {}}
+              disabled
+              statusError="The status could not be saved."
+              refreshError="Could not reload feedback."
+              onRetry={() => {}}
+            />
+          </MantineProvider>
+        }
+      </TestProvider>,
     );
     const dialogStart = html.indexOf('role="dialog"');
     expect(dialogStart).toBeGreaterThan(-1);

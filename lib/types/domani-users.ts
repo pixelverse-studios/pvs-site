@@ -17,18 +17,69 @@ export interface UserProfile {
   created_at: string;
   deleted_at: string | null;
   last_active_at: string | null;
+  joined_at?: string | null;
+  profile_created_at?: string | null;
+  last_sign_in_at?: string | null;
+  activity_source?: string | null;
+  login_providers?: string[];
+  email_confirmed_at?: string | null;
+  email_verification_status?: 'verified' | 'unverified' | 'unknown';
+  account_status?: 'active' | 'deletion_pending' | 'deleted' | 'banned' | 'unknown';
+  deletion_scheduled_for?: string | null;
+  latest_device_observation?: DeviceObservation | null;
+  feedback_count?: number;
+  data_as_of?: string;
 }
 
+export interface DeviceObservation {
+  source: 'feedback' | 'support';
+  source_id: string;
+  observed_at: string | null;
+  platform: string | null;
+  device_brand: string | null;
+  device_model: string | null;
+  os_version: string | null;
+  app_version: string | null;
+  app_build: string | null;
+}
+export interface UserStats {
+  total: number;
+  non_deleted: number;
+  deleted: number;
+  active_30d: number;
+  activity_unknown: number;
+  activity_window_days: number;
+  data_as_of?: string;
+}
+export type UserSort =
+  | 'joined_at'
+  | 'created_at'
+  | 'last_active_at'
+  | 'last_sign_in_at'
+  | 'email'
+  | 'full_name'
+  | 'account_status';
 // API response type
 export interface UsersListResponse {
   items: UserProfile[];
   total: number;
   limit: number;
   offset: number;
+  stats: UserStats;
+  data_as_of: string;
 }
 
 // Query params for filtering
 export interface UsersQueryParams {
+  search?: string;
+  provider?: string;
+  platform?: string;
+  account_status?: string;
+  verification?: string;
+  activity?: string;
+  app_version?: string;
+  sort_by?: UserSort;
+  sort_order?: 'asc' | 'desc';
   cohort?: SignupCohort;
   include_deleted?: boolean;
   limit?: number;

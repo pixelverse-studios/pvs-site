@@ -1,15 +1,13 @@
 'use client';
+import {
+  fieldClassNames,
+  selectClassNames,
+} from '@/app/dashboard/domani/components/domani-controls';
 
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { Search, Loader2, Check, AlertTriangle, RotateCcw } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { TextInput as Input } from '@mantine/core';
+import { Select } from '@mantine/core';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { UserProfile, SignupCohort } from '@/lib/types/domani-users';
@@ -48,11 +46,14 @@ export function RecipientSelector({
     setIsLoading(true);
     setFetchError(null);
     try {
-      const response = await getDomaniUsers({
-        limit: pageSize,
-        offset: (pageNum - 1) * pageSize,
-        include_deleted: false,
-      });
+      const response = await getDomaniUsers(
+        {
+          limit: pageSize,
+          offset: (pageNum - 1) * pageSize,
+          include_deleted: false,
+        },
+        controller.signal,
+      );
       if (!controller.signal.aborted) {
         setUsers(response.items);
         setTotal(response.total);
@@ -135,32 +136,31 @@ export function RecipientSelector({
       {/* Filter bar + count */}
       <div className="flex items-center gap-3">
         <div className="relative flex-1" style={{ maxWidth: '320px' }}>
-          <Search
-            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2"
-            style={{ color: 'var(--pv-text-muted)' }}
-          />
           <Input
+            leftSection={<Search size={16} />}
             placeholder="Search by name or email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="h-9 rounded-lg border-none pl-10 text-sm shadow-none"
+            classNames={{
+              ...fieldClassNames,
+              input: `h-9 rounded-lg border-none text-sm shadow-none ${fieldClassNames.input}`,
+            }}
             style={{ background: 'var(--pv-bg)', color: 'var(--pv-text)' }}
           />
         </div>
-        <Select value={cohortFilter} onValueChange={(v) => setCohortFilter(v as SignupCohort | 'all')}>
-          <SelectTrigger
-            className="h-9 w-[160px] rounded-lg border-none text-sm shadow-none"
-            style={{ background: 'var(--pv-bg)', color: 'var(--pv-text-muted)' }}
-          >
-            <SelectValue placeholder="All cohorts" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All cohorts</SelectItem>
-            <SelectItem value="friends_family">Friends & Family</SelectItem>
-            <SelectItem value="early_adopter">Early Adopter</SelectItem>
-            <SelectItem value="general">General</SelectItem>
-          </SelectContent>
-        </Select>
+        <Select
+          classNames={selectClassNames}
+          value={cohortFilter}
+          onChange={(v) => setCohortFilter((v || 'all') as SignupCohort | 'all')}
+          aria-label="Cohort"
+          allowDeselect={false}
+          data={[
+            { value: 'all', label: 'All cohorts' },
+            { value: 'friends_family', label: 'Friends & Family' },
+            { value: 'early_adopter', label: 'Early Adopter' },
+            { value: 'general', label: 'General' },
+          ]}
+        />
 
         <div className="ml-auto flex items-center gap-4">
           <span className="text-xs" style={{ color: 'var(--pv-text-muted)' }}>
@@ -186,11 +186,7 @@ export function RecipientSelector({
             <AlertTriangle className="h-4 w-4 flex-shrink-0 text-red-500" />
             <span style={{ color: 'var(--pv-text-muted)' }}>{fetchError}</span>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => fetchUsers(page)}
-          >
+          <Button variant="ghost" size="sm" onClick={() => fetchUsers(page)}>
             <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
             Retry
           </Button>
@@ -236,9 +232,7 @@ export function RecipientSelector({
                     )}
                     title={allFilteredSelected ? 'Deselect all' : 'Select all'}
                   >
-                    {allFilteredSelected && (
-                      <Check className="h-3 w-3" strokeWidth={3} />
-                    )}
+                    {allFilteredSelected && <Check className="h-3 w-3" strokeWidth={3} />}
                     {someFilteredSelected && !allFilteredSelected && (
                       <div
                         className="h-0.5 w-2 rounded-full"
@@ -266,9 +260,7 @@ export function RecipientSelector({
                     onClick={() => toggleUser(user.id)}
                     className={cn(
                       'cursor-pointer text-sm transition-colors',
-                      isSelected
-                        ? 'bg-[var(--pv-primary)]/5'
-                        : 'hover:bg-[var(--pv-surface)]',
+                      isSelected ? 'bg-[var(--pv-primary)]/5' : 'hover:bg-[var(--pv-surface)]',
                     )}
                   >
                     <td className="px-4 py-3">
@@ -280,9 +272,7 @@ export function RecipientSelector({
                             : 'border border-[var(--pv-border)]',
                         )}
                       >
-                        {isSelected && (
-                          <Check className="h-3 w-3" strokeWidth={3} />
-                        )}
+                        {isSelected && <Check className="h-3 w-3" strokeWidth={3} />}
                       </div>
                     </td>
                     <td className="px-4 py-3 font-medium" style={{ color: 'var(--pv-text)' }}>
