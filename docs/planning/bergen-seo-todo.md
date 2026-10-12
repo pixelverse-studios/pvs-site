@@ -1,6 +1,6 @@
 # Bergen County SEO Execution TODO
 
-Last updated: 2025-10-23
+Last updated: 2026-10-12
 
 All actionable tasks now live in the master checklist: `docs/features/bergen-seo-checklist.md`.
 
@@ -12,6 +12,9 @@ Use this planning file to track progress:
 ## Progress Log
 
 - _Add dated notes here as tasks move from planned → in progress → complete._
+- 2026-10-12: GTM Preview on a local production build showed the shared `GA4 – Marketing Events` tag firing for `cta_click` and `lead_form_start`; the user confirmed both in GA4 DebugView and reports publishing the container. Next: verify the live tag and event receipt, test a safe conversion path and page-view behavior, and review the site branch before deployment. Removed the unverified direct GA4 dispatch from site code to keep GTM as the sole custom-event forwarder.
+- 2026-10-12: Checked the live GTM container and user-supplied account screenshots: GA4 receives traffic, but the published GTM container has only the base tag and GA4 Home shows zero key events for the selected seven days. Added Microsoft Clarity to the live-domain build with dashboard exclusion and denied storage signals; the user reported switching Clarity Cookies Off after the screenshot showed On. See `docs/technical/ga4-gtm-setup-and-qa.md`.
+- 2026-10-12: Added an Iffer's Pictures portfolio case study and optimized homepage screenshot, and aligned the `/docs/seo` CSV download with the generated sitemap so `/portfolio/iffers-pictures` is included. The case study uses a qualitative outcome until traffic or booking results are verified.
 - 2025-10-14: Completed foundational audience research for Hackensack, Fort Lee, Paramus, Ridgewood, Englewood, Teaneck (see `docs/planning/bergen-audience-research.md`).
 - 2025-10-14: Documented competitive scan across priority towns (see `docs/planning/bergen-competitive-scan.md`).
 - 2025-10-14: Drafted Bergen County keyword matrix with target phrases, intent, and page mapping (see `docs/planning/bergen-keyword-matrix.md`).

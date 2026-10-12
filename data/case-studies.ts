@@ -91,45 +91,45 @@ export const caseStudies: CaseStudy[] = [
     },
   },
   {
-    slug: '360-degree-care',
+    slug: 'iffers-pictures',
     featured: true,
-    name: '360 Degree Care',
-    industry: 'Home Healthcare',
-    location: 'Ridgewood, NJ',
-    title: 'How we helped a home care agency build a digital presence that matched their reputation',
+    name: "Iffer's Pictures",
+    industry: 'Photography',
+    location: 'Cliffside Park, NJ',
+    title: 'A photography website that puts the work and the story first',
     summary:
-      'Built a new independent web presence for a home care agency going out on their own, structured for trust, clarity, and local search from day one.',
+      "Built a custom website for Iffer's Pictures with a browsable photography portfolio, service-focused pages, and clear paths to inquire across Bergen County.",
     problem:
-      '360 Degree Care spent years operating under a franchise brand. When they went independent, they had a strong local reputation (4.8 stars on Google, 80% caregiver retention, CHAP certification) but no online presence of their own. Families searching for home care in Bergen County had no way to find them. Every day without an independent website meant potential clients were finding competitors instead, despite 360 Degree Care having stronger credentials and deeper community roots.',
+      "Iffer's Pictures needed a digital home that could do more than display beautiful photographs. Visitors looking for an event, family, maternity, couples, or portrait photographer needed to find relevant work, understand Jennifer's approach, and feel confident reaching out. The experience also had to make room for the growing image library without turning the portfolio into a hard-to-navigate collection.",
     solution:
-      'We built a custom site on a new domain with dedicated service pages, city-level landing pages, and SEO architecture designed to build organic visibility from a standing start. The site was structured around six core services (personal care, companion care, homemaker services, respite care, live-in care, and specialized care) each with its own page optimized for local search intent. Trust signals like their Google rating, CHAP accreditation, and caregiver retention rate were woven throughout the experience so families could evaluate credibility before making a call.',
+      'We built a custom photography site around the images and the people behind them. The homepage introduces Jennifer and leads visitors into a portfolio organized by session type. Dedicated service pages explain the available sessions, while clear inquiry links give visitors a next step throughout the site. We also connected the public gallery to a media dashboard so the team can manage published images, placement, crop, and display order as the body of work grows. Location-focused content and page metadata help the site describe where Jennifer works and which sessions she offers.',
     issues: [
       {
-        icon: 'fileText',
-        issue: 'No independent online presence',
+        icon: 'layoutGrid',
+        issue: 'A wide range of photography needed a clear way to browse',
         resolution:
-          'Built a custom site on a new domain with structured data, schema markup, and SEO architecture designed to index quickly and rank for local care searches',
+          'Organized the gallery into events, family, maternity, couples, and portrait categories, with more specific filters where the collection calls for them',
+      },
+      {
+        icon: 'eye',
+        issue: 'The photographs needed to lead without losing the photographer’s voice',
+        resolution:
+          'Paired image-led layouts with Jennifer’s story, session details, client reviews, and consistent inquiry paths',
       },
       {
         icon: 'zap',
-        issue: 'Six services with no dedicated search visibility',
+        issue: 'A growing image library needed ongoing editorial control',
         resolution:
-          'Created individual service pages with city-level landing pages, each structured to rank independently for queries like "personal care Bergen County" and "companion care Englewood"',
-      },
-      {
-        icon: 'alertCircle',
-        issue: 'Strong reputation invisible to searchers',
-        resolution:
-          'Surfaced trust signals throughout (Google reviews, CHAP certification, team credentials) so credibility showed up before the first phone call',
+          'Built a media dashboard for publishing images and managing their placement, crop, and display order across the site',
       },
     ],
     outcome: {
-      metric: '8,500+ search impressions and 270 indexed queries within 6 months',
+      metric: 'A browsable portfolio with a clear path to inquire',
       description:
-        'From a standing start on a new domain, individual service pages pulled hundreds of impressions for high-intent local searches. The site architecture built compounding organic visibility as designed. Service-specific pages for personal care and companion care ranked for targeted Bergen County queries, and Google Business Profile integration drove consistent engagement from families researching local home care options.',
+        'The live site connects Jennifer’s photography, session information, testimonials, and contact flow in one cohesive experience. Its media dashboard lets the team keep the gallery current as new work is published.',
     },
-    img: '/projects/360.png',
-    demoUrl: 'https://haven-home-healthcare.netlify.app/',
+    img: '/projects/iffers-pictures-homepage.jpg',
+    url: 'https://ifferspictures.com',
     services: ['web-development', 'seo'],
   },
   {
@@ -173,5 +173,47 @@ export const caseStudies: CaseStudy[] = [
     img: '/projects/DomaniHero.jpg',
     url: 'https://www.domani-app.com',
     services: ['mobile-app'],
+  },
+  {
+    slug: '360-degree-care',
+    featured: true,
+    name: '360 Degree Care',
+    industry: 'Home Healthcare',
+    location: 'Ridgewood, NJ',
+    title: 'How we helped a home care agency build a digital presence that matched their reputation',
+    summary:
+      'Built a new independent web presence for a home care agency going out on their own, structured for trust, clarity, and local search from day one.',
+    problem:
+      '360 Degree Care spent years operating under a franchise brand. When they went independent, they had a strong local reputation (4.8 stars on Google, 80% caregiver retention, CHAP certification) but no online presence of their own. Families searching for home care in Bergen County had no way to find them. Every day without an independent website meant potential clients were finding competitors instead, despite 360 Degree Care having stronger credentials and deeper community roots.',
+    solution:
+      'We built a custom site on a new domain with dedicated service pages, city-level landing pages, and SEO architecture designed to build organic visibility from a standing start. The site was structured around six core services (personal care, companion care, homemaker services, respite care, live-in care, and specialized care) each with its own page optimized for local search intent. Trust signals like their Google rating, CHAP accreditation, and caregiver retention rate were woven throughout the experience so families could evaluate credibility before making a call.',
+    issues: [
+      {
+        icon: 'fileText',
+        issue: 'No independent online presence',
+        resolution:
+          'Built a custom site on a new domain with structured data, schema markup, and SEO architecture designed to index quickly and rank for local care searches',
+      },
+      {
+        icon: 'zap',
+        issue: 'Six services with no dedicated search visibility',
+        resolution:
+          'Created individual service pages with city-level landing pages, each structured to rank independently for queries like "personal care Bergen County" and "companion care Englewood"',
+      },
+      {
+        icon: 'alertCircle',
+        issue: 'Strong reputation invisible to searchers',
+        resolution:
+          'Surfaced trust signals throughout (Google reviews, CHAP certification, team credentials) so credibility showed up before the first phone call',
+      },
+    ],
+    outcome: {
+      metric: '8,500+ search impressions and 270 indexed queries within 6 months',
+      description:
+        'From a standing start on a new domain, individual service pages pulled hundreds of impressions for high-intent local searches. The site architecture built compounding organic visibility as designed. Service-specific pages for personal care and companion care ranked for targeted Bergen County queries, and Google Business Profile integration drove consistent engagement from families researching local home care options.',
+    },
+    img: '/projects/360.png',
+    demoUrl: 'https://haven-home-healthcare.netlify.app/',
+    services: ['web-development', 'seo'],
   },
 ];

@@ -1,6 +1,6 @@
 # Bergen County SEO Master TODO
 
-Last updated: 2025-12-02
+Last updated: 2026-10-12
 
 ## Foundation (Pre-Transfer & Research)
 
@@ -27,6 +27,8 @@ Last updated: 2025-12-02
 - [ ] **Confirm analytics setup**
   - Create the SiteBehaviour project for production and staging; add the tracking snippet to the Next.js root layout with a production-only guard.
   - _2025-11-13: Added guard so the SiteBehaviour loader only runs when `NEXT_PUBLIC_SITEBEHAVIOUR_SECRET` is present in production builds, preventing local form errors._
+  - _2026-10-12: Verified GA4 receives traffic, but the GTM container has no custom event tags and GA4 Home shows zero key events for the selected seven days. Added Clarity project `ywozoexc2s` to the site code with live-domain and dashboard guards; the user reported switching its Cookies setting Off. Verify the changed setting and collection after deployment. See `docs/technical/ga4-gtm-setup-and-qa.md`._
+  - _2026-10-12: GTM Preview on localhost showed the shared `GA4 – Marketing Events` tag firing for `cta_click` and `lead_form_start`; the user confirmed both in GA4 DebugView and reports publishing the GTM container. The unverified direct site-code GA4 dispatch was removed to avoid duplicates. Still verify live event receipt, a safe conversion path, and page-view behavior._
   - Configure conversion goals for contact form submissions, package inquiry clicks, and phone/email interactions; test events in an incognito session.
   - Verify Google Search Console and Bing Webmaster domain properties, resubmit the XML sitemap, and save filters for Bergen-focused queries.
 - [ ] **Capture technical baselines**
@@ -72,6 +74,7 @@ Last updated: 2025-12-02
 - [ ] **Collect testimonials and case studies**
   - Interview Bergen clients for quotable results; create copy + visuals tailored to featured industries.
   - Add these assets to relevant pages and maintain a repository for future campaigns.
+  - [x] Add the Iffer's Pictures case study with a live-site screenshot and qualitative, verifiable outcome; keep client results and testimonials pending evidence.
 - [ ] **Configure ongoing performance monitoring**
   - Evaluate tools like SpeedCurve/Calibre or scripted Lighthouse runs; set thresholds and alerts for major regressions.
 

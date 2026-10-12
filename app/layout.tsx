@@ -10,6 +10,7 @@ import { CampaignTrackerClient } from '@/components/campaign-tracker-client';
 import { GoogleTagManager } from '@/components/google-tag-manager';
 import { LayoutWrapper } from '@/components/layout-wrapper';
 import { MantineRootProvider } from '@/components/mantine-root-provider';
+import { MicrosoftClarity } from '@/components/microsoft-clarity';
 import { SiteBehaviourScript } from '@/components/sitebehaviour-script';
 import { ThemeProvider } from '@/components/theme-provider';
 import { StructuredData } from '@/components/ui/structured-data';
@@ -35,6 +36,9 @@ const enableSiteBehaviourTracking = Boolean(
 );
 const googleTagManagerId = process.env.NEXT_PUBLIC_GTM_ID?.trim();
 const enableGoogleTagManager = Boolean(googleTagManagerId && process.env.NODE_ENV === 'production');
+// Clarity project IDs are public; the loader itself restricts collection to the live domain.
+const clarityProjectId = 'ywozoexc2s';
+const enableMicrosoftClarity = process.env.NODE_ENV === 'production';
 
 // Bootstraps SiteBehaviour analytics loader after hydration.
 const siteBehaviourBootstrap = enableSiteBehaviourTracking
@@ -141,6 +145,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       >
         {enableGoogleTagManager && googleTagManagerId ? (
           <GoogleTagManager containerId={googleTagManagerId} />
+        ) : null}
+        {enableMicrosoftClarity ? (
+          <MicrosoftClarity projectId={clarityProjectId} />
         ) : null}
         {enableSiteBehaviourTracking && siteBehaviourBootstrap ? (
           <SiteBehaviourScript bootstrapScript={siteBehaviourBootstrap} />

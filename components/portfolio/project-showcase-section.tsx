@@ -41,7 +41,7 @@ export function ProjectShowcaseSection() {
                       priority={index === 0}
                       loading={index === 0 ? 'eager' : 'lazy'}
                       sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 45vw, 576px"
-                      className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                      className={`object-cover transition-transform duration-500 group-hover:scale-[1.03] ${study.slug === 'iffers-pictures' ? 'object-left' : 'object-top'}`}
                     />
                   </div>
                 </div>
