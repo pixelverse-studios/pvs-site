@@ -45,17 +45,20 @@ const nextConfig = {
     const pvsApiHosts = 'https://pvs-server-62hx7.ondigitalocean.app http://localhost:5001';
     const publicCsp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com https://js.sentry-cdn.com https://assets.calendly.com https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com https://*.clarity.ms https://c.bing.com https://js.sentry-cdn.com https://assets.calendly.com https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com",
       "style-src 'self' 'unsafe-inline' https://assets.calendly.com",
       "img-src 'self' data: https: blob:",
       "font-src 'self' data:",
-      `connect-src 'self' ${pvsApiHosts} https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://*.sentry.io https://*.supabase.co https://*.calendly.com https://maps.googleapis.com https://maps.gstatic.com https://*.sitebehaviour.com https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com`,
+      `connect-src 'self' ${pvsApiHosts} https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://*.clarity.ms https://c.bing.com https://*.sentry.io https://*.supabase.co https://*.calendly.com https://maps.googleapis.com https://maps.gstatic.com https://*.sitebehaviour.com https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com`,
       "frame-src 'self' https://calendly.com https://*.calendly.com https://www.google.com/maps https://www.googletagmanager.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
       "frame-ancestors 'self'",
-      'upgrade-insecure-requests',
+      // Omit upgrade-insecure-requests because this production build is also
+      // run over HTTP on localhost for GTM Preview. Safari otherwise upgrades
+      // its same-origin CSS and JS requests to HTTPS and leaves the page bare.
+      // Deployed HTTPS is enforced by the host redirects and HSTS instead.
     ].join('; ');
 
     return [

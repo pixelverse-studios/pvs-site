@@ -1,39 +1,12 @@
-import fs from 'fs';
 import type { Metadata } from 'next';
-import path from 'path';
 
+import sitemap from '@/app/sitemap';
 import { Container } from '@/components/ui/container';
 import { DownloadSitemapButton } from '@/components/ui/download-sitemap-button';
 import { createPageMetadata } from '@/lib/metadata';
 
 function getSitemapUrls() {
-  try {
-    const sitemapIndexPath = path.join(process.cwd(), 'public', 'sitemap.xml');
-    const sitemapIndex = fs.readFileSync(sitemapIndexPath, 'utf8');
-    const sitemapEntries = Array.from(sitemapIndex.matchAll(/<loc>(.*?)<\/loc>/g)).map(
-      (match) => match[1],
-    );
-
-    const urls = new Set<string>();
-
-    sitemapEntries.forEach((entry) => {
-      try {
-        const fileName = path.basename(new URL(entry).pathname);
-        const sitemapPath = path.join(process.cwd(), 'public', fileName);
-
-        if (!fs.existsSync(sitemapPath)) return;
-
-        const sitemap = fs.readFileSync(sitemapPath, 'utf8');
-        Array.from(sitemap.matchAll(/<loc>(.*?)<\/loc>/g)).forEach((match) => urls.add(match[1]));
-      } catch {
-        // Ignore malformed sitemap entries
-      }
-    });
-
-    return Array.from(urls);
-  } catch {
-    return null;
-  }
+  return Array.from(new Set(sitemap().map((entry) => entry.url)));
 }
 
 function formatDateIsoToMdY(dateString: string) {

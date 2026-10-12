@@ -4,6 +4,10 @@
 
 PixelVerse Studios will add Google Analytics 4 through Google Tag Manager so analytics can scale beyond basic traffic reporting into paid ads, QR-code campaigns, offline print attribution, and conversion tracking. SiteBehaviour will continue running during the comparison period.
 
+## 2026-10-12 Implementation Update
+
+Before the 2026-10-12 update, the published GTM container had only the base Google tag, while GA4 Enhanced measurement collected page views. The site pushes named non-page-view events into `dataLayer`. The shared `GA4 – Marketing Events` tag fired for `cta_click` and `lead_form_start` in localhost GTM Preview, and the user confirmed both in GA4 DebugView. The user reports publishing the tag and its renamed `Marketing Events` trigger. Successful form submissions, the other event names, page-view behavior, and live event receipt still need testing. The unverified direct site-code `gtag` dispatch was removed to avoid duplicate events. The current operational contract and validation steps are in `docs/technical/ga4-gtm-setup-and-qa.md`.
+
 ## Decisions
 
 - Use Google Tag Manager as the primary tag container.
@@ -42,7 +46,7 @@ NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
 NEXT_PUBLIC_GA4_MEASUREMENT_ID=G-XXXXXXXXXX
 ```
 
-`NEXT_PUBLIC_GTM_ID` controls script loading. `NEXT_PUBLIC_GA4_MEASUREMENT_ID` can be used for documentation, debugging, or a future direct fallback, but GTM should own GA4 dispatching.
+`NEXT_PUBLIC_GTM_ID` controls script loading. `NEXT_PUBLIC_GA4_MEASUREMENT_ID` is retained for documentation and debugging; the GTM Google tag and GA4 Event tags select the verified stream `G-87XLH0YW51`.
 
 ## Implementation Architecture
 
@@ -132,7 +136,7 @@ Use lowercase, underscores, and stable names so reports stay clean.
 | `website_review_request` | Successful review/audit form submit | Yes |
 | `strategy_call_click` | Calendly popup opened | Optional |
 | `strategy_call_scheduled` | Calendly scheduled event callback | Yes |
-| `phone_click` | Public phone link click | Yes |
+| `phone_click` | Public phone link click | No; contact intent only |
 | `email_click` | Public email/contact link click | Optional |
 | `cta_click` | Major CTA click | No |
 
@@ -285,7 +289,7 @@ The detailed GTM tag setup, GA4 key-event configuration, privacy rules, and fron
 docs/technical/ga4-gtm-setup-and-qa.md
 ```
 
-Use that checklist before publishing the GTM container and again after the first production deploy with GA4 enabled.
+Use that checklist after the GTM publication and again after the first production deploy with GA4 enabled.
 
 ## Open Questions
 

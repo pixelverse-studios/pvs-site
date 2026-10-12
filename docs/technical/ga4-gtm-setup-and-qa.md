@@ -2,89 +2,59 @@
 
 This document is the frontend setup and validation checklist for the PixelVerse Studios GA4/GTM implementation.
 
+## Live Configuration Check (2026-10-12)
+
+The public homepage contains GTM container `GTM-MQ2ZHGGN`. Before the 2026-10-12 update, its published JavaScript contained only the base Google tag for GA4 stream `G-87XLH0YW51`, firing on `gtm.init`. The user reports publishing the shared `GA4 – Marketing Events` tag and `Marketing Events` trigger after the Preview and DebugView checks below. The published version and live production event receipt have not yet been independently checked.
+
+User-supplied screenshots on 2026-10-12 show the GTM workspace also contains only that Google tag, with zero workspace changes, and the PixelVerse GA4 Home screen shows users and page views. Its selected seven-day summary shows zero key events. This confirms the property receives some traffic; it does not establish which page-view mechanism fired or whether lead events are configured in GA4.
+
+A subsequent user-supplied web-stream screenshot confirms stream ID `14837917074`, measurement ID `G-87XLH0YW51`, active data collection in the prior 48 hours, and Enhanced measurement enabled for page views, scrolls, and outbound clicks. The advanced page-view browser-history setting was not visible. Email redaction was active, while URL query-parameter-key redaction was inactive; inspect URL parameters for PII before changing that setting or relying on page-location reports.
+
+The user then shared the Enhanced measurement panel. Page views remain enabled; the screenshot shows the browser-history option is available under the still-collapsed Page views advanced settings. No extra GTM `page_view` tag should be published based on this evidence. Keep the base Google tag as the page-view source and verify one view per navigation in DebugView before considering a page-view change.
+
+The first GTM Preview test on `http://localhost:3000` showed the base Google tag firing and a homepage `cta_click` event in the event timeline. The user then saved a draft `GA4 – CTA Click` tag for stream `G-87XLH0YW51` with a `CTA Click` custom-event trigger. An older Preview session did not include the new tag, but a fresh event-specific Tag Assistant screenshot showed it under **Tags Fired** with status **Succeeded** on `cta_click`; the user confirmed receipt in GA4 DebugView. The draft was then expanded to a shared `GA4 – Marketing Events` tag. An event-specific Tag Assistant screenshot showed it firing with status **Succeeded** for `lead_form_start`, and the user confirmed that event in GA4 DebugView too. The user renamed the trigger `Marketing Events` and reports publishing the container. Successful form submissions, other event names, and production event receipt have not yet been tested.
+
 ## Production Inputs
 
 - GTM container ID: `NEXT_PUBLIC_GTM_ID`
-- GA4 measurement ID: `NEXT_PUBLIC_GA4_MEASUREMENT_ID`
+- GA4 measurement ID: `G-87XLH0YW51` in the GTM Google tag and GA4 Event tag
 - Public site URL: `https://www.pixelversestudios.io`
 - Excluded route prefix: `/dashboard`
 
-GTM loads only when `NEXT_PUBLIC_GTM_ID` is present and `NODE_ENV` is `production`.
+GTM loads only when `NEXT_PUBLIC_GTM_ID` is present and `NODE_ENV` is `production`. A local production build can therefore be tested with GTM Preview at `http://localhost:3000`. `NEXT_PUBLIC_GA4_MEASUREMENT_ID` remains in the environment example for reference; the GTM tags select the GA4 destination.
 
-## GTM Container Setup
+## Local Preview Performance Follow-up
 
-### Tags
+On 2026-10-12, while preparing a GTM test, the browser was reported to take several seconds after navigating to `http://localhost:3001`: the page stayed white and the browser tab's normal navigation loading bar remained active before content appeared. Later, the user tested the current local server in a fresh private window and reported that it opens quickly and reliably. The delay is not currently reproducible and has not been diagnosed. If it recurs, compare first and repeat requests, record browser Network timing (especially waiting/TTFB versus asset loading), and check the Next.js terminal output. Keep this separate from whether GA4 events reach DebugView.
 
-Create these tags in the PixelVerse Studios GTM web container.
+## Microsoft Clarity
 
-| Tag | Type | Trigger |
-| --- | --- | --- |
-| Google tag - GA4 | Google tag | Initialization - All Pages |
-| GA4 event - page_view | Google Analytics: GA4 Event | Custom event: `page_view` |
-| GA4 event - campaign_landing | Google Analytics: GA4 Event | Custom event: `campaign_landing` |
-| GA4 event - contact_path_select | Google Analytics: GA4 Event | Custom event: `contact_path_select` |
-| GA4 event - lead_form_start | Google Analytics: GA4 Event | Custom event: `lead_form_start` |
-| GA4 event - review_form_start | Google Analytics: GA4 Event | Custom event: `review_form_start` |
-| GA4 event - generate_lead | Google Analytics: GA4 Event | Custom event: `generate_lead` |
-| GA4 event - website_review_request | Google Analytics: GA4 Event | Custom event: `website_review_request` |
-| GA4 event - strategy_call_click | Google Analytics: GA4 Event | Custom event: `strategy_call_click` |
-| GA4 event - strategy_call_scheduled | Google Analytics: GA4 Event | Custom event: `strategy_call_scheduled` |
-| GA4 event - phone_click | Google Analytics: GA4 Event | Custom event: `phone_click` |
-| GA4 event - email_click | Google Analytics: GA4 Event | Custom event: `email_click` |
-| GA4 event - cta_click | Google Analytics: GA4 Event | Custom event: `cta_click` |
+Clarity project `ywozoexc2s` is installed directly in `components/microsoft-clarity.tsx` for `pixelversestudios.io` and `www.pixelversestudios.io` in production builds. It is separate from GTM and does not emit GA4 events. The loader skips an initial `/dashboard` page and stops an active recording before client navigation into `/dashboard`. Once stopped, it remains off until the next full public-page load. Localhost and preview domains do not load Clarity. The public CSP permits Clarity's script and collection domains.
 
-Use the GA4 measurement ID from the Google tag for all GA4 event tags.
+The site has no visitor consent interface. The Clarity loader queues `consentv2` with both analytics and ad storage denied. A user-supplied 2026-10-12 screenshot showed Clarity Settings > Setup > Cookies **On**; the user then reported switching it **Off**. The changed setting has not been independently observed. After deployment, verify that `_clck` and `_clsk` are absent while denied. Keep input masking enabled; review a safe test recording to check that no contact details or private dashboard content appear. Microsoft documents that denied storage allows limited, cookieless data and fragmented sessions. If a visitor consent interface is added later, update both Clarity and GTM from the visitor's actual choice; do not treat the existing GTM route guard as a consent banner.
+
+After deployment, check a public page's Network panel for a `www.clarity.ms/tag/ywozoexc2s` script and successful Clarity collection request, then confirm the visit appears in the PixelVerse Clarity project. Check the same for a client navigation between public routes. Confirm no Clarity request or recording on a direct `/dashboard` load or after navigating there from a public page. If Clarity is already installed through GTM or another integration at that point, remove one installation before publishing to avoid duplicate recordings.
+
+## GA4 Event Dispatch
+
+GTM retains its base Google tag. `lib/analytics.ts` pushes these event names into `dataLayer`: `campaign_landing`, `contact_path_select`, `lead_form_start`, `review_form_start`, `generate_lead`, `website_review_request`, `strategy_call_click`, `strategy_call_scheduled`, `phone_click`, `email_click`, and `cta_click`. The user reports publishing a shared GA4 Event tag to forward these approved names to stream `G-87XLH0YW51`.
+
+The local direct `gtag` dispatch was removed after the GTM Preview test, so only GTM should forward these events. SiteBehaviour remains separate. Keep one GA4 Event tag per action to avoid duplicates.
+
+### Shared GTM Event Configuration
+
+The original CTA-only tag fired on `cta_click` in GTM Preview and the user confirmed receipt in GA4 DebugView. It was then edited into a shared tag and `lead_form_start` was confirmed in both tools. The shared tag configuration is:
+
+1. Tag `GA4 – Marketing Events` uses GTM's built-in `{{Event}}` variable as its Event Name.
+2. Trigger `Marketing Events` is a Custom Event trigger with **regex matching**. The intended Event Name is `^(campaign_landing|contact_path_select|lead_form_start|review_form_start|generate_lead|website_review_request|strategy_call_click|strategy_call_scheduled|phone_click|email_click|cta_click)$`. The screenshot cut off the end of the expression, so verify the complete value against the published version.
+3. Leave custom event parameters empty. The exact-name regex excludes `page_view`, GTM lifecycle events, consent updates, and unrelated data-layer messages.
+4. Both `cta_click` and `lead_form_start` were confirmed in GA4 DebugView before publication. Verify live event receipt after the website release.
 
 ### Page View Rule
 
-The frontend dispatches its own `page_view` event on route changes. In GTM/GA4, avoid double-counting by using one page view source:
-
-1. Preferred: send page views from the frontend `page_view` dataLayer event.
-2. Disable or avoid any extra GTM History Change page view tag.
-3. Review GA4 enhanced measurement so it does not create duplicate page views beyond the configured Google tag behavior.
+The frontend writes `page_view` to `dataLayer` for debugging, but no GTM event tag forwards it. GA4 Enhanced measurement is the intended page-view source. Its advanced browser-history setting was not visible in the user screenshots, so verify one `page_view` on initial load and one on each public route transition in DebugView. If navigation views are missing, enable browser-history measurement in the web stream before adding any manual page-view tag. Do not create a GTM History Change or custom `page_view` event tag alongside Enhanced measurement.
 
 Expected behavior: one `page_view` event per public route transition.
-
-### Data Layer Variables
-
-Create GTM Data Layer Variables for the parameters below. Use version 2 data layer variables.
-
-| Variable name | Data layer variable name |
-| --- | --- |
-| DLV - page_path | `page_path` |
-| DLV - traffic_source | `traffic_source` |
-| DLV - traffic_medium | `traffic_medium` |
-| DLV - campaign | `campaign` |
-| DLV - campaign_content | `campaign_content` |
-| DLV - campaign_term | `campaign_term` |
-| DLV - src_code | `src_code` |
-| DLV - promo_code | `promo_code` |
-| DLV - form_type | `form_type` |
-| DLV - budget_range | `budget_range` |
-| DLV - timeline | `timeline` |
-| DLV - interest_category | `interest_category` |
-| DLV - contact_path | `contact_path` |
-| DLV - cta_location | `cta_location` |
-| DLV - cta_destination | `cta_destination` |
-
-Only attach variables to GA4 event tags when they are relevant to that event.
-
-### Event Parameter Mapping
-
-| Event | Parameters to send |
-| --- | --- |
-| `page_view` | `page_path` |
-| `campaign_landing` | `traffic_source`, `traffic_medium`, `campaign`, `campaign_content`, `campaign_term`, `src_code`, `promo_code`, `page_path` |
-| `contact_path_select` | `contact_path`, `page_path` |
-| `lead_form_start` | `form_type`, `page_path` |
-| `review_form_start` | `form_type`, `page_path` |
-| `generate_lead` | `form_type`, `budget_range`, `timeline`, `interest_category`, `promo_code` |
-| `website_review_request` | `form_type`, `promo_code` |
-| `strategy_call_click` | `contact_path`, `page_path` |
-| `strategy_call_scheduled` | `contact_path`, `page_path` |
-| `phone_click` | `contact_path`, `page_path` |
-| `email_click` | `contact_path`, `page_path` |
-| `cta_click` | `cta_location`, `cta_destination`, `contact_path`, `page_path` |
 
 ## GA4 Key Events
 
@@ -95,14 +65,15 @@ Mark these as key events in GA4 after they first appear in Reports or Admin even
 | `generate_lead` | Yes |
 | `website_review_request` | Yes |
 | `strategy_call_scheduled` | Yes |
-| `phone_click` | Yes |
+| `phone_click` | No; intent signal, not a confirmed call |
 
-Optional key events:
+Optional key events for a separately defined contact-intent goal:
 
 - `strategy_call_click`
 - `email_click`
 
 Do not mark `page_view`, `lead_form_start`, `review_form_start`, `contact_path_select`, `campaign_landing`, or `cta_click` as key events by default. They are useful funnel/supporting events, not final outcomes.
+Treat `phone_click` and `email_click` as contact intent unless a call or reply is independently confirmed. If these are later marked as key events for a separate reporting goal, do not label them as completed leads.
 
 ## Privacy Rules
 
@@ -118,11 +89,11 @@ Do not configure GTM tags to send any of these values to GA4, Google Ads, Meta, 
 - raw form payloads
 - backend attribution JSON
 
-The frontend analytics helper intentionally allowlists event parameters before pushing to `dataLayer`. Keep GTM tags aligned to that allowlist.
+The frontend analytics helper intentionally allowlists event parameters before pushing to `dataLayer`. The shared GA4 tag sends the event name without custom parameters. Keep future GA4 Event tags limited to approved event names and explicitly reviewed parameters; do not forward every `dataLayer` key. The Google tag's automatic page-location fields and the web stream's URL redaction settings still need review for query-string PII.
 
 ## Frontend QA Checklist
 
-Run this checklist in GTM Preview, then confirm GA4 DebugView.
+Run this checklist in GTM Preview and confirm event receipt in GA4 DebugView. GTM Preview shows the `dataLayer` events and which GA4 Event tag fired; DebugView confirms GA4 received them. Repeat the key checks on production after deployment.
 
 ### Page Views
 
@@ -137,11 +108,11 @@ Run this checklist in GTM Preview, then confirm GA4 DebugView.
 1. Open `/?utm_source=business_card&utm_medium=qr&utm_campaign=local_print_2026&utm_content=phil_card_v1`.
 2. Confirm attribution is captured in browser storage.
 3. Confirm no PII is present in GTM Preview.
-4. Confirm `campaign_landing` fires once for the UTM landing and includes `traffic_source`, `traffic_medium`, `campaign`, `campaign_content`, and `page_path`.
+4. Confirm `campaign_landing` appears once in both `dataLayer` and GA4. Campaign details remain in the first-party attribution record and the landing URL, not in custom GA4 event parameters.
 5. Open a `src` campaign URL, such as `/?src=QR`.
-6. Confirm `campaign_landing` fires once for the `src` campaign code and includes `traffic_source`, `src_code`, and `page_path`.
+6. Confirm `campaign_landing` fires once for the `src` campaign code.
 7. Open a `promo` campaign URL, such as `/?promo=NJCC2026`.
-8. Confirm `campaign_landing` fires once for the promo code and includes `traffic_source`, `promo_code`, and `page_path`.
+8. Confirm `campaign_landing` fires once for the promo code.
 
 ### Lead Form
 
@@ -176,9 +147,9 @@ Run this checklist in GTM Preview, then confirm GA4 DebugView.
 ### Phone And Email
 
 1. Click the public footer phone link.
-2. Confirm `phone_click` fires with `contact_path=phone`.
+2. Confirm `phone_click` fires in GA4 and the `dataLayer` entry has `contact_path=phone`.
 3. Click the public footer email link.
-4. Confirm `email_click` fires with `contact_path=email`.
+4. Confirm `email_click` fires in GA4 and the `dataLayer` entry has `contact_path=email`.
 5. Confirm phone number and email address are not sent as event parameters.
 
 ### Dashboard Exclusion
@@ -222,7 +193,7 @@ Use this redirect verification command from the project root:
 node -e "Promise.resolve(require('./next.config.js').redirects()).then((redirects)=>{for (const source of ['/go/card-phil','/go/card-sami','/go/flyer','/go/nnjcc','/go/njcc','/go/njcc-live-audit']) { const match = redirects.find((redirect) => redirect.source === source); console.log(source + ' -> ' + (match ? match.destination : 'MISSING')); if (!match) process.exitCode = 1; }}).catch((error)=>{ console.error(error); process.exit(1); })"
 ```
 
-Run standard project verification before publishing tracking changes:
+Run standard project verification before deploying site changes:
 
 ```bash
 npm run type-check
@@ -234,11 +205,11 @@ Known existing warning: `app/dashboard/domani/campaigns/components/campaign-deta
 
 ## Publish Checklist
 
-1. Confirm production env vars are present.
-2. Confirm GTM Preview receives the expected dataLayer events.
-3. Confirm GA4 DebugView receives the expected GA4 events.
-4. Mark GA4 key events.
-5. Publish the GTM container.
+1. Confirm `NEXT_PUBLIC_GTM_ID` is present in the production build and review the published GTM event tag and trigger against the allowlisted names above.
+2. In GTM Preview, confirm exactly one GA4 Event tag fires for each tested interaction and no event tag forwards `page_view`.
+3. Confirm GA4 DebugView receives one event per tested action and one page view per navigation.
+4. The user reports publishing the GTM container after local Preview and DebugView checks. Deploy the site changes separately after code review.
+5. Mark the approved GA4 key events in the property.
 6. Submit one safe test conversion per public conversion path.
 7. Confirm backend attribution metadata lands with lead/review/Calendly records.
 8. Record the first reporting comparison date for SiteBehaviour, GA4, and first-party lead attribution.
