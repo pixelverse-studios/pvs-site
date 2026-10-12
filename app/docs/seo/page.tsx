@@ -38,6 +38,20 @@ metadata.robots = {
 
 const updates = [
   {
+    date: '2026-10-12',
+    items: [
+      'Added the Iffer’s Pictures case study at /portfolio/iffers-pictures and linked it from the portfolio showcase.',
+      'Included the new case study URL in the sitemap and the /docs/seo sitemap CSV download.',
+    ],
+    notes:
+      'Added a photography case study with an image-led portfolio story and a clear inquiry path.',
+    notesDetail: [
+      'After deployment, confirm the case study and image render on the live site.',
+      'Check the canonical URL and sitemap entry, then request indexing if needed.',
+      'Monitor case study impressions and clicks in Search Console.',
+    ],
+  },
+  {
     date: '2025-11-20',
     items: [
       'Refreshed metadata and hero copy on Bergen County hub to target “Bergen County SEO & web design” plus analytics reporting.',
