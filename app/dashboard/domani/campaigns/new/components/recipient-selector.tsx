@@ -249,7 +249,7 @@ export function RecipientSelector({
             <tbody>
               {filteredUsers.map((user) => {
                 const isSelected = selectedIds.has(user.id);
-                const cohortConfig = COHORT_COLORS[user.signup_cohort] ?? {
+                const cohortConfig = (user.signup_cohort && COHORT_COLORS[user.signup_cohort]) || {
                   label: user.signup_cohort || 'Unknown',
                   color: 'text-gray-600 dark:text-gray-400',
                   bgColor: 'bg-gray-100 dark:bg-gray-800/50',

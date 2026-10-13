@@ -9,12 +9,12 @@ export type SignupCohort = 'friends_family' | 'early_adopter' | 'general';
 // User profile from the profiles table
 export interface UserProfile {
   id: string;
-  email: string;
+  email: string | null;
   full_name: string | null;
-  signup_cohort: SignupCohort;
-  signup_method: string;
-  timezone: string;
-  created_at: string;
+  signup_cohort: SignupCohort | null;
+  signup_method: string | null;
+  timezone: string | null;
+  created_at: string | null;
   deleted_at: string | null;
   last_active_at: string | null;
   joined_at?: string | null;
