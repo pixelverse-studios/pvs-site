@@ -67,7 +67,7 @@ export function DashboardHeader({ userName, userEmail, onLogout }: DashboardHead
 
   return (
     <header
-      className="sticky top-0 z-30 w-full border-b transition-colors duration-300"
+      className="sticky top-0 z-30 h-16 shrink-0 w-full border-b transition-colors duration-300"
       style={{
         background: 'var(--pv-bg)',
         borderColor: 'var(--pv-border)',
@@ -75,7 +75,7 @@ export function DashboardHeader({ userName, userEmail, onLogout }: DashboardHead
         WebkitBackdropFilter: 'blur(12px)',
       }}
     >
-      <div className="flex h-16 items-center justify-between pl-16 pr-6 lg:px-8">
+      <div className="flex h-full items-center justify-between pl-16 pr-6 lg:px-8">
         {/* Left: Breadcrumbs */}
         <nav className="flex items-center gap-2" aria-label="Breadcrumb">
           {breadcrumbs.map((crumb, index) => (

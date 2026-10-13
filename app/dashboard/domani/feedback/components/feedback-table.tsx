@@ -1,7 +1,9 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { ChevronRight, Smartphone, X } from 'lucide-react';
+import { getFeedbackItem } from '@/lib/api/feedback';
+import { feedbackDelivery } from '@/lib/feedback-delivery';
 import { cn } from '@/lib/utils';
 import type {
   UnifiedFeedbackItem,
@@ -11,7 +13,9 @@ import type {
 } from '@/lib/types/feedback';
 import { CATEGORY_COLORS, STATUS_COLORS, feedbackKey } from '@/lib/types/feedback';
 
-import { FeedbackDetailModal } from './feedback-detail-modal';
+import { FeedbackReplyComposer, emptyReplyDraft } from './feedback-reply-composer';
+import { useFeedbackDrafts } from '@/components/feedback-drafts-provider';
+import { FeedbackDetailDrawer } from './feedback-detail-drawer';
 
 // Fallback config for unknown categories
 const UNKNOWN_CATEGORY_CONFIG: CategoryConfig = {
@@ -35,7 +39,7 @@ interface FeedbackTableProps {
 }
 
 export function FeedbackTable({
-  items,
+  items: baseItems,
   onStatusChange,
   disabled,
   statusError,
@@ -43,11 +47,29 @@ export function FeedbackTable({
   refreshing,
   onRetry,
 }: FeedbackTableProps) {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [modalItem, setModalItem] = useState<UnifiedFeedbackItem | null>(null);
+  const { drafts, setDrafts } = useFeedbackDrafts();
+  const [summaries, setSummaries] = useState<Record<string, UnifiedFeedbackItem['conversation']>>(
+    {},
+  );
+  useEffect(() => setSummaries({}), [baseItems]);
+  const items = baseItems.map((item) => ({
+    ...item,
+    conversation: summaries[feedbackKey(item)] || item.conversation,
+  }));
+  const refreshSummary = async (item: UnifiedFeedbackItem) => {
+    try {
+      const fresh = await getFeedbackItem(item.id, item.source);
+      setSummaries((previous) => ({ ...previous, [feedbackKey(item)]: fresh.conversation }));
+    } catch {
+      /* The next list refresh can recover; never turn an accepted send into a failure. */
+    }
+  };
 
-  const handleRowClick = (id: string) => {
-    setSelectedId(selectedId === id ? null : id);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [drawerItem, setDrawerItem] = useState<UnifiedFeedbackItem | null>(null);
+
+  const toggleRow = (id: string) => {
+    setSelectedId((currentId) => (currentId === id ? null : id));
   };
 
   const formatDate = (dateString: string | null) => {
@@ -67,84 +89,200 @@ export function FeedbackTable({
     return message.substring(0, maxLength) + '...';
   };
 
-  if (items.length === 0) {
-    return (
-      <div
-        className="flex flex-col items-center justify-center rounded-xl border py-16"
-        style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
-      >
-        <Smartphone className="mb-4 h-12 w-12 text-[var(--pv-text-muted)]" />
-        <p className="text-lg font-medium" style={{ color: 'var(--pv-text)' }}>
-          No feedback found
-        </p>
-        <p className="mt-1 text-sm text-[var(--pv-text-muted)]">
-          Feedback and support requests will appear here
-        </p>
-      </div>
-    );
-  }
-
   return (
     <>
-      {/* Desktop Table */}
-      <div
-        className="hidden max-h-[calc(100vh-580px)] overflow-auto rounded-xl border md:block"
-        style={{ borderColor: 'var(--pv-border)' }}
-      >
-        <table className="w-full">
-          <thead className="sticky top-0 z-10">
-            <tr style={{ background: 'var(--pv-surface)' }}>
-              <th className="w-8 px-4 py-3"></th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
-                Date
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
-                Category
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
-                Email
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
-                Message
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
-                Platform
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]">
-                Status
-              </th>
-            </tr>
-          </thead>
-          <tbody>
+      {items.length === 0 ? (
+        <div
+          className="flex flex-col items-center justify-center rounded-xl border py-16"
+          style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
+        >
+          <Smartphone className="mb-4 h-12 w-12 text-[var(--pv-text-muted)]" />
+          <p className="text-lg font-medium" style={{ color: 'var(--pv-text)' }}>
+            No feedback found
+          </p>
+          <p className="mt-1 text-sm text-[var(--pv-text-muted)]">
+            Feedback and support requests will appear here
+          </p>
+        </div>
+      ) : (
+        <>
+          {/* Desktop Table */}
+          <div
+            className="hidden max-h-[calc(100vh-580px)] overflow-auto rounded-xl border xl:block"
+            style={{ borderColor: 'var(--pv-border)' }}
+          >
+            <table className="w-full table-fixed">
+              <colgroup>
+                <col className="w-12" />
+                <col className="w-40" />
+                <col className="w-24" />
+                <col className="w-48" />
+                <col />
+                <col className="w-24" />
+                <col className="w-24" />
+              </colgroup>
+              <thead className="sticky top-0 z-10">
+                <tr style={{ background: 'var(--pv-surface)' }}>
+                  <th scope="col" className="px-2 py-3">
+                    <span className="sr-only">Expand feedback</span>
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]"
+                  >
+                    Date
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]"
+                  >
+                    Category
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]"
+                  >
+                    Email
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-5 py-3 text-left text-xs font-bold uppercase tracking-wide text-[var(--pv-text)]"
+                  >
+                    Message
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]"
+                  >
+                    Platform
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[var(--pv-text-muted)]"
+                  >
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((item) => {
+                  const isSelected = selectedId === feedbackKey(item);
+                  const categoryConfig = CATEGORY_COLORS[item.category] || UNKNOWN_CATEGORY_CONFIG;
+                  const statusConfig = STATUS_COLORS[item.status] || STATUS_COLORS.unknown;
+
+                  return (
+                    <Fragment key={feedbackKey(item)}>
+                      <tr
+                        className={cn(
+                          'border-t transition-colors',
+                          isSelected ? 'bg-[var(--pv-primary)]/5' : 'hover:bg-[var(--pv-surface)]',
+                        )}
+                        style={{ borderColor: 'var(--pv-border)' }}
+                      >
+                        <td className="px-2 py-3 text-center align-top">
+                          <button
+                            type="button"
+                            className="hover:bg-[var(--pv-primary)]/10 inline-flex h-8 w-8 items-center justify-center rounded-md text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2"
+                            aria-label={`${isSelected ? 'Collapse' : 'Expand'} feedback from ${item.email || 'unknown email'}`}
+                            aria-expanded={isSelected}
+                            aria-controls={`feedback-details-${feedbackKey(item)}`}
+                            onClick={() => toggleRow(feedbackKey(item))}
+                          >
+                            <ChevronRight
+                              aria-hidden="true"
+                              className={cn(
+                                'h-4 w-4 transition-transform',
+                                isSelected && 'rotate-90 text-[var(--pv-primary)]',
+                              )}
+                            />
+                          </button>
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 align-top text-[13px] text-[var(--pv-text-muted)]">
+                          {formatDate(item.created_at)}
+                        </td>
+                        <td className="px-3 py-4 align-top">
+                          <span
+                            className={cn(
+                              'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
+                              categoryConfig.bgColor,
+                              categoryConfig.color,
+                            )}
+                          >
+                            {categoryConfig.label}
+                          </span>
+                        </td>
+                        <td
+                          className="px-3 py-4 align-top text-sm"
+                          style={{ color: 'var(--pv-text)' }}
+                        >
+                          <span className="block truncate" title={item.email || 'Unknown email'}>
+                            {item.email || 'Unknown email'}
+                          </span>
+                        </td>
+                        <td className="px-5 py-4 align-top">
+                          <p
+                            className="line-clamp-3 break-words text-[15px] leading-6 text-[var(--pv-text)]"
+                            title={item.message}
+                          >
+                            {truncateMessage(item.message, 180)}
+                          </p>
+                          <ReplySummary item={item} />
+                        </td>
+                        <td className="px-3 py-4 align-top">
+                          <PlatformBadge platform={item.platform} />
+                        </td>
+                        <td className="px-3 py-4 align-top">
+                          <span
+                            className={cn(
+                              'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
+                              statusConfig.bgColor,
+                              statusConfig.color,
+                            )}
+                          >
+                            {statusConfig.label}
+                          </span>
+                        </td>
+                      </tr>
+                      {/* Inline expanded detail row */}
+                      {isSelected && (
+                        <tr
+                          id={`feedback-details-${feedbackKey(item)}`}
+                          className="border-t bg-[var(--pv-surface)]"
+                          style={{ borderColor: 'var(--pv-border)' }}
+                        >
+                          <td colSpan={7} className="p-0">
+                            <InlineDetailPanel
+                              item={item}
+                              onClose={() => setSelectedId(null)}
+                              onStatusChange={onStatusChange}
+                              disabled={disabled}
+                              onViewDetails={() => setDrawerItem(item)}
+                            />
+                          </td>
+                        </tr>
+                      )}
+                    </Fragment>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile Cards */}
+          <div className="max-h-[calc(100vh-540px)] space-y-3 overflow-auto xl:hidden">
             {items.map((item) => {
-              const isSelected = selectedId === feedbackKey(item);
               const categoryConfig = CATEGORY_COLORS[item.category] || UNKNOWN_CATEGORY_CONFIG;
               const statusConfig = STATUS_COLORS[item.status] || STATUS_COLORS.unknown;
 
               return (
-                <Fragment key={feedbackKey(item)}>
-                  <tr
-                    className={cn(
-                      'cursor-pointer border-t transition-colors',
-                      isSelected ? 'bg-[var(--pv-primary)]/5' : 'hover:bg-[var(--pv-surface)]',
-                    )}
-                    style={{ borderColor: 'var(--pv-border)' }}
-                    onClick={() => handleRowClick(feedbackKey(item))}
-                  >
-                    <td className="px-4 py-3">
-                      <ChevronRight
-                        className={cn(
-                          'h-4 w-4 transition-transform',
-                          isSelected
-                            ? 'rotate-90 text-[var(--pv-primary)]'
-                            : 'text-[var(--pv-text-muted)]',
-                        )}
-                      />
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-3 text-sm text-[var(--pv-text-muted)]">
-                      {formatDate(item.created_at)}
-                    </td>
-                    <td className="px-4 py-3">
+                <div
+                  key={feedbackKey(item)}
+                  className="rounded-xl border p-4"
+                  style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
+                  onClick={() => setDrawerItem(item)}
+                >
+                  <div className="mb-3 flex items-start justify-between">
+                    <div className="flex items-center gap-2">
                       <span
                         className={cn(
                           'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
@@ -154,111 +292,59 @@ export function FeedbackTable({
                       >
                         {categoryConfig.label}
                       </span>
-                    </td>
-                    <td className="px-4 py-3 text-sm" style={{ color: 'var(--pv-text)' }}>
-                      {item.email || 'Unknown email'}
-                    </td>
-                    <td className="max-w-xs px-4 py-3 text-sm text-[var(--pv-text-muted)]">
-                      {truncateMessage(item.message)}
-                    </td>
-                    <td className="px-4 py-3">
                       <PlatformBadge platform={item.platform} />
-                    </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={cn(
-                          'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
-                          statusConfig.bgColor,
-                          statusConfig.color,
-                        )}
-                      >
-                        {statusConfig.label}
-                      </span>
-                    </td>
-                  </tr>
-                  {/* Inline expanded detail row */}
-                  {isSelected && (
-                    <tr
-                      className="border-t bg-[var(--pv-surface)]"
-                      style={{ borderColor: 'var(--pv-border)' }}
+                    </div>
+                    <span
+                      className={cn(
+                        'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
+                        statusConfig.bgColor,
+                        statusConfig.color,
+                      )}
                     >
-                      <td colSpan={7} className="p-0">
-                        <InlineDetailPanel
-                          item={item}
-                          onClose={() => setSelectedId(null)}
-                          onStatusChange={onStatusChange}
-                          disabled={disabled}
-                          onViewDetails={() => setModalItem(item)}
-                        />
-                      </td>
-                    </tr>
-                  )}
-                </Fragment>
+                      {statusConfig.label}
+                    </span>
+                  </div>
+                  <p className="mb-2 text-sm font-medium" style={{ color: 'var(--pv-text)' }}>
+                    {item.email || 'Unknown email'}
+                  </p>
+                  <p className="mb-2 text-sm text-[var(--pv-text-muted)]">
+                    {truncateMessage(item.message, 100)}
+                  </p>
+                  <ReplySummary item={item} />
+                  <p className="text-xs text-[var(--pv-text-muted)]">
+                    {formatDate(item.created_at)}
+                  </p>
+                </div>
               );
             })}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Mobile Cards */}
-      <div className="max-h-[calc(100vh-540px)] space-y-3 overflow-auto md:hidden">
-        {items.map((item) => {
-          const categoryConfig = CATEGORY_COLORS[item.category] || UNKNOWN_CATEGORY_CONFIG;
-          const statusConfig = STATUS_COLORS[item.status] || STATUS_COLORS.unknown;
-
-          return (
-            <div
-              key={feedbackKey(item)}
-              className="rounded-xl border p-4"
-              style={{ borderColor: 'var(--pv-border)', background: 'var(--pv-surface)' }}
-              onClick={() => setModalItem(item)}
-            >
-              <div className="mb-3 flex items-start justify-between">
-                <div className="flex items-center gap-2">
-                  <span
-                    className={cn(
-                      'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
-                      categoryConfig.bgColor,
-                      categoryConfig.color,
-                    )}
-                  >
-                    {categoryConfig.label}
-                  </span>
-                  <PlatformBadge platform={item.platform} />
-                </div>
-                <span
-                  className={cn(
-                    'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
-                    statusConfig.bgColor,
-                    statusConfig.color,
-                  )}
-                >
-                  {statusConfig.label}
-                </span>
-              </div>
-              <p className="mb-2 text-sm font-medium" style={{ color: 'var(--pv-text)' }}>
-                {item.email || 'Unknown email'}
-              </p>
-              <p className="mb-2 text-sm text-[var(--pv-text-muted)]">
-                {truncateMessage(item.message, 100)}
-              </p>
-              <p className="text-xs text-[var(--pv-text-muted)]">{formatDate(item.created_at)}</p>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Detail Modal */}
-      <FeedbackDetailModal
-        item={
-          items.find((item) => modalItem && feedbackKey(item) === feedbackKey(modalItem)) || null
+          </div>
+        </>
+      )}
+      {/* Keep the active drawer mounted independently of filtered results. */}
+      <FeedbackDetailDrawer
+        composer={
+          drawerItem ? (
+            <FeedbackReplyComposer
+              key={feedbackKey(drawerItem)}
+              item={drawerItem}
+              onHistoryChanged={() => void refreshSummary(drawerItem)}
+              draft={drafts[feedbackKey(drawerItem)] || emptyReplyDraft()}
+              onChange={(draft) =>
+                setDrafts((previous) => ({ ...previous, [feedbackKey(drawerItem)]: draft }))
+              }
+            />
+          ) : undefined
         }
-        isOpen={!!modalItem}
+        item={
+          items.find((item) => drawerItem && feedbackKey(item) === feedbackKey(drawerItem)) ||
+          drawerItem
+        }
+        isOpen={!!drawerItem}
         statusError={statusError}
         refreshError={refreshError}
         refreshing={refreshing}
         onRetry={onRetry}
-        onClose={() => setModalItem(null)}
+        onClose={() => setDrawerItem(null)}
         onStatusChange={onStatusChange}
         disabled={disabled}
       />
@@ -343,7 +429,7 @@ function InlineDetailPanel({
 
         {/* Actions */}
         <div
-          className="flex items-center gap-3 border-t pt-4"
+          className="flex flex-wrap items-center gap-3 border-t pt-4"
           style={{ borderColor: 'var(--pv-border)' }}
         >
           <StatusButtons
@@ -359,6 +445,15 @@ function InlineDetailPanel({
             className="text-sm font-medium text-[var(--pv-primary)] hover:underline"
           >
             View Full Details
+          </button>
+          <button
+            onClick={(event) => {
+              event.stopPropagation();
+              onViewDetails();
+            }}
+            className="rounded-lg bg-[var(--pv-primary)] px-4 py-2 text-sm font-medium text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          >
+            Reply
           </button>
         </div>
       </div>
@@ -457,5 +552,35 @@ function StatusButtons({
         );
       })}
     </div>
+  );
+}
+
+function ReplySummary({ item }: { item: UnifiedFeedbackItem }) {
+  const summary = item.conversation;
+  if (!summary || (!summary.reply_count && !summary.last_incoming_at)) return null;
+  return (
+    <span className="mt-2 block space-y-1 text-xs text-[var(--pv-text-muted)]">
+      {!!summary.unread_count && (
+        <span className="block font-semibold text-[var(--pv-primary)]">
+          {summary.unread_count} unread {summary.unread_count === 1 ? 'reply' : 'replies'}
+        </span>
+      )}
+      <span className="block font-medium">
+        {summary.reply_count} outgoing {summary.reply_count === 1 ? 'reply' : 'replies'} ·{' '}
+        {feedbackDelivery(summary.last_delivery_status).label}
+        {summary.last_message_at && Number.isFinite(Date.parse(summary.last_message_at)) && (
+          <> · {new Date(summary.last_message_at).toLocaleString()}</>
+        )}
+      </span>
+      {summary.last_message_preview && (
+        <span className="block truncate">{summary.last_message_preview}</span>
+      )}
+      {summary.last_incoming_at && Number.isFinite(Date.parse(summary.last_incoming_at)) && (
+        <span className="block">
+          Last incoming: {new Date(summary.last_incoming_at).toLocaleString()}
+          <span className="block truncate">{summary.last_incoming_preview}</span>
+        </span>
+      )}
+    </span>
   );
 }

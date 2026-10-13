@@ -14,7 +14,7 @@ export const dynamic = 'force-dynamic';
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <div className="relative min-h-screen" style={{ background: 'var(--pv-bg)' }}>
+      <div className="relative min-h-dvh" style={{ background: 'var(--pv-bg)' }}>
         {/* Sidebar */}
         <DashboardSidebar />
 

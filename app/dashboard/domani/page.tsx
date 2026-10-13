@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { DomaniPageLoading } from './components/domani-page-loading';
 import { getServerFeedbackStats } from '@/lib/api/feedback-server';
 import { getWaitlistEntries } from '@/lib/api/waitlist';
-import { getDomaniUsers } from '@/lib/api/domani-users';
+import { getServerDomaniUserStats } from '@/lib/api/domani-users-server';
 import { OverviewPageClient } from './components/overview-page-client';
 
 export const metadata = {
@@ -24,7 +24,7 @@ async function OverviewContent() {
   const [feedbackResult, waitlistResult, usersResult] = await Promise.all([
     getServerFeedbackStats().catch(() => null),
     getWaitlistEntries({ limit: 100 }).catch(() => ({ items: [], total: 0 })),
-    getDomaniUsers({ limit: 100, include_deleted: true }).catch(() => ({ items: [], total: 0 })),
+    getServerDomaniUserStats().catch(() => null),
   ]);
 
   // Calculate stats
@@ -37,10 +37,17 @@ async function OverviewContent() {
       total: waitlistResult.items.length,
     },
     users: {
-      total: usersResult.items.length,
-      active: usersResult.items.filter((item) => !item.deleted_at).length,
+      total: usersResult?.total ?? 0,
+      active: usersResult?.active_30d ?? 0,
+      activityUnknown: usersResult?.activity_unknown ?? 0,
     },
   };
 
-  return <OverviewPageClient stats={stats} feedbackUnavailable={!feedbackResult} />;
+  return (
+    <OverviewPageClient
+      stats={stats}
+      feedbackUnavailable={!feedbackResult}
+      usersUnavailable={!usersResult}
+    />
+  );
 }

@@ -1,4 +1,8 @@
 'use client';
+import {
+  fieldClassNames,
+  selectClassNames,
+} from '@/app/dashboard/domani/components/domani-controls';
 
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import {
@@ -17,15 +21,12 @@ import {
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Pagination } from '@/components/ui/pagination';
+import { TextInput as Input } from '@mantine/core';
+import { Pagination } from '@/app/dashboard/domani/components/domani-pagination';
 import { cn } from '@/lib/utils';
 import { getCampaignsClient } from '@/lib/api/email-campaigns';
 import type { Campaign } from '@/lib/types/email-campaign';
-import {
-  DELIVERY_STATUS_COLORS,
-  TEMPLATE_TYPE_COLORS,
-} from '@/lib/types/email-campaign';
+import { DELIVERY_STATUS_COLORS, TEMPLATE_TYPE_COLORS } from '@/lib/types/email-campaign';
 const CampaignDetailModal = dynamic(
   () => import('./campaign-detail-modal').then((m) => ({ default: m.CampaignDetailModal })),
   { ssr: false },
@@ -63,7 +64,7 @@ export function CampaignsPageClient({
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(
-    initialLoadError ? 'Failed to load campaigns. Please refresh the page.' : null
+    initialLoadError ? 'Failed to load campaigns. Please refresh the page.' : null,
   );
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
   const isInitialMount = useRef(true);
@@ -102,7 +103,9 @@ export function CampaignsPageClient({
       return;
     }
     fetchData(currentPage, pageSize);
-    return () => { abortControllerRef.current?.abort(); };
+    return () => {
+      abortControllerRef.current?.abort();
+    };
   }, [currentPage, pageSize, fetchData]);
 
   const filteredCampaigns = useMemo(() => {
@@ -110,8 +113,7 @@ export function CampaignsPageClient({
     const q = search.toLowerCase();
     return campaigns.filter(
       (c) =>
-        (c.subject || '').toLowerCase().includes(q) ||
-        (c.sent_by || '').toLowerCase().includes(q),
+        (c.subject || '').toLowerCase().includes(q) || (c.sent_by || '').toLowerCase().includes(q),
     );
   }, [campaigns, search]);
 
@@ -129,23 +131,16 @@ export function CampaignsPageClient({
         <div
           className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl"
           style={{
-            background:
-              'linear-gradient(135deg, rgba(63, 0, 233, 0.1), rgba(201, 71, 255, 0.05))',
+            background: 'linear-gradient(135deg, rgba(63, 0, 233, 0.1), rgba(201, 71, 255, 0.05))',
             border: '1px solid rgba(63, 0, 233, 0.15)',
           }}
         >
           <Mail className="h-6 w-6" style={{ color: 'var(--pv-primary)' }} />
         </div>
-        <h2
-          className="mb-1 text-lg font-semibold"
-          style={{ color: 'var(--pv-text)' }}
-        >
+        <h2 className="mb-1 text-lg font-semibold" style={{ color: 'var(--pv-text)' }}>
           No campaigns yet
         </h2>
-        <p
-          className="mb-6 text-sm"
-          style={{ color: 'var(--pv-text-muted)' }}
-        >
+        <p className="mb-6 text-sm" style={{ color: 'var(--pv-text-muted)' }}>
           Send your first email campaign to Domani users.
         </p>
         <Link href="/dashboard/domani/campaigns/new">
@@ -163,10 +158,7 @@ export function CampaignsPageClient({
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1
-            className="text-2xl font-bold"
-            style={{ color: 'var(--pv-text)' }}
-          >
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--pv-text)' }}>
             Campaigns
           </h1>
           <p className="text-sm" style={{ color: 'var(--pv-text-muted)' }}>
@@ -184,15 +176,15 @@ export function CampaignsPageClient({
       {/* Search bar */}
       <div className="mb-4">
         <div className="relative" style={{ maxWidth: '320px' }}>
-          <Search
-            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2"
-            style={{ color: 'var(--pv-text-muted)' }}
-          />
           <Input
+            leftSection={<Search size={16} />}
             placeholder="Filter this page by subject or sender..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="h-9 rounded-lg border-none pl-10 text-sm shadow-none"
+            classNames={{
+              ...fieldClassNames,
+              input: `h-9 rounded-lg border-none text-sm shadow-none ${fieldClassNames.input}`,
+            }}
             style={{ background: 'var(--pv-surface)', color: 'var(--pv-text)' }}
           />
         </div>
@@ -220,15 +212,10 @@ export function CampaignsPageClient({
       {isLoading ? (
         <div className="flex items-center justify-center py-16">
           <Loader2 className="h-6 w-6 animate-spin text-[var(--pv-primary)]" />
-          <span className="ml-2 text-sm text-[var(--pv-text-muted)]">
-            Loading campaigns...
-          </span>
+          <span className="ml-2 text-sm text-[var(--pv-text-muted)]">Loading campaigns...</span>
         </div>
       ) : filteredCampaigns.length === 0 ? (
-        <div
-          className="py-16 text-center text-sm"
-          style={{ color: 'var(--pv-text-muted)' }}
-        >
+        <div className="py-16 text-center text-sm" style={{ color: 'var(--pv-text-muted)' }}>
           No campaigns match your search.
         </div>
       ) : (
@@ -238,8 +225,7 @@ export function CampaignsPageClient({
             className="overflow-hidden rounded-xl"
             style={{
               background: 'var(--pv-surface)',
-              boxShadow:
-                '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)',
             }}
           >
             <div className="overflow-x-auto">
@@ -264,13 +250,10 @@ export function CampaignsPageClient({
                 </thead>
                 <tbody>
                   {filteredCampaigns.map((campaign) => {
-                    const templateConfig = TEMPLATE_TYPE_COLORS[
-                      campaign.template_type
-                    ] ?? {
-                      label:
-                        (campaign.template_type || 'custom')
-                          .replace(/_/g, ' ')
-                          .replace(/\b\w/g, (c) => c.toUpperCase()),
+                    const templateConfig = TEMPLATE_TYPE_COLORS[campaign.template_type] ?? {
+                      label: (campaign.template_type || 'custom')
+                        .replace(/_/g, ' ')
+                        .replace(/\b\w/g, (c) => c.toUpperCase()),
                       color: 'text-gray-600 dark:text-gray-400',
                       bgColor: 'bg-gray-100 dark:bg-gray-800/50',
                     };
@@ -344,10 +327,7 @@ export function CampaignsPageClient({
                               {campaign.failed}
                             </span>
                           ) : (
-                            <span
-                              className="text-xs"
-                              style={{ color: 'var(--pv-text-muted)' }}
-                            >
+                            <span className="text-xs" style={{ color: 'var(--pv-text-muted)' }}>
                               —
                             </span>
                           )}

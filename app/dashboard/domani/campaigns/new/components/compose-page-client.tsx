@@ -1,4 +1,8 @@
 'use client';
+import {
+  fieldClassNames,
+  selectClassNames,
+} from '@/app/dashboard/domani/components/domani-controls';
 
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
@@ -15,7 +19,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { TextInput as Input } from '@mantine/core';
 import { RichTextEditor } from '@/components/dashboard/agenda/rich-text-editor';
 import { previewCampaign, sendCampaign } from '@/lib/api/email-campaigns';
 import type { UserProfile } from '@/lib/types/domani-users';
@@ -55,7 +59,8 @@ export function ComposePageClient({
   const [recipientsOpen, setRecipientsOpen] = useState(true);
   const [contentOpen, setContentOpen] = useState(true);
 
-  const isFormValid = subject.trim() !== '' && htmlContent.trim() !== '' && htmlContent !== '<p></p>';
+  const isFormValid =
+    subject.trim() !== '' && htmlContent.trim() !== '' && htmlContent !== '<p></p>';
   const canSend = isFormValid && selectedIds.size > 0;
 
   const dismissStatus = useCallback(() => setStatus(null), []);
@@ -209,10 +214,7 @@ export function ComposePageClient({
           }}
         >
           <div className="overflow-hidden">
-            <div
-              className="px-6 pb-5"
-              style={{ borderTop: '1px solid var(--pv-border)' }}
-            >
+            <div className="px-6 pb-5" style={{ borderTop: '1px solid var(--pv-border)' }}>
               <div className="pt-5">
                 <RecipientSelector
                   initialUsers={initialUsers}
@@ -262,10 +264,7 @@ export function ComposePageClient({
             </div>
           </div>
           <ChevronDown
-            className={cn(
-              'h-4 w-4 transition-transform duration-200',
-              contentOpen && 'rotate-180',
-            )}
+            className={cn('h-4 w-4 transition-transform duration-200', contentOpen && 'rotate-180')}
             style={{ color: 'var(--pv-text-muted)' }}
           />
         </button>
@@ -296,7 +295,10 @@ export function ComposePageClient({
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
                     maxLength={200}
-                    className="h-11 rounded-xl border-none text-base"
+                    classNames={{
+                      ...fieldClassNames,
+                      input: `h-11 rounded-xl border-none text-base ${fieldClassNames.input}`,
+                    }}
                     style={{
                       background: 'var(--pv-bg)',
                     }}
@@ -306,16 +308,10 @@ export function ComposePageClient({
 
               {/* Body */}
               <div className="space-y-1.5">
-                <label
-                  className="text-sm font-medium"
-                  style={{ color: 'var(--pv-text)' }}
-                >
+                <label className="text-sm font-medium" style={{ color: 'var(--pv-text)' }}>
                   Body
                 </label>
-                <div
-                  className="overflow-hidden rounded-xl"
-                  style={{ background: 'var(--pv-bg)' }}
-                >
+                <div className="overflow-hidden rounded-xl" style={{ background: 'var(--pv-bg)' }}>
                   <RichTextEditor
                     content={htmlContent}
                     onChange={setHtmlContent}

@@ -3,14 +3,7 @@
 import { useState, useMemo } from 'react';
 import { Loader2, Send, AlertTriangle } from 'lucide-react';
 import DOMPurify from 'dompurify';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from '@/components/ui/dialog';
+import { Modal } from '@mantine/core';
 import { Button } from '@/components/ui/button';
 
 interface SendConfirmationDialogProps {
@@ -48,17 +41,22 @@ export function SendConfirmationDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={isSending ? undefined : onOpenChange}>
-      <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto p-6">
-        <DialogHeader>
-          <DialogTitle>Confirm Campaign Send</DialogTitle>
-          <DialogDescription>
-            Review your email before sending to{' '}
-            <strong className="text-[var(--pv-text)]">{recipientCount}</strong> recipient
-            {recipientCount !== 1 ? 's' : ''}.
-          </DialogDescription>
-        </DialogHeader>
-
+    <Modal
+      closeButtonProps={{ 'aria-label': 'Close', disabled: isSending }}
+      opened={open}
+      onClose={() => {
+        if (!isSending) onOpenChange(false);
+      }}
+      title="Confirm Campaign Send"
+      size="lg"
+      closeOnEscape={!isSending}
+      closeOnClickOutside={!isSending}
+    >
+      <div className="space-y-4">
+        <p className="text-sm">
+          Review your email before sending to <strong>{recipientCount}</strong> recipient
+          {recipientCount !== 1 ? 's' : ''}.
+        </p>
         {/* Subject preview */}
         <div className="space-y-1.5">
           <label className="text-xs font-medium" style={{ color: 'var(--pv-text-muted)' }}>
@@ -82,7 +80,7 @@ export function SendConfirmationDialog({
             Email Body
           </label>
           <div
-            className="prose prose-sm dark:prose-invert max-h-[300px] max-w-none overflow-y-auto rounded-lg border px-4 py-3"
+            className="prose prose-sm max-h-[300px] max-w-none overflow-y-auto rounded-lg border px-4 py-3 dark:prose-invert"
             style={{
               borderColor: 'var(--pv-border)',
               background: 'var(--pv-bg)',
@@ -102,12 +100,8 @@ export function SendConfirmationDialog({
           </div>
         )}
 
-        <DialogFooter>
-          <Button
-            variant="secondary"
-            onClick={() => onOpenChange(false)}
-            disabled={isSending}
-          >
+        <div className="flex justify-end gap-2">
+          <Button variant="secondary" onClick={() => onOpenChange(false)} disabled={isSending}>
             Cancel
           </Button>
           <Button onClick={handleConfirm} disabled={isSending}>
@@ -123,8 +117,8 @@ export function SendConfirmationDialog({
               </>
             )}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </div>
+      </div>
+    </Modal>
   );
 }

@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import './globals.css';
+import { FeedbackDraftsProvider } from '@/components/feedback-drafts-provider';
 import { CampaignTrackerClient } from '@/components/campaign-tracker-client';
 import { GoogleTagManager } from '@/components/google-tag-manager';
 import { LayoutWrapper } from '@/components/layout-wrapper';
@@ -159,7 +160,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <Suspense fallback={null}>
               <CampaignTrackerClient />
             </Suspense>
-            <LayoutWrapper navItems={navItems}>{children}</LayoutWrapper>
+            <FeedbackDraftsProvider>
+              <LayoutWrapper navItems={navItems}>{children}</LayoutWrapper>
+            </FeedbackDraftsProvider>
           </MantineRootProvider>
         </ThemeProvider>
       </body>

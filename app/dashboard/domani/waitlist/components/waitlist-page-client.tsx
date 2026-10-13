@@ -6,7 +6,7 @@ import type { WaitlistEntry } from '@/lib/types/waitlist';
 import { getWaitlistEntries } from '@/lib/api/waitlist';
 import { WaitlistToolbar, type WaitlistFilters } from './waitlist-toolbar';
 import { WaitlistTable } from './waitlist-table';
-import { Pagination } from '@/components/ui/pagination';
+import { Pagination } from '@/app/dashboard/domani/components/domani-pagination';
 import type { DateRange } from '@/components/ui/date-range-filter';
 
 interface WaitlistPageClientProps {
@@ -83,11 +83,7 @@ export function WaitlistPageClient({ initialItems, initialTotal }: WaitlistPageC
     <>
       {/* Toolbar */}
       <div className="mb-6">
-        <WaitlistToolbar
-          filters={filters}
-          onFiltersChange={handleFiltersChange}
-          total={total}
-        />
+        <WaitlistToolbar filters={filters} onFiltersChange={handleFiltersChange} total={total} />
       </div>
 
       {/* Loading state */}
