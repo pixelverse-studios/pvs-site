@@ -93,6 +93,7 @@ export default function SEOServicesPage() {
         title={pricing.title}
         intro={pricing.intro}
         packages={pricing.packages}
+        footnote={pricing.footnote}
       />
 
       {/* 4. Why Local SEO Isn't Just About Rankings */}

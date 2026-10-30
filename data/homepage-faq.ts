@@ -2,7 +2,9 @@ import type { FaqItem } from '@/data/faq-types';
 import {
   formatMonthlyStartingPrice,
   formatStartingPrice,
-  packageStartingPrices,
+  seoPackageMonthlyPrices,
+  seoStrategySetupPrice,
+  websitePackagePrices,
 } from '@/data/package-pricing';
 
 export const homepageFaq: FaqItem[] = [
@@ -19,12 +21,12 @@ export const homepageFaq: FaqItem[] = [
   },
   {
     question: 'How much does a custom website typically cost in New Jersey?',
-    answer: `Website packages can start at ${formatStartingPrice(packageStartingPrices.web)}, with larger custom website projects for small-to-mid-size businesses in New Jersey often scaling based on scope, number of pages, integrations, and content work. We do not force every project into the same package. We scope based on what your business actually needs.`,
+    answer: `Website packages start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page Starter Website, ${formatStartingPrice(websitePackagePrices.smallBusiness)} for a 6-page Small Business Website, and ${formatStartingPrice(websitePackagePrices.customGrowth)} for a 10-page Custom Growth Website. Larger custom projects for New Jersey businesses are scoped individually based on number of pages, integrations, and content work. We do not force every project into the same package. We scope based on what your business actually needs.`,
     link: { label: 'Share your project details', href: '/contact/details' },
   },
   {
     question: 'How much do SEO packages start at?',
-    answer: `Recurring SEO starts at ${formatMonthlyStartingPrice(packageStartingPrices.seoMonthly)}. From there, pricing depends on keyword coverage, location coverage, support cadence, and reporting depth. The goal is to match the level of SEO support to the market you are actually competing in.`,
+    answer: `Recurring SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)} for one focus location, ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.threeLocations)} for up to 3 locations, and ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.fiveLocations)} for up to 5 locations. Every plan starts with a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. The goal is to match the level of SEO support to the market you are actually competing in.`,
     link: { label: 'Explore local SEO services', href: '/services/seo' },
   },
   {

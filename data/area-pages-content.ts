@@ -1,4 +1,11 @@
 import type { FaqItem } from '@/data/faq-types';
+import {
+  formatMonthlyStartingPrice,
+  formatStartingPrice,
+  seoPackageMonthlyPrices,
+  seoStrategySetupPrice,
+  websitePackagePrices,
+} from '@/data/package-pricing';
 
 // =============================================================================
 // Type Definitions
@@ -117,8 +124,7 @@ const counties: Record<string, CountyContent> = {
       },
       {
         question: 'How much does a website cost for a Bergen County business?',
-        answer:
-          'Most custom website projects for Bergen County small-to-mid-size businesses fall in the $3,000 to $10,000 range, depending on scope, number of pages, and content work involved. Local SEO engagements typically range from $1,500 to $5,000 for an initial optimization project. We scope every project individually based on what the business actually needs.',
+        answer: `Our website packages start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped by number of pages, integrations, and content work. Recurring local SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, after a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. We scope every project individually based on what the business actually needs.`,
         link: { label: 'Share your project details', href: '/contact/details' },
       },
       {
@@ -202,8 +208,7 @@ const cities: Record<string, CityPageContent> = {
       },
       {
         question: 'What does a website cost for a small business in Fort Lee?',
-        answer:
-          'Most custom website projects for Fort Lee small businesses fall in the $3,000 to $10,000 range, depending on the number of pages, design complexity, and content work involved. Local SEO projects typically range from $1,500 to $5,000 for initial optimization. We scope every project based on what the business actually needs.',
+        answer: `Our website packages start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped by the number of pages, design complexity, and content work involved. Recurring local SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, after a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. We scope every project based on what the business actually needs.`,
         link: { label: 'Share your project details', href: '/contact/details' },
       },
       {
@@ -271,8 +276,7 @@ const cities: Record<string, CityPageContent> = {
       },
       {
         question: 'What does web design cost for a small business in Englewood, NJ?',
-        answer:
-          'Most custom website projects for Englewood small businesses fall in the $3,000 to $10,000 range depending on scope. Local SEO projects typically start at $1,500 to $5,000. We scope every project based on what the business needs, not a one-size-fits-all package.',
+        answer: `Our website packages start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped individually. Recurring local SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, after a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. We scope every project based on what the business needs, not a one-size-fits-all package.`,
         link: { label: 'Share your project details', href: '/contact/details' },
       },
       {
@@ -340,8 +344,7 @@ const cities: Record<string, CityPageContent> = {
       },
       {
         question: 'What does a website cost for a Hackensack business?',
-        answer:
-          'Most custom website projects for Hackensack small-to-mid-size businesses fall in the $3,000 to $10,000 range. Local SEO projects typically start at $1,500 to $5,000 for an initial engagement. Scope and pricing depend on the specific needs of the business, not a fixed package.',
+        answer: `Our website packages start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped individually. Recurring local SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, after a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. Scope and pricing depend on the specific needs of the business.`,
         link: { label: 'Share your project details', href: '/contact/details' },
       },
       {
@@ -404,8 +407,7 @@ const cities: Record<string, CityPageContent> = {
       },
       {
         question: 'What does a new website cost for a small business in Paramus?',
-        answer:
-          'Most custom website projects for Paramus small businesses fall in the $3,000 to $10,000 range depending on scope. Local SEO projects typically start at $1,500 to $5,000. Given the competitive intensity of the Paramus market, businesses here often see strong ROI from investing in professional web design and SEO.',
+        answer: `Our website packages start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped individually. Recurring local SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, after a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. Given the competitive intensity of the Paramus market, businesses here often see strong ROI from investing in professional web design and SEO.`,
         link: { label: 'Share your project details', href: '/contact/details' },
       },
       {
@@ -477,8 +479,7 @@ const cities: Record<string, CityPageContent> = {
       },
       {
         question: 'What does a website cost for a Ridgewood business?',
-        answer:
-          'Most custom website projects for Ridgewood businesses fall in the $3,000 to $10,000 range depending on design complexity, number of pages, and content requirements. Premium design work for boutique and hospitality businesses may fall toward the higher end. We scope every project individually based on the specific needs of the business.',
+        answer: `Our website packages start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped by design complexity, number of pages, and content requirements. Premium design work for boutique and hospitality businesses may fall toward the higher end. We scope every project individually based on the specific needs of the business.`,
         link: { label: 'Share your project details', href: '/contact/details' },
       },
       {

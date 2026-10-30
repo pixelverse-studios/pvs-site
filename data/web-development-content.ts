@@ -1,6 +1,11 @@
 import type { CTA } from './service-paths';
 import type { FaqItem } from '@/data/faq-types';
-import { packageStartingPrices } from '@/data/package-pricing';
+import {
+  carePlanMonthlyPrices,
+  formatStartingPrice,
+  websitePackagePrices,
+  type PricingPackage,
+} from '@/data/package-pricing';
 
 export interface WebDevContentData {
   hero: {
@@ -50,14 +55,7 @@ export interface WebDevContentData {
   };
 }
 
-export interface WebPricingPackage {
-  name: 'Basic' | 'Advanced' | 'Pro' | 'Custom';
-  setupPrice: number | null;
-  monthlyPrice: number | null;
-  description: string;
-  highlights: string[];
-  note?: string;
-}
+export type WebPricingPackage = PricingPackage & { setupPrice: number | null };
 
 export const webDevelopmentContent: WebDevContentData = {
   hero: {
@@ -131,49 +129,58 @@ export const webDevelopmentContent: WebDevContentData = {
     eyebrow: 'Website Packages',
     title: 'Choose a starting point for the site you actually need.',
     intro:
-      'Website projects are primarily scoped upfront, with a lighter monthly care plan to keep the site supported after launch. We keep the tiers simple so the first conversation can focus on fit.',
+      'Website projects are primarily scoped upfront, with a monthly care plan to keep the site supported after launch. We keep the packages simple so the first conversation can focus on fit.',
     packages: [
       {
-        name: 'Basic',
-        setupPrice: packageStartingPrices.web,
-        monthlyPrice: 35,
-        description: 'For a starter site, focused refresh, or direct website update scope.',
+        name: 'Starter Website',
+        shortName: 'Starter',
+        setupPrice: websitePackagePrices.starter,
+        monthlyPrice: carePlanMonthlyPrices.care,
+        carePlan: 'Website Care',
+        description: 'For a new business, a focused launch or a site refresh.',
         highlights: [
-          'Focused page structure',
-          'Mobile responsive build',
-          'Basic technical setup',
-          'Monthly hosting, uptime checks, and minor edits',
+          '3-page custom website',
+          'Custom design, mobile-responsive build',
+          'Technical setup and launch',
+          'Hosting, security updates and monthly content updates',
         ],
       },
       {
-        name: 'Advanced',
-        setupPrice: 1500,
-        monthlyPrice: 50,
-        description: 'For a small business site that needs stronger structure and polish.',
+        name: 'Small Business Website',
+        shortName: 'Small Business',
+        featured: true,
+        setupPrice: websitePackagePrices.smallBusiness,
+        monthlyPrice: carePlanMonthlyPrices.carePlus,
+        carePlan: 'Website Care Plus',
+        description: 'For a business site that needs stronger structure and polish.',
         highlights: [
-          'Expanded page planning',
-          'SEO-ready structure',
-          'Conversion-focused sections',
-          'Monthly updates and small technical fixes',
+          '6-page custom website, including dedicated service pages',
+          'SEO-ready structure and on-page SEO setup',
+          'Conversion-focused sections and calls to action',
+          'Monthly updates with 1-business-day response',
         ],
       },
       {
-        name: 'Pro',
-        setupPrice: 3000,
-        monthlyPrice: 75,
-        description: 'For larger custom sites with deeper content and conversion needs.',
+        name: 'Custom Growth Website',
+        shortName: 'Custom Growth',
+        setupPrice: websitePackagePrices.customGrowth,
+        monthlyPrice: carePlanMonthlyPrices.priority,
+        carePlan: 'Website Care + Priority Support',
+        description: 'For larger sites with deeper content and conversion needs.',
         highlights: [
-          'Custom site strategy',
-          'Expanded UX planning',
-          'Launch support',
-          'Monthly priority updates and support requests',
+          '10-page custom website, including a landing page',
+          'UX planning and site strategy before design',
+          'On-page SEO setup and launch support',
+          'Priority support with same-day response for urgent issues',
         ],
       },
       {
         name: 'Custom',
+        shortName: 'Custom',
         setupPrice: null,
         monthlyPrice: null,
-        description: 'For CMS, integrations, ecommerce, portals, or complex website needs.',
+        description:
+          'For CMS, integrations, ecommerce, portals, or complex website needs. Starts with a Discovery & Assessment.',
         highlights: [
           'Custom CMS planning',
           'Advanced integrations',
@@ -187,8 +194,7 @@ export const webDevelopmentContent: WebDevContentData = {
   faq: [
     {
       question: 'How much does a custom website cost?',
-      answer:
-        'Most custom website projects for small-to-mid-size businesses fall in the $3,000\u2013$10,000+ range, depending on scope, number of pages, integrations, and content work involved. We scope every project individually, so you\u2019re not paying for a package built around someone else\u2019s needs.',
+      answer: `Website packages start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page Starter Website. A 6-page Small Business Website is ${formatStartingPrice(websitePackagePrices.smallBusiness)}, and a 10-page Custom Growth Website is ${formatStartingPrice(websitePackagePrices.customGrowth)}, each with a monthly care plan after launch. Projects with custom CMS work, integrations, or complex page architecture are scoped individually, so you\u2019re not paying for a package built around someone else\u2019s needs.`,
       link: { label: 'Share your project details', href: '/contact/details' },
     },
     {

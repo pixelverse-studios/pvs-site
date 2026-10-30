@@ -157,7 +157,7 @@ const blogPosts: BlogPost[] = [
       {
         type: 'paragraph',
         content:
-          'Best for solo entrepreneurs, freelancers, and side projects that need a professional online presence without complex functionality. Expect a 1 to 3 page site with mobile-responsive design, basic SEO setup, and simple contact forms. At PixelVerse, our Core Lite package ($500 setup + $49/month) fits this tier with custom code instead of templates.',
+          'Best for solo entrepreneurs, freelancers, and side projects that need a professional online presence without complex functionality. Expect a 1 to 3 page site with mobile-responsive design, basic SEO setup, and simple contact forms. At PixelVerse, our Starter Website ($1,000 + $49/month for Website Care) fits this tier with a 3-page custom site instead of a template.',
       },
       {
         type: 'list',
@@ -175,7 +175,7 @@ const blogPosts: BlogPost[] = [
       {
         type: 'paragraph',
         content:
-          'The sweet spot for established service businesses ready to convert visitors into leads. This tier includes 5 to 8 pages, conversion-focused UX, analytics setup, and CMS capabilities for easy content updates. Our Core Starter package ($2,000 setup + $79/month) delivers multi-page custom sites with performance optimization and bi-monthly support.',
+          'The sweet spot for established service businesses ready to convert visitors into leads. This tier includes 5 to 8 pages, conversion-focused UX, analytics setup, and CMS capabilities for easy content updates. Our Small Business Website ($2,300 + $69/month for Website Care Plus) delivers a 6-page custom site with on-page SEO setup and monthly updates with 1-business-day response.',
       },
       {
         type: 'list',
@@ -193,7 +193,7 @@ const blogPosts: BlogPost[] = [
       {
         type: 'paragraph',
         content:
-          'For businesses with complex needs: multiple service lines, booking integrations, membership areas, or sophisticated lead funnels. This tier includes custom architecture, personalized component systems, advanced analytics, and monthly optimization sessions. Our Core Growth package ($4,000 setup + $179/month) serves established teams ready to scale.',
+          'For businesses with complex needs: multiple service lines, booking integrations, membership areas, or sophisticated lead funnels. This tier includes custom architecture, personalized component systems, advanced analytics, and monthly optimization sessions. Our Custom Growth Website ($4,350 + $99/month for Website Care + Priority Support) serves established teams ready to scale.',
       },
       {
         type: 'list',
@@ -211,7 +211,7 @@ const blogPosts: BlogPost[] = [
       {
         type: 'paragraph',
         content:
-          'High-growth brands needing bespoke solutions: custom admin dashboards, headless CMS architecture, complex e-commerce, or multi-platform integrations. This tier involves full UX research, stakeholder discovery, and dedicated project management. Our Core Premium tier starts at $6,500 with ongoing retainer support.',
+          'High-growth brands needing bespoke solutions: custom admin dashboards, headless CMS architecture, complex e-commerce, or multi-platform integrations. This tier involves full UX research, stakeholder discovery, and dedicated project management. Our Custom projects are scoped after a Discovery & Assessment, with support matched to scope.',
       },
       {
         type: 'list',
@@ -290,7 +290,7 @@ const blogPosts: BlogPost[] = [
       {
         type: 'paragraph',
         content:
-          'For a Core Starter project at PixelVerse ($2,000 setup + $79/month), your first-year investment is approximately $2,950. Compare that to the leads, credibility, and conversions a professional site generates versus a DIY alternative.',
+          'For a Small Business Website at PixelVerse ($2,300 + $69/month), your first-year investment is approximately $3,130. Compare that to the leads, credibility, and conversions a professional site generates versus a DIY alternative.',
       },
       {
         type: 'heading',
@@ -411,7 +411,7 @@ const blogPosts: BlogPost[] = [
       {
         type: 'paragraph',
         content:
-          'Absolutely. Starting with a Core Lite package and scaling to Core Starter or Growth as your business expands is a smart approach. Custom-coded sites are built to grow with you, unlike template platforms that force complete rebuilds when you outgrow their limitations.',
+          'Absolutely. Starting with a Starter Website and scaling to a Small Business or Custom Growth Website as your business expands is a smart approach. Custom-coded sites are built to grow with you, unlike template platforms that force complete rebuilds when you outgrow their limitations.',
       },
       {
         type: 'heading',
@@ -806,7 +806,7 @@ const blogPosts: BlogPost[] = [
       {
         type: 'paragraph',
         content:
-          'Businesses evolve. Builders rarely keep up. Custom architectures scale naturally when it is time to add services, integrate CRMs, or launch client portals. Our Core Growth and Core Premium engagements are designed for exactly that: deep integrations and compounding enhancements without starting over.',
+          'Businesses evolve. Builders rarely keep up. Custom architectures scale naturally when it is time to add services, integrate CRMs, or launch client portals. Our Custom Growth and Custom engagements are designed for exactly that: deep integrations and compounding enhancements without starting over.',
       },
       {
         type: 'heading',

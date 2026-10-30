@@ -1,6 +1,12 @@
 import type { CTA } from './service-paths';
 import type { FaqItem } from '@/data/faq-types';
-import { packageStartingPrices } from '@/data/package-pricing';
+import {
+  formatMonthlyStartingPrice,
+  formatStartingPrice,
+  seoPackageMonthlyPrices,
+  seoStrategySetupPrice,
+  type PricingPackage,
+} from '@/data/package-pricing';
 
 export interface SeoContentData {
   hero: {
@@ -40,6 +46,7 @@ export interface SeoContentData {
     title: string;
     intro: string;
     packages: SeoPricingPackage[];
+    footnote: string;
   };
   faq: FaqItem[];
   finalCta: {
@@ -49,13 +56,8 @@ export interface SeoContentData {
   };
 }
 
-export interface SeoPricingPackage {
-  name: 'Basic' | 'Advanced' | 'Pro' | 'Custom';
-  monthlyPrice: number | null;
-  description: string;
-  highlights: string[];
-  note?: string;
-}
+// SEO cards are recurring-only; a setup price would switch the card to the website layout.
+export type SeoPricingPackage = Omit<PricingPackage, 'setupPrice' | 'carePlan'>;
 
 export function getLowestSeoMonthlyPrice() {
   return Math.min(
@@ -136,40 +138,45 @@ export const seoContent: SeoContentData = {
       'These packages are focused on recurring SEO support: keywords, locations, visibility checks, practical recommendations, and reporting. We keep the scope clear so the first conversation can focus on fit.',
     packages: [
       {
-        name: 'Basic',
-        monthlyPrice: packageStartingPrices.seoMonthly,
-        description: 'For a focused local presence that needs consistent visibility tracking.',
+        name: 'Local SEO \u2013 1 Location',
+        shortName: '1 Location',
+        monthlyPrice: seoPackageMonthlyPrices.oneLocation,
+        description: 'For a business focused on one town.',
         highlights: [
-          'Core keyword tracking',
-          '1 focus location',
-          'Light monthly reporting',
-          'Priority recommendations',
+          '1 focus location, up to 10 tracked keywords',
+          '1 page optimized per month',
+          '2 Google Business Profile posts per month',
+          'Monthly visibility report',
         ],
       },
       {
-        name: 'Advanced',
-        monthlyPrice: 400,
-        description: 'For businesses competing across a focused local service area.',
+        name: 'Local SEO \u2013 Up to 3 Locations',
+        shortName: 'Up to 3 Locations',
+        featured: true,
+        monthlyPrice: seoPackageMonthlyPrices.threeLocations,
+        description: 'For businesses competing across a local service area.',
         highlights: [
-          'Expanded keyword set',
-          '2-3 focus locations',
-          'Monthly optimization support',
-          'GBP and website recommendations',
+          'Up to 3 focus locations, up to 25 tracked keywords',
+          '2 pages optimized per month',
+          '4 Google Business Profile posts per month and review guidance',
+          'Quarterly citation cleanup, monthly report and quarterly strategy call',
         ],
       },
       {
-        name: 'Pro',
-        monthlyPrice: 650,
-        description: 'For active local growth with broader visibility and support needs.',
+        name: 'Local SEO \u2013 Up to 5 Locations',
+        shortName: 'Up to 5 Locations',
+        monthlyPrice: seoPackageMonthlyPrices.fiveLocations,
+        description: 'For active growth across a wider area.',
         highlights: [
-          'Broader keyword coverage',
-          'Multiple location priorities',
-          'Competitor visibility checks',
-          'Stronger reporting cadence',
+          'Up to 5 focus locations, up to 50 tracked keywords',
+          '4 pages optimized per month and 1 blog article per month',
+          'Weekly Google Business Profile posts and competitor tracking',
+          'Quarterly technical SEO check, monthly report and monthly strategy call',
         ],
       },
       {
         name: 'Custom',
+        shortName: 'Custom',
         monthlyPrice: null,
         description: 'For multi-location, competitive, or content-heavy SEO needs.',
         highlights: [
@@ -181,12 +188,12 @@ export const seoContent: SeoContentData = {
         note: 'Scoped after review',
       },
     ],
+    footnote: `All SEO plans start with a one-time SEO Strategy Setup (keyword research and content mapping), ${formatStartingPrice(seoStrategySetupPrice)}. New location or service pages are quoted separately.`,
   },
   faq: [
     {
       question: 'How much does local SEO cost?',
-      answer:
-        'Our recurring local SEO packages start at $200/month and scale based on keyword coverage, location coverage, support cadence, and reporting depth. We evaluate the site first so we can recommend the level of recurring support that actually fits the business.',
+      answer: `Our recurring local SEO packages start at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)} for one focus location, ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.threeLocations)} for up to 3 locations, and ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.fiveLocations)} for up to 5 locations. Every plan starts with a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup for keyword research and content mapping. We evaluate the site first so we can recommend the level of recurring support that actually fits the business.`,
       link: { label: 'Share your situation', href: '/contact/details' },
     },
     {
