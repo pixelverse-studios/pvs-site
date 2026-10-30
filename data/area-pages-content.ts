@@ -124,8 +124,7 @@ const counties: Record<string, CountyContent> = {
       },
       {
         question: 'How much does a website cost for a Bergen County business?',
-        answer:
-          `Website packages for Bergen County businesses start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped by number of pages, integrations, and content work. Recurring local SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, after a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. We scope every project individually based on what the business actually needs.`,
+        answer: `Our website packages start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped by number of pages, integrations, and content work. Recurring local SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, after a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. We scope every project individually based on what the business actually needs.`,
         link: { label: 'Share your project details', href: '/contact/details' },
       },
       {
@@ -209,8 +208,7 @@ const cities: Record<string, CityPageContent> = {
       },
       {
         question: 'What does a website cost for a small business in Fort Lee?',
-        answer:
-          `Website packages for Fort Lee businesses start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped by the number of pages, design complexity, and content work involved. Recurring local SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, after a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. We scope every project based on what the business actually needs.`,
+        answer: `Our website packages start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped by the number of pages, design complexity, and content work involved. Recurring local SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, after a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. We scope every project based on what the business actually needs.`,
         link: { label: 'Share your project details', href: '/contact/details' },
       },
       {
@@ -278,8 +276,7 @@ const cities: Record<string, CityPageContent> = {
       },
       {
         question: 'What does web design cost for a small business in Englewood, NJ?',
-        answer:
-          `Website packages for Englewood businesses start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped individually. Recurring local SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, after a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. We scope every project based on what the business needs, not a one-size-fits-all package.`,
+        answer: `Our website packages start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped individually. Recurring local SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, after a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. We scope every project based on what the business needs, not a one-size-fits-all package.`,
         link: { label: 'Share your project details', href: '/contact/details' },
       },
       {
@@ -347,8 +344,7 @@ const cities: Record<string, CityPageContent> = {
       },
       {
         question: 'What does a website cost for a Hackensack business?',
-        answer:
-          `Website packages for Hackensack businesses start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped individually. Recurring local SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, after a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. Scope and pricing depend on the specific needs of the business.`,
+        answer: `Our website packages start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped individually. Recurring local SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, after a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. Scope and pricing depend on the specific needs of the business.`,
         link: { label: 'Share your project details', href: '/contact/details' },
       },
       {
@@ -411,8 +407,7 @@ const cities: Record<string, CityPageContent> = {
       },
       {
         question: 'What does a new website cost for a small business in Paramus?',
-        answer:
-          `Website packages for Paramus businesses start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped individually. Recurring local SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, after a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. Given the competitive intensity of the Paramus market, businesses here often see strong ROI from investing in professional web design and SEO.`,
+        answer: `Our website packages start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped individually. Recurring local SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, after a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. Given the competitive intensity of the Paramus market, businesses here often see strong ROI from investing in professional web design and SEO.`,
         link: { label: 'Share your project details', href: '/contact/details' },
       },
       {
@@ -484,8 +479,7 @@ const cities: Record<string, CityPageContent> = {
       },
       {
         question: 'What does a website cost for a Ridgewood business?',
-        answer:
-          `Website packages for Ridgewood businesses start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped by design complexity, number of pages, and content requirements. Premium design work for boutique and hospitality businesses may fall toward the higher end. We scope every project individually based on the specific needs of the business.`,
+        answer: `Our website packages start at ${formatStartingPrice(websitePackagePrices.starter)} for a 3-page site, with larger projects scoped by design complexity, number of pages, and content requirements. Premium design work for boutique and hospitality businesses may fall toward the higher end. We scope every project individually based on the specific needs of the business.`,
         link: { label: 'Share your project details', href: '/contact/details' },
       },
       {
