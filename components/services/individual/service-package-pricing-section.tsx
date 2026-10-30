@@ -6,6 +6,7 @@ import { TrackedLink } from '@/components/analytics/tracked-link';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import {
+  getBillingTotal,
   packageBillingOptions,
   type PackageBillingOption,
   type PackageBillingOptionId,
@@ -13,7 +14,10 @@ import {
 import { cn } from '@/lib/utils';
 
 export interface ServicePricingPackage {
-  name: 'Basic' | 'Advanced' | 'Pro' | 'Custom';
+  name: string;
+  shortName: string;
+  featured?: boolean;
+  carePlan?: string;
   description: string;
   highlights: string[];
   monthlyPrice: number | null;
@@ -32,10 +36,15 @@ export interface ServicePackagePricingSectionProps {
   detailsLabel: string;
   recurringLabel?: string | null;
   setupLabel?: string;
+  footnote?: string;
 }
 
 function formatCurrency(amount: number) {
-  return `$${Math.floor(amount).toLocaleString('en-US')}`;
+  const fractionDigits = Number.isInteger(amount) ? 0 : 2;
+  return `$${amount.toLocaleString('en-US', {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  })}`;
 }
 
 function getPackageHref(
@@ -46,7 +55,7 @@ function getPackageHref(
   const details =
     packageName === 'Custom'
       ? `I'm interested in a custom ${detailsLabel} package.`
-      : `I'm interested in the ${packageName} ${detailsLabel} package.`;
+      : `I'm interested in the ${packageName} package.`;
 
   return `/contact/details?interest=${interest}&details=${encodeURIComponent(details)}`;
 }
@@ -62,12 +71,12 @@ function getRecurringPriceDetails(pkg: ServicePricingPackage, billing: PackageBi
   }
 
   const baseTotal = pkg.monthlyPrice * billing.months;
-  const total = Math.floor(baseTotal * (1 - billing.discount));
+  const total = getBillingTotal(pkg.monthlyPrice, billing);
 
   return {
     price: formatCurrency(total),
     suffix: billing.suffix,
-    originalPrice: billing.discount > 0 ? formatCurrency(baseTotal) : null,
+    originalPrice: total < baseTotal ? formatCurrency(baseTotal) : null,
     discountLabel: null,
   };
 }
@@ -101,6 +110,7 @@ export function ServicePackagePricingSection({
   detailsLabel,
   recurringLabel,
   setupLabel = 'Project starts at',
+  footnote,
 }: ServicePackagePricingSectionProps) {
   const [billingId, setBillingId] = useState<PackageBillingOptionId>('monthly');
   const [visualBillingId, setVisualBillingId] = useState<PackageBillingOptionId | null>('monthly');
@@ -179,8 +189,7 @@ export function ServicePackagePricingSection({
               {packageBillingOptions.map((option) => {
                 const selected = option.id === billingId;
                 const visuallyActive = option.id === visualBillingId;
-                const discountPercent = Math.round(option.discount * 100);
-                const showDiscount = selected && option.discount > 0;
+                const showBadge = selected && option.badge;
 
                 return (
                   <button
@@ -196,10 +205,8 @@ export function ServicePackagePricingSection({
                     aria-pressed={selected}
                   >
                     {option.label}
-                    {showDiscount && (
-                      <span className="text-xs font-semibold leading-none">
-                        ({discountPercent}% off)
-                      </span>
+                    {showBadge && (
+                      <span className="text-xs font-semibold leading-none">({option.badge})</span>
                     )}
                   </button>
                 );
@@ -212,14 +219,14 @@ export function ServicePackagePricingSection({
               const recurringPrice = getRecurringPriceDetails(pkg, selectedBilling);
               const setupPrice = getSetupPriceDetails(pkg);
               const showCombinedPrice = setupPrice && pkg.monthlyPrice !== null;
-              const isAdvanced = pkg.name === 'Advanced';
+              const isFeatured = pkg.featured === true;
 
               return (
                 <article
                   key={pkg.name}
                   className={cn(
                     'group flex min-h-[32rem] flex-col rounded-pv-lg border bg-[var(--pv-bg)] p-6 transition-all duration-300 hover:-translate-y-1',
-                    isAdvanced
+                    isFeatured
                       ? 'border-[color-mix(in_srgb,var(--pv-primary)_34%,var(--pv-border))] shadow-[0_24px_60px_-46px_rgba(63,0,233,0.7)]'
                       : 'border-[var(--pv-border)] shadow-[0_18px_42px_-38px_rgba(17,17,17,0.28)]',
                   )}
@@ -229,7 +236,7 @@ export function ServicePackagePricingSection({
                       <h3 className="font-heading text-2xl font-semibold text-[var(--pv-text)]">
                         {pkg.name}
                       </h3>
-                      {isAdvanced && (
+                      {isFeatured && (
                         <span className="shrink-0 rounded-full border border-[color-mix(in_srgb,var(--pv-primary)_20%,var(--pv-border))] bg-[color-mix(in_srgb,var(--pv-primary)_6%,transparent)] px-3 py-1 text-xs font-semibold text-[var(--pv-primary)]">
                           Most Popular
                         </span>
@@ -281,6 +288,11 @@ export function ServicePackagePricingSection({
                             </span>
                           )}
                         </div>
+                        {pkg.carePlan && (
+                          <p className="mt-3 text-xs font-medium text-[var(--pv-text-muted)]">
+                            Care plan: {pkg.carePlan}
+                          </p>
+                        )}
                       </div>
                     )}
 
@@ -337,7 +349,7 @@ export function ServicePackagePricingSection({
                   <div className="mt-auto pt-8">
                     <Button
                       asChild
-                      variant={isAdvanced ? 'cta' : 'ctaGhost'}
+                      variant={isFeatured ? 'cta' : 'ctaGhost'}
                       className="w-full"
                     >
                       <TrackedLink
@@ -345,7 +357,7 @@ export function ServicePackagePricingSection({
                         trackingKind="cta"
                         trackingLabel={`${serviceLabel} package pricing: ${pkg.name}`}
                       >
-                        Ask about {pkg.name}
+                        Ask about {pkg.shortName}
                       </TrackedLink>
                     </Button>
                   </div>
@@ -353,6 +365,12 @@ export function ServicePackagePricingSection({
               );
             })}
           </div>
+
+          {footnote && (
+            <p className="mx-auto max-w-3xl text-center text-sm leading-6 text-[var(--pv-text-muted)]">
+              {footnote}
+            </p>
+          )}
         </div>
       </Container>
     </section>

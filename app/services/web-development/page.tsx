@@ -73,7 +73,7 @@ export default function WebDevelopmentPage() {
         secondaryCta={{ label: 'Request a Website Review', href: '/contact/review' }}
         icon={Code2}
         startingPrice={{
-          label: 'Website packages start as low as',
+          label: 'Website packages start at',
           price: formatStartingPrice(packageStartingPrices.web),
         }}
       />

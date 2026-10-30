@@ -8,6 +8,7 @@ export interface SeoPackagePricingSectionProps {
   title: string;
   intro: string;
   packages: ServicePricingPackage[];
+  footnote?: string;
 }
 
 export function SeoPackagePricingSection({
@@ -15,6 +16,7 @@ export function SeoPackagePricingSection({
   title,
   intro,
   packages,
+  footnote,
 }: SeoPackagePricingSectionProps) {
   return (
     <ServicePackagePricingSection
@@ -26,6 +28,7 @@ export function SeoPackagePricingSection({
       serviceLabel="SEO"
       interest="seo"
       detailsLabel="SEO"
+      footnote={footnote}
     />
   );
 }
