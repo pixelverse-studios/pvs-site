@@ -6,24 +6,16 @@ import { TrackedLink } from '@/components/analytics/tracked-link';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import {
+  formatPackagePrice,
   getBillingTotal,
   packageBillingOptions,
   type PackageBillingOption,
   type PackageBillingOptionId,
+  type PricingPackage,
 } from '@/data/package-pricing';
 import { cn } from '@/lib/utils';
 
-export interface ServicePricingPackage {
-  name: string;
-  shortName: string;
-  featured?: boolean;
-  carePlan?: string;
-  description: string;
-  highlights: string[];
-  monthlyPrice: number | null;
-  setupPrice?: number | null;
-  note?: string;
-}
+export type ServicePricingPackage = PricingPackage;
 
 export interface ServicePackagePricingSectionProps {
   id: string;
@@ -37,14 +29,6 @@ export interface ServicePackagePricingSectionProps {
   recurringLabel?: string | null;
   setupLabel?: string;
   footnote?: string;
-}
-
-function formatCurrency(amount: number) {
-  const fractionDigits = Number.isInteger(amount) ? 0 : 2;
-  return `$${amount.toLocaleString('en-US', {
-    minimumFractionDigits: fractionDigits,
-    maximumFractionDigits: fractionDigits,
-  })}`;
 }
 
 function getPackageHref(
@@ -74,9 +58,9 @@ function getRecurringPriceDetails(pkg: ServicePricingPackage, billing: PackageBi
   const total = getBillingTotal(pkg.monthlyPrice, billing);
 
   return {
-    price: formatCurrency(total),
+    price: formatPackagePrice(total),
     suffix: billing.suffix,
-    originalPrice: total < baseTotal ? formatCurrency(baseTotal) : null,
+    originalPrice: total < baseTotal ? formatPackagePrice(baseTotal) : null,
     discountLabel: null,
   };
 }
@@ -90,7 +74,7 @@ function getSetupPriceDetails(pkg: ServicePricingPackage) {
     return 'Custom';
   }
 
-  return formatCurrency(pkg.setupPrice);
+  return formatPackagePrice(pkg.setupPrice);
 }
 
 function getPriceSizeClasses(hasSetupPrice: boolean) {

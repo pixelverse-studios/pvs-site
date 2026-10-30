@@ -4,6 +4,7 @@ import {
   carePlanMonthlyPrices,
   formatStartingPrice,
   websitePackagePrices,
+  type PricingPackage,
 } from '@/data/package-pricing';
 
 export interface WebDevContentData {
@@ -54,17 +55,7 @@ export interface WebDevContentData {
   };
 }
 
-export interface WebPricingPackage {
-  name: string;
-  shortName: string;
-  featured?: boolean;
-  carePlan?: string;
-  setupPrice: number | null;
-  monthlyPrice: number | null;
-  description: string;
-  highlights: string[];
-  note?: string;
-}
+export type WebPricingPackage = PricingPackage & { setupPrice: number | null };
 
 export const webDevelopmentContent: WebDevContentData = {
   hero: {

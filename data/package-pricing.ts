@@ -18,6 +18,18 @@ export const seoPackageMonthlyPrices = {
 
 export const seoStrategySetupPrice = 800;
 
+export interface PricingPackage {
+  name: string;
+  shortName: string;
+  featured?: boolean;
+  carePlan?: string;
+  description: string;
+  highlights: string[];
+  monthlyPrice: number | null;
+  setupPrice?: number | null;
+  note?: string;
+}
+
 export const packageStartingPrices = {
   web: websitePackagePrices.starter,
   seoMonthly: seoPackageMonthlyPrices.oneLocation,
@@ -25,7 +37,15 @@ export const packageStartingPrices = {
 
 // Quarterly prepay is 5% off; annual prepay bills 10 months for 12 (2 months free).
 export const packageBillingOptions = [
-  { id: 'monthly', label: 'Monthly', months: 1, billedMonths: 1, discount: 0, badge: null, suffix: '/mo' },
+  {
+    id: 'monthly',
+    label: 'Monthly',
+    months: 1,
+    billedMonths: 1,
+    discount: 0,
+    badge: null,
+    suffix: '/mo',
+  },
   {
     id: 'quarterly',
     label: 'Quarterly',
@@ -51,6 +71,15 @@ export type PackageBillingOptionId = PackageBillingOption['id'];
 
 export function getBillingTotal(monthlyPrice: number, billing: PackageBillingOption) {
   return Math.round(monthlyPrice * billing.billedMonths * (1 - billing.discount) * 100) / 100;
+}
+
+// Whole dollars stay whole; prepay totals with cents show both digits ($1,567.50).
+export function formatPackagePrice(amount: number) {
+  const fractionDigits = Number.isInteger(amount) ? 0 : 2;
+  return `$${amount.toLocaleString('en-US', {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  })}`;
 }
 
 export function formatStartingPrice(price: number) {

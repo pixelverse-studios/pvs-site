@@ -5,6 +5,7 @@ import {
   formatStartingPrice,
   seoPackageMonthlyPrices,
   seoStrategySetupPrice,
+  type PricingPackage,
 } from '@/data/package-pricing';
 
 export interface SeoContentData {
@@ -55,15 +56,7 @@ export interface SeoContentData {
   };
 }
 
-export interface SeoPricingPackage {
-  name: string;
-  shortName: string;
-  featured?: boolean;
-  monthlyPrice: number | null;
-  description: string;
-  highlights: string[];
-  note?: string;
-}
+export type SeoPricingPackage = PricingPackage;
 
 export function getLowestSeoMonthlyPrice() {
   return Math.min(
