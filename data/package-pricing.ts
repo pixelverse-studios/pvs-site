@@ -83,7 +83,7 @@ export function formatPackagePrice(amount: number) {
 }
 
 export function formatStartingPrice(price: number) {
-  return `$${price.toLocaleString('en-US')}`;
+  return formatPackagePrice(price);
 }
 
 export function formatMonthlyStartingPrice(price: number) {

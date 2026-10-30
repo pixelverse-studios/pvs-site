@@ -56,7 +56,8 @@ export interface SeoContentData {
   };
 }
 
-export type SeoPricingPackage = PricingPackage;
+// SEO cards are recurring-only; a setup price would switch the card to the website layout.
+export type SeoPricingPackage = Omit<PricingPackage, 'setupPrice' | 'carePlan'>;
 
 export function getLowestSeoMonthlyPrice() {
   return Math.min(
