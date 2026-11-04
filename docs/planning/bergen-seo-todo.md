@@ -172,3 +172,8 @@ Interpretation: shared research, monitoring, focused execution, GBP/reputation g
 - Existing public routes remain `/` and `/services/seo`; the sitemap-generated SEO CSV continues to include both, with no new URLs. Local and independent verification results are recorded in the private execution record before PR handoff.
 
 - Verification: independent offer and responsive-fix review passed. Lint/types and seven pricing tests passed. Local desktop/320px/390px checks verified the hero setup note, unchanged website price cue, readable wrapped package buttons, setup FAQ, billing totals, and Expanded inquiry prefill. No submissions, bookings, profile changes, or deployment occurred.
+
+### SEO hero price presentation — 2026-11-04
+
+- Replaced the oversized price pill and detached setup note with a compact, semantic two-column price summary. The monthly amount, smaller billing suffix, and secondary one-time setup fee share a restrained divider-based layout using existing theme tokens. Rates, package scope, CTAs and URLs are unchanged. Website pricing keeps its existing render path.
+- Independent source review, formatter, lint, types and diff checks passed. Local desktop/320px/390px and light/dark checks verified readable price pairs and no horizontal overflow. Restored the original light theme and default viewport. No new style-mirroring tests, submissions, bookings or deployment. The existing sitemap-generated CSV continues to include the affected SEO URL.

@@ -74,8 +74,12 @@ export default function SEOServicesPage() {
         icon={Search}
         startingPrice={{
           label: 'SEO plans from',
-          price: `${formatStartingPrice(getLowestSeoMonthlyPrice())}/month`,
-          note: `Plus a one-time ${formatStartingPrice(seoStrategySetupPrice)} strategy setup.`,
+          price: formatStartingPrice(getLowestSeoMonthlyPrice()),
+          billingSuffix: '/month',
+          setup: {
+            label: 'One-time strategy setup',
+            price: formatStartingPrice(seoStrategySetupPrice),
+          },
         }}
       />
 

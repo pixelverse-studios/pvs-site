@@ -42,7 +42,7 @@ const updates = [
     items: [
       'Prepared rendering, service-area markup, attribution, and existing SEO/contact page improvements.',
       'Reframed SEO packages around shared research and proposal-defined monthly work, with consistent pricing FAQs on the homepage and SEO service page.',
-      'Clarified implementation, listing corrections, content and inquiry-path work across SEO plans; made the monthly starting price and one-time setup fee visible together.',
+      'Clarified implementation, listing corrections, content and inquiry-path work across SEO plans; paired the monthly starting price and one-time setup fee in a compact responsive summary.',
       'Retained the existing URL inventory; the CSV is generated from the current sitemap.',
     ],
     notes:
