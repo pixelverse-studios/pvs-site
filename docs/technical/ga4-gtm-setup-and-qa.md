@@ -60,12 +60,12 @@ Expected behavior: one `page_view` event per public route transition.
 
 Mark these as key events in GA4 after they first appear in Reports or Admin events:
 
-| Event | Key event |
-| --- | --- |
-| `generate_lead` | Yes |
-| `website_review_request` | Yes |
-| `strategy_call_scheduled` | Yes |
-| `phone_click` | No; intent signal, not a confirmed call |
+| Event                     | Key event                               |
+| ------------------------- | --------------------------------------- |
+| `generate_lead`           | Yes                                     |
+| `website_review_request`  | Yes                                     |
+| `strategy_call_scheduled` | Yes                                     |
+| `phone_click`             | No; intent signal, not a confirmed call |
 
 Optional key events for a separately defined contact-intent goal:
 
@@ -213,3 +213,7 @@ Known existing warning: `app/dashboard/domani/campaigns/components/campaign-deta
 6. Submit one safe test conversion per public conversion path.
 7. Confirm backend attribution metadata lands with lead/review/Calendly records.
 8. Record the first reporting comparison date for SiteBehaviour, GA4, and first-party lead attribution.
+
+## Prepared attribution changes — 2026-11-04
+
+The review branch captures untagged entry context using existing metadata fields, stores only the referrer origin and query-free landing path, and leaves missing source evidence unknown. Tab-scoped attribution expires after 30 minutes between public-page captures, not all user interaction. Untagged captures do not emit campaign_landing. Calendly callback deduplication is component-lifetime only; forwarding checks HTTP/network failures without automatic retries. Production collection, backend persistence, provider idempotency and qualification linkage still require an authorized account workflow. Mock tests are not production receipt evidence.

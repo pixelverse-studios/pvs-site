@@ -38,6 +38,19 @@ metadata.robots = {
 
 const updates = [
   {
+    date: '2026-11-04',
+    items: [
+      'Prepared rendering, service-area markup, attribution, and existing SEO/contact page improvements.',
+      'Retained the existing URL inventory; the CSV is generated from the current sitemap.',
+    ],
+    notes:
+      'Prepared changes; not deployed. Recheck production and Search Console after an approved release.',
+    notesDetail: [
+      'Verify rendered content and essential resource access after release.',
+      'Verify successful inquiry events and acquisition context separately from contact clicks.',
+    ],
+  },
+  {
     date: '2026-10-12',
     items: [
       'Added the Iffer’s Pictures case study at /portfolio/iffers-pictures and linked it from the portfolio showcase.',

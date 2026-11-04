@@ -93,3 +93,7 @@ Last updated: 2026-10-12
 - [ ] **Track rankings and conversions**
   - Maintain a rank-tracking sheet (manual or tool-based) for highest-priority town/service terms.
   - Compare conversions against baseline metrics to quantify ROI and surface experiments (e.g., A/B testing offers or CTAs).
+
+## Remediation review — 2026-11-04
+
+- Rendering, service-area identity, attribution, and existing-page improvements prepared for review; implementation does not establish Google indexing or production conversion receipt. Keep account verification and post-release validation open.

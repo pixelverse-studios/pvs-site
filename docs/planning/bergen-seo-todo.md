@@ -97,3 +97,5 @@ Use this planning file to track progress:
 - 2025-11-18: Re-reviewed the “Crawled – currently not indexed” items (font asset, `/pricing`, `/services`) and confirmed existing robots/redirect controls cover them; documented the validation steps and reminder to request `/services` re-indexing.
 - 2025-11-20: Added a focused GSC CTR/Ranking lift TODO list for Bergen hub/city pages in `docs/planning/gsc-ctr-lift-todo.md` (metadata + FAQ refresh, internal links/CTAs, canonical cleanup, reindex).
 - 2025-11-20: Compiled a current keyword inventory from live metadata and Bergen city pages (no new terms added) and documented it in `docs/planning/site-keyword-baseline.md` for partner review.
+
+- 2026-11-04: Prepared audit remediation on an isolated branch based on the current pricing release. Rendering, entity accuracy, attribution and existing SEO/contact improvements are under review, not deployed. Current performance/account verification remains pending.
