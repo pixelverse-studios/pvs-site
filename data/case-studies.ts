@@ -66,19 +66,19 @@ export const caseStudies: CaseStudy[] = [
         icon: 'zap',
         issue: 'No presence in seasonal service searches',
         resolution:
-          "Created targeted holiday lighting pages for Essex and Bergen County, now pulling 950+ impressions for seasonal keywords and driving the site's highest-converting traffic",
+          'Created targeted holiday lighting pages for Essex and Bergen County so seasonal services have relevant search destinations',
       },
       {
         icon: 'alertCircle',
         issue: 'No local search footprint beyond direct name searches',
         resolution:
-          'Structured service and city pages are now surfacing for 299 unique search queries, expanding visibility well beyond branded searches',
+          'Structured service and city pages give prospective customers relevant destinations for evaluating services across the service area',
       },
     ],
     outcome: {
-      metric: '5,200+ search impressions and 299 indexed queries within 6 months',
+      metric: 'Dedicated service and location pages',
       description:
-        "From a standing start, service-specific pages are pulling targeted impressions across two counties. Holiday lighting pages alone account for nearly 1,000 impressions, and the site architecture is building compounding visibility with each passing month. The site now generates 2\u20133 qualified bookings per week directly from organic search, a channel that didn\u2019t exist before the rebuild.",
+        'The rebuild gives each core service a clear destination and connects it to relevant local coverage and quote requests. Search visibility, qualified inquiries, and bookings should be evaluated separately using dated reports; the architecture alone does not establish an organic booking rate.',
     },
     img: '/projects/JPW.png',
     url: 'https://www.jonespressurewashingnj.com',
@@ -142,7 +142,7 @@ export const caseStudies: CaseStudy[] = [
     summary:
       'Created an easy-to-use productivity app that helps users plan tomorrow, tonight. Focused on intuitive flow, minimal design, and daily consistency.',
     problem:
-      "Most productivity tools overwhelm users with features that get in the way of actually planning. Domani needed a focused app experience that reduced decision fatigue and encouraged one simple nightly ritual: setting tomorrow\u2019s priorities before bed. The challenge wasn\u2019t building another task manager, it was designing an experience intentionally constrained enough that the planning habit itself became effortless. Every existing solution on the market offered too many features, too many options, and too many reasons to stop planning and start organizing instead.",
+      'Most productivity tools overwhelm users with features that get in the way of actually planning. Domani needed a focused app experience that reduced decision fatigue and encouraged one simple nightly ritual: setting tomorrow\u2019s priorities before bed. The challenge wasn\u2019t building another task manager, it was designing an experience intentionally constrained enough that the planning habit itself became effortless. Every existing solution on the market offered too many features, too many options, and too many reasons to stop planning and start organizing instead.',
     solution:
       'We designed a minimal interface around a single workflow: plan tonight, execute tomorrow. Every design decision was tested against whether it aided or interrupted the planning habit. The app was built for iOS and Android simultaneously using React Native, with a shared component library that ensured visual consistency across platforms. We focused on reducing the nightly interaction to under two minutes, using behavioral design principles like streaks, plan locking, and progressive disclosure to keep the experience focused without feeling restrictive.',
     issues: [
@@ -180,7 +180,8 @@ export const caseStudies: CaseStudy[] = [
     name: '360 Degree Care',
     industry: 'Home Healthcare',
     location: 'Ridgewood, NJ',
-    title: 'How we helped a home care agency build a digital presence that matched their reputation',
+    title:
+      'How we helped a home care agency build a digital presence that matched their reputation',
     summary:
       'Built a new independent web presence for a home care agency going out on their own, structured for trust, clarity, and local search from day one.',
     problem:
@@ -208,9 +209,9 @@ export const caseStudies: CaseStudy[] = [
       },
     ],
     outcome: {
-      metric: '8,500+ search impressions and 270 indexed queries within 6 months',
+      metric: 'Service-specific local search architecture',
       description:
-        'From a standing start on a new domain, individual service pages pulled hundreds of impressions for high-intent local searches. The site architecture built compounding organic visibility as designed. Service-specific pages for personal care and companion care ranked for targeted Bergen County queries, and Google Business Profile integration drove consistent engagement from families researching local home care options.',
+        'Our engagement organized care services and local coverage into dedicated pages, with trust information and contact paths supporting evaluation. This describes the work delivered during our engagement; subsequent website changes and performance after handoff are outside this case study.',
     },
     img: '/projects/360.png',
     demoUrl: 'https://haven-home-healthcare.netlify.app/',
