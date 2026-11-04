@@ -7,7 +7,7 @@
 - Updated the public business phone and meeting information throughout the website.
 
 - Improved search resource access, local service information and SEO inquiry paths.
-- Reframed SEO packages around ongoing work, retained pricing, and aligned homepage/service pricing FAQs and inquiry names.
+- Reframed SEO packages around shared research and proposal-defined monthly work, retained pricing, and aligned homepage/service pricing FAQs and inquiry names.
 
 ## Notes for internal team
 

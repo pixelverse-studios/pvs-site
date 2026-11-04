@@ -29,7 +29,7 @@ export const homepageFaq: FaqItem[] = [
   },
   {
     question: 'How much do SEO packages start at?',
-    answer: `SEO Essentials starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, Ongoing Local SEO at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.threeLocations)}, and Expanded SEO at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.fiveLocations)}. Plans differ by the amount of ongoing page work, research, and planning included. Every plan starts with a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. We agree on priority services and geographic scope after reviewing your site, with additional business branches and work beyond the standard allowances scoped separately.`,
+    answer: `SEO Essentials starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, Ongoing Local SEO at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.threeLocations)}, and Expanded SEO at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.fiveLocations)}, plus a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. Research into your services, customer searches, and competitors is included in every plan. Plans differ by campaign breadth and implementation capacity. Before your retainer starts, your written proposal defines the services, markets, monthly deliverables, responsibilities, and exclusions.`,
     link: { label: 'Explore local SEO services', href: '/services/seo' },
   },
   {

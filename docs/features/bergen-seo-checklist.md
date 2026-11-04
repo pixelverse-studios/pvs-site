@@ -96,7 +96,7 @@ Last updated: 2026-10-12
 
 ## Remediation review — 2026-11-04
 
-- [x] Prepare SEO Essentials, Ongoing Local SEO, Expanded SEO, and Custom cards for review; retain prices and existing-page allowances, clarify separately quoted work, and align pricing FAQs and inquiry links.
+- [x] Prepare research-informed SEO Essentials, Ongoing Local SEO, Expanded SEO, and Custom cards for review; retain prices, include foundational research in every plan, define proposal-based implementation scope, and align pricing FAQs and inquiry links.
 
 - Rendering, service-area identity, attribution, and existing-page improvements prepared for review; implementation does not establish Google indexing or production conversion receipt. Keep account verification and post-release validation open.
 

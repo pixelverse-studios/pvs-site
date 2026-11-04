@@ -99,13 +99,13 @@ export default function SEOServicesPage() {
       <ServiceNarrativeSection
         eyebrow="Choosing ongoing support"
         title="Know what your SEO engagement covers."
-        intro="Recurring SEO is a fit when you have an existing website, a defined service area, and the ability to respond to new inquiries. The right scope depends on the work your site needs and the customers you can serve, not simply how many keywords you want to track."
+        intro="Before your retainer starts, you receive a written proposal defining the services and markets covered, specific monthly deliverables, implementation responsibilities, exclusions, and planning cadence. The work is selected around your website's needs and the customers you can serve."
         bullets={[
-          'Compare the existing-page update allowance, research, business-profile work, and planning cadence included in each package.',
-          'Use the agreed monthly allowance for the most useful existing-page updates. New pages, original articles, major technical fixes, and additional Business Profiles are scoped separately.',
-          'Use the initial review to agree which services and locations matter, what counts as a useful inquiry, and who will provide access and approve changes.',
+          'Research supports every plan. Higher tiers provide more implementation capacity and broader service or market coverage.',
+          'Monthly implementation may include existing-page content and metadata, internal links, profile corrections, or routine technical fixes. Your proposal specifies the deliverables included.',
+          'New pages, original articles, substantial development, and additional Business Profiles need an explicit scope and approval. Your proposal states what is included and what is quoted separately.',
         ]}
-        closing="The one-time SEO Strategy Setup covers keyword research and content mapping. We review the site before recommending a plan; a larger package is not automatically the right choice."
+        closing="The one-time SEO Strategy Setup establishes the service, search, and competitor research, content map, and initial priorities. We agree on useful work and how progress will be reviewed; there is no fixed article or posting quota."
         layout="text-with-bullets"
         background="surface"
       />

@@ -133,7 +133,18 @@ Implementation coverage is complete for independently actionable scope; external
 
 ### Package review follow-up — 2026-11-04
 
+The research-led revision below supersedes this initial package draft and its page allowances.
+
 - Reframed the existing SEO cards as SEO Essentials ($275/month), Ongoing Local SEO ($550/month), Expanded SEO ($875/month), and Custom. Removed town-count tier names, the unsupported popularity badge, and mandatory article/GBP-post quotas.
 - Retained 1/2/4 monthly allowances for bounded existing-page updates; defined updates as agreed copy, metadata, and internal-link work. New pages, original articles, major technical fixes, and additional Business Profiles are scoped separately. Setup remains $800. Delivery-time and margin review remain a business decision before publishing these revised offers.
 - Aligned homepage/service-page pricing FAQs, SEO fit copy, and package inquiry labels. No URLs were added; the SEO log CSV continues to derive its URL inventory from the sitemap, including both affected public pages (`/` and `/services/seo`). Prepared for local review, not deployed.
 - Validation: lint and type checks passed; independent copy review found no material inconsistencies. Local browser review covered desktop/mobile cards, unchanged quarterly/annual totals, and inquiry prefill for Ongoing Local SEO; no inquiry was submitted.
+
+### Research-led package revision — 2026-11-04
+
+- Research and planning subagents recommended a shared foundation for all three retainers: service/search/competitor assessment, proportionate technical and visibility checks, and Business Profile accuracy/review guidance where applicable. Google guidance supports these activities; package prices and implementation capacity remain commercial decisions.
+- Removed undefined page-update units. Essentials focuses on a narrow agreed priority set; Ongoing Local SEO supports work across core services; Expanded SEO adds breadth and implementation capacity. Each proposal must define concrete monthly deliverables, services/markets covered, responsibilities, exclusions, and planning cadence before the retainer starts. No hours, staffing capacity, results, or publication quotas were invented.
+- Setup remains $800 and explicitly establishes initial service/search/competitor research, content mapping, and starting priorities. Content production, substantial development, and additional profiles require explicit scope; the proposal states included work and separately quoted work. Prices remain $275/$550/$875 per month.
+- Changed public surfaces remain `/` and `/services/seo`. The SEO log and sitemap-generated CSV retain both URLs with no new URL inventory. Local review and technical verification are recorded in the private execution record; outcome measurement remains post-release work.
+
+- Revision validation: independent review, lint/type checks, seven existing pricing tests, desktop/mobile overflow checks, monthly/quarterly/annual totals, four inquiry URLs, Essentials prefill, and homepage/SEO FAQ rendering passed locally. No forms or bookings were submitted.
