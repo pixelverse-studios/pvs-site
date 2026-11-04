@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { Calendar, Clock, MessageSquare, Target } from 'lucide-react';
 import { useTheme } from 'next-themes';
@@ -9,6 +9,7 @@ import { PopupButton, useCalendlyEventListener } from 'react-calendly';
 import { TrackedLink } from '@/components/analytics/tracked-link';
 import analytics from '@/lib/analytics';
 import { getConversionAttribution } from '@/lib/attribution';
+import { createCalendlyCompletionHandler } from '@/lib/calendly-completion';
 
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL;
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -63,6 +64,28 @@ export function ContactStrategyCall() {
   const isDark = resolvedTheme === 'dark';
   const [rootEl, setRootEl] = useState<HTMLElement | null>(null);
   const pathname = usePathname();
+  const latestPath = useRef(pathname);
+  latestPath.current = pathname;
+  const completionHandler = useRef<ReturnType<typeof createCalendlyCompletionHandler> | null>(null);
+  if (!completionHandler.current) {
+    completionHandler.current = createCalendlyCompletionHandler({
+      onScheduled: () => analytics.trackStrategyCallScheduled(latestPath.current),
+      forward: (completion) => {
+        if (!API_BASE_URL) return Promise.reject(new Error('Booking forwarding is not configured'));
+        return fetch(`${API_BASE_URL}/api/webhooks/calendly`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...completion,
+            attribution: getConversionAttribution('strategy_call', latestPath.current),
+          }),
+        });
+      },
+      // Do not log provider URIs, attribution, or raw response bodies.
+      onForwardError: () =>
+        console.error('[Calendly] Booking attribution delivery was not acknowledged'),
+    });
+  }
 
   useEffect(() => {
     setRootEl(document.body);
@@ -75,19 +98,7 @@ export function ContactStrategyCall() {
 
       if (!event_uri || !invitee_uri) return;
 
-      analytics.trackStrategyCallScheduled(pathname);
-
-      fetch(`${API_BASE_URL}/api/webhooks/calendly`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          event_uri,
-          invitee_uri,
-          attribution: getConversionAttribution('strategy_call', pathname),
-        }),
-      }).catch((err) => {
-        console.error('[Calendly] Webhook POST failed:', err);
-      });
+      void completionHandler.current?.({ event_uri, invitee_uri });
     },
   });
 
