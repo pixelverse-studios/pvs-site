@@ -144,7 +144,7 @@ export const seoContent: SeoContentData = {
         description: 'Focused ongoing SEO for an established site with a narrow set of priorities.',
         highlights: [
           'Monthly service, search, and competitor review',
-          'Focused improvements to agreed website priorities',
+          'Implemented improvements to existing content, metadata, and internal links',
           'Business Profile accuracy checks and review-request guidance',
           'Monthly work summary, visibility checks, and next steps',
         ],
@@ -156,9 +156,9 @@ export const seoContent: SeoContentData = {
         description:
           'Regular implementation across your core services and local search priorities.',
         highlights: [
-          'Research and optimization across core service priorities',
-          'Content, internal-link, and routine technical improvements within agreed scope',
-          'Business Profile upkeep and review-request guidance',
+          'Coordinated service-page, internal-link, and routine technical work',
+          'Business Profile optimization and review-request guidance',
+          'Important listing and citation corrections where access allows',
           'Monthly progress report and quarterly strategy call',
         ],
       },
@@ -166,11 +166,13 @@ export const seoContent: SeoContentData = {
         name: 'Expanded SEO',
         shortName: 'Expanded SEO',
         monthlyPrice: seoPackageMonthlyPrices.fiveLocations,
-        description: 'More implementation capacity for a broader set of search opportunities.',
+        description:
+          'Coordinated technical, content, and conversion work across broader search opportunities.',
         highlights: [
           'Broader service, competitor, and market research',
-          'More implementation capacity across agreed priorities',
-          'Content and technical improvements within agreed scope',
+          'Planned content development and technical improvements',
+          'Inquiry and conversion-path improvements',
+          'Local partnership, editorial, and link opportunity research',
           'Monthly progress report and monthly strategy call',
         ],
       },
@@ -189,7 +191,7 @@ export const seoContent: SeoContentData = {
         note: 'Scoped after review',
       },
     ],
-    footnote: `Every plan starts with a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup covering service, search, and competitor research, content mapping, and an initial priority plan. New pages, original articles, substantial development, and additional Business Profiles require an explicit scope; your proposal states what is included and what is quoted separately.`,
+    footnote: `Every plan starts with a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup: an initial crawl, indexing and on-page assessment; review of available search and inquiry data; service, search, and competitor research; a content map; and an initial priority plan. New pages, original articles, substantial development, additional Business Profiles, and any third-party fees require an explicit scope; your proposal states what is included and what is quoted separately.`,
   },
   faq: [
     {
@@ -205,12 +207,16 @@ export const seoContent: SeoContentData = {
     {
       question: 'What work is included each month?',
       answer:
-        'Every plan includes service, search, and competitor research, monthly visibility and technical checks, and Business Profile accuracy and review guidance where applicable. Your proposal defines the implementation included each month. Depending on the agreed priorities, this may involve improving a service page\u2019s content and metadata, connecting related pages with internal links, correcting profile information, or resolving routine technical issues. New pages, original articles, substantial development, and additional Business Profiles need explicit scope and approval. Your proposal states what is included and what is quoted separately; we do not use a fixed article or posting quota.',
+        'Every plan includes research, monthly visibility and technical checks, and Business Profile accuracy and review guidance where applicable. Essentials includes focused implementation on existing content, metadata, and internal links. Ongoing Local SEO coordinates service-page improvements, routine technical work, Business Profile optimization, and important listing or citation corrections where access allows. Expanded SEO adds planned content development, inquiry-path improvements, and research into relevant local partnership, editorial, and link opportunities. Your proposal defines the monthly deliverables and responsibilities. New pages, original articles, substantial development, and additional profiles need explicit scope and approval; the proposal states what is included and what is quoted separately. There is no fixed publishing or backlink quota, and earned mentions or links are not guaranteed.',
+    },
+    {
+      question: 'What does the SEO Strategy Setup include?',
+      answer: `The one-time ${formatStartingPrice(seoStrategySetupPrice)} setup includes an initial crawl, indexing and on-page assessment; review of available search and inquiry data; research into your services, customer searches, and competitors; a content map; and an initial priority plan. It establishes the work to pursue and the evidence available to assess progress. It does not include completing every repair or installing analytics. Your proposal defines the implementation included in the monthly plan and any separately quoted work or third-party fees.`,
     },
     {
       question: 'Do you work on Google Business Profile as part of this?',
       answer:
-        'Yes, where your business is eligible for a profile. Every plan includes profile accuracy checks and review-request guidance. Profile updates and other implementation follow the agreed monthly scope. Additional Business Profiles require an explicit scope, and we recommend posts when there is a useful update to share.',
+        'Yes, where your business is eligible for a profile. Every plan includes profile accuracy checks and review-request guidance. Ongoing Local SEO and Expanded SEO can include profile optimization and important listing or citation corrections within the agreed scope, where account access allows. Additional Business Profiles require explicit scope, and any third-party fees are identified in the proposal. We recommend posts when there is a useful update to share.',
     },
     {
       question: "Can you do SEO on a site you didn't build?",

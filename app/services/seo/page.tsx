@@ -14,7 +14,7 @@ import {
 } from '@/components/services/individual';
 import { Container } from '@/components/ui/container';
 import { StructuredData } from '@/components/ui/structured-data';
-import { formatMonthlyStartingPrice } from '@/data/package-pricing';
+import { formatStartingPrice, seoStrategySetupPrice } from '@/data/package-pricing';
 import { getLowestSeoMonthlyPrice, seoContent } from '@/data/seo-content';
 
 export const metadata: Metadata = createPageMetadata({
@@ -73,8 +73,9 @@ export default function SEOServicesPage() {
         secondaryCta={{ label: 'Request a Website Review', href: '/contact/review' }}
         icon={Search}
         startingPrice={{
-          label: 'Recurring SEO starts at',
-          price: formatMonthlyStartingPrice(getLowestSeoMonthlyPrice()),
+          label: 'SEO plans from',
+          price: `${formatStartingPrice(getLowestSeoMonthlyPrice())}/month`,
+          note: `Plus a one-time ${formatStartingPrice(seoStrategySetupPrice)} strategy setup.`,
         }}
       />
 
@@ -102,10 +103,11 @@ export default function SEOServicesPage() {
         intro="Before your retainer starts, you receive a written proposal defining the services and markets covered, specific monthly deliverables, implementation responsibilities, exclusions, and planning cadence. The work is selected around your website's needs and the customers you can serve."
         bullets={[
           'Research supports every plan. Higher tiers provide more implementation capacity and broader service or market coverage.',
-          'Monthly implementation may include existing-page content and metadata, internal links, profile corrections, or routine technical fixes. Your proposal specifies the deliverables included.',
+          'Essentials includes executed improvements to existing content, metadata, and internal links. Ongoing Local SEO coordinates service-page, routine technical, Business Profile, and important listing work within the agreed scope.',
+          'Expanded SEO adds planned content development, inquiry-path improvements, and research into relevant local partnerships and editorial or link opportunities. Earned mentions and links depend on third-party decisions.',
           'New pages, original articles, substantial development, and additional Business Profiles need an explicit scope and approval. Your proposal states what is included and what is quoted separately.',
         ]}
-        closing="The one-time SEO Strategy Setup establishes the service, search, and competitor research, content map, and initial priorities. We agree on useful work and how progress will be reviewed; there is no fixed article or posting quota."
+        closing="The one-time SEO Strategy Setup includes an initial crawl, indexing and on-page assessment, review of available search and inquiry data, service and competitor research, a content map, and initial priorities. Setup establishes the plan; repairs and analytics installation require an agreed implementation scope."
         layout="text-with-bullets"
         background="surface"
       />

@@ -163,3 +163,12 @@ Owner clarified that package inclusions and tier differentiation should be bench
 Supporting NJ/tri-state observations: [AdPartnerz](https://adpartnerz.com/seo/) and [Web Support Plaza](https://websupportplaza.com/seo-packages/). Some card/general-inclusion statements conflict; unclear inclusions remain unknown.
 
 Interpretation: shared research, monitoring, focused execution, GBP/reputation guidance and increasing breadth are supported by the observed market pattern. Current PixelVerse copy still needs clearer boundaries for external listing/citation corrections, genuine local authority opportunities, conversion improvements, and tangible implementation types in Ongoing versus Expanded. A written proposal remains essential, but generic additional-capacity language is weak purchasing guidance by itself. Benchmarking does not establish fulfillment economics or justify copying quotas, paid link schemes, artificial location pages, or outcome promises.
+
+### Apply offering benchmark — 2026-11-04
+
+- Owner authorized the benchmark refinements. Prepared tier distinctions emphasize actual focused implementation in Essentials, coordinated website/GBP/important listing work in Ongoing, and content development, conversion paths and legitimate authority-opportunity research in Expanded. Rates and names remain unchanged; scoped work does not guarantee placements or results.
+- The setup description distinguishes initial assessment/research/available-data review from implementation. The written proposal defines concrete monthly deliverables, responsibilities, exclusions and additional content/development scope before work starts.
+- The SEO hero price cue now reads “SEO plans from” with $275/month and a nearby one-time $800 setup note. Shared website pricing must remain unchanged when the optional note is absent.
+- Existing public routes remain `/` and `/services/seo`; the sitemap-generated SEO CSV continues to include both, with no new URLs. Local and independent verification results are recorded in the private execution record before PR handoff.
+
+- Verification: independent offer and responsive-fix review passed. Lint/types and seven pricing tests passed. Local desktop/320px/390px checks verified the hero setup note, unchanged website price cue, readable wrapped package buttons, setup FAQ, billing totals, and Expanded inquiry prefill. No submissions, bookings, profile changes, or deployment occurred.

@@ -101,7 +101,8 @@ export function ServicePackagePricingSection({
   const visualTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const selectedBilling = useMemo(
-    () => packageBillingOptions.find((option) => option.id === billingId) ?? packageBillingOptions[0],
+    () =>
+      packageBillingOptions.find((option) => option.id === billingId) ?? packageBillingOptions[0],
     [billingId],
   );
   const billingIndex = packageBillingOptions.findIndex((option) => option.id === billingId);
@@ -144,9 +145,7 @@ export function ServicePackagePricingSection({
             >
               {title}
             </h2>
-            <p className="text-base leading-7 text-[var(--pv-text-muted)] md:text-lg">
-              {intro}
-            </p>
+            <p className="text-base leading-7 text-[var(--pv-text-muted)] md:text-lg">{intro}</p>
           </div>
 
           <div className="flex justify-center">
@@ -181,7 +180,7 @@ export function ServicePackagePricingSection({
                     type="button"
                     onClick={() => handleBillingChange(option.id)}
                     className={cn(
-                      'relative z-[1] flex min-h-10 flex-col items-center justify-center rounded-[calc(var(--pv-radius)-2px)] px-2 text-sm font-semibold leading-tight outline-none transition-colors duration-150 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)] sm:px-3',
+                      'relative z-[1] flex min-h-10 flex-col items-center justify-center rounded-[calc(var(--pv-radius)-2px)] px-2 text-sm font-semibold leading-tight outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-[var(--pv-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--pv-bg)] active:scale-[0.98] sm:px-3',
                       visuallyActive
                         ? 'text-white'
                         : 'text-[var(--pv-text-muted)] hover:text-[var(--pv-text)]',
@@ -334,7 +333,7 @@ export function ServicePackagePricingSection({
                     <Button
                       asChild
                       variant={isFeatured ? 'cta' : 'ctaGhost'}
-                      className="w-full"
+                      className="h-auto min-h-11 w-full whitespace-normal text-center"
                     >
                       <TrackedLink
                         href={getPackageHref(pkg.name, interest, detailsLabel)}

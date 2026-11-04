@@ -8,6 +8,7 @@
 
 - Improved search resource access, local service information and SEO inquiry paths.
 - Reframed SEO packages around shared research and proposal-defined monthly work, retained pricing, and aligned homepage/service pricing FAQs and inquiry names.
+- Clarified tier-specific implementation and listing/content/inquiry work, and displayed the SEO setup fee alongside its monthly starting price.
 
 ## Notes for internal team
 
