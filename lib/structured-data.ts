@@ -1,4 +1,5 @@
 import { sharedMetadata } from '@/lib/metadata';
+import { publicContact } from '@/data/public-contact';
 
 const {
   siteUrl,
@@ -30,7 +31,7 @@ export const localBusinessSchema = {
   description:
     'PixelVerse Studios crafts custom-coded marketing websites with UX-first design, performance, and local SEO for Bergen County service brands.',
   email: 'info@pixelversestudios.io',
-  telephone: '+1-201-638-1769',
+  telephone: publicContact.phone.international,
   areaServed: {
     '@type': 'AdministrativeArea',
     name: 'Bergen County, NJ',
@@ -52,7 +53,7 @@ export const localBusinessSchema = {
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'sales',
-    telephone: '+1-201-638-1769',
+    telephone: publicContact.phone.international,
     email: 'info@pixelversestudios.io',
     availableLanguage: ['English'],
   },
@@ -234,8 +235,8 @@ export interface LocalServiceSchemaParams {
 }
 
 /**
- * Creates a comprehensive schema for local service pages
- * combining Service schema with LocalBusiness and areaServed
+ * Describes local service coverage using the shared provider identity.
+ * Coordinates supplied by older callers do not create a town office.
  */
 export function createLocalServiceSchema({
   serviceSlug,
@@ -245,7 +246,6 @@ export function createLocalServiceSchema({
   city,
   state,
   description,
-  coordinates,
 }: LocalServiceSchemaParams) {
   const pagePath = `/services/${serviceSlug}/${citySlug}`;
 
@@ -257,49 +257,7 @@ export function createLocalServiceSchema({
     serviceType: serviceType,
     description: description,
     url: `${siteUrl}${pagePath}`,
-    provider: {
-      '@type': 'ProfessionalService',
-      '@id': `${siteUrl}${pagePath}/#provider`,
-      name: `PixelVerse Studios - ${city} ${serviceType}`,
-      description: `${serviceType} services for ${city}, ${state} businesses by PixelVerse Studios.`,
-      url: `${siteUrl}${pagePath}`,
-      email: 'info@pixelversestudios.io',
-      telephone: '+1-201-638-1769',
-      image: lightModeLogo,
-      logo: lightModeLogo,
-      priceRange: '$$',
-      ...(coordinates && {
-        geo: {
-          '@type': 'GeoCoordinates',
-          latitude: coordinates.latitude,
-          longitude: coordinates.longitude,
-        },
-      }),
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: city,
-        addressRegion: state,
-        addressCountry: 'US',
-      },
-      openingHoursSpecification: {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-        opens: '09:00',
-        closes: '17:00',
-      },
-      sameAs: [
-        'https://www.instagram.com/pixel.verse.studios/',
-        'https://www.facebook.com/profile.php?id=61582670432316',
-        'https://www.linkedin.com/company/pixelverse-studios-llc/',
-        'https://www.youtube.com/@PixelVerse_Studios_nj',
-        'https://x.com/pvs_nj',
-      ],
-      parentOrganization: {
-        '@type': 'Organization',
-        '@id': `${siteUrl}/#organization`,
-        name: 'PixelVerse Studios',
-      },
-    },
+    provider: { '@id': localBusinessSchema['@id'] },
     areaServed: {
       '@type': 'City',
       name: city,

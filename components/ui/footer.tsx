@@ -4,6 +4,7 @@ import { Mail, MapPin, Phone } from 'lucide-react';
 
 import { TrackedLink } from '@/components/analytics/tracked-link';
 import { cn } from '@/lib/utils';
+import { publicContact } from '@/data/public-contact';
 
 import { Button } from './button';
 import { LazyMap } from './lazy-map';
@@ -23,7 +24,7 @@ const CURRENT_YEAR = new Date().getFullYear();
 
 const CONTACT = {
   address: '79 Edgewater Road, Cliffside Park, NJ 07010',
-  phone: { href: 'tel:+12016381769', label: '(201) 638-1769' },
+  phone: { href: publicContact.phone.href, label: publicContact.phone.display },
   email: { href: '/contact/details', label: 'Email Us' },
 } as const;
 
@@ -51,7 +52,7 @@ export function Footer({ links = [], cta, className, ...props }: FooterProps) {
               <LazyMap height={220} />
             </div>
             <div className="flex flex-col gap-3 px-6 py-6">
-              <p className={eyebrowCls}>Find Us</p>
+              <p className={eyebrowCls}>Contact Us</p>
               <address className="flex items-start gap-2 text-sm not-italic text-[var(--pv-text-muted)]">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
                 <span>{CONTACT.address}</span>
@@ -76,6 +77,9 @@ export function Footer({ links = [], cta, className, ...props }: FooterProps) {
               </TrackedLink>
               <p className="mt-2 text-xs leading-relaxed text-[var(--pv-text-muted)]">
                 Serving Fort Lee, Englewood, Hackensack, Paramus, Ridgewood &amp; Bergen County, NJ
+              </p>
+              <p className="text-xs leading-relaxed text-[var(--pv-text-muted)]">
+                {publicContact.meetingDescription}
               </p>
             </div>
           </div>
