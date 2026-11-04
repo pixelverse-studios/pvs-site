@@ -431,7 +431,9 @@ export function ContactDetailsForm() {
           </div>
 
           <div>
-            <FieldLabel required>Budget Range</FieldLabel>
+            <FieldLabel htmlFor="budget" required>
+              Budget Range
+            </FieldLabel>
             <Controller
               control={control}
               name="budget"
@@ -442,8 +444,10 @@ export function ContactDetailsForm() {
                   disabled={isSubmittingState}
                 >
                   <SelectTrigger
+                    id="budget"
+                    aria-required="true"
                     aria-invalid={!!errors.budget}
-                    aria-describedby={errors.budget ? 'budget-error' : undefined}
+                    aria-describedby={errors.budget ? 'budget-help budget-error' : 'budget-help'}
                   >
                     <SelectValue placeholder="Select a range" />
                   </SelectTrigger>
@@ -457,6 +461,12 @@ export function ContactDetailsForm() {
                 </Select>
               )}
             />
+            <p
+              id="budget-help"
+              className="mt-1.5 text-xs leading-relaxed text-[var(--pv-text-muted)]"
+            >
+              Initial project or setup budget; monthly SEO preferences can go in the details below.
+            </p>
             <FieldError id="budget-error" message={errors.budget?.message} />
           </div>
         </div>
@@ -464,7 +474,9 @@ export function ContactDetailsForm() {
         {/* Row 3: timeline / currentWebsite */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <FieldLabel required>Timeline</FieldLabel>
+            <FieldLabel htmlFor="timeline" required>
+              Timeline
+            </FieldLabel>
             <Controller
               control={control}
               name="timeline"
@@ -475,6 +487,8 @@ export function ContactDetailsForm() {
                   disabled={isSubmittingState}
                 >
                   <SelectTrigger
+                    id="timeline"
+                    aria-required="true"
                     aria-invalid={!!errors.timeline}
                     aria-describedby={errors.timeline ? 'timeline-error' : undefined}
                   >

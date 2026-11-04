@@ -194,9 +194,9 @@ const cities: Record<string, CityPageContent> = {
           'Yes. Fort Lee has one of the densest restaurant scenes in Bergen County, particularly along Main Street. We build fast, mobile-first websites for Fort Lee restaurants with online menus, reservation integration, and local SEO that targets "restaurants near Fort Lee" and cuisine-specific searches. We also optimize Google Business Profile listings for maximum visibility in the map pack.',
       },
       {
-        question: 'How do I rank for "web design Fort Lee NJ" and similar searches?',
+        question: 'How can my business improve visibility for its services in Fort Lee?',
         answer:
-          'Ranking for Fort Lee-specific searches requires a combination of on-page optimization, proper schema markup, a well-structured Google Business Profile, and content that clearly communicates your services in relation to Fort Lee. We build all of these elements into every project. Local SEO improvements typically show measurable results within 3 to 6 months.',
+          'We begin by researching how customers search for your actual services in Fort Lee and reviewing how your existing pages address those needs. The agreed work may include clearer service content, on-page improvements, internal links, and an accurate Google Business Profile where your business is eligible. Priorities depend on your site, customers, and competition; scope and measurement are agreed before work begins, and rankings or result dates are not guaranteed.',
       },
       {
         question: "Can you build a bilingual website for Fort Lee's Korean business community?",
@@ -440,7 +440,7 @@ const cities: Record<string, CityPageContent> = {
       },
       {
         heading: 'Local SEO for Ridgewood, NJ Businesses',
-        body: 'Ridgewood businesses compete for search visibility not only within the Village but across the affluent Western Bergen County market that includes Wyckoff, Ho-Ho-Kus, Glen Rock, and Midland Park. We help Ridgewood businesses capture this broader audience by optimizing how services and locations are structured on the site, strengthening Google Business Profile presence, and building the local search signals that Google uses to determine relevance and authority.\n\nFor Ridgewood specifically, we target searches like "web design Ridgewood NJ," "best restaurants Ridgewood," "Ridgewood boutiques," and "Ridgewood NJ wellness studio." We also optimize for the broader "near me" searches that residents of surrounding towns use when looking for services in the area. Strong local SEO ensures your Ridgewood business appears not just for Village-specific queries but for the wider Bergen County audience that considers Ridgewood a destination.',
+        body: 'Ridgewood businesses compete for search visibility not only within the Village but across the affluent Western Bergen County market that includes Wyckoff, Ho-Ho-Kus, Glen Rock, and Midland Park. We help Ridgewood businesses capture this broader audience by optimizing how services and locations are structured on the site, strengthening Google Business Profile presence, and building the local search signals that Google uses to determine relevance and authority.\n\nWe research searches that match your own services and customers in Ridgewood. A boutique, restaurant, and wellness studio need different information and search targets; agency-service searches are relevant only to an agency. We also evaluate relevant "near me" searches from surrounding communities. The goal is to improve useful visibility for the audience you can serve, with priorities based on your actual services, website evidence, and agreed scope.',
       },
     ],
     localSignals: {
