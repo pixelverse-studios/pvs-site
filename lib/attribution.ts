@@ -5,15 +5,6 @@ const ATTRIBUTION_STORAGE_KEY = 'pvs_attribution';
 // Tab-scoped, with a 30-minute inactivity boundary; this is not cross-device attribution.
 const SESSION_IDLE_MS = 30 * 60 * 1000;
 const capturedDocuments = new WeakSet<Document>();
-const ATTRIBUTION_PARAM_KEYS = [
-  'utm_source',
-  'utm_medium',
-  'utm_campaign',
-  'utm_content',
-  'utm_term',
-  'src',
-  'promo',
-] as const;
 const TOUCH_KEYS = [
   'utm_source',
   'utm_medium',
@@ -73,7 +64,8 @@ function sanitizeText(raw: string | null | undefined, maxLength = 120): string |
     .trim()
     .replace(/[\u0000-\u001F\u007F]/g, '')
     .replace(/[<>]/g, '')
-    .slice(0, maxLength);
+    .slice(0, maxLength)
+    .trim();
 
   return cleaned || undefined;
 }
@@ -207,10 +199,6 @@ function writeStoredAttribution(attribution: StoredAttribution) {
   }
 }
 
-function hasAttributionSignal(searchParams: AttributionSearchParams): boolean {
-  return ATTRIBUTION_PARAM_KEYS.some((key) => Boolean(sanitizeText(searchParams.get(key))));
-}
-
 function hasCampaignFields(touch: AttributionTouch): boolean {
   return Boolean(
     touch.utm_source ||
@@ -232,18 +220,8 @@ export function captureAttributionFromUrl(
   }
 
   const stored = readStoredAttribution();
-  const campaign = hasAttributionSignal(searchParams);
-  const isDocumentEntry = !capturedDocuments.has(document);
-  capturedDocuments.add(document);
-  // Internal navigation must not reclassify the original landing. A missing or
-  // stripped referrer remains unknown, rather than being asserted to be direct.
-  if (!campaign && stored.first_touch) {
-    writeStoredAttribution({ ...stored, last_activity: Date.now() });
-    return undefined;
-  }
-
   const promo = findPromoCode(searchParams.get('promo'));
-  const touch = sanitizeTouch({
+  const campaignFields: AttributionTouch = {
     utm_source: sanitizeText(searchParams.get('utm_source')),
     utm_medium: sanitizeText(searchParams.get('utm_medium')),
     utm_campaign: sanitizeText(searchParams.get('utm_campaign')),
@@ -251,11 +229,24 @@ export function captureAttributionFromUrl(
     utm_term: sanitizeText(searchParams.get('utm_term')),
     src_code: sanitizeCode(searchParams.get('src')),
     promo_code: promo?.code ?? sanitizeCode(searchParams.get('promo')),
+  };
+  const campaign = hasCampaignFields(campaignFields);
+  const isDocumentEntry = !capturedDocuments.has(document);
+  capturedDocuments.add(document);
+  const referrerOrigin = isDocumentEntry ? sanitizeReferrer(document.referrer) : undefined;
+  const externalReferrer =
+    referrerOrigin && referrerOrigin !== window.location.origin ? referrerOrigin : undefined;
+  // Only valid campaigns or a fresh external document entry can replace the
+  // latest touch. Internal/unknown navigation and invalid codes preserve it.
+  if (!campaign && !externalReferrer && stored.first_touch) {
+    writeStoredAttribution({ ...stored, last_activity: Date.now() });
+    return undefined;
+  }
+
+  const touch = sanitizeTouch({
+    ...campaignFields,
     landing_page: sanitizePath(pathname),
-    referrer: (() => {
-      const origin = isDocumentEntry ? sanitizeReferrer(document.referrer) : undefined;
-      return origin && origin !== window.location.origin ? origin : undefined;
-    })(),
+    referrer: externalReferrer,
     captured_at: new Date().toISOString(),
   });
 
@@ -270,7 +261,7 @@ export function captureAttributionFromUrl(
   });
 
   // Existing consumers dispatch campaign_landing only for explicit campaigns.
-  return hasCampaignFields(touch) ? touch : undefined;
+  return campaign ? touch : undefined;
 }
 
 export function getConversionAttribution(
