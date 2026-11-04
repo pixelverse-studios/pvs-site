@@ -1,14 +1,15 @@
 'use client';
 
 import * as React from 'react';
-import { motion, type MotionProps } from 'framer-motion';
+import { motion, useReducedMotion, type MotionProps } from 'framer-motion';
 
 import { cn } from '@/lib/utils';
 
 const viewport = { once: true, amount: 0.2 };
 
-const fadeInVariants = {
-  hidden: { opacity: 0, y: 32 },
+// Principal content is visible in server HTML and when JavaScript is unavailable.
+const visibleContentVariants = {
+  hidden: { opacity: 1, y: 0 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -30,6 +31,7 @@ export function MotionSection({
   motionProps,
   triggerOnViewport = true,
 }: MotionSectionProps) {
+  const reducedMotion = useReducedMotion();
   const componentMap: Record<MotionSectionElement, any> = {
     div: motion.div,
     section: motion.section,
@@ -37,9 +39,7 @@ export function MotionSection({
   };
 
   const Component = componentMap[as] ?? motion.section;
-  const viewportProps = triggerOnViewport
-    ? { initial: 'hidden' as const, whileInView: 'visible' as const, viewport }
-    : {};
+  const viewportProps = triggerOnViewport ? { whileInView: 'visible' as const, viewport } : {};
 
   return (
     <Component
@@ -52,6 +52,8 @@ export function MotionSection({
       }}
       className={cn(className)}
       {...motionProps}
+      initial={false}
+      transition={reducedMotion ? { duration: 0 } : motionProps?.transition}
     >
       {children}
     </Component>
@@ -76,14 +78,17 @@ export function MotionItem({
   triggerOnViewport = true,
   ...props
 }: MotionItemProps) {
+  const reducedMotion = useReducedMotion();
   const baseProps = {
-    variants: fadeInVariants,
-    transition: { duration: 0.6, ease: 'easeOut', delay },
+    variants: visibleContentVariants,
+    transition: {
+      duration: reducedMotion ? 0 : 0.6,
+      ease: 'easeOut',
+      delay: reducedMotion ? 0 : delay,
+    },
   };
 
-  const viewportProps = triggerOnViewport
-    ? { initial: 'hidden' as const, whileInView: 'visible' as const, viewport }
-    : {};
+  const viewportProps = triggerOnViewport ? { whileInView: 'visible' as const, viewport } : {};
 
   const componentMap: Record<MotionItemElement, any> = {
     div: motion.div,
@@ -102,6 +107,10 @@ export function MotionItem({
       className={cn(className)}
       {...motionProps}
       {...props}
+      initial={false}
+      transition={
+        reducedMotion ? { duration: 0 } : (motionProps?.transition ?? baseProps.transition)
+      }
     >
       {children}
     </Component>

@@ -1,12 +1,12 @@
-import { MetadataRoute } from 'next'
+import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/_next/', '/api/', '/dashboard/', '/login'],
+      disallow: ['/api/', '/dashboard/', '/login'],
     },
     sitemap: 'https://pixelversestudios.io/sitemap.xml',
-  }
+  };
 }

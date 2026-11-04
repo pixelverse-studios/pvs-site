@@ -5,21 +5,6 @@ const {
   logo: { light: lightModeLogo },
 } = sharedMetadata;
 
-// Priority city coordinates for LocalBusiness schema
-const cityCoordinates: Record<string, { latitude: number; longitude: number }> = {
-  'fort-lee': { latitude: 40.8509, longitude: -73.9701 },
-  englewood: { latitude: 40.8929, longitude: -73.9726 },
-  hackensack: { latitude: 40.8859, longitude: -74.0435 },
-  paramus: { latitude: 40.9445, longitude: -74.0754 },
-  ridgewood: { latitude: 40.9793, longitude: -74.1166 },
-  // Phase 2 cities
-  teaneck: { latitude: 40.8976, longitude: -74.0159 },
-  'fair-lawn': { latitude: 40.9404, longitude: -74.1318 },
-  bergenfield: { latitude: 40.9276, longitude: -73.9982 },
-  'cliffside-park': { latitude: 40.8215, longitude: -73.9876 },
-  'river-vale': { latitude: 41.0159, longitude: -74.0107 },
-};
-
 // BreadcrumbList schema generator for improved SERP display
 export function createBreadcrumbSchema(items: Array<{ name: string; path: string }>) {
   return {
@@ -80,7 +65,7 @@ export const localBusinessSchema = {
   ],
 };
 
-// Per-city LocalBusiness schema for priority cities
+// Service coverage for area landing pages; towns are not office locations.
 export interface CitySchemaParams {
   slug: string;
   city: string;
@@ -90,6 +75,7 @@ export interface CitySchemaParams {
   isCounty?: boolean; // true for county-level pages — uses AdministrativeArea instead of City
 }
 
+// Existing callers retain this name; the payload describes coverage, not a branch.
 export function createCityLocalBusinessSchema({
   slug,
   city,
@@ -98,65 +84,19 @@ export function createCityLocalBusinessSchema({
   basePath,
   isCounty = false,
 }: CitySchemaParams) {
-  const coords = cityCoordinates[slug];
   const pagePath = basePath || `/services/${slug}`;
-  const defaultDescription = `Custom web design and local SEO services for ${city}, ${state} businesses. PixelVerse Studios delivers conversion-focused websites and marketing for Bergen County service brands.`;
-
   return {
     '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    '@id': `${siteUrl}${pagePath}/#local-business`,
-    name: `PixelVerse Studios - ${city} Web Design & SEO`,
-    description: description || defaultDescription,
+    '@type': 'Service',
+    '@id': `${siteUrl}${pagePath}/#area-services`,
+    name: `Web Design & SEO Services for ${city}, ${state}`,
+    description:
+      description || `Custom web design and local SEO services for ${city}, ${state} businesses.`,
     url: `${siteUrl}${pagePath}`,
-    email: 'info@pixelversestudios.io',
-    telephone: '+1-201-638-1769',
-    image: lightModeLogo,
-    logo: lightModeLogo,
-    priceRange: '$$',
-    areaServed: isCounty
-      ? {
-          '@type': 'AdministrativeArea',
-          name: `${city}, ${state}`,
-        }
-      : {
-          '@type': 'City',
-          name: city,
-          containedInPlace: {
-            '@type': 'AdministrativeArea',
-            name: 'Bergen County, NJ',
-          },
-        },
-    ...(coords && {
-      geo: {
-        '@type': 'GeoCoordinates',
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-      },
-    }),
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: city,
-      addressRegion: state,
-      addressCountry: 'US',
-    },
-    openingHoursSpecification: {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '09:00',
-      closes: '17:00',
-    },
-    sameAs: [
-      'https://www.instagram.com/pixel.verse.studios/',
-      'https://www.facebook.com/profile.php?id=61582670432316',
-      'https://www.linkedin.com/company/pixelverse-studios-llc/',
-      'https://www.youtube.com/@PixelVerse_Studios_nj',
-      'https://x.com/pvs_nj',
-    ],
-    parentOrganization: {
-      '@type': 'Organization',
-      '@id': `${siteUrl}/#organization`,
-      name: 'PixelVerse Studios',
+    provider: { '@id': localBusinessSchema['@id'] },
+    areaServed: {
+      '@type': isCounty ? 'AdministrativeArea' : 'City',
+      name: `${city}, ${state}`,
     },
   };
 }
@@ -191,9 +131,9 @@ export function createCityServiceSchema({
     description: description,
     provider: {
       '@type': 'ProfessionalService',
-      '@id': `${siteUrl}${pagePath}/#local-business`,
-      name: `PixelVerse Studios - ${city}`,
-      url: `${siteUrl}${pagePath}`,
+      '@id': localBusinessSchema['@id'],
+      name: 'PixelVerse Studios',
+      url: siteUrl,
     },
     areaServed: {
       '@type': 'City',
@@ -243,7 +183,12 @@ export function createServiceSchema({
 }
 
 // Bundled services schema for city pages (combines multiple services)
-export function createCityServicesSchema(slug: string, city: string, state: string, basePath?: string) {
+export function createCityServicesSchema(
+  slug: string,
+  city: string,
+  state: string,
+  basePath?: string,
+) {
   const services = [
     {
       name: `Web Design in ${city}, ${state}`,
@@ -374,7 +319,7 @@ export function createLocalServiceBreadcrumbSchema(
   serviceName: string,
   serviceSlug: string,
   city: string,
-  citySlug: string
+  citySlug: string,
 ) {
   return createBreadcrumbSchema([
     { name: 'Home', path: '/' },
@@ -453,24 +398,6 @@ export const websiteSchema = {
     name: 'PixelVerse Studios',
   },
 };
-
-// Extends localBusinessSchema with live AggregateRating data
-export function createLocalBusinessSchemaWithRating(ratingData: {
-  rating: number;
-  reviewCount: number;
-} | null) {
-  if (!ratingData || ratingData.reviewCount === 0) return null;
-  return {
-    ...localBusinessSchema,
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: ratingData.rating.toFixed(1),
-      reviewCount: ratingData.reviewCount,
-      bestRating: '5',
-      worstRating: '1',
-    },
-  };
-}
 
 // Service schemas for homepage — describes the two core offerings
 export function createHomepageServiceSchemas() {
