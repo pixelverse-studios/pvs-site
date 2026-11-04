@@ -4,6 +4,8 @@
 
 ## Latest deploy summary
 
+- Updated the public business phone and meeting information throughout the website.
+
 - Improved search resource access, local service information and SEO inquiry paths.
 
 ## Notes for internal team

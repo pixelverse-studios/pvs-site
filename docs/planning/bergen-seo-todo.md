@@ -99,3 +99,34 @@ Use this planning file to track progress:
 - 2025-11-20: Compiled a current keyword inventory from live metadata and Bergen city pages (no new terms added) and documented it in `docs/planning/site-keyword-baseline.md` for partner review.
 
 - 2026-11-04: Prepared audit remediation on an isolated branch based on the current pricing release. Rendering, entity accuracy, attribution and existing SEO/contact improvements are under review, not deployed. Current performance/account verification remains pending.
+
+## Full-scope PR acceptance — 2026-11-04
+
+PR #263 covers the complete approved remediation scope, including the earlier implementation commits. Preparation and local validation are distinct from production activation and business outcomes.
+
+| Approved area                | Included implementation / evidence                                                                                                                | Disposition and remaining gate                                                                                        |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Source reconciliation        | Based on main pricing release; current package rates preserved; original checkout isolated                                                        | Implemented and checked; no stale pricing restoration                                                                 |
+| Rendering and crawler access | Public Next assets allowed, essential shared motion content visible in SSR, reduced-motion handling, regression tests                             | Implemented; Google rendering/indexing checks follow approved release                                                 |
+| Provider/entity accuracy     | Same genuine provider across served towns; service-area relationships; legacy helpers checked; visible reviews retained without own-rating markup | Implemented; external profile settings unchanged                                                                      |
+| Acquisition context          | Untagged landing/referrer evidence, tab scope, bounded expiry, explicit unknown, safe payloads                                                    | Implemented and mock-tested; backend persistence/real source reconciliation requires account evidence                 |
+| Inquiry completions          | Actual details/review components tested for pending/success, duplicate attempts, HTTP/network error, retry, honeypots and event payloads          | Locally verified with validated fixtures; no real inquiries sent; production GA4 receipt remains gated                |
+| Page views/exclusions        | Real tracker/analytics pathname and dashboard-exclusion tests; no query-only duplicate debug views                                                | Locally verified; published GA4 history/key-event settings still need account check                                   |
+| Booking forwarding           | Component-lifetime callback deduplication and HTTP/network acknowledgment checks without automatic retry                                          | Implemented and mock-tested; durable provider/server idempotency remains external                                     |
+| Recurring SEO page           | Fit, included work versus recommendations, clearly illustrative progress reporting and SEO-prefilled inquiry route; prices preserved              | Implemented; published scope confirmed by owner; outcome numbers not invented                                         |
+| Existing area pages          | Buyer-relevant copy replaces internal ROI/priority language; contextual services and honest regional work links                                   | Implemented; deeper town prioritization awaits current performance evidence; no new URLs                              |
+| Contact experience           | Compact three-path navigation and shorter introduction; form and prefill preserved; desktop/mobile checks                                         | Implemented; conversion uplift requires post-release baseline comparison                                              |
+| Client proof                 | Unsupported quantified outcome narratives replaced with delivery/process evidence; quotes preserved; former-client handoff separated              | Approved process-evidence fallback implemented; quantified results only return with dated support                     |
+| Business contact             | Public number centralized and used in site/schema; meetings described at client or agreed locations                                               | Owner confirmed public phone and operating model; Chamber already uses intended public phone; no external edit needed |
+| Sitemap and CSV              | Unsupported lastmod omitted; sitemap URL inventory preserved; actual download Blob/CSV interaction tested for complete unique inventory           | Implemented and locally verified; deployed URL output checked after release                                           |
+| Documentation and handoff    | SEO log/checklist/progress/measurement notes and sanitized patch notes updated; all scoped commits retained in one draft PR                       | Included; private execution/QA evidence stays local in this public repository                                         |
+
+### Account and outcome work that cannot be completed by a code PR
+
+- Supply current PixelVerse GSC/GA4 reports to establish baseline and prioritize later experiments. Existing old exports are not current evidence.
+- Verify published key events/history measurement, successful completion receipt, backend records and lead qualification in an authorized account/test workflow. Code tests do not prove service receipt.
+- After an approved release, inspect Google-rendered pages/blocked resources, schema output and indexing. No merge/deployment is part of this delivery.
+- Review business-profile settings against the confirmed service-area operating model; no profile edits were performed.
+- Evaluate inquiry quality and SEO outcomes over comparable, volume-appropriate periods. No ranking or revenue uplift is asserted.
+
+Implementation coverage is complete for independently actionable scope; external verification remains explicitly open.
