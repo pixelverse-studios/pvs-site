@@ -7,7 +7,6 @@ import { cn } from '@/lib/utils';
 import { publicContact } from '@/data/public-contact';
 
 import { Button } from './button';
-import { LazyMap } from './lazy-map';
 import { SocialLinks } from './social-links';
 
 export interface FooterLink {
@@ -23,7 +22,7 @@ export interface FooterProps extends React.HTMLAttributes<HTMLElement> {
 const CURRENT_YEAR = new Date().getFullYear();
 
 const CONTACT = {
-  address: '79 Edgewater Road, Cliffside Park, NJ 07010',
+  base: publicContact.base,
   phone: { href: publicContact.phone.href, label: publicContact.phone.display },
   email: { href: '/contact/details', label: 'Email Us' },
 } as const;
@@ -34,7 +33,7 @@ const navLinkCls =
   'text-sm text-[var(--pv-text-muted)] transition-colors hover:text-[var(--pv-primary)]';
 
 // ─── Layout: Split Panel ──────────────────────────────────────────────────────
-// Left: tall map + contact details. Right: brand, nav, social, CTA.
+// Left: service-area contact details. Right: brand, nav, social, CTA.
 
 export function Footer({ links = [], cta, className, ...props }: FooterProps) {
   return (
@@ -47,15 +46,12 @@ export function Footer({ links = [], cta, className, ...props }: FooterProps) {
     >
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr]">
-          <div className="relative flex flex-col border-b border-[var(--pv-border)] md:border-b-0 md:border-r">
-            <div className="h-[220px] w-full overflow-hidden">
-              <LazyMap height={220} />
-            </div>
-            <div className="flex flex-col gap-3 px-6 py-6">
+          <div className="flex flex-col justify-center border-b border-[var(--pv-border)] md:border-b-0 md:border-r">
+            <div className="flex flex-col gap-3 px-8 py-8">
               <p className={eyebrowCls}>Contact Us</p>
               <address className="flex items-start gap-2 text-sm not-italic text-[var(--pv-text-muted)]">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--pv-primary)]" aria-hidden />
-                <span>{CONTACT.address}</span>
+                <span>Based in {CONTACT.base}</span>
               </address>
               <TrackedLink
                 href={CONTACT.phone.href}
@@ -111,7 +107,7 @@ export function Footer({ links = [], cta, className, ...props }: FooterProps) {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="space-y-2">
                 <p className={eyebrowCls}>Follow PixelVerse</p>
-                <SocialLinks iconClassName="bg-[var(--pv-bg)]" />
+                <SocialLinks className="flex-wrap" iconClassName="bg-[var(--pv-bg)]" />
               </div>
               <div className="flex flex-col items-start gap-3 sm:items-end">
                 {cta && (

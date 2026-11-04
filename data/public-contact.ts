@@ -1,5 +1,6 @@
 // Public inquiry contact. Keep individual team members' private lines out of public output.
 export const publicContact = {
+  base: 'Cliffside Park, NJ',
   phone: {
     display: '(914) 297-8215',
     international: '+1-914-297-8215',
@@ -7,3 +8,6 @@ export const publicContact = {
   },
   meetingDescription: 'We work remotely and can meet at your location or another agreed location.',
 } as const;
+
+// Use service copy when a current review rating is unavailable.
+export const unratedBusinessBadge = 'Custom websites and local SEO';

@@ -169,8 +169,10 @@ export function SocialLinks({ className, iconClassName }: SocialLinksProps) {
         </Link>
       ))}
 
-      {/* Expandable Google Review button */}
-      <GoogleReviewButton iconClassName={iconClassName} />
+      {/* Reserve its row so expansion never moves the link away from the pointer. */}
+      <div className="basis-full">
+        <GoogleReviewButton iconClassName={iconClassName} />
+      </div>
     </div>
   );
 }

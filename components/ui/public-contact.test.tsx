@@ -7,7 +7,6 @@ import { createLocalServiceSchema, localBusinessSchema } from '@/lib/structured-
 import { Footer } from './footer';
 
 vi.mock('next/navigation', () => ({ usePathname: () => '/' }));
-vi.mock('./lazy-map', () => ({ LazyMap: () => null }));
 vi.mock('@/components/analytics/tracked-link', async () => {
   const { createElement } = await import('react');
   return {
@@ -24,6 +23,13 @@ describe('public inquiry contact', () => {
     expect(html).toContain(publicContact.meetingDescription);
     expect(html).toContain('Contact Us');
     expect(html).not.toContain('Find Us');
+    expect(html).toContain(`Based in ${publicContact.base}`);
+    expect(html).not.toContain('<iframe');
+    // A public base town must not become a street address or a precise map.
+    const address = html.match(/<address\b[^>]*>(.*?)<\/address>/)?.[1];
+    expect(address).toBeDefined();
+    expect(address?.replace(/<[^>]*>/g, '')).not.toMatch(/\d/);
+    expect(html).not.toContain('google.com/maps');
   });
 
   it('uses the same public inquiry line in provider and sales contact markup', () => {

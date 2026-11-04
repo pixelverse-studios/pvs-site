@@ -20,9 +20,10 @@ export function createBreadcrumbSchema(items: Array<{ name: string; path: string
   };
 }
 
+// One public organization identity; service-area work does not expose a private residence.
 export const localBusinessSchema = {
   '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
+  '@type': 'Organization',
   '@id': `${siteUrl}/#organization`,
   name: 'PixelVerse Studios',
   url: siteUrl,
@@ -36,20 +37,6 @@ export const localBusinessSchema = {
     '@type': 'AdministrativeArea',
     name: 'Bergen County, NJ',
   },
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: '79 Edgewater Road',
-    addressLocality: 'Cliffside Park',
-    addressRegion: 'NJ',
-    postalCode: '07010',
-    addressCountry: 'US',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: 40.8215,
-    longitude: -73.9876,
-  },
-  priceRange: '$$',
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'sales',
@@ -131,7 +118,7 @@ export function createCityServiceSchema({
     serviceType: serviceType,
     description: description,
     provider: {
-      '@type': 'ProfessionalService',
+      '@type': 'Organization',
       '@id': localBusinessSchema['@id'],
       name: 'PixelVerse Studios',
       url: siteUrl,
@@ -171,7 +158,7 @@ export function createServiceSchema({
     description,
     url: `${siteUrl}${path}`,
     provider: {
-      '@type': 'ProfessionalService',
+      '@type': 'Organization',
       '@id': `${siteUrl}/#organization`,
       name: 'PixelVerse Studios',
       url: siteUrl,
@@ -370,7 +357,7 @@ export function createHomepageServiceSchemas() {
         'Custom websites that are user-focused, conversion-optimized, and built to support your business goals. From initial design to development and launch.',
       url: `${siteUrl}/services/web-development`,
       provider: {
-        '@type': 'ProfessionalService',
+        '@type': 'Organization',
         '@id': `${siteUrl}/#organization`,
         name: 'PixelVerse Studios',
         url: siteUrl,
@@ -390,7 +377,7 @@ export function createHomepageServiceSchemas() {
         'Improving search rankings and visibility through site structure, content optimization, performance improvements, and local SEO strategies that help the right customers find your business.',
       url: `${siteUrl}/services/seo`,
       provider: {
-        '@type': 'ProfessionalService',
+        '@type': 'Organization',
         '@id': `${siteUrl}/#organization`,
         name: 'PixelVerse Studios',
         url: siteUrl,

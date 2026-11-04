@@ -6,6 +6,7 @@
 
 import { validateHomepageHero } from '@/lib/validation/homepage';
 import { caseStudies as allCaseStudies } from '@/data/case-studies';
+import { unratedBusinessBadge } from '@/data/public-contact';
 import {
   formatMonthlyStartingPrice,
   formatStartingPrice,
@@ -39,7 +40,6 @@ export interface WhySection {
     href: string;
   };
 }
-
 
 export interface InsightBeat {
   label: string;
@@ -94,7 +94,7 @@ export interface FinalCta {
 // ----------------------------------------------------------------------------
 
 const rawHomepageHero = {
-  badge: '⭐ 5.0 on Google • XX Reviews',
+  badge: unratedBusinessBadge,
   headline: 'Web Design, Development & SEO',
   tagline: 'Built for growing New Jersey businesses',
   subheadline: [
@@ -163,8 +163,7 @@ export const insightSection: InsightSection = {
 export const processSection: ProcessSection = {
   eyebrow: 'Our Process',
   heading: 'How we figure out what to build',
-  subtitle:
-    "We don't start with a proposal. We start with an evaluation.",
+  subtitle: "We don't start with a proposal. We start with an evaluation.",
   steps: [
     {
       number: 1,
@@ -196,7 +195,7 @@ export const processSection: ProcessSection = {
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "I had zero website experience going in and expected to feel lost the whole time. They walked me through every decision without making me feel like I was asking dumb questions. I actually love what we ended up with.",
+      'I had zero website experience going in and expected to feel lost the whole time. They walked me through every decision without making me feel like I was asking dumb questions. I actually love what we ended up with.',
     name: 'Jennifer',
     role: 'Owner & Photographer',
     company: 'Iffers Pictures',
@@ -204,7 +203,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "I really just wanted a simple landing page to start. They showed me what a full site with service pages and SEO could do and I had no idea how much I was missing. We went bigger and it was worth it. The phone actually rings now.",
+      'I really just wanted a simple landing page to start. They showed me what a full site with service pages and SEO could do and I had no idea how much I was missing. We went bigger and it was worth it. The phone actually rings now.',
     name: 'Kyle',
     role: 'Owner',
     company: 'Jones Pressure Washing NJ',
@@ -212,7 +211,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "We had people coming to the site but almost nobody was booking. They figured out what was turning people away and fixed it. Within a few months our bookings more than doubled.",
+      'We had people coming to the site but almost nobody was booking. They figured out what was turning people away and fixed it. Within a few months our bookings more than doubled.',
     name: 'Alli',
     role: 'Owner',
     company: 'Going Gold Choreography',
@@ -228,7 +227,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "We were brand new and needed people to take us seriously from day one. They got that right away and built something professional and welcoming from the start. For a new non-profit that kind of credibility matters more than people realize.",
+      'We were brand new and needed people to take us seriously from day one. They got that right away and built something professional and welcoming from the start. For a new non-profit that kind of credibility matters more than people realize.',
     name: 'Sara',
     role: 'Owner',
     company: 'Rising Tide Aquatics',
