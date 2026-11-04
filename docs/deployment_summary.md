@@ -10,6 +10,8 @@
 - Reframed SEO packages around shared research and proposal-defined monthly work, retained pricing, and aligned homepage/service pricing FAQs and inquiry names.
 - Clarified tier-specific implementation and listing/content/inquiry work, and displayed the SEO setup fee alongside its monthly starting price.
 - Refined the SEO price summary with calmer typography and an integrated setup fee across light/dark and mobile layouts.
+- Removed private street details and the precise map; retained the public base town, service area, and business contact information.
+- Kept Google review claims conditional on verified available data, corrected attribution edge cases, and improved required form labels and mobile footer wrapping.
 
 ## Notes for internal team
 

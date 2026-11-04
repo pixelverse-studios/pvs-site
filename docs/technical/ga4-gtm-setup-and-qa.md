@@ -201,7 +201,7 @@ npm run lint
 npm run build
 ```
 
-Known existing warning: `app/dashboard/domani/campaigns/components/campaign-detail-modal.tsx` has a pre-existing React hook dependency warning for `campaign`.
+The full review lint check is clean. The production build still reports existing Sentry instrumentation/deprecation and Browserslist-data warnings; those are separate maintenance work.
 
 ## Publish Checklist
 
@@ -217,3 +217,5 @@ Known existing warning: `app/dashboard/domani/campaigns/components/campaign-deta
 ## Prepared attribution changes — 2026-11-04
 
 The review branch captures untagged entry context using existing metadata fields, stores only the referrer origin and query-free landing path, and leaves missing source evidence unknown. Tab-scoped attribution expires after 30 minutes between public-page captures, not all user interaction. Untagged captures do not emit campaign_landing. Calendly callback deduplication is component-lifetime only; forwarding checks HTTP/network failures without automatic retries. Production collection, backend persistence, provider idempotency and qualification linkage still require an authorized account workflow. Mock tests are not production receipt evidence.
+
+During the full release review, campaign detection was tightened to use fully sanitized fields, including whitespace left after filtering. Invalid-only codes preserve existing acquisition context. A genuine fresh external-document entry updates latest touch while retaining first touch; SPA, internal and unknown-referrer navigation preserve the existing touch. Regression tests cover these boundaries. Backend fields, expiry and campaign-event rules are unchanged.
