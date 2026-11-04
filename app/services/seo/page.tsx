@@ -101,8 +101,8 @@ export default function SEOServicesPage() {
         title="Know what your SEO engagement covers."
         intro="Recurring SEO is a fit when you have an existing website, a defined service area, and the ability to respond to new inquiries. The right scope depends on the work your site needs and the customers you can serve, not simply how many keywords you want to track."
         bullets={[
-          'Compare the pages optimized, business-profile work, and reporting cadence included in each package.',
-          'Distinguish work included in the monthly plan from recommendations that require a separate project. New service or location pages are quoted separately.',
+          'Compare the existing-page update allowance, research, business-profile work, and planning cadence included in each package.',
+          'Use the agreed monthly allowance for the most useful existing-page updates. New pages, original articles, major technical fixes, and additional Business Profiles are scoped separately.',
           'Use the initial review to agree which services and locations matter, what counts as a useful inquiry, and who will provide access and approve changes.',
         ]}
         closing="The one-time SEO Strategy Setup covers keyword research and content mapping. We review the site before recommending a plan; a larger package is not automatically the right choice."

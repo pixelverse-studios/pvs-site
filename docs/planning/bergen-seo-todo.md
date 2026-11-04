@@ -130,3 +130,10 @@ PR #263 covers the complete approved remediation scope, including the earlier im
 - Evaluate inquiry quality and SEO outcomes over comparable, volume-appropriate periods. No ranking or revenue uplift is asserted.
 
 Implementation coverage is complete for independently actionable scope; external verification remains explicitly open.
+
+### Package review follow-up — 2026-11-04
+
+- Reframed the existing SEO cards as SEO Essentials ($275/month), Ongoing Local SEO ($550/month), Expanded SEO ($875/month), and Custom. Removed town-count tier names, the unsupported popularity badge, and mandatory article/GBP-post quotas.
+- Retained 1/2/4 monthly allowances for bounded existing-page updates; defined updates as agreed copy, metadata, and internal-link work. New pages, original articles, major technical fixes, and additional Business Profiles are scoped separately. Setup remains $800. Delivery-time and margin review remain a business decision before publishing these revised offers.
+- Aligned homepage/service-page pricing FAQs, SEO fit copy, and package inquiry labels. No URLs were added; the SEO log CSV continues to derive its URL inventory from the sitemap, including both affected public pages (`/` and `/services/seo`). Prepared for local review, not deployed.
+- Validation: lint and type checks passed; independent copy review found no material inconsistencies. Local browser review covered desktop/mobile cards, unchanged quarterly/annual totals, and inquiry prefill for Ongoing Local SEO; no inquiry was submitted.

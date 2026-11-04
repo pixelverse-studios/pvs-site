@@ -41,6 +41,7 @@ const updates = [
     date: '2026-11-04',
     items: [
       'Prepared rendering, service-area markup, attribution, and existing SEO/contact page improvements.',
+      'Reframed SEO packages around ongoing work, with existing-page allowances and consistent pricing FAQs on the homepage and SEO service page.',
       'Retained the existing URL inventory; the CSV is generated from the current sitemap.',
     ],
     notes:
