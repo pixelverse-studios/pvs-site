@@ -38,6 +38,23 @@ metadata.robots = {
 
 const updates = [
   {
+    date: '2026-11-04',
+    items: [
+      'Prepared rendering, service-area markup, attribution, and existing SEO/contact page improvements.',
+      'Reframed SEO packages around shared research and proposal-defined monthly work, with consistent pricing FAQs on the homepage and SEO service page.',
+      'Clarified implementation, listing corrections, content and inquiry-path work across SEO plans; paired the monthly starting price and one-time setup fee in a compact responsive summary.',
+      'Removed private street/map details, aligned the shared organization identity, and kept review claims conditional on verified available data.',
+      'Corrected attribution edge cases, labeled required inquiry selectors, and clarified service-specific town-page wording.',
+      'Retained the existing URL inventory; the CSV is generated from the current sitemap.',
+    ],
+    notes:
+      'Prepared changes; not deployed. Recheck production and Search Console after an approved release.',
+    notesDetail: [
+      'Verify rendered content and essential resource access after release.',
+      'Verify successful inquiry events and acquisition context separately from contact clicks.',
+    ],
+  },
+  {
     date: '2026-10-12',
     items: [
       'Added the Iffer’s Pictures case study at /portfolio/iffers-pictures and linked it from the portfolio showcase.',

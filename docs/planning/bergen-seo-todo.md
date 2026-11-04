@@ -97,3 +97,92 @@ Use this planning file to track progress:
 - 2025-11-18: Re-reviewed the “Crawled – currently not indexed” items (font asset, `/pricing`, `/services`) and confirmed existing robots/redirect controls cover them; documented the validation steps and reminder to request `/services` re-indexing.
 - 2025-11-20: Added a focused GSC CTR/Ranking lift TODO list for Bergen hub/city pages in `docs/planning/gsc-ctr-lift-todo.md` (metadata + FAQ refresh, internal links/CTAs, canonical cleanup, reindex).
 - 2025-11-20: Compiled a current keyword inventory from live metadata and Bergen city pages (no new terms added) and documented it in `docs/planning/site-keyword-baseline.md` for partner review.
+
+- 2026-11-04: Prepared audit remediation on an isolated branch based on the current pricing release. Rendering, entity accuracy, attribution and existing SEO/contact improvements are under review, not deployed. Current performance/account verification remains pending.
+
+## Full-scope PR acceptance — 2026-11-04
+
+PR #263 covers the complete approved remediation scope, including the earlier implementation commits. Preparation and local validation are distinct from production activation and business outcomes.
+
+| Approved area                | Included implementation / evidence                                                                                                                | Disposition and remaining gate                                                                                        |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Source reconciliation        | Based on main pricing release; current package rates preserved; original checkout isolated                                                        | Implemented and checked; no stale pricing restoration                                                                 |
+| Rendering and crawler access | Public Next assets allowed, essential shared motion content visible in SSR, reduced-motion handling, regression tests                             | Implemented; Google rendering/indexing checks follow approved release                                                 |
+| Provider/entity accuracy     | Same genuine provider across served towns; service-area relationships; legacy helpers checked; visible reviews retained without own-rating markup | Implemented; external profile settings unchanged                                                                      |
+| Acquisition context          | Untagged landing/referrer evidence, tab scope, bounded expiry, explicit unknown, safe payloads                                                    | Implemented and mock-tested; backend persistence/real source reconciliation requires account evidence                 |
+| Inquiry completions          | Actual details/review components tested for pending/success, duplicate attempts, HTTP/network error, retry, honeypots and event payloads          | Locally verified with validated fixtures; no real inquiries sent; production GA4 receipt remains gated                |
+| Page views/exclusions        | Real tracker/analytics pathname and dashboard-exclusion tests; no query-only duplicate debug views                                                | Locally verified; published GA4 history/key-event settings still need account check                                   |
+| Booking forwarding           | Component-lifetime callback deduplication and HTTP/network acknowledgment checks without automatic retry                                          | Implemented and mock-tested; durable provider/server idempotency remains external                                     |
+| Recurring SEO page           | Fit, included work versus recommendations, clearly illustrative progress reporting and SEO-prefilled inquiry route; prices preserved              | Implemented; published scope confirmed by owner; outcome numbers not invented                                         |
+| Existing area pages          | Buyer-relevant copy replaces internal ROI/priority language; contextual services and honest regional work links                                   | Implemented; deeper town prioritization awaits current performance evidence; no new URLs                              |
+| Contact experience           | Compact three-path navigation and shorter introduction; form and prefill preserved; desktop/mobile checks                                         | Implemented; conversion uplift requires post-release baseline comparison                                              |
+| Client proof                 | Unsupported quantified outcome narratives replaced with delivery/process evidence; quotes preserved; former-client handoff separated              | Approved process-evidence fallback implemented; quantified results only return with dated support                     |
+| Business contact             | Public number centralized and used in site/schema; meetings described at client or agreed locations                                               | Owner confirmed public phone and operating model; Chamber already uses intended public phone; no external edit needed |
+| Sitemap and CSV              | Unsupported lastmod omitted; sitemap URL inventory preserved; actual download Blob/CSV interaction tested for complete unique inventory           | Implemented and locally verified; deployed URL output checked after release                                           |
+| Documentation and handoff    | SEO log/checklist/progress/measurement notes and sanitized patch notes updated; all scoped commits retained in one draft PR                       | Included; private execution/QA evidence stays local in this public repository                                         |
+
+### Account and outcome work that cannot be completed by a code PR
+
+- Supply current PixelVerse GSC/GA4 reports to establish baseline and prioritize later experiments. Existing old exports are not current evidence.
+- Verify published key events/history measurement, successful completion receipt, backend records and lead qualification in an authorized account/test workflow. Code tests do not prove service receipt.
+- After an approved release, inspect Google-rendered pages/blocked resources, schema output and indexing. No merge/deployment is part of this delivery.
+- Review business-profile settings against the confirmed service-area operating model; no profile edits were performed.
+- Evaluate inquiry quality and SEO outcomes over comparable, volume-appropriate periods. No ranking or revenue uplift is asserted.
+
+Implementation coverage is complete for independently actionable scope; external verification remains explicitly open.
+
+### Package review follow-up — 2026-11-04
+
+The research-led revision below supersedes this initial package draft and its page allowances.
+
+- Reframed the existing SEO cards as SEO Essentials ($275/month), Ongoing Local SEO ($550/month), Expanded SEO ($875/month), and Custom. Removed town-count tier names, the unsupported popularity badge, and mandatory article/GBP-post quotas.
+- Retained 1/2/4 monthly allowances for bounded existing-page updates; defined updates as agreed copy, metadata, and internal-link work. New pages, original articles, major technical fixes, and additional Business Profiles are scoped separately. Setup remains $800. Delivery-time and margin review remain a business decision before publishing these revised offers.
+- Aligned homepage/service-page pricing FAQs, SEO fit copy, and package inquiry labels. No URLs were added; the SEO log CSV continues to derive its URL inventory from the sitemap, including both affected public pages (`/` and `/services/seo`). Prepared for local review, not deployed.
+- Validation: lint and type checks passed; independent copy review found no material inconsistencies. Local browser review covered desktop/mobile cards, unchanged quarterly/annual totals, and inquiry prefill for Ongoing Local SEO; no inquiry was submitted.
+
+### Research-led package revision — 2026-11-04
+
+- Research and planning subagents recommended a shared foundation for all three retainers: service/search/competitor assessment, proportionate technical and visibility checks, and Business Profile accuracy/review guidance where applicable. Google guidance supports these activities; package prices and implementation capacity remain commercial decisions.
+- Removed undefined page-update units. Essentials focuses on a narrow agreed priority set; Ongoing Local SEO supports work across core services; Expanded SEO adds breadth and implementation capacity. Each proposal must define concrete monthly deliverables, services/markets covered, responsibilities, exclusions, and planning cadence before the retainer starts. No hours, staffing capacity, results, or publication quotas were invented.
+- Setup remains $800 and explicitly establishes initial service/search/competitor research, content mapping, and starting priorities. Content production, substantial development, and additional profiles require explicit scope; the proposal states included work and separately quoted work. Prices remain $275/$550/$875 per month.
+- Changed public surfaces remain `/` and `/services/seo`. The SEO log and sitemap-generated CSV retain both URLs with no new URL inventory. Local review and technical verification are recorded in the private execution record; outcome measurement remains post-release work.
+
+- Revision validation: independent review, lint/type checks, seven existing pricing tests, desktop/mobile overflow checks, monthly/quarterly/annual totals, four inquiry URLs, Essentials prefill, and homepage/SEO FAQ rendering passed locally. No forms or bookings were submitted.
+
+### Offering benchmark — 2026-11-04
+
+Owner clarified that package inclusions and tier differentiation should be benchmarked; PixelVerse rates remain fixed. Two research subagents inspected original published offerings. These are observations of advertised services, not verification of delivery, effectiveness, or equal package scope. Generic web research did not control search location/device, and no ranking conclusions were drawn. No website offer copy changed during this comparison.
+
+| Benchmark                                                     | Classification                                             | Observed scope relevant to PixelVerse                                                                                                                                                                                                                                   |
+| ------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Adatek](https://adatekagency.com/)                           | Bergen/NJ business competitor; site states Hackensack base | Entry scope explicitly names keyword research, citation corrections, on-page work, technical checks, and reporting. Higher scope adds location/content coverage and competitor comparison. Publishing quotas are advertised commitments, not evidence of effectiveness. |
+| [Whitespark](https://whitespark.ca/seo-services/)             | Local SEO service-category benchmark                       | Distinguishes GBP management from GBP plus website implementation. Website scope explicitly adds audit, on-site/content work and conversion improvement; its website service is limited to WordPress.                                                                   |
+| [WebFX](https://www.webfx.com/local-seo/services/)            | Broader service-category benchmark                         | Explicit citation management and local reporting; expanded services name content/copywriting or link work. Useful evidence for named work types beyond generic capacity wording.                                                                                        |
+| [Pronto](https://www.prontomarketing.com/local-seo-services/) | Small-business service-category benchmark                  | Separates setup recommendations, recurring campaign activity, and implementation/add-ons. Quantity-based links/articles should not be treated as a strategy to copy.                                                                                                    |
+
+Supporting NJ/tri-state observations: [AdPartnerz](https://adpartnerz.com/seo/) and [Web Support Plaza](https://websupportplaza.com/seo-packages/). Some card/general-inclusion statements conflict; unclear inclusions remain unknown.
+
+Interpretation: shared research, monitoring, focused execution, GBP/reputation guidance and increasing breadth are supported by the observed market pattern. Current PixelVerse copy still needs clearer boundaries for external listing/citation corrections, genuine local authority opportunities, conversion improvements, and tangible implementation types in Ongoing versus Expanded. A written proposal remains essential, but generic additional-capacity language is weak purchasing guidance by itself. Benchmarking does not establish fulfillment economics or justify copying quotas, paid link schemes, artificial location pages, or outcome promises.
+
+### Apply offering benchmark — 2026-11-04
+
+- Owner authorized the benchmark refinements. Prepared tier distinctions emphasize actual focused implementation in Essentials, coordinated website/GBP/important listing work in Ongoing, and content development, conversion paths and legitimate authority-opportunity research in Expanded. Rates and names remain unchanged; scoped work does not guarantee placements or results.
+- The setup description distinguishes initial assessment/research/available-data review from implementation. The written proposal defines concrete monthly deliverables, responsibilities, exclusions and additional content/development scope before work starts.
+- The SEO hero price cue now reads “SEO plans from” with $275/month and a nearby one-time $800 setup note. Shared website pricing must remain unchanged when the optional note is absent.
+- Existing public routes remain `/` and `/services/seo`; the sitemap-generated SEO CSV continues to include both, with no new URLs. Local and independent verification results are recorded in the private execution record before PR handoff.
+
+- Verification: independent offer and responsive-fix review passed. Lint/types and seven pricing tests passed. Local desktop/320px/390px checks verified the hero setup note, unchanged website price cue, readable wrapped package buttons, setup FAQ, billing totals, and Expanded inquiry prefill. No submissions, bookings, profile changes, or deployment occurred.
+
+### SEO hero price presentation — 2026-11-04
+
+- Replaced the oversized price pill and detached setup note with a compact, semantic two-column price summary. The monthly amount, smaller billing suffix, and secondary one-time setup fee share a restrained divider-based layout using existing theme tokens. Rates, package scope, CTAs and URLs are unchanged. Website pricing keeps its existing render path.
+- Independent source review, formatter, lint, types and diff checks passed. Local desktop/320px/390px and light/dark checks verified readable price pairs and no horizontal overflow. Restored the original light theme and default viewport. No new style-mirroring tests, submissions, bookings or deployment. The existing sitemap-generated CSV continues to include the affected SEO URL.
+
+### Full release gap review — 2026-11-04
+
+- Independent technical, measurement and content/UX reviews identified and corrected six issue areas: retained private street/map data; unsupported rating fallback; invalid-campaign overwrite; fresh external-entry latest-touch handling; required form select labels; and inconsistent service targeting in Fort Lee/Ridgewood. The footer review action also now has a stable wrapped row on narrow screens.
+- Public identity is one Organization with stable provider references and no private residence fields. The footer retains the public base town, phone, service area and meeting explanation. Google rating lookup matches the business website and omits unknown/invalid/ambiguous rating claims. These changes are prepared, not deployed; no external business-profile settings were changed.
+- The full current suite passed 205 tests in 29 files. An isolated production build passed with43 generated routes. Its crawl verified31 public sitemap URLs,41 internal link targets including the expected legacy contact redirect, and44 JS/CSS assets; no duplicate titles/descriptions/IDs, wrong canonicals, unintended noindex, invalid JSON-LD or private map/organization fields were found.
+- Browser checks confirmed named/required Budget and Timeline controls, keyboard opening/closing, initial-versus-monthly budget guidance, actual available Google rating display, town-only contact and readable footer wrapping. No real forms or bookings were submitted. The original checkout and localhost3000 were preserved.
+- The sitemap/SEO CSV inventory remains unchanged and contains all affected public URLs. Remaining account/measurement work: current PixelVerse GSC baseline, post-release changed-attribution receipt/linkage and qualified inquiry reconciliation. Client proposals must define deliverables before enrollment. Performance field data and SEO outcomes remain unmeasured by these checks.
+- Optional later engineering improvements: isolate third-party telemetry failures from user flows and update existing Sentry instrumentation/deprecation warnings. No speculative component refactor or dependency upgrade was included.

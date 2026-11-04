@@ -10,22 +10,19 @@ import { ServicesSection } from '@/components/home/services-section';
 import { WhySection } from '@/components/home/why-section';
 import { StructuredData } from '@/components/ui/structured-data';
 import { homepageFaq } from '@/data/homepage-faq';
-import { getGoogleRatingBadge, getGoogleRatingData } from '@/lib/api/google-places';
+import { getGoogleRatingBadge } from '@/lib/api/google-places';
 import { createPageMetadata } from '@/lib/metadata';
-import {
-  createHomepageServiceSchemas,
-  createLocalBusinessSchemaWithRating,
-} from '@/lib/structured-data';
+import { createHomepageServiceSchemas } from '@/lib/structured-data';
 
 // Client components — dynamic imports for code-splitting
-const CaseStudySection = dynamic(
-  () => import('@/components/home/case-study-section').then((m) => m.CaseStudySection),
+const CaseStudySection = dynamic(() =>
+  import('@/components/home/case-study-section').then((m) => m.CaseStudySection),
 );
-const InsightSection = dynamic(
-  () => import('@/components/home/insight-section').then((m) => m.InsightSection),
+const InsightSection = dynamic(() =>
+  import('@/components/home/insight-section').then((m) => m.InsightSection),
 );
-const TestimonialCarousel = dynamic(
-  () => import('@/components/home/testimonial-carousel').then((m) => m.TestimonialCarousel),
+const TestimonialCarousel = dynamic(() =>
+  import('@/components/home/testimonial-carousel').then((m) => m.TestimonialCarousel),
 );
 
 // Regenerate the homepage every 24 hours so the Google Places rating stays
@@ -75,20 +72,12 @@ const homeFaqSchema = {
 };
 
 export default async function Home() {
-  const [badge, ratingData] = await Promise.all([
-    getGoogleRatingBadge(),
-    getGoogleRatingData(),
-  ]);
-
-  const localBusinessWithRating = createLocalBusinessSchemaWithRating(ratingData);
+  const badge = await getGoogleRatingBadge();
   const homepageServiceSchemas = createHomepageServiceSchemas();
 
   return (
     <>
       <StructuredData id="home-faq-schema" data={homeFaqSchema} />
-      {localBusinessWithRating && (
-        <StructuredData id="home-local-business-rating" data={localBusinessWithRating} />
-      )}
       {homepageServiceSchemas.map((schema) => (
         <StructuredData key={schema['@id']} id={schema['@id']} data={schema} />
       ))}

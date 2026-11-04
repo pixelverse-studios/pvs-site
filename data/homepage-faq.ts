@@ -17,7 +17,10 @@ export const homepageFaq: FaqItem[] = [
     question: 'Should I redesign my website or start from scratch?',
     answer:
       'It depends on what\u2019s actually broken. If the structure, messaging, and user flow are fundamentally off, a rebuild usually delivers better results than patching an existing site. If the foundation is solid but the look is dated or certain pages are underperforming, a focused redesign can be enough. We diagnose this in the first conversation, no assumptions going in.',
-    link: { label: 'See how we approach web design & development', href: '/services/web-development' },
+    link: {
+      label: 'See how we approach web design & development',
+      href: '/services/web-development',
+    },
   },
   {
     question: 'How much does a custom website typically cost in New Jersey?',
@@ -26,7 +29,7 @@ export const homepageFaq: FaqItem[] = [
   },
   {
     question: 'How much do SEO packages start at?',
-    answer: `Recurring SEO starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)} for one focus location, ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.threeLocations)} for up to 3 locations, and ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.fiveLocations)} for up to 5 locations. Every plan starts with a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. The goal is to match the level of SEO support to the market you are actually competing in.`,
+    answer: `SEO Essentials starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, Ongoing Local SEO at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.threeLocations)}, and Expanded SEO at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.fiveLocations)}, plus a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. Research into your services, customer searches, and competitors is included in every plan. Plans differ by campaign breadth and implementation capacity. Before your retainer starts, your written proposal defines the services, markets, monthly deliverables, responsibilities, and exclusions.`,
     link: { label: 'Explore local SEO services', href: '/services/seo' },
   },
   {

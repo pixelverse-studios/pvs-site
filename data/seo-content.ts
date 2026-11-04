@@ -135,65 +135,68 @@ export const seoContent: SeoContentData = {
     eyebrow: 'Recurring SEO Packages',
     title: 'Start with the level of support your market actually needs.',
     intro:
-      'These packages are focused on recurring SEO support: keywords, locations, visibility checks, practical recommendations, and reporting. We keep the scope clear so the first conversation can focus on fit.',
+      'Every plan includes research into your services, customer searches, and competitors; monthly search visibility and technical checks; and Business Profile accuracy and review guidance where applicable. Higher tiers provide more implementation capacity and broader coverage. Your proposal defines the monthly work before you start.',
     packages: [
       {
-        name: 'Local SEO \u2013 1 Location',
-        shortName: '1 Location',
+        name: 'SEO Essentials',
+        shortName: 'SEO Essentials',
         monthlyPrice: seoPackageMonthlyPrices.oneLocation,
-        description: 'For a business focused on one town.',
+        description: 'Focused ongoing SEO for an established site with a narrow set of priorities.',
         highlights: [
-          '1 focus location, up to 10 tracked keywords',
-          '1 page optimized per month',
-          '2 Google Business Profile posts per month',
-          'Monthly visibility report',
+          'Monthly service, search, and competitor review',
+          'Implemented improvements to existing content, metadata, and internal links',
+          'Business Profile accuracy checks and review-request guidance',
+          'Monthly work summary, visibility checks, and next steps',
         ],
       },
       {
-        name: 'Local SEO \u2013 Up to 3 Locations',
-        shortName: 'Up to 3 Locations',
-        featured: true,
+        name: 'Ongoing Local SEO',
+        shortName: 'Ongoing Local SEO',
         monthlyPrice: seoPackageMonthlyPrices.threeLocations,
-        description: 'For businesses competing across a local service area.',
+        description:
+          'Regular implementation across your core services and local search priorities.',
         highlights: [
-          'Up to 3 focus locations, up to 25 tracked keywords',
-          '2 pages optimized per month',
-          '4 Google Business Profile posts per month and review guidance',
-          'Quarterly citation cleanup, monthly report and quarterly strategy call',
+          'Coordinated service-page, internal-link, and routine technical work',
+          'Business Profile optimization and review-request guidance',
+          'Important listing and citation corrections where access allows',
+          'Monthly progress report and quarterly strategy call',
         ],
       },
       {
-        name: 'Local SEO \u2013 Up to 5 Locations',
-        shortName: 'Up to 5 Locations',
+        name: 'Expanded SEO',
+        shortName: 'Expanded SEO',
         monthlyPrice: seoPackageMonthlyPrices.fiveLocations,
-        description: 'For active growth across a wider area.',
+        description:
+          'Coordinated technical, content, and conversion work across broader search opportunities.',
         highlights: [
-          'Up to 5 focus locations, up to 50 tracked keywords',
-          '4 pages optimized per month and 1 blog article per month',
-          'Weekly Google Business Profile posts and competitor tracking',
-          'Quarterly technical SEO check, monthly report and monthly strategy call',
+          'Broader service, competitor, and market research',
+          'Planned content development and technical improvements',
+          'Inquiry and conversion-path improvements',
+          'Local partnership, editorial, and link opportunity research',
+          'Monthly progress report and monthly strategy call',
         ],
       },
       {
         name: 'Custom',
         shortName: 'Custom',
         monthlyPrice: null,
-        description: 'For multi-location, competitive, or content-heavy SEO needs.',
+        description:
+          'A tailored scope for multiple branches, extensive content, or substantial technical work.',
         highlights: [
-          'Custom keyword and location scope',
-          'Technical and content planning',
-          'Reporting matched to goals',
-          'Support cadence by agreement',
+          'Business branches and market coverage scoped individually',
+          'Technical and content production matched to the project',
+          'New pages and original articles when research supports them',
+          'Reporting and planning cadence agreed in the proposal',
         ],
         note: 'Scoped after review',
       },
     ],
-    footnote: `All SEO plans start with a one-time SEO Strategy Setup (keyword research and content mapping), ${formatStartingPrice(seoStrategySetupPrice)}. New location or service pages are quoted separately.`,
+    footnote: `Every plan starts with a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup: an initial crawl, indexing and on-page assessment; review of available search and inquiry data; service, search, and competitor research; a content map; and an initial priority plan. New pages, original articles, substantial development, additional Business Profiles, and any third-party fees require an explicit scope; your proposal states what is included and what is quoted separately.`,
   },
   faq: [
     {
       question: 'How much does local SEO cost?',
-      answer: `Our recurring local SEO packages start at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)} for one focus location, ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.threeLocations)} for up to 3 locations, and ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.fiveLocations)} for up to 5 locations. Every plan starts with a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup for keyword research and content mapping. We evaluate the site first so we can recommend the level of recurring support that actually fits the business.`,
+      answer: `SEO Essentials starts at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.oneLocation)}, Ongoing Local SEO at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.threeLocations)}, and Expanded SEO at ${formatMonthlyStartingPrice(seoPackageMonthlyPrices.fiveLocations)}, plus a one-time ${formatStartingPrice(seoStrategySetupPrice)} SEO Strategy Setup. Research and prioritization are included in every plan. The difference is the breadth of the agreed campaign and the amount of implementation included. Your written proposal identifies the services, markets, monthly deliverables, responsibilities, and exclusions before your retainer starts.`,
       link: { label: 'Share your situation', href: '/contact/details' },
     },
     {
@@ -202,14 +205,18 @@ export const seoContent: SeoContentData = {
         'For local SEO, meaningful movement in search visibility typically takes 3\u20136 months. Some improvements (like technical fixes and GBP updates) can show impact faster, but sustained ranking gains take time as search engines re-index and re-evaluate the site. We set realistic timelines upfront so expectations align with what the work can actually deliver.',
     },
     {
-      question: "What's actually included in your optimization work?",
+      question: 'What work is included each month?',
       answer:
-        'Typically: reorganizing service and location pages to match local search intent, refining how clearly the site communicates what\u2019s offered, addressing technical performance issues, and strengthening your Google Business Profile presence. Scope is determined by what\u2019s actually limiting performance.',
+        'Every plan includes research, monthly visibility and technical checks, and Business Profile accuracy and review guidance where applicable. Essentials includes focused implementation on existing content, metadata, and internal links. Ongoing Local SEO coordinates service-page improvements, routine technical work, Business Profile optimization, and important listing or citation corrections where access allows. Expanded SEO adds planned content development, inquiry-path improvements, and research into relevant local partnership, editorial, and link opportunities. Your proposal defines the monthly deliverables and responsibilities. New pages, original articles, substantial development, and additional profiles need explicit scope and approval; the proposal states what is included and what is quoted separately. There is no fixed publishing or backlink quota, and earned mentions or links are not guaranteed.',
+    },
+    {
+      question: 'What does the SEO Strategy Setup include?',
+      answer: `The one-time ${formatStartingPrice(seoStrategySetupPrice)} setup includes an initial crawl, indexing and on-page assessment; review of available search and inquiry data; research into your services, customer searches, and competitors; a content map; and an initial priority plan. It establishes the work to pursue and the evidence available to assess progress. It does not include completing every repair or installing analytics. Your proposal defines the implementation included in the monthly plan and any separately quoted work or third-party fees.`,
     },
     {
       question: 'Do you work on Google Business Profile as part of this?',
       answer:
-        'Yes. GBP is a significant factor in local search visibility, and we address it as part of the optimization work, not as a separate add-on.',
+        'Yes, where your business is eligible for a profile. Every plan includes profile accuracy checks and review-request guidance. Ongoing Local SEO and Expanded SEO can include profile optimization and important listing or citation corrections within the agreed scope, where account access allows. Additional Business Profiles require explicit scope, and any third-party fees are identified in the proposal. We recommend posts when there is a useful update to share.',
     },
     {
       question: "Can you do SEO on a site you didn't build?",

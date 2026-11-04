@@ -93,3 +93,14 @@ Last updated: 2026-10-12
 - [ ] **Track rankings and conversions**
   - Maintain a rank-tracking sheet (manual or tool-based) for highest-priority town/service terms.
   - Compare conversions against baseline metrics to quantify ROI and surface experiments (e.g., A/B testing offers or CTAs).
+
+## Remediation review — 2026-11-04
+
+- [x] Prepare research-informed SEO Essentials, Ongoing Local SEO, Expanded SEO, and Custom cards for review; retain prices, include foundational research in every plan, define proposal-based implementation scope, and align pricing FAQs and inquiry links.
+- [x] Apply offering-benchmark refinements to implementation, listing corrections, content/conversion scope and setup boundaries; clarify the SEO hero price cue while preserving website pricing.
+- [x] Polish the SEO price summary and verify readable monthly/setup pricing at desktop/320px/390px in light/dark themes.
+- [x] Complete independent full-PR review, correct private-address and rating-fallback gaps, add attribution regressions, and verify required form labels, service-specific copy, and stable mobile footer behavior.
+
+- Rendering, service-area identity, attribution, and existing-page improvements prepared for review; implementation does not establish Google indexing or production conversion receipt. Keep account verification and post-release validation open.
+
+- Full approved scope is included in PR #263. Public phone/meeting accuracy and legacy schema were completed; actual form-completion, tracking exclusion and CSV interaction checks were added. Account receipt, Google rendering/indexing and outcomes remain post-release verification items.

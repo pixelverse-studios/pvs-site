@@ -87,16 +87,18 @@ export default async function AboutPage() {
         testimonials={aboutContent.testimonials}
       />
 
-      {/* 8. Google Reviews (auto-hides when reviewCount is 0) */}
-      <AboutGoogleReviewsSection
-        title="Rated on Google"
-        reviews={{
-          ...aboutContent.googleReviews,
-          rating: googleRating.rating,
-          reviewCount: googleRating.reviewCount,
-        }}
-        background="surface"
-      />
+      {/* 8. Google Reviews (only when a current rating is available) */}
+      {googleRating && (
+        <AboutGoogleReviewsSection
+          title="Rated on Google"
+          reviews={{
+            ...aboutContent.googleReviews,
+            rating: googleRating.rating,
+            reviewCount: googleRating.reviewCount,
+          }}
+          background="surface"
+        />
+      )}
 
       {/* 9. CTA */}
       <AboutCtaSection />

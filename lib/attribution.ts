@@ -2,15 +2,9 @@ import { findPromoCode } from '@/lib/promo-codes';
 import { isTrackingExcludedRoute } from '@/lib/tracking-config';
 
 const ATTRIBUTION_STORAGE_KEY = 'pvs_attribution';
-const ATTRIBUTION_PARAM_KEYS = [
-  'utm_source',
-  'utm_medium',
-  'utm_campaign',
-  'utm_content',
-  'utm_term',
-  'src',
-  'promo',
-] as const;
+// Tab-scoped, with a 30-minute inactivity boundary; this is not cross-device attribution.
+const SESSION_IDLE_MS = 30 * 60 * 1000;
+const capturedDocuments = new WeakSet<Document>();
 const TOUCH_KEYS = [
   'utm_source',
   'utm_medium',
@@ -54,6 +48,7 @@ export type AttributionMetadata = {
 type StoredAttribution = {
   first_touch?: AttributionTouch;
   latest_touch?: AttributionTouch;
+  last_activity?: number;
 };
 
 function isBrowser() {
@@ -69,7 +64,8 @@ function sanitizeText(raw: string | null | undefined, maxLength = 120): string |
     .trim()
     .replace(/[\u0000-\u001F\u007F]/g, '')
     .replace(/[<>]/g, '')
-    .slice(0, maxLength);
+    .slice(0, maxLength)
+    .trim();
 
   return cleaned || undefined;
 }
@@ -89,7 +85,7 @@ function sanitizePath(raw: string | null | undefined): string | undefined {
     return undefined;
   }
 
-  return value.split('#')[0];
+  return value.split(/[?#]/)[0];
 }
 
 function sanitizeReferrer(raw: string | null | undefined): string | undefined {
@@ -100,7 +96,9 @@ function sanitizeReferrer(raw: string | null | undefined): string | undefined {
 
   try {
     const url = new URL(value);
-    return `${url.origin}${url.pathname}`;
+    if (!['https:', 'http:'].includes(url.protocol)) return undefined;
+    // Referrer paths and queries can contain personal or sensitive information.
+    return url.origin;
   } catch {
     return undefined;
   }
@@ -148,7 +146,7 @@ function sanitizeTouch(raw: unknown): AttributionTouch | undefined {
     }
   });
 
-  return Object.keys(touch).length > 0 ? touch : undefined;
+  return Object.values(touch).some((value) => value !== undefined) ? touch : undefined;
 }
 
 function readStoredAttribution(): StoredAttribution {
@@ -167,12 +165,22 @@ function readStoredAttribution(): StoredAttribution {
       return {};
     }
 
+    const lastActivity = parsed.last_activity;
+    if (
+      typeof lastActivity !== 'number' ||
+      Date.now() - lastActivity >= SESSION_IDLE_MS ||
+      lastActivity > Date.now()
+    ) {
+      return {};
+    }
+
     const firstTouch = sanitizeTouch(parsed.first_touch);
     const latestTouch = sanitizeTouch(parsed.latest_touch);
 
     return {
       ...(firstTouch ? { first_touch: firstTouch } : {}),
       ...(latestTouch ? { latest_touch: latestTouch } : {}),
+      last_activity: lastActivity,
     };
   } catch {
     return {};
@@ -191,19 +199,15 @@ function writeStoredAttribution(attribution: StoredAttribution) {
   }
 }
 
-function hasAttributionSignal(searchParams: AttributionSearchParams): boolean {
-  return ATTRIBUTION_PARAM_KEYS.some((key) => Boolean(sanitizeText(searchParams.get(key))));
-}
-
 function hasCampaignFields(touch: AttributionTouch): boolean {
   return Boolean(
     touch.utm_source ||
-      touch.utm_medium ||
-      touch.utm_campaign ||
-      touch.utm_content ||
-      touch.utm_term ||
-      touch.src_code ||
-      touch.promo_code,
+    touch.utm_medium ||
+    touch.utm_campaign ||
+    touch.utm_content ||
+    touch.utm_term ||
+    touch.src_code ||
+    touch.promo_code,
   );
 }
 
@@ -211,12 +215,13 @@ export function captureAttributionFromUrl(
   pathname: string,
   searchParams: AttributionSearchParams,
 ): AttributionTouch | undefined {
-  if (!isBrowser() || isTrackingExcludedRoute(pathname) || !hasAttributionSignal(searchParams)) {
+  if (!isBrowser() || isTrackingExcludedRoute(pathname)) {
     return undefined;
   }
 
+  const stored = readStoredAttribution();
   const promo = findPromoCode(searchParams.get('promo'));
-  const touch = sanitizeTouch({
+  const campaignFields: AttributionTouch = {
     utm_source: sanitizeText(searchParams.get('utm_source')),
     utm_medium: sanitizeText(searchParams.get('utm_medium')),
     utm_campaign: sanitizeText(searchParams.get('utm_campaign')),
@@ -224,22 +229,39 @@ export function captureAttributionFromUrl(
     utm_term: sanitizeText(searchParams.get('utm_term')),
     src_code: sanitizeCode(searchParams.get('src')),
     promo_code: promo?.code ?? sanitizeCode(searchParams.get('promo')),
-    landing_page: sanitizePath(pathname),
-    referrer: sanitizeReferrer(document.referrer),
-    captured_at: new Date().toISOString(),
-  });
-
-  if (!touch || !hasCampaignFields(touch)) {
+  };
+  const campaign = hasCampaignFields(campaignFields);
+  const isDocumentEntry = !capturedDocuments.has(document);
+  capturedDocuments.add(document);
+  const referrerOrigin = isDocumentEntry ? sanitizeReferrer(document.referrer) : undefined;
+  const externalReferrer =
+    referrerOrigin && referrerOrigin !== window.location.origin ? referrerOrigin : undefined;
+  // Only valid campaigns or a fresh external document entry can replace the
+  // latest touch. Internal/unknown navigation and invalid codes preserve it.
+  if (!campaign && !externalReferrer && stored.first_touch) {
+    writeStoredAttribution({ ...stored, last_activity: Date.now() });
     return undefined;
   }
 
-  const stored = readStoredAttribution();
+  const touch = sanitizeTouch({
+    ...campaignFields,
+    landing_page: sanitizePath(pathname),
+    referrer: externalReferrer,
+    captured_at: new Date().toISOString(),
+  });
+
+  if (!touch) {
+    return undefined;
+  }
+
   writeStoredAttribution({
     first_touch: stored.first_touch ?? touch,
     latest_touch: touch,
+    last_activity: Date.now(),
   });
 
-  return touch;
+  // Existing consumers dispatch campaign_landing only for explicit campaigns.
+  return campaign ? touch : undefined;
 }
 
 export function getConversionAttribution(
