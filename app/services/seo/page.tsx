@@ -12,9 +12,11 @@ import {
   ServiceAreaLinks,
   SeoPackagePricingSection,
 } from '@/components/services/individual';
+import { RelatedCaseStudies } from '@/components/portfolio/related-case-studies';
 import { Container } from '@/components/ui/container';
 import { StructuredData } from '@/components/ui/structured-data';
 import { formatStartingPrice, seoStrategySetupPrice } from '@/data/package-pricing';
+import { getRelatedCaseStudies } from '@/data/case-studies';
 import { getLowestSeoMonthlyPrice, seoContent } from '@/data/seo-content';
 
 export const metadata: Metadata = createPageMetadata({
@@ -149,6 +151,12 @@ export default function SEOServicesPage() {
           .
         </p>
       </Container>
+
+      <RelatedCaseStudies
+        caseStudies={getRelatedCaseStudies({ service: 'seo' })}
+        title="Local projects built with search in mind"
+        description="See how we structured service pages, local content, and inquiry paths for New Jersey businesses."
+      />
 
       {/* 4. Why Local SEO Isn't Just About Rankings */}
       <ServiceNarrativeSection
