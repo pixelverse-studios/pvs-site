@@ -218,3 +218,33 @@ export const caseStudies: CaseStudy[] = [
     services: ['web-development', 'seo'],
   },
 ];
+
+/**
+ * Local client projects for contextual links from service and area pages.
+ * Remote-only projects are excluded; studies whose location names `city`
+ * are listed first, then the remaining studies in their existing order.
+ */
+export function getRelatedCaseStudies({
+  service,
+  city,
+  limit = 3,
+}: {
+  service?: CaseStudyService;
+  city?: string;
+  limit?: number;
+} = {}): CaseStudy[] {
+  const cityName = (city || '').toLowerCase();
+  const matchesCity = (study: CaseStudy) =>
+    cityName !== '' && (study.location || '').toLowerCase().includes(cityName);
+
+  const local = caseStudies.filter(
+    (study) =>
+      (study.location || '').toLowerCase() !== 'remote' &&
+      (!service || study.services.includes(service)),
+  );
+
+  return [...local.filter(matchesCity), ...local.filter((study) => !matchesCity(study))].slice(
+    0,
+    limit,
+  );
+}

@@ -3,6 +3,7 @@ import { MapPin } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
+import { RelatedCaseStudies } from '@/components/portfolio/related-case-studies';
 import { ServiceCta } from '@/components/services/individual/service-cta';
 import { ServiceFAQ } from '@/components/services/individual/service-faq';
 import { ServiceHero } from '@/components/services/individual/service-hero';
@@ -10,6 +11,7 @@ import { ServiceNarrativeSection } from '@/components/services/individual/servic
 import { StructuredData } from '@/components/ui/structured-data';
 import { Container } from '@/components/ui/container';
 import { getCityContent, getValidCitySlugs } from '@/data/area-pages-content';
+import { getRelatedCaseStudies } from '@/data/case-studies';
 import { createPageMetadata } from '@/lib/metadata';
 import {
   createBreadcrumbSchema,
@@ -159,6 +161,12 @@ export default async function CityPage({ params }: { params: Promise<Params> }) 
             </div>
           </Container>
         </section>
+
+        <RelatedCaseStudies
+          caseStudies={getRelatedCaseStudies({ city: content.city })}
+          title={`Client work across ${content.county}`}
+          description={`Examples of our website and SEO work for local businesses in and around ${content.county}.`}
+        />
 
         <ServiceFAQ faqs={content.faq} schemaId={`${content.slug}-faq-schema`} />
 

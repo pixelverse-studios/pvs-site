@@ -12,9 +12,11 @@ import {
   ServiceAreaLinks,
   ServicePackagePricingSection,
 } from '@/components/services/individual';
+import { RelatedCaseStudies } from '@/components/portfolio/related-case-studies';
 import { Container } from '@/components/ui/container';
 import { StructuredData } from '@/components/ui/structured-data';
 import { formatStartingPrice, packageStartingPrices } from '@/data/package-pricing';
+import { getRelatedCaseStudies } from '@/data/case-studies';
 import { webDevelopmentContent } from '@/data/web-development-content';
 
 export const metadata: Metadata = createPageMetadata({
@@ -154,6 +156,12 @@ export default function WebDevelopmentPage() {
         closing={whatToExpect.closing}
         layout="text-with-bullets"
         background="bg"
+      />
+
+      <RelatedCaseStudies
+        caseStudies={getRelatedCaseStudies({ service: 'web-development' })}
+        title="Websites we've built for local businesses"
+        description="Custom builds for New Jersey businesses, from planning and design through launch."
       />
 
       {/* 8. FAQ */}

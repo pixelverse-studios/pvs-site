@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { MapPin } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
+import { RelatedCaseStudies } from '@/components/portfolio/related-case-studies';
 import { ServiceCta } from '@/components/services/individual/service-cta';
 import { ServiceFAQ } from '@/components/services/individual/service-faq';
 import { ServiceHero } from '@/components/services/individual/service-hero';
@@ -16,6 +17,7 @@ import {
   getCitiesForCounty,
   getValidCountySlugs,
 } from '@/data/area-pages-content';
+import { getRelatedCaseStudies } from '@/data/case-studies';
 import { createPageMetadata } from '@/lib/metadata';
 import { createBreadcrumbSchema, createCityLocalBusinessSchema } from '@/lib/structured-data';
 
@@ -182,6 +184,13 @@ export default async function CountyPage({
           intro={content.localSignals.paragraphs}
           layout="text-only"
           background="surface"
+        />
+
+        <RelatedCaseStudies
+          caseStudies={getRelatedCaseStudies()}
+          title={`Client work across ${content.name}`}
+          description={`Examples of our website and SEO work for local businesses in and around ${content.name}.`}
+          background="bg"
         />
 
         <ServiceFAQ
