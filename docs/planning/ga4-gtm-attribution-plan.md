@@ -4,6 +4,8 @@
 
 PixelVerse Studios will add Google Analytics 4 through Google Tag Manager so analytics can scale beyond basic traffic reporting into paid ads, QR-code campaigns, offline print attribution, and conversion tracking. SiteBehaviour will continue running during the comparison period.
 
+> **Status (2026-11-14):** GA4 and GTM already exist and are live. GTM container `GTM-MQ2ZHGGN` loads in production and sends to GA4 stream `G-87XLH0YW51`. The "Accounts To Create" section and rollout steps 1–4 below are historical; skip them. What remains before paid ads: confirm `generate_lead`, `website_review_request` and `strategy_call_scheduled` arrive in production, mark them as key events, link Google Ads and import those key events, and confirm the API stores the `attribution` object the forms now send. See `docs/planning/ad-spend-site-plan.md`.
+
 ## Decisions
 
 - Use Google Tag Manager as the primary tag container.
