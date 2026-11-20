@@ -15,6 +15,8 @@
 - Added ad spend site plan (docs/planning/ad-spend-site-plan.md) and a status note to the GA4/GTM attribution plan marking account-creation steps as already done (docs only, no site changes).
 - Audited the public site against the Direction A plan (website plans with built-in tools); findings and change list written to a shared Claude Doc ("Direction A: Website Changes"). No site or repo code changes.
 - Saved the five must-fix-before-ads items from the Direction A audit to docs/planning/direction-a-must-fix.md and linked it from the ad spend plan (docs only, no site changes).
+- Worked up the SEO route as an alternative to Direction A: plan and example-lead tabs in the shared Friday doc, plus a site audit in a new shared Claude Doc ("SEO Route: Website Changes"); cross-linked all Direction A and SEO route docs. No site or repo code changes.
+- Saved a direction meeting prep pack to docs/planning/direction-meeting-2026-11-20/: markdown snapshots of the Friday doc tabs and both website-change audits, plus a README recap (docs only, no site changes).
 
 ## Changed URLs
 - https://www.pixelversestudios.io/dashboard/domani/users
